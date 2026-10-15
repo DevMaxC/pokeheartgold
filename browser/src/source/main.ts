@@ -6,6 +6,7 @@ import {ScriptVM,UnsupportedScript} from './script.ts';
 import {Battle} from './battle.ts';
 import {WorldBattleView} from './battle-stage.ts';
 import {EncounterChecks,landSlot} from './encounter.ts';
+import {doorwayEntry} from './terrain.ts';
 import {FieldObjects} from './objects.ts';
 import {movementAction} from './movement.ts';
 import {mapBlackoutSpawn} from './spawns.ts';
@@ -20,7 +21,7 @@ let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data
 let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
 let lastWarp='',lastCoord='',lastError='';
-let playerDirectionLocked=false;
+let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
 function save(){if(!started||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
 function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag?s:null;}catch{return null;}}
@@ -51,7 +52,14 @@ async function moveActor(object:string,label:string,source:SourceMap){
   }
 }
 async function tween(seconds:number,fn:(t:number)=>void){const start=performance.now();await new Promise<void>(resolve=>{function frame(){const t=Math.min(1,(performance.now()-start)/(seconds*1000));fn(t);if(t<1)requestAnimationFrame(frame);else resolve();}frame();});}
-async function tweenPlayer(x:number,z:number,seconds:number){const from={x:state.x,z:state.z};await tween(seconds,t=>{state.x=from.x+(x-from.x)*t;state.z=from.z+(z-from.z)*t;stepFrame=t*4;});stepFrame=-1;}
+async function tweenPlayer(x:number,z:number,seconds:number){
+  const from={x:state.x,z:state.z},followFrom=follower?.group.position.clone();
+  if(followFrom){const dx=from.x-followFrom.x,dz=from.z-followFrom.z;followerMoving=Math.hypot(dx,dz)>.001;if(followerMoving)followerFacing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}
+  try{await tween(seconds,t=>{state.x=from.x+(x-from.x)*t;state.z=from.z+(z-from.z)*t;stepFrame=t*4;
+    if(follower&&followFrom){const fx=followFrom.x+(from.x-followFrom.x)*t,fz=followFrom.z+(from.z-followFrom.z)*t;follower.group.position.set(fx,world.height(fx,fz,follower.group.position.y),fz);followerStep=t*4;}
+  });}finally{stepFrame=-1;followerMoving=false;followerStep=-1;}
+}
+
 function face(object:string,facing?:number){const actor=objects.get(object);if(!actor)return;if(facing===undefined){const dx=state.x-actor.x-.5,dz=state.z-actor.z-.5;facing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}actor.facingDirection=facing;refreshNPCs();}
 function setPosition(object:string,x:number,z:number,facing?:number){if(object==='obj_player'){state.x=x+.5;state.z=z+.5;if(facing!==undefined)state.facing=facing;return;}objects.position(object,x,z,facing);refreshNPCs();}
 async function chooseStarter(){
@@ -119,7 +127,8 @@ async function trainerBattle(id:number,options?:{second:number;canLose:boolean;s
 async function interact(){
   if(ui.dialogueOpen){ui.advance();return;}if(!started||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
   const d=deltas[state.facing],x=Math.floor(state.x)+d.x,z=Math.floor(state.z)+d.z;
-  const npc=[...world.npcSprites.values()].find(n=>n.group.visible&&Math.floor(n.group.position.x)===x&&Math.floor(n.group.position.z)===z);
+  const actorAt=(xx:number,zz:number)=>[...world.npcSprites.values()].find(n=>n.group.visible&&Math.floor(n.group.position.x)===xx&&Math.floor(n.group.position.z)===zz);
+  const npc=actorAt(x,z)||((world.permission(x,z)&255)===0x80?actorAt(x+d.x,z+d.z):undefined);
   if(npc){await runScript(npc.npc.scriptId,npc.npc.id);return;}
   const bg=map.events.bgs.find(b=>(b.x===x&&b.z===z)||(b.x===Math.floor(state.x)&&b.z===Math.floor(state.z)));
   if(bg)await runScript(bg.scriptId);
@@ -127,9 +136,10 @@ async function interact(){
 async function step(facing:number){
   if(walking||transitioning||vm.busy||ui.busy||battle.active)return;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
-  if(!world.walkable(x,z)||occupied)return;
-  walking=true;const old={x:state.x,z:state.z};
-  try{await tweenPlayer(x,z,keys.has('ShiftLeft')&&state.runningShoes? .14:.25);if(follower)follower.group.position.set(old.x,world.height(old.x,old.z),old.z);await world.stream(state.map,state.x,state.z);}
+  const nativeWarp=map.events.warps.some(w=>w.x===Math.floor(x)&&w.z===Math.floor(z));
+  if((!world.walkable(x,z)&&!doorwayEntry(world.permission(x,z),nativeWarp,facing))||occupied)return;
+  walking=true;
+  try{await tweenPlayer(x,z,keys.has('ShiftLeft')&&state.runningShoes? .14:.25);await world.stream(state.map,state.x,state.z);}
   finally{walking=false;}
   encounterChecks.step();await checkEvents();
 }
@@ -156,7 +166,7 @@ async function title(){
 }
 async function begin(){
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
-  vm=new ScriptVM(data,state,{message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
+  vm=new ScriptVM(data,state,{objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
   started=true;await enterMap(state.map,state.x,state.z,true,true);ready=true;save();$('original-world').focus();
 }
 async function boot(){
@@ -164,11 +174,11 @@ async function boot(){
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started)return;
     state.playSeconds+=dt;if(player){player.group.position.set(state.x,world.height(state.x,state.z,player.group.position.y),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
-    if(follower){world.animate(follower,state.facing,walking?elapsed*8:-1);follower.group.visible=!!lead&&!world.battleStage?.active;}
+    if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;
     if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active){const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);const facing=Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0;void step(facing).catch(error=>{console.error(error);lastError=String(error);});}}
     world.draw(state.x,state.z,dt);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
-    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
+    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,follower:follower?{x:follower.group.position.x,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();
 }
 addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;if(e.code==='Escape'){if(ui.dialogueOpen)return;if(ui.panelOpen){if(ui.canDismiss)ui.close();return;}menu();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat&&!ui.dialogueOpen)void interact();});

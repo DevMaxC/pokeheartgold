@@ -6,6 +6,7 @@ import {originalTrainerParty,trainerPrize,battleMoneyLoss} from './trainers.ts';
 import {typeEffectiveness} from './battle-math.ts';
 import {catchingTutorialState} from './tutorial.ts';
 import {loadData,newState} from './data.ts';
+import {timeOfDay,trainerCardStars} from './field-services.ts';
 const fixtureData=await loadData();
 
 for(const gender of ['boy','girl'] as const)for(const starter of [152,155,158])test(`original opening quest state: ${gender}, starter ${starter}`,async()=>{
@@ -27,3 +28,6 @@ test('the catching demonstration owns a separate party, inventory and capture re
 test('original names preserve punctuation, sex symbols, articles and item plurals',()=>{assert.equal(fixtureData.names.species[122],'MR. MIME');assert.equal(fixtureData.names.species[29],'NIDORAN♀');assert.equal(fixtureData.names.itemsPlural[17],'Potions');assert.equal(fixtureData.names.trainerClasses[119],'Passerby');});
 
 test('capture items use the original Ball pocket rather than names ending in Ball',()=>{assert.equal(isCaptureBall(fixtureData,'ITEM_POKE_BALL'),true);assert.equal(isCaptureBall(fixtureData,'ITEM_GREAT_BALL'),true);for(const key of ['ITEM_SMOKE_BALL','ITEM_LIGHT_BALL','ITEM_IRON_BALL'])assert.equal(isCaptureBall(fixtureData,key),false);const bag={ITEM_POKE_BALL:1};assert.equal(takeBagItem(bag,'ITEM_POKE_BALL',1),true);assert.equal('ITEM_POKE_BALL' in bag,false);});
+
+test('field clock uses the original morning/day/evening/night/late boundaries',()=>{assert.deepEqual([3,4,9,10,16,17,19,20,23].map(timeOfDay),[4,0,0,1,1,2,2,3,3]);});
+test('trainer-card stars follow the five original independent achievements',()=>{const state=newState(fixtureData,'Ethan','boy');assert.equal(trainerCardStars(state),0);state.flags.FLAG_GAME_CLEAR=true;state.flags.FLAG_UNK_0F1=true;state.flags.FLAG_UNK_184=true;assert.equal(trainerCardStars(state),3);state.caught=Array.from({length:493},(_,i)=>i+1).filter(id=>![151,251,385,386,489,490,491,492,493].includes(id));assert.equal(trainerCardStars(state),4);state.battleTowerStreaks=[0,99,100];assert.equal(trainerCardStars(state),5);});

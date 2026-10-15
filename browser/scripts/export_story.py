@@ -4,6 +4,7 @@ import json,re
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'browser/public/source'
 constants=json.loads((OUT/'constants.json').read_text())
 for name,value in re.findall(r'^#define\s+(VERSION_\w+)\s+(\d+)',(ROOT/'include/config.h').read_text(),re.M):constants[name]=int(value)
+for name,base,shift in re.findall(r'^#define\s+(PLAYER_TRANSITION_\w+)\s+(\d+)\s*<<\s*(\d+)',(ROOT/'include/constants/global_fieldmap.h').read_text(),re.M):constants[name]=int(base)<<int(shift)
 constants['GAME_VERSION']=constants['VERSION_HEARTGOLD']
 (OUT/'constants.json').write_text(json.dumps(constants,separators=(',',':'))+'\n')
 text=(ROOT/'src/application/pokegear/phone/phone_script_defs.c').read_text();scripts={}

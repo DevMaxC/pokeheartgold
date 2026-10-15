@@ -986,7 +986,8 @@
   },
   {
     "command": "FollowMonHopIntoBall",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "FollowMonInteract",
@@ -1099,11 +1100,13 @@
   },
   {
     "command": "GetCurrentMapId",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetCurrentTimeOfDay",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetDayCarePartySelection",
@@ -1290,7 +1293,8 @@
   },
   {
     "command": "GetPlayerState",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetPokeathlonStat",
@@ -1367,7 +1371,8 @@
   },
   {
     "command": "GetTrcardStars",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetTutorMoveListPageCount",
@@ -2261,11 +2266,13 @@
   },
   {
     "command": "PartyCountNotEgg",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "PartyHasPokerus",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "PartyHasSpecies",
@@ -2362,7 +2369,8 @@
   },
   {
     "command": "PokeCenAnim",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "Pokeathlon",
@@ -2587,7 +2595,8 @@
   },
   {
     "command": "SetAvatarBits",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "SetBikeStateLock",
@@ -3029,7 +3038,8 @@
   },
   {
     "command": "UpdateAvatarState",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "UpdateDaycareMonObjects",

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial};
-type RepairSummary={solidFaces:number;billboardTrees:number};
+type RepairSummary={solidFaces:number;billboardTrees:number;uprightPanels:number;fencePosts:number;flowerClumps:number;terrainSkirts:number};
 const isShadow=(m:THREE.MeshBasicMaterial)=>/kage|shadow/i.test(m.name)||m.opacity<.5;
 export function originalMaterial(old:THREE.MeshStandardMaterial){
   const material=new THREE.MeshBasicMaterial({map:old.map,color:old.color,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,depthWrite:old.depthWrite,depthTest:old.depthTest,side:THREE.DoubleSide,vertexColors:old.vertexColors});material.name=old.name;
@@ -89,7 +89,107 @@ function closeComponent(root:THREE.Group,solid:Triangle[],summary:RepairSummary)
     if(sidePositions.length){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(sidePositions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(sideColors,3));geometry.computeVertexNormals();const mesh=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide}));mesh.name='3d-solid-backing';root.add(mesh);}
   }
 }
-function closeProps(root:THREE.Group,source:Triangle[],summary:RepairSummary){const solid=source.filter(t=>!isShadow(t.material)&&!/tree|foliage|leaf|flower|grass|bush/i.test(t.material.name));for(const component of components(solid))closeComponent(root,component,summary);}
+function closeProps(root:THREE.Group,source:Triangle[],summary:RepairSummary){const solid=source.filter(t=>!isShadow(t.material)&&!/tree|foliage|leaf|flower|grass|bush|fence|saku|hana|plant/i.test(t.material.name));for(const component of components(solid))closeComponent(root,component,summary);}
+
+const standingScenery=/fence|saku|flower|hana|plant|(?:^|_)yo_sp\d/i;
+function replacementMesh(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],name:string){
+  const positions:number[]=[],uvs:number[]=[],colors:number[]=[],materials:THREE.MeshBasicMaterial[]=[],geometry=new THREE.BufferGeometry(),inverse=root.matrixWorld.clone().invert();
+  for(const t of source){let material=materials.indexOf(t.material);if(material<0){material=materials.length;materials.push(t.material);}geometry.addGroup(positions.length/3,3,material);
+    for(let i=0;i<3;i++){positions.push(...t.points[i].clone().applyMatrix4(inverse).toArray());uvs.push(...t.uv[i].toArray());colors.push(...t.color[i].toArray());}
+  }
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.computeVertexNormals();
+  const replacement=new THREE.Mesh(geometry,materials);replacement.name=name;root.add(replacement);mesh.visible=false;return replacement;
+}
+function groundHeight(source:Triangle[],x:number,z:number,fallback:number){
+  let best=fallback,distance=Infinity;
+  for(const t of source){if(/fence|saku/i.test(t.material.name)||isShadow(t.material)||Math.abs(normal(t).normalize().y)<.995)continue;
+    const [a,b,c]=t.points,den=(b.z-c.z)*(a.x-c.x)+(c.x-b.x)*(a.z-c.z);if(Math.abs(den)<1e-6)continue;
+    const wa=((b.z-c.z)*(x-c.x)+(c.x-b.x)*(z-c.z))/den,wb=((c.z-a.z)*(x-c.x)+(a.x-c.x)*(z-c.z))/den,wc=1-wa-wb;
+    if(Math.min(wa,wb,wc)<-1e-4)continue;const y=a.y*wa+b.y*wb+c.y*wc,d=Math.abs(y-fallback);if(d<distance&&y<=fallback+1){best=y;distance=d;}
+  }return best;
+}
+
+/** Unbake the fixed DS-camera lean in cut-out fence/flower panels. These remain
+ * fixed in the world: an entire fence or flower row must never orbit the camera. */
+function uprightScenery(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],ground:Triangle[],summary:RepairSummary){
+  const eligible=source.filter(t=>standingScenery.test(t.material.name)&&!isShadow(t.material)&&(t.material.alphaTest>0||t.material.transparent)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)>.12&&Math.abs(normal(t).normalize().y)<.96);
+  const changed=new Map<Triangle,Triangle>();
+  for(const group of components(eligible)){
+    const n=normal(group[0]).normalize();if(!group.every(t=>Math.abs(normal(t).normalize().dot(n))>.999))continue;
+    const bounds=new THREE.Box3();for(const t of group)for(const p of t.points)bounds.expandByPoint(p);
+    const lower=bounds.min.y,upper=bounds.max.y;if(upper-lower<.5)continue;
+    const h2=n.x*n.x+n.z*n.z,slope=new THREE.Vector3(-n.x*n.y/h2,0,-n.z*n.y/h2),factor=1/Math.sqrt(h2),middle=(lower+upper)/2;
+    // Source panels lean about their centre; their grid footprint is the centre
+    // line, not the displaced bottom of the tilted quad. Root it on the floor.
+    const center=bounds.getCenter(new THREE.Vector3()),floor=groundHeight(ground,center.x,center.z,lower);
+    for(const t of group)changed.set(t,{...t,points:t.points.map(p=>{const q=p.clone().addScaledVector(slope,-(p.y-middle));q.y=floor+(p.y-lower)*factor;return q;})});
+    summary.uprightPanels++;
+  }
+  if(!changed.size)return{mesh,source};
+  const adjusted=source.map(t=>changed.get(t)||t);return{mesh:replacementMesh(root,mesh,adjusted,'upright-original-scenery'),source:adjusted};
+}
+
+/** Fence atlas U follows the run, including the source's completely horizontal
+ * north/south pieces. Build posts and rails from that run instead of a card. */
+function solidFences(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],ground:Triangle[],summary:RepairSummary){
+  const converted=new Set<Triangle>(),boxes:{position:THREE.Vector3;scale:THREE.Vector3;yaw:number;color:string}[]=[],seen=new Set<string>();
+  for(let i=0;i+1<source.length;i+=2){const pair=source.slice(i,i+2),material=pair[0].material;
+    if(!/fence|saku/i.test(material.name)||isShadow(material)||!(material.alphaTest>0||material.transparent)||pair[1].material!==material)continue;
+    const n=normal(pair[0]).normalize();if(Math.abs(n.y)<.12||Math.abs(n.dot(normal(pair[1]).normalize()))<.999)continue;
+    const [a,b,c]=pair[0].points,[u,v,w]=pair[0].uv,e1=b.clone().sub(a),e2=c.clone().sub(a),det=(v.x-u.x)*(w.y-u.y)-(w.x-u.x)*(v.y-u.y);if(Math.abs(det)<1e-6)continue;
+    const along=e1.clone().multiplyScalar(w.y-u.y).addScaledVector(e2,-(v.y-u.y)).divideScalar(det);if(Math.abs(along.y)>.01||along.length()<1)continue;along.y=0;
+    const direction=along.clone().normalize(),vertices=pair.flatMap(t=>t.points.map((p,j)=>({p,uv:t.uv[j]}))),low=Math.min(...vertices.map(v=>v.uv.x)),high=Math.max(...vertices.map(v=>v.uv.x));if(high-low<.01)continue;
+    // Flat atlas bands are the side-on fence runs, not a ground shadow.
+    if(Math.abs(n.y)>.99&&high-low<.4)continue;
+    const bounds=new THREE.Box3().setFromPoints(vertices.map(v=>v.p)),center=bounds.getCenter(new THREE.Vector3()),base=groundHeight(ground,center.x,center.z,bounds.min.y),yaw=-Math.atan2(direction.z,direction.x),length=along.length()*(high-low);
+    const add=(p:THREE.Vector3,s:THREE.Vector3,color:string)=>boxes.push({position:p,scale:s,yaw,color});
+    for(const height of [5,10]){const p=center.clone();p.y=base+height;add(p,new THREE.Vector3(length,2.2,2.1),'#b6c6cf');}
+    const middle=(low+high)/2;
+    for(let tile=Math.floor(low);tile<Math.ceil(high);tile++)for(const fraction of [.125,.375,.625,.875]){const uv=tile+fraction;if(uv<low-1e-5||uv>high+1e-5)continue;
+      const p=center.clone().addScaledVector(along,uv-middle);p.y=base;const key=p.toArray().map(v=>Math.round(v*100)).join(',');if(seen.has(key))continue;seen.add(key);
+      add(p.clone().add(new THREE.Vector3(0,6.5,0)),new THREE.Vector3(3.3,13,3.3),'#d8e3e6');add(p.clone().add(new THREE.Vector3(0,13.4,0)),new THREE.Vector3(3.7,2.2,3.7),'#f5fbf7');summary.fencePosts++;
+    }
+    for(const t of pair)converted.add(t);
+  }
+  if(!converted.size)return{mesh,source};
+  const geometry=new THREE.BoxGeometry(1,1,1),shades=['#c0ced4','#a6bac5','#ffffff','#92a8b4','#e9f1ef','#c3d3da'].map(color=>new THREE.MeshBasicMaterial({color})),fences=new THREE.InstancedMesh(geometry,shades,boxes.length),dummy=new THREE.Object3D();
+  fences.name='solid-original-fences';boxes.forEach((b,i)=>{dummy.position.copy(b.position);dummy.scale.copy(b.scale);dummy.rotation.set(0,b.yaw,0);dummy.updateMatrix();fences.setMatrixAt(i,dummy.matrix);fences.setColorAt(i,new THREE.Color(b.color));});fences.computeBoundingSphere();root.add(fences);
+  const remaining=source.filter(t=>!converted.has(t));return{mesh:replacementMesh(root,mesh,remaining,'original-fence-remainder'),source:remaining};
+}
+
+/** Each original bunch gets its own crossed cutouts; beds have volume even
+ * viewed along the row, and none of the rows rotate around a shared pivot. */
+function flowerVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:RepairSummary){
+  const converted=new Set<Triangle>(),clumps:Triangle[]=[];
+  for(let i=0;i+1<source.length;i+=2){const pair=source.slice(i,i+2),material=pair[0].material;
+    if(!standingScenery.test(material.name)||/fence|saku/i.test(material.name)||isShadow(material)||!(material.alphaTest>0||material.transparent)||Math.abs(normal(pair[0]).normalize().y)>.05||pair[1].material!==material)continue;
+    const vertices=pair.flatMap(t=>t.points),bounds=new THREE.Box3().setFromPoints(vertices),height=bounds.max.y-bounds.min.y;if(height<1)continue;
+    const center=bounds.getCenter(new THREE.Vector3());center.y=bounds.min.y;
+    for(const angle of [0,Math.PI/3,Math.PI*2/3])for(const t of pair)clumps.push({...t,points:t.points.map(p=>p.clone().sub(center).applyAxisAngle(new THREE.Vector3(0,1,0),angle).add(center))});
+    for(const t of pair)converted.add(t);summary.flowerClumps++;
+  }
+  if(!converted.size)return{mesh,source};
+  const remaining=source.filter(t=>!converted.has(t)),replacement=replacementMesh(root,mesh,[...remaining,...clumps],'crossed-original-flowers');return{mesh:replacement,source:[...remaining,...clumps]};
+}
+
+/** DS hills frequently omit every face behind the camera. Close the open edge
+ * loops down to each component's existing base, retaining every authored face. */
+function closeTerrain(root:THREE.Group,source:Triangle[],summary:RepairSummary){
+  const terrain=source.filter(t=>!isShadow(t.material)&&/cliff|wall|peak|mount|rock|slope/i.test(t.material.name)&&!/tree|flower|fence|saku|grass|pond|sea|water/i.test(t.material.name));
+  for(const component of components(terrain)){
+    const base=Math.min(...component.flatMap(t=>t.points.map(p=>p.y))),edges=new Map<string,{a:THREE.Vector3;b:THREE.Vector3;triangle:Triangle;count:number}>();
+    for(const triangle of component)for(let i=0;i<3;i++){const a=triangle.points[i],b=triangle.points[(i+1)%3],key=[a,b].map(p=>p.toArray().map(v=>Math.round(v*1000)).join(',')).sort().join('|');const edge=edges.get(key);if(edge)edge.count++;else edges.set(key,{a,b,triangle,count:1});}
+    const byMaterial=new Map<THREE.MeshBasicMaterial,{positions:number[];uvs:number[]}>();
+    for(const {a,b,triangle,count}of edges.values()){
+      if(count!==1||Math.max(a.y,b.y)-base<.1||Math.hypot(a.x-b.x,a.z-b.z)<.01)continue;
+      const floorA=new THREE.Vector3(a.x,base,a.z),floorB=new THREE.Vector3(b.x,base,b.z),attributes=byMaterial.get(triangle.material)||{positions:[],uvs:[]},width=Math.hypot(a.x-b.x,a.z-b.z)/32;
+      for(const [p,u]of [[a,0],[b,width],[floorB,width],[a,0],[floorB,width],[floorA,0]] as const){attributes.positions.push(...p.toArray());attributes.uvs.push(u,(p.y-base)/32);}byMaterial.set(triangle.material,attributes);summary.terrainSkirts++;
+    }
+    for(const [original,attributes]of byMaterial){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(attributes.positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(attributes.uvs,2));geometry.computeVertexNormals();const material=new THREE.MeshBasicMaterial({color:averageColor(original),side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:2,polygonOffsetUnits:2});const mesh=new THREE.Mesh(geometry,material);mesh.name='solid-original-terrain';root.add(mesh);
+      if(original.map){const textured=original.clone();textured.side=THREE.DoubleSide;textured.polygonOffset=true;textured.polygonOffsetFactor=1;textured.polygonOffsetUnits=1;const face=new THREE.Mesh(geometry,textured);face.name='textured-terrain-back';root.add(face);}
+    }
+  }
+}
 
 function groundTreeAnchors(source:Triangle[]){
   const anchors=new Map<string,THREE.Vector3[]>(),seen=new Set<string>();
@@ -159,7 +259,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
 /** Shared by every imported landscape/prop, including future streamed locations. */
 export function repairOriginalAsset(root:THREE.Group,isProp:boolean):RepairSummary{
   root.updateMatrixWorld(true);const meshes:THREE.Mesh[]=[];root.traverse(object=>{if(object instanceof THREE.Mesh)meshes.push(object);});
-  const summary={solidFaces:0,billboardTrees:0};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),anchors=groundTreeAnchors(sources.flat()),roots=new Set<string>();
-  for(let i=0;i<meshes.length;i++)solid.push(...treePanels(root,meshes[i],sources[i],summary,anchors,roots));
-  if(isProp)closeProps(root,solid,summary);root.userData.renderRepairs=summary;return summary;
+  const summary={solidFaces:0,billboardTrees:0,uprightPanels:0,fencePosts:0,flowerClumps:0,terrainSkirts:0};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),ground=sources.flat(),anchors=groundTreeAnchors(ground),roots=new Set<string>();
+  for(let i=0;i<meshes.length;i++){const fences=solidFences(root,meshes[i],sources[i],ground,summary),adjusted=uprightScenery(root,fences.mesh,fences.source,ground,summary),flowers=flowerVolume(root,adjusted.mesh,adjusted.source,summary);solid.push(...treePanels(root,flowers.mesh,flowers.source,summary,anchors,roots));}
+  if(isProp)closeProps(root,solid,summary);else closeTerrain(root,solid,summary);root.userData.renderRepairs=summary;return summary;
 }

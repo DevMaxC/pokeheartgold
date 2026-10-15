@@ -4,7 +4,7 @@ A browser runtime using the original HeartGold map geometry, prop placement, eve
 
 Battles take place in the live 3D field, with grounded paper Pokémon, an orbiting shoulder camera, in-world attack/capture motion and the familiar turn-based commands. Q/E, drag, scroll and touch camera buttons work during battle.
 
-The requested destination is complete original-game parity. **That work is ongoing.** [PARITY.md](PARITY.md) catalogs 266 system requirements, 540 maps and 832 script/movement commands. Imported content, implemented behavior and verified parity are tracked separately. This build does not execute the original Nintendo DS binary or provide a completed port.
+The requested destination is complete original-game parity. **That work is ongoing.** [PARITY.md](PARITY.md) catalogs 274 system requirements, 540 maps and 832 script/movement commands. Imported content, implemented behavior and verified parity are tracked separately. This build does not execute the original Nintendo DS binary or provide a completed port.
 
 ## Run
 
@@ -26,6 +26,8 @@ Open the printed URL. New Game starts with Oak’s introduction, gender/name sel
 | Scroll | Zoom |
 | Shift | Run after receiving Running Shoes |
 | Escape / Menu | Open unlocked game menus |
+
+The world includes solid fences, fuller flower bunches and 3D long grass on the original encounter tiles. Building door warps and counter interactions support entering the Pokémon Center and using Nurse Joy; following Pokémon move smoothly between tiles.
 
 Touch movement and interaction buttons are available. Progress saves to local browser storage. `?qa=1` uses a separate QA save and does not overwrite the ordinary adventure.
 

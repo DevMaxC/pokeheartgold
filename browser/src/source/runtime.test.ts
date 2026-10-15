@@ -5,6 +5,7 @@ import {loadData,newState,createMon,giveMon,calculateStats} from './data.ts';
 import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
 import {catchShakes,typeEffectiveness} from './battle-math.ts';
 import {sourceJSON,type SourceMap} from './types.ts';
+import {doorwayEntry} from './terrain.ts';
 
 // Exercise the real imported source files, including nested common scripts.
 globalThis.fetch=async(input)=>{const path=String(input);assert.ok(path.startsWith('/source/'));try{return new Response(await readFile(new URL('../../public'+path,import.meta.url)));}catch{return new Response('',{status:404});}};
@@ -23,3 +24,11 @@ test('catch formula has guaranteed and failed bounds and performs four source sh
 
 test('a script keeps its movement lock until outstanding movement settles after failure',async()=>{const {vm,hooks}=harness();let finish!:()=>void;hooks.move=()=>new Promise<void>(resolve=>finish=resolve);const map=await sourceJSON<SourceMap>('maps/64.json');map.scripts={entries:['start'],labels:{start:0},instructions:[['ApplyMovement',['obj_player','move']],['UnportedGameplay',[]]]};let rejected=false;const running=vm.run(map,1).catch(()=>{rejected=true;});await new Promise(resolve=>setTimeout(resolve,0));assert.equal(vm.busy,true);assert.equal(rejected,false);finish();await running;assert.equal(vm.busy,false);assert.equal(rejected,true);});
 test('standard-script resolution does not depend on imported bank order',async()=>{const {vm,state}=harness();const dataUnsorted={...data,index:{...data.index,stdScripts:[...data.index.stdScripts].reverse()}};const unordered=new ScriptVM(dataUnsorted,state,vm.hooks);unordered.set('VAR_SPECIAL_x8004',data.constants.ITEM_POTION);unordered.set('VAR_SPECIAL_x8005',5);await unordered.run(await sourceJSON<SourceMap>('maps/61.json'),2033);assert.equal(state.bag.ITEM_POTION,5);});
+
+test('original blocked door tiles enter only their mapped north-facing doorway',async()=>{const map=await sourceJSON<SourceMap>('maps/67.json'),land=await sourceJSON<{permissions:number[]}>('lands/5.json');for(const warp of map.events.warps){const p=land.permissions[(warp.z%32)*32+warp.x%32];assert.equal(p,0x8069);assert.equal(doorwayEntry(p,true,0),true);assert.equal(doorwayEntry(p,false,0),false);assert.equal(doorwayEntry(p,true,1),false);}assert.equal(doorwayEntry(0x8000,true,0),false);});
+
+test('the original Nurse Joy service heals HP, status and PP after its original confirmation',async()=>{
+ const {state,vm,hooks,messages}=harness(),map=await sourceJSON<SourceMap>('maps/69.json');state.map=69;const mon=createMon(data,155,5,state.name,()=>.5);state.party=[mon];mon.hp=1;mon.status='PSN';mon.moves[0].pp=0;let count=0;hooks.choice=async()=>0;hooks.objectName=()=>map.events.objects[0].id;hooks.healAnimation=async n=>{count=n;};
+ await vm.run(map,1,map.events.objects[0].id);assert.equal(vm.lastUnsupported,null);assert.equal(count,1);assert.equal(mon.hp,mon.maxHP);assert.equal(mon.status,'');assert.ok(mon.moves.every(m=>m.pp===m.maxPP));assert.equal(state.avatarState,0);assert.ok(messages.some(m=>m.includes('restored your Pokémon')));
+});
+test('declining the original Nurse Joy service preserves party condition',async()=>{const {state,vm,hooks}=harness(),map=await sourceJSON<SourceMap>('maps/69.json');state.party=[createMon(data,155,5,state.name,()=>.5)];state.party[0].hp=1;hooks.choice=async()=>1;await vm.run(map,1,map.events.objects[0].id);assert.equal(state.party[0].hp,1);});

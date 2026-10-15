@@ -4,6 +4,7 @@ import {sourceJSON} from './types.ts';
 import {hasBagSpace,addBagItem,takeBagItem} from './bag.ts';
 import {phoneCall} from './phone.ts';
 import {originalSpawn} from './spawns.ts';
+import {timeOfDay,trainerCardStars} from './field-services.ts';
 
 export type ScriptHooks={
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
@@ -12,14 +13,14 @@ export type ScriptHooks={
   chooseStarter:()=>Promise<void>;nickname:(index:number)=>Promise<void>;refresh:()=>Promise<void>;
   battle:(trainer:number,options?:{second:number;canLose:boolean;suppressFollower:boolean})=>Promise<boolean>;warp:(map:number,x:number,z:number)=>Promise<void>;
   coordinates?:(object:string)=>{x:number;z:number};nameRival?:()=>Promise<string>;whiteOut?:()=>Promise<void>;
-  catchingTutorial?:()=>Promise<void>;
+  catchingTutorial?:()=>Promise<void>;objectName?:(id:number)=>string|undefined;healAnimation?:(count:number)=>Promise<void>;followerVisible?:(visible:boolean)=>void;
 };
 export class UnsupportedScript extends Error{
   readonly map:string;readonly command:string;readonly pc:number;
   constructor(map:string,command:string,pc:number){super(`Unported source command ${command} at ${map}:${pc}`);this.map=map;this.command=command;this.pc=pc;}
 }
 // Only presentation commands may be ignored. Unknown gameplay commands stop explicitly.
-const presentation=new Set(['Nop','Dummy','ResetBGM','UnlockDir','WaitButtonOrDpad','StopSE','LeaveOverworld','DoorAnimationLoad','DoorAnimationOpen','DoorAnimationClose','DoorAnimationWait','DoorAnimationUnload','LockAll','ReleaseAll','Lock','Release','LockDir','PlaySE','WaitSE','PlayFanfare','WaitFanfare','PlayCry','WaitCry','CloseMsg','WaitButton','FadeScreen','WaitFade','FollowMonResetMovement','TouchscreenMenuHide','TouchscreenMenuShow','FollowingPokemonMovement','WaitFollowingPokemonMovement','ToggleFollowingPokemonMovement','FollowMonSetPositionNextToPlayer','FollowMonSpawnReleaseBall','PlaceStarterBallsInElmsLab','SetFollowingPokemonActive','RestoreOverworld','DrawPokemonPreview','HidePokemonPreview','ShowMoneyBox','HideMoneyBox','SetWeather','FadeOutBGM','PlayBGM','StopBGM','SetBGM','WaitABPress','SetWindow','ScrCmd_609']);
+const presentation=new Set(['Nop','Dummy','DebugWatch','ResetBGM','UnlockDir','WaitButtonOrDpad','StopSE','LeaveOverworld','DoorAnimationLoad','DoorAnimationOpen','DoorAnimationClose','DoorAnimationWait','DoorAnimationUnload','LockAll','ReleaseAll','Lock','Release','LockDir','PlaySE','WaitSE','PlayFanfare','WaitFanfare','PlayCry','WaitCry','CloseMsg','WaitButton','FadeScreen','WaitFade','FollowMonResetMovement','TouchscreenMenuHide','TouchscreenMenuShow','FollowingPokemonMovement','WaitFollowingPokemonMovement','ToggleFollowingPokemonMovement','FollowMonSetPositionNextToPlayer','FollowMonSpawnReleaseBall','PlaceStarterBallsInElmsLab','SetFollowingPokemonActive','RestoreOverworld','DrawPokemonPreview','HidePokemonPreview','ShowMoneyBox','HideMoneyBox','SetWeather','FadeOutBGM','PlayBGM','StopBGM','SetBGM','WaitABPress','SetWindow','ScrCmd_609']);
 const standardCache=new Map<string,Promise<SourceMap>>();
 export class ScriptVM{
   busy=false;lastUnsupported:{map:string;command:string;pc:number}|null=null;
@@ -57,6 +58,7 @@ export class ScriptVM{
     const jump=(target:string)=>{if(map.scripts.labels[target]===undefined)throw new Error(`Missing original script label ${target}`);pc=map.scripts.labels[target];};
     const conditions:Record<string,()=>boolean>={Eq:()=>compare===0,Ne:()=>compare!==0,Lt:()=>compare<0,Gt:()=>compare>0,Le:()=>compare<=0,Ge:()=>compare>=0};
     const v=(s:string)=>this.value(s,map);
+    const actor=(token:string)=>token.startsWith('obj_')?token:this.hooks.objectName?.(v(token))??map.events?.objects.find(n=>map.constants[n.id]===v(token))?.id??token;
     try{
       let remaining=4000;
       while(true){
@@ -87,14 +89,14 @@ export class ScriptVM{
         if(cmd==='MsgBoxExtern'||cmd==='NonNPCMsgExtern'){const bank=await sourceJSON<Record<string,string>>(`messages/${v(a[0])}.json`),raw=bank[v(a[1])];if(raw===undefined)throw Error(`Missing source message ${v(a[0])}:${v(a[1])}`);lastMessage=this.text(raw,map);await this.hooks.message(lastMessage);continue;}
         if(cmd==='GetMenuChoice'||cmd==='YesNoBox'){this.set(a[0],await this.hooks.choice(lastMessage.split(/\\[rf]/).filter(Boolean).at(-1)));continue;}
         if(cmd==='Wait'){await new Promise(resolve=>setTimeout(resolve,Math.min(1000,v(a[0])*1000/60)));continue;}
-        if(cmd==='ApplyMovement'){pendingMoves.push(this.hooks.move(a[0],a[1],map).catch(error=>{movementFailure.failed=true;movementFailure.error=error;}));continue;}
+        if(cmd==='ApplyMovement'){pendingMoves.push(this.hooks.move(actor(a[0]),a[1],map).catch(error=>{movementFailure.failed=true;movementFailure.error=error;}));continue;}
         if(cmd==='WaitMovement'){await Promise.all(pendingMoves);pendingMoves=[];if(movementFailure.failed)throw movementFailure.error;continue;}
-        if(cmd==='MovePersonFacing'){this.hooks.position(a[0],v(a[1]),v(a[3]),v(a[4]));continue;}
-        if(cmd==='MovePerson'){this.hooks.position(a[0],v(a[1]),v(a[3]));continue;}
+        if(cmd==='MovePersonFacing'){this.hooks.position(actor(a[0]),v(a[1]),v(a[3]),v(a[4]));continue;}
+        if(cmd==='MovePerson'){this.hooks.position(actor(a[0]),v(a[1]),v(a[3]));continue;}
         if(cmd==='FacePlayer'){this.hooks.face(object);continue;}
-        if(cmd==='ShowPerson'||cmd==='HidePerson'){this.hooks.visible(a[0],cmd==='ShowPerson');continue;}
+        if(cmd==='ShowPerson'||cmd==='HidePerson'){this.hooks.visible(actor(a[0]),cmd==='ShowPerson');continue;}
         if(cmd==='GetPlayerCoords'){this.set(a[0],Math.floor(this.state.x));this.set(a[1],Math.floor(this.state.z));continue;}
-        if(cmd==='GetPersonCoords'){const name=map.events.objects.find(n=>map.constants[n.id]===v(a[0]))?.id||a[0];const p=a[0]==='obj_player'?{x:Math.floor(this.state.x),z:Math.floor(this.state.z)}:this.hooks.coordinates?.(name);if(!p)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[1],p.x);this.set(a[2],p.z);continue;}
+        if(cmd==='GetPersonCoords'){const name=actor(a[0]);const p=a[0]==='obj_player'?{x:Math.floor(this.state.x),z:Math.floor(this.state.z)}:this.hooks.coordinates?.(name);if(!p)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[1],p.x);this.set(a[2],p.z);continue;}
         if(cmd==='GetPlayerFacing'){this.set(a[0],this.state.facing);continue;}
         if(cmd==='GetGender'||cmd==='GetPlayerGender'){this.set(a[0],this.state.gender==='boy'?0:1);continue;}
         if(cmd==='GetGameVersion'){this.set(a[0],this.data.constants.GAME_VERSION);continue;}
@@ -108,12 +110,22 @@ export class ScriptVM{
         if(cmd==='SetPhoneCallTrigger'||cmd==='UnsetPhoneCallTrigger'){this.state.phoneTriggers??=[];const id=v(a[0]);this.state.phoneTriggers=this.state.phoneTriggers.filter(trigger=>trigger!==id);if(cmd==='SetPhoneCallTrigger'&&v(a[1]))this.state.phoneTriggers.push(id);continue;}
         if(cmd==='GetFriendSprite'){this.set(a[0],this.data.constants[this.state.gender==='boy'?'SPRITE_HEROINE':'SPRITE_HERO']);continue;}
         if(cmd==='CheckBadge'){this.set(a[1],Number(this.state.badges.includes(v(a[0]))));continue;}
+        if(cmd==='GetTrcardStars'){this.set(a[0],trainerCardStars(this.state));continue;}
+        if(cmd==='GetCurrentTimeOfDay'){this.set(a[0],timeOfDay(new Date().getHours()));continue;}
+        if(cmd==='GetCurrentMapId'){this.set(a[0],this.state.map);continue;}
+        if(cmd==='GetPlayerState'){const pose=this.state.avatarState??0;this.set(a[0],pose===10?0:pose===12?3:pose);continue;}
+        if(cmd==='SetAvatarBits'){const transitions:Record<number,number>={[this.data.constants.PLAYER_TRANSITION_WALKING]:0,[this.data.constants.PLAYER_TRANSITION_HEAL]:10,[this.data.constants.PLAYER_TRANSITION_ROCKET]:3,[this.data.constants.PLAYER_TRANSITION_ROCKET_HEAL]:12};const next=transitions[v(a[0])];if(next===undefined)throw new UnsupportedScript(map.code,cmd,pc-1);this.state.avatarState=next;continue;}
+        if(cmd==='UpdateAvatarState')continue;
+        if(cmd==='PartyCountNotEgg'){this.set(a[0],this.state.party.filter(mon=>!mon.isEgg).length);continue;}
+        if(cmd==='PartyHasPokerus'){this.set(a[0],Number(this.state.party.some(mon=>!!mon.pokerus)));continue;}
+        if(cmd==='PokeCenAnim'){if(!this.hooks.healAnimation)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.healAnimation(v(a[0]));continue;}
+        if(cmd==='FollowMonHopIntoBall'){this.hooks.followerVisible?.(false);continue;}
         if(cmd==='GetWeekday'){this.set(a[0],new Date().getDay());continue;}
         if(cmd==='GiveRunningShoes'){this.state.runningShoes=true;continue;}
         if(cmd==='CheckRunningShoes'){this.set(a[0],Number(!!this.state.runningShoes));continue;}
         if(cmd==='RegisterGearNumber'||cmd==='RegisterPokegearCard'){this.state.pokegear??={contacts:[],cards:[]};if(cmd==='RegisterGearNumber'){if(!this.state.pokegear.contacts.includes(a[0]))this.state.pokegear.contacts.push(a[0]);}else if(!this.state.pokegear.cards.includes(v(a[0])))this.state.pokegear.cards.push(v(a[0]));continue;}
         if(cmd==='GetPartyCount'){this.set(a[0],this.state.party.length);continue;}
-        if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,this.state.party.findIndex(m=>m.hp>0)));continue;}
+        if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,this.state.party.findIndex(m=>m.hp>0&&!m.isEgg)));continue;}
         if(cmd==='GetPartyMonSpecies'){this.set(a[1],this.state.party[v(a[0])]?.species||0);continue;}
         if(cmd==='GetPartyMonForm2'){this.set(a[1],0);continue;}
         if(cmd==='GetStarterChoice'){this.set(a[0],this.state.starter);continue;}

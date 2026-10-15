@@ -42,6 +42,15 @@ GROUPS['3D battle presentation']=('browser/src/source/battle-stage.ts',[
 'Battle exit and error recovery restore field camera, actor visibility and progression locks',
 'Original battle art uses the correct normal or shiny palette for both facings',
 'Full campaign battle environments and all move-specific 3D effects receive visual verification'])
+GROUPS['3D world depth and navigation']=('browser/src/source/world.ts',[
+'Source fence runs become solid posts and rails, including flat side-on atlas pieces',
+'Flower bunches have separately rooted crossed artwork with depth from side views',
+'3D long-grass clumps stay on original encounter tiles and react to movement',
+'Hill and cliff backs are opaque from newly accessible camera angles',
+'Background matrix cells render original scenery instead of exposing empty grey gaps',
+'Original building door warps, interior return exits and counter interactions work',
+'Following Pokémon move continuously along the original one-tile trailing path',
+'Every world camera angle, terrain boundary and scenery variant receives visual verification'])
 features=[]
 for gi,(group,(source,items)) in enumerate(GROUPS.items(),1):
  for i,title in enumerate(items,1): features.append({'id':f'P{gi:02}-{i:03}','group':group,'feature':title,'source':source,'status':'pending','verification':None})

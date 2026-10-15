@@ -15,3 +15,6 @@ export function terrainHeight(land:Land,cell:Pick<Cell,'x'|'z'|'altitude'>,x:num
   }
   return candidates.length?candidates.reduce((a,b)=>Math.abs(a-currentY)<Math.abs(b-currentY)?a:b):base;
 }
+
+/** The door's movement collision bit is intentional; its source warp owns entry. */
+export function doorwayEntry(permission:number,hasWarp:boolean,facing:number){return hasWarp&&(permission&255)===0x69&&facing===0;}

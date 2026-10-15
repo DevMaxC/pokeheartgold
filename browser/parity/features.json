@@ -1445,7 +1445,7 @@
     "feature": "Residual damage, weather, healing and turn-end order",
     "source": "src/battle/battle_command.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original Nurse Joy Yes/No service passes source fixtures and the Cherrygrove Center browser flow. Other listed healing/service variants are not yet fully verified."
   },
   {
     "id": "P09-016",
@@ -1533,7 +1533,7 @@
     "feature": "Whiteout healing and last-Pok\u00e9mon-Center respawn",
     "source": "src/battle/battle_command.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original Nurse Joy Yes/No service passes source fixtures and the Cherrygrove Center browser flow. Other listed healing/service variants are not yet fully verified."
   },
   {
     "id": "P09-027",
@@ -1541,7 +1541,7 @@
     "feature": "Battle healing/status/PP items and turn consumption",
     "source": "src/battle/battle_command.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original Nurse Joy Yes/No service passes source fixtures and the Cherrygrove Center browser flow. Other listed healing/service variants are not yet fully verified."
   },
   {
     "id": "P09-028",
@@ -2124,6 +2124,70 @@
     "group": "3D battle presentation",
     "feature": "Full campaign battle environments and all move-specific 3D effects receive visual verification",
     "source": "browser/src/source/battle-stage.ts",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P15-001",
+    "group": "3D world depth and navigation",
+    "feature": "Source fence runs become solid posts and rails, including flat side-on atlas pieces",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-002",
+    "group": "3D world depth and navigation",
+    "feature": "Flower bunches have separately rooted crossed artwork with depth from side views",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-003",
+    "group": "3D world depth and navigation",
+    "feature": "3D long-grass clumps stay on original encounter tiles and react to movement",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-004",
+    "group": "3D world depth and navigation",
+    "feature": "Hill and cliff backs are opaque from newly accessible camera angles",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-005",
+    "group": "3D world depth and navigation",
+    "feature": "Background matrix cells render original scenery instead of exposing empty grey gaps",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-006",
+    "group": "3D world depth and navigation",
+    "feature": "Original building door warps, interior return exits and counter interactions work",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-007",
+    "group": "3D world depth and navigation",
+    "feature": "Following Pok\u00e9mon move continuously along the original one-tile trailing path",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-008",
+    "group": "3D world depth and navigation",
+    "feature": "Every world camera angle, terrain boundary and scenery variant receives visual verification",
+    "source": "browser/src/source/world.ts",
     "status": "pending",
     "verification": null
   }

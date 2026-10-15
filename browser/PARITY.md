@@ -2,7 +2,7 @@
 
 Source baseline: `d7886a5`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.
 
-Inventory: **266 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
+Inventory: **274 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
 
 ## Completion standard
 
@@ -359,6 +359,19 @@ Inventory: **266 system requirements, 540 map headers, 832 script/movement comma
 | P14-008 | Battle exit and error recovery restore field camera, actor visibility and progression locks | Implemented | `browser/src/source/battle-stage.ts` |
 | P14-009 | Original battle art uses the correct normal or shiny palette for both facings | Implemented | `browser/src/source/battle-stage.ts` |
 | P14-010 | Full campaign battle environments and all move-specific 3D effects receive visual verification | Pending | `browser/src/source/battle-stage.ts` |
+
+### 3D world depth and navigation
+
+| ID | Requirement | Status | Source |
+| --- | --- | --- | --- |
+| P15-001 | Source fence runs become solid posts and rails, including flat side-on atlas pieces | Implemented | `browser/src/source/world.ts` |
+| P15-002 | Flower bunches have separately rooted crossed artwork with depth from side views | Implemented | `browser/src/source/world.ts` |
+| P15-003 | 3D long-grass clumps stay on original encounter tiles and react to movement | Implemented | `browser/src/source/world.ts` |
+| P15-004 | Hill and cliff backs are opaque from newly accessible camera angles | Implemented | `browser/src/source/world.ts` |
+| P15-005 | Background matrix cells render original scenery instead of exposing empty grey gaps | Implemented | `browser/src/source/world.ts` |
+| P15-006 | Original building door warps, interior return exits and counter interactions work | Implemented | `browser/src/source/world.ts` |
+| P15-007 | Following Pokémon move continuously along the original one-tile trailing path | Implemented | `browser/src/source/world.ts` |
+| P15-008 | Every world camera angle, terrain boundary and scenery variant receives visual verification | Pending | `browser/src/source/world.ts` |
 
 ## Content inventories
 
