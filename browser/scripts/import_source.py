@@ -212,4 +212,5 @@ if '--data-only' not in sys.argv:
   if i%100==0:print('Props',i,'/',len(prop_jobs),flush=True)
 REPORT['counts']={'maps':len(maps),'matrices':len(matrices),'landscapes':len(land_jobs),'props':len(prop_jobs),'moves':len(move_records),'sprites':len(spriteinfo),'species':493,'trainers':len(json.loads((OUT/'trainers.json').read_text())['trainers'])}
 write(Path('import-report.json'),REPORT)
+subprocess.run([sys.executable,str(ROOT/'browser/scripts/export_foliage.py')],check=True)
 print(json.dumps(REPORT['counts']),len(REPORT['errors']),'conversion errors (see import-report.json).',flush=True)

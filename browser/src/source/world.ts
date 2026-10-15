@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone } from 'three/addons/utils/SkeletonUtils.js';
 import { sourceJSON,type SourceMap,type SourceIndex,type Matrix,type Land,type Cell,type SpriteInfo,type NPC } from './types.ts';
 import {tilePermission,permissionWalkable,terrainHeight} from './terrain.ts';
-import {repairOriginalAsset} from './render-repair.ts';
+import {repairOriginalAsset,originalMaterial} from './render-repair.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap};
 export class OriginalWorld {
@@ -15,6 +15,8 @@ export class OriginalWorld {
   readonly cells=new Map<string,LoadedCell>();
   readonly npcSprites=new Map<string,{group:THREE.Group;sprite:THREE.Mesh;texture:THREE.Texture;info:SpriteInfo;npc:NPC}>();
   private loader=new GLTFLoader();
+  private foliage:Promise<Record<string,Record<string,{asset:string;centers:number[];footV:number}>>>|null=null;
+  private treeTextures=new Map<string,Promise<THREE.Texture>>();
   private landCache=new Map<number,Promise<Land>>();
   private activeMatrix=-1;
   private matrix:Matrix|null=null;
@@ -31,12 +33,18 @@ export class OriginalWorld {
   }
   async map(id:number):Promise<SourceMap>{if(!this.maps.has(id)){const map=await sourceJSON<SourceMap>(`maps/${id}.json`);for(const kind of ['objects','bgs','warps','coords'] as const)map.events[kind]??=[];map.initTriggers??=[];map.initScripts??={};this.maps.set(id,map);}return this.maps.get(id)!;}
   async asset(path:string):Promise<THREE.Group>{
-    if(!this.assets.has(path))this.assets.set(path,this.loader.loadAsync('/source/'+path).then(gltf=>{
+    if(!this.assets.has(path))this.assets.set(path,this.loader.loadAsync('/source/'+path).then(async gltf=>{
       gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;
-        const convert=(material:THREE.Material)=>{const old=material as THREE.MeshStandardMaterial;const m=new THREE.MeshBasicMaterial({map:old.map,color:old.color,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,side:THREE.DoubleSide,vertexColors:old.vertexColors});
-          m.name=old.name;if(m.map){m.map.magFilter=THREE.NearestFilter;m.map.minFilter=THREE.NearestFilter;m.map.generateMipmaps=false;}return m;};
+        const convert=(material:THREE.Material)=>originalMaterial(material as THREE.MeshStandardMaterial);
         object.material=Array.isArray(object.material)?object.material.map(convert):convert(object.material);
-      });repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
+      });
+      if(path.startsWith('land/')){
+        this.foliage??=sourceJSON('foliage.json');const context=path.match(/-(\d+)\.glb$/)![1],entries=(await this.foliage)[context]||{},jobs:Promise<void>[]=[];
+        gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;for(const material of Array.isArray(object.material)?object.material:[object.material]){const entry=entries[material.name];if(!entry)continue;
+          jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(material.name.endsWith('_re')){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
+        }});await Promise.all(jobs);
+      }
+      repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }));return this.assets.get(path)!;
   }
   async enter(id:number,x:number,z:number){

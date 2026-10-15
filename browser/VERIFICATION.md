@@ -2,9 +2,10 @@
 
 ## Automated checks
 
-- `npm test`: 25 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- `npm test`: 30 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
 - Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 675 structural assets receive closure geometry; 195 landscapes receive camera-facing trees. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
+- Repeated forest art is split into individual original-tree sprites using exported trunk layouts. A four-tree row has four separate instance pivots, aligned with its ground marks; source alpha foot offsets keep trunks on the ground. Flipped/rotated UVs, mixed-mesh shadows, rear backing depth and blended material depth settings have regression coverage.
 - Source opening fixtures execute the original mother scene, starter-device script and shared item-gift script. They check menu flags, scene variables, exactly one level-5 starter and correct item quantity. Unsupported commands halt before subsequent story mutation.
 - Encounter fixtures check the first-three-step inhibition, independent source movement/table rolls, reverse-turn boosts and all 100 weighted land-slot outcomes. Ability, flute, held-item, radio, repel and special-encounter modifiers remain pending.
 - Pokémon fixtures check original level-5 starter moves/PP, Gen IV Tackle data, stat rounding, Steel’s Gen IV resistances and integer capture bounds.
