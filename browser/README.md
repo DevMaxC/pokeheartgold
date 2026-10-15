@@ -1,10 +1,12 @@
-# Paper Johto
+# HeartGold in 3D
 
-A browser-playable first slice of a HeartGold-inspired 3D world: camera-relative analog movement, low-poly scenery, and original 2D character sprites standing in 3D space. This is an independent browser runtime alongside the Nintendo DS decompilation. It does not execute or compile the original C game engine.
+A browser runtime using the original HeartGold map geometry, prop placement, event tables, dialogue, Pokémon data and scripts. The presentation uses a movable third-person camera and original 2D character/Pokémon artwork in 3D space.
 
-## Play locally
+The requested destination is complete original-game parity. **That work is ongoing.** [PARITY.md](PARITY.md) catalogs 256 system requirements, 540 maps and 832 script/movement commands. Imported content, implemented behavior and verified parity are tracked separately. This build does not execute the original Nintendo DS binary or provide a completed port.
 
-Use Node.js 22.18 or newer and a WebGL 2 browser with hardware acceleration.
+## Run
+
+Requires Node 22.18+ and WebGL 2.
 
 ```sh
 cd browser
@@ -12,47 +14,35 @@ npm ci
 npm run dev
 ```
 
-Open the URL Vite prints. Choose Chikorita, Cyndaquil, or Totodile, then explore west from New Bark Town into Route 29.
+Open the printed URL. New Game starts with Oak’s introduction, gender/name selection and the original bedroom. The previous exploration prototype has been replaced as the default entry point. Its old local save is separate from the source runtime’s save.
 
 | Control | Action |
 | --- | --- |
-| WASD / arrow keys | Move relative to the camera, including diagonally |
-| Shift | Run |
-| Q / E or drag the world | Rotate camera |
+| WASD / arrows | Move relative to the camera on original map tiles |
+| F / Enter | Interact and confirm dialogue |
+| Q / E or drag | Rotate the camera |
 | Scroll | Zoom |
-| F | Interact with the nearest sign, doorstep, or wild Pokémon |
-| Escape | Close a panel |
-| Camera button | Alternate adventure and panoramic views |
+| Shift | Run after receiving Running Shoes |
+| Escape / Menu | Open unlocked game menus |
 
-Touch devices have movement and interaction buttons. Drag on the world to rotate the camera.
+Touch movement and interaction buttons are available. Progress saves to local browser storage. `?qa=1` uses a separate QA save and does not overwrite the ordinary adventure.
 
-Wild Pokémon wander visibly in the route. Approach one, use Tackle to weaken it, then throw a Poké Ball. Elm’s lab replenishes your bag. Field notes track your catches. The help panel switches day/night encounters and returns you to town. Position, partner, catches, ball count, time of day, and the exploration objective save automatically to local browser storage. Clearing site data resets this progress.
+## Original source import
 
-## What comes from the original project
+Committed browser data includes 540 map headers, 288 matrices, 648 landscape/texture contexts, 946 prop/texture contexts, 493 species, 471 moves, 738 trainers and 893 overworld sprite mappings. Eight Apricorn-tree sprite palette conversions remain unresolved in `public/source/import-report.json`.
 
-- Pokémon artwork: `files/poketool/pokegra/pokegra/<species>/male/front.png`. Each exported PNG crops the first 80×80 animation frame and trims transparent padding.
-- Ethan’s 32 walking/running frames: decoded directly from `files/data/mmodel/mmodel/mmodel_00000069.NSBTX`, packed into a 4×8 sheet. The export manifest records its source.
-- Route 29 species and levels: the `R29` entry in `files/fielddata/encountdata/gs_enc_data.json`, resolving HeartGold’s daytime/nighttime slots.
-- Place names and the New Bark/Route 29 connection: `src/data/map_headers.h` (`MAP_NEW_BARK`, `MAP_ROUTE_29`).
+`scripts/import_source.py` reads files from this repository. It imports original collision/elevation data, event coordinates, script instruction lists, messages, encounters, learnsets, stats, items, evolution data and battle type tables. NSBMD/NSBTX geometry is converted with [apicula](https://github.com/scurest/apicula), with textures embedded in GLBs. Original artwork retains its original ownership.
 
-The town layout, terrain, buildings, interactions, catch probability, and following behavior are newly authored prototype systems. They are not faithful ports of the original maps, scripts, battle formulas, AI, or save format. Original assets retain their original ownership; this prototype adds no license grant to those assets.
-
-Re-export the small committed asset set from this checkout:
+To reimport, install `scripts/requirements.txt` in a Python virtual environment, build apicula at `../.local-tools/apicula/target/release/apicula`, then run:
 
 ```sh
-python3 -m venv ../.local-tools/browser-assets
-../.local-tools/browser-assets/bin/pip install -r scripts/requirements.txt
-../.local-tools/browser-assets/bin/python scripts/export_assets.py
+python scripts/import_source.py
+python scripts/build_parity.py
 ```
 
-No ROM or DS SDK is needed to run the browser prototype. The DS build remains separate and follows the root `INSTALL.md`.
+The DS build remains separate; see the root `INSTALL.md`.
 
-## Structure and verification
-
-- `src/world.ts`: terrain height, walkability, camera-relative movement, deterministic scenery seeds, collision substeps.
-- `src/scene.ts`: 3D scenery, instanced trees/grass, camera blockers, flat sprite planes.
-- `src/main.ts`: input, third-person camera, follower, source-backed encounter selection, simplified catching, UI, save/load.
-- `public/assets/manifest.json`: source provenance for exported sprites.
+## Verification and remaining work
 
 ```sh
 npm test
@@ -60,12 +50,10 @@ npm run build
 npm run preview
 ```
 
-CI runs the collision/movement tests and TypeScript/production build. Browser verification covers startup, walking from town to the route, encountering and catching a Pokémon, objective updates, save restoration, night species, desktop layout, and touch layout. `window.__JOHTO__` exposes read-only diagnostic snapshots for inspecting position, region, FPS, nearby interaction, and visible wild Pokémon.
+Tests cover source opening scripts, starter moves/stats, shared item grants, encounter rolls, capture bounds, all imported geometry contexts and rendering regressions. See [VERIFICATION.md](VERIFICATION.md) for evidence and current limitations.
 
-Deploy the `browser/` directory as a Vite project; `vercel.json` contains its build configuration. There is no backend dependency in this single-player slice.
+`src/source/render-repair.ts` repairs missing rear façades within each connected prop component, adds thickness to planar props and turns tilted tree artwork into upright camera-facing panels. This shared loader path covers streamed locations. Development fixture `/tests/render-review.html` provides front/rear/side views of original buildings, mailbox, sign and trees; it is excluded from the production entry points.
 
-## Continuing the conversion
+The script VM explicitly stops at unsupported gameplay commands. Battle AI, many move/ability/item effects, services, puzzles, most story progression, audio and connectivity systems still need implementation and verification. Asset import counts do not establish that those locations or systems are playable.
 
-This build is a bounded exploration prototype with two connected areas. It is not the complete HeartGold game or a DS ROM patch. Doorsteps open short interactions; there are no interior maps yet. Battles currently provide Tackle and catch/leave actions, with no enemy attack turns or full team management.
-
-The next milestones are an importer for the original map matrices/event coordinates and Nitro models, streamed region chunks, interior transitions, original script-event compatibility, and a complete battle/party engine. Keep source-data adapters separate from renderer and movement code so later ports can replace the prototype rules without rebuilding the browser presentation.
+Both `/` and `/original.html` build the source runtime. Deploy `browser/` as the existing Vercel project using `vercel.json`. There is currently no server dependency in the local single-player runtime.
