@@ -32,3 +32,8 @@ test('the original Nurse Joy service heals HP, status and PP after its original 
  await vm.run(map,1,map.events.objects[0].id);assert.equal(vm.lastUnsupported,null);assert.equal(count,1);assert.equal(mon.hp,mon.maxHP);assert.equal(mon.status,'');assert.ok(mon.moves.every(m=>m.pp===m.maxPP));assert.equal(state.avatarState,0);assert.ok(messages.some(m=>m.includes('restored your Pokémon')));
 });
 test('declining the original Nurse Joy service preserves party condition',async()=>{const {state,vm,hooks}=harness(),map=await sourceJSON<SourceMap>('maps/69.json');state.party=[createMon(data,155,5,state.name,()=>.5)];state.party[0].hp=1;hooks.choice=async()=>1;await vm.run(map,1,map.events.objects[0].id);assert.equal(state.party[0].hp,1);});
+test('native Flash commands change the field weather and GetWeatherType reads the active effect',async()=>{
+ const {state,vm,hooks}=harness(),map=await sourceJSON<SourceMap>('maps/123.json');let active=11;hooks.weather=value=>{if(value!==undefined)active=value;return active;};
+ map.scripts={entries:['start'],labels:{start:0},instructions:[['GetWeatherType',['VAR_SPECIAL_x8004']],['FlashAction',['1']],['FlashEffect',[]],['GetWeatherType',['VAR_SPECIAL_x8005']],['End',[]]]};
+ await vm.run(map,1);assert.equal(state.vars.VAR_SPECIAL_x8004,11);assert.equal(state.vars.VAR_SPECIAL_x8005,12);assert.equal(state.flags.FLAG_SYS_FLASH,true);assert.equal(active,12);
+});

@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-- `npm test`: 64 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- `npm test`: 75 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
 - Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 668 structural assets receive closure geometry; 195 landscapes receive camera-facing trees. The same audit covers 103 solid-fence, 44 flower-volume and 384 terrain-closure contexts, plus 43 remaining upright-cutout contexts. Instance matrices and vertices stay finite. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
 - Repeated forest art is split into individual original-tree sprites using exported trunk layouts. A four-tree row has four separate instance pivots, aligned with its ground marks; source alpha foot offsets keep trunks on the ground. Flipped/rotated UVs, mixed-mesh shadows, rear backing depth and blended material depth settings have regression coverage.
@@ -29,6 +29,14 @@ Using the shared browser on the local build:
 - Follower movement sampled halfway through a step: follower Z 391.9048 between 391.5 and 392.5, then exactly 392.5 at completion; no instantaneous tile jump.
 - Route 29 previously grey background cells now display the original forest and hills (19 loaded cells at this fixture). Long grass has visible volume. Cherrygrove fence rails/posts and fuller flower beds inspected in the live field. Hill closures retain original visible faces and add textured opaque backing.
 - Original New Bark home, Elm’s lab/mailbox, neighboring house, sign and trees inspected from front, rear and sides with the same loader used by the game. Rear façades remain opaque; flat trees remain upright as the camera changes direction.
+
+## 3D sky and source weather
+
+- A procedural gradient sky, solid stepped cumulus clouds, illustrated sun/moon and twinkling stars extend the source artwork into the free camera. Local clock palettes tint both ordinary field materials and the original camera-facing tree shaders. Original indoor/cave exclusions include the outdoor Mount Silver summit exception.
+- Header weather selects rain, snow, diamond dust and mist. The native dispatch is used for the incomplete weather constants: ID 4 is snow and ID 7 uses the Sunny task. Original summit dates and post-Rocket Wednesday Lake of Rage weather have source-backed fixtures. GetWeatherType reads the active field effect; Flash/Defog flags and FlashEffect have explicit handlers rather than being silently skipped. Native cave darkness and Flash lighting still need restoration.
+- Browser QA inspected Cherrygrove clear/sunset/night, original Route 33 rain and original Sinjoh exterior snow. A real first-rival battle in sunset lighting completed with EXP/level-up and source scene 4. Geometry/tint/clock/weather fixtures pass; original audio, lightning, RTC penalties, battle weather modifiers and every weather location remain pending.
+- Repeated forest variants ending in `_re_lm1` now load the original complete individual tree image, including the native `tree01gs_lm1` naming variant. Ground-mark matching also handles lightmap suffixes. Regression fixtures cover both ordinary and lightmap repeated rows; all repeated manifest entries resolve to individual artwork.
+- The preceding deployed 3D battle milestone was checked live: the original first rival battle produced a real level-up, prize and saved source scene; Cherrygrove Center entry, counter dialogue, HP/PP restoration and return exit also passed on production.
 
 ## Known gaps
 

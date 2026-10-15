@@ -191,12 +191,13 @@ function closeTerrain(root:THREE.Group,source:Triangle[],summary:RepairSummary){
   }
 }
 
+function treeFamily(name:string){return name.replace(/_(?:re|un)(?=_|$)/,'').replace(/_lm\d+$/,'').replace(/gs$/,'');}
 function groundTreeAnchors(source:Triangle[]){
   const anchors=new Map<string,THREE.Vector3[]>(),seen=new Set<string>();
-  for(const triangle of source){if(!/_(un)$/.test(triangle.material.name)||Math.abs(normal(triangle).normalize().y)<.9)continue;const [a,b,c]=triangle.uv,den=(b.y-c.y)*(a.x-c.x)+(c.x-b.x)*(a.y-c.y);if(Math.abs(den)<1e-6)continue;
+  for(const triangle of source){if(!/_un(?:_|$)/.test(triangle.material.name)||Math.abs(normal(triangle).normalize().y)<.9)continue;const [a,b,c]=triangle.uv,den=(b.y-c.y)*(a.x-c.x)+(c.x-b.x)*(a.y-c.y);if(Math.abs(den)<1e-6)continue;
     for(let u=Math.floor(Math.min(a.x,b.x,c.x));u<Math.ceil(Math.max(a.x,b.x,c.x));u++)for(let v=Math.floor(Math.min(a.y,b.y,c.y));v<Math.ceil(Math.max(a.y,b.y,c.y));v++){
       const x=u+.5,y=v+.5,wa=((b.y-c.y)*(x-c.x)+(c.x-b.x)*(y-c.y))/den,wb=((c.y-a.y)*(x-c.x)+(a.x-c.x)*(y-c.y))/den,wc=1-wa-wb;if(Math.min(wa,wb,wc)<-1e-5)continue;
-      const p=triangle.points[0].clone().multiplyScalar(wa).addScaledVector(triangle.points[1],wb).addScaledVector(triangle.points[2],wc),family=triangle.material.name.replace(/_un$/,''),key=family+':'+p.toArray().map(n=>Math.round(n*100)).join(',');if(seen.has(key))continue;seen.add(key);const group=anchors.get(family)||[];group.push(p);anchors.set(family,group);
+      const p=triangle.points[0].clone().multiplyScalar(wa).addScaledVector(triangle.points[1],wb).addScaledVector(triangle.points[2],wc),family=treeFamily(triangle.material.name),key=family+':'+p.toArray().map(n=>Math.round(n*100)).join(',');if(seen.has(key))continue;seen.add(key);const group=anchors.get(family)||[];group.push(p);anchors.set(family,group);
     }
   }return anchors;
 }
@@ -206,7 +207,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
   const horizontal=new THREE.Vector3(first.z,0,-first.x).normalize();if((Math.abs(horizontal.x)>Math.abs(horizontal.z)?horizontal.x:horizontal.z)<0)horizontal.negate();
   const converted=new Set<Triangle>();
   const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footV:number}|undefined;
-  const family=eligible[0].material.name.replace(/_re$/,''),centers=info?.centers||[.5],footV=info?.footV??1;
+  const family=treeFamily(eligible[0].material.name),centers=info?.centers||[.5],footV=info?.footV??1;
   const panels:{center:THREE.Vector3;width:number;height:number;uv:number[];offset:number;color:THREE.Color}[]=[];
   for(let i=0;i<eligible.length;i+=2){const pair=eligible.slice(i,i+2);if(pair.length!==2)continue;
     const vertices=pair.flatMap(t=>t.points.map((point,j)=>({point,uv:t.uv[j]}))),lower=Math.min(...vertices.map(v=>v.point.y)),upper=Math.max(...vertices.map(v=>v.point.y));if(upper-lower<1)continue;

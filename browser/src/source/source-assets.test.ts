@@ -38,3 +38,10 @@ test('all 540 map headers reference existing imported geometry and tile data',as
   }
   await Promise.all([...paths].map(path=>access(new URL(path,root))));
 });
+test('repeated lightmap forest textures resolve to complete individual-tree artwork',async()=>{
+ const foliage=await readJSON('foliage.json');let repeated=0;
+ for(const group of Object.values(foliage) as Record<string,{asset:string;centers:number[];footV:number}>[])for(const [name,entry]of Object.entries(group))if(/_re(?:_|$)/.test(name)){
+  repeated++;assert.ok(!/_re(?:_|\.)/.test(entry.asset),name);assert.ok(entry.centers.length>=1);assert.ok(entry.footV>0&&entry.footV<=1);await access(new URL(entry.asset,root));
+ }
+ assert.ok(repeated>10);assert.equal(foliage['2'].tree01_re_lm1.asset,'foliage/2-tree01gs_lm1.png');assert.equal(foliage['2'].treekn_re_lm1.asset,'foliage/2-treekn_lm1.png');
+});

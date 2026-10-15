@@ -7,6 +7,7 @@ import {repairOriginalAsset,originalMaterial} from './render-repair.ts';
 import type {FieldObject} from './objects.ts';
 import type {WorldBattleView} from './battle-stage.ts';
 import {sourceTallGrass,updateGrass} from './grass.ts';
+import {WorldSky} from './sky.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap};
 export class OriginalWorld {
@@ -25,14 +26,14 @@ export class OriginalWorld {
   private matrix:Matrix|null=null;
   private generation=0;
   private pending:Promise<void>|null=null;private grassTime=0;
-  private sky=new THREE.Color('#d4e1df');
+  readonly sky:WorldSky;
   yaw=0;pitch=.4;distance=13;
   target=new THREE.Vector3();
   loading=false;
   battleStage:WorldBattleView|null=null;
   constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>){
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));this.renderer.setSize(innerWidth,innerHeight);this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;
-    this.scene.background=this.sky;this.scene.fog=new THREE.Fog(this.sky,50,115);this.scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa2,2));
+    this.sky=new WorldSky(this.scene,this.camera);this.scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa2,2));
     addEventListener('resize',()=>{this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);});
   }
   async map(id:number):Promise<SourceMap>{if(!this.maps.has(id)){const map=await sourceJSON<SourceMap>(`maps/${id}.json`);for(const kind of ['objects','bgs','warps','coords'] as const)map.events[kind]??=[];map.initTriggers??=[];map.initScripts??={};this.maps.set(id,map);}return this.maps.get(id)!;}
@@ -45,18 +46,18 @@ export class OriginalWorld {
       if(path.startsWith('land/')){
         this.foliage??=sourceJSON('foliage.json');const context=path.match(/-(\d+)\.glb$/)![1],entries=(await this.foliage)[context]||{},jobs:Promise<void>[]=[];
         gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;for(const material of Array.isArray(object.material)?object.material:[object.material]){const entry=entries[material.name];if(!entry)continue;
-          jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(material.name.endsWith('_re')){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
+          jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(/_re(?:_|$)/.test(material.name)){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
         }});await Promise.all(jobs);
       }
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }));return this.assets.get(path)!;
   }
   private releaseCell(c:LoadedCell){const grass=c.group.getObjectByName('source-tall-grass') as THREE.Mesh|undefined;if(grass){grass.geometry.dispose();for(const m of Array.isArray(grass.material)?grass.material:[grass.material])m.dispose();}this.scene.remove(c.group);}
-  async enter(id:number,x:number,z:number){
+  async enter(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);
     if(this.activeMatrix!==map.matrix){this.generation++;for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();this.activeMatrix=map.matrix;this.matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);}
     await this.stream(id,x,z);this.target.set(x,this.height(x,z)+.9,z);this.camera.position.copy(this.target).add(new THREE.Vector3(0,7,12));
-    const indoor=map.mapType==='MAP_TYPE_INTERIOR';this.scene.background=indoor?new THREE.Color('#242e39'):this.sky;this.pitch=indoor?.6:.36;this.distance=indoor?12:15;
+    this.sky.enter(map,weather);const indoor=map.mapType==='MAP_TYPE_INTERIOR';this.pitch=indoor?.6:.36;this.distance=indoor?12:15;
     return map;
   }
   async stream(id:number,x:number,z:number):Promise<void>{
@@ -115,12 +116,13 @@ export class OriginalWorld {
   }
   draw(x:number,z:number,dt:number){
     this.grassTime+=dt;updateGrass(this.grassTime,x,this.height(x,z),z);
-    if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.renderer.render(this.scene,this.camera);return;}
+    if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
     const height=this.height(x,z,this.target.y-.9);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
     const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance);const collisions=ray.intersectObjects([...this.cells.values()].map(c=>c.group),true);const first=collisions.find(c=>c.distance>1.2&&c.object.visible&&c.object.name!=='camera-facing-original-trees');const d=first?Math.max(2.2,first.distance-.6):this.distance;
     const desired=this.target.clone().addScaledVector(orbit,d);this.camera.position.lerp(desired,1-Math.exp(-dt*12));this.camera.lookAt(this.target);
     for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);
+    this.sky.update(dt,x,height,z);
     this.renderer.render(this.scene,this.camera);
   }
 }

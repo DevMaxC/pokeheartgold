@@ -69,7 +69,7 @@
     "feature": "Clock, weekday, date and daylight cycle",
     "source": "src/intro.c",
     "status": "pending",
-    "verification": null
+    "verification": "3D sky and field colours follow browser local time. Original map rain/snow, summit diamond-dust dates and Lake of Rage Wednesday presentation implemented; complete clock/event/audio and native weather behavior remains pending."
   },
   {
     "id": "P01-010",
@@ -885,7 +885,7 @@
     "feature": "Weather, time-of-day and day-of-week maps/events",
     "source": "src/field/map_load_manager.c",
     "status": "pending",
-    "verification": null
+    "verification": "3D sky and field colours follow browser local time. Original map rain/snow, summit diamond-dust dates and Lake of Rage Wednesday presentation implemented; complete clock/event/audio and native weather behavior remains pending."
   },
   {
     "id": "P06-001",
@@ -1917,7 +1917,7 @@
     "feature": "Original weather and lighting cues",
     "source": "src/sound.c",
     "status": "pending",
-    "verification": null
+    "verification": "3D sky and field colours follow browser local time. Original map rain/snow, summit diamond-dust dates and Lake of Rage Wednesday presentation implemented; complete clock/event/audio and native weather behavior remains pending."
   },
   {
     "id": "P12-007",
@@ -2188,6 +2188,62 @@
     "group": "3D world depth and navigation",
     "feature": "Every world camera angle, terrain boundary and scenery variant receives visual verification",
     "source": "browser/src/source/world.ts",
+    "status": "pending",
+    "verification": "Repeated lightmap (_re_lm1) tree art now resolves to the original complete individual image; matching ground-mark families retain per-tree roots. Shared source geometry and repeated/lightmap tree fixtures pass. Complete camera/variant audit remains pending."
+  },
+  {
+    "id": "P16-001",
+    "group": "3D sky and weather",
+    "feature": "A coloured horizon and sky follow the original morning, day, evening and night clock",
+    "source": "browser/src/source/sky.ts",
+    "status": "implemented",
+    "verification": "atmosphere.test.ts covers source weather dispatch, location/date overrides, clock palettes, outdoor exclusions, cloud/particle instances and composed field/tree tint shaders. Browser clear/sunset/night, original Route 33 rain and Sinjoh exterior snow fixtures inspected. Full native weather audio, effects, battle modifiers and clock penalties remain pending."
+  },
+  {
+    "id": "P16-002",
+    "group": "3D sky and weather",
+    "feature": "Clouds have separately modelled solid pixel silhouettes, shaded undersides and slow drift",
+    "source": "browser/src/source/sky.ts",
+    "status": "implemented",
+    "verification": "atmosphere.test.ts covers source weather dispatch, location/date overrides, clock palettes, outdoor exclusions, cloud/particle instances and composed field/tree tint shaders. Browser clear/sunset/night, original Route 33 rain and Sinjoh exterior snow fixtures inspected. Full native weather audio, effects, battle modifiers and clock penalties remain pending."
+  },
+  {
+    "id": "P16-003",
+    "group": "3D sky and weather",
+    "feature": "Illustrated sun, moon and twinkling stars complement the original field artwork",
+    "source": "browser/src/source/sky.ts",
+    "status": "implemented",
+    "verification": "atmosphere.test.ts covers source weather dispatch, location/date overrides, clock palettes, outdoor exclusions, cloud/particle instances and composed field/tree tint shaders. Browser clear/sunset/night, original Route 33 rain and Sinjoh exterior snow fixtures inspected. Full native weather audio, effects, battle modifiers and clock penalties remain pending."
+  },
+  {
+    "id": "P16-004",
+    "group": "3D sky and weather",
+    "feature": "Original map weather selects field rain, snow, diamond dust and mist presentation",
+    "source": "browser/src/source/sky.ts",
+    "status": "implemented",
+    "verification": "atmosphere.test.ts covers source weather dispatch, location/date overrides, clock palettes, outdoor exclusions, cloud/particle instances and composed field/tree tint shaders. Browser clear/sunset/night, original Route 33 rain and Sinjoh exterior snow fixtures inspected. Full native weather audio, effects, battle modifiers and clock penalties remain pending."
+  },
+  {
+    "id": "P16-005",
+    "group": "3D sky and weather",
+    "feature": "Original summit dates and post-Rocket Wednesday Lake of Rage weather are retained",
+    "source": "browser/src/source/sky.ts",
+    "status": "implemented",
+    "verification": "atmosphere.test.ts covers source weather dispatch, location/date overrides, clock palettes, outdoor exclusions, cloud/particle instances and composed field/tree tint shaders. Browser clear/sunset/night, original Route 33 rain and Sinjoh exterior snow fixtures inspected. Full native weather audio, effects, battle modifiers and clock penalties remain pending."
+  },
+  {
+    "id": "P16-006",
+    "group": "3D sky and weather",
+    "feature": "Sky and weather persist during 3D battles and stay outside interiors and ordinary caves",
+    "source": "browser/src/source/sky.ts",
+    "status": "implemented",
+    "verification": "atmosphere.test.ts covers source weather dispatch, location/date overrides, clock palettes, outdoor exclusions, cloud/particle instances and composed field/tree tint shaders. Browser clear/sunset/night, original Route 33 rain and Sinjoh exterior snow fixtures inspected. Full native weather audio, effects, battle modifiers and clock penalties remain pending."
+  },
+  {
+    "id": "P16-007",
+    "group": "3D sky and weather",
+    "feature": "Original weather audio, lightning, darkness, clock penalties and all battle weather rules are verified",
+    "source": "browser/src/source/sky.ts",
     "status": "pending",
     "verification": null
   }
