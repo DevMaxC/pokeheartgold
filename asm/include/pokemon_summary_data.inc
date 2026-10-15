@@ -1,0 +1,303 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public FontID_Alloc
+.public FontID_SetAccessDirect
+.public FontID_SetAccessLazy
+.public FontID_Release
+.public LoadFontPal1
+.public Sound_SetSceneAndPlayBGM
+.public PlaySE
+.public PlayCryDelayed
+.public Chatot_PlayCryWithDelayedFallback
+.public OverlayManager_CreateAndGetData
+.public OverlayManager_GetData
+.public OverlayManager_FreeData
+.public OverlayManager_GetArgs
+.public AllocAndReadWholeNarcMemberByIdPair
+.public NARC_New
+.public NARC_Delete
+.public GfGfxLoader_LoadCharDataFromOpenNarc
+.public GfGfxLoader_LoadScrnDataFromOpenNarc
+.public GfGfxLoader_GXLoadPalFromOpenNarc
+.public Pokepic_SetAttr
+.public PokepicManager_HandleLoadImgAndOrPltt
+.public NewMsgDataFromNarc
+.public DestroyMsgData
+.public ReadMsgDataIntoString
+.public MessageFormat_New
+.public MessageFormat_Delete
+.public BufferBoxMonSpeciesName
+.public BufferBoxMonNickname
+.public BufferBoxMonOTName
+.public StringExpandPlaceholders
+.public MessagePrinter_New
+.public MessagePrinter_Delete
+.public SpriteSystem_DrawSprites
+.public SpriteSystem_TransferOam
+.public thunk_Sprite_SetDrawFlag
+.public thunk_Sprite_SetPaletteOverride
+.public LoadUserFrameGfx2
+.public IsPaletteFadeFinished
+.public PokepicAnimManager_New
+.public MenuInputStateMgr_SetState
+.public BgCellManager_New
+.public BgCellManager_Delete
+.public BgCellManager_InitCell
+.public BgCellManager_LoadCellTilemapFromOpenNarc
+.public BgCellManager_DrawCellAt
+.public Main_SetVBlankIntrCB
+.public HBlankInterruptDisable
+.public SetKeyRepeatTimers
+.public Heap_Create
+.public Heap_Destroy
+.public Heap_Free
+.public Heap_FreeExplicit
+.public BgConfig_Alloc
+.public SetBothScreensModesAndDisable
+.public InitBgFromTemplate
+.public FreeBgTilemapBuffer
+.public Bg_GetXpos
+.public Bg_GetYpos
+.public BgCommitTilemapBufferToVram
+.public BG_ClearCharDataRange
+.public LoadRectToBgTilemapRect
+.public FillBgTilemapRect
+.public BgTilemapRectChangePalette
+.public BgClearTilemapBufferAndCommit
+.public ScheduleWindowCopyToVram
+.public ClearWindowTilemapAndScheduleTransfer
+.public DoScheduledBgGpuUpdates
+.public ScheduleBgTilemapBufferTransfer
+.public ScheduleSetBgPosText
+.public GF_DestroyVramTransferManager
+.public GF_RunVramTransferTasks
+.public GF_TouchpadResetSampling
+.public GF_TouchpadStartSampling
+.public GF_TouchpadStopSampling
+.public GfGfx_SetBanks
+.public GfGfx_DisableEngineAPlanes
+.public GfGfx_DisableEngineBPlanes
+.public GfGfx_BothDispOn
+.public Sprite_SetDrawFlag
+.public Sprite_GetDrawFlag
+.public Sprite_SetAnimCtrlSeq
+.public Sprite_SetPriority
+.public Sprite_IsAnimated
+.public TouchscreenHitbox_FindRectAtTouchNew
+.public TouchscreenHitbox_TouchNewIsIn
+.public String_New
+.public String_Delete
+.public CopyU16ArrayToString
+.public PlayerProfile_GetNamePtr
+.public PlayerProfile_GetTrainerID
+.public PlayerProfile_GetTrainerGender
+.public Options_GetFrame
+.public WirelessStatusIcon_CreateIfConnected
+.public Save_VarsFlags_Get
+.public CheckFlag982
+.public AllocMonZeroed
+.public AcquireMonLock
+.public ReleaseMonLock
+.public GetMonData
+.public GetBoxMonData
+.public GetMonExpBySpeciesAndLevel
+.public GetMonNature
+.public GetMonGender
+.public MonIsShiny
+.public Pokemon_sizeof
+.public BoxPokemon_sizeof
+.public Mon_GetBoxMon
+.public MonSwapMoves
+.public BoxMonSwapMoves
+.public CopyBoxPokemonToPokemon
+.public MonGetFlavorPreference
+.public Pokemon_HasPokerus
+.public Pokemon_IsImmuneToPokerus
+.public NARC_ReadPokepicCryDelay
+.public GetMoveMaxPP
+.public Party_GetMonByIndex
+.public MoveIsHM
+.public CalculateHpBarPixelsLength
+.public CalculateHpBarColor
+.public BeginAppScreenFade
+.public PokemonSummary_GetDefaultUnk2C
+.public PokemonSummary_IsPokeathlonUnlocked
+.public PokemonSummary_SetPages
+.public PokemonSummary_GetShownMon
+.public PokemonSummary_GetRibbonAt
+.public PokemonSummaryArgs_SetPlayer
+.public StatusIcon_GetCharNaix
+.public StatusIcon_GetPlttNaix
+.public StatusIcon_GetCellNaix
+.public StatusIcon_GetAnimNaix
+.public Pokemon_GetStatusIconId
+.public PokemonSummary_InitSpriteSystem
+.public PokemonSummary_FreeSpriteSystem
+.public PokemonSummary_UpdateSpriteAnims
+.public PokemonSummary_CreateSprites
+.public PokemonSummary_UpdatePartySlotSprite
+.public PokemonSummary_HideSprites0To7And21And22
+.public PokemonSummary_LoadBallSprite
+.public PokemonSummary_UpdateStatusSprite
+.public PokemonSummary_UpdateTypeSprites
+.public PokemonSummary_UpdatePokeathlonStars
+.public PokemonSummary_UpdateShinyLeafSprites
+.public PokemonSummary_SetMonTypeSprites
+.public PokemonSummary_SwapMoveTypeSprites
+.public PokemonSummary_SetMoveCategorySprite
+.public PokemonSummary_UpdateMoveCursorSprite
+.public PokemonSummary_ShowSwapCursorSprite
+.public PokemonSummary_ResetSwapCursorSprite
+.public PokemonSummary_InitSheenSparkles
+.public PokemonSummary_UpdateMarkingSprites
+.public PokemonSummary_ShowConditionChangeSprites
+.public PokemonSummary_LoadShownMonIcon
+.public PokemonSummary_LoadPartyIcons
+.public PokemonSummary_SetBoxMonIconPos
+.public PokemonSummary_AlternateBoxMonIcon
+.public PokemonSummary_ShowMonIconSprite
+.public PokemonSummary_ShowConditionSprites
+.public PokemonSummary_HideConditionSprites
+.public PokemonSummary_ShowRibbonSprites
+.public PokemonSummary_UpdateRibbonSprites
+.public PokemonSummary_UpdateRibbonCursorSprite
+.public PokemonSummary_AnimateRibbonSprite66
+.public PokemonSummary_AddWindows
+.public PokemonSummary_AddPageWindows
+.public PokemonSummary_RemovePageWindows
+.public PokemonSummary_RemoveWindows
+.public PokemonSummary_PrintNickname
+.public PokemonSummary_PrintLevel
+.public PokemonSummary_PrintHeldItem
+.public PokemonSummary_PrintPage
+.public PokemonSummary_PrintRibbonInfo
+.public PokemonSummary_PrintMoveInfo
+.public PokemonSummary_ClearMoveInfo
+.public PokemonSummary_PrintMoveToLearn
+.public PokemonSummary_ScheduleMainBg1Transfer
+.public PokemonSummary_PrintSwappedMoves
+.public PokemonSummary_PrintCantForgetHMMessage
+.public PokemonSummary_ShowForgetLabel
+.public PokemonSummary_ShowSwitchLabel
+.public PokemonSummary_PrintConditionChangeMessage
+.public PokemonSummary_Init3D
+.public PokemonSummary_DrawPokepic
+.public PokemonSummary_FreePokepicAndCamera
+.public PokemonSummary_CreateCamera
+.public PokemonSummary_InitConditionChart
+.public PokemonSummary_CreatePokepic
+.public PokemonSummary_StartPokepicAnim
+.public PokemonSummary_ReloadPokepic
+.public PokemonSummary_CheckTouchedButton
+.public GetRibbonAttr
+.public NNS_G2dGetUnpackedScreenData
+.public G2x_SetBlendAlpha_
+.public memset
+.public _s32_div_f
+.public gOverlayTemplate_Battle
+.public gNatureStatMods
+.public gOverlayTemplate_PokemonSummary
+.public gSystem
+.public OS_IRQTable
+
+	.public PokemonSummary_Init
+	.public PokemonSummary_Main
+	.public PokemonSummary_Exit
+	.public PokemonSummary_VBlank
+	.public PokemonSummary_SetGraphicsBanks
+	.public PokemonSummary_InitBgs
+	.public PokemonSummary_FreeBgs
+	.public PokemonSummary_LoadBgGraphics
+	.public PokemonSummary_SetBlend
+	.public PokemonSummary_InitText
+	.public PokemonSummary_FreeText
+	.public PokemonSummary_InitBgCells
+	.public PokemonSummary_FreeBgCells
+	.public PokemonSummary_WaitFadeIn
+	.public PokemonSummary_HandleInput
+	.public PokemonSummary_WaitSlideInMoveInfo
+	.public PokemonSummary_WaitSlideOutMoveInfo
+	.public PokemonSummary_HandleMoveSelectInput
+	.public PokemonSummary_StartMoveSwap
+	.public PokemonSummary_HandleMoveSwapInput
+	.public PokemonSummary_HandleForgetMoveInput
+	.public PokemonSummary_HandleForgetMoveConfirmInput
+	.public PokemonSummary_OpenRibbonList
+	.public PokemonSummary_CloseRibbonList
+	.public PokemonSummary_HandleRibbonInput
+	.public PokemonSummary_WaitRibbonPageUp
+	.public PokemonSummary_WaitRibbonPageDown
+	.public PokemonSummary_UpdateCondition
+	.public PokemonSummary_ShowConditionChanges
+	.public PokemonSummary_WaitConditionExit
+	.public PokemonSummary_StartFadeOut
+	.public PokemonSummary_WaitFadeOut
+	.public PokemonSummary_FlashButton
+	.public PokemonSummary_ChangeMonByButton
+	.public PokemonSummary_ReadShownMon
+	.public PokemonSummary_ReadBoxMon
+	.public PokemonSummary_ReadMon
+	.public PokemonSummary_PlayCry
+	.public PokemonSummary_ShowFirstPage
+	.public PokemonSummary_SetPage
+	.public PokemonSummary_ChangePage
+	.public PokemonSummary_ScrollPage
+	.public PokemonSummary_HasPage
+	.public PokemonSummary_HandleTouchInput
+	.public PokemonSummary_LoadBgScreen
+	.public PokemonSummary_LoadPageBgs
+	.public PokemonSummary_DrawHpBar
+	.public PokemonSummary_DrawExpBar
+	.public PokemonSummary_ShowMon
+	.public PokemonSummary_ChangeMon
+	.public PokemonSummary_FindNextMon
+	.public PokemonSummary_CanShowMonAt
+	.public PokemonSummary_CanShowEgg
+	.public PokemonSummary_FindNextMonInArray
+	.public PokemonSummary_FindNextPartyMon
+	.public PokemonSummary_FindNextBoxMon
+	.public PokemonSummary_SlideInMoveInfo
+	.public PokemonSummary_SlideOutMoveInfo
+	.public PokemonSummary_MoveMoveCursor
+	.public PokemonSummary_ShowSelectedMoveInfo
+	.public PokemonSummary_ShowMoveInfo
+	.public PokemonSummary_SwapMoves
+	.public PokemonSummary_InitForgetMove
+	.public PokemonSummary_UpdateForgetMovePage
+	.public PokemonSummary_SlideInRibbonList
+	.public PokemonSummary_SlideOutRibbonList
+	.public PokemonSummary_MoveRibbonCursor
+	.public PokemonSummary_SetMenuInputState
+	.public PokemonSummary_GetTouchedMove
+	.public PokemonSummary_GetMoveSwapTouch
+	.public PokemonSummary_GetMoveSelectTouch
+	.public PokemonSummary_GetForgetMoveTouch
+	.public PokemonSummary_GetForgetConfirmTouch
+	.public PokemonSummary_GetMonButtonTouch
+	.public PokemonSummary_GetRibbonTouch
+	.public PokemonSummary_ShowForgetConfirm
+	.public PokemonSummary_DrawForgetConfirm
+	.public PokemonSummary_ClearForgetButton
+	.public PokemonSummary_DrawSwitchButton
+	.public PokemonSummary_StartButtonFlash
+	.public PokemonSummary_FlashCancelButton
+	.public PokemonSummary_FlashConfirmButton
+	.public PokemonSummary_FlashSwapButton
+	.public PokemonSummary_FlashMonButton
+	.public PokemonSummary_FlashRibbonCancelButton
+	.public PokemonSummary_DrawMonButtons
+	.public gPokemonSummaryCancelButtonHitbox
+	.public gPokemonSummarySwapButtonHitbox
+	.public gPokemonSummaryConfirmButtonHitbox
+	.public gPokemonSummaryMonButtonHitboxes
+	.public gPokemonSummaryGraphicsModes
+	.public gPokemonSummaryMoveHitboxes
+	.public gPokemonSummaryBgTemplate1
+	.public gPokemonSummaryBgTemplate2
+	.public gPokemonSummaryBgTemplate3
+	.public gPokemonSummaryBgTemplate4
+	.public gPokemonSummaryBgTemplate5
+	.public gPokemonSummaryBgTemplate6
+	.public gPokemonSummaryGraphicsBanks
+	.public gPokemonSummaryPageScreens
+	.public gPokemonSummaryRibbonHitboxes

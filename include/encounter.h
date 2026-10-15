@@ -1,0 +1,39 @@
+#ifndef POKEHEARTGOLD_ENCOUNTER_H
+#define POKEHEARTGOLD_ENCOUNTER_H
+
+#include "battle/battle_setup.h"
+
+#include "player_avatar.h"
+#include "task.h"
+
+typedef struct Encounter {
+    u32 *winFlag;
+    s32 effect;
+    s32 bgm;
+    s32 unkC;
+    BattleSetup *setup;
+} Encounter;
+
+typedef struct WildEncounter {
+    s32 state;
+    s32 effect;
+    s32 bgm;
+    u32 *winFlag;
+    BattleSetup *setup;
+} WildEncounter;
+
+void CallTask_TrainerHouseBattle(TaskManager *taskManager, BattleSetup *battleSetup, s32 effect, s32 bgm, u32 *winFlag);
+void FieldSystem_StartWildEncounter(FieldSystem *fieldSystem, BattleSetup *setup);
+void FieldSystem_StartForcedWildBattle(FieldSystem *fieldSystem, TaskManager *taskManager, BattleSetup *setup);
+void SetupAndStartWildBattle(TaskManager *taskManager, u16 species, u8 level, u32 *winFlag, BOOL canFlee, BOOL shiny);
+void SetupAndStartFatefulWildBattle(TaskManager *taskManager, u16 species, u8 level, u32 *winFlag, BOOL canRun);
+void FieldSystem_StartPalParkEncounter(FieldSystem *fieldSystem, BattleSetup *setup);
+void SetupAndStartFirstBattle(TaskManager *taskManager, u16 species, u8 level);
+void SetupAndStartTutorialBattle(TaskManager *taskManager);
+void SetupAndStartTrainerBattle(TaskManager *taskManager, u32 opponentTrainer1, u32 opponentTrainer2, u32 followerTrainerNum, u32 a4, u32 a5, enum HeapID heapID, u32 *winFlag);
+void CallTask_LinkBattle(TaskManager *taskManager, void *partySlots, u32 battleType);
+void CallTask_WifiClubBattle(TaskManager *taskManager, s32 target, s32 maxLevel, u32 flag);
+void FieldSystem_StartCommClubLinkBattle(FieldSystem *fieldSystem, void *partySlots, s32 battleType);
+void FieldSystem_StartCommClubLinkBattleWithParty(FieldSystem *fieldSystem, Party *party, s32 battleType);
+
+#endif // POKEHEARTGOLD_ENCOUNTER_H

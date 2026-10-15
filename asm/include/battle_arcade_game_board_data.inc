@@ -1,0 +1,16 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public gBattleArcadeEventColorThresholds
+.public gBattleArcadeEventStreakFlags
+.public gBattleArcadeGameBoardButtonHitbox
+.public gBattleArcadeCursorDelays
+.public gBattleArcadeGameBoardGraphicsModes
+.public gBattleArcadeEventColorOdds
+.public gBattleArcadeGameBoardSubBg0Template
+.public gBattleArcadeGameBoardBg1Template
+.public gBattleArcadeGameBoardBg3Template
+.public gBattleArcadeEventRoundFlags
+.public gBattleArcadeGameBoardGraphicsBanks
+.public gBattleArcadeGameBoardResObjCounts
+.public gBattleArcadeGameBoardCharTransferTemplate
+.public gBattleArcadeGameBoardWindowTemplates

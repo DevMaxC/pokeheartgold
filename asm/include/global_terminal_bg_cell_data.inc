@@ -1,0 +1,99 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public Sound_SetSceneAndPlayBGM
+.public OverlayManager_New
+.public OverlayManager_Delete
+.public OverlayManager_CreateAndGetData
+.public OverlayManager_GetData
+.public OverlayManager_FreeData
+.public OverlayManager_GetArgs
+.public OverlayManager_Run
+.public GfGfxLoader_GetScrnData
+.public GfGfxLoader_GetScrnDataFromOpenNarc
+.public GlobalTerminalApp_Init
+.public GlobalTerminalApp_Main
+.public GlobalTerminalApp_Exit
+.public BgCellManager_New
+.public BgCellManager_Delete
+.public BgCellManager_InitCell
+.public BgCellManager_SetCellTilemap
+.public BgCellManager_LoadCellTilemap
+.public BgCellManager_LoadCellTilemapFromOpenNarc
+.public BgCellManager_DrawCellAt
+.public BgCellManager_DrawCell
+.public BgCellManager_EraseCell
+.public BgCellManager_StartCellMove
+.public BgCellManager_Update
+.public BgCellManager_UpdateCellMove
+.public BgCellManager_IsCellMoving
+.public BgCellManager_SetCellPalette
+.public BgCellManager_PutWindowTiles
+.public BgCellManager_GetCellTilemap
+.public BgCellManager_GetCellBgId
+.public BgCellManager_GetCellPosition
+.public BgCellManager_GetCellSize
+.public BgCellManager_SetCellClipRect
+.public GridInputHandler_Create
+.public GridInputHandler_Free
+.public GridInputHandler_HandleInput_NoHold
+.public GridInputHandler_HandleInput_AllowHold
+.public GridInputHandler_GetNextInput
+.public GridInputHandler_GetReturnInput
+.public GridInputHandler_SetNextInput
+.public GridInputHandler_SetNextLastReturnInputs
+.public GridInputHandler_IsButtonInputMode
+.public GridInputHandler_SetButtonInputMode
+.public GridInputHandler_SetAllEnabled
+.public GridInputHandler_ClearEnabledFlag
+.public GridInputHandler_SetEnabledFlag
+.public GridInputHandler_GetDpadBox
+.public Main_SetVBlankIntrCB
+.public HBlankInterruptDisable
+.public Sys_ClearSleepDisableFlag
+.public Heap_Create
+.public Heap_Destroy
+.public Heap_Alloc
+.public Heap_Free
+.public BgCommitTilemapBufferToVram
+.public CopyToBgTilemapRect
+.public FillBgTilemapRect
+.public ScheduleBgTilemapBufferTransfer
+.public DpadMenuBox_GetNeighborInDirection
+.public GfGfx_DisableEngineAPlanes
+.public GfGfx_DisableEngineBPlanes
+.public TouchscreenHitbox_TouchNewIsIn
+.public CommWireless_StartUp
+.public CommWireless_IsStartedUp
+.public CommWireless_Terminate
+.public Comm_InitDwc
+.public WirelessStatusIcon_SetLevel
+.public VsRecorderApp_GetTemplate
+.public LoadDwcOverlay
+.public UnloadDwcOverlay
+.public LoadOVY38
+.public UnloadOVY38
+.public NNS_FndCreateExpHeapEx
+.public NNS_FndDestroyExpHeap
+.public NNS_FndAllocFromExpHeapEx
+.public NNS_FndFreeToExpHeap
+.public OS_DisableInterrupts
+.public OS_RestoreInterrupts
+.public MIi_CpuCopy16
+.public MI_CpuFill8
+.public gSystem
+.public DWC_SetMemFunc
+.public DWC_GetLinkLevel
+.public DWC_UpdateConnection
+.public GlobalTerminalConnect_Init
+.public GlobalTerminalConnect_Main
+.public GlobalTerminalConnect_Exit
+
+	.public BgCellManager_NoTransfer
+	.public sBgCellTransferFuncs
+
+	.public GlobalTerminalApp_LoadWifi
+	.public GlobalTerminalApp_UnloadWifi
+	.public GlobalTerminalApp_DwcAlloc
+	.public GlobalTerminalApp_DwcFree
+	.public sOverlayTemplate_GlobalTerminalConnect
+	.public _021D1108

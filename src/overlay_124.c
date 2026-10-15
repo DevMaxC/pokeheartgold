@@ -1,0 +1,69 @@
+#include "overlay_124.h"
+
+#include "global.h"
+
+#include "dsprot.h"
+#include "field_system.h"
+#include "follow_mon.h"
+#include "main.h"
+#include "map_events.h"
+#include "save_local_field_data.h"
+#include "pokedex_resume_state.h"
+#include "gear_phone_ring_manager.h"
+
+FS_EXTERN_OVERLAY(ds_protect);
+
+static void ClobberHeapByBadgeCount(FieldSystem *fieldSystem);
+static void FieldSystem_OnFlashcartDetectedDummy(void);
+static void FieldSystem_OnDummyCheckDummy(void);
+static void FieldSystem_OnEmulatorDetected(void);
+
+void FieldSystem_Init(OverlayManager *man, FieldSystem *fieldSystem) {
+    u32 key = 2441 * 4073; // these are both prime
+    FS_LoadOverlay(MI_PROCESSOR_ARM9, FS_OVERLAY_ID(ds_protect));
+    key += 769 * (!DSProt_DetectNotFlashcart(FieldSystem_OnFlashcartDetectedDummy)); // 769 is prime
+    MainOverlayArgs *args = OverlayManager_GetArgs(man);
+    fieldSystem->saveData = args->saveData;
+    fieldSystem->taskman = NULL;
+    key += 47 * (!DSProt_DetectNotDummy(FieldSystem_OnDummyCheckDummy)); // 47 is prime
+    fieldSystem->location = LocalFieldData_GetCurrentPosition(Save_LocalFieldData_Get(fieldSystem->saveData));
+    fieldSystem->mapMatrix = MapMatrix_New();
+    u32 key2 = 929 * DSProt_DetectEmulator(FieldSystem_OnEmulatorDetected); // 929 is prime
+    Field_AllocateMapEvents(fieldSystem, HEAP_ID_FIELD2);
+    fieldSystem->bagCursor = BagCursor_New(HEAP_ID_FIELD2);
+    FS_UnloadOverlay(MI_PROCESSOR_ARM9, FS_OVERLAY_ID(ds_protect));
+
+    // all combinations of the three prime multipliers above are coprime with 2441 and 4073
+    if ((key + key2) % 2441) {
+        ClobberHeapByBadgeCount(fieldSystem);
+    }
+    fieldSystem->unkA8 = PokedexResumeState_New(HEAP_ID_FIELD2);
+    fieldSystem->followMonMood = FollowMonMood_New(HEAP_ID_FIELD2);
+    fieldSystem->phoneRingManager = GearPhoneRingManager_New(HEAP_ID_FIELD2, fieldSystem);
+    fieldSystem->judgeStatPosition = 0;
+    if ((key + key2) % 4073) {
+        ClobberHeapByBadgeCount(fieldSystem);
+    }
+}
+
+// clobbers the heap worse if you have made more progress through the game
+static void ClobberHeapByBadgeCount(FieldSystem *fieldSystem) {
+    int i = 0;
+    int numBadges = 0;
+    for (i = 0; i < 16; ++i) {
+        if (PlayerProfile_TestBadgeFlag(Save_PlayerData_GetProfile(fieldSystem->saveData), i) == TRUE) {
+            ++numBadges;
+        }
+    }
+    Heap_AllocAtEnd(HEAP_ID_3, numBadges == 0 ? 20000 : (20000 * numBadges));
+}
+
+// you can have a little heap clobber, as a treat
+static void FieldSystem_OnEmulatorDetected(void) {
+    Heap_AllocAtEnd(HEAP_ID_3, 1000);
+}
+
+static void FieldSystem_OnFlashcartDetectedDummy(void) {
+}
+static void FieldSystem_OnDummyCheckDummy(void) {
+}

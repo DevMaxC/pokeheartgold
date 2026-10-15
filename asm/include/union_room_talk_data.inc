@@ -1,0 +1,93 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public NewMsgDataFromNarc
+.public DestroyMsgData
+.public NewString_ReadMsgData
+.public BufferString
+.public BufferPlayersName
+.public BufferTrainerClassName
+.public BufferCountryName
+.public BufferCityName
+.public BufferECWord
+.public MailMsg_IsInit
+.public MailMsg_GetFieldI
+.public MailMsg_GetMsgBank
+.public MailMsg_GetMsgNo
+.public MailMsg_Copy
+.public Save_EasyChat_SetGreetingFlag
+.public Heap_Free
+.public LCRandom
+.public GF_AssertFail
+.public PlayerProfile_GetTrainerID
+.public PlayerProfile_GetTrainerGender
+.public PlayerProfile_GetAvatar
+.public PlayerProfile_GetVersion
+.public PlayerProfile_GetLanguage
+.public CommPlayerInfo_GetProfile
+.public CommPlayerInfo_GetCountry
+.public CommPlayerInfo_GetRegion
+.public CommWireless_GetParentProfile
+.public CommWireless_SetMail
+.public CommWireless_SetRuleset
+.public CommWireless_RefreshBeacon
+.public Comm_SendCommandNoCopy
+.public Comm_SendCommand
+.public Comm_GetLocalNetId
+.public CommState_SetLinkMode13RequestMode0
+.public CommState_SetErrorWatch
+.public CommState_SetError
+.public UnionRoom_RecvTalkChoice
+.public UnionRoom_RecvTalkCancel
+.public UnionRoom_PartnerCancelled
+.public UnionRoom_TrySendTalkCancel
+.public UnionRoom_RecvTrainerCard
+.public UnionRoom_GetTrainerCardBuffer
+.public UnionRoom_RecvBattleChoice
+.public UnionRoom_GetBattleCancel
+.public UnionRoom_SendBattleChoice
+.public UnionRoom_GetPartnerHometownMsg
+.public UnionRoom_GetTalkMsg
+.public UnionRoom_GetPartnerGameVersion
+.public UnionRoom_SetBeaconActivity
+.public UnionRoom_GetOwnChatMessageMsg
+.public UnionRoom_SetOwnChatMessage
+.public UnionRoom_TakeOwnChatMessage
+.public UnionRoom_BufferPartnerLanguage
+.public UnionRoom_BroadcastChatMessage
+.public UnionRoom_ResetTalkReplies
+.public UnionRoom_ResetTalk
+.public UnionRoom_AllocTrainerCards
+.public UnionRoom_FreeTrainerCards
+.public UnionRoom_SendTrainerCard
+.public GetUnionRoomAvatarAttrBySprite
+.public TrainerCardData_Build
+.public TrainerCardData_New
+.public MI_CpuFill8
+.public gUnionRoomGroupFirstSlot
+
+	.public UnionRoom_GetGroupOfMemberSlot
+	.public UnionRoom_GetPlayerActivityMsg
+	.public UnionRoom_GetSentTalkReplyMsg
+	.public UnionRoom_FillStatusMembers
+	.public UnionRoomStatus_Init
+	.public _020FC7D4
+	.public _020FC7DC
+	.public _020FC7E4
+	.public _020FC7EC
+	.public _020FC7F4
+	.public _020FC7FC
+	.public _020FC804
+	.public _020FC814
+	.public _020FC838
+	.public _020FC850
+	.public _020FC868
+	.public _020FC880
+	.public gUnionRoomLanguageGreetings
+	.public _020FC8B4
+	.public _020FC8D4
+	.public _020FC8F4
+	.public _020FC914
+	.public _020FC934
+	.public _020FC95C
+	.public _020FC99C
+	.public gUnionRoomChatMsgs

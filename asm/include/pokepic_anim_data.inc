@@ -1,0 +1,83 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public AllocAtEndAndReadWholeNarcMemberByIdPair
+.public Pokepic_SetAttr
+.public Pokepic_GetAttr
+.public Pokepic_AddAttr
+.public Pokepic_StartPaletteFade
+.public Pokepic_ResumePaletteFade
+.public SysTask_CreateOnMainQueue
+.public SysTask_Destroy
+.public PokepicAnimManager_New
+.public PokepicAnimManager_Delete
+.public PokepicAnimManager_StartAnim
+.public PokepicAnimManager_GetAnimState
+.public PokepicAnimManager_StopAnim
+.public Heap_Alloc
+.public Heap_Free
+.public GF_AssertFail
+.public MI_CpuFill8
+.public _s32_div_f
+.public FX_SinCosTable_
+
+	.public PokepicScriptAnim_Task
+	.public PokepicScriptAnim_RunFrame
+	.public PokepicScriptAnim_GetScriptWordAt
+	.public PokepicScriptAnim_GetScriptWordChecked
+	.public PokepicScriptAnim_GetScriptWord
+	.public PokepicScriptAnim_AllocMotion
+	.public PokepicScriptAnim_ReadArg
+	.public PokepicScriptAnim_ReadArgByte
+	.public PokepicScriptAnim_ReadVarIndex
+	.public PokepicScriptAnim_ReadVarIndexPair
+	.public PokepicScriptAnim_ReadDestVarAndOperands
+	.public PokepicScriptAnim_ReadDestAndOperands
+	.public PokepicScriptAnim_ReadDestAngleAndAmplitude
+	.public PokepicScriptAnim_Compare
+	.public PokepicScriptAnim_AdjustYForScale
+	.public PokepicScriptAnimCmd_End
+	.public PokepicScriptAnimCmd_Yield
+	.public PokepicScriptAnimCmd_ResetTransform
+	.public PokepicScriptAnimCmd_CopyVar
+	.public PokepicScriptAnimCmd_AddVar
+	.public PokepicScriptAnimCmd_MulVar
+	.public PokepicScriptAnimCmd_SubVar
+	.public PokepicScriptAnimCmd_DivVar
+	.public PokepicScriptAnimCmd_ModVar
+	.public PokepicScriptAnimCmd_SetVarIfCompare
+	.public PokepicScriptAnimCmd_SetVar
+	.public PokepicScriptAnimCmd_LoopStart
+	.public PokepicScriptAnimCmd_LoopEnd
+	.public PokepicScriptAnimCmd_SetAttrFromVar
+	.public PokepicScriptAnimCmd_AddAttrFromVar
+	.public PokepicScriptAnimCmd_SetOrAddAttr
+	.public PokepicScriptAnimCmd_Sin
+	.public PokepicScriptAnimCmd_Cos
+	.public PokepicScriptAnimCmd_SetPosFromVar
+	.public PokepicScriptAnimCmd_AddPosFromVar
+	.public PokepicScriptAnimCmd_SetOrAddTransform
+	.public PokepicScriptAnimCmd_ApplyPosition
+	.public PokepicScriptAnimCmd_ApplyTransform
+	.public PokepicScriptAnimCmd_SetOffsetFromVar
+	.public PokepicScriptAnimCmd_Wait
+	.public PokepicScriptAnimCmd_StartPaletteFade
+	.public PokepicScriptAnimCmd_WaitPaletteFade
+	.public PokepicScriptAnimCmd_RunMotions
+	.public PokepicScriptAnimCmd_SetScaleMode
+	.public PokepicScriptAnimCmd_StartWaveMotion
+	.public PokepicScriptAnimCmd_StartWaveMotionOverDuration
+	.public PokepicScriptAnimCmd_StartAccelMotion
+	.public PokepicScriptAnimCmd_StartLinearMotion
+	.public PokepicScriptAnimCmd_StartAccelMotionToLimit
+	.public PokepicMotion_ApplyValue
+	.public PokepicMotion_SetTarget
+	.public PokepicScriptAnim_StartMotion
+	.public PokepicMotion_UpdateWave
+	.public PokepicMotion_UpdateWaveOverDuration
+	.public PokepicMotion_UpdateAccel
+	.public PokepicMotion_UpdateLinear
+	.public PokepicMotion_UpdateAccelToLimit
+	.public gPokepicMotionTypes
+	.public gPokepicMotionTypeArgCounts
+	.public gPokepicMotionTypeTargetArgs
+	.public gPokepicAnimCommands

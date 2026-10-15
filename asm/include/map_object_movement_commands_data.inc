@@ -1,0 +1,199 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public PlaySE
+.public SysTask_CreateOnMainQueue
+.public SysTask_Destroy
+.public Heap_AllocAtEnd
+.public Heap_FreeExplicit
+.public SysTask_GetData
+.public GF_AssertFail
+.public MapObjectManager_GetPriority
+.public MapObject_SetFlagsBits
+.public MapObject_ClearFlagsBits
+.public MapObject_TestFlagsBits
+.public MapObject_SetFacingDirection
+.public MapObject_SetOrQueueFacing
+.public MapObject_SetAnimation
+.public MapObject_GetManager
+.public MapObject_InitMovementCmdData
+.public MapObject_GetMovementCmdData
+.public MapObject_CallDrawUpdate
+.public MapObject_SetMovementCommand
+.public MapObject_GetMovementCommand
+.public MapObject_SetMovementStep
+.public MapObject_IncrementMovementStep
+.public MapObject_GetMovementStep
+.public MapObject_CheckVisible
+.public MapObject_SetFacingVector
+.public MapObject_MoveCoordsInDirection
+.public MapObject_SetPreviousCoordsToCurrent
+.public MapObject_OffsetPositionInDirection
+.public MapObject_UpdateHeight
+.public MapObject_AreBitsSetForMovementScriptInit
+.public MapObject_SetHeldMovement
+.public MapObject_ForceSetHeldMovement
+.public MapObject_IsMovementPaused
+.public MapObject_ClearHeldMovementIfActive
+.public MapObject_ClearHeldMovement
+.public EventObjectMovementMan_Create
+.public EventObjectMovementMan_IsFinish
+.public EventObjectMovementMan_Delete
+.public GetMovementForDirection
+.public GetMovementDirection
+.public IsMovement56To59
+.public GetMovement8ForDirection
+.public MapObject_ExecuteMovementCommand
+.public MapObject_RunForcedMovement
+.public MapObjectMovementCmd098_Step2
+.public MapObjectMovementCmd000_Step0
+.public MapObjectMovementCmd001_Step0
+.public MapObjectMovementCmd002_Step0
+.public MapObjectMovementCmd003_Step0
+.public MapObjectMovementCmd090_Step1
+.public MapObjectMovementCmd004_Step0
+.public MapObjectMovementCmd005_Step0
+.public MapObjectMovementCmd006_Step0
+.public MapObjectMovementCmd007_Step0
+.public MapObjectMovementCmd008_Step0
+.public MapObjectMovementCmd009_Step0
+.public MapObjectMovementCmd010_Step0
+.public MapObjectMovementCmd011_Step0
+.public MapObjectMovementCmd012_Step0
+.public MapObjectMovementCmd013_Step0
+.public MapObjectMovementCmd014_Step0
+.public MapObjectMovementCmd015_Step0
+.public MapObjectMovementCmd016_Step0
+.public MapObjectMovementCmd017_Step0
+.public MapObjectMovementCmd018_Step0
+.public MapObjectMovementCmd019_Step0
+.public MapObjectMovementCmd020_Step0
+.public MapObjectMovementCmd021_Step0
+.public MapObjectMovementCmd022_Step0
+.public MapObjectMovementCmd023_Step0
+.public MapObjectMovementCmd084_Step0
+.public MapObjectMovementCmd085_Step0
+.public MapObjectMovementCmd086_Step0
+.public MapObjectMovementCmd087_Step0
+.public MapObjectMovementCmd088_Step0
+.public MapObjectMovementCmd089_Step0
+.public MapObjectMovementCmd090_Step0
+.public MapObjectMovementCmd091_Step0
+.public MapObjectMovementCmd040_Step1
+.public MapObjectMovementCmd024_Step0
+.public MapObjectMovementCmd025_Step0
+.public MapObjectMovementCmd026_Step0
+.public MapObjectMovementCmd027_Step0
+.public MapObjectMovementCmd028_Step0
+.public MapObjectMovementCmd029_Step0
+.public MapObjectMovementCmd030_Step0
+.public MapObjectMovementCmd031_Step0
+.public MapObjectMovementCmd032_Step0
+.public MapObjectMovementCmd033_Step0
+.public MapObjectMovementCmd034_Step0
+.public MapObjectMovementCmd035_Step0
+.public MapObjectMovementCmd036_Step0
+.public MapObjectMovementCmd037_Step0
+.public MapObjectMovementCmd038_Step0
+.public MapObjectMovementCmd039_Step0
+.public MapObjectMovementCmd040_Step0
+.public MapObjectMovementCmd041_Step0
+.public MapObjectMovementCmd042_Step0
+.public MapObjectMovementCmd043_Step0
+.public MapObjectMovementCmd092_Step1
+.public MapObjectMovementCmd044_Step0
+.public MapObjectMovementCmd045_Step0
+.public MapObjectMovementCmd046_Step0
+.public MapObjectMovementCmd047_Step0
+.public MapObjectMovementCmd048_Step0
+.public MapObjectMovementCmd049_Step0
+.public MapObjectMovementCmd050_Step0
+.public MapObjectMovementCmd051_Step0
+.public MapObjectMovementCmd052_Step0
+.public MapObjectMovementCmd053_Step0
+.public MapObjectMovementCmd054_Step0
+.public MapObjectMovementCmd055_Step0
+.public MapObjectMovementCmd056_Step0
+.public MapObjectMovementCmd057_Step0
+.public MapObjectMovementCmd058_Step0
+.public MapObjectMovementCmd059_Step0
+.public MapObjectMovementCmd092_Step0
+.public MapObjectMovementCmd093_Step0
+.public MapObjectMovementCmd094_Step0
+.public MapObjectMovementCmd095_Step0
+.public MapObjectMovementCmd064_Step1
+.public MapObjectMovementCmd060_Step0
+.public MapObjectMovementCmd061_Step0
+.public MapObjectMovementCmd062_Step0
+.public MapObjectMovementCmd063_Step0
+.public MapObjectMovementCmd064_Step0
+.public MapObjectMovementCmd065_Step0
+.public MapObjectMovementCmd066_Step0
+.public MapObjectMovementCmd067_Step0
+.public MapObjectMovementCmd067_Step1
+.public MapObjectMovementCmd068_Step0
+.public MapObjectMovementCmd068_Step1
+.public MapObjectMovementCmd069_Step0
+.public MapObjectMovementCmd070_Step0
+.public MapObjectMovementCmd071_Step0
+.public MapObjectMovementCmd072_Step0
+.public MapObjectMovementCmd073_Step0
+.public MapObjectMovementCmd074_Step0
+.public MapObjectMovementCmd075_Step1
+.public MapObjectMovementCmd075_Step0
+.public MapObjectMovementCmd103_Step0
+.public MapObjectMovementCmd076_Step0
+.public MapObjectMovementCmd077_Step0
+.public MapObjectMovementCmd078_Step0
+.public MapObjectMovementCmd079_Step0
+.public MapObjectMovementCmd076_Step1
+.public MapObjectMovementCmd080_Step0
+.public MapObjectMovementCmd081_Step0
+.public MapObjectMovementCmd082_Step0
+.public MapObjectMovementCmd083_Step0
+.public MapObjectMovementCmd082_Step1
+.public MapObjectMovementCmd096_Step0
+.public MapObjectMovementCmd097_Step0
+.public MapObjectMovementCmd098_Step0
+.public MapObjectMovementCmd099_Step0
+.public MapObjectMovementCmd098_Step1
+.public MapObjectMovementCmd100_Step0
+.public MapObjectMovementCmd100_Step1
+.public MapObjectMovementCmd101_Step0
+.public MapObjectMovementCmd101_Step1
+.public MapObjectMovementCmd102_Step0
+.public MapObjectMovementCmd104_Step0
+.public MapObjectMovementCmd102_Step1
+.public HiddenObjectMovement_GetCoverEffect
+.public HiddenObjectMovement_SetRevealed
+.public FieldEffect_Destroy
+.public sMovementsByDirection
+.public gMovementCmdTable
+.public TrainerReveal_Spawn
+.public EmoteMark_IsDone
+.public EmoteMark_Spawn
+
+	.public MovementScriptMachine
+	.public MovementScriptMachineSub_Init
+	.public MovementScriptMachineSub_WaitReady
+	.public MovementScriptMachineSub_SetMovementCommand
+	.public MovementScriptMachineSub_WaitMovementCommand
+	.public MovementScriptMachineSub_LoopCheck
+	.public MovementScriptMachineSub_Done
+	.public MapObject_RunMovementCommand
+	.public MapObject_StartFaceMovement
+	.public MapObject_StartWalkMovement
+	.public MapObject_StartWalkInPlaceMovement
+	.public MapObject_StartJumpMovement
+	.public MapObject_StartDelayMovement
+	.public MapObject_StartEmoteMovement
+	.public MapObject_StartVariableSpeedWalk
+	.public MapObject_UpdateVariableSpeedWalk
+	.public gVariableSpeedWalk_Cmd082
+	.public _020FDA28
+	.public gVariableSpeedWalk_Cmd076
+	.public gVariableSpeedWalk_Cmd098
+	.public gJumpHeightTable0
+	.public gJumpHeightTable1
+	.public gJumpHeightTable2
+	.public gJumpHeightTables
+	.public sMovementScriptMachineStateFuncs

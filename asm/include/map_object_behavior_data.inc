@@ -1,0 +1,205 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public PlaySE
+.public SysTask_CreateOnMainQueue
+.public SysTask_Destroy
+.public Heap_AllocAtEnd
+.public Heap_Free
+.public Heap_FreeExplicit
+.public SysTask_GetData
+.public GF_SinDegNoWrap
+.public BillboardObject_SetSequence
+.public BillboardObject_GetSequence
+.public BillboardObject_AdvanceFrame
+.public BillboardObject_SetSequenceFrame
+.public GF_AssertFail
+.public StartMapSceneScript
+.public FieldSystem_SetEngagedTrainer
+.public ScriptNumToTrainerNum
+.public TrainerNumIsDouble
+.public TrainerFlagCheck
+.public FieldSystem_ApricornTree_HasApricorn
+.public FieldSystem_ApricornTree_TryGetApricorn
+.public PlayerAvatar_GetFacingDirection
+.public PlayerAvatar_GetXCoord
+.public PlayerAvatar_GetZCoord
+.public PlayerAvatar_GetMapObject
+.public MapObjectManager_GetNextObjectWithFlagFromIndex
+.public MapObject_SetFlagsBits
+.public MapObject_ClearFlagsBits
+.public MapObject_SetSpriteID
+.public MapObject_GetMovement
+.public MapObject_GetType
+.public MapObject_GetScriptID
+.public MapObject_SetFacingDirection
+.public MapObject_GetFacingDirection
+.public MapObject_SetOrQueueFacing
+.public MapObject_GetParam
+.public MapObject_SetAnimation
+.public MapObject_GetAnimation
+.public MapObject_GetMovementData
+.public MapObject_InitBehaviorData
+.public MapObject_GetBehaviorData
+.public MapObject_InitMovementCmdData
+.public MapObject_GetMovementCmdData
+.public MapObject_InitDrawData
+.public MapObject_GetDrawData
+.public MapObject_CallDrawUpdate
+.public MapObject_IncrementMovementStep
+.public MapObject_GetFieldSystem
+.public MapObject_CheckSingleMovement
+.public MapObject_CheckVisible
+.public MapObject_UnpauseMovement
+.public MapObject_CheckFlag29
+.public MapObject_GetPreviousXCoord
+.public MapObject_GetPreviousZCoord
+.public MapObject_GetXCoord
+.public MapObject_AddCurrentX
+.public MapObject_GetYCoord
+.public MapObject_AddCurrentY
+.public MapObject_GetZCoord
+.public MapObject_AddCurrentZ
+.public MapObject_CopyPositionVector
+.public MapObject_SetPositionVector
+.public MapObject_SetFacingVector
+.public MapObject_SetDrawOffset
+.public MapObject_ChangeMovement
+.public MapObject_CheckCollisionAt
+.public GetDeltaXByFacingDirection
+.public GetDeltaYByFacingDirection
+.public MapObject_SetPreviousCoordsToCurrent
+.public MapObject_UpdateHeight
+.public GetDirectionTowards
+.public FieldSystem_SnapToTerrainHeightEx
+.public MapObject_AreBitsSetForMovementScriptInit
+.public MapObject_SetHeldMovement
+.public MapObject_ForceSetHeldMovement
+.public MapObject_IsMovementPaused
+.public MapObject_ClearHeldMovementIfActive
+.public GetMovementForDirection
+.public MapObject_RunForcedMovement
+.public MapObjectMovementCmd108_Step1
+.public MapObjectMovementCmd105_Step0
+.public MapObjectMovementCmd105_Step2
+.public MapObjectMovementCmd105_Step4
+.public MapObjectMovementCmd105_Step6
+.public MapObjectMovementCmd105_Step8
+.public MapObjectMovementCmd106_Step0
+.public MapObjectMovementCmd106_Step2
+.public MapObjectMovementCmd106_Step4
+.public MapObjectMovementCmd106_Step6
+.public MapObjectMovementCmd107_Step0
+.public MapObjectMovementCmd107_Step2
+.public MapObjectMovementCmd107_Step4
+.public MapObjectMovementCmd107_Step6
+.public MapObjectMovementCmd107_Step8
+.public MapObjectMovementCmd107_Step10
+.public MapObjectMovementCmd107_Step12
+.public MapObjectMovementCmd109_Step12
+.public MapObjectMovementCmd108_Step0
+.public MapObjectMovementCmd110_Step0
+.public MapObjectMovementCmd108_Step2
+.public MapObjectMovementCmd111_Step0
+.public MapObjectMovementCmd111_Step2
+.public MapObjectMovementCmd111_Step4
+.public MapObjectMovementCmd111_Step6
+.public MapObjectMovementCmd111_Step10
+.public MapObjectMovementCmd111_Step14
+.public MapObjectMovementCmd111_Step16
+.public MapObjectMovementCmd111_Step18
+.public MapObjectMovementCmd112_Step0
+.public MapObject_InitTypeBehavior
+.public MapObject_UpdateTypeBehavior
+.public ApricornTreeObject_Init
+.public ApricornTreeObject_Update
+.public ApricornTreeObject_Delete
+.public ApricornTreeObject_Pause
+.public ApricornTreeObject_Resume
+.public ApricornTreeObject_GetBillboard
+.public TryGetSeenByNpcTrainers
+.public MapObjectBehavior_GetTrainerNum
+.public TrainerApproach_Start
+.public TrainerApproach_IsDone
+.public TrainerApproach_Delete
+.public FieldEffect_Destroy
+.public FX_Div
+.public MI_CpuFill8
+.public memset
+.public _fadd
+.public _ffix
+.public _fflt
+.public _fsub
+.public _ll_mul
+.public _s32_div_f
+.public MapObject_IsBillboardAnimPaused
+.public MapObject_SetFacingAndUpdateDraw
+.public MapObject_RequestBillboard
+.public MapObject_CancelAndFreeBillboard
+.public BillboardObject_SaveState
+.public BillboardObject_RestoreState
+.public MapObject_IsBillboardPending
+.public MapObject_UpdateBillboardPosition
+.public MapObject_SetBillboardVisibleFromFlags
+.public ApricornRegrowth_Spawn
+.public EmoteMark_IsDone
+.public EmoteMark_Spawn
+.public gApricornTreeSpriteIds
+
+	.public MapObject_StartJumpByOffsetMovement
+	.public MapObject_CallTypeBehaviorInit
+	.public MapObject_CallTypeBehaviorCheck
+	.public MapObject_CallTypeBehaviorUpdate
+	.public MapObject_IsOffPreviousTile
+	.public MapObject_IsOnPreviousTile
+	.public TypeBehavior_NoOpInit
+	.public TypeBehavior_NoOpCheck
+	.public TypeBehavior_NoOpUpdate
+	.public TypeBehavior_LookSidewaysInit
+	.public TypeBehavior_LookSidewaysCheck
+	.public TypeBehavior_LookSidewaysUpdate
+	.public TypeBehavior_SpinInit
+	.public TypeBehavior_SpinCheck
+	.public TypeBehavior_SpinUpdate
+	.public GetApricornTreeSpriteId
+	.public CheckSeenByNpcTrainers
+	.public GetEngagingTrainerParams
+	.public MapObject_GetTrainerSightType
+	.public TrainerSight_FindPlayer
+	.public TrainerSight_GetDistanceInDirection
+	.public TrainerSight_GetDistanceNorth
+	.public TrainerSight_GetDistanceSouth
+	.public TrainerSight_GetDistanceWest
+	.public TrainerSight_GetDistanceEast
+	.public TrainerSight_IsPathBlocked
+	.public MapObject_GetTrainerNum
+	.public MapObjectManager_FindTrainerPartner
+	.public TrainerApproach_CreateTask
+	.public TrainerApproach_GetDone
+	.public TrainerApproach_DestroyTask
+	.public TrainerApproach_Task
+	.public TrainerApproach_UnpauseTrainer
+	.public TrainerApproach_FaceDirection
+	.public TrainerApproach_WaitForPlayer
+	.public TrainerApproach_StartFace
+	.public TrainerApproach_WaitFace
+	.public TrainerApproach_SpawnExclamation
+	.public TrainerApproach_WaitExclamation
+	.public TrainerApproach_StartReveal
+	.public TrainerApproach_WaitReveal
+	.public TrainerApproach_Wait
+	.public TrainerApproach_CheckDistance
+	.public TrainerApproach_StartStep
+	.public TrainerApproach_WaitStep
+	.public TrainerApproach_WaitArrived
+	.public TrainerApproach_TurnPlayer
+	.public TrainerApproach_WaitPlayerTurn
+	.public TrainerApproach_ResetTrainerMovement
+	.public TrainerApproach_Finish
+	.public gLookSidewaysAxisByFacing
+	.public gLookSidewaysDirections
+	.public gTypeBehaviorSpinOrders
+	.public gMapObjectTypeBehaviorInits
+	.public gMapObjectTypeBehaviorChecks
+	.public gMapObjectTypeBehaviorUpdates
+	.public gTrainerSightDistanceFuncs
+	.public gTrainerApproachStateFuncs

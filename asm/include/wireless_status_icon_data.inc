@@ -1,0 +1,53 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public SysTask_CreateOnVWaitQueue
+.public SysTask_Destroy
+.public Sys_ReadFileIntoBuffer
+.public Heap_AllocAtEnd
+.public Heap_Free
+.public GF_AssertFail
+.public CommWireless_IsOn
+.public Comm_CountConnected
+.public Comm_IsActive
+.public CommState_IsWifi
+.public WirelessStatusIcon_LoadPaletteFile
+.public WirelessStatusIcon_Refresh
+.public WirelessStatusIcon_Create
+.public WirelessStatusIcon_Destroy
+.public WirelessStatusIcon_SetLevel
+.public WirelessStatusIcon_ShowOnBothScreens
+.public WirelessStatusIcon_CreateIfConnected
+.public WirelessStatusIcon_CreateOnScreenIfConnected
+.public WirelessStatusIcon_SetBackPriority
+.public NNS_G2dGetUnpackedBGCharacterData
+.public NNS_G2dGetUnpackedPaletteData
+.public GX_GetBankForOBJ
+.public GX_GetBankForSubOBJ
+.public GX_LoadOBJPltt
+.public GXS_LoadOBJPltt
+.public GX_LoadOBJ
+.public GXS_LoadOBJ
+.public DC_FlushRange
+
+	.public WirelessStatusIcon_New
+	.public WirelessStatusIcon_Task
+	.public WirelessStatusIcon_SetLevelOf
+	.public WirelessStatusIcon_Delete
+	.public WirelessStatusIcon_ShowOnBothScreensOf
+	.public WirelessStatusIcon_LoadPalette
+	.public WirelessStatusIcon_GetCharData
+	.public WirelessStatusIcon_LoadChar
+	.public WirelessStatusIcon_WriteOam
+	.public WirelessStatusIcon_CreateOnScreen
+	.public WirelessStatusIcon_CreateAt
+	.public _020F6A9C
+	.public _020F6AA4
+	.public _020F6AAC
+	.public _020F6AB4
+	.public _020F6ABC
+	.public gWirelessStatusIconAnims
+	.public gWirelessStatusIconNclr
+	.public gWirelessStatusIconWifiNcgr
+	.public gWirelessStatusIconWmNcgr
+	.public gWirelessStatusIconWm256kNcgr
+	.public gWirelessStatusIcon

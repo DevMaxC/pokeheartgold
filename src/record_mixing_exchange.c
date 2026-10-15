@@ -1,0 +1,112 @@
+#include "record_mixing_exchange.h"
+
+#include "global.h"
+
+#include "assert.h"
+#include "fashion_case.h"
+#include "friend_group.h"
+#include "heap.h"
+#include "save.h"
+#include "save_arrays.h"
+#include "save_rankings.h"
+#include "save_block_23.h"
+#include "frontier_wifi_upload_record.h"
+
+// record_mixing_records.c
+u32 RecordMixing_GetGroupRecordSize(SAV_FRIEND_GRP *friendGroup);
+FRIEND_GROUP *RecordMixing_GetGroupRecord(SAV_FRIEND_GRP *friendGroup);
+void RecordMixing_MergeGroups(int count, int localId, FRIEND_GROUP *groups, FRIEND_GROUP **received);
+void RecordMixing_MergeBlock23(void *saveBlock23, int numPlayers, int localId, void **received, void **received2);
+
+// No public header declares these.
+u32 FashionEntry_sizeof(void);
+void Save_FashionData_InsertEntries(u8 count, int skip, SaveFashionData *fashionData, SaveFashionDataSub **entries);
+
+u32 RecordMixing_FriendGroup_GetSize(SaveData *saveData);
+void *RecordMixing_FriendGroup_Load(SaveData *saveData, enum HeapID heapID, u32 size);
+void RecordMixing_FriendGroup_Merge(RecordMixingMergeArgs *args);
+u32 RecordMixing_Fashion_GetSize(SaveData *saveData);
+void *RecordMixing_Fashion_Load(SaveData *saveData, enum HeapID heapID, u32 size);
+void RecordMixing_Fashion_Merge(RecordMixingMergeArgs *args);
+void RecordMixing_Block23_Merge(RecordMixingMergeArgs *args);
+SaveRankingsEntry *RecordMixing_Rankings_Load(SaveData *saveData, enum HeapID heapID);
+void RecordMixing_Rankings_Merge(RecordMixingMergeArgs *args);
+void *RecordMixing_BattleRoomTrainer_Load(SaveData *saveData, enum HeapID heapID, u32 size);
+void RecordMixing_BattleRoomTrainer_Merge(RecordMixingMergeArgs *args);
+void RecordMixing_BuildSendBuffer(SaveData *saveData, void *dest);
+
+u32 RecordMixing_FriendGroup_GetSize(SaveData *saveData) {
+    return RecordMixing_GetGroupRecordSize(Save_FriendGroup_Get(saveData));
+}
+
+void *RecordMixing_FriendGroup_Load(SaveData *saveData, enum HeapID heapID, u32 size) {
+    SAV_FRIEND_GRP *friendGroup = Save_FriendGroup_Get(saveData);
+    void *copy = Heap_AllocAtEnd(heapID, size);
+    void *src = RecordMixing_GetGroupRecord(friendGroup);
+    MIi_CpuCopyFast(src, copy, size);
+    return copy;
+}
+
+void RecordMixing_FriendGroup_Merge(RecordMixingMergeArgs *args) {
+    RecordMixing_MergeGroups(args->numPlayers, args->localId, Save_FriendGroup_Get(args->saveData)->groups, (FRIEND_GROUP **)args->records);
+}
+
+u32 RecordMixing_Fashion_GetSize(SaveData *saveData) {
+    // called with the fashion data, but the definition takes no argument
+    return ((u32(*)(SaveFashionData *))FashionEntry_sizeof)(Save_FashionData_Get(saveData));
+}
+
+void *RecordMixing_Fashion_Load(SaveData *saveData, enum HeapID heapID, u32 size) {
+    SaveFashionData *fashionData = Save_FashionData_Get(saveData);
+    void *copy = Heap_AllocAtEnd(heapID, size);
+    void *src = Save_FashionData_GetEntry(fashionData, 0);
+    MIi_CpuCopyFast(src, copy, size);
+    return copy;
+}
+
+void RecordMixing_Fashion_Merge(RecordMixingMergeArgs *args) {
+    SaveData *saveData = args->saveData;
+    SaveFashionData *fashionData = Save_FashionData_Get(saveData);
+    Save_FashionData_InsertEntries((u8)args->numPlayers, args->localId, fashionData, (SaveFashionDataSub **)args->records);
+}
+
+void RecordMixing_Block23_Merge(RecordMixingMergeArgs *args) {
+    SaveBlock23 *data = Save_Block23_Get(args->saveData);
+    RecordMixing_MergeBlock23(data, args->numPlayers, args->localId, args->records, args->records2);
+}
+
+SaveRankingsEntry *RecordMixing_Rankings_Load(SaveData *saveData, enum HeapID heapID) {
+    return Save_GetPlayerMixingRankingEntry(saveData, heapID);
+}
+
+void RecordMixing_Rankings_Merge(RecordMixingMergeArgs *args) {
+    Save_Rankings_Get(args->saveData);
+    // the local id is passed without truncation to u8 (the original prototype took a wider type)
+    ((void (*)(SaveData *, int, u8, SaveRankingsEntry **, enum HeapID))Save_UpdateRankingsFromMixing)(args->saveData, args->localId, (u8)args->numPlayers, (SaveRankingsEntry **)args->records, args->heapID);
+}
+
+void *RecordMixing_BattleRoomTrainer_Load(SaveData *saveData, enum HeapID heapID, u32 size) {
+    void *dest = Heap_AllocAtEnd(heapID, size);
+    MI_CpuFill8(dest, 0, size);
+    Frontier_FillWifiUploadRecord(saveData, 0, dest);
+    return dest;
+}
+
+void RecordMixing_BattleRoomTrainer_Merge(RecordMixingMergeArgs *args) {
+}
+
+// Copies the data of every record type into the send buffer.
+void RecordMixing_BuildSendBuffer(SaveData *saveData, void *dest) {
+    u32 remaining = RECORD_MIXING_SEND_SIZE;
+    int i;
+
+    for (i = 0; i < RECORD_MIXING_NUM_HANDLERS; i++) {
+        u32 size = sRecordMixingHandlers[i].getSize(saveData);
+        void *buffer = sRecordMixingHandlers[i].load(saveData, HEAP_ID_50, size);
+        GF_ASSERT(remaining > size);
+        MIi_CpuCopyFast(buffer, dest, size);
+        Heap_Free(buffer);
+        remaining -= size;
+        dest = (u8 *)dest + size;
+    }
+}

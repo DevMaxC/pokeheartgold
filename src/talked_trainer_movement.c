@@ -1,0 +1,75 @@
+#include "field_system.h"
+#include "map_events.h"
+#include "map_object.h"
+#include "overlay_26.h"
+
+static LocalMapObject *FindDoubleBattlePartner(FieldSystem *fieldSystem, LocalMapObject *talkedObj, BOOL a2);
+
+static void ChangeTrainerMovement(LocalMapObject *last_talked, u16 movement) {
+    MapObject_ChangeMovement(last_talked, movement);
+}
+
+void SetTalkedTrainerMovement(FieldSystem *fieldSystem, LocalMapObject *last_talked) {
+    if (last_talked == NULL) {
+        return;
+    }
+
+    u32 movement;
+    // FIXME: Define proper constants for these movements.
+    u32 direction = MapObject_GetFacingDirection(last_talked);
+    if (direction == DIR_NORTH) {
+        movement = 14;
+    } else if (direction == DIR_SOUTH) {
+        movement = 15;
+    } else if (direction == DIR_WEST) {
+        movement = 16;
+    } else {
+        movement = 17;
+    }
+
+    LocalMapObject *unk_lmo = FindDoubleBattlePartner(fieldSystem, last_talked, TRUE);
+    if (unk_lmo != NULL) {
+        ChangeTrainerMovement(unk_lmo, movement);
+    }
+    ChangeTrainerMovement(last_talked, movement);
+}
+
+static LocalMapObject *FindDoubleBattlePartner(FieldSystem *fieldSystem, LocalMapObject *talkedObj, BOOL a2) {
+    u32 num_events = Field_GetNumObjectEvents(fieldSystem);
+    u16 script = MapObject_GetScriptID(talkedObj);
+    u32 trainer = ScriptNumToTrainerNum(script);
+
+    if (!TrainerNumIsDouble(trainer)) {
+        return NULL;
+    }
+
+    for (int i = 0; i < num_events; i++) {
+        LocalMapObject *object = MapObjectManager_GetFirstActiveObjectByID(fieldSystem->mapObjectManager, i);
+        if (object == NULL) {
+            continue;
+        }
+
+        if (!a2 && MapObject_GetMovement(object) == 49) {
+            continue;
+        }
+
+        switch (MapObject_GetType(object)) {
+        // FIXME: Define proper constants for these map object types.
+        case 2:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 1: {
+            u32 script2 = MapObject_GetScriptID(object);
+            u32 trainer2 = ScriptNumToTrainerNum((u16)script2);
+            if (script != script2 && (u32)trainer == trainer2) {
+                return object;
+            }
+        }
+        }
+    }
+
+    return NULL;
+}

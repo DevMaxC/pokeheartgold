@@ -1,0 +1,147 @@
+#include "global.h"
+
+#include "field/map_load_manager.h"
+#include "field/map_prop.h"
+
+#include "field_system.h"
+#include "launch_application.h"
+#include "overlay_01.h"
+#include "overlay_02.h"
+#include "overlay_03.h"
+#include "safari_area_customizer.h"
+#include "safari_zone.h"
+#include "scrcmd.h"
+#include "map_object_movement_utilities.h"
+#include "safari_zone_encounters.h"
+#include "safari_decoration_task.h"
+
+BOOL ScrCmd_LaunchSafariAreaCustomizer(ScriptContext *ctx) {
+    SafariAreaCustomizerArgs **safariAreaArgs = FieldSysGetAttrAddr(ctx->fieldSystem, SCRIPTENV_RUNNING_APP_DATA);
+    *safariAreaArgs = SafariAreaCustomizer_LaunchApp(ctx->fieldSystem);
+    SetupNativeScript(ctx, &ScrNative_WaitApplication_DestroyTaskData);
+    return TRUE;
+}
+
+BOOL ScrCmd_StartSafariDecoration(ScriptContext *ctx) {
+    CallTask_SafariDecoration(ctx->taskman, GetVarPointer(ctx->fieldSystem, ScriptReadHalfword(ctx)));
+    return TRUE;
+}
+
+BOOL ScrCmd_BufferSafariZoneObjectName(ScriptContext *ctx) {
+    MessageFormat **messageFormat = FieldSysGetAttrAddr(ctx->fieldSystem, SCRIPTENV_MESSAGE_FORMAT);
+    u8 fieldno = *ctx->script_ptr++;
+    BufferSafariZoneObjectName(*messageFormat, fieldno, (u8)FieldSystem_VarGet(ctx->fieldSystem, ScriptReadHalfword(ctx)));
+    return FALSE;
+}
+
+BOOL ScrCmd_GetFacingSafariObject(ScriptContext *ctx) {
+    FieldSystem *fieldSystem = ctx->fieldSystem;
+    FieldSysGetAttrAddr(fieldSystem, SCRIPTENV_MESSAGE_FORMAT);
+    *GetVarPointer(ctx->fieldSystem, ScriptReadHalfword(ctx)) = FieldSystem_GetFacingSafariObject(fieldSystem, GetVarPointer(ctx->fieldSystem, ScriptReadHalfword(ctx)));
+    return FALSE;
+}
+
+BOOL ScrCmd_RemoveSafariObject(ScriptContext *ctx) {
+    FieldSystem *fieldSystem = ctx->fieldSystem;
+    FieldSysGetAttrAddr(fieldSystem, SCRIPTENV_MESSAGE_FORMAT);
+
+    u32 areaID;
+    SafariZoneAreaSet *areaSet;
+    u16 *permissions;
+    u8 *permissionBytes;
+
+    u16 safariObjectID = FieldSystem_VarGet(ctx->fieldSystem, ScriptReadHalfword(ctx));
+    u32 facingDirection = PlayerAvatar_GetFacingDirection(fieldSystem->playerAvatar);
+    u32 xCoord = PlayerAvatar_GetXCoord(fieldSystem->playerAvatar);
+    int deltaX = GetDeltaXByFacingDirection(facingDirection);
+    u32 zCoord = PlayerAvatar_GetZCoord(fieldSystem->playerAvatar);
+    int deltaY = GetDeltaYByFacingDirection(facingDirection);
+
+    int areaX = xCoord + deltaX - 32;
+    int areaY = zCoord + deltaY - 32;
+    areaID = areaX / 32 + (areaY / 32 * 3);
+
+    areaSet = SafariZone_GetAreaSet(Save_SafariZone_Get(fieldSystem->saveData), 0);
+    u32 mapSlot = MapLoadManager_GetCurrentMapSlot(fieldSystem->mapLoadManager);
+
+    MapPropManager *mapPropManager;
+    MapLoadManager_GetMapPropManager((u8)mapSlot, fieldSystem->mapLoadManager, &mapPropManager);
+    permissions = MapLoadManager_GetPermissions(fieldSystem->mapLoadManager, (u8)mapSlot);
+    permissionBytes = MapLoadManager_GetPermissionBytes(fieldSystem->mapLoadManager, (u8)mapSlot);
+
+    SAFARIZONE_OBJECT *safariObject = &areaSet->areas[areaID].objects[safariObjectID];
+
+    SafariObjectConfig objectConfig;
+    GetSafariObjectConfig((void *)&objectConfig, safariObject->id, (u8)PlayerProfile_GetTrainerGender(Save_PlayerData_GetProfile(fieldSystem->saveData)));
+
+    for (int unkHeightCounter = safariObject->z; unkHeightCounter > safariObject->z - objectConfig.height; unkHeightCounter--) {
+        for (int unkWidthCounter = safariObject->x; unkWidthCounter < safariObject->x + objectConfig.width; unkWidthCounter++) {
+            permissions[unkWidthCounter + unkHeightCounter * 32] = permissionBytes[unkWidthCounter + unkHeightCounter * 32];
+        }
+    }
+
+    for (int index = 0; index < MAP_PROP_MAX; index++) {
+        MapProp *mapProp = MapPropManager_GetMapPropByIndex(mapPropManager, index);
+        if (MapProp_IsActive(mapProp)) {
+            VecFx32 position;
+            MapProp_GetTranslation(&position, mapProp);
+
+            s16 localX = (s16)(((position.x >> FX32_SHIFT) + 0xF8) / 16);
+            s16 localZ = (s16)(((position.z >> FX32_SHIFT) + 0xF8) / 16);
+
+            if (localX >= safariObject->x
+                && localZ <= safariObject->z
+                && localX < safariObject->x + objectConfig.width
+                && localZ > safariObject->z - objectConfig.height) {
+                MapProp_SetCulled(mapProp, TRUE);
+                break;
+            }
+        }
+    }
+    SafariZone_RemoveObjectFromArea(areaSet, areaID, (u8)safariObjectID);
+    return FALSE;
+}
+
+BOOL ScrCmd_CheckSafariObjectPlacement(ScriptContext *ctx) {
+    u16 *var = GetVarPointer(ctx->fieldSystem, ScriptReadHalfword(ctx));
+    *var = FieldSystem_CheckSafariObjectPlacement(ctx->fieldSystem);
+    return FALSE;
+}
+
+BOOL ScrCmd_CheckSafariZoneChallengeCompleted(ScriptContext *ctx) {
+    u16 sChallengeSpecies[2] = {
+        SPECIES_GEODUDE,
+        SPECIES_SANDSHREW,
+    };
+
+    u32 trainerID;
+    FieldSystem *fieldSystem = ctx->fieldSystem;
+    u8 challengeNo = *ctx->script_ptr++;
+    Party *party;
+    u16 *challengeCompleted = GetVarPointer(ctx->fieldSystem, ScriptReadHalfword(ctx));
+    party = SaveArray_Party_Get(fieldSystem->saveData);
+    int partyCount = Party_GetCount(party);
+    trainerID = PlayerProfile_GetTrainerID(Save_PlayerData_GetProfile(fieldSystem->saveData));
+    u16 mapSec = MapHeader_GetMapSec(MAP_SAFARI_ZONE_ENTRANCE_EXTERIOR);
+
+    for (int index = 0; index < partyCount; index++) {
+        Pokemon *mon = Party_GetMonByIndex(party, index);
+        if (GetMonData(mon, MON_DATA_IS_EGG, NULL) == FALSE
+            && trainerID == GetMonData(mon, MON_DATA_OT_ID, NULL)
+            && sChallengeSpecies[challengeNo] == GetMonData(mon, MON_DATA_SPECIES, NULL)
+            && GetMonData(mon, MON_DATA_EGG_LOCATION, NULL) == FALSE // Make sure the player didn't cheat by hatching an egg in the Safari Zone.
+            && mapSec == GetMonData(mon, MON_DATA_MET_LOCATION, NULL)) {
+            *challengeCompleted = TRUE;
+            return FALSE;
+        }
+    }
+    *challengeCompleted = FALSE;
+    return FALSE;
+}
+
+// Likely used for Safari Zone time-gated upgrades.
+BOOL ScrCmd_UpdateSafariZoneIGT(ScriptContext *ctx) {
+    FieldSystem *fieldSystem = ctx->fieldSystem;
+    SafariZone_SetUnlockTime(Save_SafariZone_Get(fieldSystem->saveData), Save_PlayerData_GetIGTAddr(fieldSystem->saveData));
+    return FALSE;
+}

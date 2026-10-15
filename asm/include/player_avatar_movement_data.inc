@@ -1,0 +1,177 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public Sound_ApplyFootstepVariation
+.public PlaySE
+.public PlaySEWithFieldBank
+.public GF_AssertFail
+.public Save_GameStats_Get
+.public GameStats_Inc
+.public GetMetatileBehavior
+.public FieldSystem_CheckCollisionHeightAndGimmick
+.public MetatileBehavior_IsTallGrass
+.public MetatileBehavior_IsVeryTallGrass
+.public MetatileBehavior_IsDoor
+.public MetatileBehavior_IsWarpEntranceEast
+.public MetatileBehavior_IsWarpEntranceWest
+.public MetatileBehavior_IsWarpEntranceNorth
+.public MetatileBehavior_IsWarpEntranceSouth
+.public MetatileBehavior_IsSand
+.public MetatileBehavior_IsShallowWater
+.public MetatileBehavior_IsJumpNorth
+.public MetatileBehavior_IsJumpSouth
+.public MetatileBehavior_IsJumpWest
+.public MetatileBehavior_IsJumpEast
+.public MetatileBehavior_IsIce
+.public MetatileBehavior_IsMud
+.public MetatileBehavior_IsPuddle
+.public PlayerAvatar_GetFacingDirection
+.public PlayerAvatar_GetNextFacingDirection
+.public PlayerAvatar_GetXCoord
+.public PlayerAvatar_GetZCoord
+.public PlayerAvatar_SetMoveState
+.public PlayerAvatar_GetMoveState
+.public PlayerAvatar_SetPlayerMoveState
+.public PlayerAvatar_GetPlayerMoveState
+.public PlayerAvatar_GetMapObject
+.public PlayerAvatar_GetState
+.public PlayerAvatar_GetSpeed
+.public PlayerAvatar_SetSpeed
+.public PlayerAvatar_ClearSpeedAndFlag2
+.public PlayerAvatar_AddSpeedWithCeiling
+.public PlayerAvatar_GetLastHorizontalInput
+.public PlayerAvatar_GetLastVerticalInput
+.public PlayerAvatar_SetLastInputs
+.public PlayerAvatar_GetPlayerSaveData
+.public PlayerAvatar_SetHeldMovement
+.public PlayerAvatar_GetHeldMovement
+.public PlayerAvatar_GetFootstepToggle
+.public PlayerAvatar_ToggleFootstep
+.public PlayerAvatar_ResetFootstepToggle
+.public PlayerSaveData_CheckRunningShoes
+.public PlayerAvatar_SetForcedMovement
+.public PlayerAvatar_CheckForcedMovement
+.public PlayerAvatar_SetFlag1
+.public PlayerAvatar_CheckFlag1
+.public PlayerAvatar_SetFlag2
+.public PlayerAvatar_CheckFlag2
+.public PlayerAvatar_CheckBikeStateLocked
+.public PlayerAvatar_SetFlag5
+.public PlayerAvatar_SetFlag6
+.public PlayerAvatar_ClearFlag6
+.public PlayerAvatar_CheckFlag6
+.public PlayerAvatar_SetFlag7
+.public PlayerAvatar_CheckFlag7
+.public PlayerAvatar_MoveControl
+.public PlayerAvatar_CheckReadyToMove
+.public PlayerAvatar_UpdateMovement
+.public PlayerAvatar_ResetMovement
+.public PlayerAvatar_IsBetweenSteps
+.public PlayerAvatar_StopAndFace
+.public PlayerAvatar_CheckCollision
+.public PlayerAvatar_GetInputDirection
+.public PlayerAvatar_IsReadyOrBumpingWall
+.public PlayerAvatar_IsRunning
+.public PlayerAvatar_GetMoveStateForDirection
+.public PlayerAvatar_GetMovementFromInput
+.public PlayerAvatar_IsReadyForMovement
+.public PlayerAvatar_SetMovement
+.public PlayerAvatar_GetMetatileBehaviorInDirection
+.public PlayerAvatar_GetCoordsInFront
+.public MapObject_SetFlagsBits
+.public MapObject_ClearFlagsBits
+.public MapObject_SetFacingDirection
+.public MapObject_GetFacingDirection
+.public MapObject_SetNextFacingDirection
+.public MapObject_GetNextFacingDirection
+.public MapObject_SetAnimation
+.public MapObject_GetMovementCommand
+.public MapObject_GetCurrentMetatileBehavior
+.public MapObject_GetFieldSystem
+.public MapObject_GetPreviousXCoord
+.public MapObject_GetPreviousZCoord
+.public MapObject_GetXCoord
+.public MapObject_GetYCoord
+.public MapObject_GetZCoord
+.public MapObject_CopyPositionVector
+.public MapObject_IsTileOccupiedInLink
+.public MapObject_IsOutsideMovementRange
+.public MapObject_IsMoveBlockedByBehavior
+.public MapObject_CheckWaterBehavior
+.public MapObject_CheckSnowBehavior
+.public MapObject_IsOnBridge
+.public GetDeltaXByFacingDirection
+.public GetDeltaYByFacingDirection
+.public MapObject_SetPreviousCoordsToCurrent
+.public MapObject_GetMetatileBehaviorInDirection
+.public MapObject_GetTileAttrBits8To14InDirection
+.public OffsetPositionInDirection
+.public GetOppositeDirection
+.public FieldSystem_SnapToTerrainHeight
+.public MapObject_AreBitsSetForMovementScriptInit
+.public MapObject_SetHeldMovement
+.public MapObject_IsMovementPaused
+.public MapObject_ClearHeldMovement
+.public GetMovementForDirection
+.public GetMovementDirection
+.public FieldSystem_IsSaveGymmickTypeEqualTo
+.public FollowMon_IsActive
+.public FieldSystem_TryPushIceBlock
+.public Field_PlayerAvatar_ApplyTransitionFlags
+.public Field_PlayerAvatar_TryEnterPoketchPose
+.public Field_PlayerAvatar_TryLeavePoketchPose
+.public FollowMon_QueuePlayerStep
+.public FuchsiaGymmick_CheckCollision
+
+	.public PlayerAvatar_IsReadyToMove
+	.public PlayerAvatar_StoreHeldDirections
+	.public PlayerAvatar_ClearFlag1IfFlag6Moving
+	.public PlayerAvatar_PlayTerrainSounds
+	.public PlayerAvatar_PlayFootstepSound
+	.public PlayerAvatar_TryForcedMovement
+	.public PlayerAvatar_GetForcedMovementKind
+	.public PlayerAvatar_RunForcedMovement
+	.public ForcedMovement_None
+	.public ForcedMovement_Ice
+	.public ForcedMovement_CyclingRoadSlope
+	.public PlayerAvatar_EndForcedMovement
+	.public PlayerAvatar_GetSlopeInDirection
+	.public PlayerAvatar_AdjustSpeedForSlope
+	.public PlayerAvatar_SlideInDirection
+	.public PlayerAvatar_MoveByState
+	.public PlayerAvatar_MoveOnFoot
+	.public PlayerAvatar_UpdateFootStepKind
+	.public FootStepKindToMoveState
+	.public PlayerAvatar_AdjustMovementDummy
+	.public PlayerAvatar_GetFootStepKind
+	.public PlayerAvatar_FootStand
+	.public PlayerAvatar_FootStep
+	.public PlayerAvatar_FootTurn
+	.public PlayerAvatar_MoveOnBike
+	.public PlayerAvatar_GetBikeMovement
+	.public PlayerAvatar_AccelerateBike
+	.public PlayerAvatar_DecelerateBike
+	.public PlayerAvatar_DispatchBikeStep
+	.public PlayerAvatar_UpdateBikeStepKind
+	.public BikeStepKindToMoveState
+	.public PlayerAvatar_GetBikeStepKind
+	.public PlayerAvatar_BikeStop
+	.public PlayerAvatar_BikeRide
+	.public PlayerAvatar_BikeTurn
+	.public PlayerAvatar_BikeCoast
+	.public PlayerAvatar_SetObjectMovement
+	.public MapObject_GetCollisionInDirection
+	.public MapObject_IsLedgeInDirection
+	.public MapObject_IsWarpInDirection
+	.public MapObject_IsWaterInDirection
+	.public PlayerAvatar_IsBikeBlockedInDirection
+	.public GetHorizontalDirectionFromKeys
+	.public GetVerticalDirectionFromKeys
+	.public PlayerAvatar_ChooseInputDirection
+	.public IsWallBumpMovement
+	.public IsRunButtonHeld
+	.public PlayerAvatar_GetCoordsInDirection
+	.public PlayerAvatar_CountStep
+	.public PlayerAvatar_IsOnCyclingRoadSlope
+	.public gPlayerForcedMovementFuncs
+	.public gPlayerForcedMovementBehaviors
+	.public gPlayerFootstepSounds

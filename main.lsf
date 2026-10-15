@@ -1,0 +1,2488 @@
+############################################################
+### Linker spec file for Pokemon HeartGold/SoulSilver US ###
+###      Pass this to the SDK's makelcf.exe utility      ###
+###           along with the ARM9-TS template.           ###
+###                        WIP                           ###
+############################################################
+
+Static main
+{
+    Address 0x02000000
+    StackSize 0 2048
+    Object src/pm_version.o
+    Object src/main.o
+    Object src/list_menu.o
+    Object src/list_menu_2d.o
+    Object src/string_util.o
+    Object src/render_text.o
+    Object src/font.o
+    Object src/palette.o
+    Object src/sound.o
+    Object src/sound_radio_sys.o
+    Object src/sound_system.o
+    Object asm/sound_system_data.o
+    Object src/sound_player_volume.o
+    Object src/sound_gb.o
+    Object src/sound_playback.o
+    Object src/sound_chatot.o
+    Object src/poke_overlay.o
+    Object src/systask_environment.o
+    Object src/overlay_manager.o
+    Object src/filesystem.o
+    Object src/gf_gfx_loader.o
+    Object src/pokepic.o
+    Object src/sprite_resource_header.o
+    Object src/sprite_resource.o
+    Object src/sprite_transfer.o
+    Object src/oam_manager.o
+    Object asm/oam_manager_data.o
+    Object src/brightness.o
+    Object src/msgdata.o
+    Object src/message_format.o
+    Object src/message_printer.o
+    Object src/message_printer_number.o
+    Object src/sprite_system.o
+    Object src/sys_task_api.o
+    Object asm/render_window_data.o
+    Object src/render_window.o
+    Object src/render_window_frame_icon.o
+    Object src/render_window_icons.o
+    Object src/screen_fade.o
+    Object src/screen_fade_effects.o
+    Object src/screen_wipe_effects.o
+    Object src/screen_window_wipe.o
+    Object src/font_sprite.o
+    Object asm/font_sprite_data.o
+    Object src/char_tiles.o
+    Object src/gf_rtc.o
+    Object src/list_menu_items.o
+    Object src/scanline_effect.o
+    Object src/particle_system.o
+    Object src/list_menu_cursor.o
+    Object asm/particle_system_data.o
+    Object src/mail_message.o
+    Object src/easy_chat.o
+    Object src/graphics_object_manager.o
+    Object src/palette_blink.o
+    Object src/yes_no_prompt.o
+    Object asm/pokepic_anim_data.o
+    Object src/pokepic_anim.o
+    Object asm/map_section_data.o
+    Object src/map_section.o
+    Object src/model_animation.o
+    Object src/igt_counter.o
+    Object src/menu_input_state.o
+    Object src/touchscreen_list_menu.o
+    Object src/camera_translation.o
+    Object src/global_terminal_app.o
+    Object asm/global_terminal_app_data.o
+    Object asm/bg_cell_manager_data.o
+    Object src/bg_cell_manager.o
+    Object src/grid_input_handler.o
+    Object src/system.o
+    Object src/heap.o
+    Object src/bg_window.o
+    Object src/gf_3d_render.o
+    Object src/sys_task.o
+    Object src/model_box_test.o
+    Object src/string_control_code.o
+    Object src/math_util.o
+    Object src/text.o
+    Object src/vram_transfer_manager.o
+    Object src/texture_animation.o
+    Object src/dpad_menu_box.o
+    Object src/ascii_util.o
+    Object src/geometry_math.o
+    Object src/touchpad.o
+    Object src/obj_char_transfer.o
+    Object src/obj_pltt_transfer.o
+    Object src/gf_gfx_planes.o
+    Object src/camera.o
+    Object src/billboard_lists.o
+    Object asm/billboard_lists_data.o
+    Object src/sprite.o
+    Object src/touchscreen.o
+    Object src/timer3.o
+    Object src/error_handling.o
+    Object src/gf_3d_loader.o
+    Object src/gf_g2d_renderer.o
+    Object src/g2d_cell_culling.o
+    Object src/font_data.o
+    Object src/pm_string.o
+    Object src/touch_hitbox_controller.o
+    Object src/billboard_gfx_sequence.o
+    Object src/swap_3d_buffers.o
+    Object src/palette_vram_addr.o
+    Object src/gf_3d_vramman.o
+    Object asm/system_card_data.o
+    Object src/system_card.o
+    Object src/save_arrays.o
+    Object src/save.o
+    Object src/sav_system_info.o
+    Object src/player_data.o
+    Object src/save_link_ruleset.o
+    Object src/link_ruleset_data.o
+    Object src/daycare.o
+    Object src/pokedex.o
+    Object src/save_misc.o
+    Object src/options.o
+    Object src/apricorn_tree_sys.o
+    Object src/save_gymmick.o
+    Object src/save_palpad.o
+    Object src/mail.o
+    Object src/save_fashion.o
+    Object src/friend_roster.o
+    Object asm/friend_roster_data.o
+    Object src/friend_group.o
+    Object asm/friend_group_data.o
+    Object src/coins.o
+    Object src/save_trainer_card.o
+    Object src/save_wifi_history.o
+    Object src/seal_case.o
+    Object src/igt.o
+    Object src/sav_chatot.o
+    Object src/game_stats.o
+    Object src/frontier_data.o
+    Object asm/frontier_data_rodata.o
+    Object src/save_special_ribbons.o
+    Object src/roamer.o
+    Object src/save_gts.o
+    Object src/mystery_gift.o
+    Object src/hall_of_fame.o
+    Object src/save_block_23.o
+    Object src/save_rankings.o
+    Object src/palPark_migration.o
+    Object src/update_dex_received.o
+    Object src/save_follow_mon.o
+    Object src/save_pokegear.o
+    Object src/map_markings_ram.o
+    Object src/safari_zone.o
+    Object src/photo_album.o
+    Object src/battle_record.o
+    Object asm/battle_record_data.o
+    Object src/frontier_state.o
+    Object src/frontier_save.o
+    Object src/frontier_card.o
+    Object asm/frontier_save_data.o
+    Object src/save_wii_message.o
+    Object src/save_plaza_survey.o
+    Object src/pokeathlon/pokeathlon_save.o
+    Object asm/apricorn_box_data.o
+    Object src/apricorn_box.o
+    Object src/pokewalker.o
+    Object src/save_trainer_house.o
+    Object asm/wireless_manager_data.o
+    Object src/wireless_manager.o
+    Object asm/communication_command_data.o
+    Object src/communication_command.o
+    Object src/communication_player_state.o
+    Object asm/communication_player_state_data.o
+    Object asm/comm_wireless_data.o
+    Object src/comm_wireless.o
+    Object src/communication_core.o
+    Object src/link_synchronization.o
+    Object asm/link_synchronization_data.o
+    Object src/comm_state.o
+    Object asm/wireless_status_icon_data.o
+    Object src/wireless_status_icon.o
+    Object src/communication_error.o
+    Object src/wifi_club_comm_table.o
+    Object src/wfc_user_info_warning.o
+    Object src/map_matrix.o
+    Object src/map_header.o
+    Object src/map_events.o
+    Object src/save_local_field_data.o
+    Object asm/spawn_warp_data.o
+    Object src/spawn_warp.o
+    Object src/field_system_rtc_weather.o
+    Object src/start_menu.o
+    Object src/field_interaction.o
+    Object src/field_system.o
+    Object src/location_backup.o
+    Object src/launch_application.o
+    Object src/script.o
+    Object src/script_manager.o
+    Object src/scrcmd_c.o
+    Object src/scrcmd_mart.o
+    Object src/scrcmd_strbuf.o
+    Object src/scrcmd_lottery.o
+    Object src/scrcmd_sound.o
+    Object src/scrcmd_battle.o
+    Object src/scrcmd_8.o
+    Object src/scrcmd_9.o
+    Object src/frontier_field_system.o
+    Object src/frontier_opponents.o
+    Object src/scrcmd_apricorn.o
+    Object src/scrcmd_mystery_gift.o
+    Object src/scrcmd_12.o
+    Object src/scrcmd_money.o
+    Object src/scrcmd_daycare.o
+    Object src/scrcmd_party.o
+    Object src/scrcmd_dppl_prizes.o
+    Object src/scrcmd_17.o
+    Object src/scrcmd_items.o
+    Object src/scrcmd_move_relearner.o
+    Object src/scrcmd_battle_hall.o
+    Object src/scrcmd_battle_castle.o
+    Object src/scrcmd_battle_arcade.o
+    Object src/save_vars_flags.o
+    Object src/task.o
+    Object src/encounter.o
+    Object src/battle_intro_config.o
+    Object src/battle/battle_setup.o
+    Object src/blackout.o
+    Object src/game_clear.o
+    Object src/field_warp_tasks.o
+    Object src/script_pokemon_util.o
+    Object src/terrain_attributes.o
+    Object asm/field_terrain_data.o
+    Object src/field_terrain.o
+    Object src/headbutt_tree.o
+    Object src/field_bgm.o
+    Object src/battle_transition_task.o
+    Object src/field_overworld_transition.o
+    Object src/field_time_events.o
+    Object src/catching_show.o
+    Object asm/field_transition_effects_data.o
+    Object src/field_transition_effects.o
+    Object src/field_transition_tasks.o
+    Object src/comm_player_manager.o
+    Object asm/comm_player_manager_data.o
+    Object src/comm_player_sync.o
+    Object src/communication_club_link.o
+    Object src/colosseum.o
+    Object src/union_room.o
+    Object asm/union_room_talk_data.o
+    Object src/union_room_talk.o
+    Object src/union_room_objects.o
+    Object src/union_room_avatar.o
+    Object src/dialog_box.o
+    Object src/metatile_behavior.o
+    Object asm/field_misc_util_data.o
+    Object src/field_misc_util.o
+    Object src/frontier_stat_ids.o
+    Object src/player_avatar.o
+    Object asm/player_avatar_movement_data.o
+    Object src/player_avatar_movement.o
+    Object src/map_object.o
+    Object asm/map_object_movement_tables.o
+    Object src/map_object_update.o
+    Object src/map_object_movement_utilities.o
+    Object asm/map_object_movement_data.o
+    Object src/map_object_movement.o
+    Object asm/unk_data_020FD978.o
+    Object asm/map_object_movement_commands_data.o
+    Object asm/map_object_movement_command_steps.o
+    Object asm/map_object_behavior_data.o
+    Object src/map_object_movement_commands.o
+    Object src/map_object_behavior.o
+    Object src/gymmick_collision.o
+    Object src/field_use_item.o
+    Object src/map_object_follow_player.o
+    Object src/map_object_follow_partner.o
+    Object src/map_object_hidden.o
+    Object src/map_object_follow_effects.o
+    Object src/sys_flags.o
+    Object src/sys_vars.o
+    Object asm/frontier_field_support_data.o
+    Object src/frontier_field_support.o
+    Object src/field_roamer.o
+    Object src/npc_trade_task.o
+    Object src/field_warp_state.o
+    Object src/field_move.o
+    Object src/field_move_environment.o
+    Object src/field_effects.o
+    Object src/gymmick_init.o
+    Object src/map_landmark_name.o
+    Object src/trainer_card_data.o
+    Object src/frontier_wifi_upload_record.o
+    Object src/render_model.o
+    Object src/render_animation.o
+    Object asm/render_animation_data.o
+    Object src/follow_mon.o
+    Object src/map_preview_graphic.o
+    Object src/field_take_photo.o
+    Object src/scrcmd_link_sync.o
+    Object src/alph_checks.o
+    Object src/get_egg.o
+    Object src/field_misc_events.o
+    Object src/pokemon.o
+    Object src/move.o
+    Object src/trainer_data.o
+    Object src/pokemon_storage_system.o
+    Object src/pokemon_icon_idx.o
+    Object src/party.o
+    Object src/pokedex_util.o
+    Object src/battle_regulation.o
+    Object src/battle_link_comm.o
+    Object asm/evolution_scene_data.o
+    Object src/evolution_scene.o
+    Object src/particle_scene.o
+    Object src/type_icon_resources.o
+    Object asm/type_icon_resources_data.o
+    Object src/bag_view.o
+    Object src/item.o
+    Object src/bag.o
+    Object src/wifi_club.o
+    Object asm/wifi_club_data.o
+    Object src/wifi_plaza_player_info.o
+    Object src/party_menu.o
+    Object src/party_context_menu.o
+    Object src/party_menu_sprites.o
+    Object src/party_menu_list_items.o
+    Object src/party_menu_items.o
+    Object src/naming_screen.o
+    Object asm/code_entry_data.o
+    Object src/code_entry.o
+    Object src/orbit_cursor.o
+    Object src/vs_recorder_app.o
+    Object src/vs_recorder_menu_app.o
+    Object asm/vs_recorder_screen_data.o
+    Object src/ui_util.o
+    Object asm/pokemon_summary_data.o
+    Object src/pokemon_summary.o
+    Object src/pokemon_summary_states.o
+    Object src/pokemon_summary_ui.o
+    Object src/pokemon_summary_sprites.o
+    Object asm/pokemon_summary_sprites_data.o
+    Object src/pokemon_summary_text.o
+    Object asm/pokemon_summary_text_data.o
+    Object asm/pokemon_summary_scene_data.o
+    Object src/pokemon_summary_scene.o
+    Object src/ribbon.o
+    Object src/trainer_memo.o
+    Object src/trade_communication.o
+    Object asm/trade_communication_data.o
+    Object src/drawing_session_link.o
+    Object asm/drawing_session_link_data.o
+    Object src/record_mixing_link.o
+    Object asm/record_mixing_link_data.o
+    Object src/use_item_on_mon.o
+    Object src/mail_misc.o
+    Object src/seal_data.o
+    Object src/hatch_egg_task.o
+    Object src/pokedex_language.o
+    Object src/pokedex_language_order.o
+    Object src/dex_mon_measures.o
+    Object src/field_comm_cmds.o
+    Object src/network_overlay_loader.o
+    Object asm/network_overlay_loader_data.o
+    Object src/location_gmm_dat.o
+    Object src/move_relearner.o
+    Object src/easy_chat_menu.o
+    Object asm/easy_chat_menu_data.o
+    Object src/application/delete_savedata.o
+    Object src/application/check_savedata.o
+    Object src/save_data_read_error.o
+    Object src/save_data_write_error.o
+    Object src/mart_bag_task.o
+    Object src/pokedex_resume_state.o
+    Object src/gear_phone_ring_manager.o
+    Object src/mom_gift.o
+    Object src/phone_rematch.o
+    Object src/box_mon_selector.o
+    Object asm/box_mon_selector_data.o
+    Object asm/grid_cursor_data.o
+    Object src/grid_cursor.o
+    Object src/pokeathlon_course_task.o
+    Object src/phonebook_dat.o
+    Object src/choose_starter.o
+    Object src/battle_greeting_task.o
+    Object src/error_message_reset.o
+    Object src/sin_vcount.o
+    Object src/frontier_runtime.o
+    Object asm/frontier_template.o
+	Object src/frontier_launch.o
+    Object src/battle_frontier_communication.o
+    Object asm/battle_frontier_communication_data.o
+    Object src/spin_trade_link.o
+    Object asm/spin_trade_link_data.o
+    Object src/spin_trade_flow.o
+    Object asm/spin_trade_flow_data.o
+    Object src/wifi_club_comm.o
+    Object src/safari_zone_encounters.o
+    Object src/safari_decoration_task.o
+    Object src/field_effect_launch_1.o
+    Object src/area_light_tasks_1.o
+    Object src/legendary_cinematic_manager.o
+    Object src/field_cinematic_tasks_1.o
+    Object src/view_rankings_task.o
+    Object src/pokemon_mood.o
+    Object src/swarm.o
+
+    ### Vendor libraries ###
+    Object asm/middleware.o
+    Object lib/asm/spl_data.o
+    Object lib/src/spl_manager.o
+    Object lib/src/spl_draw.o
+    Object lib/src/spl_emitter.o
+    Object lib/src/spl_draw_ptcl.o
+    Object lib/src/spl_generate.o
+    Object lib/src/spl_anim.o
+    Object lib/src/spl_field.o
+    Object lib/src/spl_list.o
+    Object lib/src/spl_random.o
+    Object lib/NitroSDK/asm/wvr_data.o
+    Object lib/NitroSDK/src/wvr.o
+    Object lib/NitroDWC/asm/dwc_bm_data.o
+    Object lib/NitroDWC/src/dwc_bm.o
+    Object lib/NitroDWC/src/dwc_nvram.o
+    Object lib/NitroDWC/src/dwc_bm_init.o
+    Object lib/NitroDWC/src/dwc_auth_wifi_id.o
+    Object lib/NitroDWC/asm/dwc_account_data.o
+    Object lib/NitroDWC/src/dwc_account.o
+    Object lib/src/nitrocrypto_rc4_init.o
+    Object lib/src/nitrocrypto_rc4_fast.o
+    Object lib/asm/wifi_data.o
+    Object lib/NitroWiFi/src/socl_startup.o
+    Object lib/NitroWiFi/src/socl_command.o
+    Object lib/NitroWiFi/src/socl_socket.o
+    Object lib/NitroWiFi/src/socl_read.o
+    Object lib/NitroWiFi/src/socl_write.o
+    Object lib/NitroWiFi/src/socl_close.o
+    Object lib/NitroWiFi/src/socl_resolver.o
+    Object lib/NitroWiFi/src/socl_status.o
+    Object lib/NitroWiFi/src/socl_list.o
+    Object lib/NitroWiFi/src/soc.o
+    Object lib/NitroWiFi/src/soc_gethostbyname.o
+    Object lib/asm/wifi_bss.o
+    Object lib/NitroWiFi/src/soc_inet.o
+    Object lib/NitroWiFi/src/socl_ssl.o
+    Object lib/libCPS/src/cps_reset.o
+    Object lib/libCPS/src/cps_util.o
+    Object lib/libCPS/src/cps_startup.o
+    Object lib/libCPS/src/cps_control.o
+    Object lib/libCPS/src/cps_link.o
+    Object lib/libCPS/src/cps_arp.o
+    Object lib/libCPS/src/cps_send.o
+    Object lib/libCPS/src/cps_ping.o
+    Object lib/libCPS/src/cps_send_transport.o
+    Object lib/libCPS/src/cps_recv.o
+    Object lib/libCPS/src/cps_tcp.o
+    Object lib/libCPS/src/cps_udp.o
+    Object lib/libCPS/src/cps_ip_frag.o
+    Object lib/libCPS/src/cps_ip.o
+    Object lib/libCPS/src/cps_socket.o
+    Object lib/libCPS/src/cps_tcp_write.o
+    Object lib/libCPS/src/cps_scavenger.o
+    Object lib/libCPS/src/cps_dhcp.o
+    Object lib/libCPS/src/cps_dns.o
+    Object lib/libCPS/src/cps_resolve.o
+    Object lib/libCPS/src/cps_ssl_session.o
+    Object lib/libCPS/src/cps_ssl_util.o
+    Object lib/libCPS/src/cps_ssl_cert.o
+    Object lib/libCPS/src/cps_ssl_hello.o
+    Object lib/libCPS/src/cps_ssl_keys.o
+    Object lib/libCPS/src/cps_ssl_record.o
+    Object lib/libCPS/src/cps_ssl_random.o
+    Object lib/libCPS/src/cps_ssl_handshake.o
+    Object lib/libCPS/src/cps_ssl.o
+    Object lib/libCPS/src/cps_md5.o
+    Object lib/libCPS/src/cps_sha1.o
+    Object lib/libCPS/src/cps_rc4.o
+    Object lib/libCPS/src/cps_bignum.o
+    Object lib/libCPS/src/cps_bignum_char.o
+    Object lib/NitroWiFi/src/wcm.o
+    Object lib/NitroWiFi/src/wcm_control.o
+    Object lib/NitroWiFi/src/wcm_callback.o
+    Object lib/NitroWiFi/src/wcm_aplist.o
+    Object lib/NitroWiFi/src/wcm_cpsif.o
+    Object lib/NitroWiFi/src/stubsmd5.o
+    Object lib/asm/vct_data.o
+    Object lib/libVCT/src/vct_adpcm.o
+    Object lib/libVCT/src/vct_audio.o
+    Object lib/asm/vct_bss.o
+    Object lib/libVCT/src/vct_audio_send.o
+    Object lib/libVCT/src/vct_decoder.o
+    Object lib/libVCT/src/vct_codec.o
+    Object lib/libVCT/src/vct_audio_queue.o
+    Object lib/libVCT/src/vct_ssp.o
+    Object lib/libVCT/src/vct_packet_buffer.o
+    Object lib/libVCT/src/vct_vad.o
+    Object lib/libVCT/src/vct_fir.o
+    Object lib/asm/vct_control_bss.o
+    Object lib/libVCT/src/vct_mix.o
+    Object lib/libVCT/src/vct_main.o
+    Object lib/asm/nnsys_data.o
+    Object lib/NitroSystem/src/fnd_list.o
+    Object lib/NitroSystem/src/fnd_heapcommon.o
+    Object lib/NitroSystem/src/fnd_expheap.o
+    Object lib/NitroSystem/src/fnd_frameheap.o
+    Object lib/NitroSystem/src/fnd_unitheap.o
+    Object lib/NitroSystem/src/fnd_allocator.o
+    Object lib/NitroSystem/src/gfd_tex_vram_man.o
+    Object lib/NitroSystem/src/gfd_pltt_vram_man.o
+    Object lib/NitroSystem/src/gfd_frame_tex_vram_man.o
+    Object lib/NitroSystem/src/gfd_frame_pltt_vram_man.o
+    Object lib/NitroSystem/src/gfd_vram_transfer_manager.o
+    Object lib/NitroSystem/src/gfd_linked_list_vram_man.o
+    Object lib/NitroSystem/src/gfd_linked_list_tex_vram_man.o
+    Object lib/NitroSystem/src/gfd_linked_list_tex_vram_man_reset.o
+    Object lib/NitroSystem/src/gfd_linked_list_pltt_vram_man.o
+    Object lib/NitroSystem/src/gfd_linked_list_pltt_vram_man_reset.o
+    Object lib/asm/nnsys_g2d_bss.o
+    Object lib/NitroSystem/src/g2d_load.o
+    Object lib/NitroSystem/src/g2d_softsprite.o
+    Object lib/NitroSystem/src/g2d_animation.o
+    Object lib/NitroSystem/src/g2d_oam.o
+    Object lib/NitroSystem/src/g2d_palette_table.o
+    Object lib/NitroSystem/src/g2d_image.o
+    Object lib/NitroSystem/src/g2d_srt_control.o
+    Object lib/NitroSystem/src/g2d_node.o
+    Object lib/NitroSystem/src/g2d_cell_animation.o
+    Object lib/NitroSystem/src/g2d_mc_animation.o
+    Object lib/NitroSystem/src/g2d_renderer_identity.o
+    Object lib/NitroSystem/src/g2d_renderer_mtx_cache.o
+    Object lib/NitroSystem/src/g2d_renderer.o
+    Object lib/NitroSystem/src/g2d_renderer_mtx_stack.o
+    Object lib/NitroSystem/src/g2d_renderer_transform.o
+    Object lib/NitroSystem/src/g2d_cell_transfer_manager.o
+    Object lib/NitroSystem/src/g2d_oam_soft_emu.o
+    Object lib/NitroSystem/src/g2d_renderer_core.o
+    Object lib/NitroSystem/src/g2d_font.o
+    Object lib/NitroSystem/src/g2d_char_canvas_util.o
+    Object lib/NitroSystem/src/g2d_char_canvas_letter.o
+    Object lib/NitroSystem/src/g2d_char_canvas.o
+    Object lib/NitroSystem/src/g2d_canvas_arrange.o
+    Object lib/NitroSystem/src/g2d_text_canvas.o
+    Object lib/NitroSystem/src/g2d_font_load.o
+    Object lib/NitroSystem/src/g2d_char_util.o
+    Object lib/NitroSystem/src/g3d_kernel.o
+    Object lib/NitroSystem/src/g3d_mdl_bind.o
+    Object lib/NitroSystem/src/g3d_glb.o
+    Object lib/asm/nnsys_g3d_snd_bss.o
+    Object lib/NitroSystem/src/g3d_glb_state.o
+    Object lib/NitroSystem/src/g3d_anm_blend.o
+    Object lib/NitroSystem/src/g3d_draw.o
+    Object lib/NitroSystem/src/g3d_sbc.o
+    Object lib/NitroSystem/src/g3d_1mat1shp.o
+    Object lib/NitroSystem/src/g3d_gecom.o
+    Object lib/NitroSystem/src/g3d_util.o
+    Object lib/NitroSystem/src/g3d_model.o
+    Object lib/NitroSystem/src/g3d_res_struct_accessor.o
+    Object lib/NitroSystem/src/g3d_res_struct_accessor_anm.o
+    Object lib/NitroSystem/src/g3d_anm_bca.o
+    Object lib/NitroSystem/src/g3d_anm_bca_trans.o
+    Object lib/NitroSystem/src/g3d_anm_bca_trans_ex.o
+    Object lib/NitroSystem/src/g3d_anm_bca_scale.o
+    Object lib/NitroSystem/src/g3d_anm_bca_data.o
+    Object lib/NitroSystem/src/g3d_anm_bma.o
+    Object lib/NitroSystem/src/g3d_anm_bta_vector.o
+    Object lib/NitroSystem/src/g3d_anm_bta_sincos.o
+    Object lib/NitroSystem/src/g3d_anm_bta.o
+    Object lib/NitroSystem/src/g3d_anm_btp_init.o
+    Object lib/NitroSystem/src/g3d_anm_btp.o
+    Object lib/NitroSystem/src/g3d_anm_bva.o
+    Object lib/NitroSystem/src/g3d_cgtool_basic.o
+    Object lib/NitroSystem/src/g3d_cgtool_maya_joint.o
+    Object lib/NitroSystem/src/g3d_cgtool_maya_texmtx.o
+    Object lib/NitroSystem/src/g3d_cgtool_maya_texmtx_s.o
+    Object lib/NitroSystem/src/g3d_cgtool_maya_texmtx_r.o
+    Object lib/NitroSystem/src/g3d_cgtool_maya_tex.o
+    Object lib/NitroSystem/src/g3d_cgtool_si3d.o
+    Object lib/NitroSystem/src/g3d_cgtool_3dsmax_texmtx.o
+    Object lib/NitroSystem/src/g3d_cgtool_3dsmax.o
+    Object lib/NitroSystem/src/g3d_cgtool_xsi_texmtx.o
+    Object lib/NitroSystem/src/g3d_cgtool_xsi_texmtx_sr.o
+Object lib/NitroSystem/src/g3d_cgtool_xsi_texmtx_t.o
+    Object lib/NitroSystem/src/g3d_cgtool_xsi.o
+    Object lib/NitroSystem/src/snd_system.o
+    Object lib/NitroSystem/src/snd_resource_mgr.o
+    Object lib/NitroSystem/src/snd_waveout.o
+    Object lib/NitroSystem/src/snd_player.o
+    Object lib/NitroSystem/src/snd_stream.o
+    Object lib/NitroSystem/src/snd_capture.o
+    Object lib/NitroSystem/src/snd_arc.o
+    Object lib/NitroSystem/src/snd_heap.o
+    Object lib/NitroSystem/src/snd_arc_loader.o
+    Object lib/asm/nnsys_snd_arc_strm_bss.o
+    Object lib/NitroSystem/src/snd_arc_loader_wave.o
+    Object lib/NitroSystem/src/snd_arc_player.o
+    Object lib/NitroSystem/src/snd_arc_strm.o
+    Object lib/NitroSystem/src/snd_seqarc.o
+    Object lib/NitroSystem/src/snd_fader.o
+
+    ### NitroSDK ###
+    Object lib/NitroSDK/asm/fx_sincos.o
+    Object lib/NitroSDK/src/fx/fx_mtx22.o
+    Object lib/NitroSDK/src/fx/fx_mtx33_identity.o
+    Object lib/NitroSDK/src/fx/fx_mtx33_scale_rot_x.o
+    Object lib/NitroSDK/src/fx/fx_mtx33_rot_yz.o
+    Object lib/NitroSDK/src/fx/fx_mtx33_inverse_concat.o
+    Object lib/NitroSDK/src/fx/fx_mtx43_identity.o
+    Object lib/NitroSDK/src/fx/fx_mtx43_trans_apply.o
+    Object lib/NitroSDK/src/fx/fx_mtx43_scale.o
+    Object lib/NitroSDK/src/fx/fx_mtx43_scale_apply.o
+    Object lib/NitroSDK/src/fx/fx_mtx43_rot.o
+    Object lib/NitroSDK/src/fx/fx_mtx43_inverse_concat.o
+    Object lib/NitroSDK/src/fx/fx_mtx44_identity.o
+    Object lib/NitroSDK/src/fx/fx_mtx44_trans_apply.o
+    Object lib/NitroSDK/src/fx/fx_mtx44_rot.o
+    Object lib/NitroSDK/src/fx/fx_mtx44_concat.o
+    Object lib/NitroSDK/src/fx/fx_mtx44_perspective.o
+    Object lib/NitroSDK/src/fx/fx_mtx44_ortho.o
+    Object lib/NitroSDK/src/fx/fx_cp.o
+    Object lib/NitroSDK/src/fx/fx_vec.o
+    Object lib/NitroSDK/src/fx/fx_vec_normalize.o
+    Object lib/NitroSDK/src/fx/fx_vec_mult_add.o
+    Object lib/NitroSDK/src/fx/fx_trig_internal.o
+    Object lib/NitroSDK/src/fx/fx_trig.o
+    Object lib/NitroSDK/src/fx/fx_atanidx.o
+    Object lib/NitroSDK/src/fx/fx.o
+    Object lib/NitroSDK/src/gx/gx.o
+    Object lib/NitroSDK/src/gx/gxstate.o
+    Object lib/NitroSDK/src/gx/gx_vramcnt.o
+    Object lib/NitroSDK/src/gx/gx_bgcnt.o
+    Object lib/NitroSDK/src/gx/g2.o
+    Object lib/NitroSDK/src/gx/g3b.o
+    Object lib/NitroSDK/src/gx/g3imm.o
+    Object lib/NitroSDK/src/gx/g3x.o
+    Object lib/NitroSDK/src/gx/g3x_nop_clear_fifo.o
+    Object lib/NitroSDK/src/gx/g3_util.o
+    Object lib/NitroSDK/src/gx/gx_load2d.o
+    Object lib/NitroSDK/src/gx/gx_load3d.o
+    Object lib/NitroSDK/src/gx/g3.o
+    Object lib/NitroSDK/src/gx/gxasm.o
+    Object lib/NitroSDK/src/os/os_wait_irq.o
+    Object lib/NitroSDK/src/os/os_irqHandler.o
+    Object lib/NitroSDK/src/os/os_irqTable.o
+    Object lib/NitroSDK/src/os/os_interrupt.o
+    Object lib/NitroSDK/src/os/os_spinLock.o
+    Object lib/NitroSDK/src/os/os_spin_lock_id.o
+    Object lib/NitroSDK/src/os/os_spin_lock_word.o
+    Object lib/NitroSDK/src/os/os_spin_lock_cartridge.o
+    Object lib/NitroSDK/src/os/os_spin_lock_card.o
+    Object lib/NitroSDK/src/os/os_printf.o
+    Object lib/NitroSDK/src/os/os_thread.o
+    Object lib/NitroSDK/src/os/os_thread_available.o
+    Object lib/NitroSDK/src/os/os_context.o
+    Object lib/NitroSDK/src/os/os_emulator.o
+    Object lib/NitroSDK/src/os/os_message.o
+    Object lib/NitroSDK/src/os/os_mutex.o
+    Object lib/NitroSDK/src/os/os_cache.o
+    Object lib/NitroSDK/src/os/os_init.o
+    Object lib/NitroSDK/src/os/os_init_system.o
+    Object lib/NitroSDK/src/os/os_arena.o
+    Object lib/NitroSDK/src/os/os_alloc.o
+    Object lib/NitroSDK/src/os/os_tcm.o
+    Object lib/NitroSDK/src/os/os_protectionUnit.o
+    Object lib/NitroSDK/src/os/os_protectionRegion.o
+    Object lib/NitroSDK/asm/os_exception_work.o
+    Object lib/NitroSDK/src/os/os_exception_init.o
+    Object lib/NitroSDK/asm/os_exception_handler.o
+    Object lib/NitroSDK/src/os/os_timer.o
+    Object lib/NitroSDK/src/os/os_tick.o
+    Object lib/NitroSDK/src/os/os_alarm_before_handler.o
+    Object lib/NitroSDK/src/os/os_alarm_irq_handler.o
+    Object lib/NitroSDK/src/os/os_alarm_after_handler.o
+    Object lib/NitroSDK/src/os/os_valarm.o
+    Object lib/NitroSDK/src/os/os_system.o
+    Object lib/NitroSDK/src/os/os_wait_vblank.o
+    Object lib/NitroSDK/src/os/os_reset_core.o
+    Object lib/NitroSDK/src/os/os_reset_system.o
+    Object lib/NitroSDK/src/os/os_ownerInfo.o
+    Object lib/NitroSDK/src/os/os_vram_exclusive_clz.o
+    Object lib/NitroSDK/src/os/os_vramExclusive.o
+    Object lib/NitroSDK/src/os/os_entropy.o
+    Object lib/NitroSDK/src/os/os_terminate_arm9.o
+    Object lib/NitroSDK/src/os/os_terminate_proc.o
+    Object lib/NitroSDK/src/mi/mi_wram.o
+    Object lib/NitroSDK/src/mi/mi_dma.o
+    Object lib/NitroSDK/src/mi/mi_dma_hblank.o
+    Object lib/NitroSDK/src/mi/mi_dma_gxcommand.o
+    Object lib/NitroSDK/src/mi/mi_memory.o
+    Object lib/NitroSDK/src/mi/mi_swap.o
+    Object lib/NitroSDK/src/mi/mi_uncompress.o
+    Object lib/NitroSDK/src/mi/mi_dma_card.o
+    Object lib/NitroSDK/src/mi/mi_compress.o
+    Object lib/NitroSDK/src/mi/mi_compress_search.o
+    Object lib/NitroSDK/src/mi/mi_init.o
+    Object lib/NitroSDK/src/snd/snd_interface.o
+    Object lib/asm/nitro_sdk_data.o
+    Object lib/NitroSDK/src/snd/snd_player_tempo_ratio.o
+    Object lib/NitroSDK/src/snd/snd_master_volume.o
+    Object lib/NitroSDK/src/snd/snd_read_driver_info.o
+    Object lib/NitroSDK/src/snd/snd_flush_command.o
+    Object lib/NitroSDK/src/snd/snd_player_local_variable.o
+    Object lib/NitroSDK/src/snd/snd_read_channel_info.o
+    Object lib/NitroSDK/src/snd/snd_read_track_info.o
+    Object lib/NitroSDK/src/snd/snd_destroy_bank.o
+    Object lib/NitroSDK/src/snd/snd_next_inst_data.o
+    Object lib/NitroSDK/src/fs/fs_send_command.o
+    Object lib/NitroSDK/src/dgt_hash.o
+    Object lib/NitroSDK/src/dgt_hash2_arm4_small.o
+    Object lib/NitroSDK/src/tp.o
+    Object lib/NitroSDK/src/mic.o
+    Object lib/NitroSDK/src/pm.o
+    Object lib/NitroSDK/src/rtc/rtc_api.o
+    Object lib/NitroSDK/src/rtc/rtc_convert_date_time_to_second.o
+    Object lib/NitroSDK/src/card/card_cache_flush_threshold.o
+    Object lib/NitroSDK/src/card/card_identify_backup.o
+    Object lib/NitroSDK/src/card/card_request_stream_command.o
+    Object lib/NitroSDK/src/card/card_try_read_dma.o
+    Object lib/NitroSDK/src/card/card_read_card.o
+    Object lib/NitroSDK/src/card/card_terminate_pulled_out.o
+    Object lib/NitroSDK/src/card/card_spi_wait_cycles.o
+    Object lib/NitroSDK/src/card/card_spi_wait_init.o
+    Object lib/NitroSDK/src/card/card_spi_wait.o
+    Object lib/NitroSDK/src/wm_core.o
+    Object lib/NitroSDK/src/wm_requests.o
+    Object lib/NitroSDK/src/wm_data_sharing.o
+    Object lib/NitroSDK/src/wm_settings.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg_init.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg_module_info.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg_flash_common.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg_flash_le39fw512.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg_flash_mx29l010.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg_flash_mn63f805mnp.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg_task.o
+    Object lib/NitroSDK/src/math/math_qsort.o
+    Object lib/NitroSDK/src/std_string.o
+    Object lib/NitroSDK/src/std_sprintf_writer.o
+    Object lib/NitroSDK/src/std_sprintf.o
+    Object lib/NitroSDK/src/snd/SND_main.o
+    Object lib/NitroSDK/src/snd/SND_command.o
+    Object lib/NitroSDK/src/snd/SND_alarm.o
+    Object lib/NitroSDK/src/snd/SND_work.o
+    Object lib/NitroSDK/src/snd/SND_util.o
+    Object lib/NitroSDK/src/snd/SND_bank.o
+    Object lib/NitroSDK/src/pxi/PXI_init.o
+    Object lib/NitroSDK/src/pxi/PXI_fifo.o
+    Object lib/NitroSDK/src/fs/FS_command.o
+    Object lib/NitroSDK/src/fs/FS_command_default.o
+    Object lib/NitroSDK/src/fs/FS_archive_prefix.o
+    Object lib/NitroSDK/src/fs/FS_archive_suffix.o
+    Object lib/NitroSDK/src/fs/FS_file.o
+    Object lib/NitroSDK/src/fs/FS_rom.o
+    Object lib/NitroSDK/src/fs/FS_overlay.o
+    Object lib/NitroSDK/src/cp/CP_context.o
+    Object lib/NitroSDK/src/rtc/rtc_internal.o
+    Object lib/NitroSDK/src/rtc/rtc_convert_pre.o
+    Object lib/NitroSDK/src/rtc/rtc_convert_post.o
+    Object lib/NitroSDK/src/card/CARD_common.o
+    Object lib/NitroSDK/src/card/CARD_backup.o
+    Object lib/NitroSDK/src/card/CARD_rom.o
+    Object lib/NitroSDK/src/card/CARD_request.o
+    Object lib/NitroSDK/src/card/CARD_pullOut.o
+    Object lib/NitroSDK/src/ctrdg/CTRDG_common.o
+    Object lib/NitroSDK/src/ctrdg/CTRDG_backup.o
+    Object lib/NitroSDK/src/ctrdg/CTRDG_flash_AT29LV512.o
+    Object lib/NitroSDK/src/math/MATH_pop.o
+    Object lib/NitroSDK/src/math/MATH_dgt.o
+    Object lib/NitroSDK/src/math/MATH_crc.o
+    Object lib/MSL_C/asm/msl_abort_exit_data.o
+    Object lib/MSL_C/src/msl_abort_exit.o
+    Object lib/MSL_C/src/msl_abort_exit_core.o
+    Object lib/MSL_c/asm/MSL_ARM_critical_regions_NITRO.o
+    Object lib/MSL_C/asm/msl_arm_math_exceptions.o
+    Object lib/MSL_C/src/msl_arm_math.o
+    Object lib/MSL_C/asm/msl_alloc_exceptions.o
+    Object lib/MSL_C/src/msl_alloc.o
+    Object lib/MSL_C/asm/msl_ansi_files_data.o
+    Object lib/MSL_C/src/msl_ansi_files.o
+    Object lib/MSL_C/src/arith.o
+    Object lib/MSL_C/asm/msl_assert_data.o
+    Object lib/MSL_C/src/msl_assert.o
+    Object lib/MSL_C/asm/msl_buffer_io_exceptions.o
+    Object lib/MSL_C/src/msl_buffer_io.o
+    Object lib/MSL_C/asm/MSL_Common_ctype.o
+    Object lib/MSL_C/src/msl_direct_io_fread.o
+    Object lib/MSL_C/asm/msl_direct_io_exceptions.o
+    Object lib/MSL_C/src/msl_direct_io_read.o
+    Object lib/MSL_C/src/msl_direct_io_write.o
+    Object lib/MSL_C/asm/MSL_Common_errno.o
+    Object lib/MSL_C/asm/msl_file_io_exceptions.o
+    Object lib/MSL_C/src/msl_file_io.o
+    Object lib/MSL_C/src/msl_filepos_ftell_core.o
+    Object lib/MSL_C/src/msl_filepos_ftell.o
+    Object lib/MSL_C/asm/msl_file_pos_exceptions.o
+    Object lib/MSL_C/src/msl_filepos_fseek_core.o
+    Object lib/MSL_C/src/msl_filepos_fseek.o
+    Object lib/MSL_C/src/msl_filepos_rewind.o
+    Object lib/MSL_C/asm/MSL_Common_float.o
+    Object lib/MSL_C/src/msl_mbstring.o
+    Object lib/MSL_C/asm/msl_locale_data.o
+    Object lib/MSL_C/src/msl_mbstring_mbstowcs.o
+    Object lib/MSL_C/src/msl_mbstring_wcstombs.o
+    Object lib/MSL_C/asm/msl_mem_exceptions.o
+    Object lib/MSL_C/src/msl_mem.o
+    Object lib/MSL_C/src/msl_mem_funcs.o
+    Object lib/MSL_C/asm/msl_printf_data.o
+    Object lib/MSL_C/src/msl_printf_formatter.o
+    Object lib/MSL_C/src/msl_qsort.o
+    Object lib/MSL_C/src/rand.o
+    Object lib/asm/msl_scanf_data.o
+    Object lib/asm/msl_scanf_string_read_types.o
+    Object lib/MSL_C/src/msl_scanf_sformatter.o
+    Object lib/MSL_C/src/msl_scanf_string_read.o
+    Object lib/MSL_C/src/msl_scanf_vsscanf.o
+    Object lib/MSL_C/src/msl_scanf_sscanf.o
+    Object lib/MSL_C/asm/msl_signal_data.o
+    Object lib/MSL_C/src/msl_signal.o
+    Object lib/MSL_C/src/msl_string_strlen.o
+    Object lib/MSL_C/src/msl_string_strcpy.o
+    Object lib/MSL_C/src/msl_string_strncpy_strcat.o
+    Object lib/MSL_C/src/msl_string_strcmp.o
+    Object lib/MSL_C/src/msl_string_strncmp_strchr.o
+    Object lib/MSL_C/asm/msl_string_strtok_data.o
+    Object lib/MSL_C/src/msl_string_strtok.o
+    Object lib/MSL_C/src/msl_string_strstr.o
+    Object lib/MSL_C/asm/msl_strtold_data.o
+    Object lib/MSL_C/src/msl_strtold_core.o
+    Object lib/MSL_C/src/msl_strtold.o
+    Object lib/MSL_C/src/msl_strtoul_core.o
+    Object lib/MSL_C/src/msl_strtoull_core.o
+    Object lib/MSL_C/src/msl_strtoul.o
+    Object lib/MSL_C/asm/msl_strtol_exceptions.o
+    Object lib/MSL_C/src/msl_strtol.o
+    Object lib/MSL_C/src/msl_wchar_io.o
+    Object lib/MSL_C/asm/MSL_Common_wctype.o
+    Object lib/MSL_C/asm/msl_wmem_exceptions.o
+    Object lib/MSL_C/src/msl_wmem.o
+    Object lib/MSL_C/asm/msl_wprintf_data.o
+    Object lib/MSL_C/src/msl_wprintf_formatter.o
+    Object lib/MSL_C/src/msl_wstring_wcslen.o
+    Object lib/MSL_C/src/msl_wstring_wcscpy.o
+    Object lib/MSL_C/src/msl_wstring_wcschr.o
+    Object lib/MSL_C/src/msl_e_pow.o
+    Object lib/MSL_C/src/msl_s_copysign.o
+    Object lib/MSL_C/src/msl_s_fabs.o
+    Object lib/MSL_C/src/msl_s_frexp.o
+    Object lib/MSL_C/src/msl_s_ldexp.o
+    Object lib/MSL_C/asm/msl_w_pow_exceptions.o
+    Object lib/MSL_C/src/msl_w_pow.o
+    Object lib/MSL_C/asm/msl_fp_ansi_data.o
+    Object lib/MSL_C/src/msl_fp_ansi_rounddec.o
+    Object lib/MSL_C/src/msl_fp_ansi_timesdec.o
+    Object lib/MSL_C/src/msl_fp_ansi_str2dec.o
+    Object lib/MSL_C/src/msl_fp_ansi_two_exp.o
+    Object lib/MSL_C/src/msl_fp_ansi_compare_dec.o
+    Object lib/MSL_C/src/msl_fp_ansi_minus_dec.o
+    Object lib/MSL_C/src/msl_fp_ansi_num2dec_internal.o
+    Object lib/MSL_C/src/msl_fp_ansi_num2dec.o
+    Object lib/MSL_C/src/msl_fp_ansi_dec2num.o
+    Object lib/MSL_C/asm/msl_math_exceptions.o
+    Object lib/MSL_C/src/msl_math.o
+    Object lib/MSL_C/asm/msl_pool_alloc_exceptions.o
+    Object lib/MSL_C/src/msl_pool_alloc.o
+    Object lib/MSL_C/src/msl_string_extras.o
+    Object lib/MSL_C/asm/msl_cpp_shared_ptr_data.o
+    Object lib/MSL_C/src/msl_shared_ptr_create.o
+    Object src/to91_msl_shared_ptr_char_d1.o
+    Object lib/MSL_C/src/msl_shared_ptr_destroy.o
+    Object lib/MSL_C/src/msl_shared_ptr_release.o
+    Object lib/MSL_C/src/msl_shared_ptr_release_weak.o
+    Object lib/MSL_C/src/msl_vector_length_error.o
+    Object lib/asm/msl_cpp_runtime_data.o
+    Object lib/MSL_C/src/msl_fp_runtime.o
+    Object lib/MSL_C/src/msl_fp_init.o
+    Object lib/asm/msl_fp_emulation_types.o
+    Object lib/MSL_C/src/msl_semihosting.o
+    Object lib/MSL_C/src/msl_console_io.o
+    Object lib/MSL_C/src/msl_exception_table.o
+    Object lib/MSL_C/src/msl_unwind_stack.o
+    Object lib/asm/msl_eh_search_exceptions.o
+    Object lib/MSL_C/src/msl_exception_lookup.o
+    Object lib/MSL_C/src/msl_unexpected.o
+    Object lib/MSL_C/src/msl_bad_exception_dtor.o
+    Object lib/MSL_C/src/msl_handle_unexpected.o
+    Object lib/asm/msl_cpp_runtime_exceptions.o
+    Object lib/MSL_C/src/msl_exception_throw.o
+    Object lib/MSL_C/src/msl_std_exception_classes.o
+    Object src/to91_msl_scalar_new.o
+    Object lib/MSL_C/src/msl_delete.o
+    Object src/to91_msl_array_new.o
+    Object lib/MSL_C/src/msl_new_bad_alloc.o
+    Object lib/MSL_C/src/msl_static_init.o
+    Object lib/MSL_C/src/msl_type_info.o
+    Object lib/MSL_C/src/msl_exception_handlers.o
+    Object lib/MSL_C/src/msl_exception_frames.o
+    Object lib/asm/msl_eh_throw_types.o
+    Object lib/MSL_C/src/msl_transfer_control.o
+    Object lib/MSL_C/src/msl_throw.o
+    Object lib/MSL_C/src/msl_exit_process.o
+}
+
+Autoload ITCM
+{
+    Address 0x01FF8000
+    Object lib/NitroSDK/src/os/os_irqHandler.o (.itcm)
+    Object lib/NitroSDK/src/os/os_reset_core.o (.itcm)
+    Object lib/NitroSDK/src/os/os_reset_boot.o (.itcm)
+    Object lib/NitroSDK/src/os/os_reset_clear32.o (.itcm)
+    Object lib/NitroSDK/src/mi/mi_dma.o (.itcm)
+    Object lib/NitroSDK/src/mi/mi_dma_gxcommand.o (.itcm)
+}
+
+Autoload DTCM
+{
+    Address 0x027E0000
+    Object lib/NitroSDK/src/os/os_irqHandler.o (.dtcm)
+    Object lib/NitroSDK/src/os/os_irqTable.o (.dtcm)
+    Object lib/NitroSDK/src/os/os_irqHandler.o (.dtcm.bss)
+    Object lib/NitroSDK/src/os/os_irqTable.o (.dtcm.bss)
+}
+Overlay OVY_0
+{
+    After main
+    Object src/wifi_connection.o
+    Object src/voice_chat.o
+    Object asm/wifi_connection_data.o
+    Object src/voice_chat_conference.o
+    Object lib/NitroDWC/asm/dwc_lib_rodata.o
+    Object lib/NitroDWC/src/auth_client.o
+    Object lib/NitroDWC/asm/dwc_lib_data.o
+    Object lib/NitroDWC/src/auth_request.o
+    Object lib/NitroDWC/src/auth_http.o
+    Object lib/NitroDWC/src/auth_netcheck.o
+    Object lib/NitroDWC/src/net_common.o
+    Object lib/NitroDWC/asm/dwc_lib_bss.o
+    Object lib/NitroDWC/src/dwc_main.o
+    Object lib/NitroDWC/src/dwc_login.o
+    Object lib/NitroDWC/src/friend_manager.o
+    Object lib/NitroDWC/src/friend_list.o
+    Object lib/NitroDWC/src/friend_callback.o
+    Object lib/NitroDWC/src/match_setup.o
+    Object lib/NitroDWC/src/match_connect.o
+    Object lib/NitroDWC/src/match_command.o
+    Object lib/NitroDWC/src/match_join.o
+    Object lib/NitroDWC/src/match_sync.o
+    Object lib/NitroDWC/src/match_browse.o
+    Object lib/NitroDWC/src/transport.o
+    Object lib/NitroDWC/src/ap_connect_control.o
+    Object lib/NitroDWC/src/ap_connect.o
+    Object lib/NitroDWC/src/available_check_poll.o
+    Object lib/NitroDWC/asm/dwc_gamespy_bss.o
+    Object lib/NitroDWC/src/gs_platform.o
+    Object lib/NitroDWC/src/gp_api.o
+    Object lib/NitroDWC/src/gp_main.o
+    Object lib/NitroDWC/src/gp_buffer.o
+    Object lib/NitroDWC/src/gp_connect.o
+    Object lib/NitroDWC/src/gp_operation.o
+    Object lib/NitroDWC/src/gp_peer.o
+    Object lib/NitroDWC/src/gp_search.o
+    Object lib/NitroDWC/src/gp_utility.o
+    Object lib/NitroDWC/src/persist_data.o
+    Object lib/NitroDWC/src/gt_buffer.o
+    Object lib/NitroDWC/src/gt_socket.o
+    Object lib/NitroDWC/src/gt_connection.o
+    Object lib/NitroDWC/src/nat_negotiate.o
+    Object lib/NitroDWC/src/query_report_init.o
+    Object lib/NitroDWC/src/server_report.o
+    Object lib/NitroDWC/src/sb_query_engine.o
+    Object lib/NitroDWC/src/sb_server.o
+    Object lib/NitroDWC/src/sb_serverlist.o
+}
+Overlay field
+{
+    After main
+    Object src/field/fieldmap.o
+    Object src/field/field_3d_object_task.o
+    Object src/field/field_control.o
+    Object src/field/field_sprite_manager.o
+    Object src/field/map_prop_animation.o
+    Object src/field/door_transition.o
+    Object src/field/area_light.o
+    Object asm/door_transition_area_light_data.o
+    Object src/field/build_model_shapes.o
+    Object src/field_fog.o
+    Object src/field/field_model_attributes.o
+    Object src/field/field_camera.o
+    Object asm/field_camera_data.o
+    Object src/field/field_bottom_screen.o
+    Object src/field/field_texture_manager.o
+    Object src/field/weather_manager.o
+    Object src/field/script_menu.o
+    Object src/field/scrcmd_message.o
+    Object src/field/draw_map_name.o
+    Object src/field/encounter_effect.o
+    Object src/field/encounter_effect_wipe.o
+    Object src/field/encounter_effect_util.o
+    Object src/field/encounter_effect_particles.o
+    Object asm/encounter_effect_data.o
+    Object src/field/encounter_effect_wave_direction.o
+    Object src/field/field_effect_manager.o
+    Object asm/field_effect_manager_data.o
+    Object src/field/field_effect_manager_texture.o
+    Object src/field/player_avatar_actions.o
+    Object asm/player_avatar_actions_data.o
+    Object src/field/spin_slide.o
+    Object src/field/warp_spin.o
+    Object src/field/map_prop_manager.o
+    Object src/field/signpost.o
+    Object asm/save_stats_printer_data.o
+    Object src/field/save_stats_printer.o
+    Object src/field/field_motion_blur.o
+    Object asm/map_load_manager_data.o
+    Object src/field/map_load_manager.o
+    Object src/field/bottom_screen_app.o
+    Object src/field/pal_pad_registration.o
+    Object asm/overlay_01_sprite_data.o
+    Object src/field/map_object_billboard_motion.o
+    Object asm/map_object_billboard_motion_data.o
+    Object src/field/map_object_models.o
+    Object asm/map_object_render_data.o
+    Object src/field/map_object_render.o
+    Object src/field/map_load_buffers.o
+    Object src/field/bdhc.o
+    Object src/field/dynamic_terrain_height.o
+    Object src/field/hblank_system.o
+    Object src/field/field_poison_effect.o
+    Object src/field/area_data.o
+    Object asm/area_data_tables.o
+    Object src/field/honey_sweet_scent.o
+    Object src/field/resource_bank.o
+    Object asm/overlay_01_data_02208BFC.o
+    Object src/field/fishing.o
+    Object src/field/field_camera_zoom.o
+    Object src/field/field_move_sweet_scent.o
+    Object src/field/map_object_model_list.o
+    Object src/field/field_shadow.o
+    Object asm/field_shadow_data.o
+    Object asm/field_reflection_data.o
+    Object src/field/field_reflection.o
+    Object src/field/field_footprints.o
+    Object asm/field_apricorn_regrowth_data.o
+    Object src/field/field_apricorn_regrowth.o
+    Object asm/field_apricorn_regrowth_gfx_data.o
+    Object src/field/field_surf_mount.o
+    Object src/field/field_rock_climb_effect.o
+    Object src/field/field_puddle_splash.o
+    Object src/field/field_mud_splash.o
+    Object asm/field_tall_grass_data.o
+    Object src/field/field_tall_grass.o
+    Object src/field/field_shallow_water_ripple.o
+    Object src/field/field_ground_dust.o
+    Object asm/field_very_tall_grass_data.o
+    Object src/field/field_very_tall_grass.o
+    Object src/field/field_unused_billboard_effect.o
+    Object src/field/field_hidden_object_cover.o
+    Object src/field/field_trainer_reveal.o
+    Object src/field/field_emote_mark.o
+    Object asm/field_emote_mark_data.o
+    Object src/field/field_union_chat_marker.o
+    Object src/field/field_warp_arrow.o
+    Object asm/field_warp_arrow_data.o
+    Object src/field/scrcmd_pokemon_misc.o
+    Object src/field/scrcmd_move_tutor.o
+    Object src/field/scrcmd_moneybox.o
+    Object src/field/field_follow_mon_ball.o
+    Object asm/field_follow_mon_ball_data.o
+    Object src/field/field_emote_bubble.o
+    Object asm/field_flash_darkness_data.o
+    Object src/field/field_flash_darkness.o
+    Object src/field/map_prop_render.o
+    Object src/field/apricorn_tree_anim.o
+    Object src/field/rock_smash_item.o
+    Object src/field/headbutt.o
+    Object src/field/field_shaymin_form_change.o
+    Object asm/field_shaymin_form_change_data.o
+    Object src/field/field_follow_mon.o
+    Object asm/field_follow_mon_data.o
+}
+Overlay OVY_2
+{
+    After field
+    Object src/field/script_field_effects.o
+    Object asm/script_field_effects_data.o
+    Object src/field/encounter_check.o
+    Object src/field/sprite_gfx_manager.o
+    Object src/field/fly_landing_effect.o
+    Object src/field/field_move_cut_in.o
+    Object src/field/field_move_cut_in_effects.o
+    Object src/field/map_prop_anims.o
+    Object src/field/field_move_warp_tasks.o
+    Object src/field/primo_password.o
+    Object src/field/field_move_effects.o
+    Object src/field/map_object_swap_positions.o
+    Object src/field/safari_zone_placement.o
+    Object src/field/follow_mon_interaction.o
+    Object asm/field_move_effects_data.o
+    Object src/field/legend_cutscene_camera.o
+    Object src/field/overlay_2_gear_phone.o
+    Object src/field/event_cutscene_shaymin.o
+    Object src/field/event_cutscene_celebi.o
+    Object src/field/event_cutscene_sinjoh.o
+    Object src/field/fashion_case_gifts.o
+}
+Overlay OVY_3
+{
+    After OVY_2
+    Object src/overlay_03/communication_club.o
+    Object src/overlay_03/battle_regulation_menu.o
+    Object src/overlay_03/shop_menu.o
+    Object src/overlay_03/custom_safari_zone.o
+    Object src/overlay_03/overlay_03_scrcmds.o
+    Object src/overlay_03/pokeathlon_records.o
+}
+Overlay OVY_4
+{
+    After OVY_2
+    Object src/field/gymmick/violet.o
+    Object src/field/gymmick/azalea.o
+    Object src/field/gymmick/ecruteak.o
+    Object src/field/gymmick/blackthorn.o
+    Object src/field/gymmick/cianwood.o
+    Object src/field/gymmick/vermilion.o
+    Object src/field/gymmick/fuchsia.o
+    Object src/field/gymmick/viridian.o
+    Object src/field/gymmick/sinjoh.o
+}
+Overlay OVY_5
+{
+    After OVY_0
+    Object src/battle/link_battle_screen.o
+    Object asm/link_battle_screen_data.o
+}
+Overlay OVY_6
+{
+    After OVY_0
+    Object src/overlay_06.o
+}
+Overlay OVY_7
+{
+    After OVY_6
+    Object src/battle/battle_anim_system.o
+    Object src/battle/battle_anim_emitter.o
+Object src/battle/battle_anim_util.o
+    Object src/battle/battle_anim_funcs.o
+    Object src/battle/battle_anim_move_effects.o
+    Object src/battle/battle_anim_effects.o
+    Object src/battle/battle_anim_battler_util.o
+    Object src/battle/battle_anim_ball.o
+    Object asm/battle_anim_data.o
+}
+Overlay OVY_8
+{
+    After OVY_6
+    Object src/battle/battle_party_menu.o
+    Object src/battle/battle_bag_menu.o
+    Object src/battle/battle_dpad_cursor.o
+    Object asm/battle_menu_data.o
+    Object src/battle/battle_dpad_cursor_input.o
+}
+Overlay OVY_9
+{
+    After OVY_6
+}
+Overlay OVY_10
+{
+    After OVY_6
+    Object src/battle/trainer_ai.o
+    Object asm/trainer_ai_data.o
+}
+Overlay OVY_11
+{
+    After main
+}
+Overlay OVY_12
+{
+    After OVY_7
+    Object src/battle/battle_022378C0.o
+    Object src/battle/battle_main.o
+    Object asm/battle_main_data.o
+    Object src/battle/battle_system.o
+    Object src/battle/battle_command.o
+    Object asm/overlay_12_battle_command.o
+    Object src/battle/battle_controller_player.o
+    Object src/battle/battle_util.o
+    Object src/battle/battle_controller_opponent.o
+    Object asm/battle_controller_opponent_data.o
+    Object src/battle/battle_pokepic_bob.o
+    Object src/battle/battle_controller.o
+    Object src/battle/battle_hp_bar.o
+    Object src/battle/battle_terrain.o
+    Object src/battle/battle_input.o
+    Object src/battle/party_gauge.o
+    Object src/battle/battle_cursor.o
+    Object src/battle/battle_finger.o
+    Object src/battle/battle_recording_stop.o
+}
+Overlay OVY_13
+{
+    After OVY_0
+    Object src/overlay_13_thumb_1.o
+    Object lib/NitroSDK/asm/mb_data.o
+    Object lib/NitroSDK/src/mb/mb_parent_comm.o
+    Object lib/NitroSDK/src/mb/mb_parent_recv_child.o
+    Object lib/NitroSDK/src/mb/mb_parent_data.o
+    Object lib/NitroSDK/src/mb/mb_parent_send_block.o
+    Object lib/NitroSDK/src/mb/mb_parent_send_data.o
+    Object lib/NitroSDK/src/mb/mb_parent_calc_block.o
+    Object lib/NitroSDK/src/mb/mb_parent_util.o
+    Object lib/NitroSDK/src/mb/mb_read_segment.o
+    Object lib/NitroSDK/src/mb/mb_download_info.o
+    Object lib/NitroSDK/src/mb/mb_beacon_fixed.o
+    Object lib/NitroSDK/src/mb/mb_beacon_volat_init.o
+    Object lib/NitroSDK/src/mb/mb_beacon_volat.o
+    Object lib/NitroSDK/src/mb/mb_wm_callbacks.o
+    Object lib/NitroSDK/src/mb/mb_init.o
+    Object lib/NitroSDK/src/mb/mb_parent_start_end.o
+    Object lib/NitroSDK/src/mb/mb_disconnect.o
+    Object lib/NitroSDK/src/mb/mb_comm_params.o
+    Object lib/NitroSDK/src/mb/mb_wm_error.o
+    Object lib/NitroSDK/src/mb/mb_cache.o
+    Object lib/NitroSDK/src/mb/mb_task_thread.o
+    Object lib/NitroSDK/src/mb/mb_task_piece_buffer.o
+    Object src/wifi_setup.o
+    Object src/wifi_setup_session.o
+    Object src/wifi_setup_state.o
+    Object src/wifi_setup_result.o
+    Object src/wifi_setup_protocol.o
+    Object src/wifi_setup_platform.o
+    Object src/wifi_setup_connect.o
+    Object src/wifi_setup_wcm.o
+    Object src/wifi_setup_link.o
+    Object src/wifi_setup_ap_select.o
+    Object src/wifi_setup_packet.o
+    Object src/wifi_setup_worker.o
+    Object src/wifi_setup_crypto.o
+    Object src/wifi_setup_md5.o
+    Object src/wifi_setup_api.o
+    Object asm/wifi_setup_data.o
+    Object lib/NitroDWC/asm/wifi_setup_dwc_data.o
+    Object src/wifi_setup_busy_icon.o
+    Object lib/NitroDWC/asm/wifi_setup_ui_parts_bss.o
+    Object src/wifi_setup_ui_parts.o
+    Object src/wifi_setup_keyboard_slide_in.o
+    Object src/wifi_setup_keyboard_input.o
+    Object src/wifi_setup_keyboard_layout.o
+    Object lib/NitroDWC/asm/wifi_setup_keyboard_rodata.o
+    Object src/wifi_setup_keyboard_view.o
+    Object src/wifi_setup_keypad.o
+    Object src/wifi_setup_keypad_layout.o
+    Object lib/NitroDWC/asm/wifi_setup_keypad_rodata.o
+    Object src/wifi_setup_keypad_view.o
+    Object lib/NitroDWC/asm/wifi_setup_app_bss.o
+    Object src/wifi_setup_app.o
+    Object lib/NitroDWC/asm/wifi_setup_screens_bss.o
+    Object src/wifi_setup_screens.o
+    Object src/wifi_setup_address_entry_init.o
+    Object lib/NitroDWC/asm/wifi_setup_address_entry_rodata.o
+    Object src/wifi_setup_address_entry.o
+    Object src/wifi_setup_error_screen.o
+    Object src/wifi_setup_settings.o
+    Object lib/NitroDWC/asm/wifi_setup_screens_rodata.o
+    Object src/wifi_setup_auto_setup.o
+    Object src/wifi_setup_connection_menu.o
+    Object src/wifi_setup_usb_connector_screen.o
+    Object src/wifi_setup_bg_screen_state.o
+    Object src/wifi_setup_bg_screen.o
+    Object src/wifi_setup_scroll_bar_state.o
+    Object src/wifi_setup_scroll_bar.o
+    Object src/wifi_setup_ap_scan_state.o
+    Object lib/NitroDWC/asm/wifi_setup_access_points_bss.o
+    Object src/wifi_setup_access_points.o
+    Object lib/NitroDWC/asm/wifi_setup_ui_system_bss.o
+    Object src/wifi_setup_local_wireless.o
+    Object lib/NitroDWC/asm/wifi_setup_share_data.o
+    Object src/wifi_setup_share.o
+    Object src/wifi_setup_ui_system.o
+}
+Overlay OVY_14
+{
+    After main
+    Object src/application/pc_box/pc_box.o
+    Object src/application/pc_box/pc_box_ui.o
+    Object src/application/pc_box/pc_box_states.o
+    Object src/application/pc_box/pc_box_sprites.o
+    Object src/application/pc_box/pc_box_text.o
+    Object src/application/pc_box/pc_box_grid_input.o
+    Object asm/overlay_14_state_dispatch_rodata_67.o
+}
+Overlay OVY_15
+{
+    After OVY_14
+    Object src/application/bag/bag_app.o
+    Object asm/bag_app_data.o
+    Object src/application/bag/bag_app_display.o
+}
+Overlay OVY_16
+{
+    After OVY_15
+    Object src/berry_growth.o
+    Object src/berry_pots.o
+}
+Overlay OVY_17
+{
+    After OVY_16
+    Object src/berry_pots_app.o
+    Object src/berry_pots_app_tasks.o
+}
+Overlay OVY_18
+{
+    After main
+    Object src/poketool/pokefoot.o
+    Object src/application/pokedex/pokedex_species_text.o
+    Object src/application/pokedex/pokedex_app.o
+    Object src/application/pokedex/pokedex_screen_setup.o
+    Object src/application/pokedex/pokedex_main_seq.o
+    Object src/application/pokedex/pokedex_windows.o
+    Object src/application/pokedex/pokedex_sprites.o
+    Object src/application/pokedex/pokedex_area_sprites.o
+    Object src/application/pokedex/pokedex_size_check.o
+    Object src/application/pokedex/pokedex_forms.o
+    Object src/application/pokedex/pokedex_input.o
+    Object src/application/pokedex/pokedex_search.o
+    Object src/application/pokedex/pokedex_entry_popup.o
+    Object src/application/pokedex/pokedex_text_util.o
+    Object asm/pokedex_rodata.o
+}
+Overlay OVY_19
+{
+    After OVY_3
+    Object src/application/view_photo.o
+}
+Overlay OVY_20
+{
+    After OVY_3
+    Object src/scrcmd_size_record.o
+}
+Overlay OVY_21
+{
+    After OVY_3
+    Object src/scrcmd_fossils.o
+}
+Overlay OVY_22
+{
+    After OVY_3
+    Object src/overlay_22.o
+}
+Overlay npc_trade
+{
+    After OVY_3
+    Object src/npc_trade.o
+}
+Overlay bug_contest
+{
+    After OVY_3
+    Object src/overlay_bug_contest.o
+}
+Overlay OVY_25
+{
+    After OVY_3
+    Object src/overlay_25.o
+}
+Overlay OVY_26
+{
+    After OVY_3
+    Object src/trainer_rematch.o
+    Object src/talked_trainer_movement.o
+}
+Overlay OVY_27
+{
+    After bug_contest
+    Object src/touchscreen_menu.o
+    Object src/touchscreen_choice_menu.o
+    Object asm/touchscreen_menu_data.o
+}
+Overlay OVY_28
+{
+    After OVY_27
+    Object src/dowsing_mchn.o
+    Object asm/dowsing_mchn_data.o
+}
+Overlay OVY_29
+{
+    After OVY_27
+    Object src/number_entry.o
+}
+Overlay touch_save_app
+{
+    After OVY_27
+    Object src/touch_save_app.o
+}
+Overlay OVY_31
+{
+    After OVY_27
+    Object src/touch_mart_app.o
+    Object asm/touch_mart_app_data.o
+}
+Overlay OVY_32
+{
+    After OVY_27
+    Object src/friend_roster_app.o
+    Object asm/friend_roster_app_data.o
+}
+Overlay OVY_33
+{
+    After OVY_27
+    Object src/comm_club_buttons.o
+}
+Overlay OVY_34
+{
+    After OVY_27
+    Object src/union_chat_log.o
+    Object asm/union_chat_log_data.o
+    Object src/union_chat_log_arrows.o
+}
+Overlay OVY_35
+{
+    After npc_trade
+    Object src/field_hook_unused.o
+}
+Overlay OVY_36
+{
+    After main
+    Object src/overlay_36.o
+}
+Overlay OVY_37
+{
+    After main
+    Object src/drawing_session.o
+    Object asm/drawing_session_data.o
+    Object src/drawing_session_stroke.o
+}
+Overlay OVY_38
+{
+    After OVY_0
+    Object src/game_stats_request.o
+    Object src/game_stats_request_state.o
+    Object asm/overlay_38_thumb_data.o
+    Object lib/NitroDWC/asm/http_data.o
+    Object lib/NitroDWC/src/http_connection.o
+    Object lib/NitroDWC/src/http_request.o
+    Object lib/NitroDWC/src/http_engine_init.o
+    Object lib/NitroDWC/asm/http_socket_bss.o
+    Object lib/NitroDWC/src/http_engine_request.o
+    Object lib/NitroDWC/src/http_socket_queue.o
+    Object lib/NitroDWC/src/http_socket_request.o
+    Object lib/NitroDWC/src/http_socket_worker.o
+}
+Overlay OVY_39
+{
+    After OVY_38
+    Object src/global_terminal_net.o
+    Object src/global_terminal_connect.o
+    Object asm/global_terminal_data.o
+    Object asm/global_terminal_socket_data.o
+    Object src/global_terminal_socket.o
+}
+Overlay OVY_40
+{
+    After OVY_39
+    Object src/application/vs_recorder/vs_recorder.o
+    Object src/application/vs_recorder/vs_recorder_ui.o
+    Object asm/vs_recorder_app_rodata.o
+    Object src/application/vs_recorder/vs_recorder_row_text.o
+    Object src/application/vs_recorder/vs_recorder_gfx.o
+    Object src/application/vs_recorder/vs_recorder_windows.o
+    Object src/application/vs_recorder/vs_recorder_list.o
+    Object src/application/vs_recorder/vs_recorder_util.o
+    Object src/application/vs_recorder/vs_recorder_screen.o
+    Object src/application/vs_recorder/vs_recorder_title.o
+    Object src/application/vs_recorder/vs_recorder_menu.o
+    Object src/application/vs_recorder/vs_recorder_saved_video.o
+    Object src/application/vs_recorder/vs_recorder_frontier_record.o
+    Object src/application/vs_recorder/vs_recorder_dress_up.o
+    Object src/application/vs_recorder/vs_recorder_box_data.o
+    Object src/application/vs_recorder/vs_recorder_box_list_title.o
+    Object src/application/vs_recorder/vs_recorder_box_list.o
+    Object src/application/vs_recorder/vs_recorder_rankings.o
+    Object src/application/vs_recorder/vs_recorder_video_list.o
+    Object src/application/vs_recorder/vs_recorder_net.o
+    Object src/application/vs_recorder/vs_recorder_video_search.o
+    Object src/application/vs_recorder/vs_recorder_video_transfer.o
+    Object src/application/vs_recorder/vs_recorder_number_pad.o
+    Object src/application/vs_recorder/vs_recorder_delete.o
+    Object src/application/vs_recorder/vs_recorder_battle_names.o
+    Object asm/vs_recorder_data.o
+    Object src/application/vs_recorder/vs_recorder_record.o
+}
+Overlay OVY_41
+{
+    After OVY_40
+    Object src/application/dress_up/dress_up_gfx.o
+    Object src/application/dress_up/dress_up.o
+    Object src/application/dress_up/dress_up_canvas.o
+    Object src/application/dress_up/dress_up_tray.o
+    Object src/application/dress_up/dress_up_touch.o
+    Object src/application/dress_up/dress_up_objects.o
+    Object src/application/dress_up/dress_up_buttons.o
+    Object src/application/dress_up/dress_up_hud.o
+    Object src/application/dress_up/accessory_portrait.o
+    Object asm/dress_up_rodata.o
+}
+Overlay OVY_42
+{
+    After OVY_38
+    Object src/field2d_char_sprite.o
+    Object src/field2d_char_sprite_anim.o
+    Object src/field2d_object.o
+    Object src/field2d_view.o
+}
+Overlay OVY_43
+{
+    After OVY_42
+    Object src/application/palpad/palpad.o
+    Object src/application/palpad/palpad_menu.o
+    Object src/application/palpad/palpad_roster.o
+    Object src/application/palpad/palpad_friend_code.o
+    Object src/application/palpad/palpad_details.o
+    Object asm/palpad_data.o
+    Object src/application/palpad/palpad_details_text.o
+}
+Overlay OVY_44
+{
+    After OVY_42
+    Object src/wifi_club_app.o
+    Object src/wifi_club_room.o
+    Object src/wifi_club_room_maps.o
+    Object src/wifi_club_game_entry.o
+}
+Overlay OVY_45
+{
+    After OVY_42
+    Object src/wifi_plaza.o
+    Object src/wifi_plaza_work.o
+    Object src/wifi_plaza_player.o
+    Object src/wifi_plaza_lobby.o
+    Object src/wifi_plaza_state.o
+    Object src/wifi_plaza_requests.o
+    Object src/wifi_plaza_groups.o
+    Object src/wifi_plaza_receive.o
+    Object src/wifi_plaza_word_set.o
+    Object src/wifi_plaza_history.o
+    Object src/wifi_plaza_apps.o
+    Object src/wifi_plaza_util.o
+    Object src/wifi_plaza_news.o
+    Object src/wifi_plaza_news_events.o
+    Object src/wifi_plaza_lobby_client.o
+    Object src/wifi_plaza_lobby_players.o
+    Object src/wifi_plaza_lobby_events.o
+    Object src/wifi_plaza_lobby_matches.o
+    Object src/wifi_plaza_player_objects.o
+    Object asm/wifi_plaza_lobby_data.o
+    Object src/wifi_plaza_sprite_culling.o
+    Object src/wifi_plaza_time_zone.o
+    Object lib/NitroDWC/asm/dwc_lobby_data.o
+    Object src/ppw_lobby_get_work.o
+    Object src/ppw_lobby_initialize_async.o
+    Object src/ppw_lobby_initialize.o
+    Object src/ppw_lobby_player_destroy.o
+    Object src/ppw_lobby_shutdown.o
+    Object src/ppw_lobby_process.o
+    Object src/ppw_lobby_web_request_delete.o
+    Object src/lobby_byte_vector_data.o
+    Object src/ov45_02231c8c.o
+    Object src/ppw_lobby_get_channel_base_name.o
+    Object src/ov45_02231ec0.o
+    Object src/ppw_lobby_get_time_info.o
+    Object src/ppw_lobby_get_sub_channel_state.o
+    Object src/ppw_lobby_set_channel_data.o
+    Object src/ppw_lobby_get_channel_data.o
+    Object src/ppw_lobby_get_channel_name.o
+    Object src/lobby_u32_vector_data2.o
+    Object src/ov45_022325b0.o
+    Object src/lobby_char_vector_assign_range.o
+    Object src/ov45_022327b8.o
+    Object src/ov45_0223285c.o
+    Object src/lobby_timer_map_make_entry.o
+    Object src/lobby_string_format.o
+    Object src/ppw_lobby_recruit.o
+    Object src/lobby_timer_map_find.o
+    Object src/ov45_02232e60.o
+    Object lib/NitroDWC/asm/dwc_lobby_chat_data.o
+    Object src/ov45_022383e0.o
+    Object src/lobby_timer_map_find_insert_pos.o
+    Object src/ov45_022384bc.o
+    Object src/ov45_02238508.o
+    Object src/ppw_lobby_player_set_destroy_nodes.o
+    Object src/lobby_string_vector_append_copies_slow.o
+    Object src/lobby_string_vector_erase_at_end.o
+    Object src/lobby_char_vector_append_zeros_slow.o
+    Object src/lobby_char_vector_buffer.o
+    Object src/lobby_char_vector_buffer_deallocate.o
+    Object src/lobby_string_vector_buffer_allocate.o
+    Object src/lobby_string_vector_buffer_deallocate.o
+    Object src/ppw_lobby_schedule_init.o
+    Object src/ppw_lobby_schedule_copy.o
+    Object src/ppw_lobby_schedule_copy_to_vector.o
+    Object src/ov45_02238c74.o
+    Object src/ov45_02238d54.o
+    Object src/lobby_event_deque_append_range.o
+    Object src/ov45_02238f18.o
+    Object src/lobby_event_deque_copy.o
+    Object src/lobby_sort_stable_sort.o
+    Object src/lobby_sort_stable_sort_adaptive.o
+    Object src/lobby_sort_merge_adaptive.o
+    Object src/lobby_sort_rotate.o
+    Object src/lobby_sort_lower_bound.o
+    Object src/lobby_sort_upper_bound.o
+    Object src/ov45_02239bbc.o
+    Object src/ov45_02239df0.o
+    Object src/ov45_02239f48.o
+    Object src/ov45_0223a0cc.o
+    Object src/ov45_0223a4c8.o
+    Object src/ov45_0223a7e4.o
+    Object src/ov45_0223a9c0.o
+    Object src/lobby_event_vector_assign_range.o
+    Object src/ov45_0223aca4.o
+    Object src/lobby_vip_vector_assign_range.o
+    Object src/ov45_0223ae84.o
+    Object src/ppw_lobby_schedule_questionnaire.o
+    Object src/ppw_lobby_schedule_process.o
+    Object src/ppw_lobby_schedule_start.o
+    Object src/lobby_event_deque_iterator_at.o
+    Object src/ov45_0223b2dc.o
+    Object src/ov45_0223b764.o
+    Object src/lobby_event_deque_erase_at_begin.o
+    Object src/ov45_0223b8e0.o
+    Object src/ov45_0223ba3c.o
+    Object src/lobby_event_deque_map_recommend_size.o
+    Object src/lobby_event_deque_map_length_error.o
+    Object src/lobby_vip_vector_reallocate.o
+    Object src/lobby_vip_vector_recommend_size.o
+    Object src/lobby_event_vector_reallocate.o
+    Object src/lobby_event_vector_recommend_size.o
+    Object src/ov45_0223bf9c.o
+    Object src/ov45_0223c53c.o
+    Object src/lobby_event_deque_map_copy_backward.o
+    Object src/lobby_event_deque_map_copy.o
+    Object src/ov45_0223ca14.o
+    Object src/lobby_event_deque_map_buffer.o
+    Object src/lobby_event_deque_map_iterator_distance.o
+    Object src/lobby_event_deque_map_init_copy.o
+    Object src/lobby_event_deque_map_append_range.o
+    Object src/ov45_0223d0a8.o
+    Object src/lobby_event_deque_map_allocate.o
+    Object src/lobby_event_deque_map_iterator_distance2.o
+    Object src/ov45_0223d27c.o
+    Object src/ov45_0223d644.o
+    Object src/ppw_lobby_encode_message.o
+    Object src/ov45_0223db8c.o
+    Object src/ppw_lobby_players.o
+    Object src/ov45_0223df4c.o
+    Object src/ppw_lobby_players_get_entered_ids.o
+    Object src/ov45_0223e100.o
+    Object src/ppw_lobby_player_has_profiles.o
+    Object src/ov45_0223e4a8.o
+    Object src/ov45_0223e558.o
+    Object src/ov45_0223e648.o
+    Object src/lobby_u32_vector_buffer.o
+    Object src/lobby_u32_vector_buffer_deallocate.o
+    Object src/lobby_chat_on_disconnected.o
+    Object src/lobby_chat_on_private_message.o
+    Object src/ov45_0223f000.o
+    Object src/lobby_chat_on_channel_message.o
+    Object src/lobby_chat_on_user_joined.o
+    Object src/lobby_chat_on_user_parted.o
+    Object src/lobby_chat_on_user_changed_nick.o
+    Object src/lobby_chat_on_user_mode_changed.o
+    Object src/lobby_chat_callbacks.o
+    Object src/lobby_chat_on_nick_error.o
+    Object src/lobby_chat_manager_get_nick.o
+    Object src/ov45_0223fc6c.o
+    Object src/lobby_request_map_find.o
+    Object src/ov45_0223fe28.o
+    Object src/ov45_0223ffe8.o
+    Object src/ov45_0224005c.o
+    Object src/lobby_chat_on_enter_channel.o
+    Object src/lobby_chat_on_get_channel_keys.o
+    Object src/lobby_chat_on_broadcast_key_changed.o
+    Object src/lobby_chat_on_get_channel_mode.o
+    Object src/lobby_chat_timer_connect_timeout.o
+    Object src/lobby_chat_process.o
+    Object src/lobby_chat_is_in_channel.o
+    Object src/ov45_02240b10.o
+    Object src/lobby_chat_manager_get_names.o
+    Object src/lobby_chat_shutdown.o
+    Object src/lobby_chat_enter_channel.o
+    Object src/lobby_chat_channel_commands.o
+    Object src/ov45_022417b4.o
+    Object src/ov45_02241a20.o
+    Object src/ov45_02241b84.o
+    Object src/lobby_chat_set_channel_mode.o
+    Object src/ov45_02241e24.o
+    Object src/lobby_requests.o
+    Object src/lobby_request_map_insert_node.o
+    Object src/ov45_022421e4.o
+    Object src/lobby_string_find_first_of.o
+    Object src/lobby_mem.o
+    Object src/ov45_0224268c.o
+    Object src/lobby_chat_manager.o
+    Object src/ov45_02242acc.o
+    Object src/ov45_02242be0.o
+    Object src/ov45_02242ef4.o
+    Object src/ov45_0224307c.o
+    Object src/lobby_chat_users.o
+    Object src/lobby_user_id_set_erase_key.o
+    Object src/ov45_0224335c.o
+    Object src/lobby_u32_vector_assign_from_set.o
+    Object src/lobby_channel_map_erase_key.o
+    Object src/lobby_chat_find_user_id_by_nick.o
+    Object src/lobby_chat_rename_user.o
+    Object src/lobby_user_map_make_entry.o
+    Object src/lobby_channel_map.o
+    Object src/lobby_channel_map_insert_node.o
+    Object src/lobby_user_id_set_insert.o
+    Object src/lobby_user_id_set_erase.o
+    Object src/lobby_user_id_set_assign.o
+    Object src/ov45_02243cf8.o
+    Object src/lobby_user_id_set_insert_node.o
+    Object src/lobby_user_map_insert.o
+    Object src/lobby_user_map.o
+    Object src/lobby_chat_map_destroy.o
+    Object src/lobby_channel_map_find_insert_pos.o
+    Object src/lobby_tree_nodes.o
+    Object src/chat_callbacks.o
+    Object src/chat_channel.o
+    Object src/chat_cipher.o
+    Object src/chat_requests.o
+    Object src/chat_handlers.o
+    Object src/chat_main.o
+    Object src/chat_socket_buffer.o
+    Object src/chat_socket.o
+    Object src/chat_socket_recv.o
+    Object src/stats_upload.o
+}
+Overlay OVY_46
+{
+    After OVY_45
+    Object src/wifi_plaza_connect.o
+    Object asm/wifi_plaza_connect_data.o
+}
+Overlay OVY_47
+{
+    After OVY_45
+    Object src/wifi_plaza_survey.o
+    Object src/wifi_plaza_survey_answer.o
+    Object src/wifi_plaza_survey_results.o
+    Object asm/wifi_plaza_survey_data.o
+}
+Overlay OVY_48
+{
+    After OVY_45
+    Object src/wifi_plaza_visitor_profiles.o
+    Object asm/wifi_plaza_visitor_profiles_data.o
+}
+Overlay OVY_49
+{
+    After OVY_45
+    Object src/wifi_plaza_map.o
+    Object src/wifi_plaza_obj.o
+    Object src/wifi_plaza_room.o
+    Object src/wifi_plaza_info_panel.o
+    Object src/wifi_plaza_camera.o
+    Object src/wifi_plaza_models.o
+    Object src/wifi_plaza_player_state.o
+    Object src/wifi_plaza_game_entry.o
+    Object src/wifi_plaza_talk.o
+    Object src/wifi_plaza_instrument.o
+    Object src/wifi_plaza_event.o
+    Object asm/wifi_plaza_map_rodata.o
+    Object src/wifi_plaza_mover_markers.o
+}
+Overlay trainer_card
+{
+    After main
+    Object src/overlay_trainer_card.o
+}
+Overlay trainer_card_main
+{
+    After trainer_card
+    Object src/overlay_trainer_card_main.o
+    Object asm/trainer_card_main_24_owned_data.o
+}
+Overlay trainer_card_signature
+{
+    After trainer_card_main
+    Object src/overlay_trainer_card_signature.o
+    Object asm/trainer_card_signature_data.o
+}
+Overlay OVY_53
+{
+    After main
+    Object src/oaks_speech.o
+    Object src/oaks_speech_obj.o
+    Object src/oaks_speech_yesnomenu.o
+}
+Overlay options_app
+{
+    After main
+    Object src/options_app.o
+}
+Overlay OVY_55
+{
+    After main
+    Object src/overlay_55.o
+}
+Overlay OVY_56
+{
+    After OVY_55
+    Object src/mail_view.o
+    Object asm/mail_view_data.o
+}
+Overlay OVY_57
+{
+    After OVY_7
+    Object src/ball_capsule_editor.o
+    Object asm/ball_capsule_editor_data.o
+}
+Overlay OVY_58
+{
+    After OVY_7
+    Object src/apricorn_box_overlay.o
+}
+Overlay OVY_59
+{
+    After OVY_58
+    Object src/apricorn_box_screens.o
+    Object asm/apricorn_box_screens_data.o
+    Object src/aprijuice_scene_camera.o
+}
+Overlay intro_title
+{
+    After main
+    Object src/title_screen.o
+    Object src/intro_movie.o
+    Object src/intro_movie_scenes_lib.o
+    Object src/intro_movie_scene_1.o
+    Object src/intro_movie_scene_2.o
+    Object src/intro_movie_scene_3.o
+    Object src/intro_movie_scene_4.o
+    Object src/intro_movie_scene_5.o
+}
+Overlay OVY_61
+{
+    After main
+    Object src/choose_starter_app.o
+}
+Overlay OVY_62
+{
+    After main
+    Object src/overlay_mic_test.o
+}
+Overlay OVY_63
+{
+    After OVY_6
+    Object src/register_hall_of_fame.o
+}
+Overlay OVY_64
+{
+    After main
+    Object src/hall_of_fame_showcase.o
+    Object asm/hall_of_fame_showcase_data.o
+}
+Overlay OVY_65
+{
+    After OVY_6
+    Object src/wireless_trade_select_mon.o
+    Object asm/wireless_trade_select_mon_data.o
+}
+Overlay OVY_66
+{
+    After main
+}
+Overlay OVY_67
+{
+    After main
+    Object src/battle_room_results.o
+    Object asm/battle_room_results_data.o
+}
+Overlay OVY_68
+{
+    After main
+    Object src/move_relearner_app.o
+    Object asm/move_relearner_app_data.o
+    Object src/move_relearner_sub_screen.o
+}
+Overlay OVY_69
+{
+    After main
+    Object src/geonet_globe_app.o
+    Object asm/geonet_globe_app_data.o
+}
+Overlay OVY_70
+{
+    After OVY_7
+    Object src/gts_server.o
+    Object src/gts.o
+    Object src/gts_main_menu.o
+    Object src/gts_summary.o
+    Object src/gts_search_result.o
+    Object src/gts_search.o
+    Object src/gts_select_mon.o
+    Object src/gts_wanted.o
+    Object src/gts_transaction.o
+    Object src/gts_avatars.o
+    Object src/gts_trade.o
+    Object src/gts_selector.o
+    Object src/gts_connection.o
+    Object asm/gts_data.o
+}
+Overlay OVY_71
+{
+    After OVY_70
+    Object src/trade_sequence.o
+    Object src/trade_sequence_models.o
+    Object src/trade_sequence_send.o
+    Object src/trade_sequence_depart.o
+    Object src/trade_sequence_recede.o
+    Object src/trade_sequence_exchange.o
+    Object src/trade_sequence_approach.o
+    Object src/trade_sequence_arrive.o
+    Object asm/trade_sequence_bss.o
+    Object src/trade_sequence_arrive_tasks.o
+    Object src/trade_sequence_receive.o
+    Object asm/trade_sequence_data.o
+    Object src/trade_sequence_receive_bounce.o
+}
+Overlay OVY_72
+{
+    After OVY_7
+    Object src/nintendo_wfc_connect.o
+    Object asm/nintendo_wfc_connect_data.o
+    Object src/nintendo_wfc_connect_cursor.o
+}
+Overlay OVY_73
+{
+    After main
+    Object src/record_mixing.o
+    Object src/record_mixing_records.o
+    Object src/nintendo_wfc_connect_unused.o
+    Object src/record_mixing_exchange.o
+    Object asm/record_mixing_data.o
+    Object src/record_mixing_merge.o
+}
+Overlay OVY_74
+{
+    After OVY_38
+    Object src/application/main_menu/main_menu.o
+    Object src/application/main_menu/connect_to_ranger.o
+Object src/application/main_menu/mystery_gift_wireless.o
+    Object src/application/main_menu/mystery_gift_app.o
+    Object src/application/main_menu/wonder_card_album.o
+    Object src/application/main_menu/lock_capsule_card.o
+    Object src/application/main_menu/ranger_link.o
+    Object src/application/main_menu/migrate_from_agb.o
+    Object src/application/main_menu/agb_cartridge.o
+    Object src/application/main_menu/main_menu_util.o
+    Object asm/main_menu_bss.o
+    Object src/application/main_menu/main_menu_shared.o
+    Object src/application/main_menu/mystery_gift_beacon.o
+    Object src/application/main_menu/mystery_gift_wfc.o
+    Object src/application/main_menu/agb_string.o
+    Object asm/main_menu_data.o
+    Object asm/nitrocrypto_data.o
+    Object lib/src/nitrocrypto_rc4.o
+    Object lib/src/nitrocrypto_sign.o
+    Object lib/src/nitrocrypto_bn_exp.o
+    Object lib/src/nitrocrypto_bn_arith.o
+    Object lib/src/nitrocrypto_bn_bits.o
+    Object lib/src/nitrocrypto_bn_bin2bn.o
+    Object lib/src/nitrocrypto_bn_word.o
+    Object lib/src/nitrocrypto_bn_expand.o
+    Object lib/src/nitrocrypto_bn_ctx.o
+    Object lib/src/nitrocrypto_bn_fix_top.o
+    Object lib/src/nitrocrypto_bn_free.o
+    Object lib/src/nitrocrypto_bn_num_bits.o
+    Object lib/src/nitrocrypto_alloc.o
+    Object asm/nitrocrypto_bss.o
+}
+Overlay OVY_75
+{
+    After OVY_70
+    Object src/wii_message_settings.o
+    Object asm/wii_message_settings_data.o
+    Object src/wii_number.o
+}
+Overlay credits
+{
+    After main
+    Object src/credits/data1.o
+    Object src/credits/credits.o
+    Object src/credits/data2.o
+}
+Overlay OVY_77
+{
+    After main
+}
+Overlay certificates_app
+{
+    After main
+    Object src/certificates_app.o
+}
+Overlay OVY_79
+{
+    After OVY_42
+}
+Overlay OVY_80
+{
+    After OVY_42
+    Object src/frontier/frontier_trainers.o
+    Object asm/frontier_trainers_data.o
+    Object src/frontier/frontier_system.o
+    Object src/frontier/frontier_script_context.o
+    Object src/frontier/frontier_map_params.o
+    Object asm/frontier_map_params_data.o
+    Object src/frontier/frontier_link_messages.o
+    Object src/frontier/frontier_script_commands.o
+    Object src/frontier/frontier_cmd_create_sprites.o
+    Object src/frontier/frontier_script_commands_ext.o
+    Object src/frontier/frontier_script_ui.o
+    Object asm/frontier_script_commands_data.o
+    Object src/frontier/frontier_script_tasks.o
+    Object src/frontier/frontier_cmd_factory.o
+    Object src/frontier/battle_factory_data.o
+    Object asm/battle_factory_data_bss.o
+    Object src/frontier/frontier_cmd_hall.o
+    Object src/frontier/battle_hall_data.o
+    Object src/frontier/frontier_cmd_castle.o
+    Object src/frontier/battle_castle_challenge.o
+    Object src/frontier/frontier_cmd_arcade.o
+    Object src/frontier/battle_arcade_data.o
+    Object asm/battle_arcade_data_tables.o
+    Object src/frontier/frontier_cmd_sound.o
+    Object src/frontier/frontier_script_commands_misc.o
+    Object src/frontier/frontier_save_data_helpers.o
+    Object src/frontier/frontier_cmd_link_lobby.o
+    Object src/frontier/frontier_link_lobby.o
+    Object src/frontier/battle_tower_setup.o
+    Object src/frontier/battle_factory_setup.o
+    Object asm/battle_factory_setup_data.o
+    Object src/frontier/battle_hall_setup.o
+    Object src/frontier/battle_castle_setup.o
+    Object asm/battle_castle_setup_data.o
+    Object src/frontier/battle_arcade_setup.o
+    Object asm/battle_arcade_setup_data.o
+    Object src/frontier/frontier_map_tile_blink.o
+    Object src/frontier/frontier_map.o
+    Object asm/frontier_map_data.o
+    Object src/frontier/frontier_particles.o
+    Object src/frontier/frontier_map_sprites.o
+    Object asm/frontier_map_sprites_data.o
+    Object src/frontier/frontier_map_object_movement.o
+    Object asm/frontier_map_object_movement_data.o
+    Object src/frontier/frontier_map_bg_animation.o
+    Object asm/frontier_map_bg_animation_data.o
+    Object src/frontier/frontier_brain_intro.o
+    Object asm/frontier_brain_intro_data.o
+    Object src/frontier/frontier_transition.o
+    Object asm/frontier_transition_data.o
+}
+Overlay OVY_81
+{
+    After OVY_80
+    Object src/frontier/battle_factory_app.o
+    Object asm/battle_factory_app_data.o
+}
+Overlay OVY_82
+{
+    After OVY_80
+    Object src/frontier/battle_hall_app.o
+    Object asm/battle_hall_app_data.o
+}
+Overlay OVY_83
+{
+    After OVY_80
+    Object src/frontier/battle_castle_party_app.o
+    Object src/frontier/battle_castle_opponent_app.o
+    Object asm/battle_castle_data.o
+}
+Overlay OVY_84
+{
+    After OVY_80
+    Object src/battle_arcade_game_board.o
+    Object asm/battle_arcade_game_board_data.o
+}
+Overlay OVY_85
+{
+    After main
+    Object src/spin_trade_app.o
+    Object src/spin_trade_group_app.o
+    Object asm/spin_trade_data.o
+}
+Overlay OVY_86
+{
+    After main
+    Object src/frontier/frontier_records_app.o
+    Object asm/frontier_records_app_data.o
+}
+Overlay OVY_87
+{
+    After main
+    Object src/scratch_off_cards.o
+    Object asm/scratch_off_cards_data.o
+}
+Overlay OVY_88
+{
+    After OVY_45
+    Object src/application/plaza_news.o
+    Object asm/plaza_news_data.o
+}
+Overlay OVY_89
+{
+    After OVY_45
+    Object src/application/footprint_stamp.o
+    Object src/application/footprint_stamp_sprites.o
+    Object src/application/footprint_stamp_board.o
+    Object src/application/footprint_stamp_texture.o
+    Object src/application/footprint_stamp_effects.o
+    Object asm/footprint_stamp_data.o
+}
+Overlay OVY_90
+{
+    After OVY_45
+    Object src/application/plaza_game.o
+    Object asm/plaza_game_data.o
+}
+Overlay OVY_91
+{
+    After OVY_90
+    Object src/application/plaza_game_swalot_plop.o
+    Object asm/plaza_game_swalot_plop_data.o
+}
+Overlay OVY_92
+{
+    After OVY_90
+    Object src/application/plaza_game_mime_jr_top.o
+    Object asm/plaza_game_mime_jr_top_data.o
+}
+Overlay OVY_93
+{
+    After OVY_90
+    Object src/application/wobbuffet_pop.o
+    Object asm/wobbuffet_pop_data.o
+    Object src/application/wobbuffet_pop_balloon_mesh.o
+    Object asm/wobbuffet_pop_balloon_mesh_data.o
+    Object src/application/wobbuffet_pop_scene.o
+    Object asm/wobbuffet_pop_scene_data.o
+}
+Overlay OVY_94
+{
+    After main
+    Object src/overlay_94.o
+}
+Overlay OVY_95
+{
+    After main
+    Object src/hatch_egg_app.o
+    Object asm/hatch_egg_app_data.o
+}
+Overlay OVY_96
+{
+    After main
+    Object src/pokeathlon/pokeathlon_course.o
+    Object src/pokeathlon/pokeathlon_course_flow.o
+    Object src/pokeathlon/pokeathlon_course_mon_gfx.o
+    Object src/pokeathlon/pokeathlon_course_scores.o
+    Object src/pokeathlon/pokeathlon_course_sprites.o
+    Object src/pokeathlon/pokeathlon_course_mon_palette.o
+    Object src/pokeathlon/pokeathlon_course_objects.o
+    Object src/pokeathlon/pokeathlon_course_ceremony.o
+    Object src/pokeathlon/pokeathlon_course_ui.o
+    Object src/pokeathlon/pokeathlon_event_intro.o
+    Object src/pokeathlon/pokeathlon_circle_push.o
+    Object asm/pokeathlon_course_rodata.o
+    Object src/pokeathlon/pokeathlon_circle_push_pic_sprites.o
+    Object asm/pokeathlon_lamp_jump_hurdle_dash_rodata.o
+    Object src/pokeathlon/pokeathlon_circle_push_display.o
+    Object src/pokeathlon/pokeathlon_lamp_jump.o
+    Object asm/pokeathlon_course_data.o
+    Object src/pokeathlon/pokeathlon_lamp_jump_stage.o
+    Object src/pokeathlon/pokeathlon_results_announcement.o
+    Object src/pokeathlon/pokeathlon_hurdle_dash.o
+    Object src/pokeathlon/pokeathlon_hurdle_dash_runner.o
+    Object src/pokeathlon/pokeathlon_hurdle_dash_race.o
+    Object src/pokeathlon/pokeathlon_relay_run.o
+    Object src/pokeathlon/pokeathlon_relay_run_track.o
+    Object src/pokeathlon/pokeathlon_relay_run_hud.o
+    Object src/pokeathlon/pokeathlon_relay_run_pic_frames.o
+    Object asm/pokeathlon_snow_throw_pennant_capture_rodata.o
+    Object src/pokeathlon/pokeathlon_relay_run_cpu.o
+    Object src/pokeathlon/pokeathlon_snow_throw.o
+    Object src/pokeathlon/pokeathlon_snow_throw_display.o
+    Object src/pokeathlon/pokeathlon_snow_throw_cpu.o
+    Object src/pokeathlon/pokeathlon_pennant_capture.o
+    Object src/pokeathlon/pokeathlon_pennant_capture_play.o
+    Object src/pokeathlon/pokeathlon_pennant_capture_field.o
+    Object src/pokeathlon/pokeathlon_pennant_capture_display.o
+    Object src/pokeathlon/pokeathlon_pennant_capture_pic_sprites.o
+    Object src/pokeathlon/pokeathlon_pennant_capture_cpu.o
+    Object src/pokeathlon/pokeathlon_block_smash.o
+    Object src/pokeathlon/pokeathlon_block_smash_teams.o
+    Object src/pokeathlon/pokeathlon_disc_catch.o
+    Object src/pokeathlon/pokeathlon_disc_catch_field.o
+    Object src/pokeathlon/pokeathlon_disc_catch_scoreboard.o
+    Object src/pokeathlon/pokeathlon_disc_catch_cpu.o
+    Object src/pokeathlon/pokeathlon_goal_roll.o
+    Object src/pokeathlon/pokeathlon_goal_roll_field.o
+    Object src/pokeathlon/pokeathlon_goal_roll_display.o
+    Object src/pokeathlon/pokeathlon_goal_roll_cpu.o
+    Object src/pokeathlon/pokeathlon_ring_drop.o
+    Object src/pokeathlon/pokeathlon_ring_drop_display.o
+    Object src/pokeathlon/pokeathlon_ring_drop_field.o
+    Object src/pokeathlon/pokeathlon_ring_drop_mon.o
+    Object src/pokeathlon/pokeathlon_ring_drop_ui.o
+    Object src/pokeathlon/pokeathlon_ring_drop_cpu.o
+    Object src/pokeathlon/pokeathlon_event_points.o
+    Object asm/pokeathlon_event_data.o
+    Object src/pokeathlon/pokeathlon_event_rank_points.o
+    Object src/pokeathlon/pokeathlon_data.o
+}
+Overlay OVY_97
+{
+    After OVY_96
+    Object src/pokeathlon/pokeathlon_box.o
+    Object asm/pokeathlon_box_data.o
+}
+Overlay OVY_98
+{
+    After OVY_96
+    Object src/pokeathlon/pokeathlon_util.o
+    Object asm/pokeathlon_util_data.o
+}
+Overlay OVY_99
+{
+    After main
+    Object src/pokeathlon/pokeathlon_course_record.o
+    Object src/pokeathlon/pokeathlon_trophies.o
+    Object src/pokeathlon/pokeathlon_medals.o
+    Object src/pokeathlon/pokeathlon_event_record.o
+    Object asm/pokeathlon_record_data.o
+}
+Overlay pokegear
+{
+    After main
+    Object src/application/pokegear/main/pokegear_app_ui.o
+    Object src/application/pokegear/main/pokegear_main.o
+    Object src/application/pokegear/main/pokegear_sprites.o
+    Object src/application/pokegear/main/pokegear_cursor.o
+}
+Overlay pokegear_app
+{
+    After pokegear
+    Object src/application/pokegear/map/pokegear_map.o
+    Object src/application/pokegear/map/pokegear_map_flypoints.o
+    Object src/application/pokegear/map/pokegear_map_gfx.o
+    Object src/application/pokegear/map/pokegear_map_view.o
+    Object src/application/pokegear/map/pokegear_map_input.o
+    Object src/application/pokegear/map/pokegear_map_markings.o
+    Object src/application/pokegear/map/fly_map.o
+    Object src/application/pokegear/map/fly_map_gfx.o
+    Object src/application/pokegear/configure/pokegear_configure.o
+    Object src/application/pokegear/configure/pokegear_configure_gfx.o
+    Object src/application/pokegear/configure/pokegear_configure_ui.o
+    Object src/application/pokegear/configure/pokegear_configure_input.o
+    Object src/application/pokegear/phone/pokegear_phone.o
+    Object src/application/pokegear/phone/pokegear_phone_states.o
+    Object src/application/pokegear/phone/pokegear_phone_gfx.o
+    Object src/application/pokegear/phone/pokegear_phone_contacts.o
+    Object src/application/pokegear/phone/phone_contact_list_ui.o
+    Object src/application/pokegear/phone/phone_call.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_mother.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_prof_elm.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_generic.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_prof_oak.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_kurt.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_bike_shop.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_blackbelt_kenji.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_bill.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_daycare_man.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_daycare_lady.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_buena.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_childhood_friend.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_gym_leader.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_baoba.o
+    Object src/application/pokegear/phone/scripts/phone_scripts_juggler_irwin.o
+    Object src/application/pokegear/phone/extra_ethan_lyra_data.o
+    Object src/application/pokegear/radio/pokegear_radio.o
+    Object src/application/pokegear/radio/pokegear_radio_gfx.o
+    Object src/application/pokegear/radio/pokegear_radio_tuner.o
+    Object src/application/pokegear/radio/radio_show.o
+    Object src/application/pokegear/radio/shows/pokemon_music.o
+    Object src/application/pokegear/radio/shows/poke_flute.o
+    Object src/application/pokegear/radio/shows/unown.o
+    Object src/application/pokegear/radio/shows/team_rocket.o
+    Object src/application/pokegear/radio/shows/serial_radio_drama.o
+    Object src/application/pokegear/radio/shows/commercials.o
+    Object src/application/pokegear/radio/shows/pokemon_search_party.o
+    Object src/application/pokegear/radio/shows/buenas_password.o
+    Object src/application/pokegear/radio/shows/that_town_these_people.o
+    Object src/application/pokegear/radio/shows/trainer_profiles.o
+    Object src/application/pokegear/radio/shows/pokemon_talk.o
+    Object src/application/pokegear/radio/shows/mahogany_signal.o
+    Object src/application/pokegear/phone/phone_script_defs.o
+    Object src/application/pokegear/phone/phone_generic_headers.o
+}
+Overlay OVY_102
+{
+    After pokegear
+    Object src/application/easy_chat_app.o
+    Object src/application/easy_chat_app_view.o
+    Object src/application/easy_chat_app_panels.o
+    Object asm/easy_chat_app_data.o
+}
+Overlay OVY_103
+{
+    After OVY_102
+    Object src/application/mailbox_app.o
+    Object asm/mailbox_app_data.o
+}
+Overlay OVY_104
+{
+    After main
+    Object src/overlay104_scene.o
+}
+Overlay OVY_105
+{
+    After main
+    Object src/application/ship_departure_cutscene.o
+    Object asm/ship_departure_cutscene_data.o
+}
+Overlay OVY_106
+{
+    After main
+    Object src/application/legendary_cinematic.o
+    Object asm/legendary_cinematic_data.o
+}
+Overlay OVY_107
+{
+    After main
+}
+Overlay OVY_108
+{
+    After main
+    Object src/application/safari_area_customizer.o
+    Object asm/safari_area_customizer_data.o
+    Object src/application/safari_decoration.o
+    Object asm/safari_decoration_data.o
+}
+Overlay OVY_109
+{
+    After main
+    Object src/application/photo_album_app.o
+    Object asm/photo_album_app_data.o
+}
+Overlay OVY_110
+{
+    After main
+    Object src/alph_puzzle.o
+}
+Overlay OVY_111
+{
+    After main
+    Object src/bug_contest_swap_mon.o
+    Object asm/bug_contest_swap_mon_data.o
+}
+Overlay OVY_112
+{
+    After main
+    Object src/application/pokewalker/pokewalker_ir.o
+Object asm/pokewalker_ir_bss.o
+Object src/application/pokewalker/pokewalker_ir_requests.o
+Object src/application/pokewalker/pokewalker_ir_status.o
+Object src/application/pokewalker/pokewalker_app.o
+Object src/application/pokewalker/pokewalker_upload.o
+Object src/application/pokewalker/pokewalker_ui.o
+Object src/application/pokewalker/pokewalker_main_menu.o
+Object src/application/pokewalker/pokewalker_erase.o
+Object src/application/pokewalker/pokewalker_link.o
+Object src/application/pokewalker/pokewalker_link_results.o
+Object src/application/pokewalker/pokewalker_stroll.o
+Object src/application/pokewalker/pokewalker_app_modes.o
+Object src/application/pokewalker/pokewalker_event_log.o
+Object src/application/pokewalker/pokewalker_trainer_house.o
+Object asm/pokewalker_data.o
+}
+Overlay OVY_113
+{
+    After main
+    Object src/application/unown_report.o
+    Object asm/unown_report_data.o
+}
+Overlay OVY_114
+{
+    After OVY_31
+    Object src/overlay114_scene_transition.o
+}
+Overlay OVY_115
+{
+    After OVY_31
+    Object src/field/encounter_effect_leaders.o
+    Object asm/encounter_effect_leaders_data.o
+}
+Overlay OVY_116
+{
+    After OVY_31
+    Object src/overlay116_scene.o
+}
+Overlay OVY_117
+{
+    After OVY_31
+    Object src/field/encounter_effect_rocket.o
+    Object asm/encounter_effect_rocket_data.o
+}
+Overlay OVY_118
+{
+    After OVY_31
+    Object src/field/encounter_effect_kimono_girl.o
+}
+Overlay OVY_119
+{
+    After OVY_31
+    Object src/field/encounter_effect_trainer.o
+}
+Overlay OVY_120
+{
+    After OVY_31
+    Object src/field/encounter_effect_wild.o
+    Object asm/encounter_effect_wild_data.o
+}
+Overlay view_rankings_app
+{
+    After main
+    Object src/application/view_rankings.o
+}
+Overlay voltorb_flip
+{
+    After main
+    Object src/voltorb_flip/voltorb_flip.o
+    Object src/voltorb_flip/voltorb_flip_tasks.o
+    Object src/voltorb_flip/voltorb_flip_game.o
+    Object src/voltorb_flip/voltorb_flip_input.o
+}
+Overlay ds_protect
+{
+    After OVY_31
+	Object lib/dsprot/dsprot_main_encrypted.o
+	Object lib/dsprot/dsprot_main_decrypter_encoded.o
+	Object lib/dsprot/dsprot_main_decrypter_decoder.o
+	Object lib/dsprot/extra.o
+	Object lib/dsprot/integrity_encrypted.o
+	Object lib/dsprot/integrity_decrypter_encoded.o
+	Object lib/dsprot/integrity_decrypter_decoder.o
+	Object lib/dsprot/encryptor_encoded.o
+	Object lib/dsprot/encryptor_decoder.o
+	Object lib/dsprot/mac_owner_encrypted.o
+	Object lib/dsprot/mac_owner_decrypter_encoded.o
+	Object lib/dsprot/rom_util_encrypted.o
+	Object lib/dsprot/rom_util_decrypter_encoded.o
+	Object lib/dsprot/rom_test_encrypted.o
+	Object lib/dsprot/rom_test_decrypter_encoded.o
+	Object lib/dsprot/coretests_decrypter_decoder.o
+	Object lib/dsprot/rc4_encoded.o
+	Object lib/dsprot/rc4_decoder.o
+}
+Overlay OVY_124
+{
+    After ds_protect
+    Object src/overlay_124.o
+}
+Overlay OVY_125
+{
+    After ds_protect
+}
+Overlay OVY_126
+{
+    After ds_protect
+}
+Overlay OVY_127
+{
+    After ds_protect
+}
+Overlay OVY_128
+{
+    After ds_protect
+}

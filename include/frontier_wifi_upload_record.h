@@ -1,0 +1,30 @@
+#ifndef POKEHEARTGOLD_FRONTIER_WIFI_UPLOAD_RECORD_H
+#define POKEHEARTGOLD_FRONTIER_WIFI_UPLOAD_RECORD_H
+
+#include "global.h"
+
+#include "frontier_data.h"
+#include "pokemon_types_def.h"
+#include "save.h"
+
+typedef struct FrontierWifiUploadRecord {
+    u8 unk0[0xA8];
+    u16 *playerName;
+    u8 unkAC[0xC];
+    u8 gameVersion;
+    u8 gameLanguage;
+    u8 playerCountry;
+    u8 playerRegion;
+    u32 trainerId;
+    u8 unkC0[0x8];
+    u8 unkC8_0 : 1;
+    u8 playerGender : 1;
+    u8 unkC8_2 : 6;
+    u8 trainerClass;
+    u8 towerMessages[0x18];
+    u16 unkE2;
+} FrontierWifiUploadRecord;
+
+void Frontier_FillWifiUploadRecord(SaveData *saveData, s32 a1, FrontierWifiUploadRecord *record);
+
+#endif // POKEHEARTGOLD_FRONTIER_WIFI_UPLOAD_RECORD_H

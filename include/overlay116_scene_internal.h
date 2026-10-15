@@ -1,0 +1,89 @@
+#ifndef OVERLAY_116_PRIVATE_H
+#define OVERLAY_116_PRIVATE_H
+
+#include "global.h"
+
+typedef struct Camera Camera;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+} Ov116CameraAngle;
+
+typedef struct {
+    u8 pad00[0x24];
+    Camera *camera;
+} Ov116FieldSystem;
+
+typedef struct {
+    u32 distance;
+    u16 angleX;
+    u16 angleY;
+    u16 perspective;
+    u16 delay;
+} Ov116CameraKey;
+
+typedef struct {
+    u8 unk00;
+    u8 delay;
+    u8 duration;
+    u8 fadeFrames;
+    s32 perspectiveDelta;
+    s32 distanceDelta;
+    s32 distanceDuration;
+    u16 angleX;
+    u16 angleY;
+} Ov116Sequence;
+
+typedef struct {
+    u32 state;
+    u32 done;
+    u32 unused08;
+    void *work;
+    Ov116FieldSystem *fieldSystem;
+    u32 *completionFlag;
+} Ov116Task;
+
+typedef struct {
+    void *effect;
+    u32 unused04;
+    u32 index;
+    s32 delay;
+} Ov116PanWork;
+
+typedef struct {
+    void *effect;
+    u8 pad04[4];
+    s32 perspectiveInterp[5];
+    s32 distanceInterp[5];
+    u32 unused30;
+    s32 delay;
+} Ov116MoveWork;
+
+extern void Camera_SetPerspectiveAngle(u16, Camera *);
+extern void Camera_SetAnglePos(const Ov116CameraAngle *, Camera *);
+extern void Camera_SetDistance(s32, Camera *);
+extern u16 Camera_GetPerspectiveAngle(Camera *);
+extern s32 Camera_GetDistance(Camera *);
+extern void *Heap_Alloc(int, u32);
+extern void GfGfx_EngineATogglePlanes(int, int);
+extern void EncounterEffect_StartFlash(int, int, int, u32 *, int);
+extern void EncounterEffect_Finish(void *, void *);
+extern void EncounterEffectInterp_Init(void *, s32, s32, int);
+extern int EncounterEffectInterp_Update(void *);
+extern void EncounterEffectQuadInterp_Init(void *, s32, s32, s32, int);
+extern int EncounterEffectQuadInterp_Update(void *);
+extern u32 FieldMotionBlur_Start(u32, u32);
+extern void FieldMotionBlur_Stop(void *);
+extern void BeginNormalPaletteFade(int, int, int, u16, int, int, int);
+extern int IsPaletteFadeFinished(void);
+extern void SetMasterBrightnessByColor(int, u16);
+
+void LegendaryEffect_ApplyCameraKey(Ov116FieldSystem *, const Ov116CameraKey *);
+void EncounterEffect_Legendary(void *, Ov116Task *);
+void LegendaryEffect_RunBirdSequence(void *, Ov116Task *, const Ov116Sequence *);
+void EncounterEffect_HoOh(void *, Ov116Task *);
+void EncounterEffect_Lugia(void *, Ov116Task *);
+
+#endif

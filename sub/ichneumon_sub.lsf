@@ -1,0 +1,174 @@
+Static ichneumon_sub
+{
+	Object lib/src/sp_startup.o
+	Address 0x02380000
+	StackSize 1024 1024
+}
+
+Autoload MAIN
+{
+	Address 0x027E0000
+	Object lib/src/wvr_shelter.o
+}
+
+Autoload WRAM
+{
+	Address 0x037F8000
+	Object lib/src/sp_main.o
+	Object lib/src/OS_irqHandler.o
+	Object lib/src/OS_irqTable.o
+	Object lib/src/OS_interrupt.o
+	Object lib/src/os_spinlock_arm7.o
+	Object lib/asm/os_unlock_card_alias.o
+	Object lib/src/os_lock_id_arm7.o
+	Object lib/src/OS_thread.o
+	Object lib/src/OS_context.o
+	Object lib/src/OS_message.o
+	Object lib/src/OS_mutex.o
+	Object lib/src/OS_init.o
+	Object lib/src/OS_arena.o
+	Object lib/src/OS_alloc.o
+	Object lib/src/OS_timer.o
+	Object lib/src/OS_tick.o
+	Object lib/src/to90_arm7_alarm_prefix.o
+	Object lib/src/os_alarm_handler.o
+	Object lib/src/to90_arm7_alarm_suffix.o
+	Object lib/src/OS_valarm.o
+	Object lib/src/OS_system.o
+	Object lib/src/os_spin_wait.o
+	Object lib/src/OS_reset.o
+	Object lib/src/os_reset_arm7.o
+	Object lib/src/OS_terminate_proc.o
+	Object lib/src/os_terminate.o
+	Object lib/src/mi_dma_arm7.o
+	Object lib/src/mi_memory_arm7.o
+	Object lib/src/mi_swap_arm7.o
+	Object lib/src/PXI_fifo.o
+	Object lib/src/EXI_genPort.o
+	Object lib/src/PAD_xyButton.o
+	Object lib/src/sound_driver.o
+	Object asm/sound_card_pad_data.o
+	Object lib/src/sound_channel.o
+	Object lib/src/sound_main.o
+	Object lib/src/sound_ex_channel.o
+	Object lib/src/sound_seq_player.o
+	Object lib/src/sound_bank.o
+	Object lib/src/sound_shared_work.o
+	Object lib/src/sound_alarm.o
+	Object lib/src/sound_command.o
+	Object lib/src/card_driver.o
+	Object lib/src/svc_reset_wait.o
+	Object lib/src/svc_wait_vblank_div.o
+	Object lib/src/svc_copy_uncompress.o
+	Object asm/to90_arm7_wram160_r8_anchor.o
+	Object lib/src/spi_server.o
+	Object lib/src/touch_panel_driver.o
+	Object asm/to90_arm7_wram160_r8_anchor_own1.o
+	Object lib/src/power_manager_driver.o
+	Object lib/src/mic_command.o
+	Object asm/mic_calib_bss.o
+	Object asm/mic_cartridge_bss.o
+	Object lib/src/mic_driver.o
+	Object lib/src/cartridge_driver.o
+	Object lib/src/nvram_init.o
+	Object lib/src/nvram_command.o
+	Object asm/rtc_wvr_bss.o
+	Object lib/src/nvram_driver.o
+	Object lib/src/rtc_driver.o
+	Object lib/src/wvr_driver.o
+	Object lib/src/math_count_population.o
+	Object lib/src/long_long_div.o
+	Object lib/src/OS_reset.o (.wram)
+	Object lib/src/wmsp_return_result.o (.wram)
+	Object lib/src/wmsp_result_buffer.o (.wram)
+	Object lib/src/wmsp_allowed_channel.o (.wram)
+}
+
+Autoload EXT_WRAM
+{
+	Address 0x06000000
+	Object lib/asm/wmsp_bss.o
+	Object lib/src/wmsp_system.o
+	Object asm/wireless_rodata.o
+	Object lib/src/wmsp_indicate.o
+	Object lib/src/wmsp_alarm.o
+	Object lib/src/wmsp_request.o
+	Object lib/src/wmsp_wl_command.o
+	Object lib/src/wmsp_initialize.o
+	Object lib/src/wmsp_reset.o
+	Object lib/src/wmsp_end.o
+	Object lib/src/wmsp_start_parent.o
+	Object lib/src/wmsp_scan.o
+	Object lib/src/wmsp_start_scan_ex.o
+	Object lib/src/wmsp_end_scan.o
+	Object lib/src/wmsp_start_connect_ex.o
+	Object lib/src/wmsp_disconnect.o
+	Object lib/src/wmsp_disconnect_core.o
+	Object lib/src/wmsp_disconnect_ind.o
+	Object lib/src/wmsp_start_mp.o
+	Object lib/src/wmsp_set_mp_data.o
+	Object lib/src/wmsp_param.o
+	Object lib/src/wmsp_valarm.o
+	Object lib/src/wmsp_send_queue_init.o
+	Object lib/src/wmsp_send_ma.o
+	Object lib/src/wmsp_send_queue.o
+	Object lib/src/wmsp_send_queue_flush.o
+	Object lib/src/wmsp_get_tmptt.o
+	Object lib/src/wmsp_control.o
+	Object lib/src/wl_task.o
+	Object lib/src/wl_heap_buf.o
+	Object lib/src/wl_param.o
+	Object lib/src/wl_set_channel.o
+	Object lib/src/wl_state.o
+	Object lib/src/wl_util.o
+	Object lib/src/wl_start.o
+	Object lib/src/wl_device.o
+	Object lib/src/wl_timeout_periodic.o
+	Object lib/src/wl_timer.o
+	Object lib/src/wl_timeout.o
+	Object lib/src/wl_mac_memory.o
+	Object lib/src/wl_random.o
+	Object lib/src/wl_tx_check.o
+	Object lib/src/wl_fatal_err.o
+	Object lib/src/wl_diag_mac_register.o
+	Object lib/src/wl_diag_mac_memory.o
+	Object lib/src/wl_diag_base_band.o
+	Object lib/src/wl_intr.o
+	Object lib/src/wl_intr_rx_end.o
+	Object lib/src/wl_intr_mp_end.o
+	Object lib/src/wl_intr_start_tx.o
+	Object lib/src/wl_intr_ctrl.o
+	Object lib/src/wl_intr_rx_end_task.o
+	Object lib/src/wl_intr_task.o
+	Object lib/src/wl_cam.o
+	Object lib/src/wl_wait_loop_rxpe.o
+	Object lib/src/wl_wait_loop_waitus.o
+	Object lib/src/wl_wait_loop.o
+	Object lib/src/wl_cmd_if.o
+	Object lib/src/wl_mlme_cmd.o
+	Object lib/src/wl_mlme_task.o
+	Object lib/src/wl_mlme_ind.o
+	Object lib/src/wl_paramset_cmd.o
+	Object lib/src/wl_paramget_cmd.o
+	Object lib/src/wl_dev_cmd.o
+	Object lib/src/wl_ma_cmd.o
+	Object lib/src/wl_ma_mp_cmd.o
+	Object lib/src/wl_ma_data.o
+	Object lib/src/wl_txq.o
+	Object lib/src/wl_tx_ctrl.o
+	Object lib/src/wl_tx_frame.o
+	Object lib/src/wl_probe_res.o
+	Object lib/src/wl_man_frame.o
+	Object lib/src/wl_tx_init.o
+	Object lib/src/wl_rx_data.o
+Object lib/src/wl_rx_beacon.o
+	Object lib/src/wl_rx_man.o
+	Object lib/src/wl_rx_probe_res.o
+	Object lib/src/wl_rx_auth.o
+	Object lib/src/wl_rx_deauth.o
+	Object lib/src/wl_rx_man_task.o
+	Object lib/src/wl_defrag.o
+	Object lib/src/wl_rx_init.o
+	Object lib/src/wl_ap_list.o
+	Object lib/src/wl_flash.o
+}

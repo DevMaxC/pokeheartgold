@@ -1,0 +1,140 @@
+	.include "asm/macros.inc"
+	.include "overlay_82.inc"
+	.include "global.inc"
+
+	.text
+	.public gBattleHallAppSummaryPages
+	.public BattleHallApp_Init
+	.public BattleHallApp_Main
+	.public BattleHallApp_Exit
+	.public BattleHallApp_FadeIn
+	.public BattleHallApp_PrintTypeGrid
+	.public BattleHallApp_PrintTitle
+	.public BattleHallApp_DrawFrame
+	.public BattleHallApp_RunSummary
+	.public BattleHallApp_SelectType
+	.public BattleHallApp_LinkDecide
+	.public BattleHallApp_FadeOut
+	.public BattleHallApp_ClosePrompt
+	.public BattleHallApp_FreeGraphics
+	.public BattleHallApp_ResumeAfterSummary
+	.public BattleHallApp_InitGraphics
+	.public BattleHallApp_InitBgGraphics
+	.public BattleHallApp_FreeBgLayers
+	.public BattleHallApp_VBlankCallback
+	.public BattleHallApp_InitBgLayers
+	.public BattleHallApp_InitLinkWindow
+	.public BattleHallApp_LoadTypeGridGraphics
+	.public BattleHallApp_LoadSubBgGraphics
+	.public BattleHallApp_LoadTitleFrameGraphics
+	.public BattleHallApp_PrintMessage
+	.public BattleHallApp_PrintMonName
+	.public BattleHallApp_PrintTypeNames
+	.public BattleHallApp_PrintTypeRanks
+	.public BattleHallApp_PrintSelectPrompt
+	.public BattleHallApp_CreateSummaryArgs
+	.public BattleHallApp_HandleDpad
+	.public BattleHallApp_HandleTouch
+	.public BattleHallApp_SetCellPalette
+	.public BattleHallApp_ShowConfirmPrompt
+	.public BattleHallSpriteGfx_Init
+	.public BattleHallSpriteGfx_CreateSprite
+	.public BattleHallSpriteGfx_Free
+	.public BattleHallSprite_Create
+	.public BattleHallApp_InitYesNo
+	.public gBattleHallAppGraphicsModes
+	.public gBattleHallAppSubBg0Template
+	.public gBattleHallAppBg0Template
+	.public gBattleHallAppBg1Template
+	.public gBattleHallAppBg3Template
+	.public gBattleHallAppSubBg1Template
+	.public gBattleHallAppGraphicsBanks
+	.public gBattleHallAppResObjCounts
+	.public gBattleHallAppCharTransferTemplate
+	.public gBattleHallAppWindowTemplates
+	.public BattleHallApp_LinkSync
+	.public BattleHallApp_DisableDisplay
+	.public BattleHallApp_InitSprites
+	.public BattleHallApp_SetGraphicsBanks
+	.public BattleHallApp_LoadBgPalette
+	.public BattleHallApp_ShowMessage
+	.public BattleHallApp_BufferNumber
+	.public BattleHallApp_PrintNumber
+	.public BattleHallApp_SetMainState
+	.public BattleHallApp_HandleConfirm
+	.public BattleHallApp_GetCursorX
+	.public BattleHallApp_GetCursorY
+	.public BattleHallApp_GrayOutTypes
+	.public BattleHallApp_GetRecordIndex
+	.public BattleHallApp_IsMatronBattle
+	.public BattleHallApp_IsMatronMode
+	.public BattleHallApp_SendLinkCommand
+	.public BattleHallApp_PrepareLinkPing
+	.public BattleHall_ReceivePing
+	.public BattleHallApp_PrepareLinkChoice
+	.public BattleHall_ReceiveChoice
+	.public BattleHallApp_PrepareLinkAnswer
+	.public BattleHall_ReceiveAnswer
+	.public BattleHallApp_ResetYesNo
+	.public BattleHallApp_CancelConfirm
+	.public BattleHallApp_ClearMessage
+	.public BattleHallApp_SetBrightness
+	.public BattleHallSpriteGfx_InitTransfers
+	.public BattleHallSprite_Delete
+	.public BattleHallSprite_SetVisible
+	.public BattleHallSprite_SetPosition
+	.public BattleHallSprite_SetAnim
+	.public BattleHallSprite_SetIconPalette
+	.public BattleHallApp_AddWindows
+	.public BattleHallApp_RemoveWindows
+	.public BattleHallApp_DrawMessageFrame
+	.public BattleHallApp_CreateYesNo
+	.public BattleHallApp_DestroyYesNo
+	.public BattleHallApp_HandleYesNo
+	.rodata
+
+gBattleHallAppSummaryPages:
+	.byte 0x00, 0x01, 0x02, 0x03, 0x04, 0x00, 0x00, 0x00
+
+gBattleHallAppGraphicsModes: ; 0x0223FE28
+	.byte 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+gBattleHallAppSubBg0Template: ; 0x0223FE38
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x0F, 0x01, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00
+
+gBattleHallAppBg0Template: ; 0x0223FE54
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+gBattleHallAppBg1Template: ; 0x0223FE70
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x01, 0x00, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+gBattleHallAppBg3Template: ; 0x0223FE8C
+	.byte 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x02
+	.byte 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+gBattleHallAppSubBg1Template: ; 0x0223FEA8
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x0E, 0x00, 0x00, 0x01, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00
+
+gBattleHallAppGraphicsBanks: ; 0x0223FEC4
+	.byte 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00
+
+gBattleHallAppResObjCounts: ; 0x0223FEEC
+	.byte 0x02, 0x02, 0x02, 0x02
+
+gBattleHallAppCharTransferTemplate: ; 0x0223FEF0
+	.byte 0x03, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x69, 0x00, 0x00, 0x00
+
+gBattleHallAppWindowTemplates: ; 0x0223FF00
+	.byte 0x00, 0x02, 0x13, 0x1B, 0x04, 0x0C, 0x01, 0x00, 0x00, 0x0A, 0x14, 0x09, 0x02, 0x0D, 0x89, 0x00
+	.byte 0x01, 0x01, 0x00, 0x1F, 0x16, 0x0D, 0x01, 0x00, 0x04, 0x02, 0x13, 0x1B, 0x04, 0x02, 0x0A, 0x00
+	; 0x0223FF20

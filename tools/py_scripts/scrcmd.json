@@ -1,0 +1,5410 @@
+{
+  "commands": [
+    {
+      "name": "Nop",
+      "args": []
+    },
+    {
+      "name": "Dummy",
+      "args": []
+    },
+    {
+      "name": "End",
+      "args": [],
+      "is_return": true,
+      "is_abs_branch": true
+    },
+    {
+      "name": "Wait",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "LoadByte",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "LoadWord",
+      "args": [
+        1,
+        4
+      ]
+    },
+    {
+      "name": "LoadByteFromAddr",
+      "args": [
+        1,
+        4
+      ]
+    },
+    {
+      "name": "WriteByteToAddr",
+      "args": [
+        4,
+        1
+      ]
+    },
+    {
+      "name": "SetPtrByte",
+      "args": [
+        4,
+        1
+      ]
+    },
+    {
+      "name": "CopyLocal",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "CopyByte",
+      "args": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "CompareLocalToLocal",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "CompareLocalToValue",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "CompareLocalToAddr",
+      "args": [
+        1,
+        4
+      ]
+    },
+    {
+      "name": "CompareAddrToLocal",
+      "args": [
+        4,
+        1
+      ]
+    },
+    {
+      "name": "CompareAddrToValue",
+      "args": [
+        4,
+        1
+      ]
+    },
+    {
+      "name": "CompareAddrToAddr",
+      "args": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "CompareVarToValue",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "CompareVarToVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "RunScript",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "CallStd",
+      "args": [
+        "stdscr"
+      ]
+    },
+    {
+      "name": "RestartCurrentScript",
+      "args": []
+    },
+    {
+      "name": "GoTo",
+      "args": [
+        "script"
+      ],
+      "is_abs_branch": true
+    },
+    {
+      "name": "ObjectGoTo",
+      "args": [
+        "object1",
+        "script"
+      ]
+    },
+    {
+      "name": "BGGoTo",
+      "args": [
+        1,
+        "script"
+      ]
+    },
+    {
+      "name": "DirectionGoTo",
+      "args": [
+        1,
+        "script"
+      ]
+    },
+    {
+      "name": "Call",
+      "args": [
+        "script"
+      ]
+    },
+    {
+      "name": "Return",
+      "args": [],
+      "is_return": true,
+      "is_abs_branch": true
+    },
+    {
+      "name": "GoToIf",
+      "args": [
+        "condition",
+        "script"
+      ]
+    },
+    {
+      "name": "CallIf",
+      "args": [
+        "condition",
+        "script"
+      ]
+    },
+    {
+      "name": "SetFlag",
+      "args": [
+        "flag"
+      ]
+    },
+    {
+      "name": "ClearFlag",
+      "args": [
+        "flag"
+      ]
+    },
+    {
+      "name": "CheckFlag",
+      "args": [
+        "flag"
+      ]
+    },
+    {
+      "name": "SetFlagVar",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ClearFlagVar",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckFlagVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetTrainerFlag",
+      "args": [
+        "trainer"
+      ]
+    },
+    {
+      "name": "ClearTrainerFlag",
+      "args": [
+        "trainer"
+      ]
+    },
+    {
+      "name": "CheckTrainerFlag",
+      "args": [
+        "trainer"
+      ]
+    },
+    {
+      "name": "AddVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SubVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetVar",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "CopyVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetOrCopyVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "NonNPCMsg",
+      "args": [
+        "message"
+      ]
+    },
+    {
+      "name": "NPCMsg",
+      "args": [
+        "message"
+      ]
+    },
+    {
+      "name": "NonNPCMsgVar",
+      "args": [
+        "message_var"
+      ]
+    },
+    {
+      "name": "NPCMsgVar",
+      "args": [
+        "message_var"
+      ]
+    },
+    {
+      "name": "NPCMsgAutoScrollInLink",
+      "args": [
+        "message"
+      ]
+    },
+    {
+      "name": "WaitABPress",
+      "args": []
+    },
+    {
+      "name": "WaitButton",
+      "args": []
+    },
+    {
+      "name": "WaitButtonOrDpad",
+      "args": []
+    },
+    {
+      "name": "OpenMsg",
+      "args": []
+    },
+    {
+      "name": "CloseMsg",
+      "args": []
+    },
+    {
+      "name": "HoldMsg",
+      "args": []
+    },
+    {
+      "name": "DirectionSignpost",
+      "args": [
+        "message",
+        1,
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "SetSignpostMap",
+      "args": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "SetSignpostAction",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "WaitSignpostAction",
+      "args": []
+    },
+    {
+      "name": "TrainerTips",
+      "args": [
+        "message",
+        "var"
+      ]
+    },
+    {
+      "name": "WaitSignpost",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ReopenStartMenuOnEnd",
+      "args": []
+    },
+    {
+      "name": "ScrollMsgBg",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "YesNo",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceInitStdGmm",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceInit",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceItemAdd",
+      "args": [
+        "message",
+        1
+      ]
+    },
+    {
+      "name": "MultichoiceExec",
+      "args": []
+    },
+    {
+      "name": "ScriptListMenuInitStdGmm",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "ScriptListMenuInit",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "ScriptListMenuItemAdd",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "ScriptListMenuExec",
+      "args": []
+    },
+    {
+      "name": "MultichoiceGridExec",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "PlaySE",
+      "args": [
+        "sound"
+      ]
+    },
+    {
+      "name": "StopSE",
+      "args": [
+        "sound"
+      ]
+    },
+    {
+      "name": "WaitSE",
+      "args": [
+        "sound"
+      ]
+    },
+    {
+      "name": "PlayCry",
+      "args": [
+        "species",
+        2
+      ]
+    },
+    {
+      "name": "WaitCry",
+      "args": []
+    },
+    {
+      "name": "PlayFanfare",
+      "args": [
+        "sound"
+      ]
+    },
+    {
+      "name": "WaitFanfare",
+      "args": []
+    },
+    {
+      "name": "PlayBGM",
+      "args": [
+        "sound"
+      ]
+    },
+    {
+      "name": "StopBGM",
+      "args": [
+        "sound"
+      ]
+    },
+    {
+      "name": "ResetBGM",
+      "args": []
+    },
+    {
+      "name": "SetBGMOverride",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "FadeOutBGM",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "FadeInBGM",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "SetSoundPlayerPause",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "TempBGM",
+      "args": [
+        "sound"
+      ]
+    },
+    {
+      "name": "SetBGMDisabled",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "ChatotHasCry",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ChatotStartRecording",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ChatotStopRecording",
+      "args": []
+    },
+    {
+      "name": "ChatotSaveRecording",
+      "args": []
+    },
+    {
+      "name": "SetSoundScene63",
+      "args": []
+    },
+    {
+      "name": "ApplyMovement",
+      "args": [
+        "object2",
+        "movement"
+      ]
+    },
+    {
+      "name": "WaitMovement",
+      "args": []
+    },
+    {
+      "name": "LockAll",
+      "args": []
+    },
+    {
+      "name": "ReleaseAll",
+      "args": []
+    },
+    {
+      "name": "Lock",
+      "args": [
+        "object2"
+      ]
+    },
+    {
+      "name": "Release",
+      "args": [
+        "object2"
+      ]
+    },
+    {
+      "name": "ShowPerson",
+      "args": [
+        "object2"
+      ]
+    },
+    {
+      "name": "HidePerson",
+      "args": [
+        "object2"
+      ]
+    },
+    {
+      "name": "CreateCameraTarget",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "RemoveCameraTarget",
+      "args": []
+    },
+    {
+      "name": "FacePlayer",
+      "args": []
+    },
+    {
+      "name": "GetPlayerCoords",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetPersonCoords",
+      "args": [
+        2,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "OffsetPlayerAndCamera",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "SetObjectKeep",
+      "args": [
+        2,
+        1
+      ]
+    },
+    {
+      "name": "ChangeObjectMovement",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "AddMoney",
+      "args": [
+        4
+      ]
+    },
+    {
+      "name": "SubMoneyImmediate",
+      "args": [
+        4
+      ]
+    },
+    {
+      "name": "HasEnoughMoneyImmediate",
+      "args": [
+        "var",
+        4
+      ]
+    },
+    {
+      "name": "ShowMoneyBox",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "HideMoneyBox",
+      "args": []
+    },
+    {
+      "name": "UpdateMoneyBox",
+      "args": []
+    },
+    {
+      "name": "ShowPointsBox",
+      "args": [
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "HidePointsBox",
+      "args": []
+    },
+    {
+      "name": "UpdatePointsBox",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "GetCoinAmount",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GiveCoins",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "TakeCoins",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GiveAthletePoints",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "TakeAthletePoints",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "CheckAthletePoints",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "GiveItem",
+      "args": [
+        "item",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "TakeItem",
+      "args": [
+        "item",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "HasSpaceForItem",
+      "args": [
+        "item",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "HasItem",
+      "args": [
+        "item",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "ItemIsTMOrHM",
+      "args": [
+        "item",
+        "var"
+      ]
+    },
+    {
+      "name": "GetItemPocket",
+      "args": [
+        "item",
+        "var"
+      ]
+    },
+    {
+      "name": "SetStarterChoice",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GenderMsgBox",
+      "args": [
+        "message",
+        "message"
+      ]
+    },
+    {
+      "name": "GetSealQuantity",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GiveOrTakeSeal",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GiveRandomSeal",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartyMonUnownLetter",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GiveMon",
+      "args": [
+        "species",
+        "var",
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GiveEgg",
+      "args": [
+        "species",
+        "var"
+      ]
+    },
+    {
+      "name": "SetMonMove",
+      "args": [
+        "var",
+        "var",
+        "move"
+      ]
+    },
+    {
+      "name": "MonHasMove",
+      "args": [
+        "var",
+        "move",
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartySlotWithMove",
+      "args": [
+        "var",
+        "move"
+      ]
+    },
+    {
+      "name": "GetPhoneBookRematch",
+      "args": [
+        "phone_contact",
+        "var"
+      ]
+    },
+    {
+      "name": "NameRival",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetFriendSprite",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "RegisterPokegearCard",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "RegisterGearNumber",
+      "args": [
+        "phone_contact"
+      ]
+    },
+    {
+      "name": "CheckRegisteredPhoneNumber",
+      "args": [
+        "phone_contact",
+        "var"
+      ]
+    },
+    {
+      "name": "SetPhoneCallTrigger",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "UnsetPhoneCallTrigger",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "RestoreOverworld",
+      "args": []
+    },
+    {
+      "name": "StartPalPadRegistration",
+      "args": []
+    },
+    {
+      "name": "OpenWifiClub",
+      "args": []
+    },
+    {
+      "name": "FashionAppGetEntryIndex",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "OpenDressUp",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "OpenAccessoryPortrait",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "OpenBallCapsuleEditor",
+      "args": []
+    },
+    {
+      "name": "TownMap",
+      "args": []
+    },
+    {
+      "name": "OpenPCBox",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "OpenDrawingSession",
+      "args": []
+    },
+    {
+      "name": "OpenLinkTrainerCard",
+      "args": []
+    },
+    {
+      "name": "OpenWirelessTrade",
+      "args": []
+    },
+    {
+      "name": "OpenRecordMixing",
+      "args": []
+    },
+    {
+      "name": "HOFCredits",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "OpenHallOfFameShowcase",
+      "args": []
+    },
+    {
+      "name": "OpenGts",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "OpenWifiClubWithResult",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ChooseStarter",
+      "args": []
+    },
+    {
+      "name": "GetTrainerPathToPlayer",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "TrainerStepTowardsPlayer",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "GetTrainerEyeType",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetEyeTrainerNum",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "NamePlayer",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "NicknameInput",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "FadeScreen",
+      "args": [
+        2,
+        2,
+        2,
+        "rgb"
+      ]
+    },
+    {
+      "name": "WaitFade",
+      "args": []
+    },
+    {
+      "name": "Warp",
+      "args": [
+        "maps",
+        2,
+        "var",
+        "var",
+        "direction"
+      ]
+    },
+    {
+      "name": "RockClimb",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "Surf",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "Waterfall",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "FlyWarp",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "FlashEffect",
+      "args": []
+    },
+    {
+      "name": "Whirlpool",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PlayFieldMoveCutIn",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PlayerOnBikeCheck",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PlayerOnBikeSet",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "SetBikeStateLock",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "GetPlayerState",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetAvatarBits",
+      "args": [
+        "player_transition"
+      ]
+    },
+    {
+      "name": "UpdateAvatarState",
+      "args": []
+    },
+    {
+      "name": "BufferPlayersName",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferRivalsName",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferFriendsName",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferMonSpeciesName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferItemName",
+      "args": [
+        1,
+        "item"
+      ]
+    },
+    {
+      "name": "BufferPocketName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferTMHMMoveName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferMoveName",
+      "args": [
+        1,
+        "move"
+      ]
+    },
+    {
+      "name": "BufferInt",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferPartyMonNick",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferTrainerClassName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferPlayerUnionAvatarClassName",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferSpeciesName",
+      "args": [
+        1,
+        "species",
+        2,
+        1
+      ]
+    },
+    {
+      "name": "BufferStarterSpeciesName",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferDPPtRivalStarterSpeciesName",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferDPPtFriendStarterSpeciesName",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "GetStarterChoice",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BufferDecorationName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "Dummy208",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "Dummy209",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferMapSecName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "GetSwarmMapAndSpecies",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetTrainerNum",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "TrainerBattle",
+      "args": [
+        "trainer",
+        "var",
+        1,
+        1
+      ]
+    },
+    {
+      "name": "TrainerMessage",
+      "args": [
+        "trainer",
+        "var"
+      ]
+    },
+    {
+      "name": "GetTrainerMsgParams",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetRematchMsgParams",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "TrainerIsDoubleBattle",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "EncounterMusic",
+      "args": [
+        "trainer"
+      ]
+    },
+    {
+      "name": "WhiteOut",
+      "args": []
+    },
+    {
+      "name": "CheckBattleWon",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "StaticWildWonOrCaughtCheck",
+      "args": [
+        "var",
+        1
+      ]
+    },
+    {
+      "name": "PartyCheckForDouble",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "TrainerBattleWithTrainer1",
+      "args": []
+    },
+    {
+      "name": "SetLastInteractedTrainerFlag",
+      "args": []
+    },
+    {
+      "name": "GoToIfTrainerDefeated",
+      "args": [
+        "script"
+      ]
+    },
+    {
+      "name": "CommClubJoin",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CommClubHost",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "Dummy228",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "Dummy229",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "LinkBattle",
+      "args": []
+    },
+    {
+      "name": "Dummy231",
+      "args": []
+    },
+    {
+      "name": "ConditionalLinkSyncStart",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "ConditionalLinkSyncWait",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "ConditionalLinkSyncCreate",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "ConditionalLinkSyncDestroy",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetVarZero",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "BeginTextAutoScroll",
+      "args": []
+    },
+    {
+      "name": "PartyHasPokerus",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MonGetGender",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetDynamicWarp",
+      "args": [
+        "maps",
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetDynamicWarpFloorNo",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ElevatorCurFloorBox",
+      "args": [
+        1,
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CountJohtoDexSeen",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountJohtoDexOwned",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountNationalDexSeen",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountNationalDexOwned",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "Dummy247",
+      "args": []
+    },
+    {
+      "name": "GetDexEvalResult",
+      "args": [
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "RocketTrapBattle",
+      "args": [
+        "species",
+        2
+      ]
+    },
+    {
+      "name": "StartFirstBattle",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "CatchingTutorial",
+      "args": []
+    },
+    {
+      "name": "OpenTrainerCardSignature",
+      "args": []
+    },
+    {
+      "name": "GetSaveFileState",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SaveGameNormal",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "FashionEntryIsSaved",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "FashionEntrySetMailWord",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "LinkSyncAndWait",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "LinkSyncClearPackets",
+      "args": []
+    },
+    {
+      "name": "GetUnionRoomPartnerHometownMsg",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetUnionRoomOwnChatMsg",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "UnionRoomSetActivity",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "UnionRoomRefuseJoins",
+      "args": []
+    },
+    {
+      "name": "UnionRoomResumeSearch",
+      "args": []
+    },
+    {
+      "name": "BufferUnionRoomPartnerLanguage",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "FieldCommRegisterCommands",
+      "args": []
+    },
+    {
+      "name": "UnionRoomRequestLeaveAll",
+      "args": []
+    },
+    {
+      "name": "GetUnionRoomTalkMsg",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "GetUnionRoomPlayerActivity",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "UnionRoomWaitJoinStatus",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "UnionRoomRestoreObjects",
+      "args": []
+    },
+    {
+      "name": "UnionRoomSendTalkResponse",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "UnionRoomWaitTalkChoice",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "UnionRoomWaitTalkReply",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "UnionRoomRequestJoinPlayer",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MartBuy",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SpecialMartBuy",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "DecorationMart",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "SealMart",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "OverworldWhiteOut",
+      "args": []
+    },
+    {
+      "name": "SetSpawn",
+      "args": [
+        "spawn"
+      ]
+    },
+    {
+      "name": "GetPlayerGender",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "HealParty",
+      "args": []
+    },
+    {
+      "name": "CommClubExit",
+      "args": []
+    },
+    {
+      "name": "CommClubStartCardExchange",
+      "args": []
+    },
+    {
+      "name": "SetCommPlayerFacing",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "EnterUnionRoom",
+      "args": []
+    },
+    {
+      "name": "BufferUnionRoomAvatarChoices",
+      "args": []
+    },
+    {
+      "name": "UnionRoomAvatarIdxToTrainerClass",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetPlayerProfileAvatar",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckPokedex",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GivePokedex",
+      "args": []
+    },
+    {
+      "name": "CheckRunningShoes",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GiveRunningShoes",
+      "args": []
+    },
+    {
+      "name": "CheckBadge",
+      "args": [
+        "badge",
+        "var"
+      ]
+    },
+    {
+      "name": "GiveBadge",
+      "args": [
+        "badge"
+      ]
+    },
+    {
+      "name": "CountBadges",
+      "args": [
+        "badge"
+      ]
+    },
+    {
+      "name": "CheckFlagUnk960",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetFlagUnk960",
+      "args": []
+    },
+    {
+      "name": "CheckEscortMode",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetEscortMode",
+      "args": []
+    },
+    {
+      "name": "ClearEscortMode",
+      "args": []
+    },
+    {
+      "name": "CheckStepTakenFlag",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "SetStepTakenFlag",
+      "args": []
+    },
+    {
+      "name": "GetStepTakenFlag",
+      "args": []
+    },
+    {
+      "name": "ScrCmd_CheckGameClearFlag",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "ScrCmd_SetGameClearFlag",
+      "args": []
+    },
+    {
+      "name": "DoorAnimationLoad",
+      "args": [
+        2,
+        2,
+        "var",
+        "var",
+        1
+      ]
+    },
+    {
+      "name": "DoorAnimationWait",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "DoorAnimationUnload",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "DoorAnimationOpen",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "DoorAnimationClose",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferDaycareMonNicks",
+      "args": []
+    },
+    {
+      "name": "GetDaycareState",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "EcruteakGymInit",
+      "args": []
+    },
+    {
+      "name": "EcruteakGymBindCandleToTrainer",
+      "args": []
+    },
+    {
+      "name": "EcruteakGymUnbindCandleFromTrainer",
+      "args": []
+    },
+    {
+      "name": "EcruteakGymExtinguishCandle",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "CianwoodGymInit",
+      "args": []
+    },
+    {
+      "name": "CianwoodGymTurnWinch",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "VermilionGymInit",
+      "args": []
+    },
+    {
+      "name": "VermilionGymLockAction",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "VermilionGymCanCheck",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "ResampleVermilionGymCans",
+      "args": []
+    },
+    {
+      "name": "VioletGymInit",
+      "args": []
+    },
+    {
+      "name": "VioletGymElevator",
+      "args": []
+    },
+    {
+      "name": "AzaleaGymInit",
+      "args": []
+    },
+    {
+      "name": "AzaleaGymSpinarak",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "AzaleaGymSwitch",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BlackthornGymInit",
+      "args": []
+    },
+    {
+      "name": "FuchsiaGymInit",
+      "args": []
+    },
+    {
+      "name": "ViridianGymInit",
+      "args": []
+    },
+    {
+      "name": "GetPartyCount",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BagSelectItem",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BagGetSelectedItem",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "BagPocketHasItems",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "BufferBerryName",
+      "args": [
+        1,
+        "item",
+        "var"
+      ]
+    },
+    {
+      "name": "BufferNatureName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "MovePerson",
+      "args": [
+        "object2",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MovePersonFacing",
+      "args": [
+        "object2",
+        "var",
+        "var",
+        "var",
+        "direction"
+      ]
+    },
+    {
+      "name": "SetObjectMovementType",
+      "args": [
+        "object2",
+        "var"
+      ]
+    },
+    {
+      "name": "SetObjectFacing",
+      "args": [
+        "object2",
+        "direction"
+      ]
+    },
+    {
+      "name": "MoveWarp",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "MoveBGEvent",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "SetObjectFacingAndUpdateDraw",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "AddWaitingIcon",
+      "args": []
+    },
+    {
+      "name": "RemoveWaitingIcon",
+      "args": []
+    },
+    {
+      "name": "WriteScriptEnvField34",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "WaitButtonOrDelay",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "PartySelectUI",
+      "args": []
+    },
+    {
+      "name": "UnionRoomBattlePartySelect",
+      "args": []
+    },
+    {
+      "name": "GetPartySelection",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PokemonSummaryScreen",
+      "args": [
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetMoveSelection",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartyMonSpecies",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PartyMonIsMine",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PartyCountNotEgg",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountAliveMons",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CountAliveMonsAndPC",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PartyCountEgg",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SubMoneyVar",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "RetrieveDaycareMon",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GiveLoanMon",
+      "args": [
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "name": "CheckReturnLoanMon",
+      "args": [
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "ReturnLoanMon",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ResetDaycareEgg",
+      "args": []
+    },
+    {
+      "name": "GiveDaycareEgg",
+      "args": []
+    },
+    {
+      "name": "BufferDaycareWithdrawCost",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "HasEnoughMoneyVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "EggHatchAnim",
+      "args": []
+    },
+    {
+      "name": "BagSelectItemNoResult",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferDaycareMonGrowth",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetTailDaycareMonSpeciesAndNick",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PutMonInDaycare",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MakeObjectInvisible",
+      "args": [
+        "object2"
+      ]
+    },
+    {
+      "name": "MakeObjectVisible",
+      "args": [
+        "object2"
+      ]
+    },
+    {
+      "name": "OpenMailbox",
+      "args": []
+    },
+    {
+      "name": "CountMailboxMessages",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ViewRankings",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "GetCurrentTimeOfDay",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "Random",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "Random2",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "MonGetFriendship",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MonAddFriendship",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "MonSubtractFriendship",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "BufferDaycareMonStats",
+      "args": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetPlayerFacing",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetDaycareCompatibility",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckDaycareEgg",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PlayerHasSpecies",
+      "args": [
+        "var",
+        "species"
+      ]
+    },
+    {
+      "name": "SizeRecordCompare",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SizeRecordUpdate",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BufferMonSize",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BufferRecordSize",
+      "args": [
+        "var",
+        "var",
+        "species"
+      ]
+    },
+    {
+      "name": "OpenLearnForgetMove",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetLearnForgetMoveResult",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountMonMoves",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MonForgetMove",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MonGetMove",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BufferPartyMonMoveName",
+      "args": [
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "StrengthFlagAction",
+      "args": [
+        1
+      ],
+      "cases": {
+        "0": [],
+        "1": [],
+        "2": [
+          "var"
+        ]
+      },
+      "switch_arg": 0
+    },
+    {
+      "name": "FlashAction",
+      "args": [
+        1
+      ],
+      "cases": {
+        "0": [],
+        "1": [],
+        "2": [
+          "var"
+        ]
+      },
+      "switch_arg": 0
+    },
+    {
+      "name": "DefogAction",
+      "args": [
+        1
+      ],
+      "cases": {
+        "0": [],
+        "1": [],
+        "2": [
+          "var"
+        ]
+      },
+      "switch_arg": 0
+    },
+    {
+      "name": "GiveAccessory",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CanGiveAccessory",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "HasAccessoryCount",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GiveContestBackground",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "HasWallpaper",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "OpenBattleRoomResults",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "FrontierAssertCleared",
+      "args": []
+    },
+    {
+      "name": "FrontierFieldSystemInit",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "FrontierFieldSystemFree",
+      "args": []
+    },
+    {
+      "name": "BattleTowerAction",
+      "args": [
+        2,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleTowerGetAllyMonSpeciesAndMove",
+      "args": [
+        "var",
+        2,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleTowerClaimRecordMilestone",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BattleTowerGetRecordMilestone",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BattleTowerSendLinkData",
+      "args": [
+        2,
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "BattleTowerCheckLinkPartner",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "GetBattleRoomLeadersRoom",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleRoomHasLeaders",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "IncGameStat",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetGameStatHiLo",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "ModifyGameStat",
+      "args": [
+        2,
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "name": "CheckJohtoDexComplete",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckNationalDexComplete",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ShowCertificate",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "KenyaCheck",
+      "args": [
+        "var",
+        "var",
+        1
+      ]
+    },
+    {
+      "name": "Dummy427",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "MonGiveMail",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountFossils",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetPhoneCall",
+      "args": [
+        "phone_contact",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "RunPhoneCall",
+      "args": []
+    },
+    {
+      "name": "GetFossilPokemon",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetFossilMinimumAmount",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PartyCountMonsAtOrBelowLevel",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "SurvivePoisoning",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "LeaveOverworld",
+      "args": []
+    },
+    {
+      "name": "DebugWatch",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetStdMsgNaix",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "NonNPCMsgExtern",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MsgBoxExtern",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "NonNPCMsgEasyChat",
+      "args": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "MsgBoxEasyChat",
+      "args": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "MsgBoxFrontierOpponentIntro",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "MsgBoxFrontierBannedSpecies",
+      "args": [
+        1,
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "name": "GetPreviousMapId",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetCurrentMapId",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SafariZoneAction",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "WarpToColosseum",
+      "args": [
+        "maps",
+        2,
+        "var",
+        "var",
+        "direction"
+      ]
+    },
+    {
+      "name": "ReturnFromColosseum",
+      "args": []
+    },
+    {
+      "name": "OpenGeonetGlobe",
+      "args": []
+    },
+    {
+      "name": "GetLocalNetId",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ShowPokemonPicWindow",
+      "args": [
+        "species",
+        2
+      ]
+    },
+    {
+      "name": "ClosePokemonPicWindow",
+      "args": []
+    },
+    {
+      "name": "SetLastTalkedTrainerMovement",
+      "args": []
+    },
+    {
+      "name": "NPCMsgByObjectType",
+      "args": []
+    },
+    {
+      "name": "TogglePlayerAutoHeightUpdate",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "MonGetNature",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetPartySlotWithNature",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "LighthouseLightUp",
+      "args": []
+    },
+    {
+      "name": "LoadPhoneDat",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetPhoneContactMsgIds",
+      "args": [
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "ClearPhoneRematchSeeking",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "EnableMassOutbreaks",
+      "args": []
+    },
+    {
+      "name": "CreateRoamer",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "FriendGroupAction",
+      "args": [
+        2
+      ],
+      "switch_arg": 0,
+      "cases": {
+        "0": [
+          "var",
+          "var"
+        ],
+        "1": [
+          "var",
+          "var"
+        ],
+        "2": [
+          "var",
+          "var"
+        ],
+        "3": [
+          "var",
+          "var"
+        ],
+        "4": [
+          "var"
+        ],
+        "5": [
+          "var"
+        ],
+        "6": [],
+        "7": [
+          "var"
+        ]
+      }
+    },
+    {
+      "name": "MonHasRelearnableMoves",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MoveRelearnerInit",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MoveTutorInit",
+      "args": [
+        "var",
+        "move"
+      ]
+    },
+    {
+      "name": "MoveRelearnerGetResult",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "LoadNPCTrade",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "GetOfferedSpecies",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "NPCTradeGetReqSpecies",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "NPCTradeExec",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "NPCTradeEnd",
+      "args": []
+    },
+    {
+      "name": "Dummy475",
+      "args": []
+    },
+    {
+      "name": "EnablePokedexFormDetection",
+      "args": []
+    },
+    {
+      "name": "NatDexFlagAction",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "MonGetRibbonCount",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartyRibbonCount",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MonHasRibbon",
+      "args": [
+        "var",
+        "var",
+        "ribbon"
+      ]
+    },
+    {
+      "name": "GiveRibbon",
+      "args": [
+        "var",
+        "ribbon"
+      ]
+    },
+    {
+      "name": "BufferRibbonName",
+      "args": [
+        1,
+        "ribbon"
+      ]
+    },
+    {
+      "name": "GetEVTotal",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetWeekday",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "StartBattleRegulationMenuTask",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "Dummy486",
+      "args": []
+    },
+    {
+      "name": "PokeCenAnim",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ElevatorAnim",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MysteryGift",
+      "args": [
+        2
+      ],
+      "cases": {
+        "0": [],
+        "1": [
+          "var"
+        ],
+        "2": [
+          "var"
+        ],
+        "3": [
+          "var"
+        ],
+        "4": [],
+        "5": [
+          "var",
+          "var"
+        ],
+        "6": [
+          "var",
+          "var"
+        ],
+        "7": [],
+        "8": []
+      },
+      "switch_arg": 0
+    },
+    {
+      "name": "NopVar490",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "Dummy491",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "PromptEasyChatOneWord",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PromptEasyChat",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BufferEasyChatWord",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "GetGameVersion",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartyLead",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetMonTypes",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PrimoPasswordCheck1",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PrimoPasswordCheck2",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PCPropLoadAnimation",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "PCPropPowerOn",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "PCPropPowerOff",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "LotoIDGet",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "LotoIDSearch",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "LotoIDSet",
+      "args": []
+    },
+    {
+      "name": "BufferBoxMonNick",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "CountPCEmptySpace",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PalParkAction",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "MigratedPokemonIsFull",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MoveMigratedPokemonToPC",
+      "args": []
+    },
+    {
+      "name": "PalParkScoreGet",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "PlayerMovementSavingSet",
+      "args": []
+    },
+    {
+      "name": "PlayerMovementSavingClear",
+      "args": []
+    },
+    {
+      "name": "HallOfFameAnim",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "AddSpecialGameStat",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "BufferFashionName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "PartyHasSpecies",
+      "args": [
+        "species",
+        "var"
+      ]
+    },
+    {
+      "name": "SetPartyDeoxysForm",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountPartyBurmyForms",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "SetFlagUnk975",
+      "args": []
+    },
+    {
+      "name": "ClearFlagUnk975",
+      "args": []
+    },
+    {
+      "name": "GetCurrentHour",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SpinObject",
+      "args": [
+        "object2",
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "BlinkObject",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "HasAllRegisInParty",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetRandomGivableAccessory",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "MsgFont3",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetAgbCartridgeVersion",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartyLeadAlive",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MapEventKeyAction",
+      "args": [
+        2,
+        1
+      ]
+    },
+    {
+      "name": "BufferBackgroundName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "CheckCoinsImmediate",
+      "args": [
+        "var",
+        4
+      ]
+    },
+    {
+      "name": "CheckGiveCoins",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetVar4041",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "MonGetLevel",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "TakeFashionAccessory",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "RandomizeVar4041",
+      "args": []
+    },
+    {
+      "name": "UnlockRandomTrendySaying",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "CheckVar4042AtLeast5",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "CheckAllTrendySayingsUnlocked",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BufferIntEx",
+      "args": [
+        1,
+        "var",
+        1,
+        1
+      ]
+    },
+    {
+      "name": "MonGetContestValue",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "CheckIsPlayerBirthday",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "SetSeqVolume",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "CountUnownLettersRegistered",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckEventKey",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "ShowPartyMonPic",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "AnimateMonPic",
+      "args": []
+    },
+    {
+      "name": "WaitMonPicAnim",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetHallOfFameEntryCount",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "ChoosePartyMonForDayCare",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetDayCarePartySelection",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "RandomChance",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "GetBattlePoints",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GiveBattlePoints",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "TakeBattlePoints",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckBattlePoints",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "UnionRoomAvatarIdxToSprite",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceAddItemVar",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "StartFieldMoveEffect",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "ScreenShake",
+      "args": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "MultiBattle",
+      "args": [
+        "trainer",
+        "trainer",
+        "trainer",
+        1
+      ]
+    },
+    {
+      "name": "WalkPersonToCoords",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "CheckHasWifiProfile",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountWifiFriends",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ChoosePartyMonForTrade",
+      "args": []
+    },
+    {
+      "name": "GetDPPlPrizeItemIDAndCost",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "ItemIsPlate",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "TakeCoinsVar",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "CheckCoinsVar",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CheckEasyChatWordsMatchFixedPhrase",
+      "args": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetUniqueSealsQuantity",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetMysteryGiftActive",
+      "args": []
+    },
+    {
+      "name": "GetObjectMovementType",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CountPlayingSeq",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetUnionRoomPartnerHometownMsg2",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CreateWirelessStatusIcon",
+      "args": []
+    },
+    {
+      "name": "DestroyWirelessStatusIcon",
+      "args": []
+    },
+    {
+      "name": "SyncMapObjectsToSave",
+      "args": []
+    },
+    {
+      "name": "BufferSealName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "LockLastTalked",
+      "args": []
+    },
+    {
+      "name": "SetSpecialSpawnWarp",
+      "args": [
+        "maps",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "ClearObjectFlag18",
+      "args": [
+        2,
+        1
+      ]
+    },
+    {
+      "name": "PartyLegalCheck",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceShowUnionRoom",
+      "args": []
+    },
+    {
+      "name": "GetUnionRoomBattleCancel",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CommClubLinkExit",
+      "args": []
+    },
+    {
+      "name": "LatiCaughtCheck",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "WildBattle",
+      "args": [
+        "species",
+        "var",
+        1
+      ]
+    },
+    {
+      "name": "GetTrcardStars",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetBicycleBGMOverride",
+      "args": []
+    },
+    {
+      "name": "NonNPCMsgVarAutoScroll",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ShowSaveStats",
+      "args": []
+    },
+    {
+      "name": "HideSaveStats",
+      "args": []
+    },
+    {
+      "name": "SetWarpResetSuppressed",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "FollowMonIsLarge",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "FollowMonShowEmoteBubble",
+      "args": []
+    },
+    {
+      "name": "SwapPlayerAndFollowMonPositions",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "FollowMonHopIntoBall",
+      "args": []
+    },
+    {
+      "name": "FollowMonRecall",
+      "args": []
+    },
+    {
+      "name": "FollowMonFacePlayer",
+      "args": []
+    },
+    {
+      "name": "ToggleFollowingPokemonMovement",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "WaitFollowingPokemonMovement",
+      "args": []
+    },
+    {
+      "name": "FollowingPokemonMovement",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "FollowMonSetPositionNextToPlayer",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "FollowMonReleaseNextToPlayer",
+      "args": []
+    },
+    {
+      "name": "FollowMonMoveToPlayer",
+      "args": []
+    },
+    {
+      "name": "FollowMonSpawnReleaseBall",
+      "args": []
+    },
+    {
+      "name": "FollowMonResetMovement",
+      "args": []
+    },
+    {
+      "name": "StartCameraShift",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "Pokeathlon",
+      "args": [
+        1,
+        1,
+        "var",
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetNPCTradeUnusedFlag",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetPhoneContactRandomGiftBerry",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetPhoneContactGiftItem",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CameronPhoto",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "CountSavedPhotos",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "OpenPhotoAlbum",
+      "args": []
+    },
+    {
+      "name": "PhotoAlbumIsFull",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "RocketCostumeFlagCheck",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "RocketCostumeFlagAction",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "PlaceStarterBallsInElmsLab",
+      "args": []
+    },
+    {
+      "name": "GetObjectFacing",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "AnimApricornTree",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ApricornTreeGetApricorn",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GiveApricornFromTree",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BufferApricornName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "LaunchFrontier",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BattleFactoryResetStreak",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "RunSpinTradeFlow",
+      "args": []
+    },
+    {
+      "name": "CheckUnionRoomPartnerVersionNotDummy",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "OpenFrontierRecords",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CountPartyMonsOfSpecies",
+      "args": [
+        "var",
+        "species"
+      ]
+    },
+    {
+      "name": "BattleHallAction",
+      "args": [
+        2,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleHallCheckSpecies",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleHallGetPartySelection",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleHallResetStreak",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BattleCastleAction",
+      "args": [
+        2,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleCastleCheckTeam",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleCastleGetPartySelection",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleCastleResetStreak",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SaveWipeExtraChunks",
+      "args": []
+    },
+    {
+      "name": "CheckExtraSaveChunksExist",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BattleArcadeAction",
+      "args": [
+        2,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleArcadeCheckTeam",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleArcadeGetPartySelection",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleArcadeResetStreak",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartySlotWithSpecies",
+      "args": [
+        "var",
+        "species"
+      ]
+    },
+    {
+      "name": "BattleHallRecordSpeciesListMenu",
+      "args": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "ScratchOffCard",
+      "args": []
+    },
+    {
+      "name": "ScratchOffCardEnd",
+      "args": []
+    },
+    {
+      "name": "GetScratchOffPrize",
+      "args": [
+        2,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetTutorMoveListPageCount",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MoveTutorChooseMove",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "TutorMoveTeachInSlot",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "TutorMoveGetPrice",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MonCanLearnHeadbuttFromTutor",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "StatJudge",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BufferStatName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "SetMonForm",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "BufferTrainerName",
+      "args": [
+        1,
+        "trainer"
+      ]
+    },
+    {
+      "name": "BufferIntExWord",
+      "args": [
+        1,
+        4,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "LaunchGlobalTerminal",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "LaunchWiFiPlaza",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "Dummy664",
+      "args": []
+    },
+    {
+      "name": "FieldBGMPlay",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetCurrentBGM",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "CheckABHeld",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "BufferTypeName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "GetItemQuantity",
+      "args": [
+        "item",
+        "var"
+      ]
+    },
+    {
+      "name": "GetHiddenPowerType",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetFavoriteMon",
+      "args": []
+    },
+    {
+      "name": "GetFavoriteMon",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetOwnedRotomForms",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CountTranformedRotomsInParty",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "UpdateRotomForm",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartyMonForm",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceShowListAtPosition",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "CreateCameraFocusObject",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "RemoveCameraFocusObject",
+      "args": []
+    },
+    {
+      "name": "AddSpecialGameStat2",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "EditBattleGreeting",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckFieldHeapFreeSize",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetStaticEncounterOutcome",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetWeatherType",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetPlayerXYZ",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "FatefulWildBattle",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "SetMonSeenFlag",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetPartySlotWithFatefulEncounter",
+      "args": [
+        "var",
+        2
+      ]
+    },
+    {
+      "name": "CommSanitizeParty",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "DaycareSanitizeMon",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CheckPlazaLoginTimeElapsed",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BufferBattleHallStreak",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BattleHallCountUsedSpecies",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BattleHallGetTotalStreak",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceShowListWithWidth",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "UpdatePartyGiratinaFormsAndCaughtFlags",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "CheckBattleHallStreakIs50",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "FollowerPokeIsEventTrigger",
+      "args": [
+        1,
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetOtherObjectsFlag13",
+      "args": []
+    },
+    {
+      "name": "ClearOtherObjectsFlag13",
+      "args": []
+    },
+    {
+      "name": "MonHasItem",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "BattleTowerSetUpMultiBattle",
+      "args": []
+    },
+    {
+      "name": "SetPlayerVolume",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "AddGameStat",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "AddGameStatWord",
+      "args": [
+        2,
+        4
+      ]
+    },
+    {
+      "name": "CheckHallOfFameSaveInvalid",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckMonSeen",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "PlayTrapEffect",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "PlayHideoutAlarm",
+      "args": []
+    },
+    {
+      "name": "UpdateMapPropAnimsFromFlag96B",
+      "args": []
+    },
+    {
+      "name": "FollowMonInteract",
+      "args": []
+    },
+    {
+      "name": "LaunchPokeathlonRecordsApp",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "AlphPuzzle",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "OpenAlphHiddenRoom",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "UpdateDaycareMonObjects",
+      "args": []
+    },
+    {
+      "name": "LaunchSafariAreaCustomizer",
+      "args": []
+    },
+    {
+      "name": "StartSafariDecoration",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BufferSafariZoneObjectName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "GetFacingSafariObject",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "RemoveSafariObject",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckSafariObjectPlacement",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MagnetTrainRide",
+      "args": [
+        1,
+        1,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "ShipVoyage",
+      "args": [
+        1,
+        1,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GetPokeathlonStat",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "AdjustPokeathlonStat11",
+      "args": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "ProcessSoundplate",
+      "args": []
+    },
+    {
+      "name": "GetFollowPokePartyIndex",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "FollowMonFlash",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "FollowMonIsActive",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "FollowMonIsInactiveOrVisible",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "FollowMonGrowAndShrink",
+      "args": []
+    },
+    {
+      "name": "FollowMonAddMood",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "FirstAliveMonHasType",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "FollowMonJumpOnSpot",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "GetKurtApricornQuantity",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ClearKurtApricorn",
+      "args": []
+    },
+    {
+      "name": "GetKurtBall",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetTotalApricornCount",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "LaunchApricornBoxForKurt",
+      "args": []
+    },
+    {
+      "name": "LaunchApricornBoxForJuice",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "GetApricornJuiceOffer",
+      "args": [
+        "var",
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MonLearnsetHasMove",
+      "args": [
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "ShowPokeathlonRecords",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CreatePokeathlonFriendshipRoomStatues",
+      "args": []
+    },
+    {
+      "name": "BufferPokeathlonCourseName",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "TouchscreenMenuHide",
+      "args": []
+    },
+    {
+      "name": "TouchscreenMenuShow",
+      "args": []
+    },
+    {
+      "name": "GetMenuChoice",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MenuInitStdGmm",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "MenuInit",
+      "args": [
+        1,
+        1,
+        1,
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "MenuItemAdd",
+      "args": [
+        "var",
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "MenuExec",
+      "args": []
+    },
+    {
+      "name": "RockSmashItemCheck",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "TryHeadbuttEncounter",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "LegendCutsceneClearBellAnimBegin",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneClearBellAnimEnd",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneClearBellRiseFromBag",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneClearBellShimmer",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "LegendCutsceneLugiaEyeGlimmerEffect",
+      "args": []
+    },
+    {
+      "name": "UnusedHoOhAnim",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneMoveCameraTo",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "LegendCutscenePanCameraTo",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "LegendCutsceneWaitCameraPan",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneBirdFinalApproach",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneWavesOrLeavesEffectBegin",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneWavesOrLeavesEffectEnd",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneLugiaArrivesEffectBegin",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneLugiaArrivesEffectEnd",
+      "args": []
+    },
+    {
+      "name": "LegendCutsceneLugiaArrivesEffectCameraPan",
+      "args": []
+    },
+    {
+      "name": "CheckSeenAllLetterUnown",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "PokeathlonDailyMart",
+      "args": []
+    },
+    {
+      "name": "PokeathlonDataCardMart",
+      "args": []
+    },
+    {
+      "name": "Cinematic",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "ShowLegendaryWing",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "LanceFlyAway",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GiveTogepiEgg",
+      "args": []
+    },
+    {
+      "name": "MonIsFromTogepiEgg",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "GiveSpikyEarPichu",
+      "args": []
+    },
+    {
+      "name": "RadioMusicIsPlaying",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CasinoGame",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "KenyaCheckPartyOrMailbox",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "MartSell",
+      "args": []
+    },
+    {
+      "name": "SetFollowMonInhibitState",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "ScriptOverlayCmd",
+      "args": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "BugContestAction",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferBugContestWinner",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "JudgeBugContest",
+      "args": [
+        "var",
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "BufferBugContestMonNick",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BugContestGetTimeLeft",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "IsBugContestantRegistered",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CheckSafariZoneChallengeCompleted",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "UpdateSafariZoneIGT",
+      "args": []
+    },
+    {
+      "name": "BankTransaction",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "CheckBankBalance",
+      "args": [
+        "var",
+        4
+      ]
+    },
+    {
+      "name": "ShowSavingsBox",
+      "args": [
+        2,
+        2
+      ]
+    },
+    {
+      "name": "HideSavingsBox",
+      "args": []
+    },
+    {
+      "name": "UpdateSavingsBox",
+      "args": []
+    },
+    {
+      "name": "BufferRulesetName",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "BufferBattleRegulationName",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetActiveBattleRegulation",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ShowBattleRegulationWindow",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "HideBattleRegulationWindow",
+      "args": []
+    },
+    {
+      "name": "CheckPartyBattleRegulation",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "SetPokegearMapUnlockLevel",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "LoadEventSoundEffects",
+      "args": []
+    },
+    {
+      "name": "ShayminRevertToLandForm",
+      "args": []
+    },
+    {
+      "name": "SetTrainerHouseSprite",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "TrainerHouseBattle",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "ShowTrainerHouseIntroMessage",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CelebiTimeTravel",
+      "args": []
+    },
+    {
+      "name": "PeekMomGift",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "PopMomGift",
+      "args": []
+    },
+    {
+      "name": "MomGiftCheck",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "SetFlag99A",
+      "args": []
+    },
+    {
+      "name": "SetSavedBottomScreenApp",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "UnownCircle",
+      "args": []
+    },
+    {
+      "name": "SinjohGetEggCutscene",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "MystriStageGymmickInit",
+      "args": []
+    },
+    {
+      "name": "SinjohFreezeAllModels",
+      "args": []
+    },
+    {
+      "name": "SinjohSetChosenLegend",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "GetBuenasPassword",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "CustomSafariLinkExchange",
+      "args": []
+    },
+    {
+      "name": "BufferSafariLinkLeaderName",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckSafariZoneLinked",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetShinyLeafCount",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "TryGiveShinyLeafCrown",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetPartyMonForm2",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MonAddContestValue",
+      "args": [
+        "var",
+        1,
+        2
+      ]
+    },
+    {
+      "name": "FollowMonIsNextToPlayer",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckGiftAccessoriesFull",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetRandomGiftAccessory",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckHasAllBackdrops",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "GetRandomMissingBackdrop",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckPokeathlonDailyMartHasStock",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CountPokeathlonDataCardsBought",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckKyogreGroudonInParty",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "CheckHasLinkBattleRuleset",
+      "args": [
+        "var"
+      ]
+    },
+    {
+      "name": "BankOrWalletIsFull",
+      "args": [
+        2,
+        "var"
+      ]
+    },
+    {
+      "name": "SysSetSleepFlag",
+      "args": [
+        2
+      ]
+    },
+    {
+      "name": "GetMapPokeCenterOrLeagueType",
+      "args": [
+        "var",
+        "var"
+      ]
+    },
+    {
+      "name": "MultichoiceSetAnchorRight",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "MultichoiceSetAnchorBottom",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferItemNameIndef",
+      "args": [
+        1,
+        "item"
+      ]
+    },
+    {
+      "name": "BufferItemNamePlural",
+      "args": [
+        1,
+        "item"
+      ]
+    },
+    {
+      "name": "BufferPartyMonSpeciesNameIndef",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferSpeciesNameIndef",
+      "args": [
+        1,
+        "species",
+        2,
+        1
+      ]
+    },
+    {
+      "name": "BufferDPPtFriendStarterSpeciesNameIndef",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferFashionNameIndef",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferTrainerClassNameIndef",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "BufferSealNamePlural",
+      "args": [
+        1,
+        "var"
+      ]
+    },
+    {
+      "name": "Capitalize",
+      "args": [
+        1
+      ]
+    },
+    {
+      "name": "BufferDeptStoreFloorNo",
+      "args": [
+        1,
+        1
+      ]
+    }
+  ],
+  "argtypes": {
+    "var": {
+      "header": "include/constants/vars.h",
+      "prefix": "VAR_"
+    },
+    "flag": {
+      "header": "include/constants/flags.h",
+      "prefix": "FLAG_"
+    },
+    "species": {
+      "header": "include/constants/species.h",
+      "prefix": "SPECIES_"
+    },
+    "item": {
+      "header": "include/constants/items.h",
+      "prefix": "ITEM_"
+    },
+    "move": {
+      "header": "include/constants/moves.h",
+      "prefix": "MOVE_"
+    },
+    "sound": {
+      "header": "include/constants/sndseq.h",
+      "prefix": "SEQ_"
+    },
+    "ribbon": {
+      "header": "include/constants/ribbon.h",
+      "prefix": "RIBBON_"
+    },
+    "stdscr": {
+      "header": "include/constants/std_script.h",
+      "prefix": "std_"
+    },
+    "trainer": {
+      "header": "include/constants/trainers.h",
+      "prefix": "TRAINER_"
+    },
+    "sprites": {
+      "header": "include/constants/sprites.h",
+      "prefix": "SPRITE_"
+    },
+    "maps": {
+      "header": "include/constants/maps.h",
+      "prefix": "MAP_"
+    },
+    "phone_contact": {
+      "header": "include/constants/phone_contacts.h",
+      "prefix": "PHONE_CONTACT_"
+    },
+    "spawn": {
+      "header": "include/constants/spawns.h",
+      "prefix": "SPAWN_"
+    },
+    "badge": {
+      "header": "include/constants/badge.h",
+      "prefix": "BADGE_"
+    },
+    "player_transition": {
+      "header": "include/constants/global_fieldmap.h",
+      "prefix": "PLAYER_TRANSITION_"
+    },
+    "direction": {
+      "header": "include/constants/global_fieldmap.h",
+      "prefix": "DIR_"
+    }
+  }
+}

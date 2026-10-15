@@ -1,0 +1,18 @@
+#include <nitro/code32.h>
+#include <nitro/mi/dma.h>
+#include <nitro/types.h>
+
+typedef enum {
+    MI_WRAM_ARM9_ALL = 0,
+    MI_WRAM_1616_1 = 1,
+    MI_WRAM_1616_2 = 2,
+    MI_WRAM_ARM7_ALL = 3
+} MIWram;
+
+void MI_SetWramBank(MIWram bank);
+void MI_Init(void);
+
+void MI_Init(void) {
+    MI_SetWramBank(MI_WRAM_ARM7_ALL);
+    MI_StopDma(0);
+}
