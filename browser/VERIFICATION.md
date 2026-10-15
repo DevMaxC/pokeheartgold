@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-- `npm test`: 75 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- `npm test`: 84 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
 - Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 668 structural assets receive closure geometry; 195 landscapes receive camera-facing trees. The same audit covers 103 solid-fence, 44 flower-volume and 384 terrain-closure contexts, plus 43 remaining upright-cutout contexts. Instance matrices and vertices stay finite. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
 - Repeated forest art is split into individual original-tree sprites using exported trunk layouts. A four-tree row has four separate instance pivots, aligned with its ground marks; source alpha foot offsets keep trunks on the ground. Flipped/rotated UVs, mixed-mesh shadows, rear backing depth and blended material depth settings have regression coverage.
@@ -44,8 +44,15 @@ The complete story and world have not received a fresh-save end-to-end playthrou
 
 Basic single battles have enemy turns, move/PP selection, type/stats, status/stage effects, switching, basic balls, EXP/level-up and familiar commands. These are partial implementations. Unported move effects stop explicitly; advanced effects, AI, ball modifiers and several progression consequences are not yet faithful.
 
-The 3D repair synthesizes surfaces absent from DS assets. Missing rear walls use mirrored source façade artwork plus solid backing; no original rear artwork exists for those surfaces. All original front art and source coordinates are retained. Camera-facing trees are the intended paper-style presentation. Fence posts/rails and grass blades are new 3D geometry placed from source runs/permissions; flower bunches use crossed original art. New cliff backing uses original rock textures over opaque skirts. These presentation additions do not alter collision or encounter boundaries. Species scale, crowded scenery intersections and the full set of newly exposed terrain angles still need broader visual checks.
+The 3D repair synthesizes surfaces absent from DS assets. Missing rear walls use source sidewall cladding over opaque sections identified from original doorway positions; no original rear artwork exists for those surfaces. Combined nearby header warps preserve real two-sided gate entrances. Stacked wall bands remain continuous and roof slopes are excluded from the wall outline. All original front art and source coordinates are retained. Camera-facing trees are the intended paper-style presentation. Fence posts/rails and grass blades are new 3D geometry placed from source runs/permissions; flower bunches use crossed original art. New cliff backing uses original rock textures over opaque skirts. These presentation additions do not alter collision or encounter boundaries. Species scale, crowded scenery intersections and the full set of newly exposed terrain angles still need broader visual checks.
 
 ## Original battle palettes
 
 `files/poketool/pokegra/pokegra.mk` extracts the normal palette from the front PNG and the shiny palette from the back PNG. The browser exporter now applies the normal palette to both facings, preserving the original indexed pixels across 1,972 exported images. Rendering a back PNG with its embedded palette incorrectly made normal Pokémon shiny. Actual shiny identity remains unimplemented.
+
+## Connected headers and building rears
+
+- Connected outdoor headers now stream without running camera-entry placement, showing an entry overlay, clearing held movement or resetting the follower onto the player. Actual room warps translate the existing camera offset and target together; angle and preferred zoom remain intact.
+- A held-input browser crossing from original Cherrygrove to Route 29 retained yaw 0.9, pitch 0.61 and distance 17. The loading overlay was never shown; the first Route 29 sample kept the follower at the preceding tile. Three camera fixtures cover initial placement, nearby connected headers and distant real warps.
+- Actual imported Cherrygrove Center, Mart and house models block rear sight lines before the front wall. Original-texture model renders confirm the house rear is continuous cladding, including the former doorway opening, with horizontal bands and the original roof retained. Split wall bands, opaque texture settings, world transforms, neighbouring corner doors and opposing entrances have regression fixtures. This is targeted evidence, not visual certification of all building variants.
+- The broader scenery audit remains open: leaning/thin rocks, black cut-out backgrounds, shoreline seams, floating forest strips, all building variants and genuine ledge terraces/jumps still require root-cause fixes and verification.

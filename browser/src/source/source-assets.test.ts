@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,access} from 'node:fs/promises';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {repairOriginalAsset} from './render-repair.ts';
+import {repairOriginalAsset,closeBuildingBack,originalMaterial} from './render-repair.ts';
 
 const root=new URL('../../public/source/',import.meta.url);
 const readJSON=async(path:string)=>JSON.parse(await readFile(new URL(path,root),'utf8'));
@@ -44,4 +44,7 @@ test('repeated lightmap forest textures resolve to complete individual-tree artw
   repeated++;assert.ok(!/_re(?:_|\.)/.test(entry.asset),name);assert.ok(entry.centers.length>=1);assert.ok(entry.footV>0&&entry.footV<=1);await access(new URL(entry.asset,root));
  }
  assert.ok(repeated>10);assert.equal(foliage['2'].tree01_re_lm1.asset,'foliage/2-tree01gs_lm1.png');assert.equal(foliage['2'].treekn_re_lm1.asset,'foliage/2-treekn_lm1.png');
+});
+test('the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs',async()=>{
+ for(const [file,doorX,doorZ]of [['1-40-0.glb',0,1.5],['1-39-0.glb',-.5,1],['1-37-0.glb',-.5,1]] as const){const gltf=await new GLTFLoader().parseAsync(geometryGLB(await readFile(new URL('props/'+file,root))),'');gltf.scene.traverse(o=>{if(o instanceof THREE.Mesh)o.material=Array.isArray(o.material)?o.material.map(m=>originalMaterial(m as THREE.MeshStandardMaterial)):originalMaterial(o.material as THREE.MeshStandardMaterial);});repairOriginalAsset(gltf.scene,true);gltf.scene.scale.setScalar(1/16);assert.ok(closeBuildingBack(gltf.scene,[{x:doorX,z:doorZ}])>0,file);gltf.scene.updateMatrixWorld(true);for(const x of [-.5,0,.5]){const hits=new THREE.Raycaster(new THREE.Vector3(x,1,-10),new THREE.Vector3(0,0,1)).intersectObject(gltf.scene,true);assert.ok(hits.length>0,`${file} rear x=${x}`);assert.ok(hits[0].point.z<0,`${file} rear must block sight through to its front`);}if(file==='1-37-0.glb'){const wall=new THREE.Box3().setFromObject(gltf.scene.getObjectByName('entrance-rear-wall')!),building=new THREE.Box3().setFromObject(gltf.scene);assert.ok(wall.max.y<building.max.y-.2,'Rear wall cladding must stay below the original roof');}}
 });

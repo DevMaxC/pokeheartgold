@@ -70,23 +70,23 @@ async function chooseStarter(){
   }
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
 }
-async function runScript(script:string|number,object='obj_player',nested=false){
+async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false){
   if(vm.busy&&!nested)return;
   const runner=nested?new ScriptVM(data,state,vm.hooks):vm;
-  keys.clear();walking=true;
+  if(!preserveControls)keys.clear();walking=true;
   try{await runner.run(map,script,object);updateHUD();}
   catch(error){lastError=String(error);console.error(error);if(error instanceof UnsupportedScript)await ui.message('This scene is still being restored. Your progress has been kept.');else await ui.message('The scene could not finish. Your progress has been kept.');}
   finally{walking=false;save();}
   if(!nested&&!vm.busy)await checkFrameTriggers();
 }
-async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false){
+async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false){
   encounterChecks.reset();
   playerDirectionLocked=false;
-  transitioning=true;keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');state.map=id;state.x=x;state.z=z;
+  transitioning=true;if(!connection){keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');}state.map=id;state.x=x;state.z=z;
   try{
-    map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};player.group.visible=true;refreshNPCs();updateHUD();player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);
-    if(runEntry)for(const event of ['OnTransition','OnResume','OnLoad'])if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy);
-  }finally{transitioning=false;ui.loading(null);}
+    map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);}
+    if(runEntry)for(const event of ['OnTransition','OnResume','OnLoad'])if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,connection);
+  }finally{transitioning=false;if(!connection)ui.loading(null);}
   await checkFrameTriggers();
 }
 async function checkFrameTriggers(){if(vm.busy||ui.busy||battle.active)return false;const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;await runScript(trigger.script);return true;}
@@ -101,7 +101,7 @@ async function warp(index:number){
 }
 async function checkEvents(){
   const x=Math.floor(state.x),z=Math.floor(state.z);const owner=world.owner(state.x,state.z);
-  if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z);}
+  if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
   const warpIndex=map.events.warps.findIndex(w=>w.x===x&&w.z===z),key=map.id+':'+x+','+z;
   if(warpIndex>=0&&key!==lastWarp){await warp(warpIndex);save();return;}if(warpIndex<0)lastWarp='';
   const trigger=map.events.coords.find(c=>x>=c.x&&x<c.x+(c.w||1)&&z>=c.z&&z<c.z+(c.h||1)&&vm.value(c.var||'0',map)===c.val);
@@ -179,7 +179,7 @@ async function boot(){
     if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;
     if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active){const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);const facing=Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0;void step(facing).catch(error=>{console.error(error);lastError=String(error);});}}
     world.draw(state.x,state.z,dt);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
-    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,follower:follower?{x:follower.group.position.x,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
+    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();
 }
 addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;if(e.code==='Escape'){if(ui.dialogueOpen)return;if(ui.panelOpen){if(ui.canDismiss)ui.close();return;}menu();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat&&!ui.dialogueOpen)void interact();});
