@@ -1,5 +1,11 @@
 # Pokémon HeartGold and SoulSilver
 
+## Browser 3D exploration prototype
+
+[Paper Johto](browser/README.md) adds a separate playable browser runtime with free movement, a rotating third-person camera, 3D scenery, and original 2D sprites. Start with `cd browser && npm ci && npm run dev`. This first slice connects a reimagined New Bark Town and Route 29; it is not a complete port of the Nintendo DS game.
+
+## Original Nintendo DS project
+
 Independent project. Keep issues and contributions in this repository.
 
 Fully decompiled: everything's C/C++ and both ROMs build byte-for-byte. Built with LLM agents.
