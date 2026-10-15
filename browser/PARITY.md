@@ -2,7 +2,7 @@
 
 Source baseline: `d7886a5`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.
 
-Inventory: **274 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
+Inventory: **281 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
 
 ## Completion standard
 
@@ -372,6 +372,18 @@ Inventory: **274 system requirements, 540 map headers, 832 script/movement comma
 | P15-006 | Original building door warps, interior return exits and counter interactions work | Implemented | `browser/src/source/world.ts` |
 | P15-007 | Following Pokémon move continuously along the original one-tile trailing path | Implemented | `browser/src/source/world.ts` |
 | P15-008 | Every world camera angle, terrain boundary and scenery variant receives visual verification | Pending | `browser/src/source/world.ts` |
+
+### 3D sky and weather
+
+| ID | Requirement | Status | Source |
+| --- | --- | --- | --- |
+| P16-001 | A coloured horizon and sky follow the original morning, day, evening and night clock | Implemented | `browser/src/source/sky.ts` |
+| P16-002 | Clouds have separately modelled solid pixel silhouettes, shaded undersides and slow drift | Implemented | `browser/src/source/sky.ts` |
+| P16-003 | Illustrated sun, moon and twinkling stars complement the original field artwork | Implemented | `browser/src/source/sky.ts` |
+| P16-004 | Original map weather selects field rain, snow, diamond dust and mist presentation | Implemented | `browser/src/source/sky.ts` |
+| P16-005 | Original summit dates and post-Rocket Wednesday Lake of Rage weather are retained | Implemented | `browser/src/source/sky.ts` |
+| P16-006 | Sky and weather persist during 3D battles and stay outside interiors and ordinary caves | Implemented | `browser/src/source/sky.ts` |
+| P16-007 | Original weather audio, lightning, darkness, clock penalties and all battle weather rules are verified | Pending | `browser/src/source/sky.ts` |
 
 ## Content inventories
 

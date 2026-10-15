@@ -5,6 +5,7 @@ import {hasBagSpace,addBagItem,takeBagItem} from './bag.ts';
 import {phoneCall} from './phone.ts';
 import {originalSpawn} from './spawns.ts';
 import {timeOfDay,trainerCardStars} from './field-services.ts';
+import {mapWeather} from './atmosphere.ts';
 
 export type ScriptHooks={
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
@@ -14,13 +15,14 @@ export type ScriptHooks={
   battle:(trainer:number,options?:{second:number;canLose:boolean;suppressFollower:boolean})=>Promise<boolean>;warp:(map:number,x:number,z:number)=>Promise<void>;
   coordinates?:(object:string)=>{x:number;z:number};nameRival?:()=>Promise<string>;whiteOut?:()=>Promise<void>;
   catchingTutorial?:()=>Promise<void>;objectName?:(id:number)=>string|undefined;healAnimation?:(count:number)=>Promise<void>;followerVisible?:(visible:boolean)=>void;
+  weather?:(value?:number)=>number;
 };
 export class UnsupportedScript extends Error{
   readonly map:string;readonly command:string;readonly pc:number;
   constructor(map:string,command:string,pc:number){super(`Unported source command ${command} at ${map}:${pc}`);this.map=map;this.command=command;this.pc=pc;}
 }
 // Only presentation commands may be ignored. Unknown gameplay commands stop explicitly.
-const presentation=new Set(['Nop','Dummy','DebugWatch','ResetBGM','UnlockDir','WaitButtonOrDpad','StopSE','LeaveOverworld','DoorAnimationLoad','DoorAnimationOpen','DoorAnimationClose','DoorAnimationWait','DoorAnimationUnload','LockAll','ReleaseAll','Lock','Release','LockDir','PlaySE','WaitSE','PlayFanfare','WaitFanfare','PlayCry','WaitCry','CloseMsg','WaitButton','FadeScreen','WaitFade','FollowMonResetMovement','TouchscreenMenuHide','TouchscreenMenuShow','FollowingPokemonMovement','WaitFollowingPokemonMovement','ToggleFollowingPokemonMovement','FollowMonSetPositionNextToPlayer','FollowMonSpawnReleaseBall','PlaceStarterBallsInElmsLab','SetFollowingPokemonActive','RestoreOverworld','DrawPokemonPreview','HidePokemonPreview','ShowMoneyBox','HideMoneyBox','SetWeather','FadeOutBGM','PlayBGM','StopBGM','SetBGM','WaitABPress','SetWindow','ScrCmd_609']);
+const presentation=new Set(['Nop','Dummy','DebugWatch','ResetBGM','UnlockDir','WaitButtonOrDpad','StopSE','LeaveOverworld','DoorAnimationLoad','DoorAnimationOpen','DoorAnimationClose','DoorAnimationWait','DoorAnimationUnload','LockAll','ReleaseAll','Lock','Release','LockDir','PlaySE','WaitSE','PlayFanfare','WaitFanfare','PlayCry','WaitCry','CloseMsg','WaitButton','FadeScreen','WaitFade','FollowMonResetMovement','TouchscreenMenuHide','TouchscreenMenuShow','FollowingPokemonMovement','WaitFollowingPokemonMovement','ToggleFollowingPokemonMovement','FollowMonSetPositionNextToPlayer','FollowMonSpawnReleaseBall','PlaceStarterBallsInElmsLab','SetFollowingPokemonActive','RestoreOverworld','DrawPokemonPreview','HidePokemonPreview','ShowMoneyBox','HideMoneyBox','FadeOutBGM','PlayBGM','StopBGM','SetBGM','WaitABPress','SetWindow','ScrCmd_609']);
 const standardCache=new Map<string,Promise<SourceMap>>();
 export class ScriptVM{
   busy=false;lastUnsupported:{map:string;command:string;pc:number}|null=null;
@@ -100,6 +102,9 @@ export class ScriptVM{
         if(cmd==='GetPlayerFacing'){this.set(a[0],this.state.facing);continue;}
         if(cmd==='GetGender'||cmd==='GetPlayerGender'){this.set(a[0],this.state.gender==='boy'?0:1);continue;}
         if(cmd==='GetGameVersion'){this.set(a[0],this.data.constants.GAME_VERSION);continue;}
+        if(cmd==='GetWeatherType'){this.set(a[0],this.hooks.weather?.()??mapWeather(map,this.state));continue;}
+        if(cmd==='SetWeather'||cmd==='FlashEffect'){if(!this.hooks.weather)throw new UnsupportedScript(map.code,cmd,pc-1);this.hooks.weather(cmd==='FlashEffect'?12:v(a[0]));continue;}
+        if(cmd==='FlashAction'||cmd==='DefogAction'){const flag=cmd==='FlashAction'?'FLAG_SYS_FLASH':'FLAG_SYS_DEFOG',action=v(a[0]);if(action===2)this.set(a[1],Number(!!this.state.flags[flag]));else if(action===0||action===1)this.state.flags[flag]=!!action;else throw new UnsupportedScript(map.code,cmd,pc-1);continue;}
         if(cmd==='GivePokedex'){this.state.pokedexEnabled=true;continue;}
         if(cmd==='CheckPokedex'){this.set(a[0],Number(!!this.state.pokedexEnabled));continue;}
         if(cmd==='SetMysteryGiftActive'){this.state.mysteryGiftEnabled=true;continue;}

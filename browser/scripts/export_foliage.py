@@ -1,6 +1,6 @@
 """Export original individual-tree art and trunk metadata from converted landscapes."""
 from pathlib import Path
-import base64,io,json,struct
+import base64,io,json,re,struct
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -12,7 +12,7 @@ for path in sorted((SOURCE/'land').glob('*.glb')):
  context=path.stem.split('-')[-1]
  for material in gltf['materials']:
   name=material.get('name','')
-  if not any(word in name.lower() for word in ['tree','bush']) or name.endswith('_un'):continue
+  if not any(word in name.lower() for word in ['tree','bush']) or re.search(r'_un(?:_|$)',name):continue
   texture=gltf['textures'][material['pbrMetallicRoughness']['baseColorTexture']['index']]
   encoded=gltf['images'][texture['source']]['uri'].split(',')[1]
   key=(context,name);raw=base64.b64decode(encoded)
@@ -20,7 +20,11 @@ for path in sorted((SOURCE/'land').glob('*.glb')):
   textures[key]=raw
 manifest={}
 for (context,name),raw in textures.items():
- canonical=name[:-3] if name.endswith('_re') else name
+ canonical=re.sub(r'_re(?=_|$)','',name)
+ if (context,canonical) not in textures:
+  # The original lightmap banks call the individual tree "tree01gs_lm1".
+  candidates=[canonical.replace('_lm','gs_lm'),re.sub(r'_lm\d+$','',canonical)]
+  canonical=next((candidate for candidate in candidates if (context,candidate) in textures),canonical)
  canonical_raw=textures.get((context,canonical))
  if canonical_raw is None:raise ValueError(f'Missing original individual tree {context}:{canonical}')
  path=f'foliage/{context}-{canonical}.png';(SOURCE/path).write_bytes(canonical_raw)

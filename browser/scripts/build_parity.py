@@ -51,6 +51,14 @@ GROUPS['3D world depth and navigation']=('browser/src/source/world.ts',[
 'Original building door warps, interior return exits and counter interactions work',
 'Following Pokémon move continuously along the original one-tile trailing path',
 'Every world camera angle, terrain boundary and scenery variant receives visual verification'])
+GROUPS['3D sky and weather']=('browser/src/source/sky.ts',[
+'A coloured horizon and sky follow the original morning, day, evening and night clock',
+'Clouds have separately modelled solid pixel silhouettes, shaded undersides and slow drift',
+'Illustrated sun, moon and twinkling stars complement the original field artwork',
+'Original map weather selects field rain, snow, diamond dust and mist presentation',
+'Original summit dates and post-Rocket Wednesday Lake of Rage weather are retained',
+'Sky and weather persist during 3D battles and stay outside interiors and ordinary caves',
+'Original weather audio, lightning, darkness, clock penalties and all battle weather rules are verified'])
 features=[]
 for gi,(group,(source,items)) in enumerate(GROUPS.items(),1):
  for i,title in enumerate(items,1): features.append({'id':f'P{gi:02}-{i:03}','group':group,'feature':title,'source':source,'status':'pending','verification':None})
