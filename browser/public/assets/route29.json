@@ -1,0 +1,153 @@
+{
+  "map": "R29",
+  "land": {
+    "rate": 25,
+    "mons": [
+      {
+        "level": 2,
+        "species": {
+          "morn": "SPECIES_PIDGEY",
+          "day": "SPECIES_PIDGEY",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      },
+      {
+        "level": 3,
+        "species": {
+          "morn": "SPECIES_SENTRET",
+          "day": "SPECIES_SENTRET",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      },
+      {
+        "level": 2,
+        "species": {
+          "morn": "SPECIES_PIDGEY",
+          "day": "SPECIES_PIDGEY",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      },
+      {
+        "level": 3,
+        "species": {
+          "morn": "SPECIES_SENTRET",
+          "day": "SPECIES_SENTRET",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      },
+      {
+        "level": 3,
+        "species": {
+          "morn": "SPECIES_PIDGEY",
+          "day": "SPECIES_PIDGEY",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      },
+      {
+        "level": 3,
+        "species": {
+          "morn": "SPECIES_PIDGEY",
+          "day": "SPECIES_PIDGEY",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      },
+      {
+        "level": 2,
+        "species": {
+          "morn": "SPECIES_SENTRET",
+          "day": "SPECIES_SENTRET",
+          "nite": "SPECIES_RATTATA"
+        }
+      },
+      {
+        "level": {
+          "HEARTGOLD": 2,
+          "SOULSILVER": 4
+        },
+        "species": {
+          "morn": {
+            "HEARTGOLD": "SPECIES_SENTRET",
+            "SOULSILVER": "SPECIES_RATTATA"
+          },
+          "day": "SPECIES_SENTRET",
+          "nite": "SPECIES_RATTATA"
+        }
+      },
+      {
+        "level": {
+          "HEARTGOLD": 4,
+          "SOULSILVER": 2
+        },
+        "species": {
+          "morn": {
+            "HEARTGOLD": "SPECIES_RATTATA",
+            "SOULSILVER": "SPECIES_SENTRET"
+          },
+          "day": "SPECIES_RATTATA",
+          "nite": "SPECIES_RATTATA"
+        }
+      },
+      {
+        "level": 4,
+        "species": {
+          "morn": "SPECIES_PIDGEY",
+          "day": "SPECIES_PIDGEY",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      },
+      {
+        "level": {
+          "HEARTGOLD": 4,
+          "SOULSILVER": 2
+        },
+        "species": {
+          "morn": {
+            "HEARTGOLD": "SPECIES_RATTATA",
+            "SOULSILVER": "SPECIES_SENTRET"
+          },
+          "day": "SPECIES_RATTATA",
+          "nite": "SPECIES_RATTATA"
+        }
+      },
+      {
+        "level": 4,
+        "species": {
+          "morn": "SPECIES_PIDGEY",
+          "day": "SPECIES_PIDGEY",
+          "nite": "SPECIES_HOOTHOOT"
+        }
+      }
+    ]
+  },
+  "surf": {
+    "rate": 0,
+    "mons": []
+  },
+  "rock_smash": {
+    "rate": 0,
+    "mons": []
+  },
+  "fishing": {
+    "old_rod": {
+      "rate": 0,
+      "mons": []
+    },
+    "good_rod": {
+      "rate": 0,
+      "mons": []
+    },
+    "super_rod": {
+      "rate": 0,
+      "mons": []
+    }
+  },
+  "hoenn": [
+    "SPECIES_PLUSLE",
+    "SPECIES_MINUN"
+  ],
+  "sinnoh": [
+    "SPECIES_SHINX",
+    "SPECIES_SHINX"
+  ],
+  "landSwarm": "SPECIES_PIDGEY"
+}
