@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
-import {extrudeTriangle,repairOriginalAsset,originalMaterial} from './render-repair.ts';
+import {extrudeTriangle,repairOriginalAsset,originalMaterial,closeBuildingBack} from './render-repair.ts';
 
 test('a missing rear surface becomes a closed prism, with every edge used twice',()=>{
   const front=[new THREE.Vector3(-2,0,2),new THREE.Vector3(2,0,2),new THREE.Vector3(0,4,2)];
@@ -47,6 +47,31 @@ test('recessed rear artwork sits outside its backing and thin cutouts have no fr
 });
 test('a mailbox touching a building at one corner still uses local bounds',()=>{
   const root=new THREE.Group(),wall=new THREE.MeshBasicMaterial();wall.name='wall';root.add(new THREE.Mesh(new THREE.BoxGeometry(8,8,8),wall));const box=new THREE.PlaneGeometry(4,4);box.translate(6,6,4);root.add(new THREE.Mesh(box,wall));repairOriginalAsset(root,true);const cap=root.children.find(c=>c.name==='3d-rear-facade') as THREE.Mesh;cap.geometry.computeBoundingBox();assert.equal(cap.geometry.boundingBox!.min.z,2.5);assert.equal(cap.geometry.boundingBox!.min.x,4);
+});
+function partialRearHouse(){
+ const root=new THREE.Group(),material=new THREE.MeshBasicMaterial({color:'#c7bda0'});material.name='wall';
+ const box=(w:number,h:number,d:number,x:number,y:number,z:number)=>{const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);mesh.position.set(x,y,z);root.add(mesh);};
+ box(.1,3,4,-3,1.5,0);box(.1,3,4,3,1.5,0);box(6.2,.1,4.2,0,3.05,0);
+ for(const z of [-2,2]){box(2,3,.1,-2,1.5,z);box(2,3,.1,2,1.5,z);box(2,1,.1,0,2.5,z);}return root;
+}
+test('a source entrance closes a partial rear wall across the mirrored doorway opening',()=>{
+ const root=partialRearHouse();assert.ok(closeBuildingBack(root,[{x:0,z:2.2}])>0);root.updateMatrixWorld(true);const hits=new THREE.Raycaster(new THREE.Vector3(0,1,-10),new THREE.Vector3(0,0,1)).intersectObject(root,true);assert.equal(hits[0].object.name,'entrance-rear-wall');assert.ok(hits[0].point.z<0);
+});
+test('opposing source entrances keep a real passage and unrelated props receive no new wall',()=>{
+ for(const doors of [[],[{x:20,z:20}],[{x:0,z:2.2},{x:0,z:-2.2}]]){const root=partialRearHouse();assert.equal(closeBuildingBack(root,doors),0);assert.equal(root.getObjectByName('entrance-rear-wall'),undefined);}
+});
+test('rear closure uses the original world doorway after prop rotation and translation',()=>{
+ const parent=new THREE.Group(),root=partialRearHouse();parent.position.set(17,4,33);root.rotation.y=Math.PI/2;parent.add(root);parent.updateMatrixWorld(true);const door=root.localToWorld(new THREE.Vector3(0,0,2.2));assert.ok(closeBuildingBack(root,[{x:door.x,z:door.z}])>0);parent.updateMatrixWorld(true);const hits=new THREE.Raycaster(new THREE.Vector3(7,5,33),new THREE.Vector3(1,0,0)).intersectObject(root,true);assert.equal(hits[0].object.name,'entrance-rear-wall');
+});
+test('rear wall cladding reuses source wall UVs while staying opaque',()=>{
+ const root=partialRearHouse(),texture=new THREE.Texture();root.traverse(o=>{if(o instanceof THREE.Mesh)(o.material as THREE.MeshBasicMaterial).map=texture;});closeBuildingBack(root,[{x:0,z:2.2}]);const wall=root.getObjectByName('entrance-rear-wall') as THREE.Mesh,material=wall.material as THREE.MeshBasicMaterial;assert.equal(material.map,texture);assert.equal(material.transparent,false);assert.equal(material.alphaTest,0);assert.ok(Array.from(wall.geometry.getAttribute('uv').array).every(Number.isFinite));
+});
+test('split wall bands close the upper rear while a neighbouring corner door cannot choose the front',()=>{
+ const root=new THREE.Group(),wall=new THREE.MeshBasicMaterial({side:THREE.DoubleSide});wall.name='house-wall';
+ for(const x of [-3,3])for(const y of [.6,1.8,3]){const g=new THREE.PlaneGeometry(4,1.2);g.rotateY(Math.PI/2);g.translate(x,y,0);root.add(new THREE.Mesh(g,wall));}
+ const roof=new THREE.PlaneGeometry(6,4);roof.rotateX(-Math.PI/2);roof.translate(0,3.6,0);root.add(new THREE.Mesh(roof,wall));
+ assert.ok(closeBuildingBack(root,[{x:-3.4,z:2.4},{x:0,z:2.2}])>0);root.updateMatrixWorld(true);
+ for(const y of [.4,1.6,2.8,3.4]){const hit=new THREE.Raycaster(new THREE.Vector3(0,y,-10),new THREE.Vector3(0,0,1)).intersectObject(root,true)[0];assert.ok(hit,`rear wall at y=${y}`);assert.equal(hit.object.name,'entrance-rear-wall');assert.ok(hit.point.z<0);}
 });
 test('rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows',()=>{
   const root=new THREE.Group(),geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute([0,0,-32,0,0,32,-40.765625,49.34375,32,0,0,-32,-40.765625,49.34375,32,-40.765625,49.34375,-32,0,0,0,1,0,0,0,0,1],3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute([1,0,0,0,0,1,1,0,0,1,1,1,0,0,1,0,0,1],2));geometry.addGroup(0,6,0);geometry.addGroup(6,3,1);const tree=new THREE.MeshBasicMaterial();tree.name='tree';const shadow=new THREE.MeshBasicMaterial({opacity:.2});shadow.name='shadow';root.add(new THREE.Mesh(geometry,[tree,shadow]));const result=repairOriginalAsset(root,false);assert.equal(result.billboardTrees,1);const panel=root.children.find(c=>c.name==='camera-facing-original-trees') as THREE.InstancedMesh;assert.deepEqual(Array.from(panel.geometry.getAttribute('uvRect').array),[1,0,0,1]);const matrix=new THREE.Matrix4();panel.getMatrixAt(0,matrix);assert.ok(Math.abs(new THREE.Vector3().setFromMatrixScale(matrix).y-64)<.1);assert.ok(root.children.some(c=>c.name==='original-scenery-remainder'));

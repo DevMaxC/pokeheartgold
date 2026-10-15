@@ -91,6 +91,57 @@ function closeComponent(root:THREE.Group,solid:Triangle[],summary:RepairSummary)
 }
 function closeProps(root:THREE.Group,source:Triangle[],summary:RepairSummary){const solid=source.filter(t=>!isShadow(t.material)&&!/tree|foliage|leaf|flower|grass|bush|fence|saku|hana|plant/i.test(t.material.name));for(const component of components(solid))closeComponent(root,component,summary);}
 
+/** A real source doorway identifies a building and its front. Close a section
+ * just inside its rear shell, even when a partial rear face fooled the generic
+ * missing-face heuristic. A genuine entrance on the opposite side stays open. */
+export function closeBuildingBack(root:THREE.Object3D,doors:{x:number;z:number}[]){
+  if(!doors.length)return 0;root.updateWorldMatrix(true,false);root.updateMatrixWorld(true);const solid:Triangle[]=[];
+  root.traverse(object=>{if(!(object instanceof THREE.Mesh)||object.name.startsWith('3d-')||object.name==='entrance-rear-wall')return;for(const t of triangles(object))if(!isShadow(t.material)&&!/tree|foliage|leaf|flower|grass|bush|fence|saku|hana|plant/i.test(t.material.name))solid.push(t);});
+  if(!solid.length)return 0;const bounds=new THREE.Box3();for(const t of solid)for(const p of t.points)bounds.expandByPoint(p);const size=bounds.getSize(new THREE.Vector3());if(size.x<1.8||size.z<1.4||size.y<1.8)return 0;
+  const faceFor=(d:{x:number;z:number})=>[
+    {axis:0 as const,sign:-1,distance:Math.abs(d.x-bounds.min.x)},{axis:0 as const,sign:1,distance:Math.abs(d.x-bounds.max.x)},
+    {axis:2 as const,sign:-1,distance:Math.abs(d.z-bounds.min.z)},{axis:2 as const,sign:1,distance:Math.abs(d.z-bounds.max.z)},
+  ].filter(f=>{const side=f.axis===0?'z':'x';return d[side]>=bounds.min[side]&&d[side]<=bounds.max[side];}).sort((a,b)=>a.distance-b.distance)[0];
+  const entrances=doors.filter(d=>d.x>=bounds.min.x-.6&&d.x<=bounds.max.x+.6&&d.z>=bounds.min.z-.6&&d.z<=bounds.max.z+.6).map(faceFor).filter((f):f is NonNullable<typeof f>=>!!f).sort((a,b)=>a.distance-b.distance);if(!entrances.length)return 0;
+  const front=entrances[0];if(entrances.some(f=>f.axis===front.axis&&f.sign===-front.sign))return 0;
+  const axis=front.axis,sideAxis=axis===0?2:0,rear=front.sign>0?bounds.min.getComponent(axis):bounds.max.getComponent(axis),depth=size.getComponent(axis);
+  // Follow each floor wall's plane through any stacked upper bands. A roof
+  // edge can also be vertical, but must not supply the cladding outline.
+  const wallBases=solid.filter(t=>{const low=Math.min(...t.points.map(p=>p.y)),high=Math.max(...t.points.map(p=>p.y));return low<=bounds.min.y+.3&&high-low>.05&&Math.abs(normal(t).normalize().y)<.8;});
+  const structuralWalls=solid.filter(t=>{const n=normal(t).normalize();return wallBases.some(base=>{const b=normal(base).normalize();return Math.abs(n.dot(b))>.999&&t.points.every(p=>Math.abs(p.clone().sub(base.points[0]).dot(b))<.03);});});
+  const shell=structuralWalls.length?structuralWalls:solid;
+  let hull:THREE.Vector2[]=[],at=rear;
+  for(let step=0;step<28;step++){
+    at=rear+front.sign*depth*(.01+step*.015);const section:THREE.Vector2[]=[];
+    for(const triangle of shell)for(let i=0;i<3;i++){
+      const a=triangle.points[i],b=triangle.points[(i+1)%3],da=a.getComponent(axis)-at,db=b.getComponent(axis)-at;
+      if(Math.abs(da)<1e-6)section.push(new THREE.Vector2(a.getComponent(sideAxis),a.y));
+      if(da*db<0){const p=a.clone().lerp(b,da/(da-db));section.push(new THREE.Vector2(p.getComponent(sideAxis),p.y));}
+    }
+    if(section.length<3)continue;const candidate=silhouette(section),low=Math.min(...candidate.map(p=>p.y)),high=Math.max(...candidate.map(p=>p.y));
+    // Step past an overhanging roof until the section actually reaches the walls.
+    if(low>bounds.min.y+.15||high-low<1.5)continue;hull=candidate;break;
+  }
+  if(hull.length<3){
+    // Some DS buildings contain no full-height rear section at all. Use the
+    // front wall outline at the rear footprint, filling its doorway in the hull.
+    const facade=shell.filter(t=>normal(t).normalize().getComponent(axis)*front.sign>.8);
+    if(!facade.length)return 0;hull=silhouette(facade.flatMap(t=>t.points.map(p=>new THREE.Vector2(p.getComponent(sideAxis),p.y))));at=rear+front.sign*depth*.025;
+  }
+  if(hull.length<3)return 0;
+  const walls=solid.filter(t=>{const n=normal(t).normalize(),y=t.points.reduce((s,p)=>s+p.y,0)/3;return Math.abs(n.y)<.8&&Math.abs(n.getComponent(axis))<.5&&y<bounds.min.y+size.y*.62;}),dominant=(walls.length?walls:solid).reduce((best,t)=>normal(t).length()>normal(best).length()?t:best);
+  const sample=dominant.points.map(p=>new THREE.Vector2(p.getComponent(axis),p.y)),[a,b,c]=sample,den=(b.y-c.y)*(a.x-c.x)+(c.x-b.x)*(a.y-c.y),textured=walls.length>0&&Math.abs(den)>1e-6&&!!dominant.material.map;
+  const left=Math.min(...sample.map(p=>p.x)),right=Math.max(...sample.map(p=>p.x)),bottom=Math.min(...sample.map(p=>p.y)),top=Math.max(...sample.map(p=>p.y));
+  // Clip at texture-band limits before triangulation. Clamping only the four
+  // corners of a sloped outline would bend horizontal cladding diagonally.
+  const clip=(polygon:THREE.Vector2[],height:number,sign:number)=>{const result:THREE.Vector2[]=[];for(let i=0;i<polygon.length;i++){const a=polygon[i],b=polygon[(i+1)%polygon.length],inside=(a.y-height)*sign>=0;if(inside)result.push(a);if((a.y-height)*(b.y-height)<0)result.push(a.clone().lerp(b,(height-a.y)/(b.y-a.y)));}return result;};
+  let panels=[hull];if(textured)for(const height of [bottom,top])panels=panels.flatMap(polygon=>[clip(polygon,height,-1),clip(polygon,height,1)].filter(p=>p.length>=3));
+  const inverse=root.matrixWorld.clone().invert(),positions:number[]=[],uvs:number[]=[];for(const panel of panels)for(let i=1;i<panel.length-1;i++)for(const p of [panel[0],panel[i],panel[i+1]]){const vertex=new THREE.Vector3();vertex.setComponent(axis,at);vertex.setComponent(sideAxis,p.x);vertex.y=p.y;positions.push(...vertex.applyMatrix4(inverse).toArray());
+    if(textured){const x=left+(p.x-bounds.min.getComponent(sideAxis))/size.getComponent(sideAxis)*(right-left),y=THREE.MathUtils.clamp(p.y,bottom,top),wa=((b.y-c.y)*(x-c.x)+(c.x-b.x)*(y-c.y))/den,wb=((c.y-a.y)*(x-c.x)+(a.x-c.x)*(y-c.y))/den;const uv=dominant.uv[0].clone().multiplyScalar(wa).addScaledVector(dominant.uv[1],wb).addScaledVector(dominant.uv[2],1-wa-wb);uvs.push(...uv.toArray());}
+  }
+  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));if(textured)geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.computeVertexNormals();const material=new THREE.MeshBasicMaterial({map:textured?dominant.material.map:null,color:textured?dominant.material.color.clone().multiply(dominant.color[0]):averageColor(dominant.material).multiply(dominant.color[0]),side:THREE.DoubleSide}),mesh=new THREE.Mesh(geometry,material);mesh.name='entrance-rear-wall';root.add(mesh);return positions.length/9;
+}
+
 const standingScenery=/fence|saku|flower|hana|plant|(?:^|_)yo_sp\d/i;
 function replacementMesh(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],name:string){
   const positions:number[]=[],uvs:number[]=[],colors:number[]=[],materials:THREE.MeshBasicMaterial[]=[],geometry=new THREE.BufferGeometry(),inverse=root.matrixWorld.clone().invert();

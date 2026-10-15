@@ -50,7 +50,10 @@ GROUPS['3D world depth and navigation']=('browser/src/source/world.ts',[
 'Background matrix cells render original scenery instead of exposing empty grey gaps',
 'Original building door warps, interior return exits and counter interactions work',
 'Following Pokémon move continuously along the original one-tile trailing path',
-'Every world camera angle, terrain boundary and scenery variant receives visual verification'])
+'Every world camera angle, terrain boundary and scenery variant receives visual verification',
+'Connected outdoor headers preserve camera pose, held movement and follower continuity without entry overlays',
+'Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open',
+'Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps'])
 GROUPS['3D sky and weather']=('browser/src/source/sky.ts',[
 'A coloured horizon and sky follow the original morning, day, evening and night clock',
 'Clouds have separately modelled solid pixel silhouettes, shaded undersides and slow drift',

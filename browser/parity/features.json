@@ -2192,6 +2192,30 @@
     "verification": "Repeated lightmap (_re_lm1) tree art now resolves to the original complete individual image; matching ground-mark families retain per-tree roots. Shared source geometry and repeated/lightmap tree fixtures pass. Complete camera/variant audit remains pending."
   },
   {
+    "id": "P15-009",
+    "group": "3D world depth and navigation",
+    "feature": "Connected outdoor headers preserve camera pose, held movement and follower continuity without entry overlays",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Camera fixture plus held-input Cherrygrove \u2192 Route 29 browser crossing: yaw .9, pitch .61, distance 17 retained, zero loading overlay activations and follower one tile behind at the header boundary."
+  },
+  {
+    "id": "P15-010",
+    "group": "3D world depth and navigation",
+    "feature": "Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Actual Cherrygrove house/Center/Mart geometry rear-ray checks and original-texture before/after render; split wall bands, rotated roots, neighbouring corner doors and real opposing entrances covered. Wider building and terrain audit remains pending."
+  },
+  {
+    "id": "P15-011",
+    "group": "3D world depth and navigation",
+    "feature": "Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps",
+    "source": "browser/src/source/world.ts",
+    "status": "pending",
+    "verification": null
+  },
+  {
     "id": "P16-001",
     "group": "3D sky and weather",
     "feature": "A coloured horizon and sky follow the original morning, day, evening and night clock",

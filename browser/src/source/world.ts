@@ -3,11 +3,12 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone } from 'three/addons/utils/SkeletonUtils.js';
 import { sourceJSON,type SourceMap,type SourceIndex,type Matrix,type Land,type Cell,type SpriteInfo,type NPC } from './types.ts';
 import {tilePermission,permissionWalkable,terrainHeight} from './terrain.ts';
-import {repairOriginalAsset,originalMaterial} from './render-repair.ts';
+import {repairOriginalAsset,originalMaterial,closeBuildingBack} from './render-repair.ts';
 import type {FieldObject} from './objects.ts';
 import type {WorldBattleView} from './battle-stage.ts';
 import {sourceTallGrass,updateGrass} from './grass.ts';
 import {WorldSky} from './sky.ts';
+import {fieldCameraEntry} from './camera.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap};
 export class OriginalWorld {
@@ -27,6 +28,7 @@ export class OriginalWorld {
   private generation=0;
   private pending:Promise<void>|null=null;private grassTime=0;
   readonly sky:WorldSky;
+  private cameraReady=false;
   yaw=0;pitch=.4;distance=13;
   target=new THREE.Vector3();
   loading=false;
@@ -52,18 +54,27 @@ export class OriginalWorld {
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }));return this.assets.get(path)!;
   }
-  private releaseCell(c:LoadedCell){const grass=c.group.getObjectByName('source-tall-grass') as THREE.Mesh|undefined;if(grass){grass.geometry.dispose();for(const m of Array.isArray(grass.material)?grass.material:[grass.material])m.dispose();}this.scene.remove(c.group);}
+  private releaseCell(c:LoadedCell){c.group.traverse(object=>{if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall'].includes(object.name))return;object.geometry.dispose();for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
   async enter(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);
     if(this.activeMatrix!==map.matrix){this.generation++;for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();this.activeMatrix=map.matrix;this.matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);}
-    await this.stream(id,x,z);this.target.set(x,this.height(x,z)+.9,z);this.camera.position.copy(this.target).add(new THREE.Vector3(0,7,12));
-    this.sky.enter(map,weather);const indoor=map.mapType==='MAP_TYPE_INTERIOR';this.pitch=indoor?.6:.36;this.distance=indoor?12:15;
+    await this.stream(id,x,z);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance);this.cameraReady=true;
+    this.sky.enter(map,weather);
     return map;
+  }
+  async connect(id:number,x:number,z:number,weather=0){
+    const map=await this.map(id);if(map.matrix!==this.activeMatrix)throw Error('Connected field headers must share their source matrix');
+    await this.stream(id,x,z);this.sky.enter(map,weather);return map;
   }
   async stream(id:number,x:number,z:number):Promise<void>{
     if(!this.matrix)return;
     if(this.pending){await this.pending;return this.stream(id,x,z);}
     const matrix=this.matrix,generation=this.generation;const jobs:Promise<void>[]=[];const wanted=new Set<string>();
+    // A gate can have entrances owned by two adjacent outdoor headers. Use
+    // their combined source warps when deciding whether its rear is a passage.
+    const headers=new Set<number>([id]);
+    for(let zz=Math.max(0,Math.floor(z/32)-2);zz<=Math.min(matrix.height-1,Math.floor(z/32)+2);zz++)for(let xx=Math.max(0,Math.floor(x/32)-2);xx<=Math.min(matrix.width-1,Math.floor(x/32)+2);xx++){const owner=matrix.headers?.[zz*matrix.width+xx]??id;if(this.index.maps[owner])headers.add(owner);}
+    const doors=Promise.all([...headers].map(owner=>this.map(owner))).then(maps=>maps.flatMap(map=>map.events.warps.map(w=>({x:w.x+.5,z:w.z+.5}))));
     for(let zz=Math.floor(z/32)-2;zz<=Math.floor(z/32)+2;zz++)for(let xx=Math.floor(x/32)-2;xx<=Math.floor(x/32)+2;xx++){
       if(xx<0||zz<0||xx>=matrix.width||zz>=matrix.height)continue;
       const i=zz*matrix.width+xx,landID=matrix.models[i];if(landID===65535)continue;
@@ -75,8 +86,8 @@ export class OriginalWorld {
         const [template,land]=await Promise.all([this.asset(cell.asset),this.landCache.get(landID)!]);
         const group=new THREE.Group();group.position.set(xx*32+16,cell.altitude*.5,zz*32+16);
         const model=clone(template);model.scale.setScalar(1/16);group.add(model);const grass=sourceTallGrass(land,cell);if(grass)group.add(grass);
-        await Promise.all(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);}));
-        if(generation!==this.generation)return;this.scene.add(group);this.cells.set(key,{cell,land,group,map});
+        await Promise.all(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors);}));
+        if(generation!==this.generation){this.releaseCell({cell,land,group,map});return;}this.scene.add(group);this.cells.set(key,{cell,land,group,map});
       })());
     }
     this.loading=jobs.length>0;this.pending=Promise.all(jobs).then(()=>{for(const [key,c]of this.cells)if(!wanted.has(key)){this.releaseCell(c);this.cells.delete(key);}}).finally(()=>{this.pending=null;this.loading=false;});

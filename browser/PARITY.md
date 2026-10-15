@@ -2,7 +2,7 @@
 
 Source baseline: `d7886a5`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.
 
-Inventory: **281 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
+Inventory: **284 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
 
 ## Completion standard
 
@@ -372,6 +372,9 @@ Inventory: **281 system requirements, 540 map headers, 832 script/movement comma
 | P15-006 | Original building door warps, interior return exits and counter interactions work | Implemented | `browser/src/source/world.ts` |
 | P15-007 | Following Pokémon move continuously along the original one-tile trailing path | Implemented | `browser/src/source/world.ts` |
 | P15-008 | Every world camera angle, terrain boundary and scenery variant receives visual verification | Pending | `browser/src/source/world.ts` |
+| P15-009 | Connected outdoor headers preserve camera pose, held movement and follower continuity without entry overlays | Implemented | `browser/src/source/world.ts` |
+| P15-010 | Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open | Implemented | `browser/src/source/world.ts` |
+| P15-011 | Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps | Pending | `browser/src/source/world.ts` |
 
 ### 3D sky and weather
 
