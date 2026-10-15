@@ -31,6 +31,26 @@ GROUPS={
 'Connectivity and special systems':('src/pokewalker.c',[
 'Local link trades and trade evolution','Link single/double/multi battles and rules','Union Room interactions','GTS listing, searching and trade completion','Wi-Fi Plaza activities and minigames','Mystery Gift, Wonder Cards and delivery man','Pokéwalker transfer, routes, steps, catches and items','Pokeathlon events, stats, records and rewards','Pal Park migration and capture','GB Sounds, photo album, ribbons and records','Event distributions: Sinjoh Ruins, Celebi, Spiky-eared Pichu','Version exclusives and clock-dependent event compatibility'])
 }
+GROUPS['3D battle presentation']=('browser/src/source/battle-stage.ts',[
+'Battles use the actual encounter location and surrounding 3D field geometry',
+'Paper Pokémon have separate ground positions, shadows and camera-relative front/back artwork',
+'Battle camera supports orbit, vertical drag and zoom without changing turn rules',
+'Physical attacks, special projectiles, stat moves and hits animate in world space',
+'Poké Balls travel through the world and capture shakes preserve original capture results',
+'Trainers remain present in battle scenes and field actors return after combat',
+'Battle HUD and commands remain usable on desktop and touch viewports',
+'Battle exit and error recovery restore field camera, actor visibility and progression locks',
+'Original battle art uses the correct normal or shiny palette for both facings',
+'Full campaign battle environments and all move-specific 3D effects receive visual verification'])
+GROUPS['3D world depth and navigation']=('browser/src/source/world.ts',[
+'Source fence runs become solid posts and rails, including flat side-on atlas pieces',
+'Flower bunches have separately rooted crossed artwork with depth from side views',
+'3D long-grass clumps stay on original encounter tiles and react to movement',
+'Hill and cliff backs are opaque from newly accessible camera angles',
+'Background matrix cells render original scenery instead of exposing empty grey gaps',
+'Original building door warps, interior return exits and counter interactions work',
+'Following Pokémon move continuously along the original one-tile trailing path',
+'Every world camera angle, terrain boundary and scenery variant receives visual verification'])
 features=[]
 for gi,(group,(source,items)) in enumerate(GROUPS.items(),1):
  for i,title in enumerate(items,1): features.append({'id':f'P{gi:02}-{i:03}','group':group,'feature':title,'source':source,'status':'pending','verification':None})
@@ -48,7 +68,7 @@ for p in sorted((ROOT/'files/fielddata/script/scr_seq').glob('scr_seq_*.s')):
   command=line.split()[0]
   if command not in commands:commands.append(command)
 # Preserve audited status/evidence when regenerating the source inventory.
-for name,rows,key in [('features',features,'id'),('maps',maps,'map'),('script-commands',None,'command')]:
+for name,rows,key in [('features',features,'id'),('maps',maps,'map')]:
  path=OUT/(name+'.json')
  if rows is not None and path.exists():
   prior={row[key]:row for row in json.loads(path.read_text())}
@@ -57,7 +77,10 @@ for name,rows,key in [('features',features,'id'),('maps',maps,'map'),('script-co
     for field,value in prior[row[key]].items():
      if field not in (key,'feature','source','group','fields'):row[field]=value
 source_revision='d7886a5'
-for name,data in [('features',features),('maps',maps),('script-commands',[{'command':x,'status':'pending'} for x in sorted(commands)])]:
+command_rows=[{'command':x,'status':'pending'} for x in sorted(commands)]
+prior_commands={row['command']:row for row in json.loads((OUT/'script-commands.json').read_text())} if (OUT/'script-commands.json').exists() else {}
+command_rows=[{**row,**prior_commands.get(row['command'],{})} for row in command_rows]
+for name,data in [('features',features),('maps',maps),('script-commands',command_rows)]:
  (OUT/(name+'.json')).write_text(json.dumps(data,indent=2)+'\n')
 lines=['# HeartGold 3D parity ledger','',f'Source baseline: `{source_revision}`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.','',f'Inventory: **{len(features)} system requirements, {len(maps)} map headers, {len(commands)} script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.','',
 '## Completion standard','',

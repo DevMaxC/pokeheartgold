@@ -45,7 +45,8 @@
   },
   {
     "command": "ApplyMovement",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "ApricornTreeGetApricorn",
@@ -241,7 +242,8 @@
   },
   {
     "command": "BufferItemName",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferItemNameIndef",
@@ -249,7 +251,8 @@
   },
   {
     "command": "BufferItemNamePlural",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferMonSize",
@@ -257,7 +260,8 @@
   },
   {
     "command": "BufferMonSpeciesName",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferMoveName",
@@ -269,11 +273,13 @@
   },
   {
     "command": "BufferPartyMonNick",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferPartyMonSpeciesNameIndef",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferPlayerUnionAvatarClassName",
@@ -281,11 +287,13 @@
   },
   {
     "command": "BufferPlayersName",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferPocketName",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferPokeathlonCourseName",
@@ -297,7 +305,8 @@
   },
   {
     "command": "BufferRivalsName",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "BufferRulesetName",
@@ -357,11 +366,13 @@
   },
   {
     "command": "Call",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CallIfEq",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CallIfGe",
@@ -381,7 +392,8 @@
   },
   {
     "command": "CallIfNe",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CallIfNotDefeated",
@@ -397,7 +409,8 @@
   },
   {
     "command": "CallStd",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CameronPhoto",
@@ -413,7 +426,8 @@
   },
   {
     "command": "Case",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CasinoGame",
@@ -421,7 +435,8 @@
   },
   {
     "command": "CatchingTutorial",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CelebiTimeTravel",
@@ -457,7 +472,8 @@
   },
   {
     "command": "CheckBadge",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CheckBankBalance",
@@ -469,7 +485,8 @@
   },
   {
     "command": "CheckBattleWon",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CheckCoinsImmediate",
@@ -589,7 +606,8 @@
   },
   {
     "command": "ChooseStarter",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CianwoodGymInit",
@@ -605,7 +623,8 @@
   },
   {
     "command": "ClearFlag",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "ClearFlagUnk975",
@@ -657,7 +676,8 @@
   },
   {
     "command": "Compare",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "CompareVarToValue",
@@ -901,7 +921,8 @@
   },
   {
     "command": "FacePlayer",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "FaceSouth",
@@ -965,7 +986,8 @@
   },
   {
     "command": "FollowMonHopIntoBall",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "FollowMonInteract",
@@ -1049,7 +1071,8 @@
   },
   {
     "command": "GenderMsgBox",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetAgbCartridgeVersion",
@@ -1077,11 +1100,13 @@
   },
   {
     "command": "GetCurrentMapId",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetCurrentTimeOfDay",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetDayCarePartySelection",
@@ -1129,7 +1154,8 @@
   },
   {
     "command": "GetFriendSprite",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetGameVersion",
@@ -1141,7 +1167,8 @@
   },
   {
     "command": "GetItemPocket",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetItemQuantity",
@@ -1169,7 +1196,8 @@
   },
   {
     "command": "GetMenuChoice",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetMonTypes",
@@ -1209,7 +1237,8 @@
   },
   {
     "command": "GetPartyMonSpecies",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetPartySelection",
@@ -1229,7 +1258,8 @@
   },
   {
     "command": "GetPersonCoords",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetPhoneBookRematch",
@@ -1249,7 +1279,8 @@
   },
   {
     "command": "GetPlayerCoords",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetPlayerFacing",
@@ -1257,11 +1288,13 @@
   },
   {
     "command": "GetPlayerGender",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetPlayerState",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetPokeathlonStat",
@@ -1301,7 +1334,8 @@
   },
   {
     "command": "GetStarterChoice",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GetStaticEncounterOutcome",
@@ -1337,7 +1371,8 @@
   },
   {
     "command": "GetTrcardStars",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "GetTutorMoveListPageCount",
@@ -1409,11 +1444,13 @@
   },
   {
     "command": "GiveItem",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GiveItemNoCheck",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GiveLoanMon",
@@ -1429,7 +1466,8 @@
   },
   {
     "command": "GivePokedex",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GiveRandomSeal",
@@ -1441,7 +1479,8 @@
   },
   {
     "command": "GiveRunningShoes",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GiveSpikyEarPichu",
@@ -1453,7 +1492,8 @@
   },
   {
     "command": "GoTo",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GoToIfDefeated",
@@ -1461,15 +1501,18 @@
   },
   {
     "command": "GoToIfEq",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GoToIfGe",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GoToIfGt",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GoToIfLe",
@@ -1481,11 +1524,13 @@
   },
   {
     "command": "GoToIfNe",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GoToIfNoItemSpace",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GoToIfNotDefeated",
@@ -1493,11 +1538,13 @@
   },
   {
     "command": "GoToIfSet",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "GoToIfUnset",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "HOFCredits",
@@ -1529,7 +1576,8 @@
   },
   {
     "command": "HealParty",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "HideBattleRegulationWindow",
@@ -1541,7 +1589,8 @@
   },
   {
     "command": "HidePerson",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "HidePointsBox",
@@ -1957,7 +2006,8 @@
   },
   {
     "command": "MovePersonFacing",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "MoveRelearnerGetResult",
@@ -2029,7 +2079,8 @@
   },
   {
     "command": "NPCMsg",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "NPCMsgAutoScrollInLink",
@@ -2057,7 +2108,8 @@
   },
   {
     "command": "NameRival",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "NatDexFlagAction",
@@ -2065,7 +2117,8 @@
   },
   {
     "command": "NicknameInput",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "NonNPCMsg",
@@ -2213,11 +2266,13 @@
   },
   {
     "command": "PartyCountNotEgg",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "PartyHasPokerus",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "PartyHasSpecies",
@@ -2245,7 +2300,8 @@
   },
   {
     "command": "PhoneCall",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "PhotoAlbumIsFull",
@@ -2313,7 +2369,8 @@
   },
   {
     "command": "PokeCenAnim",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "Pokeathlon",
@@ -2373,11 +2430,13 @@
   },
   {
     "command": "RegisterGearNumber",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "RegisterPokegearCard",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "Release",
@@ -2417,7 +2476,8 @@
   },
   {
     "command": "RestartCurrentScript",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "RestoreOverworld",
@@ -2433,7 +2493,8 @@
   },
   {
     "command": "Return",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "ReturnFromColosseum",
@@ -2473,7 +2534,8 @@
   },
   {
     "command": "RunPhoneCall",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "RunSouth",
@@ -2533,7 +2595,8 @@
   },
   {
     "command": "SetAvatarBits",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "SetBikeStateLock",
@@ -2549,7 +2612,8 @@
   },
   {
     "command": "SetFlag",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "SetFlag99A",
@@ -2581,7 +2645,8 @@
   },
   {
     "command": "SetMysteryGiftActive",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "SetObjectFacing",
@@ -2605,7 +2670,8 @@
   },
   {
     "command": "SetPhoneCall",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "SetPhoneCallTrigger",
@@ -2629,7 +2695,8 @@
   },
   {
     "command": "SetSpawn",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "SetSpecialSpawnWarp",
@@ -2637,7 +2704,8 @@
   },
   {
     "command": "SetStarterChoice",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "SetTrainerFlag",
@@ -2649,7 +2717,8 @@
   },
   {
     "command": "SetVar",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "SetVarZero",
@@ -2689,7 +2758,8 @@
   },
   {
     "command": "ShowPerson",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "ShowPointsBox",
@@ -2805,7 +2875,8 @@
   },
   {
     "command": "Switch",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "SyncMapObjectsToSave",
@@ -2833,7 +2904,8 @@
   },
   {
     "command": "TakeItemNoCheck",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "TempBGM",
@@ -2857,7 +2929,8 @@
   },
   {
     "command": "TrainerBattle",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "TrainerHouseBattle",
@@ -2965,7 +3038,8 @@
   },
   {
     "command": "UpdateAvatarState",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Original Nurse Joy service in runtime.test.ts and Cherrygrove browser healing flow. Avatar transitions currently cover walking/rocket/healing poses; other transitions stop explicitly."
   },
   {
     "command": "UpdateDaycareMonObjects",
@@ -3021,7 +3095,8 @@
   },
   {
     "command": "Wait",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "WaitABPress",
@@ -3061,7 +3136,8 @@
   },
   {
     "command": "WaitMovement",
-    "status": "pending"
+    "status": "implemented",
+    "verification": "Executed by the original opening quest fixture (tests/trace-opening.ts); this verifies its exercised branches, not every command argument or later-game use."
   },
   {
     "command": "WaitSE",

@@ -84,16 +84,16 @@
     "group": "Opening story progression",
     "feature": "Lyra/Ethan introduction and Marill scene",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-002",
     "group": "Opening story progression",
     "feature": "New Bark Town exits gated by original story flags",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-003",
@@ -101,7 +101,7 @@
     "feature": "Professor Elm first conversation and Mr. Pok\u00e9mon errand",
     "source": "files/fielddata/script/scr_seq",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-004",
@@ -109,7 +109,7 @@
     "feature": "Lab starter selection at original device with confirm and cancel",
     "source": "files/fielddata/script/scr_seq",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-005",
@@ -117,15 +117,15 @@
     "feature": "Starter received at level 5, ownership and nickname prompt",
     "source": "files/fielddata/script/scr_seq",
     "status": "verified",
-    "verification": "runtime.test.ts executes source starter-device script 13 and checks level-5 acquisition, ownership, nickname branch and story flags."
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-006",
     "group": "Opening story progression",
     "feature": "Opposing starter acquired by rival",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-007",
@@ -133,7 +133,7 @@
     "feature": "Elm contact registration and laboratory healing",
     "source": "files/fielddata/script/scr_seq",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-008",
@@ -141,31 +141,31 @@
     "feature": "Laboratory aide\u2019s original item gift",
     "source": "files/fielddata/script/scr_seq",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-009",
     "group": "Opening story progression",
     "feature": "Mother visit and contact registration before departure",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-010",
     "group": "Opening story progression",
     "feature": "Running Shoes and Cherrygrove guide tour",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-011",
     "group": "Opening story progression",
     "feature": "Map Card and guide return scene",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-012",
@@ -173,71 +173,71 @@
     "feature": "Route 30 NPCs, Apricorn Box and original item gifts",
     "source": "files/fielddata/script/scr_seq",
     "status": "pending",
-    "verification": null
+    "verification": "Apricorn-man opening scene and Apricorn Box acquisition pass the source script fixture; other Route 30 NPCs and gifts are not fully verified."
   },
   {
     "id": "P02-013",
     "group": "Opening story progression",
     "feature": "Mr. Pok\u00e9mon house and Mystery Egg",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-014",
     "group": "Opening story progression",
     "feature": "Professor Oak meeting, Pok\u00e9dex and contact",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-015",
     "group": "Opening story progression",
     "feature": "Elm emergency phone call and return journey",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-016",
     "group": "Opening story progression",
     "feature": "First rival battle at original location with correct team",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-017",
     "group": "Opening story progression",
     "feature": "Police investigation and rival naming",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-018",
     "group": "Opening story progression",
     "feature": "Mystery Egg delivered to Elm",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-019",
     "group": "Opening story progression",
     "feature": "Mother\u2019s money-saving choice",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-020",
     "group": "Opening story progression",
     "feature": "Lyra/Ethan catch tutorial and starter Pok\u00e9 Balls",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original imported scripts exercised in tests/trace-opening.ts and src/source/story.test.ts for both genders/all starters; movement presentation, services and full fresh-save traversal remain incomplete. Browser checks: starter device/aide gift, first rival victory and saved result (VERIFICATION.md)."
   },
   {
     "id": "P02-021",
@@ -1445,7 +1445,7 @@
     "feature": "Residual damage, weather, healing and turn-end order",
     "source": "src/battle/battle_command.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original Nurse Joy Yes/No service passes source fixtures and the Cherrygrove Center browser flow. Other listed healing/service variants are not yet fully verified."
   },
   {
     "id": "P09-016",
@@ -1533,7 +1533,7 @@
     "feature": "Whiteout healing and last-Pok\u00e9mon-Center respawn",
     "source": "src/battle/battle_command.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original Nurse Joy Yes/No service passes source fixtures and the Cherrygrove Center browser flow. Other listed healing/service variants are not yet fully verified."
   },
   {
     "id": "P09-027",
@@ -1541,7 +1541,7 @@
     "feature": "Battle healing/status/PP items and turn consumption",
     "source": "src/battle/battle_command.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original Nurse Joy Yes/No service passes source fixtures and the Cherrygrove Center browser flow. Other listed healing/service variants are not yet fully verified."
   },
   {
     "id": "P09-028",
@@ -2044,6 +2044,150 @@
     "group": "Connectivity and special systems",
     "feature": "Version exclusives and clock-dependent event compatibility",
     "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P14-001",
+    "group": "3D battle presentation",
+    "feature": "Battles use the actual encounter location and surrounding 3D field geometry",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-002",
+    "group": "3D battle presentation",
+    "feature": "Paper Pok\u00e9mon have separate ground positions, shadows and camera-relative front/back artwork",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-003",
+    "group": "3D battle presentation",
+    "feature": "Battle camera supports orbit, vertical drag and zoom without changing turn rules",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-004",
+    "group": "3D battle presentation",
+    "feature": "Physical attacks, special projectiles, stat moves and hits animate in world space",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-005",
+    "group": "3D battle presentation",
+    "feature": "Pok\u00e9 Balls travel through the world and capture shakes preserve original capture results",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-006",
+    "group": "3D battle presentation",
+    "feature": "Trainers remain present in battle scenes and field actors return after combat",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-007",
+    "group": "3D battle presentation",
+    "feature": "Battle HUD and commands remain usable on desktop and touch viewports",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-008",
+    "group": "3D battle presentation",
+    "feature": "Battle exit and error recovery restore field camera, actor visibility and progression locks",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "src/source/battle-stage.ts; local Cherrygrove trainer battle and Route 29 catching demonstration use the live field scene. Desktop/mobile visual checks and camera controls recorded in VERIFICATION.md; complete campaign environment audit remains pending."
+  },
+  {
+    "id": "P14-009",
+    "group": "3D battle presentation",
+    "feature": "Original battle art uses the correct normal or shiny palette for both facings",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "implemented",
+    "verification": "scripts/export_battle_sprites.py follows files/poketool/pokegra/pokegra.mk and applies the normal front palette to both facings across 1,972 exported images. Shiny identity/rendering remains pending."
+  },
+  {
+    "id": "P14-010",
+    "group": "3D battle presentation",
+    "feature": "Full campaign battle environments and all move-specific 3D effects receive visual verification",
+    "source": "browser/src/source/battle-stage.ts",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P15-001",
+    "group": "3D world depth and navigation",
+    "feature": "Source fence runs become solid posts and rails, including flat side-on atlas pieces",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-002",
+    "group": "3D world depth and navigation",
+    "feature": "Flower bunches have separately rooted crossed artwork with depth from side views",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-003",
+    "group": "3D world depth and navigation",
+    "feature": "3D long-grass clumps stay on original encounter tiles and react to movement",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-004",
+    "group": "3D world depth and navigation",
+    "feature": "Hill and cliff backs are opaque from newly accessible camera angles",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-005",
+    "group": "3D world depth and navigation",
+    "feature": "Background matrix cells render original scenery instead of exposing empty grey gaps",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-006",
+    "group": "3D world depth and navigation",
+    "feature": "Original building door warps, interior return exits and counter interactions work",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-007",
+    "group": "3D world depth and navigation",
+    "feature": "Following Pok\u00e9mon move continuously along the original one-tile trailing path",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+  },
+  {
+    "id": "P15-008",
+    "group": "3D world depth and navigation",
+    "feature": "Every world camera angle, terrain boundary and scenery variant receives visual verification",
+    "source": "browser/src/source/world.ts",
     "status": "pending",
     "verification": null
   }
