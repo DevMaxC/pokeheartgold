@@ -1,0 +1,2050 @@
+[
+  {
+    "id": "P01-001",
+    "group": "Opening and identity",
+    "feature": "New Game and Continue with independent saved games",
+    "source": "src/intro.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P01-002",
+    "group": "Opening and identity",
+    "feature": "Original title and introduction sequence",
+    "source": "src/intro.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P01-003",
+    "group": "Opening and identity",
+    "feature": "Professor Oak introduction and Pok\u00e9mon demonstration",
+    "source": "src/intro.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P01-004",
+    "group": "Opening and identity",
+    "feature": "Boy/girl player selection and matching overworld sprites",
+    "source": "src/intro.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P01-005",
+    "group": "Opening and identity",
+    "feature": "Character naming, length limits, confirmation and name substitutions",
+    "source": "src/intro.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P01-006",
+    "group": "Opening and identity",
+    "feature": "Original starting bedroom, spawn position and facing",
+    "source": "src/intro.c",
+    "status": "verified",
+    "verification": "runtime.test.ts verifies map 64, tile 6,6 facing south; fresh browser opening verified."
+  },
+  {
+    "id": "P01-007",
+    "group": "Opening and identity",
+    "feature": "Bedroom stairs, PC, Wii and interactive scenery",
+    "source": "src/intro.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P01-008",
+    "group": "Opening and identity",
+    "feature": "Mother dialogue, Pok\u00e9gear acquisition and tutorial",
+    "source": "src/intro.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P01-009",
+    "group": "Opening and identity",
+    "feature": "Clock, weekday, date and daylight cycle",
+    "source": "src/intro.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P01-010",
+    "group": "Opening and identity",
+    "feature": "Correct initial money, inventory, flags and Pok\u00e9dex locks",
+    "source": "src/intro.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P02-001",
+    "group": "Opening story progression",
+    "feature": "Lyra/Ethan introduction and Marill scene",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-002",
+    "group": "Opening story progression",
+    "feature": "New Bark Town exits gated by original story flags",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-003",
+    "group": "Opening story progression",
+    "feature": "Professor Elm first conversation and Mr. Pok\u00e9mon errand",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P02-004",
+    "group": "Opening story progression",
+    "feature": "Lab starter selection at original device with confirm and cancel",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P02-005",
+    "group": "Opening story progression",
+    "feature": "Starter received at level 5, ownership and nickname prompt",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "verified",
+    "verification": "runtime.test.ts executes source starter-device script 13 and checks level-5 acquisition, ownership, nickname branch and story flags."
+  },
+  {
+    "id": "P02-006",
+    "group": "Opening story progression",
+    "feature": "Opposing starter acquired by rival",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-007",
+    "group": "Opening story progression",
+    "feature": "Elm contact registration and laboratory healing",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P02-008",
+    "group": "Opening story progression",
+    "feature": "Laboratory aide\u2019s original item gift",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P02-009",
+    "group": "Opening story progression",
+    "feature": "Mother visit and contact registration before departure",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-010",
+    "group": "Opening story progression",
+    "feature": "Running Shoes and Cherrygrove guide tour",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-011",
+    "group": "Opening story progression",
+    "feature": "Map Card and guide return scene",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-012",
+    "group": "Opening story progression",
+    "feature": "Route 30 NPCs, Apricorn Box and original item gifts",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-013",
+    "group": "Opening story progression",
+    "feature": "Mr. Pok\u00e9mon house and Mystery Egg",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-014",
+    "group": "Opening story progression",
+    "feature": "Professor Oak meeting, Pok\u00e9dex and contact",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-015",
+    "group": "Opening story progression",
+    "feature": "Elm emergency phone call and return journey",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-016",
+    "group": "Opening story progression",
+    "feature": "First rival battle at original location with correct team",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-017",
+    "group": "Opening story progression",
+    "feature": "Police investigation and rival naming",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-018",
+    "group": "Opening story progression",
+    "feature": "Mystery Egg delivered to Elm",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-019",
+    "group": "Opening story progression",
+    "feature": "Mother\u2019s money-saving choice",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-020",
+    "group": "Opening story progression",
+    "feature": "Lyra/Ethan catch tutorial and starter Pok\u00e9 Balls",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P02-021",
+    "group": "Opening story progression",
+    "feature": "Route 31 arrival and Violet progression",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-001",
+    "group": "Johto story",
+    "feature": "Sprout Tower trainers, elder, rival and rewards",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-002",
+    "group": "Johto story",
+    "feature": "Violet Gym puzzle, trainers and Falkner badge/TM",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-003",
+    "group": "Johto story",
+    "feature": "Elm aide Egg delivery and Togepi hatching progression",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-004",
+    "group": "Johto story",
+    "feature": "Ruins of Alph puzzles, Unown and chambers",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-005",
+    "group": "Johto story",
+    "feature": "Union Cave and Route 32/33 progression",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-006",
+    "group": "Johto story",
+    "feature": "Azalea Team Rocket occupation, Kurt and Slowpoke Well",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-007",
+    "group": "Johto story",
+    "feature": "Azalea Gym puzzle, trainers and Bugsy badge/TM",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-008",
+    "group": "Johto story",
+    "feature": "Ilex rival battle and Farfetch\u2019d cut puzzle",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-009",
+    "group": "Johto story",
+    "feature": "Cut HM acquisition, badge requirement and field use",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-010",
+    "group": "Johto story",
+    "feature": "Ilex Forest shrine, Headbutt tutor and exits",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-011",
+    "group": "Johto story",
+    "feature": "Goldenrod City services, Radio Card quiz and Bicycle",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-012",
+    "group": "Johto story",
+    "feature": "Goldenrod Gym, Whitney defeat aftermath and Plain Badge",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-013",
+    "group": "Johto story",
+    "feature": "SquirtBottle and Sudowoodo roadblock",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-014",
+    "group": "Johto story",
+    "feature": "National Park and Bug-Catching Contest",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-015",
+    "group": "Johto story",
+    "feature": "Ecruteak Dance Theater, Kimono Girl and Surf",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-016",
+    "group": "Johto story",
+    "feature": "Burned Tower rival, legendary beasts and Morty Gym",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-017",
+    "group": "Johto story",
+    "feature": "Olivine lighthouse climb and sick Ampharos",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-018",
+    "group": "Johto story",
+    "feature": "Cianwood SecretPotion, Chuck Gym and Fly gift",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-019",
+    "group": "Johto story",
+    "feature": "Ampharos cured and Jasmine Gym",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-020",
+    "group": "Johto story",
+    "feature": "Lake of Rage, Red Gyarados and Lance meeting",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-021",
+    "group": "Johto story",
+    "feature": "Mahogany Rocket Hideout switches, passwords and battles",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-022",
+    "group": "Johto story",
+    "feature": "Mahogany Gym sliding puzzle and Pryce badge/TM",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-023",
+    "group": "Johto story",
+    "feature": "Goldenrod Radio Tower takeover and underground rescue",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-024",
+    "group": "Johto story",
+    "feature": "Rocket executives, Radio Tower liberation and version item",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-025",
+    "group": "Johto story",
+    "feature": "Ice Path puzzles, Strength boulders and Waterfall",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-026",
+    "group": "Johto story",
+    "feature": "Blackthorn Gym, Clair and Dragon\u2019s Den trial",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-027",
+    "group": "Johto story",
+    "feature": "Kimono Girls battle sequence and version legendary event",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-028",
+    "group": "Johto story",
+    "feature": "HeartGold Bell Tower Ho-Oh story and encounter",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-029",
+    "group": "Johto story",
+    "feature": "SoulSilver Whirl Islands Lugia story and encounter",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-030",
+    "group": "Johto story",
+    "feature": "Route 27/26, Victory Road and final rival",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-031",
+    "group": "Johto story",
+    "feature": "Elite Four Will, Koga, Bruno and Karen",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-032",
+    "group": "Johto story",
+    "feature": "Champion Lance and Hall of Fame",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P03-033",
+    "group": "Johto story",
+    "feature": "Credits and postgame unlocks",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-001",
+    "group": "Kanto and postgame",
+    "feature": "S.S. Aqua ticket, maiden voyage and missing granddaughter",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-002",
+    "group": "Kanto and postgame",
+    "feature": "Vermilion arrival and Lt. Surge Gym",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-003",
+    "group": "Kanto and postgame",
+    "feature": "Power Plant missing part and Rocket investigation",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-004",
+    "group": "Kanto and postgame",
+    "feature": "Cerulean Misty return and Gym",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-005",
+    "group": "Kanto and postgame",
+    "feature": "Lavender Radio expansion and Pok\u00e9 Flute",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-006",
+    "group": "Kanto and postgame",
+    "feature": "Snorlax roadblock and Diglett\u2019s Cave",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-007",
+    "group": "Kanto and postgame",
+    "feature": "Pewter Brock Gym and fossil museum",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-008",
+    "group": "Kanto and postgame",
+    "feature": "Cerulean, Saffron Sabrina and Celadon Erika Gyms",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-009",
+    "group": "Kanto and postgame",
+    "feature": "Fuchsia Janine Gym and Safari relocation",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-010",
+    "group": "Kanto and postgame",
+    "feature": "Copycat doll, Magnet Train and regional travel",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-011",
+    "group": "Kanto and postgame",
+    "feature": "Seafoam Blaine Gym and Cinnabar/Blue progression",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-012",
+    "group": "Kanto and postgame",
+    "feature": "Viridian Blue Gym and 16 badges",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-013",
+    "group": "Kanto and postgame",
+    "feature": "Oak access to Mt. Silver",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-014",
+    "group": "Kanto and postgame",
+    "feature": "Mt. Silver traversal and Red battle",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-015",
+    "group": "Kanto and postgame",
+    "feature": "Gym Leader phone registration and rematches",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-016",
+    "group": "Kanto and postgame",
+    "feature": "Elite Four rematch teams",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-017",
+    "group": "Kanto and postgame",
+    "feature": "S.S. Aqua repeat voyages and weekday trainers",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-018",
+    "group": "Kanto and postgame",
+    "feature": "Steven Hoenn starter and Oak Kanto starter",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-019",
+    "group": "Kanto and postgame",
+    "feature": "Embedded Tower Groudon/Kyogre/Rayquaza events",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-020",
+    "group": "Kanto and postgame",
+    "feature": "Cerulean Cave Mewtwo and stationary legendary birds",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-021",
+    "group": "Kanto and postgame",
+    "feature": "Roaming beasts and roaming Latias/Latios",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-022",
+    "group": "Kanto and postgame",
+    "feature": "Safari Zone Baoba missions, blocks and time gates",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P04-023",
+    "group": "Kanto and postgame",
+    "feature": "Battle Frontier facilities, ranks and rewards",
+    "source": "files/fielddata/script/scr_seq",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-001",
+    "group": "World and movement",
+    "feature": "Every source map header imported with original IDs",
+    "source": "src/field/map_load_manager.c",
+    "status": "verified",
+    "verification": "source-assets.test.ts checks all 540 original header IDs and geometry/data references."
+  },
+  {
+    "id": "P05-002",
+    "group": "World and movement",
+    "feature": "Every source map matrix imported at exact dimensions",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-003",
+    "group": "World and movement",
+    "feature": "Original landscape mesh geometry and textures",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-004",
+    "group": "World and movement",
+    "feature": "Original prop models, transforms and placement",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-005",
+    "group": "World and movement",
+    "feature": "Original tile collision/terrain permissions",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-006",
+    "group": "World and movement",
+    "feature": "Original elevations, ledges, bridges and stairs",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-007",
+    "group": "World and movement",
+    "feature": "Seamless outdoor matrix connections at original coordinates",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-008",
+    "group": "World and movement",
+    "feature": "Every doorway uses original warp destination and anchor",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-009",
+    "group": "World and movement",
+    "feature": "Interior room layouts and original furniture placement",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-010",
+    "group": "World and movement",
+    "feature": "Caves, towers, dungeons and multi-floor transitions",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-011",
+    "group": "World and movement",
+    "feature": "Original moving/elevator/warp-panel puzzles",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-012",
+    "group": "World and movement",
+    "feature": "Walking, running and movement rate",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-013",
+    "group": "World and movement",
+    "feature": "Camera-relative control without changing collision rules",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-014",
+    "group": "World and movement",
+    "feature": "Free third-person camera with occlusion handling",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-015",
+    "group": "World and movement",
+    "feature": "Bicycle acquisition, mounting and restrictions",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-016",
+    "group": "World and movement",
+    "feature": "Surf mount, water restrictions and dismount",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-017",
+    "group": "World and movement",
+    "feature": "Waterfall, Whirlpool, Rock Climb and Strength field traversal",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-018",
+    "group": "World and movement",
+    "feature": "Cut trees, Rock Smash rocks and respawn behavior",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-019",
+    "group": "World and movement",
+    "feature": "Fly destinations, Teleport, Escape Rope and Dig",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-020",
+    "group": "World and movement",
+    "feature": "Follower positioning, sprite, dialogue and restrictions",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-021",
+    "group": "World and movement",
+    "feature": "Swimming, sand, snow and terrain-specific presentation",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-022",
+    "group": "World and movement",
+    "feature": "Original signs, hidden objects and inspectable scenery",
+    "source": "src/field/map_load_manager.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P05-023",
+    "group": "World and movement",
+    "feature": "Map names, region display and town-map markers",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P05-024",
+    "group": "World and movement",
+    "feature": "Weather, time-of-day and day-of-week maps/events",
+    "source": "src/field/map_load_manager.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P06-001",
+    "group": "NPCs and scripts",
+    "feature": "Original NPC sprite and facing from event tables",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-002",
+    "group": "NPCs and scripts",
+    "feature": "Original NPC spawn/hide conditions",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-003",
+    "group": "NPCs and scripts",
+    "feature": "Original dialogue text with player/rival/partner substitutions",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-004",
+    "group": "NPCs and scripts",
+    "feature": "Dialogue pages, confirmations and choice menus",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-005",
+    "group": "NPCs and scripts",
+    "feature": "Facing and distance requirements for interaction",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-006",
+    "group": "NPCs and scripts",
+    "feature": "NPC walking routes, movement locks and cutscenes",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-007",
+    "group": "NPCs and scripts",
+    "feature": "Trainer vision, approach, battle and defeat persistence",
+    "source": "src/scrcmd.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P06-008",
+    "group": "NPCs and scripts",
+    "feature": "Coordinate trigger conditions, priority and one-shot behavior",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-009",
+    "group": "NPCs and scripts",
+    "feature": "Map entry and load scripts",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-010",
+    "group": "NPCs and scripts",
+    "feature": "Persistent script flags and variables",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-011",
+    "group": "NPCs and scripts",
+    "feature": "Script calls, branches, comparisons and return stack",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-012",
+    "group": "NPCs and scripts",
+    "feature": "Inventory/party checks in scripts",
+    "source": "src/scrcmd.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P06-013",
+    "group": "NPCs and scripts",
+    "feature": "Event item, Pok\u00e9mon and money grants",
+    "source": "src/scrcmd.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P06-014",
+    "group": "NPCs and scripts",
+    "feature": "NPC phone registration and call outcomes",
+    "source": "src/scrcmd.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P06-015",
+    "group": "NPCs and scripts",
+    "feature": "Multi-character cutscene timing and camera events",
+    "source": "src/scrcmd.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P06-016",
+    "group": "NPCs and scripts",
+    "feature": "Daily, weekly and conditional NPC presence",
+    "source": "src/scrcmd.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P06-017",
+    "group": "NPCs and scripts",
+    "feature": "Every script command implementation tracked against source",
+    "source": "src/scrcmd.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-001",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "All original species and forms with source base stats",
+    "source": "src/pokemon.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P07-002",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Original front/back sprites, sex differences and shinies",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-003",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Original types, abilities and form conditions",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-004",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Trainer ID, secret ID, personality and shiny calculation",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-005",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Original IVs, EVs, natures and stat formulas",
+    "source": "src/pokemon.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P07-006",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Levels, experience curves and experience totals",
+    "source": "src/pokemon.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P07-007",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Gender ratios, friendship and obedience",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-008",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Six-member party limit and party order",
+    "source": "src/pokemon.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P07-009",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Pok\u00e9mon summary with stats, moves, ability, nature and ownership",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-010",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Four move slots, current PP and PP Ups",
+    "source": "src/pokemon.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P07-011",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Level-up learnsets and move replacement choice",
+    "source": "src/pokemon.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P07-012",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Held items, giving, taking and effects",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-013",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Major status and persistent HP/PP",
+    "source": "src/pokemon.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P07-014",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Nicknames, name rater and language/length constraints",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-015",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Evolution level, trade, item, friendship and special conditions",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-016",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Evolution presentation, cancellation and Pok\u00e9dex update",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-017",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Egg generation, steps, hatching and inherited data",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-018",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Original starter/gift/trade/static encounter acquisition",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-019",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Release, deposit, withdrawal and PC boxes",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P07-020",
+    "group": "Pok\u00e9mon data and ownership",
+    "feature": "Pok\u00e9dex seen/caught, forms, locations and completion",
+    "source": "src/pokemon.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-001",
+    "group": "Wild encounters and catching",
+    "feature": "Random grass encounters on movement; no visible overworld wild encounters",
+    "source": "src/wild_encounter.c",
+    "status": "verified",
+    "verification": "main.ts only rolls random encounters on completed source grass/cave tiles; visible wild encounter system removed."
+  },
+  {
+    "id": "P08-002",
+    "group": "Wild encounters and catching",
+    "feature": "Original encounter rates, slot weights, species and level ranges",
+    "source": "src/wild_encounter.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P08-003",
+    "group": "Wild encounters and catching",
+    "feature": "Morning/day/night encounter substitutions",
+    "source": "src/wild_encounter.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P08-004",
+    "group": "Wild encounters and catching",
+    "feature": "Version-specific encounter slots",
+    "source": "src/wild_encounter.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P08-005",
+    "group": "Wild encounters and catching",
+    "feature": "Cave and floor-specific encounter tables",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-006",
+    "group": "Wild encounters and catching",
+    "feature": "Surf encounters and water levels",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-007",
+    "group": "Wild encounters and catching",
+    "feature": "Old/Good/Super Rod timing, tables and failures",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-008",
+    "group": "Wild encounters and catching",
+    "feature": "Rock Smash, Headbutt and special encounter tables",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-009",
+    "group": "Wild encounters and catching",
+    "feature": "Repel level comparison, depletion and expiry",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-010",
+    "group": "Wild encounters and catching",
+    "feature": "Ability, item, weather, radio and swarm encounter modifiers",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-011",
+    "group": "Wild encounters and catching",
+    "feature": "Roamers preserve location, HP and status",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-012",
+    "group": "Wild encounters and catching",
+    "feature": "Stationary encounters, legendary flags and respawns",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-013",
+    "group": "Wild encounters and catching",
+    "feature": "Catch formula, species catch rate and status bonus",
+    "source": "src/wild_encounter.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P08-014",
+    "group": "Wild encounters and catching",
+    "feature": "All Pok\u00e9 Ball modifiers and four shake checks",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-015",
+    "group": "Wild encounters and catching",
+    "feature": "Trainer battle capture restriction",
+    "source": "src/wild_encounter.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P08-016",
+    "group": "Wild encounters and catching",
+    "feature": "Caught Pok\u00e9mon naming and party/box delivery",
+    "source": "src/wild_encounter.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P08-017",
+    "group": "Wild encounters and catching",
+    "feature": "Experience on fainting with Gen IV capture behavior",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P08-018",
+    "group": "Wild encounters and catching",
+    "feature": "Run success, trapping and escape attempts",
+    "source": "src/wild_encounter.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-001",
+    "group": "Battle core",
+    "feature": "Familiar Fight/Bag/Pok\u00e9mon/Run command menu",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-002",
+    "group": "Battle core",
+    "feature": "Front enemy and back player battle presentation",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-003",
+    "group": "Battle core",
+    "feature": "Correct levels, sex, status, HP bars and names",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-004",
+    "group": "Battle core",
+    "feature": "Four moves with type, PP, category, power and accuracy",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-005",
+    "group": "Battle core",
+    "feature": "Player selects action; opponent selects action each turn",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-006",
+    "group": "Battle core",
+    "feature": "Action order: switch/item priority, move priority, speed and ties",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-007",
+    "group": "Battle core",
+    "feature": "Physical/special/status split and attack/defense formulas",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-008",
+    "group": "Battle core",
+    "feature": "Gen IV damage rounding, random range and minimum damage",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-009",
+    "group": "Battle core",
+    "feature": "STAB and full Gen IV type-effectiveness chart",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-010",
+    "group": "Battle core",
+    "feature": "Critical-hit stages, exceptions and damage behavior",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-011",
+    "group": "Battle core",
+    "feature": "Accuracy/evasion stages and move accuracy rolls",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-012",
+    "group": "Battle core",
+    "feature": "Attack/Defense/SpAtk/SpDef/Speed stat stages",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-013",
+    "group": "Battle core",
+    "feature": "Major status burn, paralysis, poison, toxic, sleep and freeze",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-014",
+    "group": "Battle core",
+    "feature": "Confusion, flinch, infatuation and other volatile statuses",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-015",
+    "group": "Battle core",
+    "feature": "Residual damage, weather, healing and turn-end order",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-016",
+    "group": "Battle core",
+    "feature": "Abilities and move/item suppression conditions",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-017",
+    "group": "Battle core",
+    "feature": "Recoil, drain, multi-hit, charge, recharge and rampage moves",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-018",
+    "group": "Battle core",
+    "feature": "Protect, priority, redirection, substitutes and screens",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-019",
+    "group": "Battle core",
+    "feature": "Weather, hazards, field effects and turn duration",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-020",
+    "group": "Battle core",
+    "feature": "Move restrictions, disabled moves, PP exhaustion and Struggle",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-021",
+    "group": "Battle core",
+    "feature": "Player and trainer switching, forced switch and pursuit",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-022",
+    "group": "Battle core",
+    "feature": "Fainting, replacement, double KO and win/loss detection",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-023",
+    "group": "Battle core",
+    "feature": "Original trainer AI, movesets, items and teams",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-024",
+    "group": "Battle core",
+    "feature": "Experience sharing, trainer bonus, EVs and level-up",
+    "source": "src/battle/battle_command.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P09-025",
+    "group": "Battle core",
+    "feature": "Money rewards, held Amulet Coin and defeat penalties",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-026",
+    "group": "Battle core",
+    "feature": "Whiteout healing and last-Pok\u00e9mon-Center respawn",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-027",
+    "group": "Battle core",
+    "feature": "Battle healing/status/PP items and turn consumption",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-028",
+    "group": "Battle core",
+    "feature": "Switch/Set option and trainer replacement prompts",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-029",
+    "group": "Battle core",
+    "feature": "Wild, trainer, rival, double and multi battles",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-030",
+    "group": "Battle core",
+    "feature": "Original battle scripts/move effects coverage",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P09-031",
+    "group": "Battle core",
+    "feature": "Battle animation toggle, text pacing and battle sound",
+    "source": "src/battle/battle_command.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-001",
+    "group": "Inventory, economy and services",
+    "feature": "Correct bag pockets, stack limits and item ordering",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-002",
+    "group": "Inventory, economy and services",
+    "feature": "Source item names, descriptions, prices and use metadata",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-003",
+    "group": "Inventory, economy and services",
+    "feature": "Key Items, registration and contextual use",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-004",
+    "group": "Inventory, economy and services",
+    "feature": "Medicines heal correct HP/status with consumption rules",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-005",
+    "group": "Inventory, economy and services",
+    "feature": "Pok\u00e9 Balls inventory and battle use",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-006",
+    "group": "Inventory, economy and services",
+    "feature": "Repels, Escape Rope, flutes and field consumables",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-007",
+    "group": "Inventory, economy and services",
+    "feature": "TMs/HMs: compatibility, teaching, replacement and reuse rules",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-008",
+    "group": "Inventory, economy and services",
+    "feature": "Evolution stones and other evolution items",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-009",
+    "group": "Inventory, economy and services",
+    "feature": "Berries, held effects and growing Berry Pots",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-010",
+    "group": "Inventory, economy and services",
+    "feature": "Apricorn picking, daily reset and Kurt\u2019s ball crafting",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-011",
+    "group": "Inventory, economy and services",
+    "feature": "Mart original inventories, badge unlocks and prices",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-012",
+    "group": "Inventory, economy and services",
+    "feature": "Buy, sell, quantity and money cap",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-013",
+    "group": "Inventory, economy and services",
+    "feature": "Pok\u00e9mon Center heal party HP/PP/status and respawn point",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-014",
+    "group": "Inventory, economy and services",
+    "feature": "PC storage boxes, capacity, names and organization",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-015",
+    "group": "Inventory, economy and services",
+    "feature": "Day Care deposit, cost, experience, eggs and pickup",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-016",
+    "group": "Inventory, economy and services",
+    "feature": "Move Deleter, Move Reminder, tutors and Heart Scales",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-017",
+    "group": "Inventory, economy and services",
+    "feature": "In-game NPC trades with original requested/offered species",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-018",
+    "group": "Inventory, economy and services",
+    "feature": "Lottery, department store, vending machines and prizes",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-019",
+    "group": "Inventory, economy and services",
+    "feature": "Mother savings, deposits, withdrawals and purchases",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-020",
+    "group": "Inventory, economy and services",
+    "feature": "Game Corner/Voltorb Flip, coins and prize exchange",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P10-021",
+    "group": "Inventory, economy and services",
+    "feature": "Haircuts, massages, friendship and time conditions",
+    "source": "src/bag.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-001",
+    "group": "Interface, saves and settings",
+    "feature": "Original menu unlock progression",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P11-002",
+    "group": "Interface, saves and settings",
+    "feature": "Trainer Card, player name, money, play time and badges",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P11-003",
+    "group": "Interface, saves and settings",
+    "feature": "Party menu, summary, reorder and field moves",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-004",
+    "group": "Interface, saves and settings",
+    "feature": "Bag menu item selection and target selection",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-005",
+    "group": "Interface, saves and settings",
+    "feature": "Pok\u00e9dex search, habitat and species information",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-006",
+    "group": "Interface, saves and settings",
+    "feature": "Pok\u00e9gear phone, map, radio and cards",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-007",
+    "group": "Interface, saves and settings",
+    "feature": "Save menu and resumable exact world position/facing",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P11-008",
+    "group": "Interface, saves and settings",
+    "feature": "Flags, variables, party, storage, inventory and all progression persist",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P11-009",
+    "group": "Interface, saves and settings",
+    "feature": "Save schema versioning and safe migration",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-010",
+    "group": "Interface, saves and settings",
+    "feature": "New Game does not overwrite existing progress without confirmation",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P11-011",
+    "group": "Interface, saves and settings",
+    "feature": "Multiple sessions and corrupt-save recovery",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-012",
+    "group": "Interface, saves and settings",
+    "feature": "Text speed, battle scene, battle style and sound settings",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-013",
+    "group": "Interface, saves and settings",
+    "feature": "Keyboard and controller bindings",
+    "source": "src/save.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P11-014",
+    "group": "Interface, saves and settings",
+    "feature": "Touch equivalents for movement, confirm, cancel and menus",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P11-015",
+    "group": "Interface, saves and settings",
+    "feature": "Accessible focus, dialogue paging and modal input locking",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P11-016",
+    "group": "Interface, saves and settings",
+    "feature": "Loading, asset failures and recoverable errors",
+    "source": "src/save.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P12-001",
+    "group": "Audio and presentation",
+    "feature": "Original route, town, interior and dungeon music selection",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P12-002",
+    "group": "Audio and presentation",
+    "feature": "Time-of-day music variants and transitions",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P12-003",
+    "group": "Audio and presentation",
+    "feature": "Battle music, rival/gym/legendary themes and victory jingles",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P12-004",
+    "group": "Audio and presentation",
+    "feature": "Pok\u00e9mon cries by species/form",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P12-005",
+    "group": "Audio and presentation",
+    "feature": "Menu, dialogue, movement, item and field sound effects",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P12-006",
+    "group": "Audio and presentation",
+    "feature": "Original weather and lighting cues",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P12-007",
+    "group": "Audio and presentation",
+    "feature": "3D conversion retains geometry, layout and visibility of interactables",
+    "source": "src/sound.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P12-008",
+    "group": "Audio and presentation",
+    "feature": "Directional character sprite animations and followers",
+    "source": "src/sound.c",
+    "status": "implemented",
+    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+  },
+  {
+    "id": "P12-009",
+    "group": "Audio and presentation",
+    "feature": "Door, warp, encounter and battle transitions",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P12-010",
+    "group": "Audio and presentation",
+    "feature": "Frame pacing, chunk streaming, disposal and memory budgets",
+    "source": "src/sound.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-001",
+    "group": "Connectivity and special systems",
+    "feature": "Local link trades and trade evolution",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-002",
+    "group": "Connectivity and special systems",
+    "feature": "Link single/double/multi battles and rules",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-003",
+    "group": "Connectivity and special systems",
+    "feature": "Union Room interactions",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-004",
+    "group": "Connectivity and special systems",
+    "feature": "GTS listing, searching and trade completion",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-005",
+    "group": "Connectivity and special systems",
+    "feature": "Wi-Fi Plaza activities and minigames",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-006",
+    "group": "Connectivity and special systems",
+    "feature": "Mystery Gift, Wonder Cards and delivery man",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-007",
+    "group": "Connectivity and special systems",
+    "feature": "Pok\u00e9walker transfer, routes, steps, catches and items",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-008",
+    "group": "Connectivity and special systems",
+    "feature": "Pokeathlon events, stats, records and rewards",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-009",
+    "group": "Connectivity and special systems",
+    "feature": "Pal Park migration and capture",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-010",
+    "group": "Connectivity and special systems",
+    "feature": "GB Sounds, photo album, ribbons and records",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-011",
+    "group": "Connectivity and special systems",
+    "feature": "Event distributions: Sinjoh Ruins, Celebi, Spiky-eared Pichu",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  },
+  {
+    "id": "P13-012",
+    "group": "Connectivity and special systems",
+    "feature": "Version exclusives and clock-dependent event compatibility",
+    "source": "src/pokewalker.c",
+    "status": "pending",
+    "verification": null
+  }
+]
