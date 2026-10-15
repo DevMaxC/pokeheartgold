@@ -49,7 +49,9 @@ export class ScriptVM{
     const conditions:Record<string,()=>boolean>={Eq:()=>compare===0,Ne:()=>compare!==0,Lt:()=>compare<0,Gt:()=>compare>0,Le:()=>compare<=0,Ge:()=>compare>=0};
     const v=(s:string)=>this.value(s,map);
     try{
-      for(let count=0;count<4000;count++){
+      let remaining=4000;
+      while(true){
+        if(remaining--===0)throw new Error(`Source script instruction limit reached at ${map.code}:${pc}`);
         const instruction=map.scripts.instructions[pc++];if(!instruction)break;const [cmd,a]=instruction;
         if(cmd==='End'||cmd==='EndScript')break;
         this.supported.add(cmd);

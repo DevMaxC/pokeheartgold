@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-- `npm test`: 24 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- `npm test`: 25 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
 - Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 675 structural assets receive closure geometry; 195 landscapes receive camera-facing trees. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
 - Source opening fixtures execute the original mother scene, starter-device script and shared item-gift script. They check menu flags, scene variables, exactly one level-5 starter and correct item quantity. Unsupported commands halt before subsequent story mutation.
