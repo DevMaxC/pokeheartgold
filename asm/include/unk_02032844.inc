@@ -1,0 +1,116 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public sub_02032B84
+.public sub_02032C1C
+.public sub_02032E24
+.public sub_02033234
+.public sub_02033240
+.public sub_02033250
+.public sub_02033298
+.public sub_020332AC
+.public sub_020332C0
+.public sub_02033468
+.public sub_02033528
+.public sub_020335B4
+.public sub_02033668
+.public sub_0203373C
+.public sub_020337D0
+.public sub_02033800
+.public sub_02033858
+.public sub_020338D0
+.public sub_020338F4
+.public sub_02033908
+.public sub_02033920
+.public sub_0203393C
+.public sub_02033958
+.public sub_02033974
+.public sub_02033990
+.public sub_020339B4
+.public sub_02033A0C
+.public sub_02033A44
+.public sub_02033A68
+.public sub_02033A7C
+.public sub_02033A90
+.public sub_02033AA4
+.public sub_02033AB8
+.public sub_02033ACC
+.public sub_020340C4
+.public sub_02039918
+.public sub_0203993C
+.public sub_02039AD8
+.public WVR_TerminateAsync
+.public DC_InvalidateRange
+.public DC_FlushRange
+.public DC_WaitWriteBufferEmpty
+.public OS_GetMacAddress
+.public MI_CpuCopy8
+.public WMi_GetStatusAddress
+.public WM_SetIndCallback
+.public WM_SetPortCallback
+.public WM_GetAllowedChannel
+.public WM_GetDispersionScanPeriod
+.public WM_Initialize
+.public WM_InitializeForListening
+.public WM_Reset
+.public WM_End
+.public WM_SetParentParameter
+.public WM_StartParent
+.public WM_EndParent
+.public WM_StartScan
+.public WM_EndScan
+.public WM_StartConnectEx
+.public WM_Disconnect
+.public WM_StartMP
+.public WM_SetMPDataToPortEx
+.public WM_EndMP
+.public WM_SetGameInfo
+.public WM_SetLifeTime
+.public WM_MeasureChannel
+.public WM_SetEntry
+.public memcmp
+.public _s32_div_f
+
+	.public sub_02032844
+	.public sub_02032858
+	.public sub_02032874
+	.public sub_020328A4
+	.public sub_020328C8
+	.public sub_02033080
+	.public sub_020330A4
+	.public sub_020330C8
+	.public sub_020330F0
+	.public sub_02033108
+	.public sub_0203312C
+	.public sub_0203314C
+	.public sub_020331A4
+	.public sub_020331CC
+	.public sub_02033214
+	.public sub_02033264
+	.public sub_020339F0
+	.public _021D4124
+	.public _0210F8FC
+
+	.public sub_02032934
+	.public sub_02032A40
+	.public sub_02032AB0
+	.public sub_02032B0C
+	.public sub_02032B30
+	.public sub_02032B50
+	.public sub_02032B6C
+	.public sub_02032C84
+	.public sub_02032D4C
+	.public sub_02032E48
+	.public sub_02032E64
+	.public sub_02032E9C
+	.public sub_02032F0C
+	.public sub_02032FCC
+	.public sub_0203301C
+	.public sub_0203335C
+	.public sub_020333D8
+	.public sub_02033454
+	.public sub_02033494
+	.public sub_020335BC
+	.public sub_020335D4
+	.public sub_02033620
+	.public sub_02033664
+	.public sub_02033830

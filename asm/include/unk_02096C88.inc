@@ -1,0 +1,61 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public Heap_Alloc
+.public Heap_Free
+.public GF_AssertFail
+.public sub_02033250
+.public sub_0203410C
+.public sub_020342C0
+.public sub_02034818
+.public sub_02037030
+.public sub_02037454
+.public sub_0203769C
+.public sub_02037FF0
+.public sub_02038C1C
+.public sub_0205A904
+.public sub_0205AD24
+.public sub_02091570
+.public sub_02096C88
+.public sub_02096CC8
+.public sub_02096CE0
+.public sub_02096CF4
+.public sub_02096D4C
+.public sub_02097018
+.public MATH_CountPopulation
+.public memcpy
+.public memset
+.public ov85_021E85C4
+.public ov85_021E85CC
+.public ov85_021E8680
+.public ov85_021E86AC
+.public ov85_021E8740
+.public ov85_021E8748
+.public ov85_021E9C84
+.public ov85_021E9D9C
+
+	.public sub_02096D60
+	.public sub_02096D80
+	.public sub_02096DA8
+	.public sub_02096DB4
+	.public sub_02096DBC
+	.public sub_02096DE4
+	.public sub_02096DF4
+	.public sub_02096ED0
+	.public sub_02096EF0
+	.public sub_02096F0C
+	.public sub_02096F2C
+	.public sub_02096F3C
+	.public sub_02096F50
+	.public sub_02096F60
+	.public sub_02096F70
+	.public sub_02096F80
+	.public sub_02096F9C
+	.public sub_02096FAC
+	.public sub_02096FBC
+	.public sub_02096FD0
+	.public sub_02096FE4
+	.public sub_02096FE8
+	.public sub_02096FF0
+
+	.public sub_02096D14
+	.public sub_02096FFC

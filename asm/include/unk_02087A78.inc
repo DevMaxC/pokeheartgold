@@ -1,0 +1,70 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public Sound_SetFieldBGM
+.public Sound_SetScene
+.public Sound_SetSceneAndPlayBGM
+.public GF_SndHandleSetPlayerVolume
+.public sub_02005B68
+.public UnloadOverlayByID
+.public HandleLoadOverlay
+.public OverlayManager_New
+.public OverlayManager_Delete
+.public OverlayManager_CreateAndGetData
+.public OverlayManager_GetData
+.public OverlayManager_FreeData
+.public OverlayManager_GetArgs
+.public OverlayManager_Run
+.public Heap_Create
+.public Heap_Destroy
+.public Heap_Alloc
+.public Heap_Free
+.public Save_GameStats_Get
+.public sub_0202FC24
+.public sub_0202FC48
+.public sub_0202FC5C
+.public sub_0202FC90
+.public sub_020304F0
+.public Save_VarsFlags_Get
+.public BattleSetup_New
+.public BattleSetup_Delete
+.public FieldBGM_GetEffective
+.public FieldBGM_GetForMapHeader
+.public sub_02055198
+.public Save_VarsFlags_FlypointFlagAction
+.public BagCursor_New
+.public sub_02087A78
+.public sub_02087A84
+.public sub_02087E10
+.public sub_02087E1C
+.public sub_02087FF8
+.public LoadOVY38
+.public UnloadOVY38
+.public MI_CpuFill8
+.public gOverlayTemplate_Battle
+.public gNatureStatMods
+.public _02102830
+.public _021028B4
+.public _021028C4
+.public ov40_02244920
+
+	.public sub_02087A8C
+	.public sub_02087B10
+	.public sub_02087B1C
+	.public sub_02087B28
+	.public sub_02087B34
+	.public sub_02087B40
+	.public sub_02087B4C
+	.public sub_02087B58
+	.public sub_02087B64
+	.public sub_02087BAC
+	.public sub_02087BE8
+	.public sub_02087C38
+	.public sub_02087E34
+	.public _02102840
+	.public _02102850
+	.public _02102860
+	.public _02102870
+	.public _02102880
+	.public _02102890
+	.public _021028A0
+	.public _02110594

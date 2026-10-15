@@ -1,0 +1,327 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public Sound_Stop
+.public sub_0201A728
+.public sub_0201A738
+.public sub_0201A79C
+.public Heap_CreateAtEnd
+.public Heap_Destroy
+.public Heap_Alloc
+.public Heap_Free
+.public GF_AssertFail
+.public String_New
+.public String_Delete
+.public CopyU16ArrayToString
+.public Save_PrepareForAsyncWrite
+.public Save_WriteFileAsync
+.public Save_Cancel
+.public Save_PlayerData_GetProfile
+.public PlayerProfile_GetPlayerName_NewString
+.public PlayerProfile_GetTrainerID
+.public PlayerProfile_GetTrainerGender
+.public PlayerProfile_GetAvatar
+.public PlayerProfile_GetLanguage
+.public sub_0202C08C
+.public sub_0202C090
+.public sub_0202C190
+.public sub_0202C23C
+.public sub_0202C270
+.public sub_0202C2B4
+.public sub_0202C6F4
+.public WiFiHistory_GetLocationSeenState
+.public WiFiHistory_SetLocationSeenState
+.public sub_02033908
+.public sub_02033974
+.public sub_02033A0C
+.public sub_02033A7C
+.public sub_02033AA4
+.public sub_02033ACC
+.public sub_02033FC4
+.public sub_02034044
+.public sub_0203410C
+.public sub_02034154
+.public sub_02034354
+.public sub_020343E4
+.public sub_02034434
+.public sub_02034638
+.public sub_02034818
+.public sub_0203484C
+.public sub_02034884
+.public sub_020348A8
+.public sub_020348CC
+.public sub_02034A20
+.public sub_02034B0C
+.public sub_02034BE4
+.public sub_02034D8C
+.public sub_02034DB8
+.public sub_02034DE0
+.public sub_02034FE8
+.public sub_020350A8
+.public sub_020351AC
+.public sub_0203528C
+.public sub_02035630
+.public sub_02035650
+.public sub_02035664
+.public sub_020356C0
+.public sub_020356EC
+.public sub_020358B0
+.public sub_02035ED8
+.public sub_02035F14
+.public sub_02035FD8
+.public sub_02035FE4
+.public sub_02036024
+.public sub_020360E4
+.public sub_0203622C
+.public sub_0203624C
+.public sub_02036274
+.public sub_020367A8
+.public sub_02036904
+.public sub_020369CC
+.public sub_02037184
+.public sub_020373B4
+.public sub_02037454
+.public sub_02037474
+.public sub_020374E4
+.public sub_0203769C
+.public sub_020376E0
+.public sub_020376F8
+.public sub_02037700
+.public sub_0203778C
+.public sub_0203786C
+.public sub_020378E4
+.public sub_02037988
+.public sub_02037AC0
+.public sub_02037B38
+.public sub_02037C94
+.public sub_02037D78
+.public sub_02037D8C
+.public sub_02037DD4
+.public sub_02037E1C
+.public sub_02037E38
+.public sub_02037E9C
+.public sub_02037EC0
+.public sub_02037EC8
+.public sub_02037F18
+.public sub_02037F64
+.public sub_02037F94
+.public sub_02037FCC
+.public sub_02037FF0
+.public sub_02038070
+.public sub_02038094
+.public sub_020380B0
+.public sub_020380CC
+.public sub_020380F4
+.public sub_02038104
+.public sub_02038114
+.public sub_02038148
+.public sub_0203817C
+.public sub_020388E0
+.public sub_02038918
+.public sub_0203893C
+.public sub_0203894C
+.public sub_0203897C
+.public sub_0203898C
+.public sub_02038B3C
+.public sub_02038B9C
+.public sub_02038C18
+.public sub_02038C1C
+.public sub_02038D28
+.public sub_02038D64
+.public sub_02038D80
+.public sub_02038D90
+.public sub_02038F74
+.public sub_02039080
+.public sub_020390C4
+.public sub_02039220
+.public sub_02039264
+.public sub_02039274
+.public sub_020392A0
+.public sub_020392D8
+.public sub_02039330
+.public sub_02039358
+.public sub_02039378
+.public sub_020393B4
+.public sub_020393C8
+.public sub_02039418
+.public sub_0203946C
+.public sub_020394A0
+.public sub_020394F4
+.public sub_02039528
+.public sub_0203957C
+.public sub_020396FC
+.public sub_0203976C
+.public sub_020397C8
+.public sub_020397E4
+.public sub_020397FC
+.public sub_0203981C
+.public sub_0203986C
+.public sub_0203988C
+.public sub_020398C8
+.public sub_020398D4
+.public sub_02039918
+.public sub_0203993C
+.public sub_02039954
+.public sub_0203996C
+.public sub_02039980
+.public sub_02039998
+.public sub_020399B8
+.public sub_020399DC
+.public sub_020399EC
+.public sub_020399FC
+.public sub_02039A00
+.public sub_02039AA4
+.public sub_02039AD8
+.public sub_02039AF8
+.public sub_02039B18
+.public sub_02039B38
+.public sub_02039B58
+.public sub_02039B7C
+.public sub_02039E9C
+.public sub_02039EAC
+.public sub_02039EB4
+.public sub_02039F68
+.public sub_02039FB8
+.public sub_02039FD8
+.public sub_02039FFC
+.public sub_0203A01C
+.public sub_0203A040
+.public sub_0203A05C
+.public sub_0203A084
+.public sub_0203A128
+.public sub_0203A1C4
+.public sub_0203A280
+.public sub_0203A378
+.public sub_0203A880
+.public sub_0203A914
+.public sub_0203A930
+.public ShowCommunicationError
+.public LoadDwcOverlay
+.public UnloadDwcOverlay
+.public LoadOVY38
+.public UnloadOVY38
+.public DWC_Init
+.public DWC_CheckFriendKey
+.public DWC_IsValidFriendData
+.public DWC_CreateUserData
+.public DWC_CheckUserData
+.public DWC_CheckHasProfile
+.public DWC_CheckValidConsole
+.public DWC_ClearDirtyFlag
+.public DWC_GetGsProfileId
+.public DWC_CreateFriendKeyToken
+.public DWC_CreateExchangeToken
+.public DWC_IsEqualFriendData
+.public MI_CpuFill8
+.public MI_CpuCopy8
+.public WM_GetLinkLevel
+.public _ll_mul
+.public gSystem
+.public ov00_021E5900
+.public ov00_021E5B6C
+.public ov00_021E5C84
+.public ov00_021E5E54
+.public ov00_021E6690
+.public ov00_021E6BE4
+.public ov00_021E6C68
+.public ov00_021E6CA4
+.public ov00_021E6CB8
+.public ov00_021E6D7C
+.public ov00_021E70B8
+.public ov00_021EC11C
+.public ov00_021EC210
+.public ov00_021EC9D4
+.public ov45_0222E6C8
+.public ov45_0222E804
+.public ov45_0222E8F4
+.public ov45_0222E91C
+.public ov45_0222E944
+.public ov45_0222F028
+.public ov45_0222F154
+.public ov45_0222F254
+.public ov45_0222F274
+.public ov45_0222F350
+.public ov45_0222F464
+.public ov45_0222F70C
+
+	.public sub_02037C98
+	.public sub_02037D2C
+	.public sub_02037E4C
+	.public sub_020381C0
+	.public sub_020381D0
+	.public sub_020381FC
+	.public sub_02038218
+	.public sub_02038260
+	.public sub_0203827C
+	.public sub_02038294
+	.public sub_020382DC
+	.public sub_020382E4
+	.public sub_0203830C
+	.public sub_02038344
+	.public sub_02038358
+	.public sub_02038398
+	.public sub_020383B0
+	.public sub_020383C4
+	.public sub_02038404
+	.public sub_02038408
+	.public sub_02038418
+	.public sub_02038460
+	.public sub_0203847C
+	.public sub_020384B4
+	.public sub_02038508
+	.public sub_02038538
+	.public sub_02038550
+	.public sub_020385B8
+	.public sub_02038610
+	.public sub_02038668
+	.public sub_02038680
+	.public sub_020386AC
+	.public sub_02038710
+	.public sub_0203876C
+	.public sub_020387E8
+	.public sub_02038800
+	.public sub_02038804
+	.public sub_02038854
+	.public sub_020388A8
+	.public sub_020389BC
+	.public sub_020389D4
+	.public sub_02038A10
+	.public sub_02038A94
+	.public sub_02038C34
+	.public sub_02038C3C
+	.public sub_02038CC4
+	.public sub_02038CE8
+	.public sub_02038E00
+	.public sub_02038E48
+	.public sub_02038E90
+	.public sub_02038E94
+	.public sub_02038EB0
+	.public sub_02038EB4
+	.public sub_02038EB8
+	.public sub_02038F9C
+	.public sub_0203900C
+	.public sub_02039144
+	.public sub_020391D0
+	.public sub_020392F4
+	.public sub_020395B0
+	.public sub_0203960C
+	.public sub_02039694
+	.public sub_020399A4
+	.public sub_02039BA0
+	.public sub_02039C14
+	.public sub_02039C60
+	.public sub_02039C6C
+	.public sub_02039D08
+	.public sub_02039D3C
+	.public sub_02039D54
+	.public sub_02039D78
+	.public sub_02039D8C
+	.public sub_02039DC0
+	.public sub_02039DC4
+	.public sub_02039DE4
+	.public sub_02039E30
+	.public sub_02039E7C
+	.public _020F6A90
+	.public _0210F904
+	.public _0210F90C
+	.public _0210F914
+	.public _021D4150

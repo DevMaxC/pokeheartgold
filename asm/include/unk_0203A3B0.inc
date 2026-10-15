@@ -1,0 +1,53 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public SysTask_CreateOnVWaitQueue
+.public SysTask_Destroy
+.public sub_0201A3F8
+.public Heap_AllocAtEnd
+.public Heap_Free
+.public GF_AssertFail
+.public sub_02034DCC
+.public sub_02037454
+.public sub_02037474
+.public sub_02039998
+.public sub_0203A4AC
+.public sub_0203A86C
+.public sub_0203A880
+.public sub_0203A914
+.public sub_0203A930
+.public sub_0203A948
+.public sub_0203A964
+.public sub_0203A994
+.public sub_0203A9C8
+.public NNS_G2dGetUnpackedBGCharacterData
+.public NNS_G2dGetUnpackedPaletteData
+.public GX_GetBankForOBJ
+.public GX_GetBankForSubOBJ
+.public GX_LoadOBJPltt
+.public GXS_LoadOBJPltt
+.public GX_LoadOBJ
+.public GXS_LoadOBJ
+.public DC_FlushRange
+
+	.public sub_0203A3B0
+	.public sub_0203A42C
+	.public sub_0203A438
+	.public sub_0203A444
+	.public sub_0203A478
+	.public sub_0203A4D4
+	.public sub_0203A534
+	.public sub_0203A59C
+	.public sub_0203A700
+	.public sub_0203A8A8
+	.public sub_0203A8CC
+	.public _020F6A9C
+	.public _020F6AA4
+	.public _020F6AAC
+	.public _020F6AB4
+	.public _020F6ABC
+	.public _0210F91C
+	.public _0210F930
+	.public _0210F940
+	.public _0210F954
+	.public _0210F964
+	.public _021D4154

@@ -1,0 +1,303 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public FontID_Alloc
+.public FontID_SetAccessDirect
+.public FontID_SetAccessLazy
+.public FontID_Release
+.public LoadFontPal1
+.public Sound_SetSceneAndPlayBGM
+.public PlaySE
+.public sub_020062E0
+.public sub_02006EA0
+.public OverlayManager_CreateAndGetData
+.public OverlayManager_GetData
+.public OverlayManager_FreeData
+.public OverlayManager_GetArgs
+.public AllocAndReadWholeNarcMemberByIdPair
+.public NARC_New
+.public NARC_Delete
+.public GfGfxLoader_LoadCharDataFromOpenNarc
+.public GfGfxLoader_LoadScrnDataFromOpenNarc
+.public GfGfxLoader_GXLoadPalFromOpenNarc
+.public Pokepic_SetAttr
+.public PokepicManager_HandleLoadImgAndOrPltt
+.public NewMsgDataFromNarc
+.public DestroyMsgData
+.public ReadMsgDataIntoString
+.public MessageFormat_New
+.public MessageFormat_Delete
+.public BufferBoxMonSpeciesName
+.public BufferBoxMonNickname
+.public BufferBoxMonOTName
+.public StringExpandPlaceholders
+.public MessagePrinter_New
+.public MessagePrinter_Delete
+.public SpriteSystem_DrawSprites
+.public SpriteSystem_TransferOam
+.public thunk_Sprite_SetDrawFlag
+.public thunk_Sprite_SetPaletteOverride
+.public LoadUserFrameGfx2
+.public IsPaletteFadeFinished
+.public sub_02016EDC
+.public MenuInputStateMgr_SetState
+.public sub_0201956C
+.public sub_020195C0
+.public sub_020195F4
+.public sub_020196B8
+.public sub_020196E8
+.public Main_SetVBlankIntrCB
+.public HBlankInterruptDisable
+.public SetKeyRepeatTimers
+.public Heap_Create
+.public Heap_Destroy
+.public Heap_Free
+.public Heap_FreeExplicit
+.public BgConfig_Alloc
+.public SetBothScreensModesAndDisable
+.public InitBgFromTemplate
+.public FreeBgTilemapBuffer
+.public Bg_GetXpos
+.public Bg_GetYpos
+.public BgCommitTilemapBufferToVram
+.public BG_ClearCharDataRange
+.public LoadRectToBgTilemapRect
+.public FillBgTilemapRect
+.public BgTilemapRectChangePalette
+.public BgClearTilemapBufferAndCommit
+.public ScheduleWindowCopyToVram
+.public ClearWindowTilemapAndScheduleTransfer
+.public DoScheduledBgGpuUpdates
+.public ScheduleBgTilemapBufferTransfer
+.public ScheduleSetBgPosText
+.public GF_DestroyVramTransferManager
+.public GF_RunVramTransferTasks
+.public sub_020210BC
+.public sub_02021148
+.public sub_02021238
+.public GfGfx_SetBanks
+.public GfGfx_DisableEngineAPlanes
+.public GfGfx_DisableEngineBPlanes
+.public GfGfx_BothDispOn
+.public Sprite_SetDrawFlag
+.public Sprite_GetDrawFlag
+.public Sprite_SetAnimCtrlSeq
+.public Sprite_SetPriority
+.public Sprite_IsAnimated
+.public TouchscreenHitbox_FindRectAtTouchNew
+.public TouchscreenHitbox_TouchNewIsIn
+.public String_New
+.public String_Delete
+.public CopyU16ArrayToString
+.public PlayerProfile_GetNamePtr
+.public PlayerProfile_GetTrainerID
+.public PlayerProfile_GetTrainerGender
+.public Options_GetFrame
+.public sub_0203A964
+.public Save_VarsFlags_Get
+.public CheckFlag982
+.public AllocMonZeroed
+.public AcquireMonLock
+.public ReleaseMonLock
+.public GetMonData
+.public GetBoxMonData
+.public GetMonExpBySpeciesAndLevel
+.public GetMonNature
+.public GetMonGender
+.public MonIsShiny
+.public sub_02070D90
+.public sub_02070D94
+.public Mon_GetBoxMon
+.public MonSwapMoves
+.public BoxMonSwapMoves
+.public CopyBoxPokemonToPokemon
+.public MonGetFlavorPreference
+.public Pokemon_HasPokerus
+.public Pokemon_IsImmuneToPokerus
+.public sub_020729A4
+.public GetMoveMaxPP
+.public Party_GetMonByIndex
+.public MoveIsHM
+.public CalculateHpBarPixelsLength
+.public CalculateHpBarColor
+.public sub_020880CC
+.public sub_02088288
+.public sub_0208828C
+.public sub_02089D40
+.public sub_0208A520
+.public sub_0208ACDC
+.public sub_0208AD34
+.public sub_0208AD54
+.public sub_0208AD58
+.public sub_0208AD5C
+.public sub_0208AD60
+.public Pokemon_GetStatusIconId
+.public sub_0208B1AC
+.public sub_0208B258
+.public sub_0208B278
+.public sub_0208B2C0
+.public sub_0208B400
+.public sub_0208B448
+.public sub_0208B48C
+.public sub_0208B4EC
+.public sub_0208B5A8
+.public sub_0208B89C
+.public sub_0208B9C8
+.public sub_0208BA60
+.public sub_0208BB24
+.public sub_0208BB8C
+.public sub_0208BBDC
+.public sub_0208BC78
+.public sub_0208BCB4
+.public sub_0208BCD4
+.public sub_0208BD38
+.public sub_0208BDC8
+.public sub_0208BE70
+.public sub_0208BECC
+.public sub_0208BF9C
+.public sub_0208BFD0
+.public sub_0208C068
+.public sub_0208C0E8
+.public sub_0208C208
+.public sub_0208C2A0
+.public sub_0208C320
+.public sub_0208C380
+.public sub_0208C3C0
+.public sub_0208C3E4
+.public sub_0208C42C
+.public sub_0208C4E0
+.public sub_0208C560
+.public sub_0208C57C
+.public sub_0208C614
+.public sub_0208C6B4
+.public sub_0208CBD4
+.public sub_0208D7C4
+.public sub_0208D9A0
+.public sub_0208DAD4
+.public sub_0208DB1C
+.public sub_0208DB58
+.public sub_0208DB64
+.public sub_0208DBF0
+.public sub_0208DC68
+.public sub_0208DD20
+.public sub_0208DDA0
+.public sub_0208DE40
+.public sub_0208DEDC
+.public sub_0208DEFC
+.public sub_0208DF2C
+.public sub_0208E174
+.public sub_0208E3AC
+.public sub_0208E444
+.public sub_0208E4B4
+.public sub_0208E544
+.public GetRibbonAttr
+.public NNS_G2dGetUnpackedScreenData
+.public G2x_SetBlendAlpha_
+.public memset
+.public _s32_div_f
+.public gOverlayTemplate_Battle
+.public gNatureStatMods
+.public gOverlayTemplate_PokemonSummary
+.public gSystem
+.public OS_IRQTable
+
+	.public PokemonSummary_Init
+	.public PokemonSummary_Main
+	.public PokemonSummary_Exit
+	.public sub_020885DC
+	.public sub_02088610
+	.public sub_02088630
+	.public sub_0208877C
+	.public sub_020887C4
+	.public sub_0208887C
+	.public sub_02088894
+	.public sub_0208895C
+	.public sub_020889D0
+	.public sub_02088AF8
+	.public sub_02088B08
+	.public sub_02088B40
+	.public sub_02088D18
+	.public sub_02088D34
+	.public sub_02088D48
+	.public sub_02088E68
+	.public sub_02088E98
+	.public sub_02089028
+	.public sub_02089208
+	.public sub_020892F4
+	.public sub_02089308
+	.public sub_0208931C
+	.public sub_0208942C
+	.public sub_02089454
+	.public sub_02089478
+	.public sub_02089608
+	.public sub_02089658
+	.public sub_02089670
+	.public sub_02089680
+	.public sub_02089698
+	.public sub_02089794
+	.public sub_020897C0
+	.public sub_020897F0
+	.public sub_0208981C
+	.public sub_02089C50
+	.public sub_02089CB4
+	.public sub_02089D68
+	.public sub_02089E14
+	.public sub_02089E30
+	.public sub_02089E80
+	.public sub_02089E98
+	.public sub_02089F50
+	.public sub_02089F98
+	.public sub_0208A0EC
+	.public sub_0208A1A0
+	.public sub_0208A234
+	.public sub_0208A2C0
+	.public sub_0208A2E0
+	.public sub_0208A310
+	.public sub_0208A3CC
+	.public sub_0208A3F4
+	.public sub_0208A45C
+	.public sub_0208A4B8
+	.public sub_0208A564
+	.public sub_0208A63C
+	.public sub_0208A71C
+	.public sub_0208A79C
+	.public sub_0208A7F8
+	.public sub_0208A834
+	.public sub_0208A8F4
+	.public sub_0208A950
+	.public sub_0208A9C4
+	.public sub_0208AA9C
+	.public sub_0208AB58
+	.public sub_0208ADB8
+	.public sub_0208ADCC
+	.public sub_0208ADDC
+	.public sub_0208AE08
+	.public sub_0208AE48
+	.public sub_0208AE88
+	.public sub_0208AEB4
+	.public sub_0208AEC4
+	.public sub_0208AED4
+	.public sub_0208AF08
+	.public sub_0208AF70
+	.public sub_0208AFA0
+	.public sub_0208AFE8
+	.public sub_0208B044
+	.public sub_0208B068
+	.public sub_0208B08C
+	.public sub_0208B0B0
+	.public sub_0208B0F4
+	.public sub_0208B118
+	.public _021038AC
+	.public _021038B0
+	.public _021038B4
+	.public _021038B8
+	.public _021038C4
+	.public _021038D4
+	.public _021038E8
+	.public _02103904
+	.public _02103920
+	.public _0210393C
+	.public _02103958
+	.public _02103974
+	.public _02103990
+	.public _021039B8
+	.public _021039E8

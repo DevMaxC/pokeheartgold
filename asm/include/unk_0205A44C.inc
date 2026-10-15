@@ -1,0 +1,93 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public NewMsgDataFromNarc
+.public DestroyMsgData
+.public NewString_ReadMsgData
+.public BufferString
+.public BufferPlayersName
+.public BufferTrainerClassName
+.public BufferCountryName
+.public BufferCityName
+.public BufferECWord
+.public MailMsg_IsInit
+.public MailMsg_GetFieldI
+.public MailMsg_GetMsgBank
+.public MailMsg_GetMsgNo
+.public MailMsg_Copy
+.public Save_EasyChat_SetGreetingFlag
+.public Heap_Free
+.public LCRandom
+.public GF_AssertFail
+.public PlayerProfile_GetTrainerID
+.public PlayerProfile_GetTrainerGender
+.public PlayerProfile_GetAvatar
+.public PlayerProfile_GetVersion
+.public PlayerProfile_GetLanguage
+.public sub_02034818
+.public sub_020348A8
+.public sub_020348CC
+.public sub_02035798
+.public sub_02035838
+.public sub_02035854
+.public sub_0203588C
+.public sub_02036FD8
+.public sub_02037030
+.public sub_0203769C
+.public sub_020388E0
+.public sub_020398D4
+.public sub_02039AD8
+.public sub_0205A44C
+.public sub_0205A46C
+.public sub_0205A478
+.public sub_0205A47C
+.public sub_0205A498
+.public sub_0205A4B4
+.public sub_0205A4C4
+.public sub_0205A4D8
+.public sub_0205A508
+.public sub_0205A6AC
+.public sub_0205A750
+.public sub_0205A894
+.public sub_0205A904
+.public sub_0205A9A0
+.public sub_0205AA6C
+.public sub_0205AA84
+.public sub_0205AA9C
+.public sub_0205AB88
+.public sub_0205ABB0
+.public sub_0205ABBC
+.public sub_0205ABD8
+.public sub_0205AC4C
+.public sub_0205AC70
+.public GetUnionRoomAvatarAttrBySprite
+.public sub_02068FC8
+.public sub_020691A8
+.public MI_CpuFill8
+.public _020FC824
+
+	.public sub_0205A51C
+	.public sub_0205A544
+	.public sub_0205A730
+	.public sub_0205A8B4
+	.public sub_0205AA4C
+	.public _020FC7D4
+	.public _020FC7DC
+	.public _020FC7E4
+	.public _020FC7EC
+	.public _020FC7F4
+	.public _020FC7FC
+	.public _020FC804
+	.public _020FC814
+	.public _020FC838
+	.public _020FC850
+	.public _020FC868
+	.public _020FC880
+	.public _020FC898
+	.public _020FC8B4
+	.public _020FC8D4
+	.public _020FC8F4
+	.public _020FC914
+	.public _020FC934
+	.public _020FC95C
+	.public _020FC99C
+	.public _020FC9D4

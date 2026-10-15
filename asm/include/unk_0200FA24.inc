@@ -1,0 +1,105 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public SysTask_CreateOnVWaitQueue
+.public SysTask_Destroy
+.public BeginNormalPaletteFade
+.public HandleFadeUpdateFrame
+.public IsPaletteFadeFinished
+.public sub_0200FB70
+.public ResetVisibleHardwareWindows
+.public SetMasterBrightnessNeutral
+.public sub_0200FBF4
+.public sub_0200FC20
+.public sub_0200FC60
+.public sub_0200FCDC
+.public SetMasterBrightness
+.public sub_0200FF88
+.public sub_0200FFB4
+.public FadeFunc_00
+.public FadeFunc_01
+.public FadeFunc_02
+.public FadeFunc_03
+.public FadeFunc_04
+.public FadeFunc_05
+.public FadeFunc_06
+.public FadeFunc_07
+.public FadeFunc_08
+.public FadeFunc_09
+.public FadeFunc_10
+.public FadeFunc_11
+.public FadeFunc_12
+.public FadeFunc_13
+.public FadeFunc_14
+.public FadeFunc_15
+.public FadeFunc_16
+.public FadeFunc_17
+.public FadeFunc_18
+.public FadeFunc_19
+.public FadeFunc_20
+.public FadeFunc_21
+.public FadeFunc_22
+.public FadeFunc_23
+.public FadeFunc_24
+.public FadeFunc_25
+.public FadeFunc_26
+.public FadeFunc_27
+.public FadeFunc_28
+.public FadeFunc_29
+.public FadeFunc_30
+.public FadeFunc_31
+.public FadeFunc_32
+.public FadeFunc_33
+.public FadeFunc_34
+.public FadeFunc_35
+.public FadeFunc_36
+.public FadeFunc_37
+.public FadeFunc_38
+.public FadeFunc_39
+.public FadeFunc_40
+.public FadeFunc_41
+.public FadeFunc_42
+.public sub_020131F4
+.public sub_02013424
+.public sub_02013440
+.public sub_02013468
+.public sub_02013488
+.public HBlankInterruptDisable
+.public Main_SetHBlankIntrCB
+.public Heap_AllocAtEnd
+.public Heap_Free
+.public GF_AssertFail
+.public GXx_SetMasterBrightness_
+.public GX_LoadBGPltt
+.public GXS_LoadBGPltt
+.public memset
+
+	.public HandleEndFade
+	.public DoFadeUpdateFrame
+	.public FadeWork_UpdateFrame
+	.public CallFadeFunc
+	.public sub_0200FE14
+	.public sub_0200FE78
+	.public sub_0200FE84
+	.public sub_0200FEB0
+	.public sub_0200FECC
+	.public sub_0200FEE4
+	.public sub_0200FF5C
+	.public sub_0200FFD8
+	.public sub_0200FFF8
+	.public sub_02010014
+	.public sub_02010018
+	.public sub_0201002C
+	.public sub_02010050
+	.public sub_02010064
+	.public sub_02010094
+	.public sub_020100C4
+	.public sFadeFuncPtrs
+
+	.public _021D0EF4
+	.public _021D0EF8
+	.public _021D0EFC
+	.public _021D0F08
+	.public _021D0F38
+	.public _021D0F68
+	.public _021D0F80
+	.public _021D1034

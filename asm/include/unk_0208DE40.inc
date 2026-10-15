@@ -1,0 +1,70 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public PokepicManager_Create
+.public PokepicManager_DrawAll
+.public PokepicManager_Delete
+.public Pokepic_StartAnim
+.public PokepicManager_CreatePokepic
+.public Pokepic_SetAttr
+.public sub_02016F2C
+.public sub_02017088
+.public GfGfx_EngineATogglePlanes
+.public Camera_New
+.public Camera_Delete
+.public Camera_SetStaticPtr
+.public Camera_ClearFixedTarget
+.public Camera_SetPerspectiveClippingPlane
+.public Camera_Init_FromPosDistanceAndAngle
+.public TouchscreenHitbox_FindRectAtTouchNew
+.public GetPokemonSpriteCharAndPlttNarcIds
+.public GetBoxmonSpriteCharAndPlttNarcIds
+.public NARC_ReadPokepicAnimScript
+.public sub_0207294C
+.public sub_0208A520
+.public sub_0208DE40
+.public sub_0208DEDC
+.public sub_0208DEFC
+.public sub_0208DF2C
+.public sub_0208E174
+.public sub_0208E3AC
+.public sub_0208E444
+.public sub_0208E4B4
+.public sub_0208E544
+.public NNS_G2dSetupSoftwareSpriteCamera
+.public NNS_G3dInit
+.public G3X_Init
+.public G3X_InitMtxStack
+.public G3X_SetFog
+.public G3X_SetClearColor
+.public _fadd
+.public _fgr
+.public _fdiv
+.public _ffix
+.public _fflt
+.public _fmul
+.public _fsub
+.public gOverlayTemplate_Battle
+.public gNatureStatMods
+
+	.public sub_0208DF9C
+	.public sub_0208DFF8
+	.public sub_0208E4DC
+	.public _02104EA4
+	.public _02104EB0
+	.public _02104EC2
+	.public _02104ED4
+	.public _02104EE6
+	.public _02104EF8
+	.public _02104F0A
+	.public _02104F1C
+	.public _02104F2E
+	.public _02104F40
+	.public _02104F52
+	.public _02104F64
+	.public _02104F76
+	.public _02104F88
+	.public _02104F9A
+	.public _02104FAC
+	.public _02104FBE
+	.public _02104FD0
+	.public _02104FFC

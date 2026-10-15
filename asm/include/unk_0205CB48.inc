@@ -1,0 +1,177 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public sub_02005BA8
+.public PlaySE
+.public sub_02006088
+.public GF_AssertFail
+.public Save_GameStats_Get
+.public GameStats_Inc
+.public GetMetatileBehavior
+.public sub_020549F4
+.public MetatileBehavior_IsTallGrass
+.public MetatileBehavior_IsVeryTallGrass
+.public MetatileBehavior_IsDoor
+.public MetatileBehavior_IsWarpEntranceEast
+.public MetatileBehavior_IsWarpEntranceWest
+.public MetatileBehavior_IsWarpEntranceNorth
+.public MetatileBehavior_IsWarpEntranceSouth
+.public MetatileBehavior_IsSand
+.public MetatileBehavior_IsShallowWater
+.public MetatileBehavior_IsJumpNorth
+.public MetatileBehavior_IsJumpSouth
+.public MetatileBehavior_IsJumpWest
+.public MetatileBehavior_IsJumpEast
+.public MetatileBehavior_IsIce
+.public MetatileBehavior_IsMud
+.public MetatileBehavior_IsPuddle
+.public PlayerAvatar_GetFacingDirection
+.public PlayerAvatar_GetNextFacingDirection
+.public PlayerAvatar_GetXCoord
+.public PlayerAvatar_GetZCoord
+.public PlayerAvatar_SetMoveState
+.public PlayerAvatar_GetMoveState
+.public PlayerAvatar_SetPlayerMoveState
+.public PlayerAvatar_GetPlayerMoveState
+.public PlayerAvatar_GetMapObject
+.public PlayerAvatar_GetState
+.public PlayerAvatar_GetUnk24
+.public PlayerAvatar_SetUnk24
+.public PlayerAvatar_ClearUnk24ClearFlag2
+.public PlayerAvatar_Unk24AddWithCeiling
+.public PlayerAvatar_GetUnk28
+.public PlayerAvatar_GetUnk2C
+.public PlayerAvatar_SetUnk28Unk2C
+.public PlayerAvatar_GetPlayerSaveData
+.public PlayerAvatar_SetUnk8
+.public PlayerAvatar_GetUnk8
+.public PlayerAvatar_GetUnkC
+.public PlayerAvatar_ToggleUnkC
+.public PlayerAvatar_ResetUnkC
+.public PlayerSaveData_CheckRunningShoes
+.public PlayerAvatar_SetForcedMovement
+.public PlayerAvatar_CheckForcedMovement
+.public PlayerAvatar_SetFlag1
+.public PlayerAvatar_CheckFlag1
+.public PlayerAvatar_SetFlag2
+.public PlayerAvatar_CheckFlag2
+.public PlayerAvatar_CheckBikeStateLocked
+.public PlayerAvatar_SetFlag5
+.public PlayerAvatar_SetFlag6
+.public PlayerAvatar_ClearFlag6
+.public PlayerAvatar_CheckFlag6
+.public PlayerAvatar_SetFlag7
+.public PlayerAvatar_CheckFlag7
+.public PlayerAvatar_MoveControl
+.public sub_0205CBE4
+.public PlayerAvatar_UpdateMovement
+.public sub_0205CF44
+.public sub_0205CF60
+.public sub_0205CFBC
+.public sub_0205DA34
+.public sub_0205DD94
+.public sub_0205DE38
+.public sub_0205DE98
+.public sub_0205DEC0
+.public sub_0205DF0C
+.public sub_0205DFC8
+.public sub_0205DFD4
+.public sub_0205DFEC
+.public PlayerAvatar_GetCoordsInFront
+.public MapObject_SetFlagsBits
+.public MapObject_ClearFlagsBits
+.public MapObject_SetFacingDirection
+.public MapObject_GetFacingDirection
+.public MapObject_SetNextFacingDirection
+.public MapObject_GetNextFacingDirection
+.public sub_0205F328
+.public MapObject_GetMovementCommand
+.public sub_0205F504
+.public MapObject_GetFieldSystem
+.public MapObject_GetPreviousXCoord
+.public MapObject_GetPreviousZCoord
+.public MapObject_GetXCoord
+.public MapObject_GetYCoord
+.public MapObject_GetZCoord
+.public MapObject_CopyPositionVector
+.public sub_02060BFC
+.public sub_02060D94
+.public sub_02060DEC
+.public sub_02060E54
+.public sub_02060EBC
+.public sub_02060EEC
+.public GetDeltaXByFacingDirection
+.public GetDeltaYByFacingDirection
+.public sub_02060F78
+.public sub_02060FA8
+.public sub_02060FE0
+.public sub_02061190
+.public sub_020611F4
+.public sub_0206121C
+.public MapObject_AreBitsSetForMovementScriptInit
+.public MapObject_SetHeldMovement
+.public MapObject_IsMovementPaused
+.public MapObject_ClearHeldMovement
+.public sub_0206234C
+.public sub_02062390
+.public FieldSystem_IsSaveGymmickTypeEqualTo
+.public FollowMon_IsActive
+.public sub_0206D494
+.public Field_PlayerAvatar_ApplyTransitionFlags
+.public ov01_021F2EDC
+.public ov01_021F2F24
+.public ov01_02205990
+.public ov04_022566EC
+
+	.public sub_0205CBEC
+	.public sub_0205CC4C
+	.public sub_0205CC74
+	.public sub_0205CC94
+	.public sub_0205CD70
+	.public sub_0205D004
+	.public sub_0205D01C
+	.public sub_0205D07C
+	.public sub_0205D09C
+	.public sub_0205D0A8
+	.public sub_0205D190
+	.public sub_0205D1FC
+	.public sub_0205D240
+	.public sub_0205D2A0
+	.public sub_0205D2D0
+	.public sub_0205D340
+	.public sub_0205D3A8
+	.public sub_0205D40C
+	.public sub_0205D428
+	.public sub_0205D44C
+	.public sub_0205D450
+	.public sub_0205D494
+	.public sub_0205D4B4
+	.public sub_0205D610
+	.public sub_0205D640
+	.public sub_0205D658
+	.public sub_0205D684
+	.public sub_0205D6B4
+	.public sub_0205D6E8
+	.public sub_0205D75C
+	.public sub_0205D778
+	.public sub_0205D7AC
+	.public sub_0205D818
+	.public sub_0205D83C
+	.public sub_0205D948
+	.public sub_0205D978
+	.public sub_0205DA1C
+	.public sub_0205DAA8
+	.public sub_0205DB68
+	.public sub_0205DBF4
+	.public sub_0205DCA0
+	.public sub_0205DCFC
+	.public sub_0205DD9C
+	.public sub_0205DDB8
+	.public sub_0205DDD4
+	.public sub_0205DE64
+	.public sub_0205DE88
+	.public sub_0205DFFC
+	.public sub_0205E048
+	.public sub_0205E078
+	.public _020FCB7C
+	.public _020FCB88
+	.public _020FCB98

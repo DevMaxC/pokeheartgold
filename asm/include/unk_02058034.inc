@@ -1,0 +1,119 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public SysTask_CreateOnMainQueue
+.public SysTask_Destroy
+.public BeginNormalPaletteFade
+.public ResetVisibleHardwareWindows
+.public sub_0200FC60
+.public Heap_Alloc
+.public Heap_Free
+.public GF_AssertFail
+.public sub_02034434
+.public sub_02034638
+.public sub_02034818
+.public sub_02034DB8
+.public sub_02035664
+.public sub_02035FD8
+.public sub_02035FE4
+.public sub_02036010
+.public sub_02036FD8
+.public sub_020373B4
+.public sub_02037454
+.public sub_02037474
+.public sub_020374E4
+.public sub_02037504
+.public sub_0203769C
+.public sub_020376E0
+.public sub_0203778C
+.public sub_02037958
+.public sub_02037AC0
+.public sub_02037B38
+.public sub_02037B5C
+.public sub_02037D78
+.public sub_02037D8C
+.public sub_02037DD4
+.public sub_02037E1C
+.public sub_02037E38
+.public sub_02037E9C
+.public sub_02037EC8
+.public sub_020398D4
+.public sub_0203993C
+.public sub_02039980
+.public sub_020399FC
+.public FieldSystem_GetSaveData
+.public StartMapSceneScript
+.public sub_02051598
+.public sub_020515FC
+.public sub_02056D7C
+.public sub_02056E60
+.public sub_02056EA0
+.public sub_0205701C
+.public sub_02057180
+.public sub_02057C94
+.public sub_02057E50
+.public sub_02057F18
+.public sub_02057F58
+.public sub_02057F80
+.public sub_020580E4
+.public sub_02058124
+.public sub_02058164
+.public sub_02058180
+.public sub_02058190
+.public sub_02058258
+.public sub_02058284
+.public sub_020582A8
+.public sub_02058720
+.public sub_02058740
+.public sub_020588CC
+.public sub_020588DC
+.public sub_02058AA0
+.public sub_02059538
+.public sub_02068FC8
+.public SaveArray_Party_Alloc
+.public Party_Copy
+.public sub_02091574
+.public MI_CpuFill8
+.public ov03_02255BEC
+.public ov03_02255C54
+
+	.public sub_02058034
+	.public sub_02058038
+	.public sub_02058098
+	.public sub_020582CC
+	.public sub_020582F4
+	.public sub_02058304
+	.public sub_02058328
+	.public sub_0205832C
+	.public sub_02058348
+	.public sub_0205834C
+	.public sub_0205836C
+	.public sub_02058388
+	.public sub_0205838C
+	.public sub_020583EC
+	.public sub_02058444
+	.public sub_02058478
+	.public sub_020584BC
+	.public sub_02058518
+	.public sub_0205857C
+	.public sub_02058608
+	.public sub_02058640
+	.public sub_02058690
+	.public sub_020586A0
+	.public sub_020586EC
+	.public sub_0205876C
+	.public sub_020587E8
+	.public sub_0205882C
+	.public sub_02058854
+	.public sub_02058870
+	.public sub_020588A0
+	.public sub_020588B4
+	.public sub_020588F8
+	.public sub_02058930
+	.public sub_0205896C
+	.public sub_020589B0
+	.public sub_020589D8
+	.public sub_020589F4
+	.public sub_02058A38
+	.public sub_02058A60
+	.public sub_02058A78
+	.public _021D41C8

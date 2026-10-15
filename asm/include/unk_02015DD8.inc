@@ -1,0 +1,61 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public sub_02015DDC
+.public sub_02015E20
+.public sub_02015E64
+.public sub_02015EA0
+.public sub_02015EF4
+.public sub_02015F1C
+.public sub_02015F64
+.public sub_02015F8C
+.public sub_02015FB0
+.public sub_02015FC4
+.public sub_02015FCC
+.public sub_02015FE8
+.public sub_02015FF4
+.public sub_02015FF8
+.public Heap_Alloc
+.public Heap_Free
+.public GF_AssertFail
+.public NNS_G2dDrawSpriteFast
+.public NNS_G2dInitImageProxy
+.public NNS_G2dGetImageLocation
+.public NNS_G2dInitImagePaletteProxy
+.public NNS_G2dGetImagePaletteLocation
+.public NNS_G2dLoadImage2DMapping
+.public NNS_G2dLoadPalette
+.public G3_RotZ
+.public memset
+.public FX_SinCosTable_
+.public NNS_GfdDefaultFuncAllocTexVram
+.public NNS_GfdDefaultFuncFreeTexVram
+.public NNS_GfdDefaultFuncAllocPlttVram
+.public NNS_GfdDefaultFuncFreePlttVram
+
+	.public sub_02015EDC
+	.public sub_02015F4C
+	.public sub_02015FD8
+	.public sub_02015FE0
+	.public sub_02015FFC
+	.public sub_02016004
+	.public sub_02016008
+	.public sub_0201600C
+	.public sub_02016010
+	.public sub_02016014
+	.public sub_02016020
+	.public sub_02016024
+	.public sub_02016044
+	.public sub_02016050
+	.public sub_0201605C
+	.public sub_0201608C
+	.public sub_020160BC
+	.public sub_020160EC
+	.public sub_02016118
+	.public sub_02016144
+	.public sub_02016170
+	.public sub_02016184
+	.public sub_02016198
+	.public sub_020161A8
+	.public sub_0201630C
+
+	.public sub_020161CC

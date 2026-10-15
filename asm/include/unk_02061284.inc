@@ -1,0 +1,182 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public LCRandom
+.public GF_AssertFail
+.public PlayerAvatar_GetXCoord
+.public PlayerAvatar_GetZCoord
+.public PlayerAvatar_GetMapObject
+.public FieldSystem_GetPlayerAvatar
+.public sub_0205DE98
+.public MapObject_SetFlagsBits
+.public MapObject_ClearFlagsBits
+.public MapObject_GetFlagsBitsMask
+.public MapObject_GetMovement
+.public MapObject_GetType
+.public MapObject_GetInitialFacingDirection
+.public MapObject_SetFacingDirection
+.public MapObject_GetFacingDirection
+.public MapObject_SetNextFacingDirection
+.public MapObject_GetNextFacingDirection
+.public MapObject_SetOrQueueFacing
+.public MapObject_GetParam
+.public MapObject_GetXRange
+.public MapObject_GetYRange
+.public sub_0205F328
+.public sub_0205F370
+.public sub_0205F394
+.public MapObject_GetFieldSystem
+.public MapObject_SetSingleMovement
+.public MapObject_ClearSingleMovement
+.public MapObject_ClearEndMovement
+.public MapObject_GetInitialX
+.public MapObject_GetInitialZ
+.public MapObject_GetXCoord
+.public MapObject_GetZCoord
+.public MapObject_GetPositionVectorYCoordUInt
+.public sub_02060BB8
+.public GetDeltaXByFacingDirection
+.public GetDeltaYByFacingDirection
+.public sub_02060F78
+.public sub_020611F4
+.public sub_02061200
+.public sub_020612B4
+.public sub_020612C0
+.public sub_020612CC
+.public sub_020612D8
+.public sub_020612E4
+.public sub_020612F0
+.public sub_020612FC
+.public sub_02061308
+.public sub_02061314
+.public sub_02061320
+.public sub_0206132C
+.public sub_02061338
+.public sub_0206139C
+.public sub_020613A0
+.public sub_020613B0
+.public sub_020613C0
+.public sub_020613F8
+.public sub_0206166C
+.public sub_02061690
+.public sub_0206169C
+.public sub_020616A8
+.public sub_020616B4
+.public sub_020616E4
+.public sub_020616F0
+.public sub_020616FC
+.public sub_02061844
+.public sub_02061850
+.public sub_0206197C
+.public sub_0206199C
+.public sub_02061B1C
+.public sub_02061B2C
+.public sub_02061B3C
+.public sub_02061B4C
+.public sub_02061B5C
+.public sub_02061B6C
+.public sub_02061B7C
+.public sub_02061B8C
+.public sub_02061B9C
+.public sub_02061BAC
+.public sub_02061BBC
+.public sub_02061BCC
+.public sub_02061BDC
+.public sub_02061BEC
+.public sub_02061BFC
+.public sub_02061C0C
+.public sub_02061C1C
+.public sub_02061D80
+.public sub_02061D90
+.public sub_02061DA0
+.public sub_02061DB0
+.public sub_02061DC0
+.public sub_02061DD0
+.public sub_02061DE0
+.public sub_02061DF0
+.public MapObject_ForceSetHeldMovement
+.public sub_0206234C
+.public sub_02062428
+.public _s32_div_f
+
+	.public sub_02061284
+	.public sub_020613D0
+	.public sub_020614F4
+	.public sub_020615F0
+	.public sub_02061648
+	.public sub_020616C0
+	.public sub_02061720
+	.public sub_02061754
+	.public sub_02061770
+	.public sub_020617AC
+	.public sub_02061874
+	.public sub_02061894
+	.public sub_020618B0
+	.public sub_020618C8
+	.public sub_020619C0
+	.public sub_020619FC
+	.public sub_02061ABC
+	.public sub_02061AEC
+	.public sub_02061C40
+	.public sub_02061D50
+	.public sub_02061E00
+	.public sub_02061E20
+	.public sub_02061E44
+	.public sub_02061E6C
+	.public sub_02061E90
+	.public sub_02061F5C
+	.public sub_02062050
+	.public sub_02062064
+	.public sub_0206207C
+	.public sub_020620F8
+	.public _020FD4EC
+	.public _020FD548
+	.public _020FD5A0
+	.public _020FD7B8
+
+	.public _020FD4F4
+	.public _020FD500
+	.public _020FD50C
+	.public _020FD518
+	.public _020FD524
+	.public _020FD530
+	.public _020FD53C
+	.public _020FD554
+	.public _020FD560
+	.public _020FD570
+	.public _020FD580
+	.public _020FD590
+	.public _020FD5B0
+	.public _020FD5C0
+	.public _020FD5D0
+	.public _020FD5E0
+	.public _020FD5F0
+	.public _020FD600
+	.public _020FD610
+	.public _020FD620
+	.public _020FD630
+	.public _020FD640
+	.public _020FD650
+	.public _020FD660
+	.public _020FD670
+	.public _020FD680
+	.public _020FD690
+	.public _020FD6A0
+	.public _020FD6B0
+	.public _020FD6C0
+	.public _020FD6D0
+	.public _020FD6E0
+	.public _020FD6F0
+	.public _020FD700
+	.public _020FD710
+	.public _020FD720
+	.public _020FD730
+	.public _020FD740
+	.public _020FD754
+	.public _020FD768
+	.public _020FD77C
+	.public _020FD790
+	.public _020FD7A4
+	.public _020FD7CC
+	.public _020FD7E0
+	.public _020FD800
+	.public _020FD838

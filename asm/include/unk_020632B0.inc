@@ -1,0 +1,205 @@
+#include <nitro/fs/overlay.h>
+#pragma once
+.public PlaySE
+.public SysTask_CreateOnMainQueue
+.public SysTask_Destroy
+.public Heap_AllocAtEnd
+.public Heap_Free
+.public Heap_FreeExplicit
+.public SysTask_GetData
+.public GF_SinDegNoWrap
+.public sub_02023EE0
+.public sub_02023EF4
+.public sub_02023F04
+.public sub_02023F40
+.public GF_AssertFail
+.public StartMapSceneScript
+.public FieldSystem_SetEngagedTrainer
+.public ScriptNumToTrainerNum
+.public TrainerNumIsDouble
+.public TrainerFlagCheck
+.public sub_02055780
+.public FieldSystem_ApricornTree_TryGetApricorn
+.public PlayerAvatar_GetFacingDirection
+.public PlayerAvatar_GetXCoord
+.public PlayerAvatar_GetZCoord
+.public PlayerAvatar_GetMapObject
+.public MapObjectManager_GetNextObjectWithFlagFromIndex
+.public MapObject_SetFlagsBits
+.public MapObject_ClearFlagsBits
+.public MapObject_SetSpriteID
+.public MapObject_GetMovement
+.public MapObject_GetType
+.public MapObject_GetScriptID
+.public MapObject_SetFacingDirection
+.public MapObject_GetFacingDirection
+.public MapObject_SetOrQueueFacing
+.public MapObject_GetParam
+.public sub_0205F328
+.public sub_0205F330
+.public sub_0205F394
+.public sub_0205F398
+.public sub_0205F3BC
+.public sub_0205F3C0
+.public sub_0205F3E4
+.public sub_0205F3E8
+.public sub_0205F40C
+.public sub_0205F484
+.public MapObject_IncrementMovementStep
+.public MapObject_GetFieldSystem
+.public MapObject_CheckSingleMovement
+.public MapObject_CheckVisible
+.public MapObject_UnpauseMovement
+.public MapObject_CheckFlag29
+.public MapObject_GetPreviousXCoord
+.public MapObject_GetPreviousZCoord
+.public MapObject_GetXCoord
+.public MapObject_AddCurrentX
+.public MapObject_GetYCoord
+.public MapObject_AddCurrentY
+.public MapObject_GetZCoord
+.public MapObject_AddCurrentZ
+.public MapObject_CopyPositionVector
+.public MapObject_SetPositionVector
+.public MapObject_SetFacingVector
+.public sub_0205F9A0
+.public sub_0205FC94
+.public sub_02060B90
+.public GetDeltaXByFacingDirection
+.public GetDeltaYByFacingDirection
+.public sub_02060F78
+.public sub_02061070
+.public sub_02061200
+.public sub_02061248
+.public MapObject_AreBitsSetForMovementScriptInit
+.public MapObject_SetHeldMovement
+.public MapObject_ForceSetHeldMovement
+.public MapObject_IsMovementPaused
+.public MapObject_ClearHeldMovementIfActive
+.public sub_0206234C
+.public sub_02062428
+.public MapObjectMovementCmd108_Step1
+.public MapObjectMovementCmd105_Step0
+.public MapObjectMovementCmd105_Step2
+.public MapObjectMovementCmd105_Step4
+.public MapObjectMovementCmd105_Step6
+.public MapObjectMovementCmd105_Step8
+.public MapObjectMovementCmd106_Step0
+.public MapObjectMovementCmd106_Step2
+.public MapObjectMovementCmd106_Step4
+.public MapObjectMovementCmd106_Step6
+.public MapObjectMovementCmd107_Step0
+.public MapObjectMovementCmd107_Step2
+.public MapObjectMovementCmd107_Step4
+.public MapObjectMovementCmd107_Step6
+.public MapObjectMovementCmd107_Step8
+.public MapObjectMovementCmd107_Step10
+.public MapObjectMovementCmd107_Step12
+.public MapObjectMovementCmd109_Step12
+.public MapObjectMovementCmd108_Step0
+.public MapObjectMovementCmd110_Step0
+.public MapObjectMovementCmd108_Step2
+.public MapObjectMovementCmd111_Step0
+.public MapObjectMovementCmd111_Step2
+.public MapObjectMovementCmd111_Step4
+.public MapObjectMovementCmd111_Step6
+.public MapObjectMovementCmd111_Step10
+.public MapObjectMovementCmd111_Step14
+.public MapObjectMovementCmd111_Step16
+.public MapObjectMovementCmd111_Step18
+.public MapObjectMovementCmd112_Step0
+.public sub_02063A14
+.public sub_02063A1C
+.public sub_02063E50
+.public sub_02063E70
+.public sub_02063FE4
+.public sub_02063FFC
+.public sub_0206402C
+.public sub_02064084
+.public TryGetSeenByNpcTrainers
+.public sub_02064518
+.public sub_0206457C
+.public sub_02064598
+.public sub_020645AC
+.public sub_02068B48
+.public FX_Div
+.public MI_CpuFill8
+.public memset
+.public _fadd
+.public _ffix
+.public _fflt
+.public _fsub
+.public _ll_mul
+.public _s32_div_f
+.public ov01_021F9344
+.public ov01_021F9408
+.public ov01_021F94C0
+.public ov01_021F95CC
+.public ov01_021F9610
+.public ov01_021F9630
+.public ov01_021FA2D4
+.public ov01_021FA3E8
+.public ov01_021FA40C
+.public ov01_021FE66C
+.public ov01_022003F4
+.public ov01_02200540
+.public ov01_02207274
+
+	.public sub_020632B0
+	.public sub_02063A40
+	.public sub_02063A5C
+	.public sub_02063A78
+	.public sub_02063A94
+	.public sub_02063AC8
+	.public sub_02063AFC
+	.public sub_02063B00
+	.public sub_02063B04
+	.public sub_02063B08
+	.public sub_02063B20
+	.public sub_02063B9C
+	.public sub_02063C88
+	.public sub_02063CB4
+	.public sub_02063D30
+	.public sub_020640A4
+	.public CheckSeenByNpcTrainers
+	.public GetEngagingTrainerParams
+	.public sub_02064298
+	.public sub_020642C4
+	.public sub_0206439C
+	.public sub_020643B8
+	.public sub_020643E4
+	.public sub_02064410
+	.public sub_0206443C
+	.public sub_02064468
+	.public MapObject_GetTrainerNum
+	.public sub_02064520
+	.public sub_020645B4
+	.public sub_0206460C
+	.public sub_02064618
+	.public sub_02064630
+	.public sub_0206464C
+	.public sub_02064668
+	.public sub_02064694
+	.public sub_020646DC
+	.public sub_02064714
+	.public sub_02064730
+	.public sub_02064748
+	.public sub_02064764
+	.public sub_02064778
+	.public sub_02064790
+	.public sub_020647A8
+	.public sub_020647C0
+	.public sub_020647E8
+	.public sub_02064808
+	.public sub_02064824
+	.public sub_020648A0
+	.public sub_020648C8
+	.public sub_020648E4
+	.public _020FE0C4
+	.public _020FE0D4
+	.public _020FE0E4
+	.public _020FE104
+	.public _020FE134
+	.public _020FE164
+	.public _020FE194
+	.public _020FE1A4
