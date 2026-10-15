@@ -2,7 +2,7 @@
 
 Source baseline: `d7886a5`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.
 
-Inventory: **256 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
+Inventory: **266 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
 
 ## Completion standard
 
@@ -43,26 +43,26 @@ Inventory: **256 system requirements, 540 map headers, 832 script/movement comma
 
 | ID | Requirement | Status | Source |
 | --- | --- | --- | --- |
-| P02-001 | Lyra/Ethan introduction and Marill scene | Pending | `files/fielddata/script/scr_seq` |
-| P02-002 | New Bark Town exits gated by original story flags | Pending | `files/fielddata/script/scr_seq` |
+| P02-001 | Lyra/Ethan introduction and Marill scene | Implemented | `files/fielddata/script/scr_seq` |
+| P02-002 | New Bark Town exits gated by original story flags | Implemented | `files/fielddata/script/scr_seq` |
 | P02-003 | Professor Elm first conversation and Mr. Pokémon errand | Implemented | `files/fielddata/script/scr_seq` |
 | P02-004 | Lab starter selection at original device with confirm and cancel | Implemented | `files/fielddata/script/scr_seq` |
 | P02-005 | Starter received at level 5, ownership and nickname prompt | Verified | `files/fielddata/script/scr_seq` |
-| P02-006 | Opposing starter acquired by rival | Pending | `files/fielddata/script/scr_seq` |
+| P02-006 | Opposing starter acquired by rival | Implemented | `files/fielddata/script/scr_seq` |
 | P02-007 | Elm contact registration and laboratory healing | Implemented | `files/fielddata/script/scr_seq` |
 | P02-008 | Laboratory aide’s original item gift | Implemented | `files/fielddata/script/scr_seq` |
-| P02-009 | Mother visit and contact registration before departure | Pending | `files/fielddata/script/scr_seq` |
-| P02-010 | Running Shoes and Cherrygrove guide tour | Pending | `files/fielddata/script/scr_seq` |
-| P02-011 | Map Card and guide return scene | Pending | `files/fielddata/script/scr_seq` |
+| P02-009 | Mother visit and contact registration before departure | Implemented | `files/fielddata/script/scr_seq` |
+| P02-010 | Running Shoes and Cherrygrove guide tour | Implemented | `files/fielddata/script/scr_seq` |
+| P02-011 | Map Card and guide return scene | Implemented | `files/fielddata/script/scr_seq` |
 | P02-012 | Route 30 NPCs, Apricorn Box and original item gifts | Pending | `files/fielddata/script/scr_seq` |
-| P02-013 | Mr. Pokémon house and Mystery Egg | Pending | `files/fielddata/script/scr_seq` |
-| P02-014 | Professor Oak meeting, Pokédex and contact | Pending | `files/fielddata/script/scr_seq` |
-| P02-015 | Elm emergency phone call and return journey | Pending | `files/fielddata/script/scr_seq` |
-| P02-016 | First rival battle at original location with correct team | Pending | `files/fielddata/script/scr_seq` |
-| P02-017 | Police investigation and rival naming | Pending | `files/fielddata/script/scr_seq` |
-| P02-018 | Mystery Egg delivered to Elm | Pending | `files/fielddata/script/scr_seq` |
-| P02-019 | Mother’s money-saving choice | Pending | `files/fielddata/script/scr_seq` |
-| P02-020 | Lyra/Ethan catch tutorial and starter Poké Balls | Pending | `files/fielddata/script/scr_seq` |
+| P02-013 | Mr. Pokémon house and Mystery Egg | Implemented | `files/fielddata/script/scr_seq` |
+| P02-014 | Professor Oak meeting, Pokédex and contact | Implemented | `files/fielddata/script/scr_seq` |
+| P02-015 | Elm emergency phone call and return journey | Implemented | `files/fielddata/script/scr_seq` |
+| P02-016 | First rival battle at original location with correct team | Implemented | `files/fielddata/script/scr_seq` |
+| P02-017 | Police investigation and rival naming | Implemented | `files/fielddata/script/scr_seq` |
+| P02-018 | Mystery Egg delivered to Elm | Implemented | `files/fielddata/script/scr_seq` |
+| P02-019 | Mother’s money-saving choice | Implemented | `files/fielddata/script/scr_seq` |
+| P02-020 | Lyra/Ethan catch tutorial and starter Poké Balls | Implemented | `files/fielddata/script/scr_seq` |
 | P02-021 | Route 31 arrival and Violet progression | Pending | `files/fielddata/script/scr_seq` |
 
 ### Johto story
@@ -344,6 +344,21 @@ Inventory: **256 system requirements, 540 map headers, 832 script/movement comma
 | P13-010 | GB Sounds, photo album, ribbons and records | Pending | `src/pokewalker.c` |
 | P13-011 | Event distributions: Sinjoh Ruins, Celebi, Spiky-eared Pichu | Pending | `src/pokewalker.c` |
 | P13-012 | Version exclusives and clock-dependent event compatibility | Pending | `src/pokewalker.c` |
+
+### 3D battle presentation
+
+| ID | Requirement | Status | Source |
+| --- | --- | --- | --- |
+| P14-001 | Battles use the actual encounter location and surrounding 3D field geometry | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-002 | Paper Pokémon have separate ground positions, shadows and camera-relative front/back artwork | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-003 | Battle camera supports orbit, vertical drag and zoom without changing turn rules | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-004 | Physical attacks, special projectiles, stat moves and hits animate in world space | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-005 | Poké Balls travel through the world and capture shakes preserve original capture results | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-006 | Trainers remain present in battle scenes and field actors return after combat | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-007 | Battle HUD and commands remain usable on desktop and touch viewports | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-008 | Battle exit and error recovery restore field camera, actor visibility and progression locks | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-009 | Original battle art uses the correct normal or shiny palette for both facings | Implemented | `browser/src/source/battle-stage.ts` |
+| P14-010 | Full campaign battle environments and all move-specific 3D effects receive visual verification | Pending | `browser/src/source/battle-stage.ts` |
 
 ## Content inventories
 

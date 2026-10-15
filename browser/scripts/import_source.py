@@ -154,16 +154,9 @@ for b in narc('files/poketool/personal/wotbl.narc'):
   rows.append({'level':value>>9,'move':value&511})
  learnsets.append(rows)
 write(Path('learnsets.json'),learnsets)
-# Battle sprite frames remain original 80x80 canvases, preserving anchor and scale.
-for species in range(1,494):
- for gender in ['male','female']:
-  for facing in ['front','back']:
-   source=ROOT/f'files/poketool/pokegra/pokegra/{species:04}/{gender}/{facing}.png'
-   if not source.exists() or source.stat().st_size==0:
-    source=ROOT/f'files/poketool/pokegra/pokegra/{species:04}/{"female" if gender=="male" else "male"}/{facing}.png'
-   if source.exists() and source.stat().st_size>0:
-    dest=OUT/f'pokemon/{species}-{gender}-{facing}.png';dest.parent.mkdir(exist_ok=True)
-    Image.open(source).convert('RGBA').crop((0,0,80,80)).save(dest)
+# The DS applies the normal front palette to both front and back pixel indices.
+# Back PNGs embed the shiny palette because the native build extracts it there.
+exec((Path(__file__).parent/'export_battle_sprites.py').read_text(),{'__file__':str(Path(__file__).parent/'export_battle_sprites.py')})
 # Decode original overworld character/follower sequences and preserve every frame.
 prepareLUTs();spriteinfo={};mmodel=constants('include/constants/mmodel.h')
 for sid,mid in re.findall(r'\.short\s+(SPRITE_\w+),\s+(MMODEL_\w+),',(ROOT/'asm/overlay_01_sprite_data.s').read_text()):
@@ -213,4 +206,5 @@ if '--data-only' not in sys.argv:
 REPORT['counts']={'maps':len(maps),'matrices':len(matrices),'landscapes':len(land_jobs),'props':len(prop_jobs),'moves':len(move_records),'sprites':len(spriteinfo),'species':493,'trainers':len(json.loads((OUT/'trainers.json').read_text())['trainers'])}
 write(Path('import-report.json'),REPORT)
 subprocess.run([sys.executable,str(ROOT/'browser/scripts/export_foliage.py')],check=True)
+subprocess.run([sys.executable,str(ROOT/'browser/scripts/export_story.py')],check=True)
 print(json.dumps(REPORT['counts']),len(REPORT['errors']),'conversion errors (see import-report.json).',flush=True)

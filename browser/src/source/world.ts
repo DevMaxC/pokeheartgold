@@ -4,6 +4,8 @@ import { clone } from 'three/addons/utils/SkeletonUtils.js';
 import { sourceJSON,type SourceMap,type SourceIndex,type Matrix,type Land,type Cell,type SpriteInfo,type NPC } from './types.ts';
 import {tilePermission,permissionWalkable,terrainHeight} from './terrain.ts';
 import {repairOriginalAsset,originalMaterial} from './render-repair.ts';
+import type {FieldObject} from './objects.ts';
+import type {WorldBattleView} from './battle-stage.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap};
 export class OriginalWorld {
@@ -13,7 +15,7 @@ export class OriginalWorld {
   readonly maps=new Map<number,SourceMap>();
   readonly assets=new Map<string,Promise<THREE.Group>>();
   readonly cells=new Map<string,LoadedCell>();
-  readonly npcSprites=new Map<string,{group:THREE.Group;sprite:THREE.Mesh;texture:THREE.Texture;info:SpriteInfo;npc:NPC}>();
+  readonly npcSprites=new Map<string,{group:THREE.Group;sprite:THREE.Mesh;texture:THREE.Texture;info:SpriteInfo;npc:FieldObject;key:string}>();
   private loader=new GLTFLoader();
   private foliage:Promise<Record<string,Record<string,{asset:string;centers:number[];footV:number}>>>|null=null;
   private treeTextures=new Map<string,Promise<THREE.Texture>>();
@@ -26,6 +28,7 @@ export class OriginalWorld {
   yaw=0;pitch=.4;distance=13;
   target=new THREE.Vector3();
   loading=false;
+  battleStage:WorldBattleView|null=null;
   constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>){
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));this.renderer.setSize(innerWidth,innerHeight);this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;
     this.scene.background=this.sky;this.scene.fog=new THREE.Fog(this.sky,50,115);this.scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa2,2));
@@ -94,18 +97,21 @@ export class OriginalWorld {
     const frame=Math.min(paper.info.frames-1,row*4+(step<0?0:Math.floor(step)%4));
     paper.texture.offset.set(frame%4/paper.info.columns,1-(Math.floor(frame/4)+1)/paper.info.rows);paper.sprite.rotation.y=this.yaw;
   }
-  async updateNPCs(map:SourceMap,visible:(npc:NPC)=>boolean){
-    for(const p of this.npcSprites.values()){this.scene.remove(p.group);p.texture.dispose();}this.npcSprites.clear();
-    for(const npc of map.events.objects){if(!visible(npc)||!this.sprites[npc.spriteId])continue;
-      const paper=this.paper(npc.spriteId,npc.spriteId.includes('FOLLOWER')?1.4:2);paper.group.position.set(npc.x+.5,this.height(npc.x+.5,npc.z+.5,npc.y/16),npc.z+.5);this.animate(paper,npc.facingDirection,-1);this.npcSprites.set(npc.id,{...paper,npc:{...npc}});
+  clearNPCs(){for(const actor of this.npcSprites.values()){this.scene.remove(actor.group);actor.texture.dispose();actor.group.traverse(object=>{if(object instanceof THREE.Mesh){object.geometry.dispose();for(const material of Array.isArray(object.material)?object.material:[object.material])material.dispose();}});}this.npcSprites.clear();}
+  updateNPCs(objects:FieldObject[]){
+    for(const npc of objects){const key=npc.resolvedSprite;let actor=this.npcSprites.get(npc.id);
+      if(actor&&actor.key!==key){this.scene.remove(actor.group);actor.texture.dispose();this.npcSprites.delete(npc.id);actor=undefined;}
+      if(!actor&&this.sprites[key]){actor={...this.paper(key,key.includes('FOLLOWER')?1.4:2),npc,key};this.npcSprites.set(npc.id,actor);}
+      if(!actor)continue;actor.npc=npc;actor.group.visible=npc.visible;actor.group.position.set(npc.x+.5,this.height(npc.x+.5,npc.z+.5,actor.group.position.y||npc.y/16),npc.z+.5);this.animate(actor,npc.facingDirection,npc.step);
     }
   }
   draw(x:number,z:number,dt:number){
+    if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.renderer.render(this.scene,this.camera);return;}
     const height=this.height(x,z,this.target.y-.9);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
     const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance);const collisions=ray.intersectObjects([...this.cells.values()].map(c=>c.group),true);const first=collisions.find(c=>c.distance>1.2&&c.object.visible&&c.object.name!=='camera-facing-original-trees');const d=first?Math.max(2.2,first.distance-.6):this.distance;
     const desired=this.target.clone().addScaledVector(orbit,d);this.camera.position.lerp(desired,1-Math.exp(-dt*12));this.camera.lookAt(this.target);
-    for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,-1);
+    for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);
     this.renderer.render(this.scene,this.camera);
   }
 }

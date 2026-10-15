@@ -1,25 +1,34 @@
 import {speciesName,titleCase,healParty} from './data.ts';
 import type {GameData,SourceMap,State} from './types.ts';
 import {sourceJSON} from './types.ts';
+import {hasBagSpace,addBagItem,takeBagItem} from './bag.ts';
+import {phoneCall} from './phone.ts';
+import {originalSpawn} from './spawns.ts';
 
 export type ScriptHooks={
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
   move:(object:string,label:string,map:SourceMap)=>Promise<void>;position:(object:string,x:number,z:number,facing?:number)=>void;
   face:(object:string,facing?:number)=>void;visible:(object:string,value:boolean)=>void;
   chooseStarter:()=>Promise<void>;nickname:(index:number)=>Promise<void>;refresh:()=>Promise<void>;
-  battle:(trainer:number)=>Promise<boolean>;warp:(map:number,x:number,z:number)=>Promise<void>;
+  battle:(trainer:number,options?:{second:number;canLose:boolean;suppressFollower:boolean})=>Promise<boolean>;warp:(map:number,x:number,z:number)=>Promise<void>;
+  coordinates?:(object:string)=>{x:number;z:number};nameRival?:()=>Promise<string>;whiteOut?:()=>Promise<void>;
+  catchingTutorial?:()=>Promise<void>;
 };
 export class UnsupportedScript extends Error{
   readonly map:string;readonly command:string;readonly pc:number;
   constructor(map:string,command:string,pc:number){super(`Unported source command ${command} at ${map}:${pc}`);this.map=map;this.command=command;this.pc=pc;}
 }
 // Only presentation commands may be ignored. Unknown gameplay commands stop explicitly.
-const presentation=new Set(['Nop','Dummy','LockAll','ReleaseAll','Lock','Release','LockDir','PlaySE','WaitSE','PlayFanfare','WaitFanfare','PlayCry','WaitCry','CloseMsg','WaitButton','FadeScreen','WaitFade','FollowMonResetMovement','TouchscreenMenuHide','TouchscreenMenuShow','FollowingPokemonMovement','WaitFollowingPokemonMovement','ToggleFollowingPokemonMovement','FollowMonSetPositionNextToPlayer','FollowMonSpawnReleaseBall','PlaceStarterBallsInElmsLab','SetFollowingPokemonActive','RestoreOverworld','DrawPokemonPreview','HidePokemonPreview','ShowMoneyBox','HideMoneyBox','SetWeather','FadeOutBGM','PlayBGM','StopBGM','SetBGM','WaitABPress','SetWindow','ScrCmd_609']);
+const presentation=new Set(['Nop','Dummy','ResetBGM','UnlockDir','WaitButtonOrDpad','StopSE','LeaveOverworld','DoorAnimationLoad','DoorAnimationOpen','DoorAnimationClose','DoorAnimationWait','DoorAnimationUnload','LockAll','ReleaseAll','Lock','Release','LockDir','PlaySE','WaitSE','PlayFanfare','WaitFanfare','PlayCry','WaitCry','CloseMsg','WaitButton','FadeScreen','WaitFade','FollowMonResetMovement','TouchscreenMenuHide','TouchscreenMenuShow','FollowingPokemonMovement','WaitFollowingPokemonMovement','ToggleFollowingPokemonMovement','FollowMonSetPositionNextToPlayer','FollowMonSpawnReleaseBall','PlaceStarterBallsInElmsLab','SetFollowingPokemonActive','RestoreOverworld','DrawPokemonPreview','HidePokemonPreview','ShowMoneyBox','HideMoneyBox','SetWeather','FadeOutBGM','PlayBGM','StopBGM','SetBGM','WaitABPress','SetWindow','ScrCmd_609']);
 const standardCache=new Map<string,Promise<SourceMap>>();
 export class ScriptVM{
   busy=false;lastUnsupported:{map:string;command:string;pc:number}|null=null;
   readonly supported=new Set<string>();
+  private instruction:{map:string;command:string;pc:number}|null=null;private child:ScriptVM|null=null;
+  get current():{map:string;command:string;pc:number}|null{return this.child?.current??this.instruction;}
   buffers:Record<number,string>={};
+  private battleWon=false;
+  private pendingPhone:[number,number,number]|null=null;
   readonly data:GameData;readonly state:State;readonly hooks:ScriptHooks;
   constructor(data:GameData,state:State,hooks:ScriptHooks){this.data=data;this.state=state;this.hooks=hooks;}
   value(token:string,map:SourceMap):number{
@@ -31,7 +40,7 @@ export class ScriptVM{
   }
   set(token:string,n:number){this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
-  private async standard(id:number,object:string){const match=this.data.index.stdScripts.find(row=>id>=row.min);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank))standardCache.set(match.bank,sourceJSON<SourceMap>(`scripts/${match.bank}.json`));const common=await standardCache.get(match.bank)!;const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);child.buffers=this.buffers;try{await child.run(common,entry,object,true);}finally{this.buffers=child.buffers;for(const command of child.supported)this.supported.add(command);}}
+  private async standard(id:number,object:string){const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank))standardCache.set(match.bank,sourceJSON<SourceMap>(`scripts/${match.bank}.json`));const common=await standardCache.get(match.bank)!;const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;try{await child.run(common,entry,object,true);}finally{this.child=null;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}}
   text(message:string,map:SourceMap){
     const raw=map.messages[message]??message;
     return raw.replace(/\{STRVAR_1 (\d+), (\d+), \d+\}/g,(_,kind,slot)=>kind==='3'?this.state.name:this.buffers[Number(slot)]??(kind==='1'?this.state.rivalName:'')).replace(/\{YESNO \d+\}/g,'').replace(/\{[^}]+\}/g,'').replace(/\\n/g,'\n');
@@ -39,7 +48,7 @@ export class ScriptVM{
   async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false){
     if(this.busy&&!allowNested)return;
     if(script===0)return;
-    this.busy=true;if(!allowNested)this.buffers={0:this.state.name};let pc=0,compare=0,switchValue=0,lastMessage='';const stack:number[]=[];let pendingMoves:Promise<void>[]=[];
+    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='';const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
     const scriptID=typeof script==='number'?script:this.value(script,map);if(scriptID>=2000){try{await this.standard(scriptID,object);}finally{this.busy=false;}return;}
     const entry=scriptID-1;
     let label=typeof script==='string'&&map.scripts.labels[script]!==undefined?script:map.scripts.entries[entry];
@@ -52,7 +61,8 @@ export class ScriptVM{
       let remaining=4000;
       while(true){
         if(remaining--===0)throw new Error(`Source script instruction limit reached at ${map.code}:${pc}`);
-        const instruction=map.scripts.instructions[pc++];if(!instruction)break;const [cmd,a]=instruction;
+        if(movementFailure.failed)throw movementFailure.error;
+        const instruction=map.scripts.instructions[pc++];if(!instruction)break;const [cmd,a]=instruction;this.instruction={map:map.code,command:cmd,pc:pc-1};
         if(cmd==='End'||cmd==='EndScript')break;
         this.supported.add(cmd);
         if(presentation.has(cmd))continue;
@@ -73,17 +83,29 @@ export class ScriptVM{
         if(cmd==='TrainerTipsEx'||cmd==='DirectionSignpostEx'||cmd==='TrainerTips'){const token=cmd==='TrainerTipsEx'?a[1]:cmd==='DirectionSignpostEx'?a[2]:a[0];lastMessage=this.text(token,map);await this.hooks.message(lastMessage);this.set(cmd==='TrainerTips'?a[1]:'VAR_SPECIAL_RESULT',2);continue;}
         if(cmd==='GenderMsgBox'){lastMessage=this.text(a[this.state.gender==='boy'?0:1],map);await this.hooks.message(lastMessage);continue;}
         if(cmd==='NPCMsgVar'||cmd==='NonNPCMsgVar'){const message=Object.keys(map.messages).find(key=>Number(key.slice(-5))===v(a[0]));if(!message)throw new Error(`Missing original message ${v(a[0])}`);lastMessage=this.text(message,map);await this.hooks.message(lastMessage);continue;}
+        if(cmd==='GetStdMsgNaix'){this.set(a[1],[752,211,30,435][v(a[0])]??0);continue;}
+        if(cmd==='MsgBoxExtern'||cmd==='NonNPCMsgExtern'){const bank=await sourceJSON<Record<string,string>>(`messages/${v(a[0])}.json`),raw=bank[v(a[1])];if(raw===undefined)throw Error(`Missing source message ${v(a[0])}:${v(a[1])}`);lastMessage=this.text(raw,map);await this.hooks.message(lastMessage);continue;}
         if(cmd==='GetMenuChoice'||cmd==='YesNoBox'){this.set(a[0],await this.hooks.choice(lastMessage.split(/\\[rf]/).filter(Boolean).at(-1)));continue;}
         if(cmd==='Wait'){await new Promise(resolve=>setTimeout(resolve,Math.min(1000,v(a[0])*1000/60)));continue;}
-        if(cmd==='ApplyMovement'){pendingMoves.push(this.hooks.move(a[0],a[1],map));continue;}
-        if(cmd==='WaitMovement'){await Promise.all(pendingMoves);pendingMoves=[];continue;}
+        if(cmd==='ApplyMovement'){pendingMoves.push(this.hooks.move(a[0],a[1],map).catch(error=>{movementFailure.failed=true;movementFailure.error=error;}));continue;}
+        if(cmd==='WaitMovement'){await Promise.all(pendingMoves);pendingMoves=[];if(movementFailure.failed)throw movementFailure.error;continue;}
         if(cmd==='MovePersonFacing'){this.hooks.position(a[0],v(a[1]),v(a[3]),v(a[4]));continue;}
         if(cmd==='MovePerson'){this.hooks.position(a[0],v(a[1]),v(a[3]));continue;}
         if(cmd==='FacePlayer'){this.hooks.face(object);continue;}
         if(cmd==='ShowPerson'||cmd==='HidePerson'){this.hooks.visible(a[0],cmd==='ShowPerson');continue;}
         if(cmd==='GetPlayerCoords'){this.set(a[0],Math.floor(this.state.x));this.set(a[1],Math.floor(this.state.z));continue;}
+        if(cmd==='GetPersonCoords'){const name=map.events.objects.find(n=>map.constants[n.id]===v(a[0]))?.id||a[0];const p=a[0]==='obj_player'?{x:Math.floor(this.state.x),z:Math.floor(this.state.z)}:this.hooks.coordinates?.(name);if(!p)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[1],p.x);this.set(a[2],p.z);continue;}
         if(cmd==='GetPlayerFacing'){this.set(a[0],this.state.facing);continue;}
-        if(cmd==='GetGender'){this.set(a[0],this.state.gender==='boy'?0:1);continue;}
+        if(cmd==='GetGender'||cmd==='GetPlayerGender'){this.set(a[0],this.state.gender==='boy'?0:1);continue;}
+        if(cmd==='GetGameVersion'){this.set(a[0],this.data.constants.GAME_VERSION);continue;}
+        if(cmd==='GivePokedex'){this.state.pokedexEnabled=true;continue;}
+        if(cmd==='CheckPokedex'){this.set(a[0],Number(!!this.state.pokedexEnabled));continue;}
+        if(cmd==='SetMysteryGiftActive'){this.state.mysteryGiftEnabled=true;continue;}
+        if(cmd==='SetSpawn'){this.state.lastHeal={...(await originalSpawn(v(a[0]))).death};continue;}
+        if(cmd==='PhoneCall'){const args=a.map(v);this.set('VAR_SPECIAL_x8004',args[0]);this.set('VAR_SPECIAL_x8005',args[1]);this.set('VAR_SPECIAL_x8006',args[2]);await this.standard(this.data.constants.std_phone_call,object);continue;}
+        if(cmd==='SetPhoneCall'){this.pendingPhone=[v(a[0]),v(a[1]),v(a[2])];continue;}
+        if(cmd==='RunPhoneCall'){if(!this.pendingPhone)throw Error('Original phone call has no caller');await phoneCall(this.data,this.state,...this.pendingPhone,text=>this.hooks.message(this.text(text,map)),text=>this.hooks.choice(text));this.pendingPhone=null;continue;}
+        if(cmd==='SetPhoneCallTrigger'||cmd==='UnsetPhoneCallTrigger'){this.state.phoneTriggers??=[];const id=v(a[0]);this.state.phoneTriggers=this.state.phoneTriggers.filter(trigger=>trigger!==id);if(cmd==='SetPhoneCallTrigger'&&v(a[1]))this.state.phoneTriggers.push(id);continue;}
         if(cmd==='GetFriendSprite'){this.set(a[0],this.data.constants[this.state.gender==='boy'?'SPRITE_HEROINE':'SPRITE_HERO']);continue;}
         if(cmd==='CheckBadge'){this.set(a[1],Number(this.state.badges.includes(v(a[0]))));continue;}
         if(cmd==='GetWeekday'){this.set(a[0],new Date().getDay());continue;}
@@ -101,15 +123,17 @@ export class ScriptVM{
         if(cmd==='BufferPlayersName'){this.buffers[v(a[0])]=this.state.name;continue;}
         if(cmd==='BufferRivalsName'){this.buffers[v(a[0])]=this.state.rivalName;continue;}
         if(cmd==='BufferFriendsName'){this.buffers[v(a[0])]=this.state.gender==='boy'?'Lyra':'Ethan';continue;}
-        if(cmd==='BufferMonSpeciesName'||cmd==='BufferPartyMonNick'){const m=this.state.party[v(a[1])];this.buffers[v(a[0])]=m?(cmd==='BufferPartyMonNick'?m.name:speciesName(this.data,m.species)):'';continue;}
+        if(cmd==='BufferMonSpeciesName'||cmd==='BufferPartyMonNick'||cmd==='BufferPartyMonSpeciesNameIndef'){const m=this.state.party[v(a[1])];this.buffers[v(a[0])]=m?(cmd==='BufferPartyMonNick'?m.name:cmd==='BufferPartyMonSpeciesNameIndef'?this.data.names.speciesIndefinite[m.species]:speciesName(this.data,m.species)):'';continue;}
         if(cmd==='BufferSpeciesName'){this.buffers[v(a[0])]=speciesName(this.data,v(a[1]));continue;}
-        if(cmd==='BufferItemName'||cmd==='BufferItemNamePlural'){this.buffers[v(a[0])]=titleCase(this.itemKey(a[1],map));continue;}
+        if(cmd==='BufferItemName'||cmd==='BufferItemNamePlural'||cmd==='BufferItemNameIndef'){const id=this.data.constants[this.itemKey(a[1],map)];this.buffers[v(a[0])]=this.data.names[cmd==='BufferItemNamePlural'?'itemsPlural':cmd==='BufferItemNameIndef'?'itemsIndefinite':'items'][id]||'';continue;}
         if(cmd==='GetItemPocket'){const item=this.data.items.find(item=>item.item===this.itemKey(a[0],map));this.set(a[1],this.data.constants[item?.fieldPocket||'POCKET_ITEMS']||0);continue;}
         if(cmd==='BufferPocketName'){const pockets=['Items','Medicine','Poké Balls','TMs & HMs','Berries','Mail','Battle Items','Key Items'];this.buffers[v(a[0])]=pockets[v(a[1])]||'Items';continue;}
         if(cmd==='BufferInteger'||cmd==='BufferNumber'){this.buffers[v(a[0])]=String(v(a[1]));continue;}
-        if(cmd==='HasItem'||cmd==='CheckItemSpace'){const key=this.itemKey(a[0],map),max=/ITEM_(TM|HM)\d+/.test(key)?99:999;this.set(a[2],cmd==='HasItem'?Number((this.state.bag[key]||0)>=v(a[1])):Number((this.state.bag[key]||0)+v(a[1])<=max));continue;}
-        if(cmd==='AddItem'||cmd==='GiveItem'||cmd==='GiveItemNoCheck'){const key=this.itemKey(a[0],map);this.state.bag[key]=(this.state.bag[key]||0)+v(a[1]);if(a[2])this.set(a[2],1);continue;}
-        if(cmd==='TakeItem'||cmd==='RemoveItem'){const key=this.itemKey(a[0],map);this.state.bag[key]=Math.max(0,(this.state.bag[key]||0)-v(a[1]));if(a[2])this.set(a[2],1);continue;}
+        if(cmd==='HasItem'||cmd==='CheckItemSpace'||cmd==='HasSpaceForItem'){const key=this.itemKey(a[0],map);this.set(a[2],cmd==='HasItem'?Number((this.state.bag[key]||0)>=v(a[1])):Number(hasBagSpace(this.data,this.state.bag,key,v(a[1]))));continue;}
+        if(cmd==='GoToIfNoItemSpace'||cmd==='GoToIfNoItemSpace2'){const item=v(a[0]),quantity=v(a[1]);this.set('VAR_SPECIAL_x8004',item);this.set('VAR_SPECIAL_x8005',quantity);const result=Number(hasBagSpace(this.data,this.state.bag,this.itemKey(a[0],map),quantity));this.set('VAR_SPECIAL_RESULT',result);compare=result-(cmd==='GoToIfNoItemSpace'?0:1);if(!result)jump(a[2]);continue;}
+        if(cmd==='GiveItemNoCheck'){const item=v(a[0]),quantity=v(a[1]);this.set('VAR_SPECIAL_x8004',item);this.set('VAR_SPECIAL_x8005',quantity);await this.standard(this.data.constants.std_give_item_verbose,object);continue;}
+        if(cmd==='AddItem'||cmd==='GiveItem'){const result=addBagItem(this.data,this.state.bag,this.itemKey(a[0],map),v(a[1]));if(a[2])this.set(a[2],Number(result));continue;}
+        if(cmd==='TakeItem'||cmd==='RemoveItem'||cmd==='TakeItemNoCheck'){const key=this.itemKey(a[0],map),quantity=v(a[1]);if(cmd==='TakeItemNoCheck'){this.set('VAR_SPECIAL_x8004',v(a[0]));this.set('VAR_SPECIAL_x8005',quantity);}const result=takeBagItem(this.state.bag,key,quantity);if(a[2]||cmd==='TakeItemNoCheck')this.set(a[2]||'VAR_SPECIAL_RESULT',Number(result));continue;}
         if(cmd==='HealParty'){healParty(this.state);continue;}
         if(cmd==='CountMailboxMessages'){this.set(a[0],0);continue;}
         if(cmd==='Random'){this.set(a[0],Math.floor(Math.random()*v(a[1])));continue;}
@@ -118,12 +142,16 @@ export class ScriptVM{
           await this.standard(v(a[0]),object);continue;
         }
         if(cmd==='RestartCurrentScript')continue; // Awaited child context resumes its caller on return.
-        if(cmd==='TrainerBattle'){this.set('VAR_SPECIAL_RESULT',Number(await this.hooks.battle(v(a[0]))));continue;}
+        if(cmd==='TrainerBattle'){this.battleWon=await this.hooks.battle(v(a[0]),{second:v(a[1]||'0'),canLose:!!v(a[2]||'0'),suppressFollower:!!v(a[3]||'0')});this.set('VAR_BATTLE_RESULT',this.battleWon?1:2);continue;}
+        if(cmd==='CheckBattleWon'){this.set(a[0],Number(this.battleWon));continue;}
+        if(cmd==='CatchingTutorial'){if(!this.hooks.catchingTutorial)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.catchingTutorial();continue;}
+        if(cmd==='NameRival'){if(!this.hooks.nameRival)throw new UnsupportedScript(map.code,cmd,pc-1);this.state.rivalName=await this.hooks.nameRival();if(a[0])this.set(a[0],0);continue;}
+        if(cmd==='WhiteOut'){if(!this.hooks.whiteOut)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.whiteOut();continue;}
         if(cmd==='Warp'){await this.hooks.warp(v(a[0]),v(a[3]),v(a[4]));continue;}
         this.supported.delete(cmd);throw new UnsupportedScript(map.code,cmd,pc-1);
       }
-      await Promise.all(pendingMoves);await this.hooks.refresh();
+      await Promise.all(pendingMoves);if(movementFailure.failed)throw movementFailure.error;await this.hooks.refresh();
     }catch(error){if(error instanceof UnsupportedScript)this.lastUnsupported={map:error.map,command:error.command,pc:error.pc};throw error;}
-    finally{this.busy=false;}
+    finally{await Promise.allSettled(pendingMoves);this.busy=false;}
   }
 }
