@@ -59,7 +59,12 @@ GROUPS['3D world depth and navigation']=('browser/src/source/world.ts',[
 'Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea',
 'Raised background forests and authored forest platforms have opaque terrain sides',
 'Building entrance direction comes from original tile behaviours across the complete matrix',
-'Forked tree roots never count as multiple individual trees'])
+'Forked tree roots never count as multiple individual trees',
+'Door mats and warp stairs use original push or step rules and final facing',
+'Headerless interiors sharing geometry retain separate map ownership after warps',
+'Map connections, rebuilds and battle returns select their original entry script phases',
+'Field scenery streams without locking movement or removing the current cell during backtracking',
+'Camera obstruction checks exclude hidden scenery and paper vegetation while retaining solid architecture'])
 GROUPS['3D sky and weather']=('browser/src/source/sky.ts',[
 'A coloured horizon and sky follow the original morning, day, evening and night clock',
 'Clouds have separately modelled solid pixel silhouettes, shaded undersides and slow drift',

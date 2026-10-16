@@ -8,7 +8,7 @@ import type {FieldObject} from './objects.ts';
 import type {WorldBattleView} from './battle-stage.ts';
 import {sourceTallGrass,updateGrass} from './grass.ts';
 import {WorldSky} from './sky.ts';
-import {fieldCameraEntry} from './camera.ts';
+import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
 import {forestFoundation} from './foundations.ts';
 import {shorelineUnderlay} from './shoreline.ts';
 
@@ -26,6 +26,7 @@ export class OriginalWorld {
   private treeTextures=new Map<string,Promise<THREE.Texture>>();
   private landCache=new Map<number,Promise<Land>>();
   private activeMatrix=-1;
+  private activeHeader=-1;
   private matrix:Matrix|null=null;
   private generation=0;
   private pending:Promise<void>|null=null;private grassTime=0;
@@ -33,6 +34,8 @@ export class OriginalWorld {
   private cameraReady=false;
   private backgroundCliff:Promise<THREE.MeshBasicMaterial>|null=null;
   private entrances:Promise<Record<number,BuildingEntrance[]>>|null=null;
+  private streamCenter='';private streamRequest=false;private nextStreamAttempt=0;
+  private latestStream:{matrix:number;id:number;x:number;z:number}|null=null;
   yaw=0;pitch=.4;distance=13;
   target=new THREE.Vector3();
   loading=false;
@@ -50,33 +53,45 @@ export class OriginalWorld {
         object.material=Array.isArray(object.material)?object.material.map(convert):convert(object.material);
       });
       if(path.startsWith('land/')){
-        this.foliage??=sourceJSON('foliage.json');const context=path.match(/-(\d+)\.glb$/)![1],entries=(await this.foliage)[context]||{},jobs:Promise<void>[]=[];
+        this.foliage??=sourceJSON<Record<string,Record<string,{asset:string;centers:number[];footU?:number;footV:number}>>>('foliage.json').catch(error=>{this.foliage=null;throw error;});const context=path.match(/-(\d+)\.glb$/)![1],entries=(await this.foliage)[context]||{},jobs:Promise<void>[]=[];
         gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;for(const material of Array.isArray(object.material)?object.material:[object.material]){const entry=entries[material.name];if(!entry)continue;
-          jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(entry.asset!==`foliage/${context}-${material.name}.png`){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
+          jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(entry.asset!==`foliage/${context}-${material.name}.png`){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}).catch(error=>{this.treeTextures.delete(entry.asset);throw error;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
         }});await Promise.all(jobs);
       }
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
-    }));return this.assets.get(path)!;
+    }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
-  private releaseCell(c:LoadedCell){c.group.traverse(object=>{if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay'].includes(object.name))return;object.geometry.dispose();for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
+  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay'].includes(object.name))return;object.geometry.dispose();for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
   async enter(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);
-    if(this.activeMatrix!==map.matrix){this.generation++;for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();this.activeMatrix=map.matrix;this.matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);}
+    const matrixChanged=this.activeMatrix!==map.matrix,roomChanged=!matrixChanged&&this.matrix?.headers===null&&this.activeHeader!==id;
+    if(matrixChanged||roomChanged){this.generation++;this.streamCenter='';for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){const matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);this.activeMatrix=map.matrix;this.matrix=matrix;}}
+    this.activeHeader=id;
+    this.latestStream={matrix:this.activeMatrix,id,x,z};
     await this.stream(id,x,z);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance);this.cameraReady=true;
     this.sky.enter(map,weather);
     return map;
   }
   async connect(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);if(map.matrix!==this.activeMatrix)throw Error('Connected field headers must share their source matrix');
-    await this.stream(id,x,z);this.sky.enter(map,weather);return map;
+    if(this.matrix?.headers===null&&this.activeHeader!==id)throw Error('Independent rooms do not share connected header ownership');this.activeHeader=id;
+    if(!this.cell(x,z))await this.stream(id,x,z);else this.updateStreaming(id,x,z);this.sky.enter(map,weather);return map;
+  }
+  /** Coalesce field prefetch requests without putting distant asset downloads
+   * in the player's movement lock. A loaded adjacent header is already safe. */
+  updateStreaming(id:number,x:number,z:number){
+    this.latestStream={matrix:this.activeMatrix,id,x,z};const key=this.activeMatrix+':'+Math.floor(x/32)+','+Math.floor(z/32);
+    if(this.streamRequest||this.loading||key===this.streamCenter||performance.now()<this.nextStreamAttempt)return;
+    this.streamCenter=key;this.streamRequest=true;
+    void this.stream(id,x,z).catch(error=>{this.streamCenter='';this.nextStreamAttempt=performance.now()+1000;console.error('Field scenery could not stream',error);}).finally(()=>{this.streamRequest=false;});
   }
   async stream(id:number,x:number,z:number):Promise<void>{
     if(!this.matrix)return;
-    if(this.pending){await this.pending;return this.stream(id,x,z);}
+    if(this.pending){try{await this.pending;}catch{/* Retry this centre independently of an earlier failed prefetch. */}return this.stream(id,x,z);}
     const matrix=this.matrix,generation=this.generation;const jobs:Promise<void>[]=[];const wanted=new Set<string>();
     // Source tile behaviours identify the façade direction. The complete matrix
     // manifest keeps real gate entrances independent of the streaming window.
-    this.entrances??=sourceJSON('entrances.json');const matrixID=this.activeMatrix,doors=this.entrances.then(index=>index[matrixID]||[]);
+    const matrixID=this.activeMatrix,doors=async()=>{this.entrances??=sourceJSON<Record<number,BuildingEntrance[]>>('entrances.json').catch(error=>{this.entrances=null;throw error;});return(await this.entrances)[matrixID]||[];};
     for(let zz=Math.floor(z/32)-2;zz<=Math.floor(z/32)+2;zz++)for(let xx=Math.floor(x/32)-2;xx<=Math.floor(x/32)+2;xx++){
       if(xx<0||zz<0||xx>=matrix.width||zz>=matrix.height)continue;
       const i=zz*matrix.width+xx,landID=matrix.models[i];if(landID===65535)continue;
@@ -84,22 +99,24 @@ export class OriginalWorld {
       const key=xx+','+zz;wanted.add(key);if(this.cells.has(key))continue;
       jobs.push((async()=>{
         const map=await this.map(owner);const cell=map.cells.find(c=>c.x===xx&&c.z===zz);if(!cell)return;
-        if(!this.landCache.has(landID))this.landCache.set(landID,sourceJSON<Land>(`lands/${landID}.json`));
+        if(!this.landCache.has(landID))this.landCache.set(landID,sourceJSON<Land>(`lands/${landID}.json`).catch(error=>{this.landCache.delete(landID);throw error;}));
         const [template,land]=await Promise.all([this.asset(cell.asset),this.landCache.get(landID)!]);
         const group=new THREE.Group();group.position.set(xx*32+16,cell.altitude*.5,zz*32+16);
+        let retained=false;try{
         const model=clone(template);model.scale.setScalar(1/16);group.add(model);const grass=sourceTallGrass(land,cell);if(grass)group.add(grass);
         let beach:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='beach01')beach=m as THREE.MeshBasicMaterial;});if(beach){const underlay=shorelineUnderlay(land,cell,beach);if(underlay)group.add(underlay);}
         // Matrix-zero's native forest filler has only treetops/ground marks.
         // Its raised ground needs a cliff volume for the newly free camera.
         if(owner===0&&landID===208&&cell.altitude>0){
-          this.backgroundCliff??=this.asset('land/210-0.glb').then(template=>{let material:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='cliff01')material=m as THREE.MeshBasicMaterial;});if(!material)throw Error('Original background cliff texture missing');return material;});
+          this.backgroundCliff??=this.asset('land/210-0.glb').then(template=>{let material:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='cliff01')material=m as THREE.MeshBasicMaterial;});if(!material)throw Error('Original background cliff texture missing');return material;}).catch(error=>{this.backgroundCliff=null;throw error;});
           const foundation=forestFoundation(cell,matrix,await this.backgroundCliff);if(foundation)group.add(foundation);
         }
-        await Promise.all(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors);}));
-        if(generation!==this.generation){this.releaseCell({cell,land,group,map});return;}this.scene.add(group);this.cells.set(key,{cell,land,group,map});
+        const props=await Promise.allSettled(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());}));for(const result of props)if(result.status==='rejected')throw result.reason;
+        if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map});retained=true;
+        }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());
     }
-    this.loading=jobs.length>0;this.pending=Promise.all(jobs).then(()=>{for(const [key,c]of this.cells)if(!wanted.has(key)){this.releaseCell(c);this.cells.delete(key);}}).finally(()=>{this.pending=null;this.loading=false;});
+    this.loading=jobs.length>0;this.pending=Promise.allSettled(jobs).then(results=>{for(const result of results)if(result.status==='rejected')throw result.reason;if(generation!==this.generation)return;const latest=this.latestStream;for(const [key,c]of this.cells){const nearPlayer=latest?.matrix===this.activeMatrix&&Math.abs(c.cell.x-Math.floor(latest.x/32))<=2&&Math.abs(c.cell.z-Math.floor(latest.z/32))<=2;if(!wanted.has(key)&&!nearPlayer){this.releaseCell(c);this.cells.delete(key);}}}).finally(()=>{this.pending=null;this.loading=false;});
     await this.pending;
   }
   cell(x:number,z:number){return this.cells.get(Math.floor(x/32)+','+Math.floor(z/32));}
@@ -139,7 +156,7 @@ export class OriginalWorld {
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
     const height=this.height(x,z,this.target.y-.9);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
-    const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance);const collisions=ray.intersectObjects([...this.cells.values()].map(c=>c.group),true);const first=collisions.find(c=>c.distance>1.2&&c.object.visible&&c.object.name!=='camera-facing-original-trees');const d=first?Math.max(2.2,first.distance-.6):this.distance;
+    const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance),obstacles=[...this.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));const collisions=ray.intersectObjects(obstacles,false);const first=collisions.find(c=>c.distance>1.2);const d=first?Math.max(2.2,first.distance-.6):this.distance;
     const desired=this.target.clone().addScaledVector(orbit,d);this.camera.position.lerp(desired,1-Math.exp(-dt*12));this.camera.lookAt(this.target);
     for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);
     this.sky.update(dt,x,height,z);
