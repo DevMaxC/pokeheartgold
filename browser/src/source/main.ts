@@ -13,6 +13,7 @@ import {doorwayEntry} from './terrain.ts';
 import {ledgeDirection,jumpHeight} from './ledges.ts';
 import {stepWarpFacing,pushWarp,fieldEntryScripts,arrivalStep,arrivalFacing} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
+import {SourceActionRecovery,SourceRecoveryError} from './script-recovery.ts';
 import {movementAction} from './movement.ts';
 import {findTrainerEncounter,fieldTrainerCollision,trainerEventPriority,approachTrainer,type TrainerEncounter} from './trainer-encounters.ts';
 import {mapBlackoutSpawn} from './spawns.ts';
@@ -30,11 +31,12 @@ let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld[
 let lastWarp='',lastCoord='',lastError='';
 let fieldPolling=false,lastTrainerAttempt='',lastTrainerLocation='';let activeTrainerEncounter:TrainerEncounter|null=null;
 const trainerApproachTasks=new Map<number,Promise<void>>();
+let sourceActions:SourceActionRecovery<ReturnType<typeof captureField>>|undefined,recoveryPrompt=false;
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
 let playerTweenY:number|undefined;let previousStepJump=false;
 const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
-function save(){if(!started||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
+function save(){if(!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
 function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag?s:null;}catch{return null;}}
 function displayMapName(m:SourceMap){const names:Record<string,string>={T20:'New Bark Town',T20R0202:'Your room',T20R0201:'Home',T20R0101:'Professor Elm’s Lab',T20R0102:'Elm’s home',T21:'Cherrygrove City',T22:'Violet City'};if(names[m.code])return names[m.code];return m.key.replace('MAP_','').split('_').map(word=>/^\d+$/.test(word)?word:word[0]+word.slice(1).toLowerCase()).join(' ');}
 function updateHUD(){
@@ -71,7 +73,7 @@ async function beginTrainerPath(index:number,trainer:{trainer:number;object:stri
 }
 async function finishTrainerPath(index:number){const task=trainerApproachTasks.get(index);if(!task)throw Error('Native trainer approach task was not started');await task;trainerApproachTasks.delete(index);return true;}
 async function pollFieldInput(){
-  if(fieldPolling||walking||transitioning||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
+  if(fieldPolling||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
   try{if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);await step(Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0);}}
   finally{fieldPolling=false;}
 }
@@ -118,17 +120,60 @@ async function chooseStarter(){
   }
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
 }
-async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter){
-  if(vm.busy&&!nested)return;
-  const runner=nested?new ScriptVM(data,state,vm.hooks):vm;
-  if(!preserveControls)keys.clear();walking=true;
-  try{try{if(approach){if(approach.eyeType!==0)throw new UnsupportedScript(map.code,'TrainerBattleDouble',-1);await runner.runTrainerApproach(map,approach);}else await runner.run(map,script,object);}finally{if(approach)await Promise.allSettled(trainerApproachTasks.values());}updateHUD();}
-  catch(error){lastError=String(error);console.error(error);if(error instanceof UnsupportedScript)await ui.message('This scene is still being restored. Your progress has been kept.');else await ui.message('The scene could not finish. Your progress has been kept.');}
-  finally{walking=false;save();}
-  if(!nested&&!vm.busy&&!deferTriggers)await checkFrameTriggers();
+// Live actors are newer than state.objectEvents until the next durable save.
+function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,ready,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:world.sky.currentWeather,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
+async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
+  // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
+  // update the blackout spawn. Those mutations belong to the failed action.
+  keys.clear();drag=false;transitioning=true;world.beginFieldTransition();ui.loading('Restoring the area…');
+  try{
+    const restored=await world.enter(state.map,state.x,state.z,snapshot.weather);
+    map=restored;world.clearNPCs();objects.load(map.events.objects);objects.restore(state.map,snapshot.actors);
+    npcTweenY.clear();playerTweenY=undefined;stepFrame=-1;followerMoving=false;followerStep=-1;
+    playerDirectionLocked=snapshot.playerDirectionLocked;followerSuppressed=snapshot.followerSuppressed;followerFacing=snapshot.followerFacing;previousStepJump=snapshot.previousStepJump;
+    lastWarp=snapshot.lastWarp;lastCoord=snapshot.lastCoord;player.group.visible=snapshot.playerVisible;player.group.position.set(state.x,world.height(state.x,state.z),state.z);
+    // A failed starter/gift can have created a follower for a now-absent species.
+    if(follower){world.scene.remove(follower.group);follower=null;followSpecies=0;}
+    const lead=state.party.find(mon=>mon.hp>0),key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';
+    if(lead&&data.sprites[key]){follower=world.paper(key,1.5);followSpecies=lead.species;if(snapshot.followerPosition)follower.group.position.fromArray(snapshot.followerPosition);else follower.group.position.copy(player.group.position);follower.group.visible=!followerSuppressed;}
+    // Discard private child buffers, pending phone state and battle result too.
+    vm=new ScriptVM(data,state,vm.hooks);if(error instanceof UnsupportedScript)vm.lastUnsupported={map:error.map,command:error.command,pc:error.pc};
+    Object.assign(world,snapshot.camera);ready=snapshot.ready;refreshNPCs();updateHUD();encounterChecks.reset();
+  }finally{walking=false;transitioning=false;world.endFieldTransition();ui.loading(null);}
 }
-async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=false){for(const event of fieldEntryScripts(kind))if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,preserveControls,true);}
+async function executeSourceAction<T>(action:()=>Promise<T>):Promise<{ok:true;value:T}|{ok:false}>{
+  if(sourceActions?.busy){return{ok:true,value:await sourceActions.run(action)};}
+  if(!sourceActions)throw Error('Source recovery is not initialized');
+  for(;;){
+    try{const value=await sourceActions.run(action);save();return{ok:true,value};}
+    catch(error){
+      const cause=error instanceof SourceRecoveryError?error.actionError:error;
+      lastError=String(cause);console.error(error);recoveryPrompt=true;keys.clear();
+      try{
+        while(sourceActions.recovering){
+          await ui.choose('The area could not be restored.',['Retry loading'],'Your last browser save is unchanged. '+String(error instanceof SourceRecoveryError?error.recoveryError:error));
+          try{await sourceActions.retryRecovery();}catch(retryError){error=retryError;console.error(retryError);}
+        }
+        const detail=(cause instanceof UnsupportedScript?`This scene needs the source command ${cause.command} (${cause.map}:${cause.pc}). `:'The scene could not finish. ')+ 'Changes from this scene were undone. Progress from completed earlier scenes is retained.';
+        const choice=await ui.choose('Scene not completed',ready?['Retry scene','Return to field']:['Retry scene'],detail);
+        if(choice!==0){save();return{ok:false};}
+      }finally{recoveryPrompt=false;}
+    }
+  }
+}
+async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter){
+  if(vm.busy&&!nested)return false;
+  const result=await executeSourceAction(async()=>{
+    const runner=nested?new ScriptVM(data,state,vm.hooks):vm,wasWalking=walking;
+    if(!preserveControls)keys.clear();walking=true;
+    try{try{if(approach){if(approach.eyeType!==0)throw new UnsupportedScript(map.code,'TrainerBattleDouble',-1);await runner.runTrainerApproach(map,approach);}else await runner.run(map,script,object);}finally{if(approach){await Promise.allSettled(trainerApproachTasks.values());trainerApproachTasks.clear();}}updateHUD();}finally{walking=wasWalking;}
+    if(!nested&&!vm.busy&&!deferTriggers)await checkFrameTriggers();
+  });
+  return result.ok;
+}
+async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=false){await executeSourceAction(async()=>{for(const event of fieldEntryScripts(kind))if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,preserveControls,true);});}
 async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false){
+  await executeSourceAction(async()=>{
   encounterChecks.reset();
   playerDirectionLocked=false;
   const loadingText='Entering '+(data.index.maps[id]?.name||'Johto')+'…';
@@ -149,9 +194,11 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
     if(runEntry)await runFieldEntry(connection?'connection':'warp',connection);
   }finally{transitioning=false;if(!connection){world.endFieldTransition();ui.loading(null);}}
   if(!deferTriggers)await checkFrameTriggers();
+  });
 }
 async function checkFrameTriggers(){if(vm.busy||ui.busy||battle.active)return false;const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;await runScript(trigger.script);return true;}
 async function warp(index:number,facing=state.facing){
+  await executeSourceAction(async()=>{
   transitioning=true;keys.clear();
   try{
   const from=map.events.warps[index],id=data.index.mapIds[from.header];if(id===undefined)throw Error(`Missing original warp destination ${from.header}`);
@@ -163,8 +210,10 @@ async function warp(index:number,facing=state.facing){
   if(Math.floor(state.x)!==target.x||Math.floor(state.z)!==target.z)lastWarp='';
   await checkFrameTriggers();
   }finally{transitioning=false;}
+  });
 }
 async function checkEvents(enteredDoor=false){
+  await executeSourceAction(async()=>{
   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
   const x=Math.floor(state.x),z=Math.floor(state.z);const owner=world.owner(state.x,state.z);
   if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
@@ -175,6 +224,7 @@ async function checkEvents(enteredDoor=false){
   const transitionFacing=enteredDoor?state.facing:stepWarpFacing(world.permission(state.x,state.z),state.facing);
   if(warpIndex>=0&&key!==lastWarp&&transitionFacing!==null){await warp(warpIndex,transitionFacing);save();return;}if(warpIndex<0)lastWarp='';
   if(!vm.busy&&!ui.busy&&!transitioning)await wildEncounter();
+  });
 }
 async function wildEncounter(){
   if(!state.party.some(m=>m.hp>0))return;
@@ -186,14 +236,14 @@ async function wildEncounter(){
   await startBattle([createMon(data,species,level,'')]);
 }
 async function whiteOut(){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z);}
-async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const battleMap=state.map;keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
+async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const outcome=await executeSourceAction(async()=>{const battleMap=state.map;keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
   if(result==='lost'){if(canLose)healParty(state);else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null)await whiteOut();}}
   if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`);}
   if(state.map===battleMap){keys.clear();await runFieldEntry('resume');await checkFrameTriggers();}updateHUD();save();return result==='won';
-}
+});return outcome.ok?outcome.value:false;}
 async function trainerBattle(id:number,options?:{second:number;canLose:boolean;suppressFollower:boolean}){const trainer=data.trainers[id];if(!trainer)throw Error(`Missing trainer ${id}`);if(options?.second||trainer.double)throw new UnsupportedScript(map.code,'TrainerBattleDouble',vm.current?.pc??-1);return startBattle(await originalTrainerParty(data,id),id,options?.canLose);}
 async function interact(){
-  if(ui.dialogueOpen){ui.advance();return;}if(!started||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
+  if(ui.dialogueOpen){ui.advance();return;}if(!started||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
   const d=deltas[state.facing],x=Math.floor(state.x)+d.x,z=Math.floor(state.z)+d.z;
   const actorAt=(xx:number,zz:number)=>[...world.npcSprites.values()].find(n=>n.group.visible&&Math.floor(n.group.position.x)===xx&&Math.floor(n.group.position.z)===zz);
   const npc=actorAt(x,z)||((world.permission(x,z)&255)===0x80?actorAt(x+d.x,z+d.z):undefined);
@@ -203,7 +253,7 @@ async function interact(){
   if(bg)await runScript(bg.scriptId);
 }
 async function step(facing:number){
-  if(walking||transitioning||vm.busy||ui.busy||battle.active)return;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
+  if(sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
   const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z)),standing=world.permission(state.x,state.z),ladder=[60,61].includes(standing&255);
   if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.terrainWalkable(x,z))){await warp(exit,facing);save();return;}
@@ -217,7 +267,7 @@ async function step(facing:number){
   finally{walking=false;}
   encounterChecks.step();await checkEvents(enteredDoor);
 }
-async function menu(){if(!started||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(!ui.panelOpen&&await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;if(ui.panelOpen){ui.close();return;}
+async function menu(){if(!started||sourceActions?.busy||recoveryPrompt||transitioning||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(!ui.panelOpen&&await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;if(ui.panelOpen){ui.close();return;}
   const entries=[['party','Pokémon',`${state.party.length} in your party`],['bag','Bag','Items and Key Items'],['trainer',state.name,`${state.badges.length} Badges`],['save','Save','Save your adventure'],['options','Options','Game settings'],['close','Close','Return to Johto']];
   const unlocks:Record<string,string>={bag:'FLAG_GOT_BAG',trainer:'FLAG_GOT_TRAINER_CARD',save:'FLAG_GOT_SAVE_BUTTON',options:'FLAG_GOT_OPTIONS_BUTTON'};
   ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Menu</h2><div class="menu-list">${entries.filter(([key])=>key==='party'?state.party.length:!unlocks[key]||state.flags[unlocks[key]]).map(([key,label,detail])=>`<button data-menu="${key}">${esc(label)}<small>${esc(detail)}</small></button>`).join('')}</div>`);
@@ -245,7 +295,7 @@ async function title(){
 async function begin(){
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
   vm=new ScriptVM(data,state,{objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
-  started=true;await enterMap(state.map,state.x,state.z,true,true);ready=true;save();$('original-world').focus();
+  sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;await enterMap(state.map,state.x,state.z,true,true);ready=true;save();$('original-world').focus();
 }
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
@@ -254,8 +304,8 @@ async function boot(){
     const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;}
-    if(ready&&!transitioning)world.updateStreaming(state.map,state.x,state.z);
-    if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
+    if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);
+    if(ready&&!sourceActions?.busy&&!recoveryPrompt&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
     world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
     (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();
