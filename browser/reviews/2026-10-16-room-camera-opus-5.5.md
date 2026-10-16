@@ -11,7 +11,7 @@ Preliminary read-only review of runtime commit `0979d24`; CLI confirms `claude-o
 - Boolean guard: current game transitions are serialized by existing movement/interaction and script awaits; no new concurrent transition contract is claimed. Runtime fixtures exercise real main/warp ordering, in addition to deferred map/stream and outer-owned actor-placement tests.
 - Tight-room obstruction easing remains existing behavior; no change to orbit controls, obstacle distance or connected camera smoothing.
 
-Validation at the refined source: all 164 tests and production build pass; final Opus follow-up remains pending below.
+Validation at the refined source: all 164 tests and production build pass; final Opus follow-up below confirms no blockers.
 
 ## Original response
 
@@ -43,3 +43,61 @@ I found no blockers in `0979d24`. I only read code and the evidence file; I ran 
    - Test 2 imitates main by calling the guard by hand. No test covers the real order in `main.ts:91-96`: guard before the coordinate change, release after placement and before entry scripts, and guard re-taken by a nested warp.
 
 5. **Info, not a regression:** the first frames in a room still use the old-room camera distance. The obstruction ray only shortens it gradually (`world.ts:191-192`, about 0.25 s), so in tight rooms those frames may be seen from beyond a wall. The old version also moved the camera across in one jump, so this is the same as before.
+
+## Final follow-up at `22cc488`
+
+CLI success, requested model `claude-opus-5-5` confirmed, no permission denials; read-only review, no execution claims. Source bytes are unchanged from the 164-test/build/runtime-verified revision.
+
+Remaining low-severity notes: a permanently unavailable or malformed asset can keep Retry waiting; the browser can reload the last saved game. No rollback-to-previous-scene behavior is claimed. The actual registered resize listener was additionally exercised via a synthetic resize event in the constructed T3 World: pending=true with 0 resize calls during the guard, then exactly 1 on release (see 2026-10-16-room-camera-resize-runtime.json). Main retry ordering is covered by the actual runtime fixture rather than an automated DOM harness. The 37-second timestamp gap reflects T3 not advancing animation frames between tool interactions; the draw hook records each call, but this is frame-state evidence, not continuous video.
+
+I found no blockers in `22cc488`. I only read the code, tests and evidence files and ran nothing. The 164-test and build results are yours, not mine.
+
+## Previous findings: status
+
+| # | Previous finding | Status at `22cc488` |
+|---|---|---|
+| 1 | Failed load releases the guard and the camera chases the new coordinates | **Fixed.** The guard is taken at `main.ts:92` and kept through the retry loop at `main.ts:95-104`. It is only released at `:105` after actors are placed, which is before `runFieldEntry` at `:106`. |
+| 2 | Orbit input during load swings the camera on release | **Fixed.** Q/E is blocked at `main.ts:208`, pointerdown and pointermove at `:218`, and the wheel at `:218`. A stale drag is canceled at `:92`, and `keys.clear()` runs again after Retry at `:102`. |
+| 3 | Resize during load blanks the canvas | **Fixed in code.** The resize is deferred at `world.ts:55` and applied once at `world.ts:77`. |
+| 4 | Boolean guard; main ordering untested | The guard is unchanged and still only a hardening note. Main ordering is now covered by runtime evidence only (see F3). |
+| 5 | Tight-room obstruction easing | Unchanged, same as before. |
+
+## Retry semantics and ownership: checks out
+
+- **Retry after a partial `World.enter` failure:**
+  - If the matrix fetch fails, `activeMatrix` is not updated. The retry sees `matrixChanged` again and refetches.
+  - If the stream fails, `activeHeader=id` was already set at `world.ts:87`. The retry therefore skips the room reset and streams only the missing cells, because failed jobs never keep their cell (`world.ts:143`).
+- **Failure after the camera has already moved** (for example `mapBlackoutSpawn` on a spawns 503): the retry calls `fieldCameraEntry(...,warp=true)` with a zero shift, so the camera doesn't move. `clearNPCs`, `objects.load` and `restore` are run again and appear safe to repeat.
+- **Connections:** `if(connection)throw error` at `:100` keeps the old behavior. The guard and loading screen are never touched for connections.
+- **`World.enter` ownership:** `ownsTransition` (`world.ts:81,92`) still releases only a guard it started itself. `main` is the only runtime caller; tests and `streaming.test.ts` are the others.
+- **Order of calls:** the release at `:105` and the second release in `finally` at `:107` are harmless. A nested warp from an entry script takes and releases its own guard first, and the outer `finally` then clears an already-clear flag.
+- **Escape doesn't dismiss Retry:** `ui.choose` sets `canDismiss=false`, and the Escape handler respects it. `menu()` closes panels without checking `canDismiss`, but `#open-menu` appears to sit inside `#game-hud`, which `panel()` makes inert. That last point is inferred from the element order in `index.html`, and the same path already exists for `chooseStarter`.
+- **Saving during Retry:** `transitioning` blocks `save()` and `pagehide`, so the new map ID is never saved over a scene that failed to load.
+- **Spawns:** `rows=null` runs inside the rejection handler, before any caller sees the rejection. The 503→200 test also checks that both APIs share the same rows.
+- **Error field:** `lastError` is cleared only after a successful retry (`:98`).
+
+## Remaining findings
+
+**F1. Low (inference): a permanent failure leaves the player stuck with only a Retry button.**
+- **Where:** `main.ts:99-103`.
+- **Trigger:** any error that fails the same way every time inside the loop. Examples are a missing or broken prop or land asset (`stream` rejects if any prop fails, `world.ts:141`) or a data error from `objects.load` or `restore`.
+- **What happens:** Retry is the only choice, so the loop never ends and reloading the page is the only way out. Reloading returns to the last save, which may be up to about 10 seconds old, or older if the warp came from a script.
+- **Before this commit:** the same failure gave a broken scene, but the game kept running.
+- I don't know whether the shipped assets contain any such failure. If you want a way out, add a second choice such as "Return" that puts the old `state.map/x/z` back, or offer a reload after N attempts.
+
+**F2. Low, test gap: the resize-deferral path is never exercised by a real resize event.**
+- **Where:** `camera-transition.test.ts:39-43` builds the world with `Object.create`, so the resize listener at `world.ts:55` is never attached. The test sets `cameraResizePending` by hand.
+- **Runtime evidence:** the receipt shows `duringResize.pending:false`, with the canvas still at 2048×1280 while the viewport is already 1100×740. That fits a deferred resize, but it also fits a resize event that simply hadn't fired yet. Your adjudication already says this.
+- **Result:** the `if(this.cameraTransition)` branch is reasoned correct but not observed. Dispatching a `resize` event in a test with the listener attached would close the gap.
+
+**F3. Low, evidence gap: the retry loop in `main.ts` has no automated test.**
+- The only coverage is `2026-10-16-room-camera-retry-runtime.json`.
+- That receipt is consistent with the fix:
+  - 7 frozen frames with no change.
+  - Yaw, pitch and distance stay at 0, 0.4 and 13 after the Q and wheel input.
+  - The new room is map 69 with `error:""`.
+  - The camera offset stays around 12.1–12.2 across the transition.
+- It has a ~37 s gap with no samples, between the last frozen frame (t≈250425) and the first unfrozen one (t≈287382). Any frames drawn between the release and the first sample weren't recorded.
+- The final pose shows a clean re-anchor, so this isn't a bug claim, only a limit on what the receipt proves.
+
+The single-flag guard (old #4) and tight-room easing (old #5) are unchanged, as your adjudication states. I'm not raising either again.
