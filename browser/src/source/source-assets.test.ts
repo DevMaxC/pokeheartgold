@@ -60,3 +60,20 @@ test('entrance metadata takes façade direction from native door and gate tiles 
 test('the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs',async()=>{
  for(const [file,doorX,doorZ]of [['1-40-0.glb',0,1.5],['1-39-0.glb',-.5,1],['1-37-0.glb',-.5,1]] as const){const gltf=await new GLTFLoader().parseAsync(geometryGLB(await readFile(new URL('props/'+file,root))),'');gltf.scene.traverse(o=>{if(o instanceof THREE.Mesh)o.material=Array.isArray(o.material)?o.material.map(m=>originalMaterial(m as THREE.MeshStandardMaterial)):originalMaterial(o.material as THREE.MeshStandardMaterial);});repairOriginalAsset(gltf.scene,true);gltf.scene.scale.setScalar(1/16);assert.ok(closeBuildingBack(gltf.scene,[{x:doorX,z:doorZ}])>0,file);gltf.scene.updateMatrixWorld(true);for(const x of [-.5,0,.5]){const hits=new THREE.Raycaster(new THREE.Vector3(x,1,-10),new THREE.Vector3(0,0,1)).intersectObject(gltf.scene,true);assert.ok(hits.length>0,`${file} rear x=${x}`);assert.ok(hits[0].point.z<0,`${file} rear must block sight through to its front`);}if(file==='1-37-0.glb'){const wall=new THREE.Box3().setFromObject(gltf.scene.getObjectByName('entrance-rear-wall')!),building=new THREE.Box3().setFromObject(gltf.scene);assert.ok(wall.max.y<building.max.y-.2,'Rear wall cladding must stay below the original roof');}}
 });
+
+test('every native flat-seat variant becomes a closed raised seat while cushions stay low',async t=>{
+ const ids=new Set([32,53,54,55,56,57,58,75,185]),files=(await readdir(new URL('props/',root))).filter(f=>f.startsWith('0-')&&ids.has(Number(f.split('-')[1])));let repaired=0;
+ for(const file of files){
+  const gltf=await new GLTFLoader().parseAsync(geometryGLB(await readFile(new URL('props/'+file,root))),'');
+  gltf.scene.traverse(o=>{if(o instanceof THREE.Mesh)o.material=Array.isArray(o.material)?o.material.map(m=>originalMaterial(m as THREE.MeshStandardMaterial)):originalMaterial(o.material as THREE.MeshStandardMaterial);});
+  const original=gltf.scene.children[0],summary=repairOriginalAsset(gltf.scene,true),seat=gltf.scene.getObjectByName('solid-original-furniture') as THREE.Mesh;assert.equal(summary.solidSeats,1,file);assert.ok(seat,file);repaired++;
+  const b=new THREE.Box3().setFromObject(seat),c=b.getCenter(new THREE.Vector3());assert.ok(Math.abs(b.min.y)<.001,file+' supports reach source floor');assert.equal(b.max.y,Number(file.split('-')[1])===56?2.5:8,file);
+  assert.ok(b.max.x<=8.001&&b.min.x>=-8.001&&b.max.z<=32.001&&b.min.z>=-32.001,file+' stays within its source footprint');
+  const top=new THREE.Raycaster(new THREE.Vector3(c.x,20,c.z),new THREE.Vector3(0,-1,0)).intersectObject(seat)[0];assert.ok(top,file+' top');assert.equal(top.point.y,b.max.y,file);
+  for(const [x,z,dx,dz]of [[c.x,50,0,-1],[c.x,-50,0,1],[-50,c.z,1,0],[50,c.z,-1,0]])assert.ok(new THREE.Raycaster(new THREE.Vector3(x,b.max.y-.5,z),new THREE.Vector3(dx,0,dz)).intersectObject(seat).length,file+' opaque side');
+  const p=seat.geometry.getAttribute('position'),edges=new Map<string,number>();for(let i=0;i<p.count;i+=3)for(let e=0;e<3;e++){const key=[i+e,i+(e+1)%3].map(j=>[p.getX(j),p.getY(j),p.getZ(j)].map(n=>n.toFixed(4)).join(',')).sort().join('|');edges.set(key,(edges.get(key)||0)+1);}assert.ok([...edges.values()].every(n=>n===2),file+' every surface is closed');
+  assert.equal((seat.material as THREE.Material).transparent,false);assert.equal((seat.material as THREE.Material).alphaTest,0);for(const name of ['position','uv','color','normal'])assert.ok(Array.from(seat.geometry.getAttribute(name).array).every(Number.isFinite),file+':'+name);
+  assert.equal(original.parent,gltf.scene,'original source hierarchy remains attached');assert.equal(repairOriginalAsset(gltf.scene,true).solidSeats,0,'repair is idempotent');
+ }
+ assert.equal(repaired,files.length);assert.ok(repaired>=35);t.diagnostic(`Verified all ${repaired} native seat/bench/cushion/box texture variants.`);
+});
