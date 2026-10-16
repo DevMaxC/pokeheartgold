@@ -118,14 +118,14 @@ export class OriginalWorld {
           const foundation=forestFoundation(cell,matrix,await this.backgroundCliff);if(foundation)group.add(foundation);
         }
         const terraces=this.terraces;if(terraces&&[-1,0,1].some(dx=>[-1,0,1].some(dz=>terraces.data.cells[(xx+dx)+','+(zz+dz)]))){
-          terraceModel(group,terraces);
+          if(!await terraceModel(group,terraces,()=>generation===this.generation))return;
           if(terraces.ledgeCells.has(xx+','+zz)){
             let cliff:THREE.MeshBasicMaterial|undefined;const choose=(asset:THREE.Group)=>asset.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(/^(?:cliff01|wall01_d)$/.test(m.name))cliff=m as THREE.MeshBasicMaterial;});choose(template);
             if(!cliff){const context=cell.asset.match(/-(\d+)\.glb$/)![1],path=terraces.data.cliffAssets[context]||terraces.data.cliffAssets['0'];if(path)try{choose(await this.asset(path));}catch(error){console.warn('Original cliff art unavailable; retaining a solid terrace wall',error);}}
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
         }
-        const props=await Promise.allSettled(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces)p.position.y+=terraces.height(xx*32+16+p.position.x,zz*32+16+p.position.z);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());}));for(const result of props)if(result.status==='rejected')throw result.reason;
+        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=terraces.data.foundations?.[xx+','+zz+':'+propIndex]??[xx*32+16+p.position.x,zz*32+16+p.position.z];p.position.y+=terraces.height(anchor[0],anchor[1]);}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;
         }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());

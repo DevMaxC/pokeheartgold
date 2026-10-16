@@ -28,3 +28,14 @@ test('every raised native ledge retains a physical drop at its edge midpoint, in
  const terrain=new Terraces(JSON.parse(await readFile(new URL('../../public/source/terraces/0.json',import.meta.url),'utf8')) as TerraceData);
  for(const[x,z,b]of terrain.data.ledges){const[dx,dz]=({56:[1,0],57:[-1,0],58:[0,-1],59:[0,1]} as Record<number,number[]>)[b],px=x+.5+dx*.5,pz=z+.5+dz*.5;assert.ok(terrain.sample(x,z,px,pz)-terrain.sample(x+dx,z+dz,px,pz)>.9,`${x},${z}: short ledge face must not disappear`);assert.ok(terrain.height(x-dx+.5,z-dz+.5)-terrain.height(x+dx+.5,z+dz+.5)>.9);}
 });
+
+test('major outdoor structures sit on flat terrace offsets through their complete source footprints',async()=>{
+ const load=async(path:string)=>JSON.parse(await readFile(new URL('../../public/source/'+path,import.meta.url),'utf8')),terrain=new Terraces(await load('terraces/0.json')),foundations=await load('terraces/foundations-0.json');let raised=0;
+ assert.ok(foundations.structures.length>300);
+ for(const building of foundations.structures){
+  const [x1,z1,x2,z2]=building.bounds,[ax,az]=building.anchor,expected=terrain.height(ax,az);assert.deepEqual(terrain.data.foundations?.[building.key],building.anchor,building.key);if(expected)raised++;
+  const xs=[x1,x2],zs=[z1,z2];for(let x=Math.ceil(x1*4)/4;x<x2;x+=.25)xs.push(x);for(let z=Math.ceil(z1*4)/4;z<z2;z+=.25)zs.push(z);
+  for(const x of xs)for(const z of zs)assert.ok(Math.abs(terrain.height(x,z)-expected)<1e-8,`${building.key} ${building.asset}: ground at ${x},${z} must meet its rigid foundation`);
+ }
+ assert.ok(raised>100);
+});

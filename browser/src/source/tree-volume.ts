@@ -30,7 +30,8 @@ export function addTreeVolumes(root:THREE.Group,trees:Tree[],source:THREE.Textur
  const {footV,topV=0,crownWidth=1}=shape;
  const texture=leafTexture(source,shape),leaves=new THREE.InstancedMesh(crown(),new THREE.MeshBasicMaterial({map:texture,color:texture?0xffffff:'#7b9e36',vertexColors:true}),trees.length);
  if(!trunkGeometry){trunkGeometry=new THREE.CylinderGeometry(.055,.075,1,8,1);trunkGeometry.translate(0,.5,0);}
- const trunks=new THREE.InstancedMesh(trunkGeometry,new THREE.MeshBasicMaterial({color:'#795b3d'}),trees.length),dummy=new THREE.Object3D();leaves.name='solid-original-tree-canopies';trunks.name='solid-original-tree-trunks';
+ const roots=trees.map(tree=>[tree.center.x,tree.center.y+tree.height*(1-footV),tree.center.z]);
+ const trunks=new THREE.InstancedMesh(trunkGeometry,new THREE.MeshBasicMaterial({color:'#795b3d'}),trees.length),dummy=new THREE.Object3D();leaves.name='solid-original-tree-canopies';trunks.name='solid-original-tree-trunks';leaves.userData.sceneryRoots=roots;trunks.userData.sceneryRoots=roots;
  trees.forEach((tree,i)=>{
   const ground=tree.center.clone();ground.y+=tree.height*(1-footV);const offset=tree.crownOffset??new THREE.Vector3(),visibleHeight=tree.height*(footV-topV),width=tree.width*crownWidth/.86,branch=offset.clone().add(new THREE.Vector3(0,visibleHeight*.34,0));
   dummy.position.copy(ground);dummy.scale.set(width,branch.length(),width);dummy.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),branch.clone().normalize());dummy.updateMatrix();trunks.setMatrixAt(i,dummy.matrix);

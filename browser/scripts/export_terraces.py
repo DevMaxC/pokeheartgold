@@ -53,23 +53,34 @@ def export(matrix_id):
     parent = np.arange(count+1)
     potential = np.zeros(count+1)
 
+    rank = np.zeros(count+1, dtype=np.uint8)
+
     def find(a):
-        if parent[a] != a:
-            root, delta = find(int(parent[a]))
-            potential[a] += delta
-            parent[a] = root
-        return int(parent[a]), potential[a]
+        path, node = [], a
+        while parent[node] != node:
+            path.append(node)
+            node = int(parent[node])
+        delta = 0
+        for item in reversed(path):
+            delta += potential[item]
+            parent[item], potential[item] = node, delta
+        return node, potential[a]
 
     def join(a, b, delta):
-        # h[a] - h[b] == delta
+        # h[a] - h[b] == delta; weighted union keeps large flat plots shallow.
         ra, da = find(a)
         rb, db = find(b)
         if ra == rb:
             if abs(da-db-delta) > 1e-5:
                 raise ValueError(f'Inconsistent native ledge constraints: {matrix_id}, {a}, {b}')
             return
-        parent[ra] = rb
-        potential[ra] = delta-da+db
+        value = delta-da+db
+        if rank[ra] < rank[rb]:
+            parent[ra], potential[ra] = rb, value
+        else:
+            parent[rb], potential[rb] = ra, -value
+            if rank[ra] == rank[rb]:
+                rank[ra] += 1
 
     seams, jumps = set(), []
     for z, x in np.argwhere(ledges):
@@ -85,6 +96,39 @@ def export(matrix_id):
         join(upper, lower, 1.05-drop)
         seams.add(tuple(sorted(((int(x), int(z)), (int(lx), int(lz))))))
         jumps.append([int(x), int(z), int(permissions[z, x] & 255)])
+    # Rigid source architecture needs a flat presentation offset beneath it.
+    # Tie nearby centres, then flatten their shared half-tile support nodes below.
+    foundation_path = ROOT / f'terraces/foundations-{matrix_id}.json'
+    foundations = json.loads(foundation_path.read_text())['structures'] if foundation_path.exists() else []
+    if matrix_id == 0 and not foundations:
+        raise ValueError('Run export_foundations.ts before generating main-world terraces')
+    water = np.isin(permissions & 255, [16, 17, 19, 21, 23])
+    foundation_nodes = {}
+    for building in foundations:
+        x1, z1, x2, z2 = building['bounds']
+        tiles = [(x,z) for z in range(max(0,int(np.floor(z1-.5))),min(height,int(np.ceil(z2+.5))))
+                 for x in range(max(0,int(np.floor(x1-.5))),min(width,int(np.ceil(x2+.5))))
+                 if x1-.5 <= x+.5 <= x2+.5 and z1-.5 <= z+.5 <= z2+.5 and domain[z,x] and not water[z,x]]
+        if not tiles:
+            continue
+        ax,az = map(int,building['anchor'])
+        first = int(ids[az,ax]) if domain[az,ax] else count
+        try:
+            for x,z in tiles:
+                join(first,int(ids[z,x]),0)
+            for pz in range(int(np.ceil((z1-.5)*2)),int(np.floor((z2+.5)*2))+1):
+                for px in range(int(np.ceil((x1-.5)*2)),int(np.floor((x2+.5)*2))+1):
+                    key = (px,pz)
+                    if key in foundation_nodes:
+                        join(first,foundation_nodes[key],0)
+                    foundation_nodes[key] = first
+                    # Water nodes and unchanged domain edges remain zero.
+                    for tx in ([px//2-1,px//2] if px%2==0 else [px//2]):
+                        for tz in ([pz//2-1,pz//2] if pz%2==0 else [pz//2]):
+                            if 0<=tx<width and 0<=tz<height and (water[tz,tx] or not domain[tz,tx]):
+                                join(first,count,0)
+        except ValueError as error:
+            raise ValueError(f"Foundation crosses a native height seam: {building['key']} {building['asset']} {building['bounds']}") from error
     # Open water stays at its original height. Domain boundaries are fixed zero
     # so a streamed cell can meet an unchanged cell without a crack.
     water = np.isin(permissions & 255, [16, 17, 19, 21, 23])
@@ -159,6 +203,36 @@ def export(matrix_id):
             if water[z,x] or (inside and water[nz,nx] and not split):
                 value = 0
             points[z,x,slot] = value
+    # Every rendered triangle intersecting a rigid building must share its
+    # displacement. Half-tile support nodes form a short, continuous apron;
+    # this avoids flattening a distant ledge merely because its endpoint lies
+    # one full tile outside a roof. Apply shared nodes identically on all tiles.
+    flattened = {}
+    for building in foundations:
+        x1,z1,x2,z2 = building['bounds']
+        ax,az = building['anchor']
+        value = centres[int(az),int(ax)]
+        for pz in range(int(np.ceil((z1-.5)*2)),int(np.floor((z2+.5)*2))+1):
+            for px in range(int(np.ceil((x1-.5)*2)),int(np.floor((x2+.5)*2))+1):
+                key = (px,pz)
+                if key in flattened and abs(flattened[key]-value)>1e-5:
+                    raise ValueError(f"Overlapping foundations disagree: {building['key']}")
+                flattened[key] = value
+    for (px,pz),value in flattened.items():
+        x,z = px//2,pz//2
+        for tx in ([x-1,x] if px%2==0 else [x]):
+            for tz in ([z-1,z] if pz%2==0 else [z]):
+                if 0<=tx<width and 0<=tz<height and valid[tz,tx]:
+                    points[tz,tx,(pz-tz*2)*3+px-tx*2] = value
+    # A flattened building may touch a ledge's free endpoint, but must never
+    # remove its physical drop at the midpoint of the authored jump edge.
+    for x,z,behaviour in jumps:
+        dx,dz = DIRECTIONS[behaviour]
+        upper_slot = {56:5,57:3,58:1,59:7}[behaviour]
+        lower_slot = {56:3,57:5,58:7,59:1}[behaviour]
+        visual_drop = native[z,x]+points[z,x,upper_slot]-native[z+dz,x+dx]-points[z+dz,x+dx,lower_slot]
+        if visual_drop < .8:
+            raise ValueError(f'Foundation obscures native ledge: {x}, {z}, drop {visual_drop}')
     quantized = np.rint(points*SCALE).astype('<i2')
     if not np.isfinite(points).all() or np.abs(points).max() >= 7.9:
         raise ValueError('Terrain field exceeds finite signed texture range')
@@ -178,7 +252,7 @@ def export(matrix_id):
         asset = json.loads(blob[20:20+length])
         if any(material.get('name') == 'cliff01' for material in asset.get('materials', [])):
             cliff_assets[context] = 'land/'+path.name
-    output = {'version':2,'scale':SCALE,'cells':cells,'ledges':jumps,'cliffAssets':cliff_assets}
+    output = {'version':2,'scale':SCALE,'cells':cells,'ledges':jumps,'cliffAssets':cliff_assets,'foundations':{building['key']:building['anchor'] for building in foundations}}
     folder = ROOT / 'terraces'; folder.mkdir(exist_ok=True)
     (folder/f'{matrix_id}.json').write_text(json.dumps(output,separators=(',',':'))+'\n')
     print(f'Matrix {matrix_id}: {len(jumps)} raised ledges, {len(cells)} height cells, range {points.min():.3f}..{points.max():.3f}')

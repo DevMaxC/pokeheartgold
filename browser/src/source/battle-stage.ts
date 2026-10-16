@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {fieldBattleLayout,battleTrainerSpot} from './battle-layout.ts';
 import {fieldCameraObstacles} from './camera.ts';
 import type {OriginalWorld} from './world.ts';
 import type {BattleView} from './battle-view.ts';
@@ -35,23 +36,15 @@ export class WorldBattleView implements BattleView {
 
   async begin(player:Mon,enemy:Mon,trainer=false){
     this.disposed=false;this.time=0;this.previousYaw=this.world.yaw;this.previousFov=this.world.camera.fov;this.previousPitch=this.world.pitch;this.previousDistance=this.world.distance;
-    const c=this.context(),directions=[new THREE.Vector2(0,-1),new THREE.Vector2(0,1),new THREE.Vector2(-1,0),new THREE.Vector2(1,0)];
-    // Favor the encounter direction, then find nearby clear tiles on this map.
-    const preferred=directions[c.facing]||directions[0];let best=-Infinity,origin=new THREE.Vector2(c.x,c.z),axis=preferred.clone();
-    for(const offset of [[0,0],[1,0],[-1,0],[0,1],[0,-1],[2,0],[-2,0],[0,2],[0,-2]])for(const direction of directions){
-      const start=new THREE.Vector2(c.x+offset[0],c.z+offset[1]);let clear=0;
-      for(let t=0;t<=3.5;t+=.5)if(this.world.walkable(start.x+direction.x*t,start.y+direction.y*t,c.x,c.z,c.y??0))clear++;
-      const score=clear*4-start.distanceTo(new THREE.Vector2(c.x,c.z))+(direction.equals(preferred)?1:0);
-      if(score>best){best=score;origin=start;axis=direction;}
-    }
-    const positions=[origin,origin.clone().addScaledVector(axis,3.4)];
+    const c=this.context(),layout=fieldBattleLayout(this.world,{x:c.x,z:c.z,y:c.y??this.world.height(c.x,c.z),facing:c.facing}),positions=layout.positions,axis=new THREE.Vector2(layout.axis.x,layout.axis.z);
     this.group=new THREE.Group();this.group.name='battle-in-field';this.world.scene.add(this.group);this.active=true;this.world.battleStage=this;
-    this.fighters=positions.map(p=>this.fighter(p.x,p.y,c.y??0));
+    this.fighters=positions.map(p=>this.fighter(p.x,p.z,p.y));
     this.center.copy(this.fighters[0].home).add(this.fighters[1].home).multiplyScalar(.5);this.center.y+=.85;
     const nearby=[...this.world.npcSprites.values()].filter(n=>n.group.visible&&n.group.position.distanceTo(this.center)<7).sort((a,b)=>a.group.position.distanceToSquared(this.center)-b.group.position.distanceToSquared(this.center));
     this.hiddenActors=[...c.actors,...nearby.map(n=>n.group)].map(object=>({object,visible:object.visible}));for(const a of this.hiddenActors)a.object.visible=false;
     const trainerKeys=[c.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE',...(trainer&&nearby.length?[nearby[0].key]:[])];
-    this.trainers=trainerKeys.map((key,i)=>{const paper=this.world.paper(key,1.9);this.group.add(paper.group);const position=this.fighters[i].home.clone().add(new THREE.Vector3(axis.x,0,axis.y).multiplyScalar(i===0?-1.8:1.8));position.add(new THREE.Vector3(-axis.y,0,axis.x).multiplyScalar(i===0?-.9:.9));position.y=this.world.height(position.x,position.z);paper.group.position.copy(position);return{paper,facing:i===0?c.facing:[1,0,3,2][c.facing]};});
+    const toward=layout.axis.x<0?2:layout.axis.x>0?3:layout.axis.z<0?0:1;
+    this.trainers=trainerKeys.map((key,i)=>{const paper=this.world.paper(key,1.9);this.group.add(paper.group);const home=this.fighters[i].home,position=battleTrainerSpot(this.world,{x:home.x,z:home.z,y:home.y-.035},layout.axis,i===0?1:-1);paper.group.position.set(position.x,position.y,position.z);return{paper,facing:i===0?toward:[1,0,3,2][toward]};});
     // Three-quarter shoulder view along the line between the two Pokémon.
     this.world.yaw=Math.atan2(-axis.x,-axis.y)+.6;this.world.pitch=.37;this.world.distance=8.4;this.active=true;this.world.battleStage=this;
     this.sync(player,enemy);await Promise.all([...this.art.values()]);await wait(350);
@@ -63,7 +56,7 @@ export class WorldBattleView implements BattleView {
     plane.geometry.translate(0,height/2,0);root.add(plane);
     const shadow=new THREE.Mesh(new THREE.CircleGeometry(.65,32),new THREE.MeshBasicMaterial({color:'#182c29',transparent:true,opacity:.22,depthWrite:false}));
     shadow.rotation.x=-Math.PI/2;shadow.scale.y=.62;shadow.position.y=.025;root.add(shadow);
-    root.position.set(x,this.world.height(x,z,currentY)+.035,z);this.group.add(root);
+    root.position.set(x,currentY+.035,z);this.group.add(root);
     return{root,plane,shadow,home:root.position.clone(),key:'',flash:0,hidden:false};
   }
 
