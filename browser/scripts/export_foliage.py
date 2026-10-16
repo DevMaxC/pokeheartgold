@@ -29,6 +29,9 @@ def foot_runs(image):
 manifest={}
 for (context,name),raw in textures.items():
  canonical=re.sub(r'_re(?=_|$)','',name)
+ # These banks use numbered composite art rather than the `_re` suffix.
+ if context=='8':canonical={'tree_w02':'tree_w01','tree_w02_2':'tree_w01_2','tree_w2_2':'tree_w01_2'}.get(canonical,canonical)
+ if context=='92':canonical=re.sub(r'^bf_tree03_', 'bf_tree01_',canonical)
  if (context,canonical) not in textures:
   # The original lightmap banks call the individual tree "tree01gs_lm1".
   candidates=[canonical.replace('_lm','gs_lm'),re.sub(r'_lm\d+$','',canonical)]
@@ -40,11 +43,12 @@ for (context,name),raw in textures.items():
  runs=foot_runs(image);roots_per_tree=max(1,len(foot_runs(canonical_image)))
  # A single tree can have forked roots. Its repeated artwork preserves that
  # root pattern, so group the roots instead of spawning one tree per root.
- if re.search(r'_re(?:_|$)',name):
+ if name!=canonical or re.search(r'_re(?:_|$)',name):
   if len(runs)%roots_per_tree:raise ValueError(f'Unresolved repeated root layout {context}:{name}')
   centers=[(runs[i][0]+runs[i+roots_per_tree-1][1])/2/image.width for i in range(0,len(runs),roots_per_tree)]
- else:centers=[.5]
+ else:centers=[(runs[0][0]+runs[-1][1])/2/image.width] if runs else [.5]
  foot=canonical_image.getchannel('A').getbbox()[3]/canonical_image.height
- manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footV':foot}
+ canonical_runs=foot_runs(canonical_image);foot_u=(canonical_runs[0][0]+canonical_runs[-1][1])/2/canonical_image.width if canonical_runs else .5
+ manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footU':foot_u,'footV':foot}
 (SOURCE/'foliage.json').write_text(json.dumps(manifest,separators=(',',':'))+'\n')
 print(f'Exported {len(list(OUT.glob("*.png")))} original tree textures and {len(textures)} trunk layouts.')
