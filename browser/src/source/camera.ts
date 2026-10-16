@@ -4,7 +4,7 @@ import * as THREE from 'three';
  * Querying their thousands of instances also needlessly stalls every frame. */
 export function fieldCameraObstacles(root:THREE.Object3D){
   const meshes:THREE.Object3D[]=[];root.traverseVisible(object=>{
-    if(!(object instanceof THREE.Mesh)||['camera-facing-original-trees','source-tall-grass','crossed-original-flowers'].includes(object.name))return;
+    if(!(object instanceof THREE.Mesh)||['camera-facing-original-trees','solid-original-tree-canopies','solid-original-tree-trunks','source-tall-grass','crossed-original-flowers'].includes(object.name))return;
     const materials=Array.isArray(object.material)?object.material:[object.material];
     if(materials.every(m=>m.opacity<.5||/(?:^|_)(?:tree\d*|bush\w*|leaf\d*|flower\d*|hana\d*|plant\d*|yo_sp\d*|kage|shadow)(?:_|$)/i.test(m.name)))return;meshes.push(object);
   });return meshes;

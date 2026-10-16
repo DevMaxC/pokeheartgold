@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {addTreeVolumes} from './tree-volume.ts';
 import {solidFurniture} from './furniture.ts';
 
 type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial};
@@ -304,12 +305,12 @@ function groundTreeAnchors(source:Triangle[]){
   }return anchors;
 }
 function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:RepairSummary,anchors:Map<string,THREE.Vector3[]>,roots:Set<string>):Triangle[]{
-  const eligible=source.filter(t=>/tree|bush/i.test(t.material.name)&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
+  const eligible=source.filter(t=>(t.material.userData.treeInfo||/tree|bush/i.test(t.material.name))&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
   const first=normal(eligible[0]).normalize();if(!eligible.every(t=>Math.abs(normal(t).normalize().dot(first))>.99&&t.material.map===eligible[0].material.map))return source;
   const horizontal=new THREE.Vector3(first.z,0,-first.x).normalize();if((Math.abs(horizontal.x)>Math.abs(horizontal.z)?horizontal.x:horizontal.z)<0)horizontal.negate();
   const converted=new Set<Triangle>();
-  const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footU?:number;footV:number}|undefined;
-  const family=treeFamily(eligible[0].material.name),centers=info?.centers||[.5],footV=info?.footV??1;
+  const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footU?:number;footV:number;family?:string;topV?:number;crownWidth?:number}|undefined;
+  const family=info?.family??treeFamily(eligible[0].material.name),centers=info?.centers||[.5],footV=info?.footV??1;
   const panels:{center:THREE.Vector3;width:number;height:number;uv:number[];offset:number;color:THREE.Color}[]=[];
   for(let i=0;i<eligible.length;i+=2){const pair=eligible.slice(i,i+2);if(pair.length!==2)continue;
     const vertices=pair.flatMap(t=>t.points.map((point,j)=>({point,uv:t.uv[j]}))),lower=Math.min(...vertices.map(v=>v.point.y)),upper=Math.max(...vertices.map(v=>v.point.y));if(upper-lower<1)continue;
@@ -351,7 +352,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
       #include <fog_fragment>
     }`});
   const trees=new THREE.InstancedMesh(geometry,material,panels.length),dummy=new THREE.Object3D();trees.name='camera-facing-original-trees';trees.frustumCulled=false;trees.userData.footV=footV;
-  panels.forEach((p,i)=>{dummy.position.copy(p.center);dummy.scale.set(p.width,p.height,1);dummy.updateMatrix();trees.setMatrixAt(i,dummy.matrix);});root.add(trees);summary.billboardTrees+=panels.length;
+  panels.forEach((p,i)=>{dummy.position.copy(p.center);dummy.scale.set(p.width,p.height,1);dummy.updateMatrix();trees.setMatrixAt(i,dummy.matrix);});root.add(trees);trees.visible=false;addTreeVolumes(root,panels,info?.texture||eligible[0].material.map||undefined,footV,info?.topV??0,info?.crownWidth??1);summary.billboardTrees+=panels.length;
   }mesh.visible=false;
   // Preserve non-tree parts, shadows and degenerate triangles in mixed meshes.
   const remaining=new Map<THREE.MeshBasicMaterial,Triangle[]>();for(const triangle of source)if(!converted.has(triangle)){const group=remaining.get(triangle.material)||[];group.push(triangle);remaining.set(triangle.material,group);}
