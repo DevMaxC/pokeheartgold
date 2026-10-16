@@ -257,7 +257,7 @@ async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false)
     fight:async()=>{
       // An explicit battle retry keeps the encounter and restores fresh enemy HP.
       const attempt=structuredClone(opponents);blackedOut=false;keys.clear();encounterChecks.reset();
-      const result=await battle.start(attempt,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});
+      const result=await battle.start(attempt,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY',weather:world.sky.currentWeather});
       if(result==='caught'){const mon=attempt[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
       if(result==='lost'){
         if(canLose)healParty(state);
