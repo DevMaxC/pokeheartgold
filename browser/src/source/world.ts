@@ -11,6 +11,8 @@ import {WorldSky} from './sky.ts';
 import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
 import {forestFoundation} from './foundations.ts';
 import {shorelineUnderlay} from './shoreline.ts';
+import {Terraces,type TerraceData} from './ledges.ts';
+import {terraceModel,terraceWalls} from './terrace-model.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap};
 export class OriginalWorld {
@@ -27,6 +29,8 @@ export class OriginalWorld {
   private landCache=new Map<number,Promise<Land>>();
   private activeMatrix=-1;
   private activeHeader=-1;
+  private terraces:Terraces|null=null;
+  private terraceData:Promise<Terraces>|null=null;
   private matrix:Matrix|null=null;
   private generation=0;
   private pending:Promise<void>|null=null;private grassTime=0;
@@ -61,11 +65,11 @@ export class OriginalWorld {
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
-  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay'].includes(object.name))return;object.geometry.dispose();for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
+  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall'].includes(object.name))return;object.geometry.dispose();if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
   async enter(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);
     const matrixChanged=this.activeMatrix!==map.matrix,roomChanged=!matrixChanged&&this.matrix?.headers===null&&this.activeHeader!==id;
-    if(matrixChanged||roomChanged){this.generation++;this.streamCenter='';for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){const matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);this.activeMatrix=map.matrix;this.matrix=matrix;}}
+    if(matrixChanged||roomChanged){this.generation++;this.streamCenter='';for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){const matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);let terraces:Terraces|null=null;if(map.matrix===0){this.terraceData??=sourceJSON<TerraceData>('terraces/0.json').then(data=>new Terraces(data)).catch(error=>{this.terraceData=null;throw error;});terraces=await this.terraceData;}this.activeMatrix=map.matrix;this.matrix=matrix;this.terraces=terraces;}}
     this.activeHeader=id;
     this.latestStream={matrix:this.activeMatrix,id,x,z};
     await this.stream(id,x,z);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance);this.cameraReady=true;
@@ -111,7 +115,8 @@ export class OriginalWorld {
           this.backgroundCliff??=this.asset('land/210-0.glb').then(template=>{let material:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='cliff01')material=m as THREE.MeshBasicMaterial;});if(!material)throw Error('Original background cliff texture missing');return material;}).catch(error=>{this.backgroundCliff=null;throw error;});
           const foundation=forestFoundation(cell,matrix,await this.backgroundCliff);if(foundation)group.add(foundation);
         }
-        const props=await Promise.allSettled(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());}));for(const result of props)if(result.status==='rejected')throw result.reason;
+        const terraces=this.terraces;if(terraces&&[-1,0,1].some(dx=>[-1,0,1].some(dz=>terraces.data.cells[(xx+dx)+','+(zz+dz)]))){terraceModel(group,terraces);let cliff:THREE.MeshBasicMaterial|undefined;const choose=(asset:THREE.Group)=>asset.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(/^(?:cliff01|wall01_d)$/.test(m.name))cliff=m as THREE.MeshBasicMaterial;});choose(template);if(!cliff){const context=cell.asset.match(/-(\d+)\.glb$/)![1],path=terraces.data.cliffAssets[context]||terraces.data.cliffAssets['0'];if(!path)throw Error('Original terrace cliff texture missing');choose(await this.asset(path));}if(!cliff)throw Error('Original terrace cliff material missing');const walls=terraceWalls(terraces,cell,land,cliff);if(walls)group.add(walls);}
+        const props=await Promise.allSettled(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces)p.position.y+=terraces.height(xx*32+16+p.position.x,zz*32+16+p.position.z);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map});retained=true;
         }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());
@@ -120,7 +125,7 @@ export class OriginalWorld {
     await this.pending;
   }
   cell(x:number,z:number){return this.cells.get(Math.floor(x/32)+','+Math.floor(z/32));}
-  height(x:number,z:number,currentY=0){const c=this.cell(x,z);return c?terrainHeight(c.land,c.cell,x,z,currentY):currentY;}
+  height(x:number,z:number,currentY=0){const c=this.cell(x,z),offset=this.terraces?.height(x,z)??0;return c?terrainHeight(c.land,c.cell,x,z,currentY-offset)+offset:currentY;}
   permission(x:number,z:number){const c=this.cell(x,z);return c?tilePermission(c.land,x,z):0x8000;}
   walkable(x:number,z:number){const cell=this.cell(x,z);return !!cell&&cell.map.id!==0&&permissionWalkable(this.permission(x,z));}
   owner(x:number,z:number){const id=this.cell(x,z)?.map.id;return id===0?undefined:id;}
@@ -151,10 +156,10 @@ export class OriginalWorld {
       for(let i=0;i<6;i++){for(const b of balls)(b.material as THREE.MeshBasicMaterial).color.set(i%2?'#d87260':'#fff1ad');await new Promise(resolve=>setTimeout(resolve,130));}
     }finally{this.scene.remove(group);for(const b of balls){b.geometry.dispose();(b.material as THREE.Material).dispose();}}
   }
-  draw(x:number,z:number,dt:number){
+  draw(x:number,z:number,dt:number,actorY?:number){
     this.grassTime+=dt;updateGrass(this.grassTime,x,this.height(x,z),z);
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
-    const height=this.height(x,z,this.target.y-.9);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
+    const height=actorY??this.height(x,z,this.target.y-.9);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
     const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance),obstacles=[...this.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));const collisions=ray.intersectObjects(obstacles,false);const first=collisions.find(c=>c.distance>1.2);const d=first?Math.max(2.2,first.distance-.6):this.distance;
     const desired=this.target.clone().addScaledVector(orbit,d);this.camera.position.lerp(desired,1-Math.exp(-dt*12));this.camera.lookAt(this.target);

@@ -8,6 +8,7 @@ import {Battle} from './battle.ts';
 import {WorldBattleView} from './battle-stage.ts';
 import {EncounterChecks,landSlot} from './encounter.ts';
 import {doorwayEntry} from './terrain.ts';
+import {ledgeDirection,jumpHeight} from './ledges.ts';
 import {stepWarpFacing,pushWarp,fieldEntryScripts,arrivalStep,arrivalFacing} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
 import {movementAction} from './movement.ts';
@@ -24,6 +25,8 @@ let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elap
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
 let lastWarp='',lastCoord='',lastError='';
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
+let playerTweenY:number|undefined;
+const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
 function save(){if(!started||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
 function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag?s:null;}catch{return null;}}
@@ -32,7 +35,7 @@ function updateHUD(){
   $('map-name').textContent=displayMapName(map);$('map-detail').textContent=state.name?`${state.name} · ${state.badges.length} Badges · ₽${state.money.toLocaleString()}`:'';
   $('party-hud').innerHTML=state.party.map(m=>`<img src="/source/pokemon/${m.species}-${m.gender}-front.png" alt="${esc(m.name)} Level ${m.level}, ${m.hp} HP">`).join('');
 }
-function refreshNPCs(){world.updateNPCs(objects.snapshot());}
+function refreshNPCs(){world.updateNPCs(objects.snapshot());for(const[id,y]of npcTweenY){const actor=world.npcSprites.get(id);if(actor)actor.group.position.y=y;}}
 function showPerson(object:string,value:boolean){objects.show(object,value);refreshNPCs();}
 async function moveActor(object:string,label:string,source:SourceMap){
   const start=source.scripts.labels[label];if(start===undefined)return;let index=start;
@@ -45,8 +48,8 @@ async function moveActor(object:string,label:string,source:SourceMap){
     if(action.distance){
       if(facing===null)continue;const repeats=action.repeats;
       for(let i=0;i<repeats;i++){
-        const d={x:deltas[facing].x*action.distance,z:deltas[facing].z*action.distance};if(isPlayer)await tweenPlayer(state.x+d.x,state.z+d.z,action.seconds);else{
-          const from={x:npc!.x,z:npc!.z};await tween(action.seconds,t=>{npc!.x=from.x+d.x*t;npc!.z=from.z+d.z*t;npc!.step=t*4;refreshNPCs();});npc!.step=-1;refreshNPCs();
+        const d={x:deltas[facing].x*action.distance,z:deltas[facing].z*action.distance};if(isPlayer)await tweenPlayer(state.x+d.x,state.z+d.z,action.seconds,action.jump);else{
+          const from={x:npc!.x,z:npc!.z},fromY=world.npcSprites.get(npc!.id)?.group.position.y??world.height(from.x+.5,from.z+.5),toY=world.height(from.x+d.x+.5,from.z+d.z+.5,fromY);try{await tween(action.seconds,t=>{npc!.x=from.x+d.x*t;npc!.z=from.z+d.z*t;npc!.step=t*4;if(action.jump)npcTweenY.set(npc!.id,jumpHeight(fromY,toY,t));refreshNPCs();});}finally{npcTweenY.delete(npc!.id);npc!.step=-1;refreshNPCs();}
         }
       }
     }else if(action.delay)await new Promise(resolve=>setTimeout(resolve,action.delay*1000));
@@ -54,12 +57,13 @@ async function moveActor(object:string,label:string,source:SourceMap){
   }
 }
 async function tween(seconds:number,fn:(t:number)=>void){const start=performance.now();await new Promise<void>(resolve=>{function frame(){const t=Math.min(1,(performance.now()-start)/(seconds*1000));fn(t);if(t<1)requestAnimationFrame(frame);else resolve();}frame();});}
-async function tweenPlayer(x:number,z:number,seconds:number){
+async function tweenPlayer(x:number,z:number,seconds:number,jump=false){
   const from={x:state.x,z:state.z},followFrom=follower?.group.position.clone();
+  const fromY=world.height(from.x,from.z,player.group.position.y),toY=world.height(x,z,fromY),followerJump=followFrom&&Math.hypot(from.x-followFrom.x,from.z-followFrom.z)>1.5;
   if(followFrom){const dx=from.x-followFrom.x,dz=from.z-followFrom.z;followerMoving=Math.hypot(dx,dz)>.001;if(followerMoving)followerFacing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}
-  try{await tween(seconds,t=>{state.x=from.x+(x-from.x)*t;state.z=from.z+(z-from.z)*t;stepFrame=t*4;
-    if(follower&&followFrom){const fx=followFrom.x+(from.x-followFrom.x)*t,fz=followFrom.z+(from.z-followFrom.z)*t;follower.group.position.set(fx,world.height(fx,fz,follower.group.position.y),fz);followerStep=t*4;}
-  });}finally{stepFrame=-1;followerMoving=false;followerStep=-1;}
+  try{await tween(seconds,t=>{state.x=from.x+(x-from.x)*t;state.z=from.z+(z-from.z)*t;stepFrame=t*4;if(jump)playerTweenY=jumpHeight(fromY,toY,t);
+    if(follower&&followFrom){const fx=followFrom.x+(from.x-followFrom.x)*t,fz=followFrom.z+(from.z-followFrom.z)*t;follower.group.position.set(fx,followerJump?jumpHeight(followFrom.y,fromY,t):world.height(fx,fz,follower.group.position.y),fz);followerStep=t*4;}
+  });}finally{playerTweenY=undefined;stepFrame=-1;followerMoving=false;followerStep=-1;}
 }
 
 function face(object:string,facing?:number){const actor=objects.get(object);if(!actor)return;if(facing===undefined){const dx=state.x-actor.x-.5,dz=state.z-actor.z-.5;facing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}actor.facingDirection=facing;refreshNPCs();}
@@ -147,6 +151,7 @@ async function step(facing:number){
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
   const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z)),standing=world.permission(state.x,state.z),ladder=[60,61].includes(standing&255);
   if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.walkable(x,z))){await warp(exit,facing);save();return;}
+  if(ledgeDirection(world.permission(x,z))===facing&&!occupied){const lx=x+d.x,lz=z+d.z,landingOccupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(lx)&&Math.floor(n.group.position.z)===Math.floor(lz));if(world.walkable(lx,lz)&&!landingOccupied){walking=true;try{await tweenPlayer(lx,lz,.42,true);}finally{walking=false;}encounterChecks.step();await checkEvents();}return;}
   const nativeWarp=map.events.warps.some(w=>w.x===Math.floor(x)&&w.z===Math.floor(z));
   const enteredDoor=doorwayEntry(world.permission(x,z),nativeWarp,facing);
   if((!world.walkable(x,z)&&!enteredDoor)||occupied)return;
@@ -184,14 +189,14 @@ async function begin(){
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started)return;
-    state.playSeconds+=dt;if(player){player.group.position.set(state.x,world.height(state.x,state.z,player.group.position.y),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
+    state.playSeconds+=dt;if(player){player.group.position.set(state.x,playerTweenY??world.height(state.x,state.z,player.group.position.y),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;
     if(ready&&!transitioning)world.updateStreaming(state.map,state.x,state.z);
     if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active){const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);const facing=Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0;void step(facing).catch(error=>{console.error(error);lastError=String(error);});}}
-    world.draw(state.x,state.z,dt);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
-    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
+    world.draw(state.x,state.z,dt,playerTweenY);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
+    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();
 }
 addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;if(e.code==='Escape'){if(ui.dialogueOpen)return;if(ui.panelOpen){if(ui.canDismiss)ui.close();return;}menu();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat&&!ui.dialogueOpen)void interact();});

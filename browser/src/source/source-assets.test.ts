@@ -4,6 +4,8 @@ import {readFile,readdir,access} from 'node:fs/promises';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {repairOriginalAsset,closeBuildingBack,originalMaterial} from './render-repair.ts';
+import {Terraces} from './ledges.ts';
+import {terraceModel} from './terrace-model.ts';
 
 const root=new URL('../../public/source/',import.meta.url);
 const readJSON=async(path:string)=>JSON.parse(await readFile(new URL(path,root),'utf8'));
@@ -37,6 +39,18 @@ test('all 540 map headers reference existing imported geometry and tile data',as
     for(const warp of map.events.warps||[])if(Number(warp.header)!==0xFFF)assert.notEqual(index.mapIds[warp.header],undefined,`${id}: ${warp.header}`);
   }
   await Promise.all([...paths].map(path=>access(new URL(path,root))));
+});
+
+test('terrace deformation preserves actual native tree roots and valid geometry across adjacent town/route cells',async()=>{
+ const terraces=new Terraces(await readJSON('terraces/0.json')),foliage=await readJSON('foliage.json'),texture=new THREE.Texture();let trees=0;
+ for(const[id,cx,cz]of [[33,18,12],[67,17,12],[60,21,12]]){
+  const map=await readJSON(`maps/${id}.json`),cell=map.cells.find((c:{x:number;z:number})=>c.x===cx&&c.z===cz),gltf=await new GLTFLoader().parseAsync(geometryGLB(await readFile(new URL(cell.asset,root))),'');
+  gltf.scene.traverse(o=>{if(!(o instanceof THREE.Mesh))return;const convert=(old:THREE.Material)=>{const m=originalMaterial(old as THREE.MeshStandardMaterial);if(old.userData.geometryAuditHasTexture)m.map=texture;const entry=foliage[cell.asset.match(/-(\d+)\.glb$/)[1]]?.[m.name];if(entry)m.userData.treeInfo=entry;return m;};o.material=Array.isArray(o.material)?o.material.map(convert):convert(o.material);});repairOriginalAsset(gltf.scene,false);
+  const group=new THREE.Group();group.position.set(cx*32+16,cell.altitude*.5,cz*32+16);gltf.scene.scale.setScalar(1/16);group.add(gltf.scene);group.updateMatrixWorld(true);const roots:{mesh:THREE.InstancedMesh;index:number;point:THREE.Vector3}[]=[];group.traverseVisible(o=>{if(o instanceof THREE.InstancedMesh&&o.name==='camera-facing-original-trees')for(let i=0;i<o.count;i++){const matrix=new THREE.Matrix4();o.getMatrixAt(i,matrix);roots.push({mesh:o,index:i,point:new THREE.Vector3().setFromMatrixPosition(matrix).applyMatrix4(o.matrixWorld)});}});
+  terraceModel(group,terraces);group.updateMatrixWorld(true);for(const root of roots){const matrix=new THREE.Matrix4();root.mesh.getMatrixAt(root.index,matrix);const p=new THREE.Vector3().setFromMatrixPosition(matrix).applyMatrix4(root.mesh.matrixWorld);assert.ok(Math.abs(p.x-root.point.x)<1e-5);assert.ok(Math.abs(p.z-root.point.z)<1e-5);assert.ok(Math.abs(p.y-root.point.y-terraces.height(p.x,p.z))<1e-5);trees++;}
+  group.traverseVisible(o=>{if(!(o instanceof THREE.Mesh))return;assert.ok(Array.from(o.geometry.getAttribute('position').array).every(Number.isFinite),cell.asset);for(const m of Array.isArray(o.material)?o.material:[o.material]){if(m.vertexColors)assert.ok(o.geometry.getAttribute('color'));if((m as THREE.MeshBasicMaterial).map&&!(m instanceof THREE.ShaderMaterial))assert.ok(o.geometry.getAttribute('uv'));}});
+ }
+ assert.ok(trees>30);texture.dispose();
 });
 test('repeated lightmap forest textures resolve to complete individual-tree artwork',async()=>{
  const foliage=await readJSON('foliage.json');let repeated=0;
