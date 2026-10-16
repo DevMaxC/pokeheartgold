@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial};
+type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial;root?:THREE.Vector3};
 type RepairSummary={solidFaces:number;billboardTrees:number;uprightPanels:number;fencePosts:number;flowerClumps:number;terrainSkirts:number;solidRocks:number};
 const isShadow=(m:THREE.MeshBasicMaterial)=>/kage|shadow/i.test(m.name)||m.opacity<.5;
 const solidColors=new WeakMap<THREE.Material,THREE.Color>(),rockTextures=new WeakMap<THREE.Material,THREE.Texture>();
@@ -10,10 +10,10 @@ export function originalMaterial(old:THREE.MeshStandardMaterial){
 }
 
 function triangles(mesh:THREE.Mesh):Triangle[]{
-  const geometry=mesh.geometry,position=geometry.getAttribute('position'),uv=geometry.getAttribute('uv'),color=geometry.getAttribute('color'),index=geometry.getIndex();
+  const geometry=mesh.geometry,position=geometry.getAttribute('position'),uv=geometry.getAttribute('uv'),color=geometry.getAttribute('color'),roots=geometry.getAttribute('sceneryRoot'),index=geometry.getIndex();
   const materials=Array.isArray(mesh.material)?mesh.material:[mesh.material];const groups=geometry.groups.length?geometry.groups:[{start:0,count:index?.count??position.count,materialIndex:0}];const result:Triangle[]=[];
   for(const group of groups){const material=(materials[group.materialIndex??0]||materials[0]) as THREE.MeshBasicMaterial;
-    for(let i=group.start;i<group.start+group.count;i+=3){const ids=[0,1,2].map(j=>index?index.getX(i+j):i+j);result.push({points:ids.map(id=>mesh.getVertexPosition(id,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld)),uv:ids.map(id=>uv?new THREE.Vector2(uv.getX(id),uv.getY(id)):new THREE.Vector2()),color:ids.map(id=>color?new THREE.Color(color.getX(id),color.getY(id),color.getZ(id)):new THREE.Color(1,1,1)),material});}
+    for(let i=group.start;i<group.start+group.count;i+=3){const ids=[0,1,2].map(j=>index?index.getX(i+j):i+j);result.push({root:roots?.getW(ids[0])?new THREE.Vector3(roots.getX(ids[0]),roots.getY(ids[0]),roots.getZ(ids[0])).applyMatrix4(mesh.matrixWorld):undefined,points:ids.map(id=>mesh.getVertexPosition(id,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld)),uv:ids.map(id=>uv?new THREE.Vector2(uv.getX(id),uv.getY(id)):new THREE.Vector2()),color:ids.map(id=>color?new THREE.Color(color.getX(id),color.getY(id),color.getZ(id)):new THREE.Color(1,1,1)),material});}
   }return result;
 }
 function normal(triangle:Triangle){const [a,b,c]=triangle.points;return new THREE.Vector3().subVectors(b,a).cross(new THREE.Vector3().subVectors(c,a));}
@@ -160,11 +160,11 @@ export function closeBuildingBack(root:THREE.Object3D,doors:BuildingEntrance[]){
 
 const standingScenery=/fence|saku|flower|hana|plant|(?:^|_)yo_sp\d/i;
 function replacementMesh(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],name:string){
-  const positions:number[]=[],uvs:number[]=[],colors:number[]=[],materials:THREE.MeshBasicMaterial[]=[],geometry=new THREE.BufferGeometry(),inverse=root.matrixWorld.clone().invert();
+  const positions:number[]=[],uvs:number[]=[],colors:number[]=[],roots:number[]=[],materials:THREE.MeshBasicMaterial[]=[],geometry=new THREE.BufferGeometry(),inverse=root.matrixWorld.clone().invert();
   for(const t of source){let material=materials.indexOf(t.material);if(material<0){material=materials.length;materials.push(t.material);}geometry.addGroup(positions.length/3,3,material);
-    for(let i=0;i<3;i++){positions.push(...t.points[i].clone().applyMatrix4(inverse).toArray());uvs.push(...t.uv[i].toArray());colors.push(...t.color[i].toArray());}
+    for(let i=0;i<3;i++){positions.push(...t.points[i].clone().applyMatrix4(inverse).toArray());uvs.push(...t.uv[i].toArray());colors.push(...t.color[i].toArray());roots.push(...(t.root?[...t.root.clone().applyMatrix4(inverse).toArray(),1]:[0,0,0,0]));}
   }
-  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.computeVertexNormals();
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.setAttribute('sceneryRoot',new THREE.Float32BufferAttribute(roots,4));geometry.computeVertexNormals();
   const replacement=new THREE.Mesh(geometry,materials);replacement.name=name;root.add(replacement);mesh.visible=false;return replacement;
 }
 function groundHeight(source:Triangle[],x:number,z:number,fallback:number){
@@ -189,7 +189,7 @@ function uprightScenery(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],groun
     // Source panels lean about their centre; their grid footprint is the centre
     // line, not the displaced bottom of the tilted quad. Root it on the floor.
     const center=bounds.getCenter(new THREE.Vector3()),floor=groundHeight(ground,center.x,center.z,lower);
-    for(const t of group)changed.set(t,{...t,points:t.points.map(p=>{const q=p.clone().addScaledVector(slope,-(p.y-middle));q.y=floor+(p.y-lower)*factor;return q;})});
+    for(const t of group)changed.set(t,{...t,root:new THREE.Vector3(center.x,floor,center.z),points:t.points.map(p=>{const q=p.clone().addScaledVector(slope,-(p.y-middle));q.y=floor+(p.y-lower)*factor;return q;})});
     summary.uprightPanels++;
   }
   if(!changed.size)return{mesh,source};
@@ -232,7 +232,7 @@ function flowerVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary
     if(!standingScenery.test(material.name)||/fence|saku/i.test(material.name)||isShadow(material)||!(material.alphaTest>0||material.transparent)||Math.abs(normal(pair[0]).normalize().y)>.05||pair[1].material!==material)continue;
     const vertices=pair.flatMap(t=>t.points),bounds=new THREE.Box3().setFromPoints(vertices),height=bounds.max.y-bounds.min.y;if(height<1)continue;
     const center=bounds.getCenter(new THREE.Vector3());center.y=bounds.min.y;
-    for(const angle of [0,Math.PI/3,Math.PI*2/3])for(const t of pair)clumps.push({...t,points:t.points.map(p=>p.clone().sub(center).applyAxisAngle(new THREE.Vector3(0,1,0),angle).add(center))});
+    for(const angle of [0,Math.PI/3,Math.PI*2/3])for(const t of pair)clumps.push({...t,root:center.clone(),points:t.points.map(p=>p.clone().sub(center).applyAxisAngle(new THREE.Vector3(0,1,0),angle).add(center))});
     for(const t of pair)converted.add(t);summary.flowerClumps++;
   }
   if(!converted.size)return{mesh,source};
@@ -242,7 +242,7 @@ function flowerVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary
 /** Rock cards baked for the DS camera are scenery volumes, not billboards.
  * Replace each authored card separately, keeping its footprint and palette. */
 function rockVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],ground:Triangle[],summary:RepairSummary){
-  const converted=new Set<Triangle>(),positions:number[]=[],colors:number[]=[],uvs:number[]=[],inverse=root.matrixWorld.clone().invert(),geometry=new THREE.BufferGeometry(),materials:THREE.MeshBasicMaterial[]=[],bySource=new Map<THREE.MeshBasicMaterial,number>();
+  const converted=new Set<Triangle>(),positions:number[]=[],colors:number[]=[],uvs:number[]=[],roots:number[]=[],inverse=root.matrixWorld.clone().invert(),geometry=new THREE.BufferGeometry(),materials:THREE.MeshBasicMaterial[]=[],bySource=new Map<THREE.MeshBasicMaterial,number>();
   const eligible=source.filter(t=>/(?:^|_)(?:rock\d*|iwa\d*|boulder)(?:_|$)/i.test(t.material.name)&&!isShadow(t.material)&&(t.material.alphaTest>0||t.material.transparent));
   for(let index=0;index+1<eligible.length;index++){
     const group=eligible.slice(index,index+2),n=normal(group[0]).normalize();if(group[1].material!==group[0].material||Math.abs(n.y)>.96||!group.every(t=>Math.abs(normal(t).normalize().dot(n))>.999))continue;
@@ -260,12 +260,12 @@ function rockVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],ground:Tr
     const middle=center.clone().add(new THREE.Vector3(0,height*.43,0));
     const face=(a:THREE.Vector3,b:THREE.Vector3,c:THREE.Vector3)=>{const normal=b.clone().sub(a).cross(c.clone().sub(a)).normalize();if(normal.dot(a.clone().add(b).add(c).multiplyScalar(1/3).sub(middle))<0){[b,c]=[c,b];normal.negate();}const shade=.8+.3*normal.dot(light),color=palette.clone().multiplyScalar(shade),points=[a,b,c],isPole=points.map(p=>p===top||p===base),us=points.map(p=>(Math.atan2(p.z-center.z,p.x-center.x)/Math.PI/2+1.25)%1),ring=us.filter((_,i)=>!isPole[i]),seam=Math.max(...ring)-Math.min(...ring)>.5;
       for(let i=0;i<3;i++)if(!isPole[i]&&seam&&us[i]<.5)us[i]++;const poleU=us.reduce((sum,u,i)=>sum+(isPole[i]?0:u),0)/ring.length;
-      for(let i=0;i<3;i++){const p=points[i];positions.push(...p.clone().applyMatrix4(inverse).toArray());colors.push(...color.toArray());uvs.push(isPole[i]?poleU:us[i],1-(p.y-center.y)/(height*.86));}};
+      for(let i=0;i<3;i++){const p=points[i];positions.push(...p.clone().applyMatrix4(inverse).toArray());roots.push(...center.clone().applyMatrix4(inverse).toArray(),1);colors.push(...color.toArray());uvs.push(isPole[i]?poleU:us[i],1-(p.y-center.y)/(height*.86));}};
     for(let i=0;i<sides;i++){const next=(i+1)%sides;face(base,rings[0][next],rings[0][i]);for(let row=0;row<rings.length-1;row++){face(rings[row][i],rings[row][next],rings[row+1][next]);face(rings[row][i],rings[row+1][next],rings[row+1][i]);}face(rings.at(-1)![i],rings.at(-1)![next],top);}
     geometry.addGroup(start,positions.length/3-start,materialIndex);for(const t of group)converted.add(t);summary.solidRocks++;index++;
   }
   if(!converted.size)return{mesh,source};
-  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.computeVertexNormals();const rocks=new THREE.Mesh(geometry,materials.length===1?materials[0]:materials);rocks.name='solid-original-rocks';root.add(rocks);
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.setAttribute('sceneryRoot',new THREE.Float32BufferAttribute(roots,4));geometry.computeVertexNormals();const rocks=new THREE.Mesh(geometry,materials.length===1?materials[0]:materials);rocks.name='solid-original-rocks';root.add(rocks);
   const remaining=source.filter(t=>!converted.has(t));return{mesh:replacementMesh(root,mesh,remaining,'original-rock-remainder'),source:remaining};
 }
 
@@ -303,12 +303,12 @@ function groundTreeAnchors(source:Triangle[]){
   }return anchors;
 }
 function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:RepairSummary,anchors:Map<string,THREE.Vector3[]>,roots:Set<string>):Triangle[]{
-  const eligible=source.filter(t=>/tree|bush/i.test(t.material.name)&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
+  const eligible=source.filter(t=>(t.material.userData.treeInfo||/tree|bush/i.test(t.material.name))&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
   const first=normal(eligible[0]).normalize();if(!eligible.every(t=>Math.abs(normal(t).normalize().dot(first))>.99&&t.material.map===eligible[0].material.map))return source;
   const horizontal=new THREE.Vector3(first.z,0,-first.x).normalize();if((Math.abs(horizontal.x)>Math.abs(horizontal.z)?horizontal.x:horizontal.z)<0)horizontal.negate();
   const converted=new Set<Triangle>();
-  const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footU?:number;footV:number}|undefined;
-  const family=treeFamily(eligible[0].material.name),centers=info?.centers||[.5],footV=info?.footV??1;
+  const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footU?:number;footV:number;family?:string}|undefined;
+  const family=info?.family??treeFamily(eligible[0].material.name),centers=info?.centers||[.5],footV=info?.footV??1;
   const panels:{center:THREE.Vector3;width:number;height:number;uv:number[];offset:number;color:THREE.Color}[]=[];
   for(let i=0;i<eligible.length;i+=2){const pair=eligible.slice(i,i+2);if(pair.length!==2)continue;
     const vertices=pair.flatMap(t=>t.points.map((point,j)=>({point,uv:t.uv[j]}))),lower=Math.min(...vertices.map(v=>v.point.y)),upper=Math.max(...vertices.map(v=>v.point.y));if(upper-lower<1)continue;
@@ -354,7 +354,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
   }mesh.visible=false;
   // Preserve non-tree parts, shadows and degenerate triangles in mixed meshes.
   const remaining=new Map<THREE.MeshBasicMaterial,Triangle[]>();for(const triangle of source)if(!converted.has(triangle)){const group=remaining.get(triangle.material)||[];group.push(triangle);remaining.set(triangle.material,group);}
-  for(const [material,triangles]of remaining){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.points.flatMap(p=>p.toArray())),3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.uv.flatMap(p=>p.toArray())),2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.color.flatMap(p=>p.toArray())),3));geometry.computeVertexNormals();const leftover=new THREE.Mesh(geometry,material);leftover.name='original-scenery-remainder';root.add(leftover);}
+  for(const [material,triangles]of remaining){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.points.flatMap(p=>p.toArray())),3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.uv.flatMap(p=>p.toArray())),2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.color.flatMap(p=>p.toArray())),3));geometry.setAttribute('sceneryRoot',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.points.flatMap(()=>t.root?[...t.root.toArray(),1]:[0,0,0,0])),4));geometry.computeVertexNormals();const leftover=new THREE.Mesh(geometry,material);leftover.name='original-scenery-remainder';root.add(leftover);}
   return source.filter(t=>!converted.has(t));
 }
 

@@ -25,7 +25,7 @@ let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elap
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
 let lastWarp='',lastCoord='',lastError='';
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
-let playerTweenY:number|undefined;
+let playerTweenY:number|undefined;let previousStepJump=false;
 const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
 function save(){if(!started||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
@@ -59,11 +59,11 @@ async function moveActor(object:string,label:string,source:SourceMap){
 async function tween(seconds:number,fn:(t:number)=>void){const start=performance.now();await new Promise<void>(resolve=>{function frame(){const t=Math.min(1,(performance.now()-start)/(seconds*1000));fn(t);if(t<1)requestAnimationFrame(frame);else resolve();}frame();});}
 async function tweenPlayer(x:number,z:number,seconds:number,jump=false){
   const from={x:state.x,z:state.z},followFrom=follower?.group.position.clone();
-  const fromY=world.height(from.x,from.z,player.group.position.y),toY=world.height(x,z,fromY,from.x,from.z),followerJump=followFrom&&Math.hypot(from.x-followFrom.x,from.z-followFrom.z)>1.5;
+  const fromY=world.height(from.x,from.z,player.group.position.y),toY=world.height(x,z,fromY,from.x,from.z),followerJump=followFrom&&previousStepJump&&Math.hypot(from.x-followFrom.x,from.z-followFrom.z)>.001;
   if(followFrom){const dx=from.x-followFrom.x,dz=from.z-followFrom.z;followerMoving=Math.hypot(dx,dz)>.001;if(followerMoving)followerFacing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}
   try{await tween(seconds,t=>{state.x=from.x+(x-from.x)*t;state.z=from.z+(z-from.z)*t;stepFrame=t*4;if(jump)playerTweenY=jumpHeight(fromY,toY,t);
     if(follower&&followFrom){const fx=followFrom.x+(from.x-followFrom.x)*t,fz=followFrom.z+(from.z-followFrom.z)*t;follower.group.position.set(fx,followerJump?jumpHeight(followFrom.y,fromY,t):world.height(fx,fz,follower.group.position.y,follower.group.position.x,follower.group.position.z),fz);followerStep=t*4;}
-  });}finally{playerTweenY=undefined;stepFrame=-1;followerMoving=false;followerStep=-1;}
+  });}finally{playerTweenY=undefined;previousStepJump=jump;stepFrame=-1;followerMoving=false;followerStep=-1;}
 }
 
 function face(object:string,facing?:number){const actor=objects.get(object);if(!actor)return;if(facing===undefined){const dx=state.x-actor.x-.5,dz=state.z-actor.z-.5;facing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}actor.facingDirection=facing;refreshNPCs();}
@@ -88,7 +88,7 @@ async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=
 async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false){
   encounterChecks.reset();
   playerDirectionLocked=false;
-  transitioning=true;if(!connection){keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');}state.map=id;state.x=x;state.z=z;
+  transitioning=true;if(!connection){previousStepJump=false;keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');}state.map=id;state.x=x;state.z=z;
   try{
     map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);}
     if(runEntry)await runFieldEntry(connection?'connection':'warp',connection);
