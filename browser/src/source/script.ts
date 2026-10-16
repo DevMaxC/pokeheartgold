@@ -6,6 +6,11 @@ import {phoneCall} from './phone.ts';
 import {originalSpawn} from './spawns.ts';
 import {timeOfDay,trainerCardStars} from './field-services.ts';
 import {mapWeather} from './atmosphere.ts';
+import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDefeated,trainerContacts,phoneContactKey,phoneRematchTrainer,type TrainerContact} from './trainer-script-state.ts';
+
+export type EngagedTrainer={trainer:number;object:string};
+/** Supplied by the field's sight detector, never inferred by the script VM. */
+export type TrainerApproachContext={eyeType:0|1|2;trainers:EngagedTrainer[]};
 
 export type ScriptHooks={
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
@@ -16,6 +21,10 @@ export type ScriptHooks={
   coordinates?:(object:string)=>{x:number;z:number};nameRival?:()=>Promise<string>;whiteOut?:()=>Promise<void>;
   catchingTutorial?:()=>Promise<void>;objectName?:(id:number)=>string|undefined;healAnimation?:(count:number)=>Promise<void>;followerVisible?:(visible:boolean)=>void;
   weather?:(value?:number)=>number;
+  objectMovement?:(object:string,next?:number)=>number;objectFacing?:(object:string)=>number;
+  encounterMusic?:(trainer:number)=>Promise<void>|void;followerActive?:()=>boolean;
+  trainerPath?:(index:number,trainer:EngagedTrainer)=>Promise<void>;trainerStep?:(index:number,trainer:EngagedTrainer)=>Promise<boolean>;
+  trainerCandle?:(action:'bind'|'unbind'|'extinguish',useLastInteracted:boolean)=>Promise<void>|void;
 };
 export class UnsupportedScript extends Error{
   readonly map:string;readonly command:string;readonly pc:number;
@@ -32,10 +41,12 @@ export class ScriptVM{
   buffers:Record<number,string>={};
   private battleWon=false;
   private pendingPhone:[number,number,number]|null=null;
+  private context:{activeScript:number;map:SourceMap;object:string;phone:TrainerContact|null;approach?:TrainerApproachContext}|null=null;
   readonly data:GameData;readonly state:State;readonly hooks:ScriptHooks;
   constructor(data:GameData,state:State,hooks:ScriptHooks){this.data=data;this.state=state;this.hooks=hooks;}
   value(token:string,map:SourceMap):number{
     token=token.trim();if(token.includes('+'))return token.split('+').reduce((n,t)=>n+this.value(t,map),0);
+    if(token==='TRUE')return 1;if(token==='FALSE')return 0;
     const trainer=token.match(/^std_trainer(_2)?\((\w+)\)$/);if(trainer)return this.value(trainer[2],map)-1+(trainer[1]?5000:3000);
     if(token.startsWith('VAR_')){const id=this.data.constants[token];return (id!==undefined?this.state.vars['#'+id]:undefined)??this.state.vars[token]??0;}
     if(/^0x[0-9a-f]+$|^-?\d+$/i.test(token))return Number(token);
@@ -43,16 +54,21 @@ export class ScriptVM{
   }
   set(token:string,n:number){this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
-  private async standard(id:number,object:string){const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank))standardCache.set(match.bank,sourceJSON<SourceMap>(`scripts/${match.bank}.json`));const common=await standardCache.get(match.bank)!;const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;try{await child.run(common,entry,object,true);}finally{this.child=null;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}}
+  private async standard(id:number,object:string){const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank))standardCache.set(match.bank,sourceJSON<SourceMap>(`scripts/${match.bank}.json`));const common=await standardCache.get(match.bank)!;const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;try{await child.run(common,entry,object,true);}finally{this.child=null;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}}
   text(message:string,map:SourceMap){
     const raw=map.messages[message]??message;
-    return raw.replace(/\{STRVAR_1 (\d+), (\d+), \d+\}/g,(_,kind,slot)=>kind==='3'?this.state.name:this.buffers[Number(slot)]??(kind==='1'?this.state.rivalName:'')).replace(/\{YESNO \d+\}/g,'').replace(/\{[^}]+\}/g,'').replace(/\\n/g,'\n');
+    return raw.replace(/\{STRVAR_1 (\d+), (\d+), \d+\}/g,(_,kind,slot)=>kind==='3'?this.state.name:this.buffers[Number(slot)]??(kind==='1'?this.state.rivalName:'')).replace(/\{YESNO \d+\}/g,'').replace(/\{[^}]+\}/g,'').replace(/\\+([nrf])/g,(_,control)=>control==='n'?'\n':'\\'+control);
   }
-  async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false){
+  async runTrainerApproach(map:SourceMap,approach:TrainerApproachContext){
+    if(approach.trainers.length!==(approach.eyeType===0?1:2)||new Set(approach.trainers.map(t=>t.object)).size!==approach.trainers.length||approach.trainers.some(t=>!this.data.trainers[t.trainer]||!map.events.objects.some(n=>n.id===t.object&&trainerIdForScript(this.value(String(n.scriptId),map))===t.trainer))||approach.eyeType===1&&(approach.trainers[0].trainer!==approach.trainers[1].trainer||!this.data.trainers[approach.trainers[0].trainer].double)||approach.eyeType!==1&&approach.trainers.some(t=>this.data.trainers[t.trainer].double))throw Error('Invalid native engaged-trainer context');
+    return this.run(map,TRAINER_APPROACH_SCRIPT,approach.trainers[0].object,false,approach);
+  }
+  async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false,approach?:TrainerApproachContext){
     if(this.busy&&!allowNested)return;
     if(script===0)return;
     this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='';const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
-    const scriptID=typeof script==='number'?script:this.value(script,map);if(scriptID>=2000){try{await this.standard(scriptID,object);}finally{this.busy=false;}return;}
+    const scriptID=typeof script==='number'?script:this.value(script,map);if(!allowNested){this.battleWon=false;this.context={activeScript:scriptID,map,object,phone:null,approach};const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}
+    if(scriptID>=2000){try{await this.standard(scriptID,object);}finally{this.busy=false;}return;}
     const entry=scriptID-1;
     let label=typeof script==='string'&&map.scripts.labels[script]!==undefined?script:map.scripts.entries[entry];
     if(label===undefined){this.busy=false;return;}
@@ -60,7 +76,10 @@ export class ScriptVM{
     const jump=(target:string)=>{if(map.scripts.labels[target]===undefined)throw new Error(`Missing original script label ${target}`);pc=map.scripts.labels[target];};
     const conditions:Record<string,()=>boolean>={Eq:()=>compare===0,Ne:()=>compare!==0,Lt:()=>compare<0,Gt:()=>compare>0,Le:()=>compare<=0,Ge:()=>compare>=0};
     const v=(s:string)=>this.value(s,map);
-    const actor=(token:string)=>token.startsWith('obj_')?token:this.hooks.objectName?.(v(token))??map.events?.objects.find(n=>map.constants[n.id]===v(token))?.id??token;
+    const originMap=this.context?.map??map;
+    const actor=(token:string)=>token.startsWith('obj_')?token:this.hooks.objectName?.(v(token))??originMap.events?.objects.find(n=>(originMap.constants[n.id]??this.data.constants[n.id])===v(token))?.id??token;
+    const activeTrainer=()=>{const script=this.context?.activeScript??scriptID,id=trainerIdForScript(script);if(id===null&&script!==TRAINER_APPROACH_SCRIPT)throw new UnsupportedScript(map.code,this.instruction?.command??'GetTrainerNum',pc-1);return id??740;};
+    const engaged=(index:number)=>{const trainer=this.context?.approach?.trainers[index];if(!trainer)throw new UnsupportedScript(map.code,this.instruction?.command??'GetEyeTrainerNum',pc-1);return trainer;};
     try{
       let remaining=4000;
       while(true){
@@ -70,14 +89,34 @@ export class ScriptVM{
         if(cmd==='End'||cmd==='EndScript')break;
         this.supported.add(cmd);
         if(presentation.has(cmd))continue;
+        if(cmd==='OpenMsg')continue;
         if(cmd==='GoTo'){jump(a[0]);continue;}
         if(cmd==='Call'){stack.push(pc);jump(a[0]);continue;}
+        if(cmd==='GoToIf'||cmd==='CallIf'){const condition=[compare<0,compare===0,compare>0,compare<=0,compare>=0,compare!==0][v(a[0])];if(condition){if(cmd==='CallIf')stack.push(pc);jump(a[1]);}continue;}
         if(cmd==='Return'){if(!stack.length)break;pc=stack.pop()!;continue;}
         if(cmd==='Compare'||cmd==='CompareVarToValue'||cmd==='CompareVars'){compare=v(a[0])-v(a[1]);continue;}
         if(cmd==='Switch'){switchValue=v(a[0]);continue;}
         if(cmd==='Case'){if(switchValue===v(a[0]))jump(a[1]);continue;}
         if(cmd==='GoToIfSet'||cmd==='GoToIfUnset'){if(!!this.state.flags[a[0]]===(cmd==='GoToIfSet'))jump(a[1]);continue;}
         if(cmd==='CallIfSet'||cmd==='CallIfUnset'){if(!!this.state.flags[a[0]]===(cmd==='CallIfSet')){stack.push(pc);jump(a[1]);}continue;}
+        if(cmd==='GoToIfDefeated'||cmd==='GoToIfNotDefeated'||cmd==='CallIfDefeated'||cmd==='CallIfNotDefeated'){if(trainerDefeated(this.state,v(a[0]))===!cmd.includes('NotDefeated')){if(cmd.startsWith('Call'))stack.push(pc);jump(a[1]);}continue;}
+        if(cmd==='SetTrainerFlag'||cmd==='ClearTrainerFlag'){setTrainerDefeated(this.state,v(a[0]),cmd==='SetTrainerFlag');continue;}
+        if(cmd==='CheckTrainerFlag'){compare=trainerDefeated(this.state,v(a[0]))?0:-1;continue;}
+        if(cmd==='SetLastInteractedTrainerFlag'||cmd==='GoToIfTrainerDefeated'){if(!originMap.events.objects.some(n=>n.id===this.context?.object))throw new UnsupportedScript(map.code,cmd,pc-1);const id=this.value('VAR_SPECIAL_LAST_TALKED',originMap);if(cmd==='SetLastInteractedTrainerFlag')setTrainerDefeated(this.state,id);else if(trainerDefeated(this.state,id))jump(a[0]);continue;}
+        if(cmd==='GetTrainerNum'){this.set(a[0],activeTrainer());continue;}
+        if(cmd==='TrainerIsDoubleBattle'){this.set(a[0],Number(!!this.data.trainers[activeTrainer()]?.double));continue;}
+        if(cmd==='PartyCheckForDouble'){this.set(a[0],Number(this.state.party.filter(mon=>!mon.isEgg&&mon.hp>0).length>=2));continue;}
+        if(cmd==='GetTrainerMsgParams'||cmd==='GetRematchMsgParams'){const double=!!this.data.trainers[activeTrainer()]?.double,partner=(this.context?.activeScript??scriptID)>=5000;const ids=cmd==='GetTrainerMsgParams'?(double?(partner?[7,9,10]:[3,5,6]):[0,2,0]):(double?(partner?[19,0,10]:[18,0,6]):[17,0,0]);a.forEach((token,i)=>this.set(token,ids[i]));continue;}
+        if(cmd==='TrainerMessage'){const trainer=this.data.trainers[v(a[0])];if(!trainer)throw Error(`Missing original trainer ${v(a[0])}`);const message=trainer.messages?.find(row=>this.data.constants[row.type]===v(a[1]))?.message??'';lastMessage=this.text(message,map);if(lastMessage)await this.hooks.message(lastMessage);continue;}
+        if(cmd==='EncounterMusic'){await this.hooks.encounterMusic?.(v(a[0]));continue;}
+        if(cmd==='GetObjectMovementType'){const name=actor(a[1]);this.set(a[0],this.hooks.objectMovement?.(name)??originMap.events.objects.find(n=>n.id===name)?.movement??0);continue;}
+        if(cmd==='ChangeObjectMovement'||cmd==='SetLastTalkedTrainerMovement'){if(!this.hooks.objectMovement)throw new UnsupportedScript(map.code,cmd,pc-1);const name=cmd==='ChangeObjectMovement'?actor(a[0]):this.context?.object??object;if(cmd==='ChangeObjectMovement')this.hooks.objectMovement(name,v(a[1]));else{if(!this.hooks.objectFacing)throw new UnsupportedScript(map.code,cmd,pc-1);const facing=this.hooks.objectFacing(name),movement=14+facing;this.hooks.objectMovement(name,movement);if(this.data.trainers[activeTrainer()]?.double)for(const partner of originMap.events.objects)if(partner.id!==name&&trainerIdForScript(this.value(String(partner.scriptId),originMap))===activeTrainer())this.hooks.objectMovement(partner.id,movement);}continue;}
+        if(cmd==='GetTrainerEyeType'){if(!this.context?.approach)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[0],this.context.approach.eyeType);continue;}
+        if(cmd==='GetEyeTrainerNum'){this.set(a[1],engaged(v(a[0])).trainer);continue;}
+        if(cmd==='GetTrainerPathToPlayer'){if(!this.hooks.trainerPath)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.trainerPath(v(a[0]),engaged(v(a[0])));continue;}
+        if(cmd==='TrainerStepTowardsPlayer'){if(!this.hooks.trainerStep)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[1],Number(await this.hooks.trainerStep(v(a[0]),engaged(v(a[0])))));continue;}
+        if(cmd==='FollowMonIsActive'){if(!this.hooks.followerActive)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[0],Number(this.hooks.followerActive()));continue;}
+        if(cmd==='EcruteakGymExtinguishCandle'||cmd==='EcruteakGymBindCandleToTrainer'||cmd==='EcruteakGymUnbindCandleFromTrainer'){if(originMap.id===this.data.constants.MAP_ECRUTEAK_GYM){if(!this.hooks.trainerCandle)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.trainerCandle(cmd==='EcruteakGymExtinguishCandle'?'extinguish':cmd==='EcruteakGymBindCandleToTrainer'?'bind':'unbind',cmd==='EcruteakGymExtinguishCandle'&&!!v(a[0]));}continue;}
         const branch=cmd.match(/^(GoTo|Call)If(Eq|Ne|Lt|Gt|Le|Ge)$/);if(branch){if(conditions[branch[2]]()){if(branch[1]==='Call')stack.push(pc);jump(a[0]);}continue;}
         if(cmd==='SetVar'||cmd==='CopyVar'||cmd==='SetOrCopyVar'){this.set(a[0],v(a[1]));continue;}
         if(cmd==='AddVar'||cmd==='SubVar'){this.set(a[0],v(a[0])+(cmd==='AddVar'?1:-1)*v(a[1]));continue;}
@@ -112,6 +151,13 @@ export class ScriptVM{
         if(cmd==='PhoneCall'){const args=a.map(v);this.set('VAR_SPECIAL_x8004',args[0]);this.set('VAR_SPECIAL_x8005',args[1]);this.set('VAR_SPECIAL_x8006',args[2]);await this.standard(this.data.constants.std_phone_call,object);continue;}
         if(cmd==='SetPhoneCall'){this.pendingPhone=[v(a[0]),v(a[1]),v(a[2])];continue;}
         if(cmd==='RunPhoneCall'){if(!this.pendingPhone)throw Error('Original phone call has no caller');await phoneCall(this.data,this.state,...this.pendingPhone,text=>this.hooks.message(this.text(text,map)),text=>this.hooks.choice(text));this.pendingPhone=null;continue;}
+        if(cmd==='LoadPhoneDat'){if(!this.context)throw new UnsupportedScript(map.code,cmd,pc-1);this.context.phone=(await trainerContacts()).contacts.find(entry=>entry.trainer===v(a[0]))??null;this.set(a[1],this.context.phone?.id??255);continue;}
+        if(cmd==='CheckRegisteredPhoneNumber'){const key=phoneContactKey(this.data,v(a[0]));this.set(a[1],Number(!!key&&!!this.state.pokegear?.contacts.includes(key)));continue;}
+        if(cmd==='GetPhoneContactMsgIds'){const contact=this.context?.phone;if(!contact)throw new UnsupportedScript(map.code,cmd,pc-1);const index=v(a[0]);this.set(a[1],contact.messageBank);this.set(a[2],(index>4?0:index)+1);continue;}
+        if(cmd==='GetPhoneBookRematch'){const period=timeOfDay(new Date().getHours());this.set(a[1],phoneRematchTrainer(this.data,this.state,await trainerContacts(),v(a[0]),period===0?0:period===1||period===2?1:2));continue;}
+        if(cmd==='ClearPhoneRematchSeeking'){if(this.state.trainerPhone)this.state.trainerPhone.seeking=this.state.trainerPhone.seeking.filter(id=>id!==v(a[0]));continue;}
+        if(cmd==='GetPhoneContactGiftItem'){const id=this.context?.phone?.id;this.set(a[0],id===undefined?0:this.state.trainerPhone?.gifts[id]??0);if(id!==undefined&&this.state.trainerPhone)delete this.state.trainerPhone.gifts[id];continue;}
+        if(cmd==='GetPhoneContactRandomGiftBerry'){const gift=this.context?.phone?.gift??0;this.set(a[0],gift===this.data.constants.ITEM_CHERI_BERRY?gift+Math.floor(Math.random()*10):gift);continue;}
         if(cmd==='SetPhoneCallTrigger'||cmd==='UnsetPhoneCallTrigger'){this.state.phoneTriggers??=[];const id=v(a[0]);this.state.phoneTriggers=this.state.phoneTriggers.filter(trigger=>trigger!==id);if(cmd==='SetPhoneCallTrigger'&&v(a[1]))this.state.phoneTriggers.push(id);continue;}
         if(cmd==='GetFriendSprite'){this.set(a[0],this.data.constants[this.state.gender==='boy'?'SPRITE_HEROINE':'SPRITE_HERO']);continue;}
         if(cmd==='CheckBadge'){this.set(a[1],Number(this.state.badges.includes(v(a[0]))));continue;}
@@ -128,7 +174,7 @@ export class ScriptVM{
         if(cmd==='GetWeekday'){this.set(a[0],new Date().getDay());continue;}
         if(cmd==='GiveRunningShoes'){this.state.runningShoes=true;continue;}
         if(cmd==='CheckRunningShoes'){this.set(a[0],Number(!!this.state.runningShoes));continue;}
-        if(cmd==='RegisterGearNumber'||cmd==='RegisterPokegearCard'){this.state.pokegear??={contacts:[],cards:[]};if(cmd==='RegisterGearNumber'){if(!this.state.pokegear.contacts.includes(a[0]))this.state.pokegear.contacts.push(a[0]);}else if(!this.state.pokegear.cards.includes(v(a[0])))this.state.pokegear.cards.push(v(a[0]));continue;}
+        if(cmd==='RegisterGearNumber'||cmd==='RegisterPokegearCard'){this.state.pokegear??={contacts:[],cards:[]};if(cmd==='RegisterGearNumber'){const key=phoneContactKey(this.data,v(a[0]));if(key&&!this.state.pokegear.contacts.includes(key))this.state.pokegear.contacts.push(key);}else if(!this.state.pokegear.cards.includes(v(a[0])))this.state.pokegear.cards.push(v(a[0]));continue;}
         if(cmd==='GetPartyCount'){this.set(a[0],this.state.party.length);continue;}
         if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,this.state.party.findIndex(m=>m.hp>0&&!m.isEgg)));continue;}
         if(cmd==='GetPartyMonSpecies'){this.set(a[1],this.state.party[v(a[0])]?.species||0);continue;}
