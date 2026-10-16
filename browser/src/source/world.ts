@@ -39,6 +39,7 @@ export class OriginalWorld {
   readonly sky:WorldSky;
   private cameraReady=false;
   private cameraTransition=false;
+  private cameraResizePending=false;
   private terraceFallback=new THREE.MeshBasicMaterial({color:'#a77d5a'});
   private backgroundCliff:Promise<THREE.MeshBasicMaterial>|null=null;
   private entrances:Promise<Record<number,BuildingEntrance[]>>|null=null;
@@ -51,7 +52,7 @@ export class OriginalWorld {
   constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>){
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));this.renderer.setSize(innerWidth,innerHeight);this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;
     this.sky=new WorldSky(this.scene,this.camera);this.scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa2,2));
-    addEventListener('resize',()=>{this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);});
+    addEventListener('resize',()=>{if(this.cameraTransition){this.cameraResizePending=true;return;}this.resizeRenderer();});
   }
   async map(id:number):Promise<SourceMap>{if(!this.maps.has(id)){const map=await sourceJSON<SourceMap>(`maps/${id}.json`);for(const kind of ['objects','bgs','warps','coords'] as const)map.events[kind]??=[];map.initTriggers??=[];map.initScripts??={};this.maps.set(id,map);}return this.maps.get(id)!;}
   async asset(path:string):Promise<THREE.Group>{
@@ -73,7 +74,9 @@ export class OriginalWorld {
   /** Keep the last rendered view while an asynchronous warp replaces the
    * scene. Incoming player coordinates must never steer the outgoing rig. */
   beginFieldTransition(){this.cameraTransition=true;}
-  endFieldTransition(){this.cameraTransition=false;}
+  endFieldTransition(){this.cameraTransition=false;if(this.cameraResizePending){this.cameraResizePending=false;this.resizeRenderer();}}
+  private resizeRenderer(){this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);}
+  get fieldTransitionActive(){return this.cameraTransition;}
   async enter(id:number,x:number,z:number,weather=0){
     const ownsTransition=!this.cameraTransition;
     this.beginFieldTransition();

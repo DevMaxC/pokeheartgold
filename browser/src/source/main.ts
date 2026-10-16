@@ -88,9 +88,20 @@ async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=
 async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false){
   encounterChecks.reset();
   playerDirectionLocked=false;
-  transitioning=true;if(!connection){world.beginFieldTransition();previousStepJump=false;keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');}state.map=id;state.x=x;state.z=z;
+  const loadingText='Entering '+(data.index.maps[id]?.name||'Johto')+'…';
+  transitioning=true;if(!connection){world.beginFieldTransition();drag=false;previousStepJump=false;keys.clear();ui.loading(loadingText);}state.map=id;state.x=x;state.z=z;
   try{
-    map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);}
+    let retried=false;
+    for(;;){
+      try{
+        map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);}
+        if(retried)lastError='';break;
+      }catch(error){
+        if(connection)throw error;
+        lastError=String(error);retried=true;ui.loading(null);
+        await ui.choose('This area could not load.',['Retry']);keys.clear();ui.loading(loadingText);
+      }
+    }
     if(!connection)world.endFieldTransition();
     if(runEntry)await runFieldEntry(connection?'connection':'warp',connection);
   }finally{transitioning=false;if(!connection){world.endFieldTransition();ui.loading(null);}}
@@ -194,7 +205,7 @@ async function boot(){
     state.playSeconds+=dt;if(player){player.group.position.set(state.x,playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
-    if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;
+    if(!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;}
     if(ready&&!transitioning)world.updateStreaming(state.map,state.x,state.z);
     if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active){const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);const facing=Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0;void step(facing).catch(error=>{console.error(error);lastError=String(error);});}}
     world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
@@ -204,6 +215,6 @@ async function boot(){
 addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;if(e.code==='Escape'){if(ui.dialogueOpen)return;if(ui.panelOpen){if(ui.canDismiss)ui.close();return;}menu();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat&&!ui.dialogueOpen)void interact();});
 addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',()=>keys.clear());addEventListener('pagehide',save);
 $('open-menu').onclick=menu;
-let drag=false,lastPointer={x:0,y:0};const canvas=$<HTMLCanvasElement>('original-world');canvas.addEventListener('pointerdown',e=>{if(ui.busy||!started)return;drag=true;lastPointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(!drag)return;world.yaw-=(e.clientX-lastPointer.x)*.006;world.pitch=Math.max(.18,Math.min(.95,world.pitch+(e.clientY-lastPointer.y)*.003));lastPointer={x:e.clientX,y:e.clientY};});for(const event of ['pointerup','pointercancel'])canvas.addEventListener(event,()=>drag=false);canvas.addEventListener('wheel',e=>{e.preventDefault();if(world)world.distance=Math.max(5,Math.min(28,world.distance+e.deltaY*.01));},{passive:false});
+let drag=false,lastPointer={x:0,y:0};const canvas=$<HTMLCanvasElement>('original-world');canvas.addEventListener('pointerdown',e=>{if(ui.busy||!started||world.fieldTransitionActive)return;drag=true;lastPointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(!drag||world.fieldTransitionActive)return;world.yaw-=(e.clientX-lastPointer.x)*.006;world.pitch=Math.max(.18,Math.min(.95,world.pitch+(e.clientY-lastPointer.y)*.003));lastPointer={x:e.clientX,y:e.clientY};});for(const event of ['pointerup','pointercancel'])canvas.addEventListener(event,()=>drag=false);canvas.addEventListener('wheel',e=>{e.preventDefault();if(world&&!world.fieldTransitionActive)world.distance=Math.max(5,Math.min(28,world.distance+e.deltaY*.01));},{passive:false});
 document.querySelectorAll<HTMLButtonElement>('[data-control]').forEach(button=>{button.addEventListener('pointerdown',e=>{e.preventDefault();if(button.dataset.control==='KeyF'){void interact();return;}keys.add(button.dataset.control!);button.setPointerCapture(e.pointerId);});for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,()=>keys.delete(button.dataset.control!));});
 boot().catch(error=>{console.error(error);ui.loading(null);ui.panel('<h2>Johto could not load.</h2><p>The world needs WebGL 2 and its original data files. Reload to try again.</p><button id="retry" class="game-button">Retry</button>');$('retry').onclick=()=>location.reload();});

@@ -36,3 +36,8 @@ test('failed direct loads release their guard, while outer callers retain owners
   if(outer){world.endFieldTransition();world.draw(564.5,391.5,1/60,1);assert.equal(renders(),1);}
  }
 });
+test('a pending resize preserves the loader frame until its owner releases the camera',async()=>{
+ const{world}=fixture();let resized=0;world.resizeRenderer=()=>resized++;world.beginFieldTransition();world.cameraResizePending=true;
+ await world.enter(68,8.5,19.5);assert.equal(resized,0);assert.equal(world.fieldTransitionActive,true);
+ world.endFieldTransition();assert.equal(resized,1);assert.equal(world.fieldTransitionActive,false);world.endFieldTransition();assert.equal(resized,1);
+});
