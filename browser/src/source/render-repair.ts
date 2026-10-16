@@ -26,10 +26,13 @@ function averageColor(material:THREE.MeshBasicMaterial){
 function opaqueRockTexture(material:THREE.MeshBasicMaterial):THREE.Texture|null{
   if(material.userData.rockTexture)return material.userData.rockTexture;
   const image=material.map?.image as CanvasImageSource&{width?:number;height?:number};if(!image?.width||!image.height||typeof document==='undefined')return null;
-  try{const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data,original=pixels.slice(),solid:number[]=[];for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]>=128)solid.push(i/4);if(!solid.length)return null;
+  try{const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data,original=pixels.slice(),count=canvas.width*canvas.height,owner=new Int32Array(count).fill(-1),queue=new Int32Array(count);let head=0,tail=0;for(let pixel=0;pixel<count;pixel++)if(pixels[pixel*4+3]>=128){owner[pixel]=pixel;queue[tail++]=pixel;}if(!tail)return null;
     // The 3D silhouette supplies the outline. Extend the original opaque pixels
     // through the sprite's transparent margins so they cannot punch new holes.
-    for(let pixel=0;pixel<canvas.width*canvas.height;pixel++){if(original[pixel*4+3]>=128)continue;const x=pixel%canvas.width,y=Math.floor(pixel/canvas.width);let best=solid[0],distance=Infinity;for(const candidate of solid){const d=(candidate%canvas.width-x)**2+(Math.floor(candidate/canvas.width)-y)**2;if(d<distance){best=candidate;distance=d;}}pixels.set(original.subarray(best*4,best*4+3),pixel*4);pixels[pixel*4+3]=255;}
+    // A multi-source wavefront visits each texel once, avoiding a quadratic
+    // nearest-pixel search during landscape streaming.
+    while(head<tail){const pixel=queue[head++],x=pixel%canvas.width;for(const next of [x>0?pixel-1:-1,x<canvas.width-1?pixel+1:-1,pixel-canvas.width,pixel+canvas.width])if(next>=0&&next<count&&owner[next]<0){owner[next]=owner[pixel];queue[tail++]=next;}}
+    for(let pixel=0;pixel<count;pixel++){const nearest=owner[pixel]*4;pixels.set(original.subarray(nearest,nearest+3),pixel*4);pixels[pixel*4+3]=255;}
     const texture=new THREE.DataTexture(pixels,canvas.width,canvas.height);texture.colorSpace=THREE.SRGBColorSpace;texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.wrapS=THREE.RepeatWrapping;texture.needsUpdate=true;material.userData.rockTexture=texture;return texture;
   }catch{return null;}
 }
