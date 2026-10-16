@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial};
-type RepairSummary={solidFaces:number;billboardTrees:number;uprightPanels:number;fencePosts:number;flowerClumps:number;terrainSkirts:number};
+type RepairSummary={solidFaces:number;billboardTrees:number;uprightPanels:number;fencePosts:number;flowerClumps:number;terrainSkirts:number;solidRocks:number};
 const isShadow=(m:THREE.MeshBasicMaterial)=>/kage|shadow/i.test(m.name)||m.opacity<.5;
 export function originalMaterial(old:THREE.MeshStandardMaterial){
   const material=new THREE.MeshBasicMaterial({map:old.map,color:old.color,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,depthWrite:old.depthWrite,depthTest:old.depthTest,side:THREE.DoubleSide,vertexColors:old.vertexColors});material.name=old.name;
@@ -21,6 +21,17 @@ function averageColor(material:THREE.MeshBasicMaterial){
   const result=material.color.clone();const image=material.map?.image as CanvasImageSource&{width?:number;height?:number};
   if(image?.width&&image.height){try{const canvas=document.createElement('canvas');canvas.width=32;canvas.height=32;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0,32,32);const pixels=ctx.getImageData(0,0,32,32).data;let r=0,g=0,b=0,n=0;for(let i=0;i<pixels.length;i+=4){if(pixels[i+3]<200)continue;r+=pixels[i];g+=pixels[i+1];b+=pixels[i+2];n++;}if(n)result.multiply(new THREE.Color(r/n/255,g/n/255,b/n/255).convertSRGBToLinear());}catch{/* A solid source material color remains a valid fallback. */}}
   material.userData.solidColor=result;return result;
+}
+
+function opaqueRockTexture(material:THREE.MeshBasicMaterial):THREE.Texture|null{
+  if(material.userData.rockTexture)return material.userData.rockTexture;
+  const image=material.map?.image as CanvasImageSource&{width?:number;height?:number};if(!image?.width||!image.height||typeof document==='undefined')return null;
+  try{const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data,original=pixels.slice(),solid:number[]=[];for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]>=128)solid.push(i/4);if(!solid.length)return null;
+    // The 3D silhouette supplies the outline. Extend the original opaque pixels
+    // through the sprite's transparent margins so they cannot punch new holes.
+    for(let pixel=0;pixel<canvas.width*canvas.height;pixel++){if(original[pixel*4+3]>=128)continue;const x=pixel%canvas.width,y=Math.floor(pixel/canvas.width);let best=solid[0],distance=Infinity;for(const candidate of solid){const d=(candidate%canvas.width-x)**2+(Math.floor(candidate/canvas.width)-y)**2;if(d<distance){best=candidate;distance=d;}}pixels.set(original.subarray(best*4,best*4+3),pixel*4);pixels[pixel*4+3]=255;}
+    const texture=new THREE.DataTexture(pixels,canvas.width,canvas.height);texture.colorSpace=THREE.SRGBColorSpace;texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.wrapS=THREE.RepeatWrapping;texture.needsUpdate=true;material.userData.rockTexture=texture;return texture;
+  }catch{return null;}
 }
 
 /** A source façade becomes a closed prism within its original footprint. */
@@ -94,14 +105,15 @@ function closeProps(root:THREE.Group,source:Triangle[],summary:RepairSummary){co
 /** A real source doorway identifies a building and its front. Close a section
  * just inside its rear shell, even when a partial rear face fooled the generic
  * missing-face heuristic. A genuine entrance on the opposite side stays open. */
-export function closeBuildingBack(root:THREE.Object3D,doors:{x:number;z:number}[]){
+export type BuildingEntrance={x:number;z:number;axis?:0|2;sign?:number};
+export function closeBuildingBack(root:THREE.Object3D,doors:BuildingEntrance[]){
   if(!doors.length)return 0;root.updateWorldMatrix(true,false);root.updateMatrixWorld(true);const solid:Triangle[]=[];
   root.traverse(object=>{if(!(object instanceof THREE.Mesh)||object.name.startsWith('3d-')||object.name==='entrance-rear-wall')return;for(const t of triangles(object))if(!isShadow(t.material)&&!/tree|foliage|leaf|flower|grass|bush|fence|saku|hana|plant/i.test(t.material.name))solid.push(t);});
   if(!solid.length)return 0;const bounds=new THREE.Box3();for(const t of solid)for(const p of t.points)bounds.expandByPoint(p);const size=bounds.getSize(new THREE.Vector3());if(size.x<1.8||size.z<1.4||size.y<1.8)return 0;
-  const faceFor=(d:{x:number;z:number})=>[
+  const faceFor=(d:BuildingEntrance)=>[
     {axis:0 as const,sign:-1,distance:Math.abs(d.x-bounds.min.x)},{axis:0 as const,sign:1,distance:Math.abs(d.x-bounds.max.x)},
     {axis:2 as const,sign:-1,distance:Math.abs(d.z-bounds.min.z)},{axis:2 as const,sign:1,distance:Math.abs(d.z-bounds.max.z)},
-  ].filter(f=>{const side=f.axis===0?'z':'x';return d[side]>=bounds.min[side]&&d[side]<=bounds.max[side];}).sort((a,b)=>a.distance-b.distance)[0];
+  ].filter(f=>{const side=f.axis===0?'z':'x';return (d.axis===undefined||(d.axis===f.axis&&d.sign===f.sign))&&d[side]>=bounds.min[side]&&d[side]<=bounds.max[side];}).sort((a,b)=>a.distance-b.distance)[0];
   const entrances=doors.filter(d=>d.x>=bounds.min.x-.6&&d.x<=bounds.max.x+.6&&d.z>=bounds.min.z-.6&&d.z<=bounds.max.z+.6).map(faceFor).filter((f):f is NonNullable<typeof f>=>!!f).sort((a,b)=>a.distance-b.distance);if(!entrances.length)return 0;
   const front=entrances[0];if(entrances.some(f=>f.axis===front.axis&&f.sign===-front.sign))return 0;
   const axis=front.axis,sideAxis=axis===0?2:0,rear=front.sign>0?bounds.min.getComponent(axis):bounds.max.getComponent(axis),depth=size.getComponent(axis);
@@ -223,20 +235,51 @@ function flowerVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary
   const remaining=source.filter(t=>!converted.has(t)),replacement=replacementMesh(root,mesh,[...remaining,...clumps],'crossed-original-flowers');return{mesh:replacement,source:[...remaining,...clumps]};
 }
 
+/** Rock cards baked for the DS camera are scenery volumes, not billboards.
+ * Replace each authored card separately, keeping its footprint and palette. */
+function rockVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],ground:Triangle[],summary:RepairSummary){
+  const converted=new Set<Triangle>(),positions:number[]=[],colors:number[]=[],uvs:number[]=[],inverse=root.matrixWorld.clone().invert(),geometry=new THREE.BufferGeometry(),materials:THREE.MeshBasicMaterial[]=[],bySource=new Map<THREE.MeshBasicMaterial,number>();
+  const eligible=source.filter(t=>/(?:^|_)(?:rock\d*|iwa\d*|boulder)(?:_|$)/i.test(t.material.name)&&!isShadow(t.material)&&(t.material.alphaTest>0||t.material.transparent));
+  for(let index=0;index+1<eligible.length;index+=2){
+    const group=eligible.slice(index,index+2),n=normal(group[0]).normalize();if(group[1].material!==group[0].material||Math.abs(n.y)>.96||!group.every(t=>Math.abs(normal(t).normalize().dot(n))>.999))continue;
+    if(new Set(group.flatMap(t=>t.points.map(p=>p.toArray().join(',')))).size!==4)continue;
+    const bounds=new THREE.Box3().setFromPoints(group.flatMap(t=>t.points)),center=bounds.getCenter(new THREE.Vector3()),horizontal=new THREE.Vector3(n.z,0,-n.x).normalize();
+    const along=group.flatMap(t=>t.points.map(p=>p.dot(horizontal))),width=Math.max(...along)-Math.min(...along),rise=bounds.max.y-bounds.min.y,height=rise/Math.sqrt(1-n.y*n.y);
+    if(width<1||height<1||width>height*3)continue;center.y=groundHeight(ground,center.x,center.z,bounds.min.y);
+    const seed=Math.abs(Math.sin(center.x*12.9898+center.z*78.233)),sides=8,rings:THREE.Vector3[][]=[];
+    // Closed, irregular rings provide substantial depth from every side. The
+    // top is offset slightly, rather than leaning the whole original quad.
+    for(const [y,radius]of [[0,.68],[.22,1],[.62,.78],[.9,.4]] as const){const ring:THREE.Vector3[]=[];for(let i=0;i<sides;i++){const angle=i/sides*Math.PI*2+seed*.6,jitter=.91+.09*Math.sin(i*2.7+seed*20);ring.push(new THREE.Vector3(center.x+Math.cos(angle)*width*.46*radius*jitter+width*.05*y,center.y+height*.86*y,center.z+Math.sin(angle)*width*.4*radius*jitter));}rings.push(ring);}
+    const original=group[0].material,texture=opaqueRockTexture(original);let materialIndex=bySource.get(original);if(materialIndex===undefined){materialIndex=materials.length;bySource.set(original,materialIndex);materials.push(new THREE.MeshBasicMaterial({map:texture,vertexColors:true,side:THREE.DoubleSide}));}
+    const start=positions.length/3,top=new THREE.Vector3(center.x+width*.045,center.y+height*.86,center.z),base=center.clone(),palette=(texture?original.color.clone():averageColor(original)).multiply(group[0].color[0]),light=new THREE.Vector3(-.45,.85,.35).normalize();
+    const middle=center.clone().add(new THREE.Vector3(0,height*.43,0));
+    const face=(a:THREE.Vector3,b:THREE.Vector3,c:THREE.Vector3)=>{const normal=b.clone().sub(a).cross(c.clone().sub(a)).normalize();if(normal.dot(a.clone().add(b).add(c).multiplyScalar(1/3).sub(middle))<0){[b,c]=[c,b];normal.negate();}const shade=.8+.3*normal.dot(light),color=palette.clone().multiplyScalar(shade),points=[a,b,c],us=points.map(p=>(Math.atan2(p.z-center.z,p.x-center.x)/Math.PI/2+1)%1),seam=Math.max(...us)-Math.min(...us)>.5;for(let i=0;i<3;i++){const p=points[i];positions.push(...p.clone().applyMatrix4(inverse).toArray());colors.push(...color.toArray());uvs.push(us[i]+(seam&&us[i]<.5?1:0),1-(p.y-center.y)/(height*.86));}};
+    for(let i=0;i<sides;i++){const next=(i+1)%sides;face(base,rings[0][next],rings[0][i]);for(let row=0;row<rings.length-1;row++){face(rings[row][i],rings[row][next],rings[row+1][next]);face(rings[row][i],rings[row+1][next],rings[row+1][i]);}face(rings.at(-1)![i],rings.at(-1)![next],top);}
+    geometry.addGroup(start,positions.length/3-start,materialIndex);for(const t of group)converted.add(t);summary.solidRocks++;
+  }
+  if(!converted.size)return{mesh,source};
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.computeVertexNormals();const rocks=new THREE.Mesh(geometry,materials.length===1?materials[0]:materials);rocks.name='solid-original-rocks';root.add(rocks);
+  const remaining=source.filter(t=>!converted.has(t));return{mesh:replacementMesh(root,mesh,remaining,'original-rock-remainder'),source:remaining};
+}
+
 /** DS hills frequently omit every face behind the camera. Close the open edge
  * loops down to each component's existing base, retaining every authored face. */
 function closeTerrain(root:THREE.Group,source:Triangle[],summary:RepairSummary){
-  const terrain=source.filter(t=>!isShadow(t.material)&&/cliff|wall|peak|mount|rock|slope/i.test(t.material.name)&&!/tree|flower|fence|saku|grass|pond|sea|water/i.test(t.material.name));
+  const forest=(t:Triangle)=>/tree|bush/i.test(t.material.name)&&/_un(?:_|$)/.test(t.material.name)&&!isShadow(t.material)&&Math.abs(normal(t).normalize().y)>.995;
+  const floor=source.filter(t=>!isShadow(t.material)&&!t.material.transparent&&!t.material.alphaTest&&!/tree|bush|flower|fence|saku/i.test(t.material.name)&&Math.abs(normal(t).normalize().y)>.995),floorY=floor.length?Math.min(...floor.flatMap(t=>t.points.map(p=>p.y))):Infinity;
+  const cliff=source.find(t=>/cliff\d|wall.*_d/i.test(t.material.name))?.material;
+  const terrain=source.filter(t=>forest(t)||(!isShadow(t.material)&&/cliff|wall|peak|mount|rock|slope/i.test(t.material.name)&&!/tree|flower|fence|saku|grass|pond|sea|water/i.test(t.material.name)));
   for(const component of components(terrain)){
-    const base=Math.min(...component.flatMap(t=>t.points.map(p=>p.y))),edges=new Map<string,{a:THREE.Vector3;b:THREE.Vector3;triangle:Triangle;count:number}>();
+    const woods=component.every(forest),bottom=Math.min(...component.flatMap(t=>t.points.map(p=>p.y))),base=woods?floorY:bottom;if(woods&&(!Number.isFinite(base)||bottom-base<12))continue;
+    const edges=new Map<string,{a:THREE.Vector3;b:THREE.Vector3;triangle:Triangle;count:number}>();
     for(const triangle of component)for(let i=0;i<3;i++){const a=triangle.points[i],b=triangle.points[(i+1)%3],key=[a,b].map(p=>p.toArray().map(v=>Math.round(v*1000)).join(',')).sort().join('|');const edge=edges.get(key);if(edge)edge.count++;else edges.set(key,{a,b,triangle,count:1});}
-    const byMaterial=new Map<THREE.MeshBasicMaterial,{positions:number[];uvs:number[]}>();
+    const byMaterial=new Map<THREE.MeshBasicMaterial,{positions:number[];uvs:number[];colors:number[]}>();
     for(const {a,b,triangle,count}of edges.values()){
       if(count!==1||Math.max(a.y,b.y)-base<.1||Math.hypot(a.x-b.x,a.z-b.z)<.01)continue;
-      const floorA=new THREE.Vector3(a.x,base,a.z),floorB=new THREE.Vector3(b.x,base,b.z),attributes=byMaterial.get(triangle.material)||{positions:[],uvs:[]},width=Math.hypot(a.x-b.x,a.z-b.z)/32;
-      for(const [p,u]of [[a,0],[b,width],[floorB,width],[a,0],[floorB,width],[floorA,0]] as const){attributes.positions.push(...p.toArray());attributes.uvs.push(u,(p.y-base)/32);}byMaterial.set(triangle.material,attributes);summary.terrainSkirts++;
+      const surface=forest(triangle)&&cliff?cliff:triangle.material,floorA=new THREE.Vector3(a.x,base,a.z),floorB=new THREE.Vector3(b.x,base,b.z),attributes=byMaterial.get(surface)||{positions:[],uvs:[],colors:[]},width=Math.hypot(a.x-b.x,a.z-b.z)/32;
+      for(const [p,u]of [[a,0],[b,width],[floorB,width],[a,0],[floorB,width],[floorA,0]] as const){attributes.positions.push(...p.toArray());attributes.uvs.push(u,(p.y-base)/32);attributes.colors.push(...triangle.color[0].toArray());}byMaterial.set(surface,attributes);summary.terrainSkirts++;
     }
-    for(const [original,attributes]of byMaterial){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(attributes.positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(attributes.uvs,2));geometry.computeVertexNormals();const material=new THREE.MeshBasicMaterial({color:averageColor(original),side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:2,polygonOffsetUnits:2});const mesh=new THREE.Mesh(geometry,material);mesh.name='solid-original-terrain';root.add(mesh);
+    for(const [original,attributes]of byMaterial){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(attributes.positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(attributes.uvs,2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(attributes.colors,3));geometry.computeVertexNormals();const material=new THREE.MeshBasicMaterial({color:averageColor(original),side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:2,polygonOffsetUnits:2});const mesh=new THREE.Mesh(geometry,material);mesh.name='solid-original-terrain';root.add(mesh);
       if(original.map){const textured=original.clone();textured.side=THREE.DoubleSide;textured.polygonOffset=true;textured.polygonOffsetFactor=1;textured.polygonOffsetUnits=1;const face=new THREE.Mesh(geometry,textured);face.name='textured-terrain-back';root.add(face);}
     }
   }
@@ -311,7 +354,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
 /** Shared by every imported landscape/prop, including future streamed locations. */
 export function repairOriginalAsset(root:THREE.Group,isProp:boolean):RepairSummary{
   root.updateMatrixWorld(true);const meshes:THREE.Mesh[]=[];root.traverse(object=>{if(object instanceof THREE.Mesh)meshes.push(object);});
-  const summary={solidFaces:0,billboardTrees:0,uprightPanels:0,fencePosts:0,flowerClumps:0,terrainSkirts:0};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),ground=sources.flat(),anchors=groundTreeAnchors(ground),roots=new Set<string>();
-  for(let i=0;i<meshes.length;i++){const fences=solidFences(root,meshes[i],sources[i],ground,summary),adjusted=uprightScenery(root,fences.mesh,fences.source,ground,summary),flowers=flowerVolume(root,adjusted.mesh,adjusted.source,summary);solid.push(...treePanels(root,flowers.mesh,flowers.source,summary,anchors,roots));}
+  const summary={solidFaces:0,billboardTrees:0,uprightPanels:0,fencePosts:0,flowerClumps:0,terrainSkirts:0,solidRocks:0};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),ground=sources.flat(),anchors=groundTreeAnchors(ground),roots=new Set<string>();
+  for(let i=0;i<meshes.length;i++){const fences=solidFences(root,meshes[i],sources[i],ground,summary),adjusted=uprightScenery(root,fences.mesh,fences.source,ground,summary),flowers=flowerVolume(root,adjusted.mesh,adjusted.source,summary),rocks=rockVolume(root,flowers.mesh,flowers.source,ground,summary);solid.push(...treePanels(root,rocks.mesh,rocks.source,summary,anchors,roots));}
   if(isProp)closeProps(root,solid,summary);else closeTerrain(root,solid,summary);root.userData.renderRepairs=summary;return summary;
 }

@@ -53,7 +53,13 @@ GROUPS['3D world depth and navigation']=('browser/src/source/world.ts',[
 'Every world camera angle, terrain boundary and scenery variant receives visual verification',
 'Connected outdoor headers preserve camera pose, held movement and follower continuity without entry overlays',
 'Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open',
-'Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps'])
+'Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps',
+'Rock cutouts become separately rooted closed boulders retaining original pixel textures',
+'Generated textured surfaces provide every enabled vertex attribute and remain free of black backing rectangles',
+'Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea',
+'Raised background forests and authored forest platforms have opaque terrain sides',
+'Building entrance direction comes from original tile behaviours across the complete matrix',
+'Forked tree roots never count as multiple individual trees'])
 GROUPS['3D sky and weather']=('browser/src/source/sky.ts',[
 'A coloured horizon and sky follow the original morning, day, evening and night clock',
 'Clouds have separately modelled solid pixel silhouettes, shaded undersides and slow drift',

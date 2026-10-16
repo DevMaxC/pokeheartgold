@@ -2216,6 +2216,54 @@
     "verification": null
   },
   {
+    "id": "P15-012",
+    "group": "3D world depth and navigation",
+    "feature": "Rock cutouts become separately rooted closed boulders retaining original pixel textures",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Actual Cherrygrove coast has 32 separate solid rocks; closed-edge and four-direction ray fixtures cover adjacent cards. Native artwork is extended through transparent margins and wrapped over the new closed silhouette."
+  },
+  {
+    "id": "P15-013",
+    "group": "3D world depth and navigation",
+    "feature": "Generated textured surfaces provide every enabled vertex attribute and remain free of black backing rectangles",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Confirmed black coast rectangles came from textured terrain backs enabling vertex colours without a colour attribute. Full 946-prop/648-landscape repair audit now enforces the attribute contract."
+  },
+  {
+    "id": "P15-014",
+    "group": "3D world depth and navigation",
+    "feature": "Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Native behaviours 33/23 select backing below the original beach surface; blocked tiles and deep water remain excluded. Actual Cherrygrove shoreline model rendered from close side and elevated views."
+  },
+  {
+    "id": "P15-015",
+    "group": "3D world depth and navigation",
+    "feature": "Raised background forests and authored forest platforms have opaque terrain sides",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Matrix-altitude filler steps and elevated tree-ground patches receive cliff sides. Actual Route 30 land/7-2 forest platform at y=5 over y=1 ground identified and rendered in streamed Cherrygrove context."
+  },
+  {
+    "id": "P15-016",
+    "group": "3D world depth and navigation",
+    "feature": "Building entrance direction comes from original tile behaviours across the complete matrix",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "666 source entrances across 280 matrices exported from original warp behaviours; panels/non-door warps excluded. Directional corner-door and full-manifest regressions pass. Results no longer depend on the loaded window."
+  },
+  {
+    "id": "P15-017",
+    "group": "3D world depth and navigation",
+    "feature": "Forked tree roots never count as multiple individual trees",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "All non-repeated foliage entries have one centre; en_tree02\u201305 repeated art groups its four root runs into two trees using the canonical single-tree root pattern."
+  },
+  {
     "id": "P16-001",
     "group": "3D sky and weather",
     "feature": "A coloured horizon and sky follow the original morning, day, evening and night clock",

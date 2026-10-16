@@ -207,4 +207,5 @@ REPORT['counts']={'maps':len(maps),'matrices':len(matrices),'landscapes':len(lan
 write(Path('import-report.json'),REPORT)
 subprocess.run([sys.executable,str(ROOT/'browser/scripts/export_foliage.py')],check=True)
 subprocess.run([sys.executable,str(ROOT/'browser/scripts/export_story.py')],check=True)
+subprocess.run([sys.executable,str(ROOT/'browser/scripts/export_entrances.py')],check=True)
 print(json.dumps(REPORT['counts']),len(REPORT['errors']),'conversion errors (see import-report.json).',flush=True)
