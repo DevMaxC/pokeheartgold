@@ -32,7 +32,7 @@ export function solidFurniture(root:THREE.Group){
       along=c.p.clone().sub(a.p).multiplyScalar(du.x).addScaledVector(b.p.clone().sub(a.p),-dv.x).divideScalar(den);along.y=0;along.normalize();break;
     }
     if(!across||!along||across.lengthSq()<.99||along.lengthSq()<.99||Math.abs(across.dot(along))>.01)continue;
-    const xs=vertices.map(v=>v.p.dot(across!)),zs=vertices.map(v=>v.p.dot(along!)),width=Math.max(...xs)-Math.min(...xs),depth=Math.max(...zs)-Math.min(...zs);if(width<12||width>17||depth<12||depth>65)continue;
+    const xs=vertices.map(v=>v.p.dot(across!)),zs=vertices.map(v=>v.p.dot(along!)),width=Math.max(...xs)-Math.min(...xs),depth=Math.max(...zs)-Math.min(...zs);if(width<12||width>17||depth<12||depth>(spec.kind==='bench'?65:17))continue;
     const centre=across.clone().multiplyScalar((Math.max(...xs)+Math.min(...xs))/2).addScaledVector(along,(Math.max(...zs)+Math.min(...zs))/2),floor=bounds.min.y-spec.cardY;
     const positions:number[]=[],uvs:number[]=[],colors:number[]=[],color=geometry.getAttribute('color'),tint=color?new THREE.Color(color.getX(index?index.getX(0):0),color.getY(index?index.getX(0):0),color.getZ(index?index.getX(0):0)):new THREE.Color(1,1,1);
     // Native GLBs use both [0,1] and [-1,0] texture coordinates.
@@ -48,7 +48,7 @@ export function solidFurniture(root:THREE.Group){
     const outline=spec.kind==='round'?Array.from({length:16},(_,i)=>new THREE.Vector2(Math.cos(i*Math.PI/8)*w/2,Math.sin(i*Math.PI/8)*d/2)):[new THREE.Vector2(-w/2+2,-d/2),new THREE.Vector2(w/2-2,-d/2),new THREE.Vector2(w/2,-d/2+2),new THREE.Vector2(w/2,d/2-2),new THREE.Vector2(w/2-2,d/2),new THREE.Vector2(-w/2+2,d/2),new THREE.Vector2(-w/2,d/2-2),new THREE.Vector2(-w/2,-d/2+2)];
     const [u0,v0,u1,v1]=spec.top,rim=pixel(...spec.rim),support=pixel(...spec.support);
     prism(outline,spec.kind==='box'?0:h-thickness,h,p=>new THREE.Vector2((u0+(p.x/w+.5)*(u1-u0))/16,vOffset+(v0+(p.y/d+.5)*(v1-v0))/16),rim);
-    if(['legs','round','bench'].includes(spec.kind))for(const x of [-w/2+1.5,w/2-1.5])for(const z of [-d/2+1.5,d/2-1.5])prism(rectangle(x,z,2,2),0,h-thickness,()=>support.clone(),support);
+    if(['legs','round','bench'].includes(spec.kind)){const legX=spec.kind==='round'?(w/2-2)/Math.SQRT2:w/2-2.5,legZ=spec.kind==='round'?(d/2-2)/Math.SQRT2:d/2-2.5;for(const x of [-legX,legX])for(const z of [-legZ,legZ])prism(rectangle(x,z,2,2),0,h-thickness,()=>support.clone(),support);}
     if(spec.kind==='pedestal'){prism(rectangle(0,0,5,5),1,h-thickness,()=>support.clone(),support);prism(rectangle(0,0,10,10),0,1,()=>support.clone(),support);}
     const solid=new THREE.BufferGeometry();solid.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));solid.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));solid.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));solid.computeVertexNormals();const material=original.clone();material.transparent=false;material.opacity=1;material.alphaTest=0;material.depthWrite=true;material.side=THREE.FrontSide;const furniture=new THREE.Mesh(solid,material);furniture.name='solid-original-furniture';furniture.userData.seatKind=spec.kind;root.add(furniture);mesh.visible=false;count++;
   }

@@ -15,7 +15,7 @@
 - Pokémon fixtures check original level-5 starter moves/PP, Gen IV Tackle data, stat rounding, Steel’s Gen IV resistances and integer capture bounds.
 - TypeScript and Vite production build pass. Both production HTML entry points use the source runtime.
 
-- Flat furniture audit: all 40 native stool, pedestal-seat, bench, cushion and matching box texture variants have closed opaque geometry within their original footprints. Raised seats have floor-reaching supports; floor cushions remain low. Source textures and shadows are retained. Rotated/scaled root and idempotence regressions pass. Native 3D sofas are excluded.
+- Flat furniture audit: all 40 native stool, pedestal-seat, bench, cushion and matching box texture variants have closed opaque geometry within their original footprints. Raised seats have floor-reaching supports; floor cushions remain low. Source textures and shadows are retained. Rotated/scaled root and idempotence regressions pass. Native 3D sofas are excluded. Every support footprint vertex must project upward to its seat top, including round seats. Read-only Opus 5.5 review and adjudication are recorded in `reviews/2026-10-16-furniture-opus-5.5.md`.
 
 ## Browser checks
 
