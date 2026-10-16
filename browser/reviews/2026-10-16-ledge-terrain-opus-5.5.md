@@ -6,7 +6,7 @@ Claude Code was explicitly selected as `claude-opus-5-5`, non-interactive with R
 
 - **M1, collision/visual floor mismatch:** confirmed by original geometry profiles, including a lower visible floor at 3.125 above a collision floor at 3. Original visible surfaces now supply both sides of all 1,453 ledges (8,718 samples, no collision fallbacks). A regression verifies the actual 3.125 profile joins the wall.
 - **M2, scenery tearing:** original flower/rock repairs now export explicit authored roots; touching rocks stay separate. Trees, trunks, fences and grass move rigidly at their authored roots. The production tree renderer is now solid in the merged base. Native water/shore strips retain their coordinates even when they overhang displaced land. Tests exercise touching boulders, flowers and offset crowns across a ledge. This is not visual approval of every original vertical wall.
-- **M3, rebuild cost:** measured and addressed with direct Int16 sampling, a uniform-region fast path, cooperative MessageChannel task yielding and stale-generation cancellation. Node/browsers measurements and limits are recorded in VERIFICATION.md. The camera-raycast part was not reproduced: fieldCameraObstacles excludes the generated terrace ground and foliage; real walls remain obstacles.
+- **M3, rebuild cost:** measured and addressed with direct Int16 sampling, a uniform-region fast path, cooperative MessageChannel task yielding and stale-generation cancellation. Node/browsers measurements and limits are recorded in VERIFICATION.md. The increased camera geometry is real: the selector excludes foliage but retains generated ground and walls. In a Route 29 view with 472 obstacle meshes / 148,015 triangles, ten rays measured 0.6–0.8 ms; 32 low-angle directions measured 0.9 ms median / 2.8 ms maximum. No hitch was reproduced in this limited sample; denser views and other devices remain to be profiled.
 - **L1, optional cliff failure:** art loads only in cells with their own ledges. A failed optional lookup keeps an opaque solid fallback wall. Required terrain/data failures still surface as errors rather than publishing an inconsistent cell.
 - **L2, native jump priority:** source collision & 4 precedes ordinary blocking. Matching native ledges now take precedence over NPC/landing vetoes.
 - **L3, follower jump inference:** replaced the distance guess with the preceding step's explicit jump flag, cleared on non-connection entries.
@@ -103,3 +103,67 @@ I found no blocking regressions in the jump semantics, floor selection or resour
 2. Find non-ground triangles that cross a ledge edge, especially flowers and lip art.
 3. Profile `terraceModel` while streaming, and the per-frame camera raycast.
 4. Make cliff-asset failure degrade to a missing wall instead of rejecting the stream.
+
+## Follow-up review of 4656eb5
+
+The same explicitly selected Opus 5.5 CLI reviewed the async compiler, foundations, connected battle layout and source transforms in read-only mode. Its metadata also records auxiliary Haiku usage. It found no blockers. The original response follows below. Adjudication of optional findings:
+
+1. The incorrect camera-obstacle sentence was corrected to the measured scope above.
+2. Same-matrix long warps can still wait for old streamed work. This is a known latency follow-up, not a connected-border camera reset; connections use the separate nonblocking path.
+3. Regeneration now carries forward nativeEdges when the native ledge list is unchanged, with an explicit warning when complete profiles are absent. Regeneration retained all 1,453 profiles and semantically identical data.
+4. Actual base-edge sampling confirmed a small gap outside four rectangular flat plots (up to 0.223 tile absolute difference). Wall footings now close downward-exposed edges on all applicable structures while preserving native ledges and gate passages. All 307 structures pass the geometry audit; 83 need strips. A buried overhang requires no downward strip.
+5. Terrain material lookup now precomputes triangle slots instead of scanning every group for each triangle.
+6. All 10,675 imported landscape colour attributes are VEC3, so the inferred vertex-alpha issue is absent from current source assets.
+7. A trainer may still share the occupied tile in the final cramped-space fallback. Further cramped-room presentation work remains pending.
+
+A separate visual battle check found roof occlusion not raised by the static review. The opening shoulder and ongoing collision checks now test both fighters. This changes presentation only.
+
+I found no blockers in snapshot `4656eb5`. As you asked, I only used Read, Grep and Glob: I didn't run the tests, the build or the browser, and I didn't open `terraces/0.json`.
+
+## What I checked and found correct
+
+- **Async compile cancellation and ownership:**
+  - Several cells can share one pause in `terrain-work.ts`, and none of them starves the others.
+  - At every pause, `terraceModel` checks `isCurrent` (`terrace-model.ts:16`), and it checks again before replacing each mesh. An outdated job returns `false`, and the `finally` at `world.ts:130` releases its partly built group.
+  - A world built for one matrix can't add terrain built for another: changing matrix or room bumps `generation` before any await (`world.ts:74`). A stale job that picks up the next matrix's `this.terraces` stops at its first pause.
+  - The shared template isn't modified. Clones get their own copies of instance matrices and `userData`, and only clone-side `visible` flags change.
+- **Source transforms:** vertices, `sceneryRoot` points and instance positions are all converted through each mesh's `matrixWorld`, then back with the group's inverse. This covers the 1/16 scale, glTF node hierarchies and skinned meshes. Tree roots (`tree-volume.ts:33`) and the repaired-mesh roots (`render-repair.ts:167`) are in the same space they're decoded in.
+- **Flat-region shortcut:** a triangle that keeps its original edges meets clipped neighbours at the same heights, because tiles on an intact edge share their edge values.
+- **Foundation anchors:**
+  - The exporter's `cx,cz:n` keys, owner lookup, rotation order, scale and position all match `world.ts:128`.
+  - At runtime, sampling the anchor returns exactly the flattened value: the anchor is clamped inside the bounds, and every half-tile node covering it is set to the same quantised value.
+  - If any node touches water or the edge of the solved area, the building stays at zero.
+  - A footprint spanning a ledge, or two overlapping footprints that disagree, makes the exporter fail.
+  - The midpoint-drop check runs after flattening.
+  - `closeBuildingBack` and `furnitureObstacles` run after the offset is applied, so rear walls and seat collision are both at the displayed height.
+- **Water and ledge walls:**
+  - Water tiles, and every corner or edge midpoint touching water, are zero, so land slopes continuously into water.
+  - The wall profile slots (`[0..2]` upper, `[3..5]` lower) match `terraceWalls`. They are absolute heights, with this cell's altitude subtracted correctly even when the lower side is in a neighbouring cell.
+- **Battle placement:**
+  - Each path sample passes the previous sample as its reference floor. The 0.4-tile steps with a 0.35 height limit rule out crossing ledges, cliffs and bridge floors.
+  - Furniture is checked on every step through `world.walkable`.
+  - Unloaded cells count as not walkable.
+  - The fallback stays on the player's own tile.
+
+## Optional improvements (none block)
+
+1. **The adjudication text is wrong about camera obstacles.** Review line 9 says `fieldCameraObstacles` "excludes the generated terrace ground". It doesn't: `camera.ts:7` only filters by name and foliage material, so `source-terrace-surface` meshes are obstacles. `VERIFICATION.md:130` correctly says the terrain "remains in the obstruction query" and records costs under 3 ms. Only the review sentence needs fixing.
+
+2. **Long warps within matrix 0 wait for discarded work.**
+   - **Trigger:** warping to a far point in the same matrix while the old area is still compiling.
+   - **Cause:** neither a matrix nor a room change happens, so `generation` isn't bumped (`world.ts:73-74`), and `stream` waits on `this.pending` (`world.ts:96`).
+   - **Effect:** arrival waits for the whole old 5×5 window to finish compiling, then those cells are thrown away (`world.ts:133`). The cost is extra latency, of the same order as the ~2.6 s initial Route 29 stream.
+   - **Fix:** bump `generation` (or a separate streaming token) when the new centre is outside the old window.
+
+3. **The export order can silently undo the M1 fix.** `export_terraces.py:255` rewrites `0.json` without `nativeEdges`. Until `export_ledge_profiles.ts` is run again, `terraceWalls` falls back to collision heights (`terrace-model.ts:62`), which brings back the floor mismatch M1 fixed. The test at `terrace-model.test.ts:46` would catch it. A cheap fix is to carry the existing `nativeEdges` over, or warn.
+
+4. **Inferred: the edge of a building's base may sit on sloped ground.**
+   - Because of half-tile snapping, only the bounds inset by 0.4 from the bounding box are guaranteed flat (`export_foundations.ts:27`, `export_terraces.py:215`). The flat area starts anywhere from 0.1 tile outside to 0.4 inside the solid bounding box edge.
+   - **Effect:** a structure with walls right at its bounding box edge (no roof overhang) could have up to 0.4 tile of base over the sloped apron, floating or sunk slightly.
+   - This depends on the data, which I didn't check. The existing footprint audit may already cover it.
+
+5. **Repaired meshes make material lookup quadratic.** `render-repair.ts:166` creates one group per triangle, and `terrace-model.ts:32` searches the groups with `.find` for every triangle, so flower and rock meshes cost O(N²). The work is still split across pauses. Caching the slot by index, or merging runs of the same material when repairing, would remove it.
+
+6. **Inferred: vertex alpha would be lost.** `terrace-model.ts:23,48` copies only RGB vertex colours. If any land mesh stores alpha in a 4-component colour attribute, the rebuilt surface would lose that transparency. I didn't verify the assets' colour format.
+
+7. **Cosmetic: a trainer can overlap their Pokémon.** When none of the six candidate spots in `battleTrainerSpot` connects, it returns the Pokémon's own position (`battle-layout.ts:40`), so the trainer sprite overlaps it in cramped spaces.

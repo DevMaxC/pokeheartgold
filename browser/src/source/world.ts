@@ -11,6 +11,7 @@ import {WorldSky} from './sky.ts';
 import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
 import {forestFoundation} from './foundations.ts';
 import {furnitureObstacles,furnitureBlocksStep,type FurnitureObstacle} from './furniture-collision.ts';
+import {closeBuildingFooting} from './building-footing.ts';
 import {shorelineUnderlay} from './shoreline.ts';
 import {Terraces,type TerraceData} from './ledges.ts';
 import {terraceModel,terraceWalls} from './terrace-model.ts';
@@ -67,7 +68,7 @@ export class OriginalWorld {
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
-  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall'].includes(object.name))return;object.geometry.dispose();if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
+  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;object.geometry.dispose();if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
   async enter(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);
     const matrixChanged=this.activeMatrix!==map.matrix,roomChanged=!matrixChanged&&this.matrix?.headers===null&&this.activeHeader!==id;
@@ -125,7 +126,7 @@ export class OriginalWorld {
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
         }
-        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=terraces.data.foundations?.[xx+','+zz+':'+propIndex]??[xx*32+16+p.position.x,zz*32+16+p.position.z];p.position.y+=terraces.height(anchor[0],anchor[1]);}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());}));for(const result of props)if(result.status==='rejected')throw result.reason;
+        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;
         }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());

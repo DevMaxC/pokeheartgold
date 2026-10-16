@@ -28,8 +28,10 @@ export async function terraceModel(root:THREE.Group,terraces:Terraces,isCurrent:
    const bounds=new Map<number,THREE.Box3>();points.forEach((p,i)=>{const id=find(i),box=bounds.get(id)??new THREE.Box3();box.expandByPoint(p);bounds.set(id,box);});points.forEach((p,i)=>{const centre=bounds.get(find(i))!.getCenter(new THREE.Vector3());rigid.set(pointKey(p),terraces.height(centre.x,centre.z));});
   }
   const add=(polygon:Vertex[],slot:number,tx?:number,tz?:number,override?:number)=>{const data=attributes[slot];for(let i=1;i<polygon.length-1;i++){const triangle=[polygon[0],polygon[i],polygon[i+1]];if(new THREE.Vector3().subVectors(triangle[1].p,triangle[0].p).cross(new THREE.Vector3().subVectors(triangle[2].p,triangle[0].p)).lengthSq()<1e-14)continue;for(const v of triangle){const p=v.p.clone();let offset:number;if(override!==undefined)offset=override;else if(v.root)offset=terraces.height(v.root.x,v.root.z);else if(rigid.size)offset=rigid.get(pointKey(p))!;else if(tx===undefined||tz===undefined)offset=terraces.height(p.x,p.z);else offset=terraces.sample(Math.floor(tx),Math.floor(tz),p.x,p.z);p.y+=offset;p.applyMatrix4(inverse);data.positions.push(...p.toArray());data.uvs.push(...v.uv.toArray());data.colors.push(...v.color.toArray());}}};
-  const start=geometry.drawRange.start,end=Math.min(index?.count??position.count,start+geometry.drawRange.count);
-  for(let i=start;i+2<end;i+=3){if((++work&31)===0&&!await pause())return false;const slot=geometry.groups.find(g=>i>=g.start&&i<g.start+g.count)?.materialIndex??0,triangle=[0,1,2].map(j=>vertex(index?index.getX(i+j):i+j));
+  const total=index?.count??position.count,slots=new Uint32Array(Math.ceil(total/3));slots.fill(0xffffffff);
+  for(const g of geometry.groups)for(let t=Math.ceil(g.start/3);t*3<Math.min(total,g.start+g.count);t++)if(slots[t]===0xffffffff)slots[t]=g.materialIndex??0;
+  const start=geometry.drawRange.start,end=Math.min(total,start+geometry.drawRange.count);
+  for(let i=start;i+2<end;i+=3){if((++work&31)===0&&!await pause())return false;const value=slots[Math.floor(i/3)],slot=value===0xffffffff?0:value,triangle=[0,1,2].map(j=>vertex(index?index.getX(i+j):i+j));
    const minX=Math.min(...triangle.map(v=>v.p.x)),maxX=Math.max(...triangle.map(v=>v.p.x)),minZ=Math.min(...triangle.map(v=>v.p.z)),maxZ=Math.max(...triangle.map(v=>v.p.z));
    // Water artwork can overhang its collision tile. Keep the native waterline
    // fixed even where that overhang reaches displaced land.

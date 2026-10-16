@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {fieldBattleLayout,battleTrainerSpot} from './battle-layout.ts';
 import {fieldCameraObstacles} from './camera.ts';
+import {battleCameraDistance,battleCameraEye,battleOpeningYaw,clearBattleCameraEye} from './battle-camera.ts';
 import type {OriginalWorld} from './world.ts';
 import type {BattleView} from './battle-view.ts';
 import type {Mon,MoveData} from './types.ts';
@@ -46,7 +47,8 @@ export class WorldBattleView implements BattleView {
     const toward=layout.axis.x<0?2:layout.axis.x>0?3:layout.axis.z<0?0:1;
     this.trainers=trainerKeys.map((key,i)=>{const paper=this.world.paper(key,1.9);this.group.add(paper.group);const home=this.fighters[i].home,position=battleTrainerSpot(this.world,{x:home.x,z:home.z,y:home.y-.035},layout.axis,i===0?1:-1);paper.group.position.set(position.x,position.y,position.z);return{paper,facing:i===0?toward:[1,0,3,2][toward]};});
     // Three-quarter shoulder view along the line between the two Pokémon.
-    this.world.yaw=Math.atan2(-axis.x,-axis.y)+.6;this.world.pitch=.37;this.world.distance=8.4;this.active=true;this.world.battleStage=this;
+    const obstacles=[...this.world.cells.values()].flatMap(c=>fieldCameraObstacles(c.group)),subjects=this.fighters.map(f=>f.home.clone().add(new THREE.Vector3(0,.8,0)));
+    this.world.yaw=battleOpeningYaw(this.center,Math.atan2(-axis.x,-axis.y),.37,battleCameraDistance(8.4,this.world.camera.aspect),subjects,obstacles);this.world.pitch=.37;this.world.distance=8.4;this.active=true;this.world.battleStage=this;
     this.sync(player,enemy);await Promise.all([...this.art.values()]);await wait(350);
   }
 
@@ -87,14 +89,8 @@ export class WorldBattleView implements BattleView {
   update(dt:number){
     if(!this.active)return;this.time+=dt;
     const camera=this.world.camera,aspect=camera.aspect;
-    const vertical=THREE.MathUtils.degToRad(46),horizontal=2*Math.atan(Math.tan(vertical/2)*aspect);
-    const fit=3.1/Math.sin(Math.min(vertical,horizontal)/2);
-    const distance=this.world.distance*Math.max(1,fit/8.4);
-    const desired=this.center.clone().add(new THREE.Vector3(Math.sin(this.world.yaw)*Math.cos(this.world.pitch)*distance,Math.sin(this.world.pitch)*distance,Math.cos(this.world.yaw)*Math.cos(this.world.pitch)*distance));
-    // Raise the camera for solid architecture behind the shoulder.
-    const ray=new THREE.Raycaster(this.center,desired.clone().sub(this.center).normalize(),1,desired.distanceTo(this.center));
-    const blocker=ray.intersectObjects([...this.world.cells.values()].flatMap(c=>fieldCameraObstacles(c.group)),false).find(hit=>hit.distance>1.4);
-    if(blocker)desired.y+=Math.min(5,Math.max(0,desired.distanceTo(this.center)-blocker.distance)*.8);
+    const distance=battleCameraDistance(this.world.distance,aspect),subjects=this.fighters.length?this.fighters.map(f=>f.home.clone().add(new THREE.Vector3(0,.8,0))):[this.center],obstacles=[...this.world.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));
+    const desired=clearBattleCameraEye(battleCameraEye(this.center,this.world.yaw,this.world.pitch,distance),subjects,obstacles);
     camera.position.lerp(desired,1-Math.exp(-dt*5));camera.fov=THREE.MathUtils.lerp(camera.fov,46,1-Math.exp(-dt*5));camera.updateProjectionMatrix();
     const look=this.center.clone();look.y-=aspect<.9?.1:.2;
     if(this.shake>0){camera.position.x+=Math.sin(this.time*97)*this.shake;this.shake=Math.max(0,this.shake-dt*.7);}

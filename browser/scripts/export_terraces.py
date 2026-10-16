@@ -254,7 +254,15 @@ def export(matrix_id):
             cliff_assets[context] = 'land/'+path.name
     output = {'version':2,'scale':SCALE,'cells':cells,'ledges':jumps,'cliffAssets':cliff_assets,'foundations':{building['key']:building['anchor'] for building in foundations}}
     folder = ROOT / 'terraces'; folder.mkdir(exist_ok=True)
-    (folder/f'{matrix_id}.json').write_text(json.dumps(output,separators=(',',':'))+'\n')
+    target = folder/f'{matrix_id}.json'
+    if target.exists():
+        previous = json.loads(target.read_text())
+        # Native profiles depend on source geometry, not solved displacement.
+        if previous.get('ledges') == jumps and previous.get('nativeEdges'):
+            output['nativeEdges'] = previous['nativeEdges']
+    if len(output.get('nativeEdges',{})) != len(jumps):
+        print('Run export_ledge_profiles.ts to add the required original visible-floor profiles')
+    target.write_text(json.dumps(output,separators=(',',':'))+'\n')
     print(f'Matrix {matrix_id}: {len(jumps)} raised ledges, {len(cells)} height cells, range {points.min():.3f}..{points.max():.3f}')
 
 
