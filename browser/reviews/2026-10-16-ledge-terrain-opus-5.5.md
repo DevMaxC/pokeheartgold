@@ -202,3 +202,62 @@ I found **no blockers** in 1385702's new code. A few optional items are listed b
 4. **Only one point per fighter is tested (inferred, cosmetic).** The test point is `home + 0.8` on a 1.85-tall sprite. A low eave could hide a fighter's upper half while the test says clear. Testing a second point near the top (about +1.6) would cover it.
 5. **Profile carry-over only checks the ledge list (inferred).** `export_terraces.py:261` reuses `nativeEdges` whenever `ledges` is unchanged, even if the land GLBs were re-exported. The warning at `:263` only compares counts. That's fine for now, but a stale profile after a land re-export would go unnoticed.
 6. **Strip texture (design note, not a defect).** The bottom corners reuse the top edge's UV (`building-footing.ts:26`), so each strip stretches one row of the texture downward. At the measured gap sizes (up to about 0.22 tile) this should be hard to notice, but it's not true wall texture continuing down.
+
+
+## Follow-up review of 0eb0e27
+
+The explicitly selected Claude Opus 5.5 CLI reviewed the final continuous cliff material, analytic canopy occlusion and battle-camera cache. It found no blockers. It used Read/Grep/Glob only; the response does not substitute for the separate 158-test run, build and browser render checks. Metadata again records auxiliary Haiku usage.
+
+The open-ended box prefilter can do extra work on trees beyond the camera, although the final segment test remains correct. This remains a profiling follow-up, together with one-time canopy cache construction. Any finite-box optimization must also preserve rays starting inside a box. The measured battle-camera sample averaged 0.54 ms over 60 updates; this is a limited sample, not a worst-case claim.
+
+The review's sprite-edge, trainer, cramped fallback, discrete camera lift and trapezoid texture limitations remain documented follow-ups. No further camera behavior was changed for these optional observations. Full game parity remains pending.
+
+I found **no blockers** in `0eb0e27`. I used only Read, Grep and Glob. I didn't run the tests, build or browser, and I didn't open `terraces/0.json`. Performance points below are inferred from the code, not measured.
+
+## Checked and correct
+
+- **Segment test** (`canopy-occlusion.ts:20`)
+  - The parameter along the segment survives the affine transform into each lobe's own space. So clamping it with the world length leaves out 0.2 at each end, the same margins as the raycaster's near/far.
+  - The squared distance is convex along the segment, so clamping the closest point gives the true minimum over the finite segment.
+  - The `length<.5` guard keeps the clamp interval valid.
+  - A singular lobe matrix inverts to all zeros, which yields NaN and so "not blocked". It doesn't throw.
+  - The box checks on the open-ended ray are only prefilters; the exact test is the segment one.
+- **Lobe transform** (`canopy-occlusion.ts:13`)
+  - Each lobe is world matrix × instance × translate(0,y) × scale(rx,ry,rz). That matches how `crown()` builds them (scale, then translate), including the per-instance Y rotation with unequal X and Z radii and parent rotation and scale (tested at `canopy-occlusion.test.ts:13`).
+  - The 12×6 sphere mesh sits inside its analytic ellipsoid, so both blocking and the interior check err on the safe side.
+  - The leaves material is opaque, so the solid ellipsoid matches what's drawn.
+- **Cache and ownership**
+  - The cache is keyed per InstancedMesh object, using the instance-matrix version plus all 16 world-matrix values.
+  - Clones made by streaming are separate objects. They get their own instance-matrix copies and a JSON copy of `canopyLobes`.
+  - `terraceModel` displaces trees before the cell is published and sets `needsUpdate` (`terrace-model.ts:24`), so the cache never sees a matrix change without a version bump.
+  - Only cells whose work has finished are added to `world.cells` (`world.ts:130`), so per-cell results never mix. Hidden parents and the hidden billboard mesh are skipped.
+- **Field vs battle:** the field camera still filters trees by name (`camera.ts:7`) and never uses canopies, so field behaviour is unchanged.
+- **Camera plan** (`battle-stage.ts:94-95`)
+  - The plan key covers yaw, pitch, the fitted distance, aspect, and each cell's UUID and child count.
+  - Wheel zoom and orbit input change the key, so they replan immediately. `time` and `cameraPlan` reset in `begin`.
+  - The opening yaw uses the same distance, pitch and subjects as `update`.
+  - `clearBattleCameraEye` only raises Y, so manual yaw is kept (tested). `end()` restores yaw, pitch, distance and FOV.
+- **Cliff material**
+  - `terraceCliffMaterial` only accepts `cliff01`. The exporter only lists cliff assets that contain `cliff01` (`export_terraces.py:253`).
+  - The `textured-terrain-back` clone keeps the same name and map, and its differences (side, polygon offset) are overridden by `terraceWalls`.
+  - The wall UV corners are right: U is 0/0.5/1 along the two half-tile parts, V is 0 at the top and 1 at the bottom.
+  - The cloned wall material is still freed in `releaseCell`.
+
+## Optional findings (none block)
+
+1. **The canopy prefilter doesn't stop at the eye (inferred cost).**
+   - `ray.intersectsBox` tests an open-ended ray. Once a cell's combined bounds are hit, every lobe whose box lies anywhere along that ray goes through two matrix transforms, including lobes beyond the eye.
+   - Cost per segment grows with the number of lobes in every cell the ray passes over.
+   - **Trigger:** holding orbit or zoom input changes the key every frame. Each replan can test up to 6 lifts × 4 subjects = 24 segments, plus the same number of triangle raycasts.
+   - The 0.54 ms sample may not cover dense forest cells while orbiting continuously.
+   - **Cheap fix:** use `ray.intersectBox(box, tmp)` and skip a box when the hit distance is beyond `length`, at both the cell and lobe levels.
+2. **The first `fieldCanopies` call in `begin` runs all at once.** It allocates about 6 matrices and boxes per lobe (3 lobes per tree) across all 25 loaded cells, once per battle start. It's probably small, but it isn't split across pauses.
+
+## Limitations (not defects)
+
+- **Sprite coverage:** the interior and sightline checks only test the sprite's centre column at +0.6 and +1.4. The plane is 1.85 × aspect wide and 1.85 tall plus bob, so a crown edge can still clip a wide Pokémon's side or top.
+- **Trainers:** trainer spots (`battleTrainerSpot`) aren't checked against canopies and aren't camera subjects.
+- **Fallback:** the cramped fallback (`safe:false`, `battle-layout.ts:32`) skips the canopy check. If the player's own tile is under a crown, every lift may be blocked, and the eye falls back to +12.
+- **Wall texture:** each wall half stretches the whole texture over its height. Where top or bottom heights differ between the half's two ends (a trapezoid), the per-triangle UV mapping leaves a slight diagonal kink in the texture. Equal-height edges are unaffected.
+- **Camera lift:** lifts happen in discrete steps and the camera eases toward them, so it can pass briefly through an occluded position (cosmetic).
+- **Test gap:** no test covers the battle-stage cache key or the 0.25 s expiry, such as a replan after a yaw change or reuse within the window. The canopy cache itself is tested.
