@@ -25,3 +25,11 @@ test('world movement combines native floor permissions with cached furniture col
  const group=stool(),furniture=furnitureObstacles(group),cell={x:0,z:0,altitude:0},land={permissions:new Array(1024).fill(0),plates:[{bounds:[-16,-16,16,16],normal:[0,1,0],constant:0}]},world=Object.create(OriginalWorld.prototype) as OriginalWorld;Object.assign(world,{cells:new Map([['0,0',{cell,land,group,map:{id:65},furniture}]])});
  assert.equal(world.walkable(8.5,5.5,8.5,6.5,0),false);assert.equal(world.walkable(9.5,5.5,9.5,6.5,0),true);assert.equal(world.walkable(8.5,6.5,8.5,5.5,0),true);land.permissions[6*32+8]=0x8000;assert.equal(world.walkable(8.5,6.5),false,'Furniture collision never bypasses a blocked source tile');
 });
+test('a save near a thin seat can move away but cannot cross through its footprint',()=>{
+ const root=new THREE.Group(),seat=new THREE.Mesh(new THREE.BoxGeometry(.6,.5,1),new THREE.MeshBasicMaterial());seat.name='solid-original-furniture';seat.position.y=.25;root.add(seat);const obstacles=furnitureObstacles(root);
+ assert.equal(furnitureBlocksStep(obstacles,-.4,0,.6,0,0,0),true);assert.equal(furnitureBlocksStep(obstacles,-.4,0,-1.4,0,0,0),false);assert.equal(furnitureBlocksStep(obstacles,0,0,.9,0,0,0),false);
+});
+test('furniture extending across a cell border blocks movement until its owning cell unloads',()=>{
+ const group=stool();group.position.x=31.9;const furniture=furnitureObstacles(group),land={permissions:new Array(1024).fill(0),plates:[]},world=Object.create(OriginalWorld.prototype) as OriginalWorld;Object.assign(world,{cells:new Map([['0,0',{cell:{x:0,z:0,altitude:0},land,group:new THREE.Group(),map:{id:65}}],['1,0',{cell:{x:1,z:0,altitude:0},land,group,map:{id:65},furniture}]])});
+ assert.equal(world.terrainWalkable(31.5,5.5),true);assert.equal(world.walkable(31.5,5.5,30.5,5.5,0),false);world.cells.delete('1,0');assert.equal(world.walkable(31.5,5.5,30.5,5.5,0),true);
+});

@@ -22,6 +22,11 @@ function intersects(a:THREE.Vector2,b:THREE.Vector2,c:THREE.Vector2,d:THREE.Vect
  return cross(a,b,c)*cross(a,b,d)<=0&&cross(c,d,a)*cross(c,d,b)<=0;
 }
 function touches(p:THREE.Vector2,obstacle:FurnitureObstacle,radius:number){const edges=obstacle.outline;return edges.every((a,i)=>cross(a,edges[(i+1)%edges.length],p)>=-1e-8)||edges.some((a,i)=>pointDistanceSquared(p,a,edges[(i+1)%edges.length])<radius*radius);}
+function movingOut(from:THREE.Vector2,to:THREE.Vector2,obstacle:FurnitureObstacle){
+ const points=obstacle.outline;if(points.every((a,i)=>cross(a,points[(i+1)%points.length],from)>1e-8))return true;
+ let best=Infinity,normal=new THREE.Vector2();for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length],edge=b.clone().sub(a),t=THREE.MathUtils.clamp(from.clone().sub(a).dot(edge)/edge.lengthSq(),0,1),nearest=a.clone().addScaledVector(edge,t),distance=from.distanceToSquared(nearest);if(distance<best){best=distance;normal=distance>1e-12?from.clone().sub(nearest):new THREE.Vector2(edge.y,-edge.x);}}
+ return to.clone().sub(from).dot(normal)>=-1e-8;
+}
 /** Sweep the player's feet across the whole step, including gaps between tile
  * centres. Existing saves inside a seat can move out without becoming trapped. */
 export function furnitureBlocksStep(obstacles:FurnitureObstacle[],fromX:number,fromZ:number,x:number,z:number,fromY:number,toY:number,radius=.24){
@@ -29,7 +34,7 @@ export function furnitureBlocksStep(obstacles:FurnitureObstacle[],fromX:number,f
  for(const obstacle of obstacles){
   if(Math.min(fromY,toY)>=obstacle.maxY-.025||Math.max(fromY,toY)+1.65<=obstacle.minY+.025)continue;
   if(Math.max(fromX,x)+radius<obstacle.bounds.min.x||Math.min(fromX,x)-radius>obstacle.bounds.max.x||Math.max(fromZ,z)+radius<obstacle.bounds.min.y||Math.min(fromZ,z)-radius>obstacle.bounds.max.y)continue;
-  const end=touches(to,obstacle,radius);if(touches(from,obstacle,radius)&&!end)continue;if(end)return true;
+  const end=touches(to,obstacle,radius);if(touches(from,obstacle,radius)&&!end&&movingOut(from,to,obstacle))continue;if(end)return true;
   const points=obstacle.outline;for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length];if(intersects(from,to,a,b)||Math.min(pointDistanceSquared(a,from,to),pointDistanceSquared(b,from,to),pointDistanceSquared(from,a,b),pointDistanceSquared(to,a,b))<radius2)return true;}
  }
  return false;

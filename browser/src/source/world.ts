@@ -123,8 +123,9 @@ export class OriginalWorld {
   cell(x:number,z:number){return this.cells.get(Math.floor(x/32)+','+Math.floor(z/32));}
   height(x:number,z:number,currentY=0){const c=this.cell(x,z);return c?terrainHeight(c.land,c.cell,x,z,currentY):currentY;}
   permission(x:number,z:number){const c=this.cell(x,z);return c?tilePermission(c.land,x,z):0x8000;}
+  terrainWalkable(x:number,z:number){const cell=this.cell(x,z);return !!cell&&cell.map.id!==0&&permissionWalkable(this.permission(x,z));}
   walkable(x:number,z:number,fromX=x,fromZ=z,currentY=0){
-    const cell=this.cell(x,z);if(!cell||cell.map.id===0||!permissionWalkable(this.permission(x,z)))return false;
+    if(!this.terrainWalkable(x,z))return false;
     const fromY=this.height(fromX,fromZ,currentY),toY=this.height(x,z,fromY);
     for(const loaded of this.cells.values())if(furnitureBlocksStep(loaded.furniture??[],fromX,fromZ,x,z,fromY,toY))return false;
     return true;
