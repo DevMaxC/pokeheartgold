@@ -3,6 +3,7 @@ import * as THREE from 'three';
 type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial};
 type RepairSummary={solidFaces:number;billboardTrees:number;uprightPanels:number;fencePosts:number;flowerClumps:number;terrainSkirts:number;solidRocks:number};
 const isShadow=(m:THREE.MeshBasicMaterial)=>/kage|shadow/i.test(m.name)||m.opacity<.5;
+const solidColors=new WeakMap<THREE.Material,THREE.Color>(),rockTextures=new WeakMap<THREE.Material,THREE.Texture>();
 export function originalMaterial(old:THREE.MeshStandardMaterial){
   const material=new THREE.MeshBasicMaterial({map:old.map,color:old.color,transparent:old.transparent,opacity:old.opacity,alphaTest:old.alphaTest,depthWrite:old.depthWrite,depthTest:old.depthTest,side:THREE.DoubleSide,vertexColors:old.vertexColors});material.name=old.name;
   if(material.map){material.map.magFilter=THREE.NearestFilter;material.map.minFilter=THREE.NearestFilter;material.map.generateMipmaps=false;}return material;
@@ -17,14 +18,14 @@ function triangles(mesh:THREE.Mesh):Triangle[]{
 }
 function normal(triangle:Triangle){const [a,b,c]=triangle.points;return new THREE.Vector3().subVectors(b,a).cross(new THREE.Vector3().subVectors(c,a));}
 function averageColor(material:THREE.MeshBasicMaterial){
-  if(material.userData.solidColor)return (material.userData.solidColor as THREE.Color).clone();
+  const cached=solidColors.get(material);if(cached)return cached.clone();
   const result=material.color.clone();const image=material.map?.image as CanvasImageSource&{width?:number;height?:number};
   if(image?.width&&image.height){try{const canvas=document.createElement('canvas');canvas.width=32;canvas.height=32;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0,32,32);const pixels=ctx.getImageData(0,0,32,32).data;let r=0,g=0,b=0,n=0;for(let i=0;i<pixels.length;i+=4){if(pixels[i+3]<200)continue;r+=pixels[i];g+=pixels[i+1];b+=pixels[i+2];n++;}if(n)result.multiply(new THREE.Color(r/n/255,g/n/255,b/n/255).convertSRGBToLinear());}catch{/* A solid source material color remains a valid fallback. */}}
-  material.userData.solidColor=result;return result;
+  solidColors.set(material,result);return result;
 }
 
 function opaqueRockTexture(material:THREE.MeshBasicMaterial):THREE.Texture|null{
-  if(material.userData.rockTexture)return material.userData.rockTexture;
+  const cached=rockTextures.get(material);if(cached)return cached;
   const image=material.map?.image as CanvasImageSource&{width?:number;height?:number};if(!image?.width||!image.height||typeof document==='undefined')return null;
   try{const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data,original=pixels.slice(),count=canvas.width*canvas.height,owner=new Int32Array(count).fill(-1),queue=new Int32Array(count);let head=0,tail=0;for(let pixel=0;pixel<count;pixel++)if(pixels[pixel*4+3]>=128){owner[pixel]=pixel;queue[tail++]=pixel;}if(!tail)return null;
     // The 3D silhouette supplies the outline. Extend the original opaque pixels
@@ -33,7 +34,7 @@ function opaqueRockTexture(material:THREE.MeshBasicMaterial):THREE.Texture|null{
     // nearest-pixel search during landscape streaming.
     while(head<tail){const pixel=queue[head++],x=pixel%canvas.width;for(const next of [x>0?pixel-1:-1,x<canvas.width-1?pixel+1:-1,pixel-canvas.width,pixel+canvas.width])if(next>=0&&next<count&&owner[next]<0){owner[next]=owner[pixel];queue[tail++]=next;}}
     for(let pixel=0;pixel<count;pixel++){const nearest=owner[pixel]*4;pixels.set(original.subarray(nearest,nearest+3),pixel*4);pixels[pixel*4+3]=255;}
-    const texture=new THREE.DataTexture(pixels,canvas.width,canvas.height);texture.colorSpace=THREE.SRGBColorSpace;texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.wrapS=THREE.RepeatWrapping;texture.needsUpdate=true;material.userData.rockTexture=texture;return texture;
+    const texture=new THREE.DataTexture(pixels,canvas.width,canvas.height);texture.colorSpace=THREE.SRGBColorSpace;texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.wrapS=THREE.RepeatWrapping;texture.needsUpdate=true;rockTextures.set(material,texture);return texture;
   }catch{return null;}
 }
 
@@ -108,7 +109,7 @@ function closeProps(root:THREE.Group,source:Triangle[],summary:RepairSummary){co
 /** A real source doorway identifies a building and its front. Close a section
  * just inside its rear shell, even when a partial rear face fooled the generic
  * missing-face heuristic. A genuine entrance on the opposite side stays open. */
-export type BuildingEntrance={x:number;z:number;axis?:0|2;sign?:number};
+export type BuildingEntrance={x:number;z:number;axis?:0|2;sign?:number;passageOnly?:boolean};
 export function closeBuildingBack(root:THREE.Object3D,doors:BuildingEntrance[]){
   if(!doors.length)return 0;root.updateWorldMatrix(true,false);root.updateMatrixWorld(true);const solid:Triangle[]=[];
   root.traverse(object=>{if(!(object instanceof THREE.Mesh)||object.name.startsWith('3d-')||object.name==='entrance-rear-wall')return;for(const t of triangles(object))if(!isShadow(t.material)&&!/tree|foliage|leaf|flower|grass|bush|fence|saku|hana|plant/i.test(t.material.name))solid.push(t);});
@@ -116,9 +117,9 @@ export function closeBuildingBack(root:THREE.Object3D,doors:BuildingEntrance[]){
   const faceFor=(d:BuildingEntrance)=>[
     {axis:0 as const,sign:-1,distance:Math.abs(d.x-bounds.min.x)},{axis:0 as const,sign:1,distance:Math.abs(d.x-bounds.max.x)},
     {axis:2 as const,sign:-1,distance:Math.abs(d.z-bounds.min.z)},{axis:2 as const,sign:1,distance:Math.abs(d.z-bounds.max.z)},
-  ].filter(f=>{const side=f.axis===0?'z':'x';return (d.axis===undefined||(d.axis===f.axis&&d.sign===f.sign))&&d[side]>=bounds.min[side]&&d[side]<=bounds.max[side];}).sort((a,b)=>a.distance-b.distance)[0];
+  ].filter(f=>{const side=f.axis===0?'z':'x';return (d.axis===undefined||(d.axis===f.axis&&d.sign===f.sign))&&d[side]>=bounds.min[side]&&d[side]<=bounds.max[side];}).sort((a,b)=>a.distance-b.distance).map(f=>({...f,passageOnly:d.passageOnly}))[0];
   const entrances=doors.filter(d=>d.x>=bounds.min.x-.6&&d.x<=bounds.max.x+.6&&d.z>=bounds.min.z-.6&&d.z<=bounds.max.z+.6).map(faceFor).filter((f):f is NonNullable<typeof f>=>!!f).sort((a,b)=>a.distance-b.distance);if(!entrances.length)return 0;
-  const front=entrances[0];if(entrances.some(f=>f.axis===front.axis&&f.sign===-front.sign))return 0;
+  const front=entrances.find(f=>!f.passageOnly);if(!front||entrances.some(f=>f.axis===front.axis&&f.sign===-front.sign))return 0;
   const axis=front.axis,sideAxis=axis===0?2:0,rear=front.sign>0?bounds.min.getComponent(axis):bounds.max.getComponent(axis),depth=size.getComponent(axis);
   // Follow each floor wall's plane through any stacked upper bands. A roof
   // edge can also be vertical, but must not supply the cladding outline.
@@ -243,9 +244,10 @@ function flowerVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary
 function rockVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],ground:Triangle[],summary:RepairSummary){
   const converted=new Set<Triangle>(),positions:number[]=[],colors:number[]=[],uvs:number[]=[],inverse=root.matrixWorld.clone().invert(),geometry=new THREE.BufferGeometry(),materials:THREE.MeshBasicMaterial[]=[],bySource=new Map<THREE.MeshBasicMaterial,number>();
   const eligible=source.filter(t=>/(?:^|_)(?:rock\d*|iwa\d*|boulder)(?:_|$)/i.test(t.material.name)&&!isShadow(t.material)&&(t.material.alphaTest>0||t.material.transparent));
-  for(let index=0;index+1<eligible.length;index+=2){
+  for(let index=0;index+1<eligible.length;index++){
     const group=eligible.slice(index,index+2),n=normal(group[0]).normalize();if(group[1].material!==group[0].material||Math.abs(n.y)>.96||!group.every(t=>Math.abs(normal(t).normalize().dot(n))>.999))continue;
     if(new Set(group.flatMap(t=>t.points.map(p=>p.toArray().join(',')))).size!==4)continue;
+    const shared=group[0].points.reduce((count,p,i)=>count+Number(group[1].points.some((q,j)=>p.distanceToSquared(q)<1e-8&&group[0].uv[i].distanceToSquared(group[1].uv[j])<1e-8)),0);if(shared!==2)continue;
     const bounds=new THREE.Box3().setFromPoints(group.flatMap(t=>t.points)),center=bounds.getCenter(new THREE.Vector3()),horizontal=new THREE.Vector3(n.z,0,-n.x).normalize();
     const along=group.flatMap(t=>t.points.map(p=>p.dot(horizontal))),width=Math.max(...along)-Math.min(...along),rise=bounds.max.y-bounds.min.y,height=rise/Math.sqrt(1-n.y*n.y);
     if(width<1||height<1||width>height*3)continue;center.y=groundHeight(ground,center.x,center.z,bounds.min.y);
@@ -256,9 +258,11 @@ function rockVolume(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],ground:Tr
     const original=group[0].material,texture=opaqueRockTexture(original);let materialIndex=bySource.get(original);if(materialIndex===undefined){materialIndex=materials.length;bySource.set(original,materialIndex);materials.push(new THREE.MeshBasicMaterial({map:texture,vertexColors:true,side:THREE.DoubleSide}));}
     const start=positions.length/3,top=new THREE.Vector3(center.x+width*.045,center.y+height*.86,center.z),base=center.clone(),palette=(texture?original.color.clone():averageColor(original)).multiply(group[0].color[0]),light=new THREE.Vector3(-.45,.85,.35).normalize();
     const middle=center.clone().add(new THREE.Vector3(0,height*.43,0));
-    const face=(a:THREE.Vector3,b:THREE.Vector3,c:THREE.Vector3)=>{const normal=b.clone().sub(a).cross(c.clone().sub(a)).normalize();if(normal.dot(a.clone().add(b).add(c).multiplyScalar(1/3).sub(middle))<0){[b,c]=[c,b];normal.negate();}const shade=.8+.3*normal.dot(light),color=palette.clone().multiplyScalar(shade),points=[a,b,c],us=points.map(p=>(Math.atan2(p.z-center.z,p.x-center.x)/Math.PI/2+1)%1),seam=Math.max(...us)-Math.min(...us)>.5;for(let i=0;i<3;i++){const p=points[i];positions.push(...p.clone().applyMatrix4(inverse).toArray());colors.push(...color.toArray());uvs.push(us[i]+(seam&&us[i]<.5?1:0),1-(p.y-center.y)/(height*.86));}};
+    const face=(a:THREE.Vector3,b:THREE.Vector3,c:THREE.Vector3)=>{const normal=b.clone().sub(a).cross(c.clone().sub(a)).normalize();if(normal.dot(a.clone().add(b).add(c).multiplyScalar(1/3).sub(middle))<0){[b,c]=[c,b];normal.negate();}const shade=.8+.3*normal.dot(light),color=palette.clone().multiplyScalar(shade),points=[a,b,c],isPole=points.map(p=>p===top||p===base),us=points.map(p=>(Math.atan2(p.z-center.z,p.x-center.x)/Math.PI/2+1.25)%1),ring=us.filter((_,i)=>!isPole[i]),seam=Math.max(...ring)-Math.min(...ring)>.5;
+      for(let i=0;i<3;i++)if(!isPole[i]&&seam&&us[i]<.5)us[i]++;const poleU=us.reduce((sum,u,i)=>sum+(isPole[i]?0:u),0)/ring.length;
+      for(let i=0;i<3;i++){const p=points[i];positions.push(...p.clone().applyMatrix4(inverse).toArray());colors.push(...color.toArray());uvs.push(isPole[i]?poleU:us[i],1-(p.y-center.y)/(height*.86));}};
     for(let i=0;i<sides;i++){const next=(i+1)%sides;face(base,rings[0][next],rings[0][i]);for(let row=0;row<rings.length-1;row++){face(rings[row][i],rings[row][next],rings[row+1][next]);face(rings[row][i],rings[row+1][next],rings[row+1][i]);}face(rings.at(-1)![i],rings.at(-1)![next],top);}
-    geometry.addGroup(start,positions.length/3-start,materialIndex);for(const t of group)converted.add(t);summary.solidRocks++;
+    geometry.addGroup(start,positions.length/3-start,materialIndex);for(const t of group)converted.add(t);summary.solidRocks++;index++;
   }
   if(!converted.size)return{mesh,source};
   geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.computeVertexNormals();const rocks=new THREE.Mesh(geometry,materials.length===1?materials[0]:materials);rocks.name='solid-original-rocks';root.add(rocks);
@@ -271,7 +275,7 @@ function closeTerrain(root:THREE.Group,source:Triangle[],summary:RepairSummary){
   const forest=(t:Triangle)=>/tree|bush/i.test(t.material.name)&&/_un(?:_|$)/.test(t.material.name)&&!isShadow(t.material)&&Math.abs(normal(t).normalize().y)>.995;
   const floor=source.filter(t=>!isShadow(t.material)&&!t.material.transparent&&!t.material.alphaTest&&!/tree|bush|flower|fence|saku/i.test(t.material.name)&&Math.abs(normal(t).normalize().y)>.995),floorY=floor.length?Math.min(...floor.flatMap(t=>t.points.map(p=>p.y))):Infinity;
   const cliff=source.find(t=>/cliff\d|wall.*_d/i.test(t.material.name))?.material;
-  const terrain=source.filter(t=>forest(t)||(!isShadow(t.material)&&/cliff|wall|peak|mount|rock|slope/i.test(t.material.name)&&!/tree|flower|fence|saku|grass|pond|sea|water/i.test(t.material.name)));
+  const terrain=source.filter(t=>forest(t)||(!isShadow(t.material)&&/cliff|wall|peak|mount|rock|slope/i.test(t.material.name)&&!/tree|flower|fence|saku|grass|pond|sea|water/i.test(t.material.name)&&!(/rock|iwa|boulder/i.test(t.material.name)&&(t.material.alphaTest>0||t.material.transparent))));
   for(const component of components(terrain)){
     const woods=component.every(forest),bottom=Math.min(...component.flatMap(t=>t.points.map(p=>p.y))),base=woods?floorY:bottom;if(woods&&(!Number.isFinite(base)||bottom-base<12))continue;
     const edges=new Map<string,{a:THREE.Vector3;b:THREE.Vector3;triangle:Triangle;count:number}>();
@@ -303,7 +307,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
   const first=normal(eligible[0]).normalize();if(!eligible.every(t=>Math.abs(normal(t).normalize().dot(first))>.99&&t.material.map===eligible[0].material.map))return source;
   const horizontal=new THREE.Vector3(first.z,0,-first.x).normalize();if((Math.abs(horizontal.x)>Math.abs(horizontal.z)?horizontal.x:horizontal.z)<0)horizontal.negate();
   const converted=new Set<Triangle>();
-  const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footV:number}|undefined;
+  const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footU?:number;footV:number}|undefined;
   const family=treeFamily(eligible[0].material.name),centers=info?.centers||[.5],footV=info?.footV??1;
   const panels:{center:THREE.Vector3;width:number;height:number;uv:number[];offset:number;color:THREE.Color}[]=[];
   for(let i=0;i<eligible.length;i+=2){const pair=eligible.slice(i,i+2);if(pair.length!==2)continue;
@@ -317,7 +321,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
     let resolved=false;for(let tile=Math.floor(minimum);tile<Math.ceil(maximum);tile++)for(const offset of centers){const u=tile+offset;if(u<minimum-1e-5||u>maximum+1e-5)continue;resolved=true;
       const stem=left.point.clone().addScaledVector(horizontal,(u-uLeft)/(uRight-uLeft)*width),nearby=(anchors.get(family)||[]).filter(p=>p.distanceTo(stem)<fullWidth*.6).sort((a,b)=>a.distanceToSquared(stem)-b.distanceToSquared(stem));if(nearby.length)stem.copy(nearby[0]);
       const key=family+':'+stem.toArray().map(n=>Math.round(n*100)).join(',');if(roots.has(key))continue;roots.add(key);
-      const center=stem.clone();center.y-=height*(1-footV);panels.push({center,width:fullWidth,height,uv:[uRight>uLeft?0:1,bottom[0].uv.y,uRight>uLeft?1:0,top[0].uv.y],offset:0,color:pair[0].color[0]});
+      const center=stem.clone();center.y-=height*(1-footV);panels.push({center,width:fullWidth,height,uv:[uRight>uLeft?0:1,bottom[0].uv.y,uRight>uLeft?1:0,top[0].uv.y],offset:(uRight>uLeft?1:-1)*(.5-(info?.footU??.5)),color:pair[0].color[0]});
     }if(resolved)for(const triangle of pair)converted.add(triangle);
   }
   if(!converted.size)return source;

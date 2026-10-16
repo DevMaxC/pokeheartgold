@@ -22,7 +22,7 @@ export class OriginalWorld {
   readonly cells=new Map<string,LoadedCell>();
   readonly npcSprites=new Map<string,{group:THREE.Group;sprite:THREE.Mesh;texture:THREE.Texture;info:SpriteInfo;npc:FieldObject;key:string}>();
   private loader=new GLTFLoader();
-  private foliage:Promise<Record<string,Record<string,{asset:string;centers:number[];footV:number}>>>|null=null;
+  private foliage:Promise<Record<string,Record<string,{asset:string;centers:number[];footU?:number;footV:number}>>>|null=null;
   private treeTextures=new Map<string,Promise<THREE.Texture>>();
   private landCache=new Map<number,Promise<Land>>();
   private activeMatrix=-1;
@@ -52,7 +52,7 @@ export class OriginalWorld {
       if(path.startsWith('land/')){
         this.foliage??=sourceJSON('foliage.json');const context=path.match(/-(\d+)\.glb$/)![1],entries=(await this.foliage)[context]||{},jobs:Promise<void>[]=[];
         gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;for(const material of Array.isArray(object.material)?object.material:[object.material]){const entry=entries[material.name];if(!entry)continue;
-          jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(/_re(?:_|$)/.test(material.name)){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
+          jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(entry.asset!==`foliage/${context}-${material.name}.png`){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
         }});await Promise.all(jobs);
       }
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;

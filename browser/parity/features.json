@@ -2253,7 +2253,7 @@
     "feature": "Building entrance direction comes from original tile behaviours across the complete matrix",
     "source": "browser/src/source/world.ts",
     "status": "implemented",
-    "verification": "666 source entrances across 280 matrices exported from original warp behaviours; panels/non-door warps excluded. Directional corner-door and full-manifest regressions pass. Results no longer depend on the loaded window."
+    "verification": "666 directional source entrances across 280 matrices select fa\u00e7ades, with 430 non-directional source passage safeguards and zero missing-cell warps. Native corner directions and rear-passage vetoes have regression fixtures."
   },
   {
     "id": "P15-017",
@@ -2261,7 +2261,7 @@
     "feature": "Forked tree roots never count as multiple individual trees",
     "source": "browser/src/source/world.ts",
     "status": "implemented",
-    "verification": "All non-repeated foliage entries have one centre; en_tree02\u201305 repeated art groups its four root runs into two trees using the canonical single-tree root pattern."
+    "verification": "Forked roots group by the canonical individual tree while measured off-centre trunks are retained. Numbered water-tree/bush composites resolve to true single-tree images; canonical foot-U offsets keep their visible trunks on their pivots."
   },
   {
     "id": "P16-001",
