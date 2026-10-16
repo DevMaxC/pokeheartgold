@@ -38,6 +38,8 @@ export class OriginalWorld {
   private pending:Promise<void>|null=null;private grassTime=0;
   readonly sky:WorldSky;
   private cameraReady=false;
+  private cameraTransition=false;
+  private cameraResizePending=false;
   private terraceFallback=new THREE.MeshBasicMaterial({color:'#a77d5a'});
   private backgroundCliff:Promise<THREE.MeshBasicMaterial>|null=null;
   private entrances:Promise<Record<number,BuildingEntrance[]>>|null=null;
@@ -50,7 +52,7 @@ export class OriginalWorld {
   constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>){
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));this.renderer.setSize(innerWidth,innerHeight);this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;
     this.sky=new WorldSky(this.scene,this.camera);this.scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa2,2));
-    addEventListener('resize',()=>{this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);});
+    addEventListener('resize',()=>{if(this.cameraTransition){this.cameraResizePending=true;return;}this.resizeRenderer();});
   }
   async map(id:number):Promise<SourceMap>{if(!this.maps.has(id)){const map=await sourceJSON<SourceMap>(`maps/${id}.json`);for(const kind of ['objects','bgs','warps','coords'] as const)map.events[kind]??=[];map.initTriggers??=[];map.initScripts??={};this.maps.set(id,map);}return this.maps.get(id)!;}
   async asset(path:string):Promise<THREE.Group>{
@@ -69,15 +71,25 @@ export class OriginalWorld {
     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
   private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;object.geometry.dispose();if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
+  /** Keep the last rendered view while an asynchronous warp replaces the
+   * scene. Incoming player coordinates must never steer the outgoing rig. */
+  beginFieldTransition(){this.cameraTransition=true;}
+  endFieldTransition(){this.cameraTransition=false;if(this.cameraResizePending){this.cameraResizePending=false;this.resizeRenderer();}}
+  private resizeRenderer(){this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);}
+  get fieldTransitionActive(){return this.cameraTransition;}
   async enter(id:number,x:number,z:number,weather=0){
+    const ownsTransition=!this.cameraTransition;
+    this.beginFieldTransition();
+    try{
     const map=await this.map(id);
     const matrixChanged=this.activeMatrix!==map.matrix,roomChanged=!matrixChanged&&this.matrix?.headers===null&&this.activeHeader!==id;
     if(matrixChanged||roomChanged){this.generation++;this.streamCenter='';for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){const matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);let terraces:Terraces|null=null;if(map.matrix===0){this.terraceData??=sourceJSON<TerraceData>('terraces/0.json').then(data=>new Terraces(data)).catch(error=>{this.terraceData=null;throw error;});terraces=await this.terraceData;}this.activeMatrix=map.matrix;this.matrix=matrix;this.terraces=terraces;}}
     this.activeHeader=id;
     this.latestStream={matrix:this.activeMatrix,id,x,z};
-    await this.stream(id,x,z);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance);this.cameraReady=true;
+    await this.stream(id,x,z);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance,true);this.cameraReady=true;
     this.sky.enter(map,weather);
     return map;
+    }finally{if(ownsTransition)this.endFieldTransition();}
   }
   async connect(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);if(map.matrix!==this.activeMatrix)throw Error('Connected field headers must share their source matrix');
@@ -174,6 +186,7 @@ export class OriginalWorld {
     }finally{this.scene.remove(group);for(const b of balls){b.geometry.dispose();(b.material as THREE.Material).dispose();}}
   }
   draw(x:number,z:number,dt:number,actorY?:number){
+    if(this.cameraTransition)return;
     this.grassTime+=dt;updateGrass(this.grassTime,x,actorY??this.height(x,z),z);
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
     const height=actorY??this.height(x,z,this.target.y-.9,this.target.x,this.target.z);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
