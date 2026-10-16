@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-- `npm test`: 119 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- `npm test`: 123 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
 - Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 668 structural assets receive closure geometry; 202 landscapes receive independently rooted 3D trees. The same audit covers 103 solid-fence, 44 flower-volume and 395 terrain-closure contexts, plus 43 remaining upright-cutout contexts. Instance matrices and vertices stay finite. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
 - Repeated forest art is split into individual original-tree sprites using exported trunk layouts. A four-tree row has four separate instance pivots, aligned with its ground marks; source alpha foot offsets keep trunks on the ground. Flipped/rotated UVs, mixed-mesh shadows, rear backing depth and blended material depth settings have regression coverage.
@@ -19,7 +19,7 @@
 
 - Solid furniture contributes cached world-space convex collision footprints, using each placed model’s actual scale/rotation and vertical range. Movement sweeps the player radius across the complete step; old saves inside a stool can exit. Every one of the 40 native variants blocks entry and an outside-to-outside crossing, and permits escape from an old save. Near-seat saves cannot exploit the escape rule to cross inward. Native push-warp checks use source terrain permissions separately. Review: `reviews/2026-10-16-furniture-collision-opus-5.5.md`. Rotated bench corners, adjacent aisles and furniture on another floor have regressions.
 
-- Trees now use closed layered crowns and physical trunks, reusing a leaf patch from their original textures. Visible alpha bounds preserve the original tree height/width; 124 exported trunk layouts include five exact-image aliases for generic editor material names. Every converted tree in all 202 matching landscape contexts has one crown and one trunk instance. Closed topology, top/rear/side rays and transformed-root regressions pass. Camera foliage exclusion covers both new meshes.
+- Trees now use closed layered crowns and physical trunks, reusing a leaf patch from their original textures. Visible alpha bounds and centre offsets preserve original tree size/placement; leaf pixels are sampled within each image’s own visible crown, with pure RGBA regression coverage; 124 exported trunk layouts include five exact-image aliases for generic editor material names. Every converted tree in all 202 matching landscape contexts has one crown and one trunk instance. Closed topology, top/rear/side rays and transformed-root regressions pass. Field and battle cameras share foliage exclusion for both new meshes; a battle-camera regression retains wall collision while rejecting tree raycasts. Review and adjudication: `reviews/2026-10-16-tree-volume-opus-5.5.md`.
 
 ## Browser checks
 

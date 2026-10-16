@@ -55,7 +55,7 @@ for (context,name),raw in textures.items():
  bounds=canonical_image.getchannel('A').getbbox();foot=bounds[3]/canonical_image.height
  top=bounds[1]/canonical_image.height;crown_width=(bounds[2]-bounds[0])/canonical_image.width
  canonical_runs=foot_runs(canonical_image);foot_u=(canonical_runs[0][0]+canonical_runs[-1][1])/2/canonical_image.width if canonical_runs else .5
- manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footU':foot_u,'footV':foot,'topV':top,'crownWidth':crown_width}
+ manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footU':foot_u,'footV':foot,'topV':top,'crownWidth':crown_width,'crownCenterU':(bounds[0]+bounds[2])/2/canonical_image.width}
 # Some native trees kept editor material names. Resolve only exact original
 # image matches; a generic name alone never makes an asset into vegetation.
 images={}
