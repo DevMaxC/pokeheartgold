@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {fieldCameraObstacles} from './camera.ts';
 import type {OriginalWorld} from './world.ts';
 import type {BattleView} from './battle-view.ts';
 import type {Mon,MoveData} from './types.ts';
@@ -97,9 +98,9 @@ export class WorldBattleView implements BattleView {
     const fit=3.1/Math.sin(Math.min(vertical,horizontal)/2);
     const distance=this.world.distance*Math.max(1,fit/8.4);
     const desired=this.center.clone().add(new THREE.Vector3(Math.sin(this.world.yaw)*Math.cos(this.world.pitch)*distance,Math.sin(this.world.pitch)*distance,Math.cos(this.world.yaw)*Math.cos(this.world.pitch)*distance));
-    // Raise the camera for a wall or tree directly behind the shoulder.
+    // Raise the camera for solid architecture behind the shoulder.
     const ray=new THREE.Raycaster(this.center,desired.clone().sub(this.center).normalize(),1,desired.distanceTo(this.center));
-    const blocker=ray.intersectObjects([...this.world.cells.values()].map(c=>c.group),true).find(hit=>hit.object.visible&&hit.distance>1.4&&hit.object.name!=='camera-facing-original-trees');
+    const blocker=ray.intersectObjects([...this.world.cells.values()].flatMap(c=>fieldCameraObstacles(c.group)),false).find(hit=>hit.distance>1.4);
     if(blocker)desired.y+=Math.min(5,Math.max(0,desired.distanceTo(this.center)-blocker.distance)*.8);
     camera.position.lerp(desired,1-Math.exp(-dt*5));camera.fov=THREE.MathUtils.lerp(camera.fov,46,1-Math.exp(-dt*5));camera.updateProjectionMatrix();
     const look=this.center.clone();look.y-=aspect<.9?.1:.2;

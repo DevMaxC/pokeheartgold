@@ -1,23 +1,28 @@
 """Export original individual-tree art and trunk metadata from converted landscapes."""
 from pathlib import Path
-import base64,io,json,re,struct
+import base64,io,json,re,struct,hashlib
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'public/source'
 OUT=SOURCE/'foliage';OUT.mkdir(exist_ok=True)
-textures={}
+textures={};generic={}
 for path in sorted((SOURCE/'land').glob('*.glb')):
  data=path.read_bytes();gltf=json.loads(data[20:20+struct.unpack_from('<I',data,12)[0]])
  context=path.stem.split('-')[-1]
  for material in gltf['materials']:
   name=material.get('name','')
-  if not any(word in name.lower() for word in ['tree','bush']) or re.search(r'_un(?:_|$)',name):continue
+  known=any(word in name.lower() for word in ['tree','bush']) and not re.search(r'_un(?:_|$)',name)
+  alias=bool(re.fullmatch(r'(?:lambert|material)\d+',name,re.I))
+  if not known and not alias:continue
+  if 'baseColorTexture' not in material.get('pbrMetallicRoughness',{}):continue
   texture=gltf['textures'][material['pbrMetallicRoughness']['baseColorTexture']['index']]
   encoded=gltf['images'][texture['source']]['uri'].split(',')[1]
   key=(context,name);raw=base64.b64decode(encoded)
-  if key in textures:assert textures[key]==raw,key
-  textures[key]=raw
+  if known:
+   if key in textures:assert textures[key]==raw,key
+   textures[key]=raw
+  else:generic.setdefault(key,set()).add(raw)
 def foot_runs(image):
  alpha=image.getchannel('A');row=alpha.getbbox()[3]-1;runs=[];start=None
  for x in range(image.width+1):
@@ -47,8 +52,23 @@ for (context,name),raw in textures.items():
   if len(runs)%roots_per_tree:raise ValueError(f'Unresolved repeated root layout {context}:{name}')
   centers=[(runs[i][0]+runs[i+roots_per_tree-1][1])/2/image.width for i in range(0,len(runs),roots_per_tree)]
  else:centers=[(runs[0][0]+runs[-1][1])/2/image.width] if runs else [.5]
- foot=canonical_image.getchannel('A').getbbox()[3]/canonical_image.height
+ bounds=canonical_image.getchannel('A').getbbox();foot=bounds[3]/canonical_image.height
+ top=bounds[1]/canonical_image.height;crown_width=(bounds[2]-bounds[0])/canonical_image.width
  canonical_runs=foot_runs(canonical_image);foot_u=(canonical_runs[0][0]+canonical_runs[-1][1])/2/canonical_image.width if canonical_runs else .5
- manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footU':foot_u,'footV':foot}
+ manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footU':foot_u,'footV':foot,'topV':top,'crownWidth':crown_width,'crownCenterU':(bounds[0]+bounds[2])/2/canonical_image.width}
+# Some native trees kept editor material names. Resolve only exact original
+# image matches; a generic name alone never makes an asset into vegetation.
+images={}
+for key,raw in textures.items():images.setdefault(hashlib.sha256(raw).digest(),[]).append(key)
+aliases=0
+for (context,name),variants in generic.items():
+ # Editor names are reused for unrelated art in some texture banks.
+ if len(variants)!=1:continue
+ raw=next(iter(variants))
+ candidates=images.get(hashlib.sha256(raw).digest(),[])
+ if not candidates:continue
+ owner,source=min(candidates,key=lambda pair:(pair[0]!=context,len(manifest[pair[0]][pair[1]]['centers'])!=1,int(pair[0]),pair[1]))
+ family=re.sub(r'_(?:re|un)(?=_|$)','',source);family=re.sub(r'_lm\d+$','',family);family=re.sub(r'gs$','',family)
+ manifest.setdefault(context,{})[name]={**manifest[owner][source],'family':family};aliases+=1
 (SOURCE/'foliage.json').write_text(json.dumps(manifest,separators=(',',':'))+'\n')
-print(f'Exported {len(list(OUT.glob("*.png")))} original tree textures and {len(textures)} trunk layouts.')
+print(f'Exported {len(list(OUT.glob("*.png")))} original tree textures and {len(textures)+aliases} trunk layouts ({aliases} image-proven aliases).')
