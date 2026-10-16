@@ -2264,6 +2264,46 @@
     "verification": "Forked roots group by the canonical individual tree while measured off-centre trunks are retained. Numbered water-tree/bush composites resolve to true single-tree images; canonical foot-U offsets keep their visible trunks on their pivots."
   },
   {
+    "id": "P15-018",
+    "group": "3D world depth and navigation",
+    "feature": "Door mats and warp stairs use original push or step rules and final facing",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Native field_control.c transitions distinguish step warps from direction-specific pushes. Actual Center sideways mat crossing, south exit, door step-out and re-entry pass; bedroom/downstairs stairs preserve source final anchors and east-facing arrival."
+  },
+  {
+    "id": "P15-019",
+    "group": "3D world depth and navigation",
+    "feature": "Headerless interiors sharing geometry retain separate map ownership after warps",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Actual Cherrygrove/Violet Center matrices are both 73 without headers; automated and browser same-world tests confirm owner 69 changes to 81 and old cells are released. Source inventory has 27 shared headerless matrix families."
+  },
+  {
+    "id": "P15-020",
+    "group": "3D world depth and navigation",
+    "feature": "Map connections, rebuilds and battle returns select their original entry script phases",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Connections run OnTransition only; rebuilds run OnTransition, OnLoad, OnResume; battle/demo returns run OnResume. Warp frame scenes wait until arrival placement. Fresh mother scene completes and grants original four menu unlocks. Other menu-overlay and special-transition details remain pending."
+  },
+  {
+    "id": "P15-021",
+    "group": "3D world depth and navigation",
+    "feature": "Field scenery streams without locking movement or removing the current cell during backtracking",
+    "source": "browser/src/source/world.ts",
+    "status": "implemented",
+    "verification": "Latest-cell prefetch coalesces requests. In browser, Cherrygrove \u2192 Route 29 advances four tiles in 1.31 seconds while three scenery requests are delayed six seconds, with no loading overlay and chosen camera preferences retained. Backtracking/current-footing and room identity tests use OriginalWorld directly."
+  },
+  {
+    "id": "P15-022",
+    "group": "3D world depth and navigation",
+    "feature": "Camera obstruction checks exclude hidden scenery and paper vegetation while retaining solid architecture",
+    "source": "browser/src/source/world.ts",
+    "status": "verified",
+    "verification": "camera.test.ts checks hidden-parent and paper-vegetation exclusion while retaining solid walls and hills; measured native New Bark 18-cell view: 49.2 ms recursive query versus 2.1 ms filtered including traversal. View/device-specific, not a universal frame-rate claim."
+  },
+  {
     "id": "P16-001",
     "group": "3D sky and weather",
     "feature": "A coloured horizon and sky follow the original morning, day, evening and night clock",

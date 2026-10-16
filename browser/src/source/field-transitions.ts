@@ -20,3 +20,10 @@ export function pushWarp(permission:number,facing:number){
 export function fieldEntryScripts(kind:'connection'|'warp'|'resume'){
   return kind==='connection'?['OnTransition']:kind==='resume'?['OnResume']:['OnTransition','OnLoad','OnResume'];
 }
+/** Door exits step clear; warp-stair placement/animation ends on its anchor. */
+export function arrivalStep(permission:number,facing:number):number|null{
+  const behavior=permission&255;
+  if(behavior===105&&facing===1)return 1;
+  return null;
+}
+export function arrivalFacing(permission:number,facing:number){const behavior=permission&255;return behavior===94?2:behavior===95?3:facing;}
