@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+import {solidFurniture} from './furniture.ts';
 
 type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial};
-type RepairSummary={solidFaces:number;billboardTrees:number;uprightPanels:number;fencePosts:number;flowerClumps:number;terrainSkirts:number;solidRocks:number};
+type RepairSummary={solidFaces:number;billboardTrees:number;uprightPanels:number;fencePosts:number;flowerClumps:number;terrainSkirts:number;solidRocks:number;solidSeats:number};
 const isShadow=(m:THREE.MeshBasicMaterial)=>/kage|shadow/i.test(m.name)||m.opacity<.5;
 const solidColors=new WeakMap<THREE.Material,THREE.Color>(),rockTextures=new WeakMap<THREE.Material,THREE.Texture>();
 export function originalMaterial(old:THREE.MeshStandardMaterial){
@@ -360,8 +361,8 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
 
 /** Shared by every imported landscape/prop, including future streamed locations. */
 export function repairOriginalAsset(root:THREE.Group,isProp:boolean):RepairSummary{
-  root.updateMatrixWorld(true);const meshes:THREE.Mesh[]=[];root.traverse(object=>{if(object instanceof THREE.Mesh)meshes.push(object);});
-  const summary={solidFaces:0,billboardTrees:0,uprightPanels:0,fencePosts:0,flowerClumps:0,terrainSkirts:0,solidRocks:0};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),ground=sources.flat(),anchors=groundTreeAnchors(ground),roots=new Set<string>();
+  root.updateMatrixWorld(true);const solidSeats=isProp?solidFurniture(root):0;root.updateMatrixWorld(true);const meshes:THREE.Mesh[]=[];root.traverseVisible(object=>{if(object instanceof THREE.Mesh)meshes.push(object);});
+  const summary={solidFaces:0,billboardTrees:0,uprightPanels:0,fencePosts:0,flowerClumps:0,terrainSkirts:0,solidRocks:0,solidSeats};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),ground=sources.flat(),anchors=groundTreeAnchors(ground),roots=new Set<string>();
   for(let i=0;i<meshes.length;i++){const fences=solidFences(root,meshes[i],sources[i],ground,summary),adjusted=uprightScenery(root,fences.mesh,fences.source,ground,summary),flowers=flowerVolume(root,adjusted.mesh,adjusted.source,summary),rocks=rockVolume(root,flowers.mesh,flowers.source,ground,summary);solid.push(...treePanels(root,rocks.mesh,rocks.source,summary,anchors,roots));}
   if(isProp)closeProps(root,solid,summary);else closeTerrain(root,solid,summary);root.userData.renderRepairs=summary;return summary;
 }

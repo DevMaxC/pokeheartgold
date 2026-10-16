@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-- `npm test`: 107 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- `npm test`: 110 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
 - Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 668 structural assets receive closure geometry; 195 landscapes receive camera-facing trees. The same audit covers 103 solid-fence, 44 flower-volume and 395 terrain-closure contexts, plus 43 remaining upright-cutout contexts. Instance matrices and vertices stay finite. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
 - Repeated forest art is split into individual original-tree sprites using exported trunk layouts. A four-tree row has four separate instance pivots, aligned with its ground marks; source alpha foot offsets keep trunks on the ground. Flipped/rotated UVs, mixed-mesh shadows, rear backing depth and blended material depth settings have regression coverage.
@@ -15,9 +15,13 @@
 - Pokémon fixtures check original level-5 starter moves/PP, Gen IV Tackle data, stat rounding, Steel’s Gen IV resistances and integer capture bounds.
 - TypeScript and Vite production build pass. Both production HTML entry points use the source runtime.
 
+- Flat furniture audit: all 40 native stool, pedestal-seat, bench, cushion and matching box texture variants have closed opaque geometry within their original footprints. Raised seats have floor-reaching supports; floor cushions remain low. Source textures and shadows are retained. Rotated/scaled root and idempotence regressions pass. Native 3D sofas are excluded. Every support footprint vertex must project upward to its seat top, including round seats. Read-only Opus 5.5 review and adjudication are recorded in `reviews/2026-10-16-furniture-opus-5.5.md`.
+
 ## Browser checks
 
 Using the shared browser on the local build:
+
+- New Bark Southwest House: all four source stools have raised seats and real supports, viewed from the front and side. Room props and character interaction positions retain their source layout.
 
 - Fresh name/gender flow into original bedroom map 64 at tile 6,6.
 - Bedroom stairs into original downstairs map 63; mother’s original scene completes and grants the original menu unlocks.
