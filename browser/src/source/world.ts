@@ -10,7 +10,7 @@ import type {WorldBattleView} from './battle-stage.ts';
 import {sourceTallGrass,updateGrass} from './grass.ts';
 import {WorldSky} from './sky.ts';
 import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
-import {forestFoundation} from './foundations.ts';
+import {planTerrainSceneryAsync,closeTerrainScenery,terrainSceneryEntrances} from './terrain-scenery.ts';
 import {furnitureObstacles,furnitureBlocksStep,type FurnitureObstacle} from './furniture-collision.ts';
 import {closeBuildingFooting} from './building-footing.ts';
 import {shorelineUnderlay} from './shoreline.ts';
@@ -57,6 +57,7 @@ export class OriginalWorld {
     addEventListener('resize',()=>{if(this.cameraTransition){this.cameraResizePending=true;return;}this.resizeRenderer();});
   }
   async map(id:number):Promise<SourceMap>{if(!this.maps.has(id)){const map=await sourceJSON<SourceMap>(`maps/${id}.json`);for(const kind of ['objects','bgs','warps','coords'] as const)map.events[kind]??=[];map.initTriggers??=[];map.initScripts??={};this.maps.set(id,map);}return this.maps.get(id)!;}
+  private land(id:number){if(!this.landCache.has(id))this.landCache.set(id,sourceJSON<Land>(`lands/${id}.json`).catch(error=>{this.landCache.delete(id);throw error;}));return this.landCache.get(id)!;}
   async asset(path:string):Promise<THREE.Group>{
     if(!this.assets.has(path))this.assets.set(path,this.loader.loadAsync('/source/'+path).then(async gltf=>{
       gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;
@@ -72,7 +73,7 @@ export class OriginalWorld {
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
-  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
+  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
   /** Keep the last rendered view while an asynchronous warp replaces the
    * scene. Incoming player coordinates must never steer the outgoing rig. */
   beginFieldTransition(){this.cameraTransition=true;}
@@ -124,19 +125,12 @@ export class OriginalWorld {
       const key=xx+','+zz;wanted.add(key);if(this.cells.has(key))continue;
       jobs.push((async()=>{
         const map=await this.map(owner);const cell=map.cells.find(c=>c.x===xx&&c.z===zz);if(!cell)return;
-        if(!this.landCache.has(landID))this.landCache.set(landID,sourceJSON<Land>(`lands/${landID}.json`).catch(error=>{this.landCache.delete(landID);throw error;}));
-        const [template,land]=await Promise.all([this.asset(cell.asset),this.landCache.get(landID)!]);
+        const [template,land]=await Promise.all([this.asset(cell.asset),this.land(landID)]);
         if(generation!==this.generation)return;
         const group=new THREE.Group();group.position.set(xx*32+16,cell.altitude*.5,zz*32+16);
         let retained=false;try{
         const model=clone(template);model.scale.setScalar(1/16);group.add(model);const grass=sourceTallGrass(land,cell);if(grass)group.add(grass);
         let beach:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='beach01')beach=m as THREE.MeshBasicMaterial;});if(beach){const underlay=shorelineUnderlay(land,cell,beach);if(underlay)group.add(underlay);}
-        // Matrix-zero's native forest filler has only treetops/ground marks.
-        // Its raised ground needs a cliff volume for the newly free camera.
-        if(owner===0&&landID===208&&cell.altitude>0){
-          this.backgroundCliff??=this.asset('land/210-0.glb').then(template=>{let material:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='cliff01')material=m as THREE.MeshBasicMaterial;});if(!material)throw Error('Original background cliff texture missing');return material;}).catch(error=>{this.backgroundCliff=null;throw error;});
-          const foundation=forestFoundation(cell,matrix,await this.backgroundCliff);if(foundation)group.add(foundation);
-        }
         const terraces=this.terraces;if(terraces&&[-1,0,1].some(dx=>[-1,0,1].some(dz=>terraces.data.cells[(xx+dx)+','+(zz+dz)]))){
           if(!await terraceModel(group,terraces,()=>generation===this.generation))return;
           if(terraces.ledgeCells.has(xx+','+zz)){
@@ -144,6 +138,18 @@ export class OriginalWorld {
             if(!cliff){const context=cell.asset.match(/-(\d+)\.glb$/)![1],path=terraces.data.cliffAssets[context]||terraces.data.cliffAssets['0'];if(path)try{cliff=terraceCliffMaterial(await this.asset(path));}catch(error){console.warn('Original cliff art unavailable; retaining a solid terrace wall',error);}}
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
+        }
+        // Native land was drawn for a fixed camera and may contain only a
+        // raised top sheet. Close proven exposed terrain boundaries using the
+        // actual placed height, adjacent collision floors and deformed ledges.
+        const neighbors=new Map<string,{cell:Cell;land:Land}>();
+        await Promise.all([[-1,0],[1,0],[0,-1],[0,1]].map(async([dx,dz])=>{const nx=xx+dx,nz=zz+dz;if(nx<0||nz<0||nx>=matrix.width||nz>=matrix.height)return;const ni=nz*matrix.width+nx,nl=matrix.models[ni];if(nl===65535)return;try{neighbors.set(nx+','+nz,{cell:{x:nx,z:nz,land:nl,altitude:matrix.altitudes[ni],props:[],asset:''},land:await this.land(nl)});}catch{/* Optional support is left unproven when a neighboring collision asset is unavailable. */}}));
+        const sceneryContext={cell,matrix,land,mapType:map.mapType??this.index.maps[owner]?.mapType,neighbors,heightOffset:terraces?(wx:number,wz:number)=>terraces.height(wx,wz):undefined,entrances:terrainSceneryEntrances(map.events.warps,await doors())};
+        const sceneryPlan=await planTerrainSceneryAsync(group,sceneryContext,()=>generation===this.generation);if(!sceneryPlan)return;
+        if(sceneryPlan.patches.length){
+          let cliff=terraceCliffMaterial(template);
+          if(!cliff){this.backgroundCliff??=this.asset('land/210-0.glb').then(source=>{const material=terraceCliffMaterial(source);if(!material)throw Error('Original background cliff texture missing');return material;}).catch(error=>{this.backgroundCliff=null;throw error;});cliff=await this.backgroundCliff;}
+          if(!await this.runSceneryWork(generation,()=>{closeTerrainScenery(group,sceneryContext,cliff,sceneryPlan);}))return;
         }
         const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;if(generation!==this.generation)return;const p=clone(await this.asset(prop.asset));group.add(p);if(generation!==this.generation)return;p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);const entrances=await doors();if(!await this.runSceneryWork(generation,()=>{closeBuildingExterior(p,prop.asset,entrances);if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}))return;}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;

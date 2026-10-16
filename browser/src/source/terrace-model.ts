@@ -51,7 +51,7 @@ export async function terraceModel(root:THREE.Group,terraces:Terraces,isCurrent:
   }
   if(!await pause())return false;
   const output=new THREE.BufferGeometry(),positions:number[]=[],uvs:number[]=[],colors:number[]=[];attributes.forEach((data,slot)=>{output.addGroup(positions.length/3,data.positions.length/3,slot);for(const n of data.positions)positions.push(n);for(const n of data.uvs)uvs.push(n);for(const n of data.colors)colors.push(n);});output.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));if(uv)output.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));if(color)output.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));output.computeVertexNormals();output.computeBoundingSphere();
-  const replacement=new THREE.Mesh(output,mesh.material);replacement.name='source-terrace-surface';root.add(replacement);mesh.visible=false;
+  const replacement=new THREE.Mesh(output,mesh.material);replacement.name='source-terrace-surface';replacement.userData.terrainSceneryCoverageOnly=Boolean(mesh.userData.terrainSceneryCoverageOnly)||/^(?:solid-original-terrain|textured-terrain-back)$/.test(mesh.name);root.add(replacement);mesh.visible=false;
  }return true;
 }
 

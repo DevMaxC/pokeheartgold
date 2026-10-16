@@ -367,7 +367,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P15-001 | Source fence runs become solid posts and rails, including flat side-on atlas pieces | Implemented | `browser/src/source/world.ts` |
 | P15-002 | Flower bunches have separately rooted crossed artwork with depth from side views | Implemented | `browser/src/source/world.ts` |
 | P15-003 | 3D long-grass clumps stay on original encounter tiles and react to movement | Implemented | `browser/src/source/world.ts` |
-| P15-004 | Hill and cliff backs are opaque from newly accessible camera angles | Implemented | `browser/src/source/world.ts` |
+| P15-004 | Hill and cliff backs are opaque from newly accessible camera angles | Partial | `browser/src/source/world.ts` |
 | P15-005 | Background matrix cells render original scenery instead of exposing empty grey gaps | Implemented | `browser/src/source/world.ts` |
 | P15-006 | Original building door warps, interior return exits and counter interactions work | Implemented | `browser/src/source/world.ts` |
 | P15-007 | Following Pokémon move continuously along the original one-tile trailing path | Implemented | `browser/src/source/world.ts` |
@@ -378,7 +378,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P15-012 | Rock cutouts become separately rooted closed boulders retaining original pixel textures | Implemented | `browser/src/source/world.ts` |
 | P15-013 | Generated textured surfaces provide every enabled vertex attribute and remain free of black backing rectangles | Implemented | `browser/src/source/world.ts` |
 | P15-014 | Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea | Implemented | `browser/src/source/world.ts` |
-| P15-015 | Raised background forests and authored forest platforms have opaque terrain sides | Implemented | `browser/src/source/world.ts` |
+| P15-015 | Raised background forests and authored forest platforms have opaque terrain sides | Partial | `browser/src/source/world.ts` |
 | P15-016 | Building entrance direction comes from original tile behaviours across the complete matrix | Implemented | `browser/src/source/world.ts` |
 | P15-017 | Forked tree roots never count as multiple individual trees | Implemented | `browser/src/source/world.ts` |
 | P15-018 | Door mats and warp stairs use original push or step rules and final facing | Implemented | `browser/src/source/world.ts` |
