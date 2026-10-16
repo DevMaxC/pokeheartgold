@@ -5,12 +5,13 @@ export function ledgeDirection(permission:number):number|null{
 }
 export function jumpHeight(from:number,to:number,t:number){return from+(to-from)*t+Math.sin(Math.PI*t)*.65;}
 
-export type TerraceData={version:2;scale:number;cells:Record<string,string>;ledges:[number,number,number][];cliffAssets:Record<string,string>};
+export type TerraceData={version:2;scale:number;cells:Record<string,string>;ledges:[number,number,number][];cliffAssets:Record<string,string>;nativeEdges?:Record<string,number[]>};
 /** Nine height points per original tile preserve a cliff at the midpoint of a
  * short ledge while tapering its endpoints into the open paths around it. */
 export class Terraces{
  private decoded=new Map<string,Int16Array>();
- constructor(readonly data:TerraceData){}
+ readonly ledgeCells:Set<string>;
+ constructor(readonly data:TerraceData){this.ledgeCells=new Set(data.ledges.map(([x,z])=>Math.floor(x/32)+','+Math.floor(z/32)));}
  points(x:number,z:number):number[]{
   const tx=Math.floor(x),tz=Math.floor(z),key=Math.floor(tx/32)+','+Math.floor(tz/32),encoded=this.data.cells[key];if(!encoded)return Array(9).fill(0);
   let values=this.decoded.get(key);if(!values){const bytes=Uint8Array.from(atob(encoded),c=>c.charCodeAt(0));values=new Int16Array(bytes.length/2);const view=new DataView(bytes.buffer);for(let i=0;i<values.length;i++)values[i]=view.getInt16(i*2,true);this.decoded.set(key,values);}

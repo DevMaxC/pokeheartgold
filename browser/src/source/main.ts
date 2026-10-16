@@ -151,7 +151,8 @@ async function step(facing:number){
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
   const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z)),standing=world.permission(state.x,state.z),ladder=[60,61].includes(standing&255);
   if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.walkable(x,z))){await warp(exit,facing);save();return;}
-  if(ledgeDirection(world.permission(x,z))===facing&&!occupied){const lx=x+d.x,lz=z+d.z,landingOccupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(lx)&&Math.floor(n.group.position.z)===Math.floor(lz));if(world.walkable(lx,lz)&&!landingOccupied){walking=true;try{await tweenPlayer(lx,lz,.42,true);}finally{walking=false;}encounterChecks.step();await checkEvents();}return;}
+  // Native ledge collision takes priority over ordinary map/NPC blocking.
+  if(ledgeDirection(world.permission(x,z))===facing){walking=true;try{await tweenPlayer(x+d.x,z+d.z,.42,true);}finally{walking=false;}encounterChecks.step();await checkEvents();return;}
   const nativeWarp=map.events.warps.some(w=>w.x===Math.floor(x)&&w.z===Math.floor(z));
   const enteredDoor=doorwayEntry(world.permission(x,z),nativeWarp,facing);
   if((!world.walkable(x,z)&&!enteredDoor)||occupied)return;
