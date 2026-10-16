@@ -9,7 +9,8 @@ export function stepWarpFacing(permission:number,facing:number):number|null{
     default:return null;
   }
 }
-export function pushWarp(permission:number,facing:number){
+export function pushWarp(permission:number,facing:number,blockedAhead=true){
+  const behavior=permission&255;if(behavior===60)return facing===0;if(behavior===61)return facing===1;if(!blockedAhead)return false;
   switch(permission&255){
     case 98:case 108:case 94:return facing===3;
     case 99:case 109:case 95:return facing===2;
@@ -18,7 +19,7 @@ export function pushWarp(permission:number,facing:number){
   }
 }
 export function fieldEntryScripts(kind:'connection'|'warp'|'resume'){
-  return kind==='connection'?['OnTransition']:kind==='resume'?['OnResume']:['OnTransition','OnLoad','OnResume'];
+  return kind==='connection'?['OnTransition']:kind==='resume'?['OnLoad','OnResume']:['OnTransition','OnLoad','OnResume'];
 }
 /** Door exits step clear; warp-stair placement/animation ends on its anchor. */
 export function arrivalStep(permission:number,facing:number):number|null{

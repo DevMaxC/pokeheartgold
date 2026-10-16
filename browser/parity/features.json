@@ -2285,7 +2285,7 @@
     "feature": "Map connections, rebuilds and battle returns select their original entry script phases",
     "source": "browser/src/source/world.ts",
     "status": "implemented",
-    "verification": "Connections run OnTransition only; rebuilds run OnTransition, OnLoad, OnResume; battle/demo returns run OnResume. Warp frame scenes wait until arrival placement. Fresh mother scene completes and grants original four menu unlocks. Other menu-overlay and special-transition details remain pending."
+    "verification": "Connections run OnTransition only; rebuilds run OnTransition, OnLoad, OnResume; battle/demo returns run OnLoad then OnResume. Warp frame scenes wait until arrival placement. Fresh mother scene completes and grants original four menu unlocks. Other menu-overlay and special-transition details remain pending."
   },
   {
     "id": "P15-021",

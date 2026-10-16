@@ -65,8 +65,9 @@ export class OriginalWorld {
   async enter(id:number,x:number,z:number,weather=0){
     const map=await this.map(id);
     const matrixChanged=this.activeMatrix!==map.matrix,roomChanged=!matrixChanged&&this.matrix?.headers===null&&this.activeHeader!==id;
-    if(matrixChanged||roomChanged){this.generation++;for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){this.activeMatrix=map.matrix;this.matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);}}
+    if(matrixChanged||roomChanged){this.generation++;this.streamCenter='';for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){const matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);this.activeMatrix=map.matrix;this.matrix=matrix;}}
     this.activeHeader=id;
+    this.latestStream={matrix:this.activeMatrix,id,x,z};
     await this.stream(id,x,z);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance);this.cameraReady=true;
     this.sky.enter(map,weather);
     return map;

@@ -23,6 +23,16 @@ test('actual Centers sharing a headerless matrix retain their own room identity 
  await world.enter(81,8.5,19.5);assert.equal(world.owner(8.5,19.5),81);assert.equal(oldGroup.parent,null);assert.equal((world as unknown as {generation:number}).generation,2);
 });
 
+test('a failed shared-matrix room entry can retry despite the preceding room having the same stream key',async()=>{
+ const world=Object.create(OriginalWorld.prototype) as OriginalWorld,map={id:81,matrix:73} as SourceMap;Object.assign(world,{activeMatrix:73,activeHeader:69,matrix:{headers:null},generation:1,cells:new Map(),streamCenter:'73:0,0',streamRequest:false,nextStreamAttempt:0,loading:false});world.map=async()=>map;let attempts=0;world.stream=async()=>{attempts++;if(attempts===1)throw Error('network fixture');};
+ await assert.rejects(world.enter(81,8.5,19.5),/network fixture/);world.updateStreaming(81,8.5,19.5);await new Promise(resolve=>setImmediate(resolve));assert.equal(attempts,2);assert.deepEqual(Reflect.get(world,'latestStream'),{matrix:73,id:81,x:8.5,z:19.5});
+});
+
+test('a failed matrix download does not mark the old matrix as the new map and remains retryable',async()=>{
+ const world=Object.create(OriginalWorld.prototype) as OriginalWorld,map={id:81,matrix:73} as SourceMap,fetcher=globalThis.fetch;Object.assign(world,{activeMatrix:0,activeHeader:67,matrix:{headers:[67]},generation:1,cells:new Map()});world.map=async()=>map;globalThis.fetch=async()=>new Response('missing',{status:503});
+ try{await assert.rejects(world.enter(81,8.5,19.5),/503/);assert.equal(Reflect.get(world,'activeMatrix'),0);assert.deepEqual(Reflect.get(world,'matrix'),{headers:[67]});}finally{globalThis.fetch=fetcher;}
+});
+
 test('finishing an old prefetch keeps the current cell when the player backtracks',async()=>{
  const world=Object.create(OriginalWorld.prototype) as OriginalWorld,scene=new THREE.Scene(),land={permissions:Array(1024).fill(0),plates:[]},cells=Array.from({length:8},(_,x)=>({x,z:0,land:0,altitude:0,props:[],asset:'land/fixture.glb'})),map={id:33,matrix:0,cells,events:{warps:[]}} as unknown as SourceMap;
  Object.assign(world,{activeMatrix:0,activeHeader:33,matrix:{width:8,height:1,headers:null,models:Array(8).fill(0),altitudes:Array(8).fill(0)},generation:1,cells:new Map(),scene,pending:null,loading:false,index:{maps:{33:{id:33}}},landCache:new Map([[0,Promise.resolve(land)]]),entrances:Promise.resolve({}),latestStream:{matrix:0,id:33,x:.5,z:.5}});
