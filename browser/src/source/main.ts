@@ -88,11 +88,12 @@ async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=
 async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false){
   encounterChecks.reset();
   playerDirectionLocked=false;
-  transitioning=true;if(!connection){previousStepJump=false;keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');}state.map=id;state.x=x;state.z=z;
+  transitioning=true;if(!connection){world.beginFieldTransition();previousStepJump=false;keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');}state.map=id;state.x=x;state.z=z;
   try{
     map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);}
+    if(!connection)world.endFieldTransition();
     if(runEntry)await runFieldEntry(connection?'connection':'warp',connection);
-  }finally{transitioning=false;if(!connection)ui.loading(null);}
+  }finally{transitioning=false;if(!connection){world.endFieldTransition();ui.loading(null);}}
   if(!deferTriggers)await checkFrameTriggers();
 }
 async function checkFrameTriggers(){if(vm.busy||ui.busy||battle.active)return false;const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;await runScript(trigger.script);return true;}
