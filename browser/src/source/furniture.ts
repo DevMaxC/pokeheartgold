@@ -12,7 +12,7 @@ const seats:Record<string,Seat>={
   pc_s05a:{cardY:1,height:8,top:[1.5,1.5,14.5,10.5],rim:[8,12],support:[8,13],kind:'pedestal'},
   pc_s05b:{cardY:1,height:8,top:[1.5,1.5,14.5,10.5],rim:[8,12],support:[8,13],kind:'pedestal'},
   chair_jpn01:{cardY:2,height:2.5,top:[1.5,1.5,14.5,12.5],rim:[8,13],support:[8,13],kind:'cushion'},
-  ch_l01:{cardY:1,height:8,top:[2.5,.5,13.5,9.5],rim:[8,10],support:[2,13],kind:'bench'},
+  ch_l01:{cardY:1,height:8,top:[2.5,1.5,13.5,9.5],rim:[8,10],support:[2,13],kind:'bench'},
 };
 
 /** Replace only known, flat native seats. The solid mesh remains a cached prop
