@@ -149,7 +149,7 @@ async function step(facing:number){
   if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.walkable(x,z))){await warp(exit,facing);save();return;}
   const nativeWarp=map.events.warps.some(w=>w.x===Math.floor(x)&&w.z===Math.floor(z));
   const enteredDoor=doorwayEntry(world.permission(x,z),nativeWarp,facing);
-  if((!world.walkable(x,z)&&!enteredDoor)||occupied)return;
+  if((!world.walkable(x,z,state.x,state.z,player.group.position.y)&&!enteredDoor)||occupied)return;
   walking=true;
   try{await tweenPlayer(x,z,keys.has('ShiftLeft')&&state.runningShoes? .14:.25);}
   finally{walking=false;}

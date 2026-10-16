@@ -10,9 +10,10 @@ import {sourceTallGrass,updateGrass} from './grass.ts';
 import {WorldSky} from './sky.ts';
 import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
 import {forestFoundation} from './foundations.ts';
+import {furnitureObstacles,furnitureBlocksStep,type FurnitureObstacle} from './furniture-collision.ts';
 import {shorelineUnderlay} from './shoreline.ts';
 
-type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap};
+type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap;furniture?:FurnitureObstacle[]};
 export class OriginalWorld {
   readonly scene=new THREE.Scene();
   readonly camera=new THREE.PerspectiveCamera(52,innerWidth/innerHeight,.05,140);
@@ -112,7 +113,7 @@ export class OriginalWorld {
           const foundation=forestFoundation(cell,matrix,await this.backgroundCliff);if(foundation)group.add(foundation);
         }
         const props=await Promise.allSettled(cell.props.map(async prop=>{const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());}));for(const result of props)if(result.status==='rejected')throw result.reason;
-        if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map});retained=true;
+        if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;
         }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());
     }
@@ -122,7 +123,12 @@ export class OriginalWorld {
   cell(x:number,z:number){return this.cells.get(Math.floor(x/32)+','+Math.floor(z/32));}
   height(x:number,z:number,currentY=0){const c=this.cell(x,z);return c?terrainHeight(c.land,c.cell,x,z,currentY):currentY;}
   permission(x:number,z:number){const c=this.cell(x,z);return c?tilePermission(c.land,x,z):0x8000;}
-  walkable(x:number,z:number){const cell=this.cell(x,z);return !!cell&&cell.map.id!==0&&permissionWalkable(this.permission(x,z));}
+  walkable(x:number,z:number,fromX=x,fromZ=z,currentY=0){
+    const cell=this.cell(x,z);if(!cell||cell.map.id===0||!permissionWalkable(this.permission(x,z)))return false;
+    const fromY=this.height(fromX,fromZ,currentY),toY=this.height(x,z,fromY);
+    for(const loaded of this.cells.values())if(furnitureBlocksStep(loaded.furniture??[],fromX,fromZ,x,z,fromY,toY))return false;
+    return true;
+  }
   owner(x:number,z:number){const id=this.cell(x,z)?.map.id;return id===0?undefined:id;}
   paper(key:string,height=2){const info=this.sprites[key];if(!info)throw Error(`Original sprite missing: ${key}`);
     const texture=new THREE.TextureLoader().load('/source/'+info.asset);texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.colorSpace=THREE.SRGBColorSpace;texture.repeat.set(1/info.columns,1/info.rows);texture.offset.set(0,1-1/info.rows);
