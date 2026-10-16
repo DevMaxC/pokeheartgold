@@ -8,6 +8,7 @@ import {Battle} from './battle.ts';
 import {WorldBattleView} from './battle-stage.ts';
 import {EncounterChecks,landSlot} from './encounter.ts';
 import {doorwayEntry} from './terrain.ts';
+import {stepWarpFacing,pushWarp,fieldEntryScripts} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
 import {movementAction} from './movement.ts';
 import {mapBlackoutSpawn} from './spawns.ts';
@@ -70,42 +71,44 @@ async function chooseStarter(){
   }
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
 }
-async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false){
+async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false){
   if(vm.busy&&!nested)return;
   const runner=nested?new ScriptVM(data,state,vm.hooks):vm;
   if(!preserveControls)keys.clear();walking=true;
   try{await runner.run(map,script,object);updateHUD();}
   catch(error){lastError=String(error);console.error(error);if(error instanceof UnsupportedScript)await ui.message('This scene is still being restored. Your progress has been kept.');else await ui.message('The scene could not finish. Your progress has been kept.');}
   finally{walking=false;save();}
-  if(!nested&&!vm.busy)await checkFrameTriggers();
+  if(!nested&&!vm.busy&&!deferTriggers)await checkFrameTriggers();
 }
+async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=false){for(const event of fieldEntryScripts(kind))if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,preserveControls,true);}
 async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false){
   encounterChecks.reset();
   playerDirectionLocked=false;
   transitioning=true;if(!connection){keys.clear();ui.loading('Entering '+(data.index.maps[id]?.name||'Johto')+'…');}state.map=id;state.x=x;state.z=z;
   try{
-    map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);}
-    if(runEntry)for(const event of ['OnTransition','OnResume','OnLoad'])if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,connection);
+    map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state));world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z),z);if(follower)follower.group.position.copy(player.group.position);}
+    if(runEntry)await runFieldEntry(connection?'connection':'warp',connection);
   }finally{transitioning=false;if(!connection)ui.loading(null);}
   await checkFrameTriggers();
 }
 async function checkFrameTriggers(){if(vm.busy||ui.busy||battle.active)return false;const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;await runScript(trigger.script);return true;}
-async function warp(index:number){
+async function warp(index:number,facing=state.facing){
   transitioning=true;keys.clear();
   try{
   const from=map.events.warps[index],id=data.index.mapIds[from.header];if(id===undefined)throw Error(`Missing original warp destination ${from.header}`);
   const destination=await world.map(id),target=destination.events.warps[from.anchor];if(!target)throw Error(`Missing original warp anchor ${from.header}:${from.anchor}`);
-  lastWarp=id+':'+target.x+','+target.z;state.facing=1;
+  lastWarp=id+':'+target.x+','+target.z;state.facing=facing;
   await enterMap(id,target.x+.5,target.z+.5);
   }finally{transitioning=false;}
 }
-async function checkEvents(){
+async function checkEvents(enteredDoor=false){
   const x=Math.floor(state.x),z=Math.floor(state.z);const owner=world.owner(state.x,state.z);
   if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
   const warpIndex=map.events.warps.findIndex(w=>w.x===x&&w.z===z),key=map.id+':'+x+','+z;
-  if(warpIndex>=0&&key!==lastWarp){await warp(warpIndex);save();return;}if(warpIndex<0)lastWarp='';
   const trigger=map.events.coords.find(c=>x>=c.x&&x<c.x+(c.w||1)&&z>=c.z&&z<c.z+(c.h||1)&&vm.value(c.var||'0',map)===c.val);
   if(trigger){const id=String(trigger.scriptId)+':'+key;if(id!==lastCoord){lastCoord=id;await runScript(trigger.scriptId);return;}}else lastCoord='';
+  const transitionFacing=enteredDoor?state.facing:stepWarpFacing(world.permission(state.x,state.z),state.facing);
+  if(warpIndex>=0&&key!==lastWarp&&transitionFacing!==null){await warp(warpIndex,transitionFacing);save();return;}if(warpIndex<0)lastWarp='';
   if(await checkFrameTriggers())return;
   if(!vm.busy&&!ui.busy&&!transitioning)await wildEncounter();
 }
@@ -119,10 +122,10 @@ async function wildEncounter(){
   await startBattle([createMon(data,species,level,'')]);
 }
 async function whiteOut(){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z);}
-async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
+async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const battleMap=state.map;keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
   if(result==='lost'){if(canLose)healParty(state);else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null)await whiteOut();}}
   if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`);}
-  updateHUD();save();return result==='won';
+  if(state.map===battleMap){keys.clear();await runFieldEntry('resume');await checkFrameTriggers();}updateHUD();save();return result==='won';
 }
 async function trainerBattle(id:number,options?:{second:number;canLose:boolean;suppressFollower:boolean}){const trainer=data.trainers[id];if(!trainer)throw Error(`Missing trainer ${id}`);if(options?.second||trainer.double)throw Error('Original double/multi battles are still being ported');return startBattle(await originalTrainerParty(data,id),id,options?.canLose);}
 async function interact(){
@@ -138,11 +141,12 @@ async function step(facing:number){
   if(walking||transitioning||vm.busy||ui.busy||battle.active)return;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
   const nativeWarp=map.events.warps.some(w=>w.x===Math.floor(x)&&w.z===Math.floor(z));
-  if((!world.walkable(x,z)&&!doorwayEntry(world.permission(x,z),nativeWarp,facing))||occupied)return;
+  const enteredDoor=doorwayEntry(world.permission(x,z),nativeWarp,facing);
+  if((!world.walkable(x,z)&&!enteredDoor)||occupied){const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z));if(!occupied&&exit>=0&&pushWarp(world.permission(state.x,state.z),facing)){await warp(exit,facing);save();}return;}
   walking=true;
   try{await tweenPlayer(x,z,keys.has('ShiftLeft')&&state.runningShoes? .14:.25);await world.stream(state.map,state.x,state.z);}
   finally{walking=false;}
-  encounterChecks.step();await checkEvents();
+  encounterChecks.step();await checkEvents(enteredDoor);
 }
 function menu(){if(!started||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(ui.panelOpen){ui.close();return;}
   const entries=[['party','Pokémon',`${state.party.length} in your party`],['bag','Bag','Items and Key Items'],['trainer',state.name,`${state.badges.length} Badges`],['save','Save','Save your adventure'],['options','Options','Game settings'],['close','Close','Return to Johto']];
