@@ -1,0 +1,27 @@
+{
+  "status": "Controlled scheduling regression, not browser frame-time approval",
+  "oldCandidate": "540e251f2d1f0b87f1626dcc65ac86535e346653",
+  "worldSHA256": "f008f2c10dd13fcb162ea394e22beb0e646eb0d0ab165ab4f043cc85f565aec1",
+  "testSHA256": "29d9fb4565a399016a5534f42da11f6abb7aeaa2754c9b1ad8ba70572fd1bcc7",
+  "clockBudgetMs": 6,
+  "callbacks": 21,
+  "callbackVirtualWorkMs": 4,
+  "before": {
+    "turns": 1,
+    "maxVirtualWorkMs": 84,
+    "testExit": 1
+  },
+  "after": {
+    "turns": 11,
+    "maxVirtualWorkMs": 8,
+    "testExit": 0
+  },
+  "logSHA256": {
+    "before": "b1dd6e7b5afd835f97dcf71f7fd4811d04cc8ca8e15a3d645cd09efe71599768",
+    "after": "daae206341f69008600b4e4cdb1a8f880c661015b0199da5cdfe8dbe7c7a99ce"
+  },
+  "limitations": [
+    "Callbacks are indivisible; a single expensive builder can still exceed the budget.",
+    "Actual browser frame time is unverified while preview automation is disconnected."
+  ]
+}

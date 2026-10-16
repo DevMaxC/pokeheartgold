@@ -27,8 +27,8 @@ test('a superseded prop download cannot run a shell builder or dispose shared so
 
 test('a stream superseded while waiting for field work cannot build or publish its prop',async()=>{
  const{world,template}=fixture();world.asset=()=>Promise.resolve(template);
- let started!:()=>void,resume!:()=>void;const waiting=new Promise<void>(resolve=>{started=resolve;}),held=new Promise<void>(resolve=>{resume=resolve;}),original=world.sceneryWorkCurrent;
- world.sceneryWorkCurrent=async function(generation:number){started();await held;return original.call(this,generation);};
+ let started!:()=>void,resume!:()=>void;const waiting=new Promise<void>(resolve=>{started=resolve;}),held=new Promise<void>(resolve=>{resume=resolve;}),original=world.runSceneryWork;
+ world.runSceneryWork=async function(generation:number,build:()=>void){started();await held;return original.call(this,generation,build);};
  const released:THREE.Group[]=[];world.releaseCell=function(cell:any){released.push(cell.group);return (OriginalWorld.prototype as any).releaseCell.call(this,cell);};
  const stream=world.stream(60,16,16);await waiting;world.generation++;resume();await stream;
  assert.equal(world.cells.size,0);assert.equal(world.scene.children.length,0);assert.equal(released.length,1);assert.equal(released[0].children[1].userData.buildingExterior,undefined);
@@ -37,4 +37,23 @@ test('a stream superseded while waiting for field work cannot build or publish i
 test('a current cached stream constructs its exterior and publishes a usable cell',async()=>{
  const{world,template}=fixture();world.asset=()=>Promise.resolve(template);await world.stream(60,16,16);
  assert.equal(world.cells.size,1);assert.equal(world.scene.children.length,1);const loaded=[...world.cells.values()][0]as any;assert.ok(loaded.group.children[1].userData.buildingExterior);assert.equal(world.loading,false);assert.equal(world.walkable(16,16),true);
+});
+
+test('concurrent cached scenery jobs consume the shared budget before another job can pass it',async()=>{
+ // A controlled browser task clock makes the scheduling contract observable
+ // without treating a Node wall-clock timing as a browser frame benchmark.
+ const saved=new Map<string,PropertyDescriptor|undefined>();for(const key of ['window','performance','MessageChannel'])saved.set(key,Object.getOwnPropertyDescriptor(globalThis,key));
+ let now=0,turn=0;const messages:(()=>void)[]=[],workByTurn=new Map<number,number>();
+ class TaskChannel{port1:{onmessage:(()=>void)|null}={onmessage:null};port2={postMessage:(_value:unknown)=>messages.push(()=>this.port1.onmessage?.())};}
+ const world=Object.create(OriginalWorld.prototype)as any;world.generation=1;
+ try{
+  Object.defineProperty(globalThis,'window',{value:{},configurable:true});Object.defineProperty(globalThis,'performance',{value:{now:()=>now},configurable:true});Object.defineProperty(globalThis,'MessageChannel',{value:TaskChannel,configurable:true});
+  let completed=0;const jobs=Array.from({length:21},()=>world.runSceneryWork(1,()=>{completed++;now+=4;workByTurn.set(turn,(workByTurn.get(turn)??0)+4);}));
+  for(let guard=0;completed<21&&guard<30;guard++){
+   assert.equal(messages.length,1,'all waiters share one pending task');turn++;now++;messages.shift()!();await Promise.resolve();await Promise.resolve();await Promise.resolve();
+  }
+  assert.equal(completed,21);assert.ok((await Promise.all(jobs)).every(Boolean));
+  assert.ok(turn>=11,'21 four-millisecond builders must span multiple six-millisecond budgets');assert.ok(Math.max(...workByTurn.values())<=8,'each turn may overrun only by its final indivisible builder');
+  now+=10;let staleBuilt=false;const stale=world.runSceneryWork(1,()=>{staleBuilt=true;});assert.equal(messages.length,1);world.generation++;turn++;now++;messages.shift()!();assert.equal(await stale,false);assert.equal(staleBuilt,false,'a superseded waiter never executes its callback');
+ }finally{for(const[key,descriptor]of saved)if(descriptor)Object.defineProperty(globalThis,key,descriptor);else Reflect.deleteProperty(globalThis,key);}
 });

@@ -78,7 +78,10 @@ export class OriginalWorld {
   beginFieldTransition(){this.cameraTransition=true;}
   endFieldTransition(){this.cameraTransition=false;if(this.cameraResizePending){this.cameraResizePending=false;this.resizeRenderer();}}
   private resizeRenderer(){this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);}
-  private async sceneryWorkCurrent(generation:number){if(generation!==this.generation)return false;let pending:Promise<void>|null;while((pending=terrainPause())){await pending;if(generation!==this.generation)return false;}return generation===this.generation;}
+  /** Check the shared budget and build in the same continuation. Returning
+   * permission to an awaiting caller lets concurrent cached jobs all pass
+   * before any of them consumes the budget. */
+  private async runSceneryWork(generation:number,build:()=>void){if(generation!==this.generation)return false;let pending:Promise<void>|null;while((pending=terrainPause())){await pending;if(generation!==this.generation)return false;}build();return true;}
   get fieldTransitionActive(){return this.cameraTransition;}
   async enter(id:number,x:number,z:number,weather=0){
     const ownsTransition=!this.cameraTransition;
@@ -142,7 +145,7 @@ export class OriginalWorld {
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
         }
-        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;if(generation!==this.generation)return;const p=clone(await this.asset(prop.asset));group.add(p);if(generation!==this.generation)return;p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);const entrances=await doors();if(!await this.sceneryWorkCurrent(generation))return;closeBuildingExterior(p,prop.asset,entrances);if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}));for(const result of props)if(result.status==='rejected')throw result.reason;
+        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;if(generation!==this.generation)return;const p=clone(await this.asset(prop.asset));group.add(p);if(generation!==this.generation)return;p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);const entrances=await doors();if(!await this.runSceneryWork(generation,()=>{closeBuildingExterior(p,prop.asset,entrances);if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}))return;}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;
         }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());
