@@ -5,7 +5,7 @@ type Vertex={p:THREE.Vector3;uv:THREE.Vector2;color:THREE.Color};
 /** Extend authored wall feet down only where synthetic relief exposes a gap.
  * Roof overhangs need not flatten a neighbouring native ledge. */
 export function closeBuildingFooting(root:THREE.Object3D,terraces:Terraces,offset:number){
- root.updateWorldMatrix(true,true);const inverse=root.matrixWorld.clone().invert(),triangles:{vertices:Vertex[];material:THREE.Material}[]=[];let floor=Infinity;
+ root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const inverse=root.matrixWorld.clone().invert(),triangles:{vertices:Vertex[];material:THREE.Material}[]=[];let floor=Infinity;
  root.traverseVisible(o=>{
   if(!(o instanceof THREE.Mesh)||o instanceof THREE.InstancedMesh||o.name==='source-building-footing')return;
   const g=o.geometry as THREE.BufferGeometry,p=g.getAttribute('position'),uv=g.getAttribute('uv'),color=g.getAttribute('color'),idx=g.index,materials=Array.isArray(o.material)?o.material:[o.material];

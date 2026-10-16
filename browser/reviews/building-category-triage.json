@@ -1,0 +1,2010 @@
+{
+  "version": 2,
+  "status": "Source category triage; candidate snapshots precede subsequent owner repairs. Not final visual approval.",
+  "sourceRayReport": "/tmp/hg-dispatcher-source-aware-strict-enclosures.json",
+  "sourceHashes": {
+    "scripts/audit_building_enclosures.ts": "e56b306f65fdc8879a20e4816bde0d72fa0393ff2a0558e5a157b0eaeab380bd",
+    "src/source/render-repair.ts": "aa95d94ec1a2a514df5929f78be53766104d594812d83713abae02e1a37b95a7",
+    "public/source/entrances.json": "04495b657c173f1b618b1bbf6bfd0ab7349d1576c83f99f2df8365f02b789d9a",
+    "src/source/building-exterior.ts": "856a0b2f6500472550b97909763a04025e2bcf4a250d073dcafa2a0b45f3da83",
+    "src/source/house-building-shells.ts": "d12455224a187df515fdec09c57c38bb04e861eedb38148d9ace6eb647b0da4f",
+    "src/source/special-building-shells.ts": "f0783e7837578d8253ba5937c2aefe886bebb35b551c8714ce156f543814f439",
+    "src/source/landmark-building-shells.ts": "2a8408983817938faf01e9331bf75708f578e849802bdff6cba2861455cd5e0d",
+    "src/source/civic-building-shells.ts": "5df57c3e85d9edf55256010ed47f51a61e5c37dfc5539f374ce844f51542f0cd",
+    "src/source/station-building-shells.ts": "efcfb6d82a56eb7d780f20161c088c4d4b4e761a762e3b293275313c03ae2452",
+    "src/source/burned-tower-shells.ts": "5ab869075bc0c5692c4357ec7221faded181bad9ea682e7729258b395bfd656b",
+    "src/source/urban-building-shells.ts": "154de1155358778fb10f0a13b101f537affafcb25a8bb2ea11bdc8a0ada1bab8"
+  },
+  "imageEvidence": {
+    "directory": "/tmp/hg-building-exploratory-wave-two",
+    "manifest": "capture-manifest.json",
+    "source": {
+      "file": "exploratory-uncovered-structures-source-v1.png",
+      "sha256": "261d38b1df91f92ae91df7aede87ab1a24cec68f88b3690e362bc54e019c3406"
+    },
+    "candidate": {
+      "file": "exploratory-uncovered-structures-candidate-v1.png",
+      "sha256": "146c82b6ea028082eb32c50871a8fb3da63e3da7dfad4af08ded74ed0477156a"
+    },
+    "rows": [
+      290,
+      264,
+      89,
+      275,
+      314,
+      174
+    ]
+  },
+  "models": [
+    {
+      "modelId": 290,
+      "sourceConstant": "BUILD_MODEL_KN_CHIKA",
+      "category": "Enclosed underground-passage stair headhouse",
+      "expectedClosure": true,
+      "assessment": "Repair required",
+      "evidence": "Source has an asymmetric green sloping roof, cream walls and blue bands. The candidate mirrors the entry at the rear and adds detached gray panels above the green roof frame. Preserve the south stair entry; repair the actual rear/upper shell.",
+      "rayTriage": "Two texture contexts each have 18 exact geometric misses, including upper side and roof directions. They are not alpha-only cloth edges.",
+      "placements": [
+        {
+          "key": "0:40,5:3",
+          "asset": "props/1-290-12.glb",
+          "materials": [
+            "ko_chika_win",
+            "ko_chika_b",
+            "ko_chika_a"
+          ],
+          "sourceEntrances": [
+            {
+              "x": 1306.5,
+              "z": 185.5,
+              "behavior": 110,
+              "map": 13,
+              "axis": 2,
+              "sign": 1
+            }
+          ],
+          "attachments": [],
+          "sample": {
+            "tested": 2106,
+            "blocked": 2088,
+            "exactNoTriangleRays": 18,
+            "alphaOnlyMissRays": 0,
+            "alphaRejectedIntersections": 166,
+            "exactOpaqueMissRays": 18,
+            "nearOriginIntersections": 0,
+            "edgeToleranceHits": 0,
+            "allowed": 0,
+            "nativeRecessAllowances": 0,
+            "measuredApertureAllowances": 0,
+            "eventCorridorAllowances": 0,
+            "unexpected": 18,
+            "strictUnexpected": 18,
+            "edgeRays": []
+          },
+          "diagnosticRays": [
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.25
+              ],
+              "direction": [
+                -0.6691306063588582,
+                0.7431448254773942,
+                -1.229172982933355e-16
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.9238795325112867,
+                0,
+                0.38268343236508984
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.9807852804032304,
+                0,
+                0.19509032201612833
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                1,
+                0,
+                6.123233995736766e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                0.37895918350757285
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.9902680687415704,
+                0.13917310096006544,
+                6.063643103410976e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.8440059503346556,
+                0.40673664307580015,
+                0.34959871135220727
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.9135454576426009,
+                0.40673664307580015,
+                5.593852602888076e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                -0.3495987113522071,
+                0.40673664307580015,
+                -0.8440059503346556
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.473146789255815,
+                0.7431448254773942,
+                0.47314678925581505
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.6691306063588582,
+                0.7431448254773942,
+                4.0972432764445166e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                -0.6691306063588582,
+                0.7431448254773942,
+                -1.229172982933355e-16
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0,
+                0.9510565162951535,
+                0.30901699437494745
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.21850801222441055,
+                0.9510565162951535,
+                0.21850801222441057
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0.30901699437494745,
+                0.9510565162951535,
+                1.8921833652170753e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                -0.30901699437494745,
+                0.9510565162951535,
+                -5.676550095651226e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                -0.2185080122244106,
+                0.9510565162951535,
+                0.2185080122244105
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1307.9375,
+                3.975,
+                184.875
+              ],
+              "direction": [
+                0,
+                1,
+                6.123233995736766e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            }
+          ]
+        },
+        {
+          "key": "0:40,8:1",
+          "asset": "props/1-290-10.glb",
+          "materials": [
+            "ko_chika_win",
+            "ko_chika_b",
+            "ko_chika_a"
+          ],
+          "sourceEntrances": [
+            {
+              "x": 1309.5,
+              "z": 265.5,
+              "behavior": 110,
+              "map": 14,
+              "axis": 2,
+              "sign": 1
+            }
+          ],
+          "attachments": [],
+          "sample": {
+            "tested": 2106,
+            "blocked": 2088,
+            "exactNoTriangleRays": 18,
+            "alphaOnlyMissRays": 0,
+            "alphaRejectedIntersections": 166,
+            "exactOpaqueMissRays": 18,
+            "nearOriginIntersections": 0,
+            "edgeToleranceHits": 0,
+            "allowed": 0,
+            "nativeRecessAllowances": 0,
+            "measuredApertureAllowances": 0,
+            "eventCorridorAllowances": 0,
+            "unexpected": 18,
+            "strictUnexpected": 18,
+            "edgeRays": []
+          },
+          "diagnosticRays": [
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.25
+              ],
+              "direction": [
+                -0.6691306063588582,
+                0.7431448254773942,
+                -1.229172982933355e-16
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.9238795325112867,
+                0,
+                0.38268343236508984
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.9807852804032304,
+                0,
+                0.19509032201612833
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                1,
+                0,
+                6.123233995736766e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                0.37895918350757285
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.9902680687415704,
+                0.13917310096006544,
+                6.063643103410976e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.8440059503346556,
+                0.40673664307580015,
+                0.34959871135220727
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.9135454576426009,
+                0.40673664307580015,
+                5.593852602888076e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                -0.3495987113522071,
+                0.40673664307580015,
+                -0.8440059503346556
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.473146789255815,
+                0.7431448254773942,
+                0.47314678925581505
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.6691306063588582,
+                0.7431448254773942,
+                4.0972432764445166e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                -0.6691306063588582,
+                0.7431448254773942,
+                -1.229172982933355e-16
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0,
+                0.9510565162951535,
+                0.30901699437494745
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.21850801222441055,
+                0.9510565162951535,
+                0.21850801222441057
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0.30901699437494745,
+                0.9510565162951535,
+                1.8921833652170753e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                -0.30901699437494745,
+                0.9510565162951535,
+                -5.676550095651226e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                -0.2185080122244106,
+                0.9510565162951535,
+                0.2185080122244105
+              ],
+              "exit": "y+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                1310.9375,
+                3.975,
+                264.875
+              ],
+              "direction": [
+                0,
+                1,
+                6.123233995736766e-17
+              ],
+              "exit": "y+",
+              "allowed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modelId": 264,
+      "sourceConstant": "BUILD_MODEL_D32_S02",
+      "category": "Circular Battle Frontier tent facility with an authored east approach",
+      "expectedClosure": "Facility-specific envelope with preserved east approach",
+      "assessment": "Measured source-portal and curved-envelope review required",
+      "evidence": "The source is a pink circular cone tent with flags and partial curved lower elevations. The generic candidate adds floating pale strips. A rectangular fully closed house is the wrong model.",
+      "rayTriage": "17 geometric misses remain in the sampled body. Actual root is [15.5,1,33.5], scale 1/16, no rotation. East functional entrances map to native [64,16] and [64,32], with an exterior passage point [128,16]. Exact roof/curved-wall aperture height must come from source geometry.",
+      "placements": [
+        {
+          "key": "230:0,1:0",
+          "asset": "props/1-264-90.glb",
+          "materials": [
+            "h_mado_lm3",
+            "d32_s02a_lm2",
+            "lambert10",
+            "d32_s02c_lm1",
+            "lambert8",
+            "d32_s02b_lm2"
+          ],
+          "sourceEntrances": [
+            {
+              "x": 19.5,
+              "z": 34.5,
+              "behavior": 109,
+              "map": 272,
+              "axis": 0,
+              "sign": 1
+            },
+            {
+              "x": 19.5,
+              "z": 35.5,
+              "behavior": 109,
+              "map": 272,
+              "axis": 0,
+              "sign": 1
+            },
+            {
+              "x": 23.5,
+              "z": 34.5,
+              "behavior": 0,
+              "map": 272,
+              "passageOnly": true
+            }
+          ],
+          "attachments": [],
+          "sample": {
+            "tested": 1296,
+            "blocked": 1279,
+            "exactNoTriangleRays": 17,
+            "alphaOnlyMissRays": 0,
+            "alphaRejectedIntersections": 55,
+            "exactOpaqueMissRays": 17,
+            "nearOriginIntersections": 65,
+            "edgeToleranceHits": 0,
+            "allowed": 0,
+            "nativeRecessAllowances": 0,
+            "measuredApertureAllowances": 0,
+            "eventCorridorAllowances": 0,
+            "unexpected": 17,
+            "strictUnexpected": 17,
+            "edgeRays": []
+          },
+          "diagnosticRays": [
+            {
+              "origin": [
+                13.0355224609375,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.9902680687415704,
+                0.13917310096006544,
+                6.063643103410976e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.0355224609375,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                -0.37895918350757274
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.0355224609375,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.7002252665996707,
+                0.13917310096006544,
+                -0.7002252665996705
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.0355224609375,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.3789591835075729,
+                0.13917310096006544,
+                -0.9148884004098168
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.0355224609375,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                1.2127286206821952e-16,
+                0.13917310096006544,
+                -0.9902680687415704
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.0355224609375,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                -0.37895918350757263,
+                0.13917310096006544,
+                -0.9148884004098169
+              ],
+              "exit": "x-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                16.583251953125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.9902680687415704,
+                0.13917310096006544,
+                6.063643103410976e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                16.583251953125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.7002252665996707,
+                0.13917310096006544,
+                -0.7002252665996705
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                16.583251953125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.3789591835075729,
+                0.13917310096006544,
+                -0.9148884004098168
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                16.583251953125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                -0.37895918350757263,
+                0.13917310096006544,
+                -0.9148884004098169
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                16.583251953125,
+                5.2980481707259806,
+                38.6527099609375
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                -0.37895918350757274
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                16.583251953125,
+                5.2980481707259806,
+                38.6527099609375
+              ],
+              "direction": [
+                0.3789591835075729,
+                0.13917310096006544,
+                -0.9148884004098168
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                20.1309814453125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.7002252665996707,
+                0.13917310096006544,
+                -0.7002252665996705
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                20.1309814453125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.3789591835075729,
+                0.13917310096006544,
+                -0.9148884004098168
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                20.1309814453125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                1.2127286206821952e-16,
+                0.13917310096006544,
+                -0.9902680687415704
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                20.1309814453125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.9135454576426009,
+                0.40673664307580015,
+                5.593852602888076e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                20.1309814453125,
+                5.2980481707259806,
+                35.805419921875
+              ],
+              "direction": [
+                0.8440059503346556,
+                0.40673664307580015,
+                -0.3495987113522072
+              ],
+              "exit": "x+",
+              "allowed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modelId": 89,
+      "sourceConstant": "BUILD_MODEL_KO_WIFI",
+      "category": "Enclosed tall blue communications building",
+      "expectedClosure": true,
+      "assessment": "Repair required",
+      "evidence": "Source rear is absent over several stepped blue/window levels. The generic candidate mirrors the front entrance at the rear. Repeat the native blue window/metal bands through the measured rear elevations.",
+      "rayTriage": "Nine exact upper rear/roof geometric misses; no source entrance exists on that rear face.",
+      "placements": [
+        {
+          "key": "0:9,10:2",
+          "asset": "props/1-89-4.glb",
+          "materials": [
+            "ko_chika_win",
+            "c1_s03_c_lm14",
+            "lambert8",
+            "lambert7",
+            "c1_s03_b_lm5",
+            "c1_s03_a_lm5"
+          ],
+          "sourceEntrances": [
+            {
+              "x": 316.5,
+              "z": 348.5,
+              "behavior": 110,
+              "map": 76,
+              "axis": 2,
+              "sign": 1
+            }
+          ],
+          "attachments": [],
+          "sample": {
+            "tested": 2187,
+            "blocked": 2178,
+            "exactNoTriangleRays": 9,
+            "alphaOnlyMissRays": 0,
+            "alphaRejectedIntersections": 22,
+            "exactOpaqueMissRays": 9,
+            "nearOriginIntersections": 0,
+            "edgeToleranceHits": 0,
+            "allowed": 0,
+            "nativeRecessAllowances": 0,
+            "measuredApertureAllowances": 0,
+            "eventCorridorAllowances": 0,
+            "unexpected": 9,
+            "strictUnexpected": 9,
+            "edgeRays": []
+          },
+          "diagnosticRays": [
+            {
+              "origin": [
+                315.8623046875,
+                2.6875,
+                343.750244140625
+              ],
+              "direction": [
+                0.47314678925581505,
+                0.7431448254773942,
+                -0.473146789255815
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                2.6875,
+                343.750244140625
+              ],
+              "direction": [
+                3.7843667304341506e-17,
+                0.9510565162951535,
+                -0.30901699437494745
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                5.03125,
+                343.750244140625
+              ],
+              "direction": [
+                0.6459741880212511,
+                0.40673664307580015,
+                -0.645974188021251
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                5.03125,
+                343.750244140625
+              ],
+              "direction": [
+                0.3495987113522073,
+                0.40673664307580015,
+                -0.8440059503346556
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                5.03125,
+                343.750244140625
+              ],
+              "direction": [
+                1.1187705205776151e-16,
+                0.40673664307580015,
+                -0.9135454576426009
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                5.03125,
+                343.750244140625
+              ],
+              "direction": [
+                0.47314678925581505,
+                0.7431448254773942,
+                -0.473146789255815
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                5.03125,
+                343.750244140625
+              ],
+              "direction": [
+                8.194486552889033e-17,
+                0.7431448254773942,
+                -0.6691306063588582
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                2.6875,
+                345.33349609375
+              ],
+              "direction": [
+                8.194486552889033e-17,
+                0.7431448254773942,
+                -0.6691306063588582
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                315.8623046875,
+                5.03125,
+                345.33349609375
+              ],
+              "direction": [
+                0.3789591835075729,
+                0.13917310096006544,
+                -0.9148884004098168
+              ],
+              "exit": "z-",
+              "allowed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modelId": 275,
+      "sourceConstant": "BUILD_MODEL_TAFL04_H01",
+      "category": "Enclosed gabled penthouse on the Celadon roof",
+      "expectedClosure": true,
+      "assessment": "Repair required",
+      "evidence": "The source rear has a front-door-shaped omission. The candidate fills it with a large diagonal gray band that does not follow the native wall cladding and roof. Preserve front door274 and rebuild the measured rear gable with continuous native bands.",
+      "rayTriage": "Seven exact upper rear/roof geometric misses; the front door attachment is present in the audit scene.",
+      "placements": [
+        {
+          "key": "224:0,0:1",
+          "asset": "props/1-275-93.glb",
+          "materials": [
+            "yane_1",
+            "h_mado",
+            "yane_5",
+            "yane_2",
+            "yane_4",
+            "ent",
+            "wall_1",
+            "lambert12",
+            "wall_2",
+            "win_1",
+            "yane_3"
+          ],
+          "sourceEntrances": [
+            {
+              "x": 12.5,
+              "z": 7.5,
+              "behavior": 105,
+              "map": 379,
+              "axis": 2,
+              "sign": 1
+            }
+          ],
+          "attachments": [
+            {
+              "key": "224:0,0:2",
+              "asset": "props/1-274-93.glb",
+              "modelId": 274,
+              "bounds": [
+                [
+                  11.8178,
+                  0.2251,
+                  7.3562
+                ],
+                [
+                  13.1928,
+                  2.2251,
+                  7.4812
+                ]
+              ]
+            }
+          ],
+          "sample": {
+            "tested": 2187,
+            "blocked": 2180,
+            "exactNoTriangleRays": 7,
+            "alphaOnlyMissRays": 0,
+            "alphaRejectedIntersections": 0,
+            "exactOpaqueMissRays": 7,
+            "nearOriginIntersections": 0,
+            "edgeToleranceHits": 0,
+            "allowed": 0,
+            "nativeRecessAllowances": 0,
+            "measuredApertureAllowances": 0,
+            "eventCorridorAllowances": 0,
+            "unexpected": 7,
+            "strictUnexpected": 7,
+            "edgeRays": []
+          },
+          "diagnosticRays": [
+            {
+              "origin": [
+                11.198486328125,
+                2.703125,
+                4.893035888671875
+              ],
+              "direction": [
+                0.6459741880212511,
+                0.40673664307580015,
+                -0.645974188021251
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                12.5,
+                2.703125,
+                4.893035888671875
+              ],
+              "direction": [
+                -0.645974188021251,
+                0.40673664307580015,
+                -0.6459741880212512
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.801513671875,
+                2.703125,
+                4.893035888671875
+              ],
+              "direction": [
+                0.5555702330196022,
+                0,
+                -0.8314696123025453
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.801513671875,
+                2.703125,
+                4.893035888671875
+              ],
+              "direction": [
+                0.3789591835075729,
+                0.13917310096006544,
+                -0.9148884004098168
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.801513671875,
+                2.703125,
+                4.893035888671875
+              ],
+              "direction": [
+                -0.3495987113522071,
+                0.40673664307580015,
+                -0.8440059503346556
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.801513671875,
+                2.703125,
+                4.893035888671875
+              ],
+              "direction": [
+                -0.645974188021251,
+                0.40673664307580015,
+                -0.6459741880212512
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                13.801513671875,
+                2.703125,
+                6.679107666015625
+              ],
+              "direction": [
+                1.2127286206821952e-16,
+                0.13917310096006544,
+                -0.9902680687415704
+              ],
+              "exit": "z-",
+              "allowed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modelId": 314,
+      "sourceConstant": "BUILD_MODEL_MST_OKL",
+      "category": "Enclosed Oak laboratory with an authored front recess",
+      "expectedClosure": true,
+      "assessment": "Sampled geometry passes; lower rear cladding mismatch confirmed",
+      "evidence": "Main yellow-brick rear is closed, but a door-width dark strip interrupts the lower rear base. Read-only first-surface probes distinguish it from ground shadow: side rays hit 3d-rear-facade material mt_okl04 at z370.25 with native base-band UVs; center rays hit entrance-rear-wall at z370.2581249475479, sampling constant v1.9140625 at Y1.16/1.24/1.4. The generic center fill repeats a different texture band. A measured band-aware rear repair is needed.",
+      "rayTriage": "Zero unexpected strict rays. All 14 apparent front escapes intersect the authored h_in rectangle and its associated native front warp.",
+      "placements": [
+        {
+          "key": "0:32,11:5",
+          "asset": "props/1-314-17.glb",
+          "materials": [
+            "lambert1",
+            "mt_okl01",
+            "h_mado",
+            "mt_okl02",
+            "mt_okl06",
+            "mt_okl07",
+            "mt_okl03",
+            "h_in",
+            "mt_okl05",
+            "mt_okl04"
+          ],
+          "sourceEntrances": [
+            {
+              "x": 1045.5,
+              "z": 373.5,
+              "behavior": 105,
+              "map": 49,
+              "axis": 2,
+              "sign": 1
+            }
+          ],
+          "attachments": [],
+          "sample": {
+            "tested": 2187,
+            "blocked": 2173,
+            "exactNoTriangleRays": 14,
+            "alphaOnlyMissRays": 0,
+            "alphaRejectedIntersections": 83,
+            "exactOpaqueMissRays": 14,
+            "nearOriginIntersections": 0,
+            "edgeToleranceHits": 0,
+            "allowed": 14,
+            "nativeRecessAllowances": 14,
+            "measuredApertureAllowances": 0,
+            "eventCorridorAllowances": 0,
+            "unexpected": 0,
+            "strictUnexpected": 0,
+            "edgeRays": []
+          },
+          "diagnosticRays": []
+        }
+      ]
+    },
+    {
+      "modelId": 174,
+      "sourceConstant": "BUILD_MODEL_MSG_TN02",
+      "category": "Open-air produce market stall and cloth canopy",
+      "expectedClosure": false,
+      "assessment": "Remove inappropriate generic rear projection",
+      "evidence": "Source clearly has four posts, an open rear, pots and produce baskets beneath a pink scalloped canopy. The candidate adds a solid pink slab across the back. This is an open structure, not a hollow building requiring walls.",
+      "rayTriage": "All 15 raw misses are alpha-only, consistent with cloth/scalloped transparent pixels. Retain raw evidence but do not count this asset as an enclosed-building seal failure.",
+      "placements": [
+        {
+          "key": "0:2,9:5",
+          "asset": "props/1-174-18.glb",
+          "materials": [
+            "msr_pt06",
+            "msr_pt01",
+            "msr_pt02",
+            "msr_pt06w",
+            "msr_pt04w"
+          ],
+          "sourceEntrances": [],
+          "attachments": [],
+          "sample": {
+            "tested": 162,
+            "blocked": 147,
+            "exactNoTriangleRays": 0,
+            "alphaOnlyMissRays": 15,
+            "alphaRejectedIntersections": 32,
+            "exactOpaqueMissRays": 15,
+            "nearOriginIntersections": 0,
+            "edgeToleranceHits": 0,
+            "allowed": 0,
+            "nativeRecessAllowances": 0,
+            "measuredApertureAllowances": 0,
+            "eventCorridorAllowances": 0,
+            "unexpected": 15,
+            "strictUnexpected": 15,
+            "edgeRays": []
+          },
+          "diagnosticRays": [
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.7002252665996705,
+                0.13917310096006544,
+                0.7002252665996707
+              ],
+              "exit": "z+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                0.37895918350757285
+              ],
+              "exit": "z+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.9902680687415704,
+                0.13917310096006544,
+                6.063643103410976e-17
+              ],
+              "exit": "x+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                -0.37895918350757274
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.3789591835075729,
+                0.13917310096006544,
+                -0.9148884004098168
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.645974188021251,
+                0.40673664307580015,
+                0.6459741880212511
+              ],
+              "exit": "z+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.8440059503346556,
+                0.40673664307580015,
+                -0.3495987113522072
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                304.60540771484375
+              ],
+              "direction": [
+                0.3495987113522073,
+                0.40673664307580015,
+                -0.8440059503346556
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                305.49346923828125
+              ],
+              "direction": [
+                0.3789591835075728,
+                0.13917310096006544,
+                0.9148884004098168
+              ],
+              "exit": "z+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                305.49346923828125
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                0.37895918350757285
+              ],
+              "exit": "z+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                305.49346923828125
+              ],
+              "direction": [
+                0.9148884004098168,
+                0.13917310096006544,
+                -0.37895918350757274
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                305.49346923828125
+              ],
+              "direction": [
+                0.7002252665996707,
+                0.13917310096006544,
+                -0.7002252665996705
+              ],
+              "exit": "z-",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                305.49346923828125
+              ],
+              "direction": [
+                0.3495987113522072,
+                0.40673664307580015,
+                0.8440059503346556
+              ],
+              "exit": "z+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                305.49346923828125
+              ],
+              "direction": [
+                0.8440059503346556,
+                0.40673664307580015,
+                0.34959871135220727
+              ],
+              "exit": "z+",
+              "allowed": false
+            },
+            {
+              "origin": [
+                93.8203125,
+                13.492626953125,
+                305.49346923828125
+              ],
+              "direction": [
+                0.6459741880212511,
+                0.40673664307580015,
+                -0.645974188021251
+              ],
+              "exit": "z-",
+              "allowed": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "readOnlySourceClassifications": {
+    "status": "Read-only original source classification; no runtime or audit edits. Not release visual approval.",
+    "nativeFaceEvidence": "/tmp/hg-final-source-classification-geometry.json",
+    "actualSourceImage": "/tmp/hg-building-exploratory-wave-five/exploratory-classification-27-267-268-source-v17.png",
+    "classifications": [
+      {
+        "modelId": 8,
+        "asset": "props/1-8-5.glb",
+        "sourceName": "EN_YAKE",
+        "classification": "damaged tower with intentionally open upper roof; ground story enclosed",
+        "actualPlacementKeys": [
+          "0:11,4:0"
+        ],
+        "sourceAssetSHA256": "cbec3c252bf22241e7ded3aa083cb5dd672d38a3e5f81e246fa2c6b34112323f",
+        "auditCategory": "damaged tower; enclosed ground story and authored open upper roof"
+      },
+      {
+        "modelId": 27,
+        "asset": "props/1-27-0.glb",
+        "sourceName": "WK_SP1",
+        "classification": "decorative wind turbine, no building interior",
+        "actualPlacementKeys": [
+          "0:21,12:2",
+          "0:21,12:3",
+          "0:21,12:4",
+          "0:21,12:5"
+        ],
+        "sourceAssetSHA256": "48f8366b38723efa69df2ffac77e3e485c3f5d65eb3179b5fec7c90111664944",
+        "auditCategory": "open-air decoration"
+      },
+      {
+        "modelId": 155,
+        "asset": "props/1-155-19.glb",
+        "sourceName": "AR_SHRINE1",
+        "classification": "enclosed stone shrine chamber",
+        "actualPlacementKeys": [
+          "0:13,8:0"
+        ],
+        "sourceAssetSHA256": "3ece67ad2d60964d175e2f1a709d7acdd0e16a81227d329b9702cca44ccc4dfc",
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 156,
+        "asset": "props/1-156-19.glb",
+        "sourceName": "AR_SHRINE2",
+        "classification": "enclosed stone shrine chamber",
+        "actualPlacementKeys": [
+          "0:13,8:1",
+          "0:13,9:2"
+        ],
+        "sourceAssetSHA256": "02aef087f1e0751936c23b112399ad03ecc84b116f0dafbfe1b8809b05fd9b71",
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 157,
+        "asset": "props/1-157-19.glb",
+        "sourceName": "AR_SHRINE3",
+        "classification": "enclosed stone shrine chamber",
+        "actualPlacementKeys": [
+          "0:13,8:4",
+          "0:13,8:8",
+          "0:13,9:3",
+          "0:13,9:4"
+        ],
+        "sourceAssetSHA256": "1e79430faf7f6202bd419b8eadc4c9204d7d3c8647d0943a1d08b3158672c856",
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 158,
+        "asset": "props/1-158-19.glb",
+        "sourceName": "AR_SHRINE1_2",
+        "classification": "enclosed stone shrine chamber with source physical entrance",
+        "actualPlacementKeys": [
+          "0:13,8:3"
+        ],
+        "sourceAssetSHA256": "2429c5368f73a41f25c5f309d8ced9fce1c649131bc96416d31406ea5706df83",
+        "physicalSourcePortal": {
+          "axis": 2,
+          "sign": 1,
+          "at": 40,
+          "side": [
+            -11.578125,
+            11.86328125
+          ],
+          "height": [
+            2,
+            36
+          ],
+          "jambDepth": [
+            -4.36328125,
+            40
+          ],
+          "nativeWarpPresent": false,
+          "literalGeometryGuards": {
+            "leftJambX": -11.578125,
+            "rightJambX": 11.86328125,
+            "innerJambY": [
+              5.69921875,
+              36
+            ],
+            "lintelY": [
+              36,
+              44
+            ],
+            "lowerJambY": [
+              2,
+              5.69921875
+            ]
+          },
+          "auditedUnexpectedRays": 71,
+          "allWithinPortal": true,
+          "actualPortalCrossingBounds": [
+            [
+              -10.690222719015843,
+              10.690222719015834
+            ],
+            [
+              13.200000000000003,
+              33.04240606608902
+            ],
+            [
+              40.0,
+              40.0
+            ]
+          ],
+          "evidenceCorrection": "The source has lower vertical jamb feet reaching Y2, not a horizontal Y2 floor. The initial receipt floor bounds combined vertical recessed card geometry. Aperture proof uses actual upper/lower jambs and lintel only; no floor assertion."
+        },
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 159,
+        "asset": "props/1-159-19.glb",
+        "sourceName": "AR_SHRINE1_3",
+        "classification": "enclosed stone shrine chamber with source physical entrance",
+        "actualPlacementKeys": [
+          "0:13,8:2"
+        ],
+        "sourceAssetSHA256": "8654e9dd55c959203040968935655ad65c3961c81fe30cc690e61f0a0b052b81",
+        "physicalSourcePortal": {
+          "axis": 2,
+          "sign": 1,
+          "at": 40,
+          "side": [
+            -11.578125,
+            11.86328125
+          ],
+          "height": [
+            2,
+            36
+          ],
+          "jambDepth": [
+            -4.36328125,
+            40
+          ],
+          "nativeWarpPresent": false,
+          "literalGeometryGuards": {
+            "leftJambX": -11.578125,
+            "rightJambX": 11.86328125,
+            "innerJambY": [
+              5.69921875,
+              36
+            ],
+            "lintelY": [
+              36,
+              44
+            ],
+            "lowerJambY": [
+              2,
+              5.69921875
+            ]
+          },
+          "auditedUnexpectedRays": 71,
+          "allWithinPortal": true,
+          "actualPortalCrossingBounds": [
+            [
+              -10.690222719015843,
+              10.690222719015834
+            ],
+            [
+              13.200000000000003,
+              33.04240606608902
+            ],
+            [
+              40.0,
+              40.0
+            ]
+          ],
+          "evidenceCorrection": "The source has lower vertical jamb feet reaching Y2, not a horizontal Y2 floor. The initial receipt floor bounds combined vertical recessed card geometry. Aperture proof uses actual upper/lower jambs and lintel only; no floor assertion."
+        },
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 160,
+        "asset": "props/1-160-19.glb",
+        "sourceName": "AR_SHRINE1_4",
+        "classification": "enclosed stone shrine chamber",
+        "actualPlacementKeys": [
+          "0:13,9:0"
+        ],
+        "sourceAssetSHA256": "b7f37de6862a5d358045f1d8acda0f501929f0ad99afca4fbd800cec1897eaeb",
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 161,
+        "asset": "props/1-161-19.glb",
+        "sourceName": "AR_SHRINE1_5",
+        "classification": "enclosed stone shrine chamber with source physical entrance",
+        "actualPlacementKeys": [
+          "0:13,9:1"
+        ],
+        "sourceAssetSHA256": "3f62f90b2a889b9551df7da9a0de47aa41a762af09ed829d529670e277b131d7",
+        "physicalSourcePortal": {
+          "axis": 2,
+          "sign": 1,
+          "at": 40,
+          "side": [
+            -11.578125,
+            11.86328125
+          ],
+          "height": [
+            2,
+            36
+          ],
+          "jambDepth": [
+            -4.36328125,
+            40
+          ],
+          "nativeWarpPresent": false,
+          "literalGeometryGuards": {
+            "leftJambX": -11.578125,
+            "rightJambX": 11.86328125,
+            "innerJambY": [
+              5.69921875,
+              36
+            ],
+            "lintelY": [
+              36,
+              44
+            ],
+            "lowerJambY": [
+              2,
+              5.69921875
+            ]
+          },
+          "auditedUnexpectedRays": 71,
+          "allWithinPortal": true,
+          "actualPortalCrossingBounds": [
+            [
+              -10.690222719015843,
+              10.690222719015834
+            ],
+            [
+              13.200000000000003,
+              33.04240606608902
+            ],
+            [
+              40.0,
+              40.0
+            ]
+          ],
+          "evidenceCorrection": "The source has lower vertical jamb feet reaching Y2, not a horizontal Y2 floor. The initial receipt floor bounds combined vertical recessed card geometry. Aperture proof uses actual upper/lower jambs and lintel only; no floor assertion."
+        },
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 162,
+        "asset": "props/1-162-19.glb",
+        "sourceName": "AR_SHRINE1_6",
+        "classification": "enclosed stone shrine chamber with source physical entrance",
+        "actualPlacementKeys": [
+          "0:13,9:5"
+        ],
+        "sourceAssetSHA256": "6371774fce49278bc62346d3ff13b0d8062ef324503253c017ab6bfbcde7ca33",
+        "physicalSourcePortal": {
+          "axis": 2,
+          "sign": 1,
+          "at": 40,
+          "side": [
+            -11.578125,
+            11.86328125
+          ],
+          "height": [
+            2,
+            36
+          ],
+          "jambDepth": [
+            -4.36328125,
+            40
+          ],
+          "nativeWarpPresent": false,
+          "literalGeometryGuards": {
+            "leftJambX": -11.578125,
+            "rightJambX": 11.86328125,
+            "innerJambY": [
+              5.69921875,
+              36
+            ],
+            "lintelY": [
+              36,
+              44
+            ],
+            "lowerJambY": [
+              2,
+              5.69921875
+            ]
+          },
+          "auditedUnexpectedRays": 71,
+          "allWithinPortal": true,
+          "actualPortalCrossingBounds": [
+            [
+              -10.690222719015843,
+              10.690222719015834
+            ],
+            [
+              13.200000000000003,
+              33.04240606608902
+            ],
+            [
+              40.0,
+              40.0
+            ]
+          ],
+          "evidenceCorrection": "The source has lower vertical jamb feet reaching Y2, not a horizontal Y2 floor. The initial receipt floor bounds combined vertical recessed card geometry. Aperture proof uses actual upper/lower jambs and lintel only; no floor assertion."
+        },
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 163,
+        "asset": "props/1-163-19.glb",
+        "sourceName": "AR_SHRINE1_7",
+        "classification": "enclosed stone shrine chamber",
+        "actualPlacementKeys": [
+          "0:13,9:6"
+        ],
+        "sourceAssetSHA256": "49bab72ea8c37ba949d90c8f868ded16a19126f093a22bee138ebef76c4ebef2",
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 267,
+        "asset": "props/1-267-90.glb",
+        "sourceName": "D32_S05",
+        "classification": "decorative waterfall fountain/water effects, no building interior",
+        "actualPlacementKeys": [
+          "230:1,2:0",
+          "230:1,2:1"
+        ],
+        "sourceAssetSHA256": "132a1e696ded5581f516eb90161ac665f37c717d7968ad05e65702cb6fc81b55",
+        "auditCategory": "open-air decoration"
+      },
+      {
+        "modelId": 268,
+        "asset": "props/1-268-91.glb",
+        "sourceName": "D32_S06",
+        "classification": "decorative conical fountain/water effects, no building interior",
+        "actualPlacementKeys": [
+          "240:0,0:1",
+          "240:0,0:2"
+        ],
+        "sourceAssetSHA256": "70ddc5a545654e3f3d3eaf8c26b57b24549c0070dcf2f4cc5146af35853fd489",
+        "auditCategory": "open-air decoration"
+      },
+      {
+        "modelId": 339,
+        "asset": "props/1-339-13.glb",
+        "sourceName": "KN_CHIKA_X",
+        "classification": "closed decorative stairhead hut",
+        "actualPlacementKeys": [
+          "0:42,7:1"
+        ],
+        "sourceAssetSHA256": "12b56de07145ac9eec6e665f1674e0bb31157f12d9ae96b5316690588b8e7b8b",
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 339,
+        "asset": "props/1-339-14.glb",
+        "sourceName": "KN_CHIKA_X",
+        "classification": "closed decorative stairhead hut",
+        "actualPlacementKeys": [
+          "0:39,7:2"
+        ],
+        "sourceAssetSHA256": "12b56de07145ac9eec6e665f1674e0bb31157f12d9ae96b5316690588b8e7b8b",
+        "auditCategory": "closed decorative building"
+      },
+      {
+        "modelId": 218,
+        "asset": "props/1-218-10.glb",
+        "sourceName": "KBC_PORT",
+        "classification": "enclosed port building; original opaque source front recess lies outside room",
+        "auditCategory": "closed decorative building",
+        "sourceAssetSHA256": "ffe980ba9c0e88a2502c15d641a4ac2e537bfcf4d2a26945ede051d826b44b6c",
+        "actualPlacementKeys": [
+          "0:40,10:4"
+        ],
+        "evidence": "Native h_in jambs/backplate Z15, source floorY2, exterior recess Z15..38; front seeds require actual opaque card/floor witnesses. No functional entrance claim for context10."
+      },
+      {
+        "modelId": 218,
+        "asset": "props/1-218-92.glb",
+        "sourceName": "KBC_PORT",
+        "classification": "enclosed port building; original opaque source front recess lies outside room",
+        "auditCategory": "closed decorative building",
+        "sourceAssetSHA256": "ffe980ba9c0e88a2502c15d641a4ac2e537bfcf4d2a26945ede051d826b44b6c",
+        "actualPlacementKeys": [
+          "211:0,0:2"
+        ],
+        "evidence": "Native h_in jambs/backplate Z15, source floorY2, exterior recess Z15..38; front seeds require actual opaque card/floor witnesses. No functional entrance claim for context10."
+      }
+    ]
+  }
+}
