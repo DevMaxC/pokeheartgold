@@ -2212,8 +2212,8 @@
     "group": "3D world depth and navigation",
     "feature": "Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps",
     "source": "browser/src/source/world.ts",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Native 56/57/58/59 directional two-tile jumps and continuous player/follower/scripted jump arcs. Matrix 0 adds source-anchored synthetic relief at 1,453 ledges, with opaque original-textured faces, smooth intact edges and flat water. Source terrain, actors, grass and individually rooted trees share the same half-tile height sampling; props/rocks retain rigid shapes. All ledge midpoint drops, water tiles and intact cell edges have fixtures; actual Route 29 jump, reverse blocking and follower arc checked in isolated browser storage. Other matrices and broader scenery/progression visual checks remain pending."
   },
   {
     "id": "P15-012",

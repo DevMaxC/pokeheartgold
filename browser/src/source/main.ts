@@ -49,7 +49,7 @@ async function moveActor(object:string,label:string,source:SourceMap){
       if(facing===null)continue;const repeats=action.repeats;
       for(let i=0;i<repeats;i++){
         const d={x:deltas[facing].x*action.distance,z:deltas[facing].z*action.distance};if(isPlayer)await tweenPlayer(state.x+d.x,state.z+d.z,action.seconds,action.jump);else{
-          const from={x:npc!.x,z:npc!.z},fromY=world.npcSprites.get(npc!.id)?.group.position.y??world.height(from.x+.5,from.z+.5),toY=world.height(from.x+d.x+.5,from.z+d.z+.5,fromY);try{await tween(action.seconds,t=>{npc!.x=from.x+d.x*t;npc!.z=from.z+d.z*t;npc!.step=t*4;if(action.jump)npcTweenY.set(npc!.id,jumpHeight(fromY,toY,t));refreshNPCs();});}finally{npcTweenY.delete(npc!.id);npc!.step=-1;refreshNPCs();}
+          const from={x:npc!.x,z:npc!.z},fromY=world.npcSprites.get(npc!.id)?.group.position.y??world.height(from.x+.5,from.z+.5),toY=world.height(from.x+d.x+.5,from.z+d.z+.5,fromY,from.x+.5,from.z+.5);try{await tween(action.seconds,t=>{npc!.x=from.x+d.x*t;npc!.z=from.z+d.z*t;npc!.step=t*4;if(action.jump)npcTweenY.set(npc!.id,jumpHeight(fromY,toY,t));refreshNPCs();});}finally{npcTweenY.delete(npc!.id);npc!.step=-1;refreshNPCs();}
         }
       }
     }else if(action.delay)await new Promise(resolve=>setTimeout(resolve,action.delay*1000));
@@ -59,10 +59,10 @@ async function moveActor(object:string,label:string,source:SourceMap){
 async function tween(seconds:number,fn:(t:number)=>void){const start=performance.now();await new Promise<void>(resolve=>{function frame(){const t=Math.min(1,(performance.now()-start)/(seconds*1000));fn(t);if(t<1)requestAnimationFrame(frame);else resolve();}frame();});}
 async function tweenPlayer(x:number,z:number,seconds:number,jump=false){
   const from={x:state.x,z:state.z},followFrom=follower?.group.position.clone();
-  const fromY=world.height(from.x,from.z,player.group.position.y),toY=world.height(x,z,fromY),followerJump=followFrom&&Math.hypot(from.x-followFrom.x,from.z-followFrom.z)>1.5;
+  const fromY=world.height(from.x,from.z,player.group.position.y),toY=world.height(x,z,fromY,from.x,from.z),followerJump=followFrom&&Math.hypot(from.x-followFrom.x,from.z-followFrom.z)>1.5;
   if(followFrom){const dx=from.x-followFrom.x,dz=from.z-followFrom.z;followerMoving=Math.hypot(dx,dz)>.001;if(followerMoving)followerFacing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}
   try{await tween(seconds,t=>{state.x=from.x+(x-from.x)*t;state.z=from.z+(z-from.z)*t;stepFrame=t*4;if(jump)playerTweenY=jumpHeight(fromY,toY,t);
-    if(follower&&followFrom){const fx=followFrom.x+(from.x-followFrom.x)*t,fz=followFrom.z+(from.z-followFrom.z)*t;follower.group.position.set(fx,followerJump?jumpHeight(followFrom.y,fromY,t):world.height(fx,fz,follower.group.position.y),fz);followerStep=t*4;}
+    if(follower&&followFrom){const fx=followFrom.x+(from.x-followFrom.x)*t,fz=followFrom.z+(from.z-followFrom.z)*t;follower.group.position.set(fx,followerJump?jumpHeight(followFrom.y,fromY,t):world.height(fx,fz,follower.group.position.y,follower.group.position.x,follower.group.position.z),fz);followerStep=t*4;}
   });}finally{playerTweenY=undefined;stepFrame=-1;followerMoving=false;followerStep=-1;}
 }
 
@@ -189,13 +189,13 @@ async function begin(){
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started)return;
-    state.playSeconds+=dt;if(player){player.group.position.set(state.x,playerTweenY??world.height(state.x,state.z,player.group.position.y),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
+    state.playSeconds+=dt;if(player){player.group.position.set(state.x,playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;
     if(ready&&!transitioning)world.updateStreaming(state.map,state.x,state.z);
     if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active){const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);const facing=Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0;void step(facing).catch(error=>{console.error(error);lastError=String(error);});}}
-    world.draw(state.x,state.z,dt,playerTweenY);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
+    world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
     (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();
 }

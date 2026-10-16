@@ -374,7 +374,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P15-008 | Every world camera angle, terrain boundary and scenery variant receives visual verification | Pending | `browser/src/source/world.ts` |
 | P15-009 | Connected outdoor headers preserve camera pose, held movement and follower continuity without entry overlays | Implemented | `browser/src/source/world.ts` |
 | P15-010 | Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open | Implemented | `browser/src/source/world.ts` |
-| P15-011 | Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps | Pending | `browser/src/source/world.ts` |
+| P15-011 | Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps | Implemented | `browser/src/source/world.ts` |
 | P15-012 | Rock cutouts become separately rooted closed boulders retaining original pixel textures | Implemented | `browser/src/source/world.ts` |
 | P15-013 | Generated textured surfaces provide every enabled vertex attribute and remain free of black backing rectangles | Implemented | `browser/src/source/world.ts` |
 | P15-014 | Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea | Implemented | `browser/src/source/world.ts` |
@@ -385,7 +385,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P15-019 | Headerless interiors sharing geometry retain separate map ownership after warps | Implemented | `browser/src/source/world.ts` |
 | P15-020 | Map connections, rebuilds and battle returns select their original entry script phases | Implemented | `browser/src/source/world.ts` |
 | P15-021 | Field scenery streams without locking movement or removing the current cell during backtracking | Implemented | `browser/src/source/world.ts` |
-| P15-022 | Camera obstruction checks exclude hidden scenery and paper vegetation while retaining solid architecture | Pending | `browser/src/source/world.ts` |
+| P15-022 | Camera obstruction checks exclude hidden scenery and paper vegetation while retaining solid architecture | Verified | `browser/src/source/world.ts` |
 
 ### 3D sky and weather
 

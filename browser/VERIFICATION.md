@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-- `npm test`: 107 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- `npm test`: 117 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
 - Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 668 structural assets receive closure geometry; 195 landscapes receive camera-facing trees. The same audit covers 103 solid-fence, 44 flower-volume and 395 terrain-closure contexts, plus 43 remaining upright-cutout contexts. Instance matrices and vertices stay finite. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
 - Repeated forest art is split into individual original-tree sprites using exported trunk layouts. A four-tree row has four separate instance pivots, aligned with its ground marks; source alpha foot offsets keep trunks on the ground. Flipped/rotated UVs, mixed-mesh shadows, rear backing depth and blended material depth settings have regression coverage.
@@ -55,7 +55,7 @@ The 3D repair synthesizes surfaces absent from DS assets. Missing rear walls use
 - Connected outdoor headers now stream without running camera-entry placement, showing an entry overlay, clearing held movement or resetting the follower onto the player. Actual room warps translate the existing camera offset and target together; angle and preferred zoom remain intact.
 - A held-input browser crossing from original Cherrygrove to Route 29 retained yaw 0.9, pitch 0.61 and distance 17. The loading overlay was never shown; the first Route 29 sample kept the follower at the preceding tile. Three camera fixtures cover initial placement, nearby connected headers and distant real warps.
 - Actual imported Cherrygrove Center, Mart and house models block rear sight lines before the front wall. Original-texture model renders confirm the house rear is continuous cladding, including the former doorway opening, with horizontal bands and the original roof retained. Split wall bands, opaque texture settings, world transforms, neighbouring corner doors and opposing entrances have regression fixtures. This is targeted evidence, not visual certification of all building variants.
-- The reported rock, black cut-out, shoreline and floating forest cases received the repairs and targeted checks recorded below. All building/scenery variants and genuine ledge terraces/jumps still require further verification or implementation.
+- The reported rock, black cut-out, shoreline and floating forest cases received the repairs and targeted checks recorded below. All building/scenery variants and ledges outside the main field matrix still require further verification or implementation.
 
 ## Scenery semantics audit and Opus 5.5 review
 
@@ -67,7 +67,7 @@ The 3D repair synthesizes surfaces absent from DS assets. Missing rear walls use
 - The foliage exporter groups forked root runs using each canonical individual tree. Forked roots form one tree, while measured off-centre trunks and genuine numbered composite images are preserved. Ecruteak repeated variants describe two trees rather than four roots; numbered water-tree/bush composites also resolve to two individual images with canonical foot-U offsets.
 - Building rears now use a compact, immutable manifest of 666 directional source entrances across 280 matrices. Original door/gate behaviours select the façade; non-directional warps cannot choose a façade but remain safeguards against sealing real passages. This removes the loaded-window dependency and corner-bound ambiguity identified during review. All building variants still require broader visual approval.
 
-Remaining review work includes cut-out outline handling for additional hill materials, original non-white fence palettes, more robust non-quad topology handling, remaining special warp effects and overlay/menu resume paths, native ledge jumps/heights, encounter terrain coverage and toxic counters. These remain incomplete rather than being counted as fixed by the geometry checks.
+Remaining review work includes cut-out outline handling for additional hill materials, original non-white fence palettes, more robust non-quad topology handling, remaining special warp effects and overlay/menu resume paths, ledge heights outside the main field matrix, encounter terrain coverage and toxic counters. These remain incomplete rather than being counted as fixed by the geometry checks.
 
 ## Follow-up review corrections
 
@@ -93,3 +93,14 @@ Remaining review work includes cut-out outline handling for additional hill mate
 - North/south ladders now push in their original direction even with clear floor ahead. The imported source contains 166 warp events on those behaviours. Warp suppression clears before coordinate-event processing when the player leaves an anchor.
 - Actual browser ladder check: Slowpoke Well B2F map 181 at (13.5,20.5), north push over clear ladder floor → B1F map 177 at (27.5,20.5), with no runtime error. This exercises the native warp table through the game input path.
 - Battle returns run OnLoad before OnResume, matching the rebuilt native field overlay. Matrix/room changes reset the stream key; a failed matrix download never marks the old matrix as the new one. Shared-room retry and matrix failure fixtures pass.
+
+## Physical ledges and source-aligned terraces
+
+- Native `MapObject_IsLedgeInDirection` checks the next tile for the matching jump behaviour (56/57/58/59). The browser jumps two tiles only in that direction, checks the landing for blocked ground/NPCs, and leaves reverse/side collision intact. Encounters and events run on landing. Player, follower and scripted actor jumps interpolate actual start/end heights with an arc.
+- Main outdoor matrix 0 adds presentation relief at 1,453 native ledges. Original source X/Z, permissions, encounters, events and warp coordinates stay fixed. An offline constrained smooth field raises/lower ground around the source boundaries; intact paths around the ends remain ramps. Native water is fixed to its original level. The exported solver requires the pinned NumPy/SciPy dependencies in scripts/requirements.txt; generated height data is committed.
+- Nine height samples per source tile retain a physical face at short ledges while tapering free ends. The original landscape is subdivided into half-tile triangles with interpolated source UVs/colours; rendered ground and actors use exactly the same diagonal interpolation. Opaque two-sided cliff faces use original cliff art. Geometry remains owned by its streamed cell; shared source templates/materials stay intact.
+- Camera-facing trees, fences, flowers and tall grass retain their own roots. Buildings translate rigidly, and connected rock volumes retain their shape. Native map-cell boundaries share every intact height edge. Assets extending into a neighboring cell also receive the field displacement.
+- Browser Route 29 check: south jump (599.5,395.5) → (599.5,397.5), roughly one unit lower, with a sampled peak above the start. Reverse north movement stays blocked. On the next step, the follower moves continuously through its own arc to the lower landing, with no runtime error. Front and side scenery inspection is ongoing.
+- 117 tests pass, including every raised ledge's midpoint drop, all affected water tiles, intact cell-edge equality, actor/visible-ground agreement, two-sided cliff rays, rigid rock shapes and actual native tree roots in three town/route cells. The full imported-geometry audit remains separate; these checks do not visually approve every deformed landscape or building footprint. TypeScript/Vite build passes.
+
+Remaining ledge work: extend/audit height synthesis beyond matrix 0; inspect more newly exposed scenery angles and building footprints; verify all special movement families, terrain interactions, ledge encounters/step counters and complete gameplay progression. Full-game parity remains incomplete.

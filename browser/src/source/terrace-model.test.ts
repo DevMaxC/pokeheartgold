@@ -5,6 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {Terraces,type TerraceData} from './ledges.ts';
 import {terraceModel,terraceWalls} from './terrace-model.ts';
 import type {Cell,Land} from './types.ts';
+import {OriginalWorld} from './world.ts';
 
 test('deformed original ground agrees with actor height on both terraces and retains shared source geometry',async()=>{
  const terrain=new Terraces(JSON.parse(await readFile(new URL('../../public/source/terraces/0.json',import.meta.url),'utf8')) as TerraceData),root=new THREE.Group(),model=new THREE.Group();root.position.set(592,0,400);model.scale.setScalar(1/16);root.add(model);
@@ -22,4 +23,9 @@ test('separate solid rocks retain their shapes when rooted on different terrace 
  const terraces=new Terraces(JSON.parse(await readFile(new URL('../../public/source/terraces/0.json',import.meta.url),'utf8')) as TerraceData),root=new THREE.Group(),geometry=new THREE.BufferGeometry(),positions:number[]=[];
  for(const z of [395.5,397.5]){const box=new THREE.BoxGeometry(.7,.8,.7).toNonIndexed();box.translate(599.5,1.4,z);positions.push(...box.getAttribute('position').array);box.dispose();}geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));const rock=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial());rock.name='solid-original-rocks';root.add(rock);terraceModel(root,terraces);const output=root.getObjectByName('source-terrace-surface') as THREE.Mesh,p=output.geometry.getAttribute('position');
  assert.equal(p.count,positions.length/3);for(let i=0;i<p.count;i++){const z=i<36?395.5:397.5,expected=terraces.height(599.5,z);assert.ok(Math.abs(p.getX(i)-positions[i*3])<1e-4);assert.ok(Math.abs(p.getZ(i)-positions[i*3+2])<1e-4);assert.ok(Math.abs(p.getY(i)-positions[i*3+1]-expected)<1e-5);}
+});
+
+test('jump landing selection preserves the native floor beneath a bridge when terrace offsets differ',async()=>{
+ const terraces=new Terraces(JSON.parse(await readFile(new URL('../../public/source/terraces/0.json',import.meta.url),'utf8')) as TerraceData),cell={x:18,z:12,altitude:0} as Cell,land={permissions:[],plates:[1,3].map(y=>({bounds:[-16,-16,16,16],normal:[0,1,0],constant:-y}))} as Land,world=Object.create(OriginalWorld.prototype) as OriginalWorld;Object.assign(world,{cells:new Map([['18,12',{cell,land}]]),terraces});
+ const upper=world.height(599.5,395.5,1);assert.ok(upper>2);const lower=world.height(599.5,397.5,upper,599.5,395.5);assert.ok(Math.abs(lower-1-terraces.height(599.5,397.5))<1e-8,'Synthetic relief must not select the overhead native bridge plate');
 });

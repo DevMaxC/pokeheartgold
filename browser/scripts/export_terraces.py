@@ -14,7 +14,9 @@ from scipy.sparse.linalg import spsolve
 
 ROOT = Path(__file__).resolve().parents[1] / 'public/source'
 DIRECTIONS = {56: (1, 0), 57: (-1, 0), 58: (0, -1), 59: (0, 1)}
-SCALE = 4096
+# 1/256 of a tile is 1/16 of a source pixel: ample precision for synthetic
+# relief, while substantially reducing the transfer size after compression.
+SCALE = 256
 
 
 def export(matrix_id):

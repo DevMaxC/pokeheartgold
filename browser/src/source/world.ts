@@ -125,7 +125,8 @@ export class OriginalWorld {
     await this.pending;
   }
   cell(x:number,z:number){return this.cells.get(Math.floor(x/32)+','+Math.floor(z/32));}
-  height(x:number,z:number,currentY=0){const c=this.cell(x,z),offset=this.terraces?.height(x,z)??0;return c?terrainHeight(c.land,c.cell,x,z,currentY-offset)+offset:currentY;}
+  /** Compare native plate levels using the reference position before adding relief. */
+  height(x:number,z:number,currentY=0,fromX=x,fromZ=z){const c=this.cell(x,z),offset=this.terraces?.height(x,z)??0,reference=this.terraces?.height(fromX,fromZ)??0;return c?terrainHeight(c.land,c.cell,x,z,currentY-reference)+offset:currentY;}
   permission(x:number,z:number){const c=this.cell(x,z);return c?tilePermission(c.land,x,z):0x8000;}
   walkable(x:number,z:number){const cell=this.cell(x,z);return !!cell&&cell.map.id!==0&&permissionWalkable(this.permission(x,z));}
   owner(x:number,z:number){const id=this.cell(x,z)?.map.id;return id===0?undefined:id;}
@@ -147,7 +148,7 @@ export class OriginalWorld {
     for(const npc of objects){const key=npc.resolvedSprite;let actor=this.npcSprites.get(npc.id);
       if(actor&&actor.key!==key){this.scene.remove(actor.group);actor.texture.dispose();this.npcSprites.delete(npc.id);actor=undefined;}
       if(!actor&&this.sprites[key]){actor={...this.paper(key,key.includes('FOLLOWER')?1.4:2),npc,key};this.npcSprites.set(npc.id,actor);}
-      if(!actor)continue;actor.npc=npc;actor.group.visible=npc.visible;actor.group.position.set(npc.x+.5,this.height(npc.x+.5,npc.z+.5,actor.group.position.y||npc.y/16),npc.z+.5);this.animate(actor,npc.facingDirection,npc.step);
+      if(!actor)continue;actor.npc=npc;actor.group.visible=npc.visible;actor.group.position.set(npc.x+.5,this.height(npc.x+.5,npc.z+.5,actor.group.position.y||npc.y/16,actor.group.position.x,actor.group.position.z),npc.z+.5);this.animate(actor,npc.facingDirection,npc.step);
     }
   }
   async healAnimation(count:number,x:number,z:number){
@@ -157,9 +158,9 @@ export class OriginalWorld {
     }finally{this.scene.remove(group);for(const b of balls){b.geometry.dispose();(b.material as THREE.Material).dispose();}}
   }
   draw(x:number,z:number,dt:number,actorY?:number){
-    this.grassTime+=dt;updateGrass(this.grassTime,x,this.height(x,z),z);
+    this.grassTime+=dt;updateGrass(this.grassTime,x,actorY??this.height(x,z),z);
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
-    const height=actorY??this.height(x,z,this.target.y-.9);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
+    const height=actorY??this.height(x,z,this.target.y-.9,this.target.x,this.target.z);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
     const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance),obstacles=[...this.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));const collisions=ray.intersectObjects(obstacles,false);const first=collisions.find(c=>c.distance>1.2);const d=first?Math.max(2.2,first.distance-.6):this.distance;
     const desired=this.target.clone().addScaledVector(orbit,d);this.camera.position.lerp(desired,1-Math.exp(-dt*12));this.camera.lookAt(this.target);
