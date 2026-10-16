@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,access} from 'node:fs/promises';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {furnitureObstacles,furnitureBlocksStep} from './furniture-collision.ts';
 import {repairOriginalAsset,closeBuildingBack,originalMaterial} from './render-repair.ts';
 import {Terraces} from './ledges.ts';
 import {terraceModel} from './terrace-model.ts';
@@ -24,7 +25,7 @@ test('all imported prop and landscape geometries accept shared rendering repairs
   for(const folder of ['props','land'])for(const file of (await readdir(new URL(folder+'/',root))).filter(f=>f.endsWith('.glb'))){
     const gltf=await loader.parseAsync(geometryGLB(await readFile(new URL(folder+'/'+file,root))),'');
     gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;const convert=(old:THREE.Material)=>{const m=originalMaterial(old as THREE.MeshStandardMaterial);if(old.userData.geometryAuditHasTexture)m.map=texture;const entry=foliage[file.match(/-(\d+)\.glb$/)![1]]?.[m.name];if(folder==='land'&&entry)m.userData.treeInfo=entry;return m;};object.material=Array.isArray(object.material)?object.material.map(convert):convert(object.material);});
-    const result=repairOriginalAsset(gltf.scene,folder==='props');if(result.solidFaces)solidAssets++;if(result.billboardTrees)treeAssets++;if(result.uprightPanels)uprightAssets++;if(result.fencePosts)fenceAssets++;if(result.flowerClumps)flowerAssets++;if(result.terrainSkirts)terrainAssets++;
+    const result=repairOriginalAsset(gltf.scene,folder==='props');if(result.solidFaces)solidAssets++;if(result.billboardTrees){treeAssets++;let crowns=0,trunks=0;gltf.scene.traverseVisible(o=>{if(o instanceof THREE.InstancedMesh){if(o.name==='solid-original-tree-canopies')crowns+=o.count;if(o.name==='solid-original-tree-trunks')trunks+=o.count;}});assert.equal(crowns,result.billboardTrees,folder+'/'+file);assert.equal(trunks,crowns);}if(result.uprightPanels)uprightAssets++;if(result.fencePosts)fenceAssets++;if(result.flowerClumps)flowerAssets++;if(result.terrainSkirts)terrainAssets++;
     if(folder==='land'&&file==='0-2.glb')gltf.scene.traverse(object=>{if(!(object instanceof THREE.InstancedMesh)||object.name!=='camera-facing-original-trees')return;assert.ok(Array.from(object.geometry.getAttribute('pivotOffset').array).every(v=>v===0));for(let i=0;i<object.count;i++){const matrix=new THREE.Matrix4();object.getMatrixAt(i,matrix);assert.ok(new THREE.Vector3().setFromMatrixScale(matrix).x<=64.001,'Original New Bark forest rows must be split into individual 64-unit trees.');}});
     gltf.scene.traverse(object=>{if(!(object instanceof THREE.Mesh))return;if(object.name==='textured-terrain-back')texturedBacks++;if(object instanceof THREE.InstancedMesh)assert.ok(Array.from(object.instanceMatrix.array).every(Number.isFinite));const p=object.geometry.getAttribute('position');assert.ok(Array.from(p.array).every(Number.isFinite),folder+'/'+file);object.geometry.dispose();for(const m of Array.isArray(object.material)?object.material:[object.material]){if(m.vertexColors)assert.ok(object.geometry.getAttribute('color'),`${folder}/${file}: ${object.name} enables vertex colours without colour data`);m.dispose();}});
     if(folder==='props')props++;else lands++;
@@ -81,7 +82,7 @@ test('every native flat-seat variant becomes a closed raised seat while cushions
   const gltf=await new GLTFLoader().parseAsync(geometryGLB(await readFile(new URL('props/'+file,root))),'');
   gltf.scene.traverse(o=>{if(o instanceof THREE.Mesh)o.material=Array.isArray(o.material)?o.material.map(m=>originalMaterial(m as THREE.MeshStandardMaterial)):originalMaterial(o.material as THREE.MeshStandardMaterial);});
   const original=gltf.scene.children[0],summary=repairOriginalAsset(gltf.scene,true),seat=gltf.scene.getObjectByName('solid-original-furniture') as THREE.Mesh;assert.equal(summary.solidSeats,1,file);assert.ok(seat,file);repaired++;
-  const b=new THREE.Box3().setFromObject(seat),c=b.getCenter(new THREE.Vector3());assert.ok(Math.abs(b.min.y)<.001,file+' supports reach source floor');assert.equal(b.max.y,Number(file.split('-')[1])===56?2.5:8,file);
+  const b=new THREE.Box3().setFromObject(seat),c=b.getCenter(new THREE.Vector3());const obstacles=furnitureObstacles(gltf.scene);assert.equal(obstacles.length,1,file);assert.equal(furnitureBlocksStep(obstacles,c.x-20,c.z,c.x,c.z,0,0,3.84),true,file+' blocks entry at native 16-unit scale');assert.equal(furnitureBlocksStep(obstacles,c.x-20,c.z,c.x+20,c.z,0,0,3.84),true,file+' blocks crossing with clear endpoints');assert.equal(furnitureBlocksStep(obstacles,c.x,c.z,c.x+20,c.z,0,0,3.84),false,file+' old saves can leave');assert.ok(Math.abs(b.min.y)<.001,file+' supports reach source floor');assert.equal(b.max.y,Number(file.split('-')[1])===56?2.5:8,file);
   assert.ok(b.max.x<=8.001&&b.min.x>=-8.001&&b.max.z<=32.001&&b.min.z>=-32.001,file+' stays within its source footprint');
   const top=new THREE.Raycaster(new THREE.Vector3(c.x,20,c.z),new THREE.Vector3(0,-1,0)).intersectObject(seat)[0];assert.ok(top,file+' top');assert.equal(top.point.y,b.max.y,file);
   for(const [x,z,dx,dz]of [[c.x,50,0,-1],[c.x,-50,0,1],[-50,c.z,1,0],[50,c.z,-1,0]])assert.ok(new THREE.Raycaster(new THREE.Vector3(x,b.max.y-.5,z),new THREE.Vector3(dx,0,dz)).intersectObject(seat).length,file+' opaque side');
@@ -90,4 +91,8 @@ test('every native flat-seat variant becomes a closed raised seat while cushions
   assert.equal(original.parent,gltf.scene,'original source hierarchy remains attached');assert.equal(repairOriginalAsset(gltf.scene,true).solidSeats,0,'repair is idempotent');
  }
  assert.equal(repaired,files.length);assert.ok(repaired>=35);t.diagnostic(`Verified all ${repaired} native seat/bench/cushion/box texture variants.`);
+});
+
+test('all exported tree shapes retain visible sprite bounds and proven generic material aliases',async()=>{
+ const foliage=await readJSON('foliage.json');let layouts=0,aliases=0;for(const entries of Object.values(foliage) as Record<string,{topV:number;footV:number;crownWidth:number;family?:string}>[])for(const entry of Object.values(entries)){layouts++;assert.ok(entry.topV>=0&&entry.topV<entry.footV);assert.ok(entry.crownWidth>0&&entry.crownWidth<=1);if(entry.family)aliases++;}assert.equal(layouts,124);assert.equal(aliases,5);assert.equal(foliage['2'].tree01.topV,15/64);assert.equal(foliage['2'].lambert77.family,'treekn');
 });

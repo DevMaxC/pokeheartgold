@@ -1,9 +1,10 @@
 import * as THREE from 'three';
+import {fieldCameraObstacles} from './camera.ts';
 import type {OriginalWorld} from './world.ts';
 import type {BattleView} from './battle-view.ts';
 import type {Mon,MoveData} from './types.ts';
 
-type Context={x:number;z:number;facing:number;location:string;gender:'boy'|'girl';actors:THREE.Object3D[]};
+type Context={x:number;z:number;y?:number;facing:number;location:string;gender:'boy'|'girl';actors:THREE.Object3D[]};
 type Art={texture:THREE.Texture;aspect:number};
 type Fighter={root:THREE.Group;plane:THREE.Mesh<THREE.PlaneGeometry,THREE.MeshBasicMaterial>;shadow:THREE.Mesh;home:THREE.Vector3;key:string;front?:Art;back?:Art;flash:number;hidden:boolean};
 const typeColors=['#e4d7aa','#e4a064','#c5e4e9','#bba7d9','#c7a86e','#cba47b','#c2dd8a','#b3a6d5','#c8d0df','#d6d6d6','#fa9b45','#73c9f0','#a9d26c','#f5dc71','#f49ab7','#a1e4eb','#9ea3e5','#aaa0b5'];
@@ -39,13 +40,13 @@ export class WorldBattleView implements BattleView {
     const preferred=directions[c.facing]||directions[0];let best=-Infinity,origin=new THREE.Vector2(c.x,c.z),axis=preferred.clone();
     for(const offset of [[0,0],[1,0],[-1,0],[0,1],[0,-1],[2,0],[-2,0],[0,2],[0,-2]])for(const direction of directions){
       const start=new THREE.Vector2(c.x+offset[0],c.z+offset[1]);let clear=0;
-      for(let t=0;t<=3.5;t+=.5)if(this.world.walkable(start.x+direction.x*t,start.y+direction.y*t))clear++;
+      for(let t=0;t<=3.5;t+=.5)if(this.world.walkable(start.x+direction.x*t,start.y+direction.y*t,c.x,c.z,c.y??0))clear++;
       const score=clear*4-start.distanceTo(new THREE.Vector2(c.x,c.z))+(direction.equals(preferred)?1:0);
       if(score>best){best=score;origin=start;axis=direction;}
     }
     const positions=[origin,origin.clone().addScaledVector(axis,3.4)];
     this.group=new THREE.Group();this.group.name='battle-in-field';this.world.scene.add(this.group);this.active=true;this.world.battleStage=this;
-    this.fighters=positions.map(p=>this.fighter(p.x,p.y));
+    this.fighters=positions.map(p=>this.fighter(p.x,p.y,c.y??0));
     this.center.copy(this.fighters[0].home).add(this.fighters[1].home).multiplyScalar(.5);this.center.y+=.85;
     const nearby=[...this.world.npcSprites.values()].filter(n=>n.group.visible&&n.group.position.distanceTo(this.center)<7).sort((a,b)=>a.group.position.distanceToSquared(this.center)-b.group.position.distanceToSquared(this.center));
     this.hiddenActors=[...c.actors,...nearby.map(n=>n.group)].map(object=>({object,visible:object.visible}));for(const a of this.hiddenActors)a.object.visible=false;
@@ -56,13 +57,13 @@ export class WorldBattleView implements BattleView {
     this.sync(player,enemy);await Promise.all([...this.art.values()]);await wait(350);
   }
 
-  private fighter(x:number,z:number):Fighter{
+  private fighter(x:number,z:number,currentY:number):Fighter{
     const root=new THREE.Group(),height=1.85;
     const plane=new THREE.Mesh(new THREE.PlaneGeometry(1,height),new THREE.MeshBasicMaterial({transparent:true,alphaTest:.15,side:THREE.DoubleSide}));
     plane.geometry.translate(0,height/2,0);root.add(plane);
     const shadow=new THREE.Mesh(new THREE.CircleGeometry(.65,32),new THREE.MeshBasicMaterial({color:'#182c29',transparent:true,opacity:.22,depthWrite:false}));
     shadow.rotation.x=-Math.PI/2;shadow.scale.y=.62;shadow.position.y=.025;root.add(shadow);
-    root.position.set(x,this.world.height(x,z)+.035,z);this.group.add(root);
+    root.position.set(x,this.world.height(x,z,currentY)+.035,z);this.group.add(root);
     return{root,plane,shadow,home:root.position.clone(),key:'',flash:0,hidden:false};
   }
 
@@ -97,9 +98,9 @@ export class WorldBattleView implements BattleView {
     const fit=3.1/Math.sin(Math.min(vertical,horizontal)/2);
     const distance=this.world.distance*Math.max(1,fit/8.4);
     const desired=this.center.clone().add(new THREE.Vector3(Math.sin(this.world.yaw)*Math.cos(this.world.pitch)*distance,Math.sin(this.world.pitch)*distance,Math.cos(this.world.yaw)*Math.cos(this.world.pitch)*distance));
-    // Raise the camera for a wall or tree directly behind the shoulder.
+    // Raise the camera for solid architecture behind the shoulder.
     const ray=new THREE.Raycaster(this.center,desired.clone().sub(this.center).normalize(),1,desired.distanceTo(this.center));
-    const blocker=ray.intersectObjects([...this.world.cells.values()].map(c=>c.group),true).find(hit=>hit.object.visible&&hit.distance>1.4&&hit.object.name!=='camera-facing-original-trees');
+    const blocker=ray.intersectObjects([...this.world.cells.values()].flatMap(c=>fieldCameraObstacles(c.group)),false).find(hit=>hit.distance>1.4);
     if(blocker)desired.y+=Math.min(5,Math.max(0,desired.distanceTo(this.center)-blocker.distance)*.8);
     camera.position.lerp(desired,1-Math.exp(-dt*5));camera.fov=THREE.MathUtils.lerp(camera.fov,46,1-Math.exp(-dt*5));camera.updateProjectionMatrix();
     const look=this.center.clone();look.y-=aspect<.9?.1:.2;

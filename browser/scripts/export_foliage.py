@@ -52,9 +52,10 @@ for (context,name),raw in textures.items():
   if len(runs)%roots_per_tree:raise ValueError(f'Unresolved repeated root layout {context}:{name}')
   centers=[(runs[i][0]+runs[i+roots_per_tree-1][1])/2/image.width for i in range(0,len(runs),roots_per_tree)]
  else:centers=[(runs[0][0]+runs[-1][1])/2/image.width] if runs else [.5]
- foot=canonical_image.getchannel('A').getbbox()[3]/canonical_image.height
+ bounds=canonical_image.getchannel('A').getbbox();foot=bounds[3]/canonical_image.height
+ top=bounds[1]/canonical_image.height;crown_width=(bounds[2]-bounds[0])/canonical_image.width
  canonical_runs=foot_runs(canonical_image);foot_u=(canonical_runs[0][0]+canonical_runs[-1][1])/2/canonical_image.width if canonical_runs else .5
- manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footU':foot_u,'footV':foot}
+ manifest.setdefault(context,{})[name]={'asset':path,'centers':centers or [.5],'footU':foot_u,'footV':foot,'topV':top,'crownWidth':crown_width,'crownCenterU':(bounds[0]+bounds[2])/2/canonical_image.width}
 # Some native trees kept editor material names. Resolve only exact original
 # image matches; a generic name alone never makes an asset into vegetation.
 images={}

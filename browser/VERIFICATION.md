@@ -2,8 +2,8 @@
 
 ## Automated checks
 
-- `npm test`: 120 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
-- Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 668 structural assets receive closure geometry; 195 landscapes receive camera-facing trees. The same audit covers 103 solid-fence, 44 flower-volume and 395 terrain-closure contexts, plus 43 remaining upright-cutout contexts. Instance matrices and vertices stay finite. This is a geometry audit, not a visual approval of every asset.
+- `npm test`: 137 tests pass, including every imported prop/landscape geometry and all 540 map headers’ geometry/data references.
+- Shared renderer audit: 946 prop contexts and 648 landscapes load and repair without invalid vertices. 668 structural assets receive closure geometry; 202 landscapes receive independently rooted 3D trees. The same audit covers 103 solid-fence, 44 flower-volume and 395 terrain-closure contexts, plus 43 remaining upright-cutout contexts. Instance matrices and vertices stay finite. This is a geometry audit, not a visual approval of every asset.
 - Renderer regression fixtures cover one-sided façades, planar prop thickness, a disconnected mailbox, rear closure behind a front doorway, preservation of closed volumes/shadows and original tree height/pivot.
 - Repeated forest art is split into individual original-tree sprites using exported trunk layouts. A four-tree row has four separate instance pivots, aligned with its ground marks; source alpha foot offsets keep trunks on the ground. Flipped/rotated UVs, mixed-mesh shadows, rear backing depth and blended material depth settings have regression coverage.
 - Source opening fixtures execute 17 original quest phases through the catching demonstration for both genders and all three starters: mother/Marill/Elm, starter/aide gifts, guide/Running Shoes/Map Card, Apricorn Box, Mr. Pokémon/Oak/Mystery Egg, emergency call, rival/naming/police, Egg delivery and mother savings. These fixtures model movement and stub battles, UI choices and the tutorial; they prove exercised script state, not a fresh-save browser playthrough. Both first-rival outcomes and the savings-No branch are covered.
@@ -17,9 +17,17 @@
 
 - Flat furniture audit: all 40 native stool, pedestal-seat, bench, cushion and matching box texture variants have closed opaque geometry within their original footprints. Raised seats have floor-reaching supports; floor cushions remain low. Source textures and shadows are retained. Rotated/scaled root and idempotence regressions pass. Native 3D sofas are excluded. Every support footprint vertex must project upward to its seat top, including round seats. Read-only Opus 5.5 review and adjudication are recorded in `reviews/2026-10-16-furniture-opus-5.5.md`.
 
+- Solid furniture contributes cached world-space convex collision footprints, using each placed model’s actual scale/rotation and vertical range. Movement sweeps the player radius across the complete step; old saves inside a stool can exit. Every one of the 40 native variants blocks entry and an outside-to-outside crossing, and permits escape from an old save. Near-seat saves cannot exploit the escape rule to cross inward. Native push-warp checks use source terrain permissions separately. Review: `reviews/2026-10-16-furniture-collision-opus-5.5.md`. Rotated bench corners, adjacent aisles and furniture on another floor have regressions.
+
+- Trees now use closed layered crowns and physical trunks, reusing a leaf patch from their original textures. Visible alpha bounds and centre offsets preserve original tree size/placement; leaf pixels are sampled within each image’s own visible crown, with pure RGBA regression coverage; 124 exported trunk layouts include five exact-image aliases for generic editor material names. Every converted tree in all 202 matching landscape contexts has one crown and one trunk instance. Closed topology, top/rear/side rays and transformed-root regressions pass. Field and battle cameras share foliage exclusion for both new meshes; a battle-camera regression retains wall collision while rejecting tree raycasts. Review and adjudication: `reviews/2026-10-16-tree-volume-opus-5.5.md`.
+
 ## Browser checks
 
 Using the shared browser on the local build:
+
+- New Bark forest crowns inspected from high and low camera angles: trees have opaque tops/backs and no longer flatten into upright strips from above. Diagnostic render-and-GPU-finish samples were 1.0–1.6ms in the tested low view (215 draw calls, 334,648 rendered triangles); this is one view/device sample, not a universal frame-rate guarantee.
+
+- New Bark Southwest House stool collision: holding north at (8.5,6.5) cannot enter the round stool at (8.5,5.5); moving east and then north remains possible through the adjacent aisle.
 
 - New Bark Southwest House: all four source stools have raised seats and real supports, viewed from the front and side. Room props and character interaction positions retain their source layout.
 
