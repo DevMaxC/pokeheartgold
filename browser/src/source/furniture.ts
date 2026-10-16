@@ -45,7 +45,7 @@ export function solidFurniture(root:THREE.Group){
     };
     const rectangle=(x:number,z:number,w:number,d:number)=>[new THREE.Vector2(x-w/2,z-d/2),new THREE.Vector2(x+w/2,z-d/2),new THREE.Vector2(x+w/2,z+d/2),new THREE.Vector2(x-w/2,z+d/2)];
     const w=width*(spec.kind==='round'||spec.kind==='pedestal'||spec.kind==='cushion'?.875:.75),d=depth*(['round','pedestal','cushion','bench'].includes(spec.kind)?.875:.75),h=spec.height,thickness=spec.kind==='cushion'?h:2;
-    const outline=spec.kind==='round'?Array.from({length:16},(_,i)=>new THREE.Vector2(Math.cos(i*Math.PI/8)*w/2,Math.sin(i*Math.PI/8)*d/2)):[new THREE.Vector2(-w/2+1,-d/2),new THREE.Vector2(w/2-1,-d/2),new THREE.Vector2(w/2,-d/2+1),new THREE.Vector2(w/2,d/2-1),new THREE.Vector2(w/2-1,d/2),new THREE.Vector2(-w/2+1,d/2),new THREE.Vector2(-w/2,d/2-1),new THREE.Vector2(-w/2,-d/2+1)];
+    const outline=spec.kind==='round'?Array.from({length:16},(_,i)=>new THREE.Vector2(Math.cos(i*Math.PI/8)*w/2,Math.sin(i*Math.PI/8)*d/2)):[new THREE.Vector2(-w/2+2,-d/2),new THREE.Vector2(w/2-2,-d/2),new THREE.Vector2(w/2,-d/2+2),new THREE.Vector2(w/2,d/2-2),new THREE.Vector2(w/2-2,d/2),new THREE.Vector2(-w/2+2,d/2),new THREE.Vector2(-w/2,d/2-2),new THREE.Vector2(-w/2,-d/2+2)];
     const [u0,v0,u1,v1]=spec.top,rim=pixel(...spec.rim),support=pixel(...spec.support);
     prism(outline,spec.kind==='box'?0:h-thickness,h,p=>new THREE.Vector2((u0+(p.x/w+.5)*(u1-u0))/16,vOffset+(v0+(p.y/d+.5)*(v1-v0))/16),rim);
     if(['legs','round','bench'].includes(spec.kind))for(const x of [-w/2+1.5,w/2-1.5])for(const z of [-d/2+1.5,d/2-1.5])prism(rectangle(x,z,2,2),0,h-thickness,()=>support.clone(),support);
