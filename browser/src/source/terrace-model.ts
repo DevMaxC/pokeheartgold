@@ -4,6 +4,9 @@ import {Terraces} from './ledges.ts';
 import {terrainHeight} from './terrain.ts';
 import type {Cell,Land} from './types.ts';
 
+/** wall01_d contains stacked soil rims; a single raised ledge needs cliff01. */
+export function terraceCliffMaterial(root:THREE.Object3D){let cliff:THREE.MeshBasicMaterial|undefined;root.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='cliff01')cliff=m as THREE.MeshBasicMaterial;});return cliff;}
+
 type Vertex={p:THREE.Vector3;uv:THREE.Vector2;color:THREE.Color;root?:THREE.Vector3};
 function clip(vertices:Vertex[],distance:(v:Vertex)=>number){
  const out:Vertex[]=[];for(let i=0;i<vertices.length;i++){const a=vertices[i],b=vertices[(i+1)%vertices.length],da=distance(a),db=distance(b),inside=da>=-1e-8;if(inside)out.push(a);if((da>1e-8&&db< -1e-8)||(da< -1e-8&&db>1e-8)){const t=da/(da-db);out.push({p:a.p.clone().lerp(b.p,t),uv:a.uv.clone().lerp(b.uv,t),color:a.color.clone().lerp(b.color,t)});}}return out;
@@ -62,7 +65,7 @@ export function terraceWalls(terraces:Terraces,cell:Cell,land:Land,material:THRE
   const edge:{points:number[][];upper:number[];lower:number[]}=dx===1?{points:[[x+1,z],[x+1,z+.5],[x+1,z+1]],upper:[2,5,8],lower:[0,3,6]}:dx===-1?{points:[[x,z+1],[x,z+.5],[x,z]],upper:[6,3,0],lower:[8,5,2]}:dz===1?{points:[[x+1,z+1],[x+.5,z+1],[x,z+1]],upper:[8,7,6],lower:[2,1,0]}:{points:[[x,z],[x+.5,z],[x+1,z]],upper:[0,1,2],lower:[6,7,8]};
   for(let part=0;part<2;part++){
    const a=edge.points[part],c=edge.points[part+1],baseA=terrainHeight(land,cell,a[0],a[1],cell.altitude*.5),baseC=terrainHeight(land,cell,c[0],c[1],cell.altitude*.5),ua=upper[edge.upper[part]],uc=upper[edge.upper[part+1]],la=lower[edge.lower[part]],lc=lower[edge.lower[part+1]],points=[[a[0],(profile?.[part]??baseA)+ua,a[1]],[c[0],(profile?.[part+1]??baseC)+uc,c[1]],[c[0],(profile?.[part+4]??baseC)+lc,c[1]],[a[0],(profile?.[part+3]??baseA)+la,a[1]]];
-   for(const i of [0,1,2,0,2,3]){const p=points[i];positions.push(p[0]-cell.x*32-16,p[1]-cell.altitude*.5,p[2]-cell.z*32-16);uvs.push((part+(i===0||i===3?0:1))*.5,i<2?0:Math.max(.1,i===2?points[1][1]-points[2][1]:points[0][1]-points[3][1]));}
+   for(const i of [0,1,2,0,2,3]){const p=points[i];positions.push(p[0]-cell.x*32-16,p[1]-cell.altitude*.5,p[2]-cell.z*32-16);uvs.push((part+(i===0||i===3?0:1))*.5,i<2?0:1);}
   }
  }
  if(!positions.length)return null;const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geometry.computeVertexNormals();const surface=material.clone();surface.vertexColors=false;surface.transparent=false;surface.opacity=1;surface.alphaTest=0;surface.side=THREE.DoubleSide;surface.polygonOffset=true;surface.polygonOffsetFactor=1;surface.polygonOffsetUnits=1;const mesh=new THREE.Mesh(geometry,surface);mesh.name='source-terrace-wall';return mesh;

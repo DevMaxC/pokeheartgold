@@ -17,3 +17,6 @@ test('trainer figures stay on their Pokémon terrace when the preferred shoulder
 test('battle presentation cannot relocate across a narrow lower strip to another terrace',()=>{
  const field={height:(x:number)=>x>.25&&x<.75?0:2,walkable:()=>true},layout=fieldBattleLayout(field,{x:0,z:0,y:2,facing:3});assert.equal(layout.safe,true);assert.ok(layout.positions.every(p=>p.x<=.25),'A clear destination beyond a cliff is not a connected patch');
 });
+test('battle presentation avoids placing either Pokémon inside a solid canopy',()=>{
+ const field={height:()=>0,walkable:()=>true},clear=(p:{x:number;z:number})=>Math.abs(p.x)>1||Math.abs(p.z)>1,layout=fieldBattleLayout(field,{x:0,z:0,y:0,facing:0},clear);assert.equal(layout.safe,true);assert.ok(layout.positions.every(clear));
+});

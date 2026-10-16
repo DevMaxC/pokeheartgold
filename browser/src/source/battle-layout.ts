@@ -11,7 +11,7 @@ function connectedPoint(field:Field,from:Point,x:number,z:number){
 }
 /** Place the presentation on one continuous nearby patch. The combat engine
  * never uses these coordinates to decide an encounter or battle outcome. */
-export function fieldBattleLayout(field:Field,hero:Point&{facing:number}){
+export function fieldBattleLayout(field:Field,hero:Point&{facing:number},clearPresentation:(p:Point)=>boolean=()=>true){
  const preferred=directions[hero.facing]??directions[0];let best=-Infinity,result:{positions:[Point,Point];axis:{x:number;z:number};safe:boolean}|undefined;
  for(const [ox,oz]of [[0,0],[1,0],[-1,0],[0,1],[0,-1],[2,0],[-2,0],[0,2],[0,-2]])for(const axis of directions)for(const gap of [3.4,2.6,1.8,.8]){
   const x=hero.x+ox-(gap<1?axis.x*.4:0),z=hero.z+oz-(gap<1?axis.z*.4:0),start=connectedPoint(field,hero,x,z);if(!start)continue;let last=start,clear=true;
@@ -22,7 +22,7 @@ export function fieldBattleLayout(field:Field,hero:Point&{facing:number}){
    for(const side of [-width,width]){const sx=p.x-axis.z*side,sz=p.z+axis.x*side,sy=field.height(sx,sz,p.y,p.x,p.z);if(!field.walkable(sx,sz,p.x,p.z,p.y)||Math.abs(sy-p.y)>.35){clear=false;break;}}
    last=p;
   }
-  if(!clear)continue;
+  if(!clear||!clearPresentation(start)||!clearPresentation(last))continue;
   const score=gap*4-Math.hypot(ox,oz)-Math.abs(start.y-hero.y)*2+(axis===preferred?1:0);
   if(score>best){best=score;result={positions:[start,last],axis,safe:true};}
  }

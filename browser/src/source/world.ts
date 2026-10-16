@@ -14,7 +14,7 @@ import {furnitureObstacles,furnitureBlocksStep,type FurnitureObstacle} from './f
 import {closeBuildingFooting} from './building-footing.ts';
 import {shorelineUnderlay} from './shoreline.ts';
 import {Terraces,type TerraceData} from './ledges.ts';
-import {terraceModel,terraceWalls} from './terrace-model.ts';
+import {terraceModel,terraceWalls,terraceCliffMaterial} from './terrace-model.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap;furniture?:FurnitureObstacle[]};
 export class OriginalWorld {
@@ -121,8 +121,8 @@ export class OriginalWorld {
         const terraces=this.terraces;if(terraces&&[-1,0,1].some(dx=>[-1,0,1].some(dz=>terraces.data.cells[(xx+dx)+','+(zz+dz)]))){
           if(!await terraceModel(group,terraces,()=>generation===this.generation))return;
           if(terraces.ledgeCells.has(xx+','+zz)){
-            let cliff:THREE.MeshBasicMaterial|undefined;const choose=(asset:THREE.Group)=>asset.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(/^(?:cliff01|wall01_d)$/.test(m.name))cliff=m as THREE.MeshBasicMaterial;});choose(template);
-            if(!cliff){const context=cell.asset.match(/-(\d+)\.glb$/)![1],path=terraces.data.cliffAssets[context]||terraces.data.cliffAssets['0'];if(path)try{choose(await this.asset(path));}catch(error){console.warn('Original cliff art unavailable; retaining a solid terrace wall',error);}}
+            let cliff=terraceCliffMaterial(template);
+            if(!cliff){const context=cell.asset.match(/-(\d+)\.glb$/)![1],path=terraces.data.cliffAssets[context]||terraces.data.cliffAssets['0'];if(path)try{cliff=terraceCliffMaterial(await this.asset(path));}catch(error){console.warn('Original cliff art unavailable; retaining a solid terrace wall',error);}}
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
         }

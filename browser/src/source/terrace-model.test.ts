@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {readFile} from 'node:fs/promises';
 import {Terraces,type TerraceData} from './ledges.ts';
-import {terraceModel,terraceWalls} from './terrace-model.ts';
+import {terraceModel,terraceWalls,terraceCliffMaterial} from './terrace-model.ts';
 import type {Cell,Land} from './types.ts';
 import {OriginalWorld} from './world.ts';
 
@@ -16,7 +16,11 @@ test('deformed original ground agrees with actor height on both terraces and ret
 
 test('new ledge faces are opaque from both sides and join upper/lower floor edges',async()=>{
  const terraces=new Terraces(JSON.parse(await readFile(new URL('../../public/source/terraces/0.json',import.meta.url),'utf8')) as TerraceData),cell={x:18,z:12,altitude:0} as Cell,land={permissions:[],plates:[{bounds:[-16,-16,16,16],normal:[0,1,0],constant:-1}]} as Land,material=new THREE.MeshBasicMaterial({transparent:true,alphaTest:.5,vertexColors:true}),wall=terraceWalls(terraces,cell,land,material)!;assert.ok(wall);wall.position.set(592,0,400);wall.updateMatrixWorld(true);const surface=wall.material as THREE.MeshBasicMaterial;assert.equal(surface.transparent,false);assert.equal(surface.alphaTest,0);assert.equal(surface.vertexColors,false);assert.equal(surface.side,THREE.DoubleSide);
+ const uv=wall.geometry.getAttribute('uv');assert.deepEqual([...new Set(Array.from({length:uv.count},(_,i)=>uv.getY(i)))].sort(),[0,1],'One ledge face must not repeat vertical soil bands');
  const top=1+terraces.height(599.5,396.9999),bottom=1+terraces.height(599.5,397.0001),y=(top+bottom)/2;assert.ok(top-bottom>.7);for(const[origin,direction]of [[new THREE.Vector3(599.5,y,396),new THREE.Vector3(0,0,1)],[new THREE.Vector3(599.5,y,398),new THREE.Vector3(0,0,-1)]]){const hits=new THREE.Raycaster(origin,direction).intersectObject(wall);assert.ok(hits.length);assert.ok(Math.abs(hits[0].point.z-397)<1e-6);}
+});
+test('raised ledges select continuous cliff art instead of the stacked native soil-rim atlas',()=>{
+ const root=new THREE.Group(),cliff=new THREE.MeshBasicMaterial(),rim=new THREE.MeshBasicMaterial();cliff.name='cliff01';rim.name='wall01_d';for(const m of [rim,cliff,rim])root.add(new THREE.Mesh(new THREE.PlaneGeometry(),m));assert.equal(terraceCliffMaterial(root),cliff);root.remove(root.children[1]);assert.equal(terraceCliffMaterial(root),undefined);
 });
 
 test('separate solid rocks retain their shapes when rooted on different terrace heights',async()=>{

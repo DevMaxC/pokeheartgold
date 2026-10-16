@@ -167,3 +167,38 @@ I found no blockers in snapshot `4656eb5`. As you asked, I only used Read, Grep 
 6. **Inferred: vertex alpha would be lost.** `terrace-model.ts:23,48` copies only RGB vertex colours. If any land mesh stores alpha in a 4-component colour attribute, the rebuilt surface would lose that transparency. I didn't verify the assets' colour format.
 
 7. **Cosmetic: a trainer can overlap their Pokémon.** When none of the six candidate spots in `battleTrainerSpot` connects, it returns the Pokémon's own position (`battle-layout.ts:40`), so the trainer sprite overlaps it in cramped spaces.
+
+## Follow-up review of 1385702
+
+The explicitly selected Opus 5.5 CLI found no blockers in the wall-footing, camera and material-slot changes. It again used only Read/Grep/Glob and did not execute validation. Auxiliary Haiku usage appears in metadata. Optional findings were handled as follows:
+
+- The audit now runs closeBuildingBack first, matching runtime. Corrected result: 58/307 structures need strips, 170 ms total / 12.99 ms maximum in the source audit. The earlier83/307 numbers omit that step and are superseded.
+- Footing group lookup remains a measured small per-structure cost; the terrain compiler's larger lookup was optimized. Further profiling remains possible.
+- Battle camera plans now cache by orbit, distance, aspect and loaded cell identity, with a short expiry. Canopy checks use analytic cached lobes rather than instance triangle raycasts.
+- Two points at +0.6 and +1.4 per fighter replace the single midpoint. A live render additionally exposed tree occlusion, so those checks now include actual solid crowns, and placement rejects crown interiors.
+- Native profile carry-over still assumes unchanged source meshes when the ledge list is unchanged. Re-run export_ledge_profiles.ts after re-exporting original geometry; the documented generation sequence does so.
+- Footing UVs intentionally extend the original bottom row across small exposed strips. Native wall materials/colours are retained; the whole building redesign is a separate follow-up, now in progress.
+
+The continuous-ledge atlas correction and analytic canopy additions occurred after this review snapshot; their regression tests, render checks and exact scope are recorded in VERIFICATION.md.
+
+I found **no blockers** in 1385702's new code. A few optional items are listed below. I only read the code: I didn't run the tests, build, audit or browser, and I didn't open `terraces/0.json`.
+
+## What I checked and found correct
+
+- **Footing transforms.** Vertices are read in world space (`building-footing.ts:15`) and written back through the inverse of the prop's world matrix (`:27`). The strip is a child of the prop, so it ends up in the right place. In `world.ts:129`, rotation, scale and position are all set before the call, and `updateWorldMatrix(true,true)` takes the parent cell group into account. Height lookups use world X/Z, the same frame as `anchor` (`world.ts:129`).
+- **Displacement math.** Each strip extends down by `offset − height(q)`. That is the prop's lift minus the ground's lift at the same point, which is right for a wall foot that originally sat on native ground. Taking the minimum of the 3×3 samples at ±1e‑6 picks the lower side at tile-edge cliffs. The cut lines (x, z and x−z at half-unit spacing, `:21`) match how `Terraces.sample` splits each half-tile (`ledges.ts:26–27`, split where a=b, i.e. 2x−2z is a whole number). So the strip's linear bottom edge follows the ground exactly.
+- **Which triangles get strips.** Only a horizontal bottom edge within 0.5 of the prop's lowest point, with the third vertex at least 0.125 above it. Shadows and see-through materials don't count toward the lowest point. Lintels and high eaves are excluded, so gate passages stay open (test `:16–18`).
+- **UV/colour.** These are interpolated along the bottom edge and copied unchanged. Clones keep `vertexColors`, `name` and `map`.
+- **Resource ownership.** Each strip has its own geometry and cloned materials, which `releaseCell` frees (`world.ts:71`). Shared textures are left alone, which is correct.
+- **Precomputed material slots** (`terrace-model.ts:31–34`). The index range is right, and the first group still wins as before.
+- **Camera.** Each fighter is ray-tested separately (`battle-camera.ts:12`). Obstacles are a flat list of meshes, so the non-recursive raycast is correct. Source materials are converted to `DoubleSide` (`render-repair.ts:10`), so a ray from a fighter up through a roof's underside still counts as a hit. The opening shoulder is picked once (`battle-stage.ts:51`). After that, `update` uses `world.yaw`, and `end()` restores the field camera. The distance-fit maths checks out: 8.4 at aspect 1.6, about 14.9 at aspect 0.5.
+- **Preserved profiles** (`export_terraces.py:258–264`). Profiles store absolute native floor heights, and `terraceWalls` adds the current displacement on top (`terrace-model.ts:64`). So carrying them over is valid whenever the ledge list matches.
+
+## Optional findings
+
+1. **The audit leaves out a step that runs in the app (confirmed difference, effect inferred).** In the app, `closeBuildingBack` runs before the footing (`world.ts:129`). The rear walls it adds are picked up by the footing pass. `audit_building_footings.ts:20` skips that step. So the 83/307, all-coordinates-finite and 5.35 ms numbers don't cover strips under rear walls. The fix is one call that passes the matrix-0 entrances, then re-run the audit.
+2. **The footing still searches every material group for every triangle (confirmed; impact measured small).** `building-footing.ts:13` scans the groups for each triangle. Repaired meshes have one group per triangle (`render-repair.ts:166`), so this is the same slow pattern just removed from `terrace-model.ts:31–32`. The audit does include repaired meshes and measured at most 5.35 ms, so this is only for consistency. The same precomputed slot table would fix it.
+3. **Battle camera cost per frame (inferred, not measured).** While blocked, `update` (`battle-stage.ts:92–93`) can cast up to 12 rays per frame (6 lift heights × 2 fighters), each checking every triangle near the fighters, including terrace ground. Normal field mode casts 1 (the earlier review's M3, measured under 3 ms). Fighters and obstacles don't move during a battle, so the result depends only on yaw, pitch, distance and aspect. Caching on those values would remove the repeat work.
+4. **Only one point per fighter is tested (inferred, cosmetic).** The test point is `home + 0.8` on a 1.85-tall sprite. A low eave could hide a fighter's upper half while the test says clear. Testing a second point near the top (about +1.6) would cover it.
+5. **Profile carry-over only checks the ledge list (inferred).** `export_terraces.py:261` reuses `nativeEdges` whenever `ledges` is unchanged, even if the land GLBs were re-exported. The warning at `:263` only compares counts. That's fine for now, but a stale profile after a land re-export would go unnoticed.
+6. **Strip texture (design note, not a defect).** The bottom corners reuse the top edge's UV (`building-footing.ts:26`), so each strip stretches one row of the texture downward. At the measured gap sizes (up to about 0.22 tile) this should be hard to notice, but it's not true wall texture continuing down.

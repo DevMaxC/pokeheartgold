@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {fieldBattleLayout,battleTrainerSpot} from './battle-layout.ts';
 import {fieldCameraObstacles} from './camera.ts';
 import {battleCameraDistance,battleCameraEye,battleOpeningYaw,clearBattleCameraEye} from './battle-camera.ts';
+import {fieldCanopies,canopyContains} from './canopy-occlusion.ts';
 import type {OriginalWorld} from './world.ts';
 import type {BattleView} from './battle-view.ts';
 import type {Mon,MoveData} from './types.ts';
@@ -30,14 +31,15 @@ export class WorldBattleView implements BattleView {
   private trainers:{paper:ReturnType<OriginalWorld['paper']>;facing:number}[]=[];
   private sparks:{mesh:THREE.Mesh;velocity:THREE.Vector3;life:number}[]=[];
   private context:()=>Context;
+  private cameraPlan='';private cameraPlanUntil=0;private plannedEye=new THREE.Vector3();
   readonly world:OriginalWorld;
   get location(){return this.context().location;}
 
   constructor(world:OriginalWorld,context:()=>Context){this.world=world;this.context=context;}
 
   async begin(player:Mon,enemy:Mon,trainer=false){
-    this.disposed=false;this.time=0;this.previousYaw=this.world.yaw;this.previousFov=this.world.camera.fov;this.previousPitch=this.world.pitch;this.previousDistance=this.world.distance;
-    const c=this.context(),layout=fieldBattleLayout(this.world,{x:c.x,z:c.z,y:c.y??this.world.height(c.x,c.z),facing:c.facing}),positions=layout.positions,axis=new THREE.Vector2(layout.axis.x,layout.axis.z);
+    this.disposed=false;this.time=0;this.cameraPlan='';this.previousYaw=this.world.yaw;this.previousFov=this.world.camera.fov;this.previousPitch=this.world.pitch;this.previousDistance=this.world.distance;
+    const c=this.context(),groups=[...this.world.cells.values()].map(c=>c.group),canopies=fieldCanopies(groups),layout=fieldBattleLayout(this.world,{x:c.x,z:c.z,y:c.y??this.world.height(c.x,c.z),facing:c.facing},p=>![.6,1.4].some(y=>canopyContains(new THREE.Vector3(p.x,p.y+y,p.z),canopies))),positions=layout.positions,axis=new THREE.Vector2(layout.axis.x,layout.axis.z);
     this.group=new THREE.Group();this.group.name='battle-in-field';this.world.scene.add(this.group);this.active=true;this.world.battleStage=this;
     this.fighters=positions.map(p=>this.fighter(p.x,p.z,p.y));
     this.center.copy(this.fighters[0].home).add(this.fighters[1].home).multiplyScalar(.5);this.center.y+=.85;
@@ -47,8 +49,8 @@ export class WorldBattleView implements BattleView {
     const toward=layout.axis.x<0?2:layout.axis.x>0?3:layout.axis.z<0?0:1;
     this.trainers=trainerKeys.map((key,i)=>{const paper=this.world.paper(key,1.9);this.group.add(paper.group);const home=this.fighters[i].home,position=battleTrainerSpot(this.world,{x:home.x,z:home.z,y:home.y-.035},layout.axis,i===0?1:-1);paper.group.position.set(position.x,position.y,position.z);return{paper,facing:i===0?toward:[1,0,3,2][toward]};});
     // Three-quarter shoulder view along the line between the two Pokémon.
-    const obstacles=[...this.world.cells.values()].flatMap(c=>fieldCameraObstacles(c.group)),subjects=this.fighters.map(f=>f.home.clone().add(new THREE.Vector3(0,.8,0)));
-    this.world.yaw=battleOpeningYaw(this.center,Math.atan2(-axis.x,-axis.y),.37,battleCameraDistance(8.4,this.world.camera.aspect),subjects,obstacles);this.world.pitch=.37;this.world.distance=8.4;this.active=true;this.world.battleStage=this;
+    const obstacles=groups.flatMap(c=>fieldCameraObstacles(c)),subjects=this.fighters.flatMap(f=>[.6,1.4].map(y=>f.home.clone().add(new THREE.Vector3(0,y,0))));
+    this.world.yaw=battleOpeningYaw(this.center,Math.atan2(-axis.x,-axis.y),.37,battleCameraDistance(8.4,this.world.camera.aspect),subjects,obstacles,canopies);this.world.pitch=.37;this.world.distance=8.4;this.active=true;this.world.battleStage=this;
     this.sync(player,enemy);await Promise.all([...this.art.values()]);await wait(350);
   }
 
@@ -89,8 +91,9 @@ export class WorldBattleView implements BattleView {
   update(dt:number){
     if(!this.active)return;this.time+=dt;
     const camera=this.world.camera,aspect=camera.aspect;
-    const distance=battleCameraDistance(this.world.distance,aspect),subjects=this.fighters.length?this.fighters.map(f=>f.home.clone().add(new THREE.Vector3(0,.8,0))):[this.center],obstacles=[...this.world.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));
-    const desired=clearBattleCameraEye(battleCameraEye(this.center,this.world.yaw,this.world.pitch,distance),subjects,obstacles);
+    const groups=[...this.world.cells.values()].map(c=>c.group),distance=battleCameraDistance(this.world.distance,aspect),key=[this.world.yaw,this.world.pitch,distance,aspect,...groups.map(g=>g.uuid+':'+g.children.length)].join('|');
+    if(key!==this.cameraPlan||this.time>=this.cameraPlanUntil){const subjects=this.fighters.length?this.fighters.flatMap(f=>[.6,1.4].map(y=>f.home.clone().add(new THREE.Vector3(0,y,0)))):[this.center],obstacles=groups.flatMap(c=>fieldCameraObstacles(c));this.plannedEye.copy(clearBattleCameraEye(battleCameraEye(this.center,this.world.yaw,this.world.pitch,distance),subjects,obstacles,fieldCanopies(groups)));this.cameraPlan=key;this.cameraPlanUntil=this.time+.25;}
+    const desired=this.plannedEye;
     camera.position.lerp(desired,1-Math.exp(-dt*5));camera.fov=THREE.MathUtils.lerp(camera.fov,46,1-Math.exp(-dt*5));camera.updateProjectionMatrix();
     const look=this.center.clone();look.y-=aspect<.9?.1:.2;
     if(this.shake>0){camera.position.x+=Math.sin(this.time*97)*this.shake;this.shake=Math.max(0,this.shake-dt*.7);}
