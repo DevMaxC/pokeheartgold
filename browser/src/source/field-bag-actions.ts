@@ -13,9 +13,10 @@ export type FieldBagActionResult=
 type Choice={value:string;label:string;detail?:string;disabled?:boolean};
 const interrupted=()=>new DOMException('The Bag action is no longer current','AbortError');
 const egg=(mon:Mon)=>!!(mon.isEgg||(mon as Mon&{checksumFailed?:boolean}).checksumFailed);
-// The adventure clock keeps running while a prompt is open. All other state
-// and record identities belong to the outer source action until it commits.
-const signature=(state:State)=>JSON.stringify({...state,playSeconds:0});
+// The adventure clock and live host sound/text preferences may change while
+// a prompt is open. Gameplay state (including battle style) and record
+// identities belong to the outer source action until it commits.
+const signature=(state:State)=>JSON.stringify({...state,playSeconds:0,options:{...state.options,sound:false,textSpeed:0}});
 function checkpoint(context:FieldBagActionContext){
  const state=context.expectedState,party=state.party,bag=state.bag,mons=party.slice(),before=signature(state);
  return()=>{

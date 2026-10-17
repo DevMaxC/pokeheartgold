@@ -1,0 +1,13 @@
+# Bag actions and live host preferences
+
+Production baseline: `0a0eaeecba922bdd116abd868ef8100d9d9f029c`. Only runtime change: the Bag stale-state signature excludes `options.sound` and `options.textSpeed`, alongside its existing `playSeconds` exception. Other option keys (including battleStyle), gameplay state and State/party/Bag/Mon reference guards remain intact. No Main, UI or audio handler changes.
+
+The shipped Main mirrors live global Mute and storage preferences into State during an owned item prompt. Previously this unrelated presentation change rejected medicine/teaching and rolled the action back. Tests execute the actual Main updatePreferences function and bindAudioControls registration extracted with TypeScript AST, the real audio-control dispatcher, real owned UI and SourceActionRecovery, with explicit fake DOM/storage/audio ports. Main is pinned by SHA256 in integrity.json and checked unchanged at test completion.
+
+Validation: 73/73 focused tests and TypeScript pass; diffcheck clean. Four success subcases cover Potion/TM10 and global-control/storage updates during confirmation, then textSpeed during final acknowledgement. Sixteen negative combinations cover battleStyle, money, State/party/Mon/Bag identity, quantity and map in both phases after an admitted preference change. Existing abort/replacement/cancel/clock guards remain.
+
+Literal original runtime with the final fixture: 11 passes, four failing success subcases plus their parent failure (16 reported tests, 5 reported failures). All four stop at confirmation with quantity 2 rather than committed 1; this does not claim an old-runtime acknowledgement failure. An earlier preserved fixture v1 did not initialize enabled sound before Mute (newState defaults false), and demonstrated the later textSpeed failure instead; v2 explicitly matches Continued Main enabled preference before the action.
+
+Actual restricted Claude Opus 5.5 review: 18 turns, 92,781ms, no errors or tool denials, no confirmed actionable defect. Full raw result, prompt, exact manifest, integrity and immutable snapshot are retained. modelUsage records actual claude-opus-5-5 separately from the tiny Haiku router. Reviewer low limits: acknowledgement explicitly varies textSpeed, not sound; original red cases stop before acknowledgement; negative guard cases gain meaning on corrected runtime; fake DOM does not prove real layout/clickability/audio. No browser, full-suite or build claim is made by this leaf. Root owns those release checks and production integration.
+
+This receipt approves no Repel/new feature bytes, unrelated unsupported features or prior audio architecture. The root production release remains a separate merge/deployment step.
