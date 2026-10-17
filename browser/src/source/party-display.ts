@@ -9,7 +9,7 @@ export function partyHUD(mon:Mon,eggIcon:string){
 }
 export function partyRow(mon:Mon,index:number,eggIcon:string){
   const details=mon.isEgg?'':`<p>Lv.${mon.level} · ${mon.hp}/${mon.maxHP} HP ${mon.status}</p><span class="hp-bar"><i style="width:${mon.hp/mon.maxHP*100}%"></i></span>`;
-  return `<div class="list-row"><img src="${partyPortrait(mon,eggIcon)}" alt=""><div><b>${esc(mon.name)}</b>${details}</div><button data-summary="${index}">Summary</button></div>`;
+  return `<div class="list-row"><img src="${partyPortrait(mon,eggIcon)}" alt=""><div><b>${esc(mon.name)}</b>${details}</div><button data-party-slot="${index}" aria-label="Options for ${esc(mon.name)}">Choose</button></div>`;
 }
 /** trainer_memo.c: Egg Watch thresholds; normal summary windows stay hidden. */
 export function eggWatchMessage(cycles:number,messages:Record<string,string>){

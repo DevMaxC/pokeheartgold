@@ -24,6 +24,7 @@ import {catchingTutorialState} from './tutorial.ts';
 import {gymFieldEntry} from './gym-violet.ts';
 import {isUsableBattler,firstFollowerMon,NATIVE_EGG_ICON} from './eggs.ts';
 import {partyHUD,partyRow,partySummary} from './party-display.ts';
+import {chooseFieldPartySwitchTarget,swapFieldPartySlots} from './party-order.ts';
 import {advancePartyEggStep,recordEggHatchEvent,type EggStepClock} from './egg-hatching.ts';
 import {presentNativeEggHatch} from './egg-hatch-presentation.ts';
 import {WorldEggHatchView} from './egg-hatch-view.ts';
@@ -38,6 +39,7 @@ let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data
 let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
 let openingView:OpeningView|null=null;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
+let followMon:Mon|null=null;
 let lastWarp='',lastCoord='',lastError='';
 let fieldPolling=false;const trainerAttempts=new TrainerAttemptLatch();let activeTrainerEncounter:TrainerEncounter|null=null;
 const trainerApproachTasks=new Map<number,Promise<void>>();
@@ -165,9 +167,9 @@ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unkno
     playerDirectionLocked=snapshot.playerDirectionLocked;followerSuppressed=snapshot.followerSuppressed;followerFacing=snapshot.followerFacing;previousStepJump=snapshot.previousStepJump;
     lastWarp=snapshot.lastWarp;lastCoord=snapshot.lastCoord;player.group.visible=snapshot.playerVisible;player.group.position.set(state.x,world.height(state.x,state.z,snapshot.playerHeight),state.z);
     // A failed starter/gift can have created a follower for a now-absent species.
-    if(follower){world.scene.remove(follower.group);follower=null;followSpecies=0;}
+    if(follower)world.removePaper(follower);follower=null;followSpecies=0;followMon=null;
     const lead=firstFollowerMon(state.party),key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';
-    if(lead&&data.sprites[key]){follower=world.paper(key,1.5);followSpecies=lead.species;if(snapshot.followerPosition)follower.group.position.fromArray(snapshot.followerPosition);else follower.group.position.copy(player.group.position);follower.group.visible=!followerSuppressed;}
+    if(lead&&data.sprites[key]){follower=world.paper(key,1.5);followSpecies=lead.species;followMon=lead;if(snapshot.followerPosition)follower.group.position.fromArray(snapshot.followerPosition);else follower.group.position.copy(player.group.position);follower.group.visible=!followerSuppressed;}
     // Discard private child buffers, pending phone state and battle result too.
     vm=new ScriptVM(data,state,vm.hooks);if(error instanceof UnsupportedScript)vm.lastUnsupported={map:error.map,command:error.command,pc:error.pc};
     ready=true;refreshNPCs();updateHUD();encounterChecks.reset();
@@ -354,8 +356,30 @@ async function menu(){if(!started||sourceActions?.busy||recoveryPrompt||transiti
   ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Menu</h2><div class="menu-list">${entries.filter(([key])=>key==='party'?state.party.length:!unlocks[key]||state.flags[unlocks[key]]).map(([key,label,detail])=>`<button data-menu="${key}">${esc(label)}<small>${esc(detail)}</small></button>`).join('')}</div>`);
   document.querySelectorAll<HTMLButtonElement>('[data-menu]').forEach(b=>b.onclick=async()=>{const key=b.dataset.menu;ui.close();if(key==='party')partyMenu();if(key==='bag')bagMenu();if(key==='trainer')trainerCard();if(key==='save'){save();await ui.message(`${state.name} saved the game!`);}if(key==='options')optionsMenu();});
 }
-function partyMenu(){ui.panel(`<button class="close-panel" id="close-party" aria-label="Close">×</button><span class="eyebrow">POKÉMON</span><h2>Your party</h2>${state.party.map((mon,i)=>partyRow(mon,i,NATIVE_EGG_ICON)).join('')}`);$('close-party').onclick=()=>ui.close();document.querySelectorAll<HTMLButtonElement>('[data-summary]').forEach(b=>b.onclick=()=>summary(Number(b.dataset.summary)));}
-function summary(index:number){const mon=state.party[index];if(!mon)return;ui.panel(`<button class="close-panel" id="summary-back" aria-label="Back">×</button><span class="eyebrow">POKÉMON SUMMARY</span>${partySummary(data,mon,NATIVE_EGG_ICON,data.eggSummary)}`);$('summary-back').onclick=partyMenu;}
+function partyMenu(focused=0){ui.panel(`<button class="close-panel" id="close-party" aria-label="Close">×</button><span class="eyebrow">POKÉMON</span><h2>Your party</h2>${state.party.map((mon,i)=>partyRow(mon,i,NATIVE_EGG_ICON)).join('')}`,false);$('close-party').onclick=()=>ui.close();document.querySelectorAll<HTMLButtonElement>('[data-party-slot]').forEach(b=>b.onclick=()=>{void choosePartyAction(Number(b.dataset.partySlot));});document.querySelector<HTMLButtonElement>(`[data-party-slot="${focused}"]`)?.focus();}
+async function choosePartyAction(index:number){
+  if(sourceActions?.busy||recoveryPrompt||transitioning||walking||vm.busy||battle.active||!state.party[index])return;
+  const result=await executeSourceAction(async()=>{
+    const controller=new AbortController(),cancelled=new DOMException('Party selection cancelled','AbortError');
+    const cancel=(event:KeyboardEvent)=>{if(event.code==='Escape'){event.preventDefault();controller.abort(cancelled);}};
+    addEventListener('keydown',cancel);keys.clear();drag=false;
+    try{
+      // Native field menus omit Switch only in the Battle Tower partner room.
+      const canSwitch=state.map!==data.constants.MAP_BATTLE_TOWER_PARTNER_ROOM;
+      const options=canSwitch?['Summary','Switch','Cancel']:['Summary','Cancel'];
+      const action=await ui.choose(state.party[index].name,options,'',controller.signal);
+      if(action===0)return{summary:index,focused:index};
+      if(!canSwitch||action!==1)return{focused:index};
+      const target=await chooseFieldPartySwitchTarget(()=>state.party,index,ui,controller.signal);
+      state.party=swapFieldPartySlots(state.party,index,target);updateHUD();
+      return{focused:target??index};
+    }catch(error){if(controller.signal.aborted&&error===cancelled)return{focused:index};throw error;}
+    finally{removeEventListener('keydown',cancel);}
+  });
+  if(!result.ok){partyMenu(index);return;}
+  if(result.value.summary!==undefined)summary(result.value.summary);else partyMenu(result.value.focused);
+}
+function summary(index:number){const mon=state.party[index];if(!mon)return;ui.panel(`<button class="close-panel" id="summary-back" aria-label="Back">×</button><span class="eyebrow">POKÉMON SUMMARY</span>${partySummary(data,mon,NATIVE_EGG_ICON,data.eggSummary)}`);$('summary-back').onclick=()=>partyMenu(index);}
 function bagMenu(){const pockets=new Map<string,[string,number][]>();for(const [key,count]of Object.entries(state.bag)){if(count<=0)continue;const item=data.items.find(i=>i.item===key),pocket=titleCase((item?.fieldPocket||'POCKET_KEY_ITEMS').replace('POCKET_',''));if(!pockets.has(pocket))pockets.set(pocket,[]);pockets.get(pocket)!.push([key,count]);}
   ui.panel(`<button class="close-panel" id="close-bag" aria-label="Close">×</button><span class="eyebrow">BAG</span><h2>Your belongings</h2>${[...pockets].map(([pocket,items])=>`<h3>${pocket}</h3>${items.map(([key,count])=>`<div class="list-row"><b>${esc(itemName(data,key))}</b><span style="margin-left:auto">× ${count}</span></div>`).join('')}`).join('')||'<p>Your Bag is empty.</p>'}`);$('close-bag').onclick=()=>ui.close();
 }
@@ -383,7 +407,7 @@ async function boot(){
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started){openingView?.draw(dt);return;}
     state.playSeconds+=dt;if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
-    const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
+    const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&(followMon!==(lead??null)||followSpecies!==(lead?.species??0))){const position=follower?.group.position.clone()??player.group.position.clone();if(follower)world.removePaper(follower);follower=null;followSpecies=lead?.species??0;followMon=lead??null;const key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';if(lead&&data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(position);}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;}
     if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);
