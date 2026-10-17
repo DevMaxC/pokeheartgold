@@ -1,0 +1,378 @@
+{
+  "provider": "Claude Code CLI",
+  "requestedModel": "claude-opus-5-5",
+  "baseCommit": "2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+  "candidateManifestSHA256": "62e57dcb79b105334549c3524af77d24178950a66af0c13b6212eedc188111aa",
+  "candidate": {
+    "baseCommit": "2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+    "candidateScope": "Candidate v2 from same2e85base; fixes N1 without implementing effects. Only owned Battle.ts/test source differs.",
+    "createdUTC": "2026-10-17T12:35:19.211640+00:00",
+    "files": [
+      {
+        "path": "browser/package.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 462,
+        "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+      },
+      {
+        "path": "browser/public/source/constants.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 456675,
+        "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+      },
+      {
+        "path": "browser/public/source/encounters.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 294629,
+        "sha256": "7aa85c587bc597a5c7744e73b50fd9fd4b30eeee7497597ac438880d1ece6789"
+      },
+      {
+        "path": "browser/public/source/growth.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 5089,
+        "sha256": "bb55edcd45f93b88cf2f2ea73586a734969ec3ccf20a803a54e2d1d57991f34c"
+      },
+      {
+        "path": "browser/public/source/index.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 99556,
+        "sha256": "8b1ef89441ecdcb3b55f44c882019753bb5c30cdefe44a69cb2a8e25af1f0f95"
+      },
+      {
+        "path": "browser/public/source/initial-state.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 5622,
+        "sha256": "2f7cebdd8dea69d12849c7c58c323e2291805e93503488954c4a9d3f2c70ac64"
+      },
+      {
+        "path": "browser/public/source/intro-messages.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 5146,
+        "sha256": "8c0d3283ebf62c6cc1ecf5b68832311f64284197d5b15eccde9d6f4a0559479f"
+      },
+      {
+        "path": "browser/public/source/items.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 663829,
+        "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab"
+      },
+      {
+        "path": "browser/public/source/learnsets.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 158647,
+        "sha256": "b3364190eb81d410021602c6ee963fd2fc0849448b954ef7fe345b7e35887d00"
+      },
+      {
+        "path": "browser/public/source/messages/197.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 87631,
+        "sha256": "3fdfd1e47867f831785e58f419686fa53520c6a96c5442ce67c8ce550463965a"
+      },
+      {
+        "path": "browser/public/source/messages/302.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 8527,
+        "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+      },
+      {
+        "path": "browser/public/source/moves.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 72416,
+        "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb"
+      },
+      {
+        "path": "browser/public/source/names.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 78183,
+        "sha256": "c14bc3f85810a0b6a66882362d1edfe08f0dc0a99012c2eff5fbfe73694ab922"
+      },
+      {
+        "path": "browser/public/source/pokemon.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 310681,
+        "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d"
+      },
+      {
+        "path": "browser/public/source/sprites.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 109079,
+        "sha256": "d9f9a472f53b935cdde6e6e6f310001d99d2588aa4b2864c7033d0a2bf522955"
+      },
+      {
+        "path": "browser/public/source/trainer-rules.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 9321,
+        "sha256": "72c69e3b5fac8a4ed7696eeadfc3aee487723be13b586a90f270161221bdcafb"
+      },
+      {
+        "path": "browser/public/source/trainers.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 611888,
+        "sha256": "da80e4f5746d0ed0d49caeae63a35f70b96b7b32f5fdc929b006c46cdb94d7e2"
+      },
+      {
+        "path": "browser/public/source/type-chart.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 1228,
+        "sha256": "bd67a8c53c54cc682d4008c73dfdfce2551234ec0933a6ae39e0430256895e66"
+      },
+      {
+        "path": "browser/src/source/bag.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 1576,
+        "sha256": "d70c869d89b08e3b32ef78e1a030838dbe6e1caa7297998526de52e939b17338"
+      },
+      {
+        "path": "browser/src/source/battle-action-end.test.ts",
+        "origin": "frozen candidate v2 worktree bytes",
+        "bytes": 12289,
+        "sha256": "1a97507cd87d7db407ffa79dbf08d040054f94edb59e3f5fa2580e282890a20c"
+      },
+      {
+        "path": "browser/src/source/battle-experience-integration.test.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 3358,
+        "sha256": "ab3d1fa95b5b69916e7a60724cbfba2731edc6e63145d741d744c1b0c2631f82"
+      },
+      {
+        "path": "browser/src/source/battle-experience.test.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 6632,
+        "sha256": "59c6314d8747cad5813c688b70d4c454572484fbe1e35d08b1cddb3363b0635e"
+      },
+      {
+        "path": "browser/src/source/battle-experience.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 6106,
+        "sha256": "7814ae132f8d968376d48b29955ace542d09b4cb88145b8bc1b2577054edc794"
+      },
+      {
+        "path": "browser/src/source/battle-math.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 5544,
+        "sha256": "7418bd5497c62487041e5e671d722232ed20008990c1d66ca41bdd30e422883e"
+      },
+      {
+        "path": "browser/src/source/battle-turn-phase.test.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 5733,
+        "sha256": "d85deb669fc0bfd03b006e953fd131a3754ab77bcdb9d0ad1452a155e0c39956"
+      },
+      {
+        "path": "browser/src/source/battle-view.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 471,
+        "sha256": "56bbd6e95f04056c58cd18948c18c31aa0baf4fabe55565acbb015904a2a3aa8"
+      },
+      {
+        "path": "browser/src/source/battle.test.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 3769,
+        "sha256": "86771c40739ec54e715d73c65267b7a1de70a6c3790e0c5ed9a55dc89402e590"
+      },
+      {
+        "path": "browser/src/source/battle.ts",
+        "origin": "frozen candidate v2 worktree bytes",
+        "bytes": 28777,
+        "sha256": "a35ade62847e15dfaafc2491c10cfeeeaf546f17fa2e0d33e42e573c92a69adf"
+      },
+      {
+        "path": "browser/src/source/data.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 4821,
+        "sha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0"
+      },
+      {
+        "path": "browser/src/source/early-battle-effects.test.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 20989,
+        "sha256": "e1160a2c1e8e4efb5a6b48d817a93e70b3c6d0f44dfba0d8d7acae0250cf315c"
+      },
+      {
+        "path": "browser/src/source/egg-consumers.test.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 5293,
+        "sha256": "5a14ee6c4fb630ae121c98a7b041a3e0826a58300a14a0ffbc89581bfb67ff7e"
+      },
+      {
+        "path": "browser/src/source/eggs.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 4959,
+        "sha256": "bc5278444c1da0163f6de57ce9138c516fc0b16f1e59dd274ee42b726ebeac95"
+      },
+      {
+        "path": "browser/src/source/native-rng.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 686,
+        "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e"
+      },
+      {
+        "path": "browser/src/source/trainers.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 2254,
+        "sha256": "7ddd00955d0297edd5b86accef4f113087efe35dbbc926b478a29deb4f2b11c1"
+      },
+      {
+        "path": "browser/src/source/types.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 5205,
+        "sha256": "64eb906aa8126376542ab32384388a56714bf28761c60e81be1000ea565b458d"
+      },
+      {
+        "path": "browser/src/source/ui.ts",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 8759,
+        "sha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8"
+      },
+      {
+        "path": "browser/tsconfig.json",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 249,
+        "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0"
+      },
+      {
+        "path": "combined-fixes.patch",
+        "origin": "combined exact b303 source\u2192candidate delta",
+        "bytes": 18555,
+        "sha256": "9855e0c92fe9756ff6e779c4697499fd9b04ad45458f9e0e5ed5bb2afc35c561"
+      },
+      {
+        "path": "files/battledata/script/subscript/subscript_0281_NoTarget.s",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 559,
+        "sha256": "cfabe3d805dd759a41cc15cce0438a40da48c1f93a10c4b65f11ce2b1713781a"
+      },
+      {
+        "path": "include/constants/moves.h",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 17328,
+        "sha256": "72c58ed137cd5737e5c5fb8f43dfe70904f6f09618c75ab7b92b97062444b6d9"
+      },
+      {
+        "path": "n1-fix.patch",
+        "origin": "exact candidate1\u2192v2 delta",
+        "bytes": 10264,
+        "sha256": "84ed9c98bf53d44de99e6a9e845ff6d5598f51810c0c061cc56d18112802fa67"
+      },
+      {
+        "path": "review-history/hg-action-end-candidate-1-opus-5.5.json",
+        "origin": "actual prior candidate review, no verdict transfer",
+        "bytes": 15468,
+        "sha256": "b72377e93ede2c70d1151596ecf5cfef3d6f9967492f0b401ea5125ddb8e0097"
+      },
+      {
+        "path": "review-history/hg-action-end-candidate-1-opus-5.5.md",
+        "origin": "actual prior candidate review, no verdict transfer",
+        "bytes": 7336,
+        "sha256": "d34b3b6e1ad949503f0556f583ad3eebb1d42c72299face66ec97346ab6665ae"
+      },
+      {
+        "path": "review-history/hg-battle-phase-b30324e-opus-5.5.json",
+        "origin": "completed independent review/proof; not candidate source",
+        "bytes": 30900,
+        "sha256": "1ad685725f8dc5ba1df3b18cc95042363d0d148443f10983cc55a90bf93b68e6"
+      },
+      {
+        "path": "review-history/hg-battle-phase-b30324e-opus-5.5.md",
+        "origin": "completed independent review/proof; not candidate source",
+        "bytes": 9176,
+        "sha256": "80893ab62432026e8673676d410239d4b11235780908c20260d2c181a3c040f3"
+      },
+      {
+        "path": "review-history/hg-battle-phase-zero-speed-battle-proof.json",
+        "origin": "completed independent review/proof; not candidate source",
+        "bytes": 585,
+        "sha256": "42977f757184fad3de8052eeffa5f428f3af707db2108dd7c2f79acbebbb2ca0"
+      },
+      {
+        "path": "src/battle/battle_command.c",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 318338,
+        "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"
+      },
+      {
+        "path": "src/battle/battle_controller_player.c",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 185800,
+        "sha256": "ac75a056728f54624529a6d58a55ca953bb071cb2ffef1fcdecfd64d7c341d0d"
+      },
+      {
+        "path": "src/battle/battle_system.c",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 75182,
+        "sha256": "00bdbdc5d780d7562cfa8f5ab8907d8e2cbc1b2e0d563c7b3e236d88ac96cdc4"
+      },
+      {
+        "path": "src/battle/battle_util.c",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 274735,
+        "sha256": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949"
+      },
+      {
+        "path": "src/follow_mon.c",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 59591,
+        "sha256": "34b005c9e772c219dd37d23ba8c3cc35d7112ae250f650450fc8969d6f7a6c8e"
+      },
+      {
+        "path": "src/pokemon.c",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 159083,
+        "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+      },
+      {
+        "path": "src/trainer_memo.c",
+        "origin": "exact base commit 2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+        "bytes": 33202,
+        "sha256": "c68f7f7da5fb3c0ea7df00404a873a29864899a6025c081151d36f05eb050f9c"
+      }
+    ]
+  },
+  "snapshotStableAfterReview": true,
+  "isError": false,
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1942,
+      "outputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0020469999999999998,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 38,
+      "outputTokens": 12858,
+      "cacheReadInputTokens": 690420,
+      "cacheCreationInputTokens": 54141,
+      "webSearchRequests": 0,
+      "costUSD": 0.666101,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 6952,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "durationMs": 169614,
+  "verdict": "F1/F2/N1 fixed; one LOW N2 charge-effect no-target bypass defect",
+  "allowedTools": [
+    "Read",
+    "Grep",
+    "Glob"
+  ],
+  "strictMCPConfig": {
+    "mcpServers": {}
+  },
+  "settingSources": "",
+  "sessionPersistence": false,
+  "rawOutputPath": "/tmp/hg-action-end-v2-review-result.json",
+  "rawOutputSHA256": "3b7fc15bd80c45b4b57c3ad445782f3e1c6fc1f74990b776b231d4bc6600a5a1",
+  "notes": "Actual v2 review confirmed F1/F2/N1 fixed but found LOWN2: native initial charge scripts must still run without a living opponent. This exact candidate (Battlea35ade62/test1a97507c) remains failed. Next candidate excludes the complete literal native charge class, keeps unmodeled turn states unsupported, and adds source-owned charge/range matrices plus a legalEV nativeDiglett learn fixture. No historical approval transfers."
+}
