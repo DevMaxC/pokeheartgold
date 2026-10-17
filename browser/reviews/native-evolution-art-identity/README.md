@@ -1,0 +1,13 @@
+# Evolution art identity correction
+
+Source `fc18e7fc9ca287f683f2bb10ee1eec468dc8a9b7` follows the preserved accepted presentation checkpoint55676511 in a separate branch. It changes only evolutionArtPath and two existing tests. No Main, controller, types, State, World, audio, timing or animation bytes changed.
+
+Ordinary browser createMon.id is an unrelated random record token, not a native OT ID. With the actual factory and rng=.5, PID0x80000000 and id0x7fffffff yield an erroneous shiny XOR0 if that token is used as OT. The new regression fails on the old view and passes through actual view.begin and actor cleanup after the fix.
+
+When native provenance is present, validate its OT u32 and use the unchanged native OT/PID XOR. Genuine known shiny art remains explicitly unsupported; malformed present provenance never falls through to legacy art. When provenance is absent, preserve the established local browser regular-art presentation policy. This does not infer native shininess, synthesize OT or origin data, change Mon.id, migrate a save, or mutate any Pokémon. A genuinely shiny legacy record without OT evidence therefore still uses ordinary art under this declared compatibility limit. Existing absent-form base-art behavior is unchanged here and is also browser compatibility, not recovered native form metadata; logical evolution admission must separately provide its required source/legacy form policy.
+
+30/30 Node tests and TypeScript passed. Both new negative regressions fail the exact old source. The old toy shiny tests now provide actual provenance.otId0 with PID0 and unrelated id8, preserving pre-audio rejection. The original556 reviews remain historical and unmodified.
+
+A fresh actual restricted Opus5.5 review accepted fc18 after29turns/123621ms, with no confirmed introduced defect. All333 immutable copied source inputs, prompt and manifest stayed unchanged. Full raw result, exact CLI/modelUsage (including the reported small Haiku entry without an inferred purpose), complete source archive, GitBlob/SHA manifest and post-run integrity are retained. The separate25-source identity audit and original C8-case witness arrived after this review snapshot was sealed; they are manual corroboration, not retroactively claimed review inputs.
+
+Scope is this pure art identity policy and its tests only. No Main/controller/backend integration, browser/GPU/rendered-art/audible/device/build/deploy/full-campaign approval is implied. No browser or audio was started. The first review-packet preparation hit a local Python formatting error before launching Claude; that incomplete packet remains separately in /tmp and is not represented as a completed review.

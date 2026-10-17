@@ -1,0 +1,25 @@
+{
+  "qualification": "Read-only prerequisite artifacts; no repository/source edits. Actual factory/pure view and bounded native C kernel only.",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "1538861db5ae0fd1cad02ea758d6b8aaca458b36c89e92743aff9127a286992c"
+    },
+    {
+      "path": "actual-factory-view.json",
+      "sha256": "fc0db2da756c7394ea402195677ebe8aad8cb36d434d6335a03ae7142deb86ec"
+    },
+    {
+      "path": "audit.json",
+      "sha256": "dfb2e4fe09162f140550a408389631d42c3eafb521a37412dbc8ebb07219cc9e"
+    },
+    {
+      "path": "native-shiny-kernel.json",
+      "sha256": "23cc13547eb0f06e32ab67371376a340cf00241891e3875c13619a78407ae2f5"
+    },
+    {
+      "path": "native-shiny-oracle.c",
+      "sha256": "d612c4902fd7e1a5580ae4ac2bb998f2fbc1f7586b35020532e599e7e500b08a"
+    }
+  ]
+}
