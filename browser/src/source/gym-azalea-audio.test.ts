@@ -116,3 +116,7 @@ test('unavailable shared Context never masks a missing or corrupt original sourc
 test('typed source/config absence during native admission rejects explicitly after native preemption',()=>{
  const p=new NativeSEPlayer3(resources,signal().signal),old=voice();p.play(1610,{},()=>old);assert.throws(()=>p.play(1561,{},()=>{throw new UnsupportedNativeAzaleaAudio('Missing source');}),/Missing source/);assert.equal(old.stops,1);assert.equal(p.isPlaying(1561),false);p.dispose();
 });
+
+test('source admission throw removes only its own owner token, avoiding later false no-voice',async()=>{
+ const f=fixture(),statuses:AzaleaAudioStatus[]=[],output={context:f.context,output:{},signal:f.shared.signal}as any;const audio=createNativeAzaleaAudio(resources,{player:f.player,output:()=>output,report:value=>statuses.push(value),fetchBytes:async url=>bytes(url.split('/').at(-1)!)});await audio.prepare([1561,2171],signal().signal);output.output={};assert.throws(()=>audio.robot2171({}),/changed owner/);f.context.state='suspended';f.context.dispatchEvent(new Event('statechange'));assert.equal(statuses.filter(value=>value.stage==='no-voice').length,0);audio.dispose();f.audio.dispose();f.player.dispose();
+});

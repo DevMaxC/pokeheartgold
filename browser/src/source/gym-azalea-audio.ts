@@ -92,14 +92,14 @@ export function createNativeAzaleaAudio(resources:NativeAzaleaAudioResources,por
  function start(id:1561|2171,owner:object,signal:AbortSignal):AzaleaSEOutcome{
   guard();check(signal);if(!prepared.has(id))throw new UnsupportedNativeAzaleaAudio('Original Azalea SE must be prepared before dispatch');
   const token={};owners.set(owner,{id,token,stopping:false});
-  const outcome=ports.player.play(id,owner,()=>{
+  let outcome:AzaleaSEOutcome;try{outcome=ports.player.play(id,owner,()=>{
    const buffer=buffers.get(id);if(!buffer)throw Error(prepared.get(id)??'Original Azalea audio admitted no decoded voice');const {context,output:destination,signal:shared}=output();if(context.state!=='running')throw Error('Shared native audio Context is not running');
    const node=context.createBufferSource();let done=false,resolve!:()=>void;const ended=new Promise<void>(yes=>{resolve=yes;});
    const finish=()=>{if(done)return;done=true;node.onended=null;signal.removeEventListener('abort',abort);shared.removeEventListener('abort',abort);lifetime.signal.removeEventListener('abort',abort);try{node.stop();}catch{}try{node.disconnect();}finally{resolve();if(owners.get(owner)?.token===token)owners.delete(owner);}status(id,'ended',undefined,true);};
    const abort=()=>{ports.player.cancelOwner(owner);finish();};signal.addEventListener('abort',abort,{once:true});shared.addEventListener('abort',abort,{once:true});lifetime.signal.addEventListener('abort',abort,{once:true});
    try{check(signal);check(shared);guard();node.buffer=buffer;const loop=resources.sounds[id].loopFrames;if(loop){node.loop=true;node.loopStart=loop[0]/resources.sounds[id].sampleRate;node.loopEnd=loop[1]/resources.sounds[id].sampleRate;}node.onended=finish;node.connect(destination);node.start();}catch(error){finish();throw error;}
    return{ended,stop:finish};
-  });
+  });}catch(error){if(owners.get(owner)?.token===token)owners.delete(owner);throw error;}
   try{if(outcome.kind==='voice')status(id,'started');else{owners.delete(owner);status(id,'no-voice',outcome.detail);}}catch(error){ports.player.cancelOwner(owner);owners.delete(owner);throw error;}return outcome;
  }
  function dispose(){if(disposed)return;disposed=true;lifetime.abort(Error('Original Azalea audio disposed'));for(const owner of[...owners.keys()])ports.player.cancelOwner(owner);owners.clear();buffers.clear();prepared.clear();detach();}
