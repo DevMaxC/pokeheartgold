@@ -1,0 +1,74 @@
+{
+  "scope": "Native Evolution borrowed audio backend and real silent battle-parent ownership, unhosted leaf",
+  "runtimeCommit": "5ca737f61704edf67369078b9b5b334ce5a0955b",
+  "ownCommits": [
+    "0b20e5bc",
+    "33c4157f",
+    "a34c7006",
+    "5ca737f6"
+  ],
+  "excludedDependencyDuplicates": [
+    "cb32e4b4",
+    "38671851",
+    "ac6050ba",
+    "126e8cca"
+  ],
+  "sourceHashes": {
+    "browser/src/source/field-music.ts": "82d014c5913b5f87b244ace91bb8a6c068728ce7d6e90179e282c13a93c95813",
+    "browser/src/source/evolution-audio.ts": "e4d2d58314a76d5ffb264414c5a0562dca58c60a7148b352f55f249848a5d5cd",
+    "browser/src/source/evolution-audio-data.ts": "4917d4e620d8c304b796cd513731a8176793396644d78e3fc1157bb60f3458b2",
+    "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
+    "browser/src/source/evolution-audio.test.ts": "ce4eb1207ff2137031ea86673f18b3645ca0932a8ebfc97064fdd2446a4a6418",
+    "browser/src/source/evolution-audio-binding.test.ts": "6eb120e59b224571262a0fa5652340f81c6c7b15d5597de2e3ba1653d80f35f1",
+    "browser/src/source/field-music.test.ts": "08722f5c6325d1af8df76d1807e578bb800831ad8c49bbfa7a9328f81ac1b9d0",
+    "browser/scripts/export_evolution_audio.py": "7fdc9a409e2f9c211135674986bad0f4257e0e8f42cbae4d1aee1468f18703b7",
+    "browser/scripts/test_evolution_audio_controls.py": "f4e17cfd1a86fd1f93db846fba7aa97d85b6b843aa9c9f610352b606a7e6a111",
+    "browser/public/source/evolution-audio/resources.json": "aa828e8f0b17c9dc1b43d47ce65fdeba3cf3e252cd0a9831499baf8796b18a3d"
+  },
+  "immutableInputs": {
+    "files": 2860,
+    "manifestSHA256": "bfc3351568c3e3d6001502b588c415fc013120c759ef554318bf52475240049d",
+    "allUnchanged": true,
+    "archiveSHA256": "e2e8aaa542027a35e5022a0c130c21ed13dc175ea571830d03f66b0e3550d6a5"
+  },
+  "actualReview": {
+    "rawSHA256": "5bf9a30f842e92ff266b201d18c5f49eaaaa8a15bc861096eda2251e37722fe6",
+    "turns": 33,
+    "durationMs": 296289,
+    "models": [
+      "claude-haiku-4-5-20251001",
+      "claude-opus-5-5"
+    ],
+    "permissionDenials": [],
+    "verdict": "ACCEPT_WITH_QUALIFICATIONS",
+    "confirmedNewRuntimeDefects": 0,
+    "originalF1_F4_T1_T4_Constructor": "CLOSED; F4 explicit fatal-manifest qualification rather than no-voice network fallback",
+    "remainingLowEvidenceNotes": [
+      "Silent-path negative controls do not mutate every internal redundant silence/drain/retention guard; positive same-session and failure tests plus source trace accepted. No stronger mutation coverage claimed.",
+      "181 executed tests include24 duplicate runtime titles from binding import;157 distinct test titles."
+    ]
+  },
+  "verification": {
+    "ownedExecutions": 109,
+    "adjacentExecutions": 72,
+    "distinctTestTitlesAcrossLogs": 157,
+    "tscExitCode": 0,
+    "negativeControlsDetected": 25,
+    "negativeControlsTotal": 25,
+    "reexportedAssetsByteEqual": 301,
+    "resourcesSHA256": "aa828e8f0b17c9dc1b43d47ce65fdeba3cf3e252cd0a9831499baf8796b18a3d",
+    "excludedSparseCorpusSetupFailure": "Unrelated full-field assets test could not load omitted corpus-proof.json; retained raw failure excluded from passing adjacent claim."
+  },
+  "limitations": [
+    "No Main/World/VM/learner/actual battle-to-Evolution host binding approval",
+    "P4 SELECT1500 is separate prerequisite, not supported by556 session se ABI",
+    "No browser decode/playback/audio unlock or device/globalmute integration approval",
+    "No DS global16-channel mixer/DAC/pan-law/timer-derived rate parity",
+    "Manifest failure remains fatal, even muted; authenticated late voice assets become no-voice",
+    "Ordinary form0EVO_LEVEL audio; specialforms/Chatot/general evolution remain Partial"
+  ],
+  "durablePacket": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-evolution-audio-final-5ca737f6",
+  "historicalReviewPreserved": true,
+  "failedInputSetupPreserved": "Failure metadata/prompt/raw empty outputs only; partial failed source copy remains at original /tmp path and is not accepted evidence",
+  "createdUTC": "2026-10-17T21:53:30.280283+00:00"
+}
