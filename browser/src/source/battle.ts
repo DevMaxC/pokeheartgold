@@ -4,6 +4,7 @@ import {catchShakes,confusionDamage,fixedMoveDamage,fieldBattleWeather,freshStag
 import {UI,$,escapeHTML as esc} from './ui.ts';
 import {takeBagItem,isCaptureBall} from './bag.ts';
 import type {BattleView} from './battle-view.ts';
+import type {BattleEvolutionCompletion,NativeBattleOutcome} from './battle-evolution-types.ts';
 import {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
 import {spriteGender,genderSymbol} from './gender.ts';
 import {nativeTrainerReplacement,type TrainerReplacementMon} from './battle-replacement.ts';
@@ -12,7 +13,7 @@ import {nativeBattleWeight,UnsupportedBattleWeight} from './battle-weight.ts';
 import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
 import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusionDuration,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativeGhostCurseCost,nativeCurseResidual,nativeReflectStart,nativeReflectTick,type NativeBattlerVolatile} from './battle-volatiles.ts';
 
-type Result='won'|'lost'|'caught'|'ran';
+type Result=NativeBattleOutcome;
 type Action={kind:'move';slot:number}|{kind:'switch';index:number}|{kind:'item';item:string}|{kind:'run'};
 const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,42,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,187,196,201,210,214,228]);
 // constants/moves.h: SINGLE, RANDOM_OPPONENT, ADJACENT_OPPONENTS, ALL_ADJACENT.
@@ -24,6 +25,9 @@ const singleBattleLiveOpponentTargets=new Set([0,2,4,8]);
 // these effects unsupported instead of claiming a completed no-target action.
 const unportedChargeEffects=new Set([26,39,75,145,151,155,255,256,263,272]);
 export class Battle{
+  private levelUpEvolutionMask=0;private evolutionSerial=0;private latestEvolutionCompletion:BattleEvolutionCompletion|null=null;
+  /** Field host awaits its evolution controller before source rewards/resume. */
+  get evolutionCompletion(){return this.latestEvolutionCompletion;}
   active=false;private enemies:Mon[]=[];private enemyIndex=0;private playerIndex=0;private trainer:number|null=null;
   private playerStages=freshStages();private enemyStages=freshStages();private resolve:((r:Result)=>void)|null=null;private actions:((a:Action)=>void)|null=null;
   private experienceMask=0;private fleeAttempts=0;private turns=0;private flinch=false;private messageText='';
@@ -259,6 +263,7 @@ export class Battle{
   }
   async start(enemies:Mon[],trainer:number|null=null,options:{tutorial?:boolean;noCritical?:boolean;weather?:number}={}):Promise<Result>{
     const lead=firstUsableBattlerIndex(this.state.party);if(lead<0)throw Error('No Pokémon is able to battle.');
+    this.levelUpEvolutionMask=0;this.latestEvolutionCompletion=null;
     this.tutorial=!!options.tutorial;this.noCritical=this.tutorial||!!options.noCritical;
     // Capture the native field weather once; sky animation and later map
     // changes never decide healing amounts during a battle.
@@ -277,8 +282,8 @@ export class Battle{
     })().catch(error=>{Object.assign(this.state,before);this.finishError();fail(error);});
     return complete;
   }
-  private finishError(){this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;this.resolve=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;}
-  private finish(result:Result){this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;this.resolve?.(result);this.resolve=null;}
+  private finishError(){this.levelUpEvolutionMask=0;this.latestEvolutionCompletion=null;this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;this.resolve=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;}
+  private finish(result:Result){this.latestEvolutionCompletion=Object.freeze({serial:++this.evolutionSerial,result,levelUpMask:this.levelUpEvolutionMask,party:Object.freeze([...this.state.party])});this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;this.resolve?.(result);this.resolve=null;}
   private image(mon:Mon,facing:'front'|'back'){return `/source/pokemon/${mon.species}-${spriteGender(mon.gender)}-${facing}.png`;}
   private status(mon:Mon){return `<div class="mon-line"><span>${esc(mon.name)} <small>${mon.isEgg||([29,32].includes(mon.species)&&!mon.hasNickname)?'':genderSymbol(mon.gender)}</small></span><small>Lv.${mon.level}</small></div><span class="hp-bar"><i style="width:${Math.max(0,mon.hp/mon.maxHP*100)}%;background:${mon.hp/mon.maxHP<.2?'#cd745c':mon.hp/mon.maxHP<.5?'#ccb262':'#73a775'}"></i></span><span class="hp-value">${mon.status?mon.status+' · ':''}${mon.hp} / ${mon.maxHP}</span>`;}
   private draw(){
@@ -596,6 +601,7 @@ export class Battle{
     mon.exp=Math.min(growth[100],mon.exp+reward.amount);await this.say(`${mon.name} gained ${reward.boosted?'a boosted ':''}${reward.amount} Exp. Points!`);
     const yields=['hp_yield','atk_yield','def_yield','speed_yield','spatk_yield','spdef_yield'];for(let i=0;i<6;i++){const total=mon.evs.reduce((a,b)=>a+b,0);mon.evs[i]+=Math.max(0,Math.min(Number(base[yields[i]])||0,255-mon.evs[i],510-total));}
     while(mon.level<100&&mon.exp>=growth[mon.level+1]){
+      this.levelUpEvolutionMask|=1<<reward.index;
       mon.level++;const previous=mon.maxHP;const next=calculateStats(this.data.personal[mon.species],mon.level,mon.ivs,mon.evs,mon.nature);mon.maxHP=next.maxHP;mon.stats=next.stats;mon.hp+=mon.maxHP-previous;await this.say(`${mon.name} grew to Lv. ${mon.level}!`);
       for(const learned of this.data.learnsets[mon.species].filter(m=>m.level===mon.level))if(!mon.moves.some(m=>m.id===learned.move)){
         const move=this.data.moves[learned.move];if(mon.moves.length<4){mon.moves.push({id:move.id,pp:move.pp,maxPP:move.pp});await this.say(`${mon.name} learned ${moveName(this.data,move.id)}!`);}else{

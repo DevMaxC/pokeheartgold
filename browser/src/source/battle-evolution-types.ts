@@ -1,5 +1,14 @@
 import type {Mon} from './types.ts';
 
+export type NativeBattleOutcome='won'|'lost'|'caught'|'ran';
+/** Non-destructive completion record. Mon references identify the native slots. */
+export type BattleEvolutionCompletion={
+ readonly serial:number;
+ readonly result:NativeBattleOutcome;
+ readonly levelUpMask:number;
+ readonly party:readonly Mon[];
+};
+
 /** Detached display data; the scene never receives the live party object. */
 export type EvolutionMonSnapshot=Readonly<Omit<Mon,'moves'|'ivs'|'evs'|'stats'|'provenance'>> & {
  readonly moves:readonly Readonly<Mon['moves'][number]>[];
@@ -48,3 +57,7 @@ export type EvolutionMoveRequest={
  readonly existing:readonly Readonly<Mon['moves'][number]>[];
  readonly unforgettablyHM:readonly boolean[];
 };
+export type EvolutionLearningEvent=
+ |{kind:'learned';mon:EvolutionMonSnapshot;move:number;replaced:number|null}
+ |{kind:'declined';mon:EvolutionMonSnapshot;move:number}
+ |{kind:'forget';mon:EvolutionMonSnapshot;move:number;forgotten:number};
