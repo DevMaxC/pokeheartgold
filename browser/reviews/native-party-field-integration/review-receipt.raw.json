@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "completedAtUTC": "2026-10-17T12:59:31.897620+00:00",
+  "scope": "Native field party menu integration and follower identity/owned-paper removal",
+  "sourceCommit": "536758a553891a934e5cbfca29473b3cbe77a647",
+  "mainSHA256": "bb0c47db15de9112bd354eebbfe4a73e3b4f85822431696202995a5d90fe8cad",
+  "snapshotRoot": "/tmp/hg-native-party-integration-snapshot-62d966d-20261017",
+  "snapshotManifestSHA256": "f83750bcb210671cb56e64a707296cff58713b9c953076820053abd8ab98480f",
+  "snapshotFiles": 6833,
+  "snapshotChangedDuringReview": [],
+  "reviewModels": [
+    "Codex independent source read",
+    "claude-opus-5-5"
+  ],
+  "opusCompleted": true,
+  "opusIntroducedDefectCount": 0,
+  "independentIntroducedDefectCount": 0,
+  "baselineDiffLimitationResolvedByCompletedFollowup": true,
+  "confirmedImplementationFindings": [],
+  "nonblockingCoverageGaps": [
+    "party main test mocks restoreField; actual failed-swap follower hydration not directly exercised",
+    "permanent updateHUD throw in after-swap failure test would also fail real recovery; actual restore fixture should use a one-shot failure",
+    "owned Escape test does not dispatch through the real global key handler plus UI instance"
+  ],
+  "optionalUXNote": "After failure and Return to field, party panel reopens; source consistent cleanup but wording could be clarified.",
+  "testEvidence": {
+    "ownerRun": true,
+    "testCount": 36,
+    "pass": 36,
+    "fail": 0,
+    "mainDiagnosticMatchesSnapshot": true,
+    "independentlyRerun": false
+  },
+  "limits": [
+    "No implementation, root index or runtime edits",
+    "No build, browser or full test suite executed for this review",
+    "No render, GPU or real DOM verification",
+    "No historical nonparty test/approval transfer",
+    "Review is of committed536758a only; later phone/main changes require own checks"
+  ],
+  "artifacts": [
+    {
+      "path": "/tmp/hg-native-party-main-opus-review.json",
+      "sha256": "9eb1f051c6226dbc319bbe2c0e5a00327391fef1886807708e229cf346bf2a23"
+    },
+    {
+      "path": "/tmp/hg-native-party-main-opus-review-followup.json",
+      "sha256": "b9b077dbd6289f8d60c64df2940128703bf55967f07c6ed111f3a3f80eebad53"
+    },
+    {
+      "path": "/tmp/hg-native-party-main-snapshot-commit-attestation.json",
+      "sha256": "6e7633c1b20022ec62755ac73a9cb744c73c8c5c19a5935d9688cb8ad723a7d7"
+    },
+    {
+      "path": "/tmp/hg-native-party-main-independent-source-review.json",
+      "sha256": "160d89c324c89ba2ee7db64bd836649041c1dc05a5abafc553241c624b706c36"
+    },
+    {
+      "path": "/tmp/hg-native-party-main-review-delta-62d966d-536758a/party-integration-committed.diff",
+      "sha256": "d144350aec11bcd93b58971dccdc385aa5676e44e1852de078a4634a3c3a711c"
+    },
+    {
+      "path": "/tmp/hg-native-party-main-review-delta-62d966d-536758a/provenance.json",
+      "sha256": "2eef9a9233b585c9a0ef4ba18e80ac67b115405db9ca50b94a7757dbc60c7403"
+    },
+    {
+      "path": "/tmp/hg-native-party-main-tests.log",
+      "sha256": "b9c298c6a2e03caa921479217e9419dc510bb283ac8abd1bc447ee590141ed7b"
+    }
+  ]
+}
