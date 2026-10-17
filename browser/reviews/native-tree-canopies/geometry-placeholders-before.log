@@ -1,0 +1,89 @@
+TAP version 13
+# Subtest: all imported prop and landscape geometries accept shared rendering repairs without invalid vertices
+not ok 1 - all imported prop and landscape geometries accept shared rendering repairs without invalid vertices
+  ---
+  duration_ms: 50930.297875
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-tree-scenery/browser/src/source/source-assets.test.ts:23:1'
+  failureType: 'testCodeFailure'
+  error: 'false == true'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-tree-scenery/browser/src/source/source-assets.test.ts:33:85)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: all 540 map headers reference existing imported geometry and tile data
+ok 2 - all 540 map headers reference existing imported geometry and tile data
+  ---
+  duration_ms: 1602.532375
+  type: 'test'
+  ...
+# Subtest: terrace deformation preserves actual native tree roots and valid geometry across adjacent town/route cells
+not ok 3 - terrace deformation preserves actual native tree roots and valid geometry across adjacent town/route cells
+  ---
+  duration_ms: 1362.845459
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-tree-scenery/browser/src/source/source-assets.test.ts:45:1'
+  failureType: 'testCodeFailure'
+  error: 'false == true'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-tree-scenery/browser/src/source/source-assets.test.ts:54:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: repeated lightmap forest textures resolve to complete individual-tree artwork
+ok 4 - repeated lightmap forest textures resolve to complete individual-tree artwork
+  ---
+  duration_ms: 2.309458
+  type: 'test'
+  ...
+# Subtest: forked roots are grouped without losing off-centre trunks or unmarked multi-tree art
+ok 5 - forked roots are grouped without losing off-centre trunks or unmarked multi-tree art
+  ---
+  duration_ms: 0.370125
+  type: 'test'
+  ...
+# Subtest: entrance metadata takes façade direction from native door and gate tiles across the entire matrix
+ok 6 - entrance metadata takes façade direction from native door and gate tiles across the entire matrix
+  ---
+  duration_ms: 1.11025
+  type: 'test'
+  ...
+# Subtest: the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs
+ok 7 - the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs
+  ---
+  duration_ms: 263.319416
+  type: 'test'
+  ...
+# Subtest: every native flat-seat variant becomes a closed raised seat while cushions stay low
+ok 8 - every native flat-seat variant becomes a closed raised seat while cushions stay low
+  ---
+  duration_ms: 921.455833
+  type: 'test'
+  ...
+# Verified all 40 native seat/bench/cushion/box texture variants.
+# Subtest: all exported tree shapes retain visible sprite bounds and proven generic material aliases
+ok 9 - all exported tree shapes retain visible sprite bounds and proven generic material aliases
+  ---
+  duration_ms: 3.577833
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 7
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55928.513042

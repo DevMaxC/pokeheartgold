@@ -1,0 +1,153 @@
+{
+  "status": "Literal native texture/palette decoding, no importer alpha key or guessed RGB exemption",
+  "mapTextureArchiveSHA256": "6385837c11139c543884434a54768e7279b485214b7ca309cf8a670d8f98d647",
+  "nativeTextureMember8SHA256": "5a530245f31c5571f292b575aeef054d3160f15f600d5ee4d9942f70e85dff45",
+  "sourceLandArchiveSHA256": "0817bd81cc30342bc40dd6ce829121e9a8be4e9d04d0b790f8d9d99688c4bebe",
+  "nativeModel89SHA256": "b751565de7230f4a2d110ad0aeb06b5b176dfd8e4ce98b87d25260c3a1194264",
+  "nativeTextureRows": [
+    {
+      "name": "ki_obj1",
+      "material": "tree_ki",
+      "format": 3,
+      "texImageParam": "0x2d2000c0",
+      "size": [
+        32,
+        32
+      ],
+      "color0Transparent": true,
+      "indicesSHA256": "011c64dc320a57e1b2aae3c766db2246cb375caa787dfc4fdb2788d3a8d80853",
+      "paletteMatches": [
+        {
+          "palette": "ki_obj1_pl",
+          "paletteWords": [
+            31775,
+            27076,
+            20835,
+            6864,
+            5775,
+            5775,
+            7954,
+            5677,
+            6636,
+            11830,
+            13944,
+            7569,
+            32767,
+            32767,
+            32767,
+            32767
+          ],
+          "blueIndices": [
+            1
+          ],
+          "rgbaSHA256": "5b642e19753c05951d3e05a92a498cdab5f030e8ac03f7d22d2a9caca7417be3"
+        }
+      ],
+      "matchesEmbeddedExportRGBAExactly": true,
+      "blueOpaquePixelCount": 190
+    },
+    {
+      "name": "ki_obj2",
+      "material": "tree_ki2",
+      "format": 3,
+      "texImageParam": "0x2d200100",
+      "size": [
+        32,
+        32
+      ],
+      "color0Transparent": true,
+      "indicesSHA256": "98867aaf346060c2a1b1c46023975db4b44dcf3e455f3d3d38d76ab32f8875a8",
+      "paletteMatches": [
+        {
+          "palette": "ki_obj2_pl",
+          "paletteWords": [
+            31775,
+            27076,
+            20835,
+            4583,
+            4680,
+            3591,
+            3657,
+            4713,
+            4778,
+            6864,
+            5775,
+            5775,
+            7954,
+            5677,
+            6636,
+            32767
+          ],
+          "blueIndices": [
+            1
+          ],
+          "rgbaSHA256": "b44565cc11b2fe9373ff71b5547b53507482fe8833fa28caef75cc0734b596d5"
+        }
+      ],
+      "matchesEmbeddedExportRGBAExactly": true,
+      "blueOpaquePixelCount": 240
+    },
+    {
+      "name": "ki_obj3",
+      "material": "tree_ki3",
+      "format": 3,
+      "texImageParam": "0x2d200140",
+      "size": [
+        32,
+        32
+      ],
+      "color0Transparent": true,
+      "indicesSHA256": "d7317339df6251d6225d0200eade33cba61831ee834563c2c7c70367f4dc29e1",
+      "paletteMatches": [
+        {
+          "palette": "ki_obj3_pl",
+          "paletteWords": [
+            31775,
+            27076,
+            20835,
+            11830,
+            13944,
+            7569,
+            32767,
+            32767,
+            9898,
+            19124,
+            19091,
+            19058,
+            18001,
+            16912,
+            14799,
+            0
+          ],
+          "blueIndices": [
+            1
+          ],
+          "rgbaSHA256": "34ba5dc2de9a9462554e6c6d4c110c65b2a1b5f6f2bea6645cbaaf01fdc54e88"
+        }
+      ],
+      "matchesEmbeddedExportRGBAExactly": true,
+      "blueOpaquePixelCount": 112
+    }
+  ],
+  "nativeMaterials": [
+    {
+      "name": "tree_ki",
+      "polygonAttribute": "0x1f8081",
+      "alpha5": 31,
+      "fullyOpaquePolygon": true
+    },
+    {
+      "name": "tree_ki2",
+      "polygonAttribute": "0x1f8081",
+      "alpha5": 31,
+      "fullyOpaquePolygon": true
+    },
+    {
+      "name": "tree_ki3",
+      "polygonAttribute": "0x1f8081",
+      "alpha5": 31,
+      "fullyOpaquePolygon": true
+    }
+  ],
+  "interpretation": "Blue surrounds are nonzero opaque native palette entries and all three native polygons have alpha31/31. Preserve them on the authored Lake of Rage loose-object surfaces; do not turn them into canopy volume or alpha-key them."
+}

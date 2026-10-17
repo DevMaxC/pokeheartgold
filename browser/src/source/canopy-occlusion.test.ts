@@ -2,11 +2,12 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {addTreeVolumes} from './tree-volume.ts';
+import {syntheticTreeTexture} from './tree-fixture.test.ts';
 import {fieldCanopies,canopyBlocks,canopyContains} from './canopy-occlusion.ts';
 import {battleCameraBlocked,clearBattleCameraEye} from './battle-camera.ts';
 
-function tree(){const group=new THREE.Group(),trees=addTreeVolumes(group,[{center:new THREE.Vector3(0,-.3,5),width:2,height:3,color:new THREE.Color(1,1,1)}],undefined,{footV:.9,topV:0,crownWidth:.86});group.updateMatrixWorld(true);for(const mesh of [trees.leaves,trees.trunks])mesh.raycast=()=>{throw Error('Tree triangle raycasts must not run');};return{group,...trees};}
-test('analytic crown lobes block the actual sight segment without raycasting tree triangles',()=>{
+function tree(){const group=new THREE.Group(),trees=addTreeVolumes(group,[{center:new THREE.Vector3(0,-.3,5),width:2,height:3,color:new THREE.Color(1,1,1)}],syntheticTreeTexture(),{footV:.9,topV:0,crownWidth:.86});assert.ok(trees);group.updateMatrixWorld(true);for(const mesh of [trees.leaves,trees.trunks])mesh.raycast=()=>{throw Error('Tree triangle raycasts must not run');};return{group,...trees};}
+test('native crown row boxes block the actual sight segment without raycasting tree triangles',()=>{
  const {group}=tree(),bounds=fieldCanopies([group]);assert.equal(canopyContains(new THREE.Vector3(0,1.3,5),bounds),true);assert.equal(canopyBlocks(new THREE.Vector3(0,1,0),new THREE.Vector3(0,1,10),bounds),true);assert.equal(canopyBlocks(new THREE.Vector3(0,4,0),new THREE.Vector3(0,4,10),bounds),false);assert.equal(canopyBlocks(new THREE.Vector3(0,1,0),new THREE.Vector3(0,1,2),bounds),false);
 });
 test('canopy caches preserve hierarchy transforms and invalidate after a moved instance or parent',()=>{

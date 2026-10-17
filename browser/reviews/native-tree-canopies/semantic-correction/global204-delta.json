@@ -1,0 +1,219 @@
+{
+  "status": "Offline current-production native source replay; structural/target proof, not aesthetic/GPU acceptance",
+  "coveredFamilies": 124,
+  "selectedAssets": 204,
+  "oldRenderedTreeTriangles": 7403520,
+  "newRenderedTreeTriangles": 7390996,
+  "oldUniqueGeometries": 39,
+  "newUniqueGeometries": 35,
+  "metricDeltas": [
+    {
+      "asset": "land/89-8.glb",
+      "changes": {
+        "componentInstances": {
+          "before": 200,
+          "after": 172
+        },
+        "distinctNativeRoots": {
+          "before": 200,
+          "after": 172
+        },
+        "draws": {
+          "before": 14,
+          "after": 9
+        },
+        "renderedTriangles": {
+          "before": 66744,
+          "after": 60240
+        }
+      },
+      "retainedNativeObjects": [
+        {
+          "material": "tree_ki2",
+          "visible": true,
+          "triangles": 10
+        },
+        {
+          "material": "tree_ki3",
+          "visible": true,
+          "triangles": 18
+        },
+        {
+          "material": "tree_ki",
+          "visible": true,
+          "triangles": 28
+        }
+      ]
+    },
+    {
+      "asset": "land/90-8.glb",
+      "changes": {
+        "componentInstances": {
+          "before": 163,
+          "after": 151
+        },
+        "distinctNativeRoots": {
+          "before": 163,
+          "after": 151
+        },
+        "draws": {
+          "before": 13,
+          "after": 8
+        },
+        "renderedTriangles": {
+          "before": 47952,
+          "after": 45072
+        }
+      },
+      "retainedNativeObjects": [
+        {
+          "material": "tree_ki2",
+          "visible": true,
+          "triangles": 6
+        },
+        {
+          "material": "tree_ki3",
+          "visible": true,
+          "triangles": 8
+        },
+        {
+          "material": "tree_ki",
+          "visible": true,
+          "triangles": 10
+        }
+      ]
+    },
+    {
+      "asset": "land/91-8.glb",
+      "changes": {
+        "componentInstances": {
+          "before": 141,
+          "after": 138
+        },
+        "distinctNativeRoots": {
+          "before": 141,
+          "after": 138
+        },
+        "draws": {
+          "before": 11,
+          "after": 6
+        },
+        "renderedTriangles": {
+          "before": 58824,
+          "after": 58080
+        }
+      },
+      "retainedNativeObjects": [
+        {
+          "material": "tree_ki",
+          "visible": true,
+          "triangles": 2
+        },
+        {
+          "material": "tree_ki2",
+          "visible": true,
+          "triangles": 2
+        },
+        {
+          "material": "tree_ki3",
+          "visible": true,
+          "triangles": 2
+        }
+      ]
+    },
+    {
+      "asset": "land/92-8.glb",
+      "changes": {
+        "componentInstances": {
+          "before": 184,
+          "after": 175
+        },
+        "distinctNativeRoots": {
+          "before": 184,
+          "after": 175
+        },
+        "draws": {
+          "before": 15,
+          "after": 10
+        },
+        "renderedTriangles": {
+          "before": 69216,
+          "after": 67152
+        }
+      },
+      "retainedNativeObjects": [
+        {
+          "material": "tree_ki2",
+          "visible": true,
+          "triangles": 4
+        },
+        {
+          "material": "tree_ki3",
+          "visible": true,
+          "triangles": 4
+        },
+        {
+          "material": "tree_ki",
+          "visible": true,
+          "triangles": 10
+        }
+      ]
+    },
+    {
+      "asset": "land/93-8.glb",
+      "changes": {
+        "componentInstances": {
+          "before": 77,
+          "after": 73
+        },
+        "distinctNativeRoots": {
+          "before": 77,
+          "after": 73
+        },
+        "draws": {
+          "before": 13,
+          "after": 8
+        },
+        "renderedTriangles": {
+          "before": 30312,
+          "after": 29376
+        }
+      },
+      "retainedNativeObjects": [
+        {
+          "material": "tree_ki2",
+          "visible": true,
+          "triangles": 2
+        },
+        {
+          "material": "tree_ki3",
+          "visible": true,
+          "triangles": 2
+        },
+        {
+          "material": "tree_ki",
+          "visible": true,
+          "triangles": 4
+        }
+      ]
+    },
+    {
+      "asset": "props/1-136-7.glb",
+      "changes": {
+        "draws": {
+          "before": 1,
+          "after": 2
+        },
+        "renderedTriangles": {
+          "before": 504,
+          "after": 1108
+        }
+      },
+      "retainedNativeObjects": []
+    }
+  ],
+  "preservedLooseNativeCards": 56,
+  "unchangedOtherAssetMetrics": 198,
+  "nativeInputsStable": true,
+  "sourceGeometryUVMaterialsMapsUnchanged": true
+}

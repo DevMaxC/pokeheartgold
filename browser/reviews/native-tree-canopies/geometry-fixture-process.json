@@ -1,0 +1,14 @@
+{
+  "scope": "Test-fixture-only integration correction after source review",
+  "runtimeUnchanged": true,
+  "test": "browser/src/source/source-assets.test.ts",
+  "testSHA256": "58b7a0eb69e66bc74e1e9a07c5d123eadb73693143f13f008becab019915970e",
+  "before": "Unreadable Texture placeholders intentionally retain source, so legacy tree-replacement/root assertions fail;7/9pass.",
+  "after": "Native204 tree assets use existing reviewed actual GLB/RGBA fixture; structural placeholders remain for other assets; all1594geometry sweep/540headers/3realnative terrace fixtures/40furniture variants preserved;9/9PASS.",
+  "tests": 9,
+  "passed": 9,
+  "failed": 0,
+  "processExitCode": 0,
+  "typescriptExitCode": 0,
+  "note": "This only changes test inputs/assertions to reflect native pixel requirement and component/root semantics. Runtime/source review snapshots remain byte-identical; no new runtime approval implied."
+}

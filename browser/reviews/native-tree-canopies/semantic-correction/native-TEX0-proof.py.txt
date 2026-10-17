@@ -1,0 +1,32 @@
+import json,struct,hashlib,base64,sys
+from pathlib import Path
+from PIL import Image
+from io import BytesIO
+sys.path.insert(0,str(Path.cwd()/'browser/scripts'))
+from native_shoreline_srt import narc_members,land_model
+sha=lambda b:hashlib.sha256(b).hexdigest()
+def info(b,o):
+ count=b[o+1];p=o+12+count*4;size=struct.unpack_from('<H',b,p)[0];p+=4;n=p+count*size
+ return [(b[n+i*16:n+(i+1)*16].split(b'\0')[0].decode(),b[p+i*size:p+(i+1)*size]) for i in range(count)]
+archive=Path('files/a/0/4/4').read_bytes();tex=narc_members(archive)[8];s=tex.index(b'TEX0');tb=struct.unpack_from('<I',tex,s+20)[0];pb=struct.unpack_from('<I',tex,s+56)[0];td=info(tex,s+struct.unpack_from('<H',tex,s+14)[0]);pd=info(tex,s+struct.unpack_from('<I',tex,s+52)[0]);rows=[]
+for name,raw in td:
+ if name not in ['ki_obj1','ki_obj2','ki_obj3']:continue
+ material={'ki_obj1':'tree_ki','ki_obj2':'tree_ki2','ki_obj3':'tree_ki3'}[name]
+ param=struct.unpack_from('<I',raw)[0];fmt=param>>26&7;w=8<<(param>>20&7);h=8<<(param>>23&7);o=(param&65535)<<3;data=tex[s+tb+o:s+tb+o+w*h//2];indices=[z for v in data for z in [v&15,v>>4]];assert fmt==3
+ expected=Image.open('browser/public/source/foliage/8-'+material+'.png').convert('RGBA');expectedRaw=expected.tobytes();matches=[]
+ for pn,pr in pd:
+  if pn!=name+'_pl':continue
+  po=struct.unpack_from('<H',pr)[0]<<3;pal=[struct.unpack_from('<H',tex,s+pb+po+i*2)[0] for i in range(16)];rgba=bytes(v for idx in indices for v in [((pal[idx]&31)<<3)|((pal[idx]&31)>>2),(((pal[idx]>>5)&31)<<3)|(((pal[idx]>>5)&31)>>2),(((pal[idx]>>10)&31)<<3)|(((pal[idx]>>10)&31)>>2),0 if idx==0 and param&(1<<29) else 255])
+  if rgba==expectedRaw:matches.append({'palette':pn,'paletteWords':pal,'blueIndices':[i for i,c in enumerate(pal) if [(c&31)*255/31,((c>>5)&31)*255/31,((c>>10)&31)*255/31]==[4*255/31,14*255/31,26*255/31]],'rgbaSHA256':sha(rgba)})
+ assert matches,name
+ rows.append({'name':name,'material':material,'format':fmt,'texImageParam':hex(param),'size':[w,h],'color0Transparent':bool(param&(1<<29)),'indicesSHA256':sha(bytes(indices)),'paletteMatches':matches,'matchesEmbeddedExportRGBAExactly':True,'blueOpaquePixelCount':sum(1 for p in range(w*h) if expectedRaw[p*4:p*4+4] in [bytes([33,115,214,255]),bytes([24,90,165,255])])})
+assert len(rows)==3
+landArchive=Path('files/a/0/6/5').read_bytes();model=land_model(narc_members(landArchive)[89]);sec=struct.unpack_from('<I',model,16)[0];materials=[]
+for name,raw in info(model,sec+8):
+ base=sec+struct.unpack('<I',raw)[0];mb=base+struct.unpack_from('<I',model,base+8)[0]
+ for mn,mr in info(model,mb+4):
+  if mn not in ['tree_ki','tree_ki2','tree_ki3']:continue
+  off=mb+struct.unpack('<I',mr)[0];polygon=struct.unpack_from('<I',model,off+12)[0];materials.append({'name':mn,'polygonAttribute':hex(polygon),'alpha5':polygon>>16&31,'fullyOpaquePolygon':polygon>>16&31==31})
+assert len(materials)==3 and all(m['fullyOpaquePolygon'] for m in materials)
+r={'status':'Literal native texture/palette decoding, no importer alpha key or guessed RGB exemption','mapTextureArchiveSHA256':sha(archive),'nativeTextureMember8SHA256':sha(tex),'sourceLandArchiveSHA256':sha(landArchive),'nativeModel89SHA256':sha(model),'nativeTextureRows':rows,'nativeMaterials':materials,'interpretation':'Blue surrounds are nonzero opaque native palette entries and all three native polygons have alpha31/31. Preserve them on the authored Lake of Rage loose-object surfaces; do not turn them into canopy volume or alpha-key them.'}
+Path('/tmp/hg-tree-native-tex0-proof.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r,indent=2))

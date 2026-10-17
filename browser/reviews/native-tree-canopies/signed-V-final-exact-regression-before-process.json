@@ -1,0 +1,24 @@
+{
+  "scope": "Final exact d7 native regression run against unchanged a79 runtime in private copy",
+  "runtimeCommit": "a79fbd5403902aa04cf990810b45293526f198d7",
+  "testSourceCommit": "d7a2397d88aefa46be6f0c739c99e5c0cff5fa4f",
+  "testSHA256": "e67f7672f2721cd32b15389495ab4317562a8255fdc525c1827af461f366a874",
+  "matchesLiveFinalTest": true,
+  "exitCode": 1,
+  "expectedFailure": "Generated source V rows keep the literal native positive-Y direction",
+  "runtimeBefore": {
+    "tree-texture.ts": "686de17c5d06c7bda0267db4c166728270cec67597c4f4c93f835d4e0c11f9c0",
+    "tree-volume.ts": "f91dd6d176b8f58c3d288abc1ce13c278c61b181a9cad3a057a6808a6fc68314",
+    "tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "render-repair.ts": "dbd997dced09bd9c3dbcced83700f7fbd278cbc8ed1dbb6fe5274e2586738430",
+    "canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b"
+  },
+  "runtimeAfter": {
+    "tree-texture.ts": "686de17c5d06c7bda0267db4c166728270cec67597c4f4c93f835d4e0c11f9c0",
+    "tree-volume.ts": "f91dd6d176b8f58c3d288abc1ce13c278c61b181a9cad3a057a6808a6fc68314",
+    "tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "render-repair.ts": "dbd997dced09bd9c3dbcced83700f7fbd278cbc8ed1dbb6fe5274e2586738430",
+    "canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b"
+  },
+  "runtimeStable": true
+}
