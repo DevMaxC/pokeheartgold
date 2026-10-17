@@ -11,6 +11,7 @@ import type {WorldBattleView} from './battle-stage.ts';
 import {sourceTallGrass,updateGrass} from './grass.ts';
 import {WorldSky} from './sky.ts';
 import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
+import {forestFoundation} from './foundations.ts';
 import {planTerrainSceneryAsync,closeTerrainScenery,terrainSceneryEntrances} from './terrain-scenery.ts';
 import {furnitureObstacles,furnitureBlocksStep,type FurnitureObstacle} from './furniture-collision.ts';
 import {closeBuildingFooting} from './building-footing.ts';
@@ -60,7 +61,7 @@ export class OriginalWorld {
   battleStage:WorldBattleView|null=null;
   fieldTasks:{frame:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null=null;
   fieldEffect:{active:boolean;update:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null=null;
-  constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>){
+  constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>,readonly terrainSceneryEnabled=false){
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));this.renderer.setSize(innerWidth,innerHeight);this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;
     this.sky=new WorldSky(this.scene,this.camera);this.scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa2,2));
     addEventListener('resize',()=>{if(this.cameraTransition){this.cameraResizePending=true;return;}this.resizeRenderer();});
@@ -161,6 +162,12 @@ export class OriginalWorld {
         let retained=false;try{
         const model=clone(template);model.scale.setScalar(1/16);group.add(model);const grass=sourceTallGrass(land,cell);if(grass)group.add(grass);
         let beach:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='beach01')beach=m as THREE.MeshBasicMaterial;});if(beach){const underlay=shorelineUnderlay(land,cell,beach);if(underlay)group.add(underlay);}
+        // Matrix-zero's native forest filler has only treetops/ground marks.
+        // Its raised ground needs a cliff volume for the newly free camera.
+        if(!this.terrainSceneryEnabled&&owner===0&&landID===208&&cell.altitude>0){
+          this.backgroundCliff??=this.asset('land/210-0.glb').then(template=>{let material:THREE.MeshBasicMaterial|undefined;template.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='cliff01')material=m as THREE.MeshBasicMaterial;});if(!material)throw Error('Original background cliff texture missing');return material;}).catch(error=>{this.backgroundCliff=null;throw error;});
+          const foundation=forestFoundation(cell,matrix,await this.backgroundCliff);if(foundation)group.add(foundation);
+        }
         const terraces=this.terraces;if(terraces&&[-1,0,1].some(dx=>[-1,0,1].some(dz=>terraces.data.cells[(xx+dx)+','+(zz+dz)]))){
           if(!await terraceModel(group,terraces,()=>generation===this.generation))return;
           if(terraces.ledgeCells.has(xx+','+zz)){
@@ -169,6 +176,9 @@ export class OriginalWorld {
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
         }
+        // Whole-map terrain closure is opt-in until its independent visibility
+        // audit passes. Ordinary campaign worlds use released terrain above.
+        if(this.terrainSceneryEnabled){
         // Native land was drawn for a fixed camera and may contain only a
         // raised top sheet. Close proven exposed terrain boundaries using the
         // actual placed height, adjacent collision floors and deformed ledges.
@@ -180,6 +190,7 @@ export class OriginalWorld {
           let cliff=terraceCliffMaterial(template);
           if(!cliff){this.backgroundCliff??=this.asset('land/210-0.glb').then(source=>{const material=terraceCliffMaterial(source);if(!material)throw Error('Original background cliff texture missing');return material;}).catch(error=>{this.backgroundCliff=null;throw error;});cliff=await this.backgroundCliff;}
           if(!await this.runSceneryWork(generation,()=>{closeTerrainScenery(group,sceneryContext,cliff,sceneryPlan);}))return;
+        }
         }
         const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;if(generation!==this.generation)return;const p=clone(await this.asset(prop.asset));group.add(p);if(generation!==this.generation)return;p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);const entrances=await doors();if(!await this.runSceneryWork(generation,()=>{closeBuildingExterior(p,prop.asset,entrances);if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}))return;}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;
