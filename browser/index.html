@@ -1,1 +1,64 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#273c50"><title>Pokémon HeartGold — 3D</title></head><body><main id="game"><canvas id="original-world" tabindex="0" aria-label="HeartGold 3D world. WASD to move, F to interact, Q and E to rotate camera."></canvas><header id="game-hud"><div><span class="game-brand">POKÉMON <b>HEARTGOLD</b></span><h1 id="map-name">Johto</h1><p id="map-detail"></p></div><div class="hud-actions"><button id="phone-ring" aria-label="Answer Professor Elm’s call" aria-live="polite" hidden>Professor Elm is calling<small>Answer <kbd>R</kbd></small></button><button id="open-menu">Menu <kbd>Esc</kbd></button></div></header><div id="party-hud"></div><footer id="control-hud"><span><kbd>W A S D</kbd> Move</span><span><kbd>F</kbd> Talk / confirm</span><span><kbd>Q E</kbd> Camera</span><span><kbd>Shift</kbd> Run</span></footer><div id="dialogue" role="dialog" aria-label="Dialogue" hidden><div id="dialogue-speaker"></div><p id="dialogue-text"></p><button id="dialogue-next">Next <span>▼</span></button></div><section id="panel" class="game-overlay" role="dialog" aria-modal="true" aria-label="Game menu" hidden><div class="game-panel"><div id="panel-content"></div></div></section><section id="battle-screen" hidden></section><div id="loading" role="status">Loading Johto…</div><div id="touch-pad"><button data-control="KeyW" aria-label="Move north">↑</button><button data-control="KeyA" aria-label="Move west">←</button><button data-control="KeyS" aria-label="Move south">↓</button><button data-control="KeyD" aria-label="Move east">→</button><button data-control="KeyF" aria-label="Interact">A</button></div></main><script type="module" src="/src/source/main.ts"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#172b45">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="A new perspective on your Pokémon HeartGold adventure.">
+    <title>Pokémon HeartGold — Paper Johto</title>
+  </head>
+  <body>
+    <main id="game" data-game-state="title">
+      <canvas id="original-world" tabindex="0" aria-label="HeartGold 3D world. WASD to move, F to interact, Q and E to rotate camera."></canvas>
+      <header id="game-hud">
+        <div class="location-card">
+          <span class="game-brand"><span class="pokeball-mark" aria-hidden="true"></span>POKÉMON <b>HEARTGOLD</b></span>
+          <h1 id="map-name">Johto</h1>
+          <p id="map-detail"></p>
+        </div>
+        <button id="open-menu" type="button"><span class="menu-glyph" aria-hidden="true"></span>Menu <kbd>Esc</kbd></button>
+        <button id="phone-ring" type="button" aria-label="Answer a phone call" aria-live="polite" hidden>Professor Elm is calling<small>Answer <kbd>R</kbd></small></button>
+      </header>
+      <div id="party-hud" aria-label="Your party"></div>
+      <footer id="control-hud">
+        <span><kbd>W A S D</kbd> Move</span>
+        <span><kbd>F</kbd> Talk</span>
+        <span><kbd>Q E</kbd> Camera</span>
+        <span><kbd>Shift</kbd> Run</span>
+      </footer>
+      <div id="dialogue" role="dialog" aria-label="Dialogue" hidden>
+        <div id="dialogue-speaker"></div>
+        <p id="dialogue-text"></p>
+        <button id="dialogue-next" type="button">Next <span aria-hidden="true">▶</span></button>
+      </div>
+      <section id="panel" class="game-overlay" role="dialog" aria-modal="true" aria-label="Game menu" hidden>
+        <div class="game-panel"><div id="panel-content"></div></div>
+      </section>
+      <section id="battle-screen" hidden></section>
+      <div id="loading" role="status">Preparing Johto…</div>
+      <div id="touch-pad" data-layout="stick" data-handedness="right" aria-label="Touch controls">
+        <button id="touch-stick" type="button" aria-label="Movement joystick">
+          <span class="touch-stick__ring" aria-hidden="true"></span>
+          <span class="touch-stick__thumb" aria-hidden="true"></span>
+        </button>
+        <div id="touch-dpad" role="group" aria-label="Movement D-pad" hidden>
+          <button type="button" data-touch-dir="up" aria-label="Move north">▲</button>
+          <button type="button" data-touch-dir="left" aria-label="Move west">◀</button>
+          <button type="button" data-touch-dir="down" aria-label="Move south">▼</button>
+          <button type="button" data-touch-dir="right" aria-label="Move east">▶</button>
+        </div>
+        <div class="touch-actions">
+          <button id="touch-interact" type="button" aria-label="Talk or interact"><span class="touch-action__key">A</span><span class="touch-action__label">Talk</span></button>
+          <button id="touch-run" type="button" aria-label="Hold to run"><span class="touch-action__key">B</span><span class="touch-action__label">Run</span></button>
+          <button id="touch-menu" type="button" aria-label="Open menu"><span class="menu-glyph" aria-hidden="true"></span><span class="touch-action__label">Menu</span></button>
+        </div>
+        <div class="touch-tools">
+          <button id="touch-layout-toggle" type="button" aria-label="Use D-pad" aria-pressed="false"><span class="touch-tool__glyph" aria-hidden="true">✥</span><span data-touch-layout-label>D-pad</span></button>
+          <button id="touch-hand-toggle" type="button" aria-label="Use left-handed controls" aria-pressed="false"><span class="touch-tool__glyph" aria-hidden="true">↔</span><span data-touch-hand-label>Left hand</span></button>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/src/source/main.ts"></script>
+  </body>
+</html>

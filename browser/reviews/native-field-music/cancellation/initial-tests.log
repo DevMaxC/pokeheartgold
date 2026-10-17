@@ -1,0 +1,264 @@
+TAP version 13
+# (node:24031) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+ok 1 - native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+  ---
+  duration_ms: 3.002458
+  type: 'test'
+  ...
+# Subtest: construction and map intent fetch no songs or Context until synchronous gesture unlock
+ok 2 - construction and map intent fetch no songs or Context until synchronous gesture unlock
+  ---
+  duration_ms: 55.169
+  type: 'test'
+  ...
+# Subtest: same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+ok 3 - same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+  ---
+  duration_ms: 1.977209
+  type: 'test'
+  ...
+# Subtest: mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+ok 4 - mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+  ---
+  duration_ms: 1.5655
+  type: 'test'
+  ...
+# Subtest: unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+ok 5 - unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+  ---
+  duration_ms: 1.221292
+  type: 'test'
+  ...
+# Subtest: bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+ok 6 - bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+  ---
+  duration_ms: 1.337334
+  type: 'test'
+  ...
+# Subtest: latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+ok 7 - latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+  ---
+  duration_ms: 1.6715
+  type: 'test'
+  ...
+# Subtest: late map-catalog completion cannot overwrite a newer direct cue intent
+ok 8 - late map-catalog completion cannot overwrite a newer direct cue intent
+  ---
+  duration_ms: 1.962
+  type: 'test'
+  ...
+# Subtest: external abort during cue loading cannot interrupt the prior committed voice or start late audio
+ok 9 - external abort during cue loading cannot interrupt the prior committed voice or start late audio
+  ---
+  duration_ms: 1.416583
+  type: 'test'
+  ...
+# Subtest: field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+ok 10 - field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+  ---
+  duration_ms: 1.267792
+  type: 'test'
+  ...
+# Subtest: a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+ok 11 - a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+  ---
+  duration_ms: 0.775583
+  type: 'test'
+  ...
+# Subtest: shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+ok 12 - shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+  ---
+  duration_ms: 1.009875
+  type: 'test'
+  ...
+# Subtest: whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+ok 13 - whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+  ---
+  duration_ms: 0.793166
+  type: 'test'
+  ...
+# Subtest: blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+ok 14 - blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+  ---
+  duration_ms: 20.216708
+  type: 'test'
+  ...
+# Subtest: catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+ok 15 - catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+  ---
+  duration_ms: 0.670875
+  type: 'test'
+  ...
+# Subtest: failed field restore is retryable and cannot silently mark a missing restored song successful
+ok 16 - failed field restore is retryable and cannot silently mark a missing restored song successful
+  ---
+  duration_ms: 2.578667
+  type: 'test'
+  ...
+# Subtest: missing map stops old committed and late-loading music rather than retaining stale intent
+ok 17 - missing map stops old committed and late-loading music rather than retaining stale intent
+  ---
+  duration_ms: 0.815125
+  type: 'test'
+  ...
+# Subtest: native sequence identity preserves phase across map/override/radio label changes
+ok 18 - native sequence identity preserves phase across map/override/radio label changes
+  ---
+  duration_ms: 0.582417
+  type: 'test'
+  ...
+# Subtest: volume-only preferences share the active load without dropping its caller cancellation
+ok 19 - volume-only preferences share the active load without dropping its caller cancellation
+  ---
+  duration_ms: 0.302792
+  type: 'test'
+  ...
+# Subtest: battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+ok 20 - battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+  ---
+  duration_ms: 0.665875
+  type: 'test'
+  ...
+# Subtest: battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+ok 21 - battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+  ---
+  duration_ms: 2.4125
+  type: 'test'
+  ...
+# Subtest: muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+ok 22 - muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+  ---
+  duration_ms: 0.52625
+  type: 'test'
+  ...
+# Subtest: restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+ok 23 - restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+  ---
+  duration_ms: 0.316042
+  type: 'test'
+  ...
+# Subtest: a newer map during slow restore owns playback and cannot re-arm stale interruption
+ok 24 - a newer map during slow restore owns playback and cannot re-arm stale interruption
+  ---
+  duration_ms: 0.880958
+  type: 'test'
+  ...
+# Subtest: an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+ok 25 - an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+  ---
+  duration_ms: 0.764542
+  type: 'test'
+  ...
+# Subtest: repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+ok 26 - repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+  ---
+  duration_ms: 0.559917
+  type: 'test'
+  ...
+# Subtest: mute changes after encounter abort do not resurrect or reject its terminated owned cue
+ok 27 - mute changes after encounter abort do not resurrect or reject its terminated owned cue
+  ---
+  duration_ms: 0.771708
+  type: 'test'
+  ...
+# Subtest: restore in the suspension microtask cancels start and coherently releases the field
+ok 28 - restore in the suspension microtask cancels start and coherently releases the field
+  ---
+  duration_ms: 0.868583
+  type: 'test'
+  ...
+# Subtest: same native cue source label changes while interrupted remain current after phase restoration
+ok 29 - same native cue source label changes while interrupted remain current after phase restoration
+  ---
+  duration_ms: 0.501667
+  type: 'test'
+  ...
+# Subtest: catalog caller cancellation rejects promptly without poisoning a shared consumer
+ok 30 - catalog caller cancellation rejects promptly without poisoning a shared consumer
+  ---
+  duration_ms: 0.234125
+  type: 'test'
+  ...
+# Subtest: catalog deadline evicts a hung shared request and cannot adopt its late result
+ok 31 - catalog deadline evicts a hung shared request and cannot adopt its late result
+  ---
+  duration_ms: 15.337583
+  type: 'test'
+  ...
+# Subtest: abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+ok 32 - abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 0.906375
+  type: 'test'
+  ...
+# Subtest: abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+ok 33 - abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 108.003
+  type: 'test'
+  ...
+# Subtest: abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+ok 34 - abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 2.063542
+  type: 'test'
+  ...
+# Subtest: background fetch deadline aborts the owner without attempting another codec or starting late audio
+ok 35 - background fetch deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 17.598458
+  type: 'test'
+  ...
+# Subtest: background decode deadline aborts the owner without attempting another codec or starting late audio
+ok 36 - background decode deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 16.089875
+  type: 'test'
+  ...
+# Subtest: a caller deadline during field restore preserves retryable interruption and no late voice
+ok 37 - a caller deadline during field restore preserves retryable interruption and no late voice
+  ---
+  duration_ms: 0.780042
+  type: 'test'
+  ...
+# Subtest: cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+ok 38 - cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+  ---
+  duration_ms: 1.444084
+  type: 'test'
+  ...
+# Subtest: already-aborted restore still tears down the session voice before rejecting, then can retry
+ok 39 - already-aborted restore still tears down the session voice before rejecting, then can retry
+  ---
+  duration_ms: 0.814333
+  type: 'test'
+  ...
+# Subtest: aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+ok 40 - aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+  ---
+  duration_ms: 0.406333
+  type: 'test'
+  ...
+# Subtest: shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+ok 41 - shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+  ---
+  duration_ms: 0.475375
+  type: 'test'
+  ...
+# Subtest: isUnlocked reports actual Context permission separately from music preparation success
+ok 42 - isUnlocked reports actual Context permission separately from music preparation success
+  ---
+  duration_ms: 2.802792
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 42
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 606.467167

@@ -1,0 +1,59 @@
+def encode(row, source, output):
+    wave_format = next(item for item in row['formats'] if item['codec'] == 'gzip-wav')
+    compressed = (source / wave_format['file']).read_bytes()
+    check(SHA(compressed) == wave_format['sha256'], 'Changed native render cache')
+    original_wave = gzip.decompress(compressed)
+    check(SHA(original_wave) == wave_format['decodedSHA256'], 'Changed original RIFF bytes')
+    with wave.open(io.BytesIO(original_wave), 'rb') as original:
+        check(original.getframerate() == 32768 and original.getnchannels() == 2 and original.getsampwidth() == 2, 'Unexpected native PCM format')
+        full_pcm = original.readframes(original.getnframes())
+    check(SHA(full_pcm) == row['pcmSHA256'], 'Original rendered PCM proof changed')
+    # Preserve the entire original intro/first pass AND the verified second
+    # steady cycle. Remove only the unused post-loop release tail, never splice
+    # out a pass that may carry different notes/envelopes from the intro.
+    frames = row['loopFrames'][1] if row['loopFrames'] else row['frames']
+    pcm = full_pcm[:frames * 4]
+    formats, receipts = [], []
+    with tempfile.TemporaryDirectory(prefix='native-music-encode-') as temp:
+        temp = Path(temp)
+        wav = temp / 'native.wav'
+        with wave.open(str(wav), 'wb') as file:
+            file.setnchannels(2)
+            file.setsampwidth(2)
+            file.setframerate(32768)
+            file.writeframes(pcm)
+        reference = subprocess.check_output(['ffmpeg', '-v', 'error', '-i', str(wav), '-ar', '48000', '-f', 's16le', '-'])
+        reference_signal = np.frombuffer(reference, dtype='<i2').reshape(-1, 2).astype(np.float64).mean(axis=1)[:240000]
+        reference_signal -= reference_signal.mean()
+        fft_length = 1 << (len(reference_signal) * 2 - 1).bit_length()
+        fft_reference = np.fft.rfft(reference_signal, fft_length)
+        for codec, extension in [('aac', 'm4a'), ('libmp3lame', 'mp3')]:
+            name = f"{row['id']}-{row['key']}.{extension}"
+            target = output / name
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(wav), '-map_metadata', '-1', '-ar', '48000',
+                            '-fflags', '+bitexact', '-flags:a', '+bitexact', '-c:a', codec, '-b:a', '128k',
+                            *(['-movflags', '+faststart'] if codec == 'aac' else []), str(target)], check=True)
+            decoded = subprocess.check_output(['ffmpeg', '-v', 'error', '-i', str(target), '-f', 's16le', '-c:a', 'pcm_s16le', '-'])
+            signal = np.frombuffer(decoded, dtype='<i2').reshape(-1, 2).astype(np.float64).mean(axis=1)[:len(reference_signal)]
+            check(len(signal) == len(reference_signal), 'Compressed cue lost the beginning of native audio')
+            signal -= signal.mean()
+            correlation = np.fft.irfft(np.fft.rfft(signal, fft_length) * np.conj(fft_reference), fft_length)
+            shifts = np.arange(-2048, 2049)
+            shift = int(shifts[np.argmax(correlation[shifts % fft_length])])
+            pearson = float(np.dot(reference_signal, signal) / (np.linalg.norm(reference_signal) * np.linalg.norm(signal)))
+            check(abs(shift) <= 1 and pearson >= .90, f'Unverified codec alignment: {codec} shift={shift} correlation={pearson}')
+            packets = json.loads(subprocess.check_output(['ffprobe', '-v', 'error', '-show_packets', '-show_streams', '-select_streams', 'a:0',
+                '-show_entries', 'packet=pts,duration,side_data_list:stream=codec_name,sample_rate,duration,start_time,nb_frames', '-of', 'json', str(target)]))
+            decoded_frames = len(decoded) // 4
+            check(abs(decoded_frames - len(reference) // 4) <= 1024, 'Unexpected untrimmed codec priming/padding')
+            entry = {'codec': 'aac' if codec == 'aac' else 'mp3', 'file': name, 'bytes': target.stat().st_size,
+                     'sha256': SHA(target.read_bytes()), 'decodedSampleRate': 48000, 'decodedFrames': decoded_frames,
+                     'leadingFrames': max(0, shift)}
+            formats.append(entry)
+            receipts.append({'codec': entry['codec'], 'decodedFrames': decoded_frames, 'resampledReferenceFrames': len(reference) // 4,
+                             'alignmentLagFrames48000': shift, 'firstFiveSecondsPearson': pearson,
+                             'stream': packets['streams'][0], 'firstPacket': packets['packets'][0], 'lastPacket': packets['packets'][-1]})
+    return {**row, 'frames': frames, 'untrimmedRenderFrames': row['frames'], 'formats': formats,
+            'encodedContentPCMSHA256': SHA(pcm), 'encoding': {'sampleRate': 48000, 'bitrate': 128000,
+            'lossy': True, 'preservedIntroAndFirstPass': True, 'trimmedOnlyUnusedPostLoopTail': bool(row['loopFrames']),
+            'codecReceipts': receipts, 'browserAudition': 'not performed; mobile decoder/loop listening remains pending'}}

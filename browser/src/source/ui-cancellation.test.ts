@@ -3,35 +3,8 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {UI} from './ui.ts';
 
-function dom(){
-  const oldDocument=Object.getOwnPropertyDescriptor(globalThis,'document'),oldAdd=Object.getOwnPropertyDescriptor(globalThis,'addEventListener');
-  const ids=new Map<string,Element>(),focus:string[]=[];let buttons:Element[]=[];
-  class Element{
-    hidden=true;inert=false;textContent='';value='';dataset:Record<string,string>={};onclick:(()=>void)|null=null;onsubmit:((event:{preventDefault:()=>void})=>void)|null=null;
-    private html='';private first:Element|null=null;
-    constructor(readonly id:string){}
-    get innerHTML(){return this.html;}
-    set innerHTML(value:string){
-      this.html=value;if(this.id!=='panel-content')return;
-      buttons=Array.from(value.matchAll(/data-option="(\d+)"/g),match=>{const button=new Element('option-'+match[1]);button.dataset.option=match[1];return button;});
-      if(value.includes('id="name-form"')){ids.set('name-form',new Element('name-form'));const input=new Element('name-input');input.value=value.match(/value="([^"]*)"/)?.[1]??'';ids.set('name-input',input);}
-      this.first=buttons[0]??new Element('panel-first');
-    }
-    focus(){focus.push(this.id);}
-    select(){}
-    querySelector(){return this.first;}
-  }
-  for(const id of['dialogue-next','dialogue','dialogue-speaker','dialogue-text','panel-content','panel','original-world','game-hud','touch-pad'])ids.set(id,new Element(id));
-  Object.defineProperty(globalThis,'document',{value:{getElementById:(id:string)=>ids.get(id),querySelectorAll:()=>buttons},configurable:true});
-  Object.defineProperty(globalThis,'addEventListener',{value:()=>{},configurable:true});
-  return{ids,focus,get buttons(){return buttons;},restore(){for(const[key,descriptor]of[['document',oldDocument],['addEventListener',oldAdd]]as const){if(descriptor)Object.defineProperty(globalThis,key,descriptor);else Reflect.deleteProperty(globalThis,key);}}};
-}
-function clock(){
-  const set=globalThis.setTimeout,clear=globalThis.clearTimeout,tasks=new Map<number,()=>void>();let serial=0;
-  globalThis.setTimeout=((callback:()=>void)=>{tasks.set(++serial,callback);return serial;})as unknown as typeof setTimeout;
-  globalThis.clearTimeout=((id:number)=>{tasks.delete(id);})as unknown as typeof clearTimeout;
-  return{tasks,flush(){const batch=[...tasks];tasks.clear();for(const[,callback]of batch)callback();},restore(){globalThis.setTimeout=set;globalThis.clearTimeout=clear;}};
-}
+import {installUIDOM as dom,installUIClock as clock} from './ui-test-dom.ts';
+
 function controller(){
   const owner=new AbortController(),listeners=new Set<EventListenerOrEventListenerObject>(),signal=owner.signal,add=signal.addEventListener.bind(signal),remove=signal.removeEventListener.bind(signal);
   signal.addEventListener=((type:string,listener:EventListenerOrEventListenerObject,options?:AddEventListenerOptions)=>{if(type==='abort')listeners.add(listener);add(type,listener,options);})as typeof signal.addEventListener;
