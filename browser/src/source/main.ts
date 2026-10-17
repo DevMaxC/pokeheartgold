@@ -509,7 +509,7 @@ async function useBagItem(item:string,context:InterfaceBagUseContext){
   const outcome=await executeSourceAction(async()=>{
     const controller=new AbortController(),cancel=()=>controller.abort(context.signal.reason??new DOMException('The Bag was closed','AbortError'));
     activeBagUse=controller;context.signal.addEventListener('abort',cancel,{once:true});if(context.signal.aborted)cancel();
-    try{const result=await useFieldBagItem(ui,data,nativeFieldMoveData,{state:()=>state,expectedState:context.state,signal:controller.signal},item);updateHUD();return result;}
+    try{const result=await useFieldBagItem(ui,data,nativeFieldMoveData,{state:()=>state,expectedState:context.state,signal:controller.signal},item);if(controller.signal.aborted)throw controller.signal.reason??new DOMException('The Bag was closed','AbortError');if(state!==context.state)throw new DOMException('The Bag adventure was replaced','AbortError');updateHUD();return result;}
     finally{context.signal.removeEventListener('abort',cancel);if(activeBagUse===controller)activeBagUse=null;}
   });
   if(outcome.ok&&outcome.value.status==='unsupported')console.warn('Unsupported field item action',item,outcome.value.requirements);

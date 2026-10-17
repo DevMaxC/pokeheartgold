@@ -2,6 +2,7 @@ import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {pathToFileURL} from 'node:url';
 import {createContext,runInContext,runInNewContext} from 'node:vm';
 import ts from 'typescript';
 import * as THREE from 'three';
@@ -31,7 +32,7 @@ import {installUIDOM,installUIClock} from './ui-test-dom.ts';
 // Bind the actual combined main rather than a duplicate orchestration model.
 // GPU/audio/native effects are explicit ports; recovery, input and native
 // opening/party/phone semantics run their production implementations.
-const mainURL=new URL('./main.ts',import.meta.url),source=await readFile(mainURL,'utf8');
+const mainURL=process.env.HG_NATIVE_INTERFACE_REVIEW_MAIN?pathToFileURL(process.env.HG_NATIVE_INTERFACE_REVIEW_MAIN):new URL('./main.ts',import.meta.url),source=await readFile(mainURL,'utf8');
 const sha=(text:string)=>createHash('sha256').update(text).digest('hex');
 const sourceHash=sha(source),parse=(text:string)=>ts.createSourceFile('main.ts',text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS),ast=parse(source);
 const functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node.getText(ast)]));
@@ -281,4 +282,16 @@ test('native hatch core/presenter with actual shared adapter survives technical 
  const priorFetch=globalThis.fetch,c=fixture();globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
  try{c.data=await loadData();Object.assign(c.state,newState(c.data,'Ethan','boy',()=>.5));Object.assign(c.state,{map:60,x:10.5,z:10.5,trainerId:123,nativeEggSeed:1});c.state.options.sound=true;giveTogepiEgg(c.data,c.state,{now:()=>new Date(2026,9,17)});c.state.party[0].friendship=0;c.map=JSON.parse(await readFile(new URL('../../public/source/maps/60.json',import.meta.url),'utf8'));c.musicRequestPending=c.unlockPending=null;c.pendingMusicRestores=new Set();c.MUSIC_WAIT_MS=1500;const audioLog:string[]=[],failures:any[]=[];c.music={field:{capture:()=>({kind:'none'}),async suspend(){audioLog.push('suspend');return{kind:'none'};},async restore(){audioLog.push('restore');}},createHatchTransport:()=>({prepare:async()=>{},play:async()=>{throw Error('no voice prepared');},dispose:async()=>{audioLog.push('dispose');}}),sharedAudioOutput:()=>{throw Error('audio permission unavailable');}};c.musicFailed=(error:unknown)=>failures.push(error);c.createHatchHostAudio=(ports:any)=>createHatchHostAudio({...ports,timeoutMs:20,preparationTimeoutMs:20,loadManifest:async()=>{throw Error('network unavailable');},wait:async()=>{}});c.presentNativeEggHatch=presentNativeEggHatch;c.WorldEggHatchView=class{constructor(_world:any,_field:any,private ports:any){}async reveal(){audioLog.push('visual-reveal');}async cry(scene:any){await this.ports.cry(scene,this.ports.signal);}async finish(){audioLog.push('visual-finish');}cancel(){}};c.ui.printMessage=async()=>{audioLog.push('native-print');return()=>{};};c.ui.choose=async()=>1;bind(c,['hatchEgg']);const result=await c.executeSourceAction(()=>c.hatchEgg());assert.equal(result.ok,true);assert.equal(c.hatching,false);assert.equal(c.state.party[0].isEgg,false);assert.equal(c.state.party[0].species,175);assert.equal(c.state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG,true);assert.deepEqual(c.state.phoneTriggers,[0]);assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,9);assert.equal(c.writes.length,1);assert.equal(c.writes[0].party[0].isEgg,false);assert.ok(failures.length>=2);assert.ok(audioLog.includes('visual-reveal'));assert.ok(audioLog.includes('visual-finish'));assert.ok(audioLog.includes('native-print'));assert.ok(audioLog.indexOf('suspend')<audioLog.indexOf('visual-reveal'));assert.ok(audioLog.indexOf('restore')>audioLog.indexOf('visual-finish'));assert.equal(c.pendingMusicRestores.size,0);
  }finally{globalThis.fetch=priorFetch;c.dispose();}
+});
+
+// The real leaf can finish its last acknowledgement while a lifecycle abort
+// is queued in its Promise handback. The host still owns that commit boundary.
+test('Bag lifecycle abort in final leaf handback restores acknowledged provisional item before save',async()=>{
+ const d=installUIDOM(),clock=installUIClock(),c=fixture(),priorFetch=globalThis.fetch;globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
+ try{c.data=await loadData();c.nativeFieldMoveData=JSON.parse(await readFile(new URL('../../public/source/field-moves.json',import.meta.url),'utf8'));c.state.bag={ITEM_POTION:2};c.ui=new UI();c.$=(id:string)=>d.ids.get(id);
+  c.useFieldBagItem=async(...args:any[])=>{const result=await useFieldBagItem(...args);queueMicrotask(()=>c.abortBagUse(new DOMException('lifecycle handback','AbortError')));return result;};
+  const controller=new AbortController(),pending=c.useBagItem('ITEM_POTION',{state:c.state,signal:controller.signal});await flush();clock.flush();
+  d.ids.get('panel-content')!.querySelector<any>('[data-bag-choice="party:0"]')!.click();await flush();clock.flush();d.buttons[0].click();await flush();clock.flush();assert.equal(c.state.party[0].hp,20);assert.equal(c.state.bag.ITEM_POTION,1);
+  d.buttons[0].click();await flush();clock.flush();assert.match(d.ids.get('panel-content')!.innerHTML,/Scene not completed/);assert.equal(c.state.party[0].hp,10);assert.equal(c.state.bag.ITEM_POTION,2);assert.equal(c.writes.length,0);d.buttons[1].click();await pending;assert.equal(c.writes.length,1);assert.equal(c.writes[0].bag.ITEM_POTION,2);assert.equal(c.writes[0].party[0].hp,10);assert.equal(c.activeBagUse,null);
+ }finally{globalThis.fetch=priorFetch;c.dispose();clock.restore();d.restore();}
 });

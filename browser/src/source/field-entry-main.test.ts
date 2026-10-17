@@ -29,7 +29,7 @@ async function entryFixture(id=60){
  state.flags.FLAG_SYS_FLASH=true;state.flags.FLAG_SYS_DEFOG=true;state.lastHeal={map:65,x:4,z:6};
  const objects=new FieldObjects(data,state);objects.load(native.events.objects);const actor=objects.get(native.events.objects[0].id);actor.x+=3;actor.z+=2;actor.facingDirection=3;actor.shown=true;actor.directionLocked=true;state.objectEvents=objects.save(id);
  const log=[],player={group:new THREE.Group()},follower={group:new THREE.Group()};
- const c={data,state,map:structuredClone(native),objects,player,follower,restoringGym:false,playerDirectionLocked:true,transitioning:false,drag:false,previousStepJump:true,keys:new Set(['ArrowUp']),lastError:'',
+ const c={connecting:false,musicKey:'',abortBagUse(){},resetFieldInput(){c.keys.clear();},syncInputContext(){},syncMusic(){},data,state,map:structuredClone(native),objects,player,follower,restoringGym:false,playerDirectionLocked:true,transitioning:false,drag:false,previousStepJump:true,keys:new Set(['ArrowUp']),lastError:'',
   fieldPhone:{resetForSourceEvent(){log.push(['phone-reset']);}},encounterChecks:{reset(){log.push(['encounter-reset']);}},
   ui:{loading(value){log.push(['loading',value]);},choose:unexpected},gymFieldEntry,fieldEntryScripts,mapWeather:()=>7,
   mapBlackoutSpawn:async map=>{log.push(['spawn',map]);return{death:{map:999,x:7,z:8}};},
@@ -47,13 +47,14 @@ async function entryFixture(id=60){
 }
 
 async function titleFixture(saved,answers){
- const choices=[...answers],log=[],entered=[],c={data,state:saved,readSave:()=>saved,world:{renderer:{}},ui:{},keys:new Set(),openingView:null,sourceJSON,newState,runOpeningSession,
+ const choices=[...answers],log=[],entered=[],c={unlockSound(){},resetFieldInput(){c.keys.clear();},panels:{settings:unexpected},data,state:saved,readSave:()=>saved,world:{renderer:{}},ui:{},keys:new Set(),openingView:null,sourceJSON,newState,runOpeningSession,
   begin:async mode=>{entered.push({mode,state:c.state});log.push('begin');},
   OpeningView:class{
    async title(){log.push('title');}dispose(){log.push('dispose');}scene(){}async message(){}async effect(){}async prepare(){}async name(){return'Case';}
    async choose(){assert.ok(choices.length,'Unexpected opening prompt');return choices.shift();}
   },
  };
+ c.ui.startScreen=async profile=>{log.push('title');return profile?(choices.shift()===0?'continue':'new'):'new';};c.ui.choose=async()=>choices.shift();
  createContext(c);runInContext(compile(titleSource)+';globalThis.actualTitle=title;',c);await c.actualTitle();assert.equal(choices.length,0);return{...c,entered,log};
 }
 
@@ -67,7 +68,7 @@ test('native normal Continue restores objects without InitMapOnEnter; field load
 
 test('actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp',async()=>{
  const saved=newState(data,'Existing','girl',()=>.5),before=structuredClone(saved);
- const continued=await titleFixture(saved,[0]);assert.equal(continued.entered[0].mode,'continue');assert.equal(continued.entered[0].state,saved);assert.deepEqual(saved,before);assert.deepEqual(continued.log,['title','dispose','begin']);
+ const continued=await titleFixture(saved,[0]);assert.equal(continued.entered[0].mode,'continue');assert.equal(continued.entered[0].state,saved);assert.deepEqual(saved,before);assert.deepEqual(continued.log,['title','begin']);
  const replacement=await titleFixture(saved,[1,1,2,0,0,0]);assert.equal(replacement.entered[0].mode,'warp');assert.notEqual(replacement.entered[0].state,saved);assert.equal(replacement.entered[0].state.name,'Case');assert.deepEqual(saved,before);
  const fresh=await titleFixture(null,[2,0,0,0]);assert.equal(fresh.entered[0].mode,'warp');assert.ok(fresh.entered[0].state);
 });
@@ -100,7 +101,7 @@ test('actual Continue passes saved Violet height/lift into World entry without t
 
 test('actual begin forwards explicit entry mode separately from actor restoration and saves only after entry',async()=>{
  for(const mode of['continue','warp']){
-  const state=newState(data,'Case','boy',()=>.5),calls=[],c={state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
+  const state=newState(data,'Case','boy',()=>.5),calls=[],c={preferences:{music:false,textSpeed:1},state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
    Battle:class{},WorldBattleView:class{},captureField(){return{};},restoreField:unexpected,started:false,ready:false,
    beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,scriptWarp:unexpected,
    enterMap:async(...args)=>{calls.push(['enter',...args]);assert.equal(c.started,true);},save(){calls.push(['save']);},$:()=>({focus(){calls.push(['focus']);}}),

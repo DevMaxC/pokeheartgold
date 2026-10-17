@@ -50,7 +50,7 @@ const bindingStart=main.indexOf('async function executeSourceAction<'),bindingEn
 assert.ok(bindingStart>=0&&bindingEnd>bindingStart,'main source-action binding moved; update the fixture');
 const actionBindingSource=stripTypeScriptTypes(main.slice(bindingStart,bindingEnd));
 function bindMainAction(h:Awaited<ReturnType<typeof harness>>,gate:SourceTriggerGate,trainers:TrainerAttemptLatch,choose:()=>Promise<number>){
-  const context={sourceActions:h.recovery,frameTriggerGate:gate,trainerAttempts:trainers,runRecoverableSourceAction,UnsupportedScript,state:h.state,recoveryPrompt:false,lastError:'',keys:new Set(['w']),ui:{choose},console:{error:()=>{}},save:()=>{assert.equal(context.recoveryPrompt,false);h.save();}};
+  const context={sourceSceneOwners:0,preservedControlScripts:0,connecting:false,syncInputContext(){},syncMusic(){},resetFieldInput(){context.keys.clear();},sourceActions:h.recovery,frameTriggerGate:gate,trainerAttempts:trainers,runRecoverableSourceAction,UnsupportedScript,state:h.state,recoveryPrompt:false,lastError:'',keys:new Set(['w']),ui:{choose},console:{error:()=>{}},save:()=>{assert.equal(context.recoveryPrompt,false);h.save();}};
   const execute=runInNewContext(actionBindingSource+';executeSourceAction;',context)as<T>(action:()=>Promise<T>)=>ReturnType<typeof runRecoverableSourceAction<T,unknown>>;
   return{execute,context};
 }
