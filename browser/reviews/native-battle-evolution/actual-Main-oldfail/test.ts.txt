@@ -1,0 +1,34 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import {stripTypeScriptTypes} from 'node:module';
+import {createContext,runInContext} from 'node:vm';
+import {createHash} from 'node:crypto';
+import {loadData,newState,healParty} from '/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit/browser/src/source/data.ts';
+import {Battle} from '/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit/browser/src/source/battle.ts';
+import {originalTrainerParty,trainerPrize,battleMoneyLoss} from '/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit/browser/src/source/trainers.ts';
+import {moveDamage,freshStages} from '/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit/browser/src/source/battle-math.ts';
+import {momSavingsActive,settleMomBattleMoney} from '/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit/browser/src/source/mom-savings.ts';
+import {ScriptVM,UnsupportedScript} from '/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit/browser/src/source/script.ts';
+import {SourceActionRecovery,runFieldBattleAction,runRecoverableSourceAction} from '/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit/browser/src/source/script-recovery.ts';
+const repo='/Users/maxchurch/Documents/pokeheartgold-firstbadge-audit',root=repo+'/browser/public';
+globalThis.fetch=async x=>new Response(await readFile(root+String(x)));
+const data=await loadData(),main=await readFile(repo+'/browser/src/source/main.ts','utf8'),flow=JSON.parse(await readFile('/tmp/hg-firstbadge-whole-battle-probe.json','utf8')),li=flow.traces.find(t=>t.id===290);
+const pick=(start:string,end:string)=>{const a=main.indexOf(start),b=main.indexOf(end,a);assert.ok(a>=0&&b>a);return stripTypeScriptTypes(main.slice(a,b),{mode:'transform'});};
+test('exact873 Main startBattle + original Sprout3F ElderLi VM should evolve earned Cyndaquil14 before source rewards',async()=>{
+ const state=newState(data,'Ethan','boy',()=>.5);state.map=156;state.x=12.5;state.z=10.5;state.starter=155;state.party=[structuredClone(li.before)];state.bag={ITEM_POTION:5};const before=structuredClone(state),map=await(await fetch('/source/maps/156.json')).json(),messages:string[]=[],events:string[]=[],saves:any[]=[];
+ const elements=new Map();globalThis.document={getElementById(id){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:false});return elements.get(id);},querySelector(){return null;},body:{classList:{add(){},remove(){}}}}as any;
+ let seed=12345;const rng=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/0x100000000;};
+ const battle=new Battle(data,state,{choose:async()=>0}as any,rng);let selections=0;Object.assign(battle as any,{say:async(s:string)=>messages.push(s),nextAction:async()=>{assert.ok(++selections<=100);const mon=battle.player,enemy=battle.enemy;const row=mon.moves.map((m,slot)=>({m,slot})).filter(r=>r.m.pp>0).sort((a,b)=>{const score=(r:any)=>{const m=data.moves[r.m.id];return m.category===2?-1:moveDamage(data,mon,enemy,m,freshStages(),freshStages(),100,false).damage;};return score(b)-score(a);})[0];return{kind:'move',slot:row?.slot??-1};}});
+ const sourceActions=new SourceActionRecovery(state,{capture:()=>({}),restore:async()=>{events.push('restore');}});
+ const executeSourceAction=(action:any)=>runRecoverableSourceAction(sourceActions,action,{failed:async e=>{throw e;},recoveryFailed:async e=>{throw e;},retry(){},committed(){saves.push(structuredClone(state));}});
+ const c:any={state,map,data,battle,sourceActions,executeSourceAction,runFieldBattleAction,momSavingsActive,settleMomBattleMoney,originalTrainerParty,trainerPrize,battleMoneyLoss,UnsupportedScript,healParty,
+ fieldPhone:{resetForSourceEvent:()=>events.push('phone-reset'),triggerQueued(){throw Error('unexpected phone');}},withBattleMusic:async(_e:any,_t:any,action:any)=>{events.push('silent-battle');return action();},world:{sky:{currentWeather:0}},resetFieldInput:()=>events.push('input-reset'),encounterChecks:{reset(){}},updateHUD:()=>events.push('hud'),runFieldEntry:async()=>events.push('field-resume'),checkFrameTriggers:async()=>events.push('frame-check'),whiteOut:async()=>{throw Error('unexpected whiteout');},textDelay:()=>0,ui:{message:async(s:string)=>messages.push(s),choose:async()=>0},Math,structuredClone};
+ createContext(c);runInContext(pick('async function startBattle(', '\nasync function interact(')+';globalThis.actualTrainerBattle=trainerBattle;',c);
+ const vm=new ScriptVM(data,state,{message:async s=>messages.push(s),choice:async()=>0,move:async()=>{},position(){},face(){},visible(){},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:c.actualTrainerBattle,warp:async()=>{}});
+ await executeSourceAction(()=>vm.run(map,3,'obj_D15R0103_chourou'));
+ const evo=JSON.parse(await readFile(root+'/source/evolutions.json','utf8')).evoTable.find(r=>r.baseSpecies==='SPECIES_CYNDAQUIL');
+ const witness={commit:'873de2c1e119736344b0a3754cfcd9b88ca504a4',mainSha256:createHash('sha256').update(main).digest('hex'),input:'Earned exact Mon from legal5→13 whole-battle trace; no XP/HP/species injection in this action',trainer:290,script:'D15R0103 entry3/ElderLi',nativeEvolution:evo,before:before.party[0],after:state.party[0],sourceReward:state.bag.ITEM_TM70,sceneFlag:state.flags.FLAG_UNK_076,events,messages,saves:saves.map(s=>({species:s.party[0].species,level:s.party[0].level,TM70:s.bag.ITEM_TM70})),ports:['silent music action wrapper','UI messages/actions','field resume/hud/phone reset','no WebGL/browser/audio/nativeAI/globalLCG claim']};
+ await writeFile('/tmp/hg-firstbadge-main-evolution-witness.json',JSON.stringify(witness,null,2));
+ assert.ok(state.party[0].level>=14);assert.ok(messages.some(m=>m.includes('grew to Lv. 14')));assert.equal(state.bag.ITEM_TM70,1);assert.equal(state.flags.FLAG_UNK_076,true);assert.equal(state.party[0].species,156,'native level14 evolution must complete before ElderLi source rewards and outer save');
+});

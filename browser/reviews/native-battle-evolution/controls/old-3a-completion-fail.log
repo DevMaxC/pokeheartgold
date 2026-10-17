@@ -1,0 +1,33 @@
+TAP version 13
+# (node:93554) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fresh Cyndaquil5 earns its actual Li evolution through original early teams and retains native completion until drained
+not ok 1 - fresh Cyndaquil5 earns its actual Li evolution through original early teams and retains native completion until drained
+  ---
+  duration_ms: 1316.341333
+  type: 'test'
+  location: '/private/tmp/hg-battle-evolution-controls-2c4f516a-v5/project/browser/src/source/battle-evolution-integration.test.ts:31:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(record)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-evolution-controls-2c4f516a-v5/project/browser/src/source/battle-evolution-integration.test.ts:48:52)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3002.697291

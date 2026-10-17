@@ -1,0 +1,152 @@
+TAP version 13
+# (node:92869) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fresh Cyndaquil5 earns its actual Li evolution through original early teams and retains native completion until drained
+ok 1 - fresh Cyndaquil5 earns its actual Li evolution through original early teams and retains native completion until drained
+  ---
+  duration_ms: 12407.314667
+  type: 'test'
+  ...
+# Subtest: real ExpShare rewards mark both exact party bits even when the second mon never acts
+ok 2 - real ExpShare rewards mark both exact party bits even when the second mon never acts
+  ---
+  duration_ms: 2261.133125
+  type: 'test'
+  ...
+# Subtest: no-level battles produce no candidate, and technical combat failure cannot expose a successful completion
+ok 3 - no-level battles produce no candidate, and technical combat failure cannot expose a successful completion
+  ---
+  duration_ms: 302.139291
+  type: 'test'
+  ...
+# Subtest: a real successful capture freezes the grown party identity after giveMon and drains a zero level-up mask
+ok 4 - a real successful capture freezes the grown party identity after giveMon and drains a zero level-up mask
+  ---
+  duration_ms: 0.545875
+  type: 'test'
+  ...
+# Subtest: the actual battle integration fixture rejects omitted native nickname metadata instead of defaulting false
+ok 5 - the actual battle integration fixture rejects omitted native nickname metadata instead of defaulting false
+  ---
+  duration_ms: 1.040625
+  type: 'test'
+  ...
+# (node:92877) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original C BattleSystem_CheckEvolution exit flags, bit order and once-per-slot behavior match every legal mask
+ok 6 - original C BattleSystem_CheckEvolution exit flags, bit order and once-per-slot behavior match every legal mask
+  ---
+  duration_ms: 1989.7735
+  type: 'test'
+  ...
+# Subtest: native starter targets update only species-derived fields at the source callback boundaries
+ok 7 - native starter targets update only species-derived fields at the source callback boundaries
+  ---
+  duration_ms: 2.095583
+  type: 'test'
+  ...
+# Subtest: native cancellation consumes only its own level-up bit and preserves earned EXP, level, item, stats and identity
+ok 8 - native cancellation consumes only its own level-up bit and preserves earned EXP, level, item, stats and identity
+  ---
+  duration_ms: 1.166916
+  type: 'test'
+  ...
+# Subtest: actual raw Everstone suppresses the source query even under Klutz, and consumes the battle bit without a scene
+ok 9 - actual raw Everstone suppresses the source query even under Klutz, and consumes the battle bit without a scene
+  ---
+  duration_ms: 0.607875
+  type: 'test'
+  ...
+# Subtest: one bit never chains two species even after a multi-level battle; no HP condition is fabricated
+ok 10 - one bit never chains two species even after a multi-level battle; no HP condition is fabricated
+  ---
+  duration_ms: 0.323083
+  type: 'test'
+  ...
+# Subtest: technical failure restores both pending bits and every provisional evolution while retaining original objects for retry
+ok 11 - technical failure restores both pending bits and every provisional evolution while retaining original objects for retry
+  ---
+  duration_ms: 1.221291
+  type: 'test'
+  ...
+# Subtest: outer abort during a scene or after an earlier completed candidate restores the batch and its pending mask
+ok 12 - outer abort during a scene or after an earlier completed candidate restores the batch and its pending mask
+  ---
+  duration_ms: 1.646542
+  type: 'test'
+  ...
+# Subtest: a concurrent run cannot steal the active queue owner or consume its pending batch
+ok 13 - a concurrent run cannot steal the active queue owner or consume its pending batch
+  ---
+  duration_ms: 0.905166
+  type: 'test'
+  ...
+# Subtest: a native cancel followed by a later technical failure restores the cancelled bit for the source-action retry
+ok 14 - a native cancel followed by a later technical failure restores the cancelled bit for the source-action retry
+  ---
+  duration_ms: 0.856708
+  type: 'test'
+  ...
+# Subtest: the source register boundary retains a confirmed custom nickname while registering the new species
+ok 15 - the source register boundary retains a confirmed custom nickname while registering the new species
+  ---
+  duration_ms: 0.731666
+  type: 'test'
+  ...
+# Subtest: stale callbacks, source phase skips, post-commit cancel and changed slot identity cannot mutate the party
+ok 16 - stale callbacks, source phase skips, post-commit cancel and changed slot identity cannot mutate the party
+  ---
+  duration_ms: 272.096708
+  type: 'test'
+  ...
+# Subtest: target-level moves use native append/full/known outcomes and reset only a replaced slot PP
+ok 17 - target-level moves use native append/full/known outcomes and reset only a replaced slot PP
+  ---
+  duration_ms: 1.655459
+  type: 'test'
+  ...
+# Subtest: actual Lanturn27 move rows retain native source order through mixed replace, decline and replace outcomes
+ok 18 - actual Lanturn27 move rows retain native source order through mixed replace, decline and replace outcomes
+  ---
+  duration_ms: 0.811333
+  type: 'test'
+  ...
+# Subtest: source evolution move summary preserves a legally taught HM and rejects a port that tries to forget it
+ok 19 - source evolution move summary preserves a legally taught HM and rejects a port that tries to forget it
+  ---
+  duration_ms: 2.312125
+  type: 'test'
+  ...
+# Subtest: owned move UI aborts and drains before technical rollback; a late choice cannot teach a restored mon
+ok 20 - owned move UI aborts and drains before technical rollback; a late choice cannot teach a restored mon
+  ---
+  duration_ms: 3.955667
+  type: 'test'
+  ...
+# Subtest: unsupported eligible methods/forms and unknown nickname metadata fail explicitly before transition
+ok 21 - unsupported eligible methods/forms and unknown nickname metadata fail explicitly before transition
+  ---
+  duration_ms: 0.986125
+  type: 'test'
+  ...
+# Subtest: ordinary source transition retains custom nickname, derives new-species gender and preserves a native faint
+ok 22 - ordinary source transition retains custom nickname, derives new-species gender and preserves a native faint
+  ---
+  duration_ms: 0.114417
+  type: 'test'
+  ...
+# Subtest: the unchanged native HP tail matches every HP of one stats fixture per starter and explicit shrinking-maximum controls
+ok 23 - the unchanged native HP tail matches every HP of one stats fixture per starter and explicit shrinking-maximum controls
+  ---
+  duration_ms: 641.465083
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16626.728334

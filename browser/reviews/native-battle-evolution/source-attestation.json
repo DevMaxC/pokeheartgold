@@ -1,0 +1,65 @@
+{
+  "sourceCommit": "2c4f516af1d7cd657fa0fdb963f694a88aa2331e",
+  "reviewedRuntimeCommit": "357fa2757f67a57ebc5625ecceae08a0c2da0def",
+  "runtimeUnchangedAfterInitialReview": true,
+  "ownedCommits": [
+    "2a4da72a69a9282e26b5d141f5b12bc8a8624f68",
+    "f30744e80079cf2cb0a73a063537ecce6e18b09a",
+    "23c04ddd28bf9b73b389d8e3aca99bebb4821d03",
+    "357fa2757f67a57ebc5625ecceae08a0c2da0def",
+    "deb5974967d107be3a9f7bb1b536a4181caebfa0",
+    "2c4f516af1d7cd657fa0fdb963f694a88aa2331e"
+  ],
+  "base": "3a9a9b977b39d7f4f1106f197c8359e90931ccd8",
+  "dependencyOriginals": [
+    "ffb402db6a31b37fa57890385ce63c144d7572e3",
+    "d3bfb166070a5424af0476a37713b6a460f036f8",
+    "1f2f654d",
+    "b29f2d42",
+    "41493524d78b6d62ff5b0a3656bb1fcce0bee985"
+  ],
+  "localDuplicateDependenciesExclude": [
+    "1baa3c1deb795f863fbee4ddc12730b5c8066574",
+    "71407100922e1f24df67bffdf1d6ca909c34fcce",
+    "a767c25cc0eb451ba160cce9166c8ebc57118284"
+  ],
+  "sources": [
+    {
+      "path": "browser/src/source/battle.ts",
+      "gitBlob": "424fbc66da16a6e7895d4579b42448994771b263",
+      "sha256": "6047335626fc05985ac202121179b661274005697a6ec32e7bda05b75e238722"
+    },
+    {
+      "path": "browser/src/source/battle-evolution.ts",
+      "gitBlob": "79b1dd78e9938ec96c670f54082e64d25d6a1684",
+      "sha256": "3f5d314f8a32c5525dd23dbc7cbbcafa04cb98b7721857d143acdbd5dec61365"
+    },
+    {
+      "path": "browser/src/source/battle-evolution-types.ts",
+      "gitBlob": "f929b074a1ed78f9fc8b41c9fef089dea05977a9",
+      "sha256": "85c2f750780aa221384dc78c7a2a428df26e527d480b2ae7b96c205153434a42"
+    },
+    {
+      "path": "browser/src/source/battle-evolution.test.ts",
+      "gitBlob": "17b1bca8e9521d9868ea5a9784ece6bc4151e734",
+      "sha256": "aa061358d54f8574b21532067325c071a08d35d2a2860acbed9f9e8fff038cab"
+    },
+    {
+      "path": "browser/src/source/battle-evolution-integration.test.ts",
+      "gitBlob": "104a8634b6adc5e4ddec45c7f25e4cfc2e3fffed",
+      "sha256": "08fe953fc21dfc6d6adca0a126dd9ef9ccab3f6c4c2b73d2e5a7c3137957ed76"
+    },
+    {
+      "path": "browser/src/source/evolution-native.ts",
+      "gitBlob": "a4fe9be4afe0556be3ba605cb2e8d349075a10e5",
+      "sha256": "9dbd45631fac97e52f687523be8a417c283643d7d89edd24f37fabec2a8bc968"
+    }
+  ],
+  "externalPacket": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-battle-evolution-final-2c4f516a",
+  "archiveHashes": {
+    "initial-source.tar.gz": "a8f9cff596846a3f2057b74915009f6087ae4db35d1b5510493e033a80832989",
+    "followup-source.tar.gz": "792a65103a04b2ae3886780aa7cc5f5a591bddac770f9f47f096969a13807d1d"
+  },
+  "initialMainAuditManifest": "404ab397bd7b10d6f1c0ad74be6ed0ed03333ffa097c785623aef7eaaa6fe1ed",
+  "scope": "Partial native ordinary level evolution source leaf; host/presentation/audio integration and production verification outstanding."
+}

@@ -1,0 +1,276 @@
+{
+  "sourceCommit": "2c4f516af1d7cd657fa0fdb963f694a88aa2331e",
+  "runtimeSourceSHA256": {
+    "browser/src/source/battle-evolution.ts": "3f5d314f8a32c5525dd23dbc7cbbcafa04cb98b7721857d143acdbd5dec61365",
+    "browser/src/source/battle.ts": "6047335626fc05985ac202121179b661274005697a6ec32e7bda05b75e238722"
+  },
+  "qualification": "Copied exact current source/data, fake UI/audio only. Native C queue/HP tests compile isolated fixtures, no app build. Seventeen targeted semantic mutation controls (outer-abort disconnection is detected as a never-resolving owned promise/cancelled test; others require AssertionError) and exact reviewed old3a Battle source must fail meaningful assertions; not independent fullgame validation.",
+  "results": [
+    {
+      "name": "current-23",
+      "exitCode": 0,
+      "durationMs": 16718,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "browser/src/source/battle-evolution.test.ts",
+        "browser/src/source/battle-evolution-integration.test.ts"
+      ],
+      "log": "current-23.log",
+      "logSHA256": "cea2eba5cb135abab15a46a5bfc03aed839cff121560dfef19f4d404a99f8fed"
+    },
+    {
+      "name": "old-3a-completion-fail",
+      "exitCode": 1,
+      "durationMs": 3047,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=fresh Cyndaquil5",
+        "browser/src/source/battle-evolution-integration.test.ts"
+      ],
+      "log": "old-3a-completion-fail.log",
+      "logSHA256": "6130d964d5b995c5e3ec7e4ef365ff520854327a039595e2a8ef6c971d355d34"
+    },
+    {
+      "name": "outer-abort-disconnected",
+      "exitCode": 1,
+      "durationMs": 1613,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=outer abort during",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "outer-abort-disconnected.log",
+      "logSHA256": "0022d6cbf0594171184c4bd810d13c52d4556f5a8c35e948b170cc543df97931"
+    },
+    {
+      "name": "concurrent-owner-unchecked",
+      "exitCode": 1,
+      "durationMs": 1452,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=a concurrent run",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "concurrent-owner-unchecked.log",
+      "logSHA256": "34f4ac0ef81d710ca8e3c4c7b9ee5ac9d52d15dda33bc572b4361484be1dd015"
+    },
+    {
+      "name": "custom-nickname-overwritten",
+      "exitCode": 1,
+      "durationMs": 1597,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=source register boundary",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "custom-nickname-overwritten.log",
+      "logSHA256": "851c7a54b70e085100701bff59b282756bb4e3374dc1af4ce7fdb266aef4a1d9"
+    },
+    {
+      "name": "cancel-then-failure-loses-bit",
+      "exitCode": 1,
+      "durationMs": 1455,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=a native cancel followed",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "cancel-then-failure-loses-bit.log",
+      "logSHA256": "77d0c59896b0e81ce69f9be386a03c09d3e2c68f8c088e1accd5d1033a4af15d"
+    },
+    {
+      "name": "only-first-target-level-move",
+      "exitCode": 1,
+      "durationMs": 1562,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=actual Lanturn27",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "only-first-target-level-move.log",
+      "logSHA256": "4b96acb900b41f44356f887bb0b556f7cb3f72731f27fa5bcfcf81502471e7f0"
+    },
+    {
+      "name": "shrinking-max-not-capped",
+      "exitCode": 1,
+      "durationMs": 2122,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=unchanged native HP tail",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "shrinking-max-not-capped.log",
+      "logSHA256": "fe5efd7814a7260fc0e43cfdb9620196f1a4e27ab8b757c28a9a53d0e6855054"
+    },
+    {
+      "name": "capture-party-record-truncated",
+      "exitCode": 1,
+      "durationMs": 1768,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=a real successful capture",
+        "browser/src/source/battle-evolution-integration.test.ts"
+      ],
+      "log": "capture-party-record-truncated.log",
+      "logSHA256": "80dc0eb8de58764f2e821f07b960624edfaa4868d58817f9db7190f49be22ae6"
+    },
+    {
+      "name": "fixture-guesses-missing-nickname",
+      "exitCode": 1,
+      "durationMs": 1719,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=actual battle integration fixture",
+        "browser/src/source/battle-evolution-integration.test.ts"
+      ],
+      "log": "fixture-guesses-missing-nickname.log",
+      "logSHA256": "a8004c25e62fe5e9d44c9d5d1754d0ffd6dcc70137da90320d9360a729d88a83"
+    },
+    {
+      "name": "stale-prior-battle-admitted",
+      "exitCode": 1,
+      "durationMs": 1963,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=no-level battles",
+        "browser/src/source/battle-evolution-integration.test.ts"
+      ],
+      "log": "stale-prior-battle-admitted.log",
+      "logSHA256": "1e68b213f5cb8d69eee11dc9e875e6d39fcd4f2fe9e4374cb6857d7aa77c58b2"
+    },
+    {
+      "name": "bit-on-any-xp",
+      "exitCode": 1,
+      "durationMs": 1714,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=no-level battles",
+        "browser/src/source/battle-evolution-integration.test.ts"
+      ],
+      "log": "bit-on-any-xp.log",
+      "logSHA256": "4fee5d03d5dcfb669007c59a1203086ee8d65b32e7066f5a87bba530b4102f31"
+    },
+    {
+      "name": "bits-carry-between-battles",
+      "exitCode": 1,
+      "durationMs": 5026,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=fresh Cyndaquil5",
+        "browser/src/source/battle-evolution-integration.test.ts"
+      ],
+      "log": "bits-carry-between-battles.log",
+      "logSHA256": "87a195b9cd10559922232280f43c41b79241d00db7b3ea566549eafb2a5bb9f5"
+    },
+    {
+      "name": "revive-fainted-evolution",
+      "exitCode": 1,
+      "durationMs": 1467,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=one bit never chains",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "revive-fainted-evolution.log",
+      "logSHA256": "7144f4a0fd15497adef5c4b16ac23d0ff9fce4f35538b03c494d278006474839"
+    },
+    {
+      "name": "rename-before-source-register",
+      "exitCode": 1,
+      "durationMs": 1402,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=native starter targets",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "rename-before-source-register.log",
+      "logSHA256": "afca13fd9be2ee9ed32bb6d95cac3111b37afea918e981551a87f0b8afb37774"
+    },
+    {
+      "name": "cancel-bit-not-consumed",
+      "exitCode": 1,
+      "durationMs": 1512,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=native cancellation consumes",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "cancel-bit-not-consumed.log",
+      "logSHA256": "b76f088c5924e64b25ccbd26e0be1ba2b212f58a8fd609df2ddfca618e52d165"
+    },
+    {
+      "name": "failure-loses-pending-bits",
+      "exitCode": 1,
+      "durationMs": 1092,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=technical failure restores",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "failure-loses-pending-bits.log",
+      "logSHA256": "13752ffcdd073970c7183c657d300b192a99929df8a692083a8e5f6cfec7b11e"
+    },
+    {
+      "name": "no-owned-menu-drain",
+      "exitCode": 1,
+      "durationMs": 1486,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=owned move UI aborts",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "no-owned-menu-drain.log",
+      "logSHA256": "e064cf01c9fbc63d8ee2e695547e0a953d19494a7453160e05bcab083236a1ad"
+    },
+    {
+      "name": "forget-native-hm",
+      "exitCode": 1,
+      "durationMs": 1471,
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-name-pattern=source evolution move summary",
+        "browser/src/source/battle-evolution.test.ts"
+      ],
+      "log": "forget-native-hm.log",
+      "logSHA256": "4c4d1c75ab0bbeb1c75328b3e7f212c52152b66305a932382e0471921d03d094"
+    }
+  ]
+}

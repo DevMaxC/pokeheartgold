@@ -1,0 +1,89 @@
+{
+  "status": "Accepted scoped source leaf; integration and playable evolution pending",
+  "totalParity": "Partial",
+  "sourceCommit": "2c4f516af1d7cd657fa0fdb963f694a88aa2331e",
+  "reviewedRuntimeCommit": "357fa2757f67a57ebc5625ecceae08a0c2da0def",
+  "runtimeUnchangedInTestOnlyFollowup": true,
+  "reviews": {
+    "initial": {
+      "sourceCommit": "357fa2757f67a57ebc5625ecceae08a0c2da0def",
+      "model": "claude-opus-5-5",
+      "turns": 45,
+      "durationMs": 311980,
+      "isError": false,
+      "permissionDenials": [],
+      "terminalReason": "completed",
+      "sessionId": "e00e2a8a-2707-4e19-b48e-80e9480f2c62",
+      "rawSHA256": "44b1852d4ae4eab88919721217506a2ca68f540c1904aae4706ae8c5a5261112",
+      "inputManifestSHA256": "7ac5fbd74eebb0b124c7a23b67997da702546899346cf784fc9855ce356c95a3",
+      "inputs": 865,
+      "confirmedScopedRuntimeDefects": 0
+    },
+    "followup": {
+      "sourceCommit": "2c4f516af1d7cd657fa0fdb963f694a88aa2331e",
+      "model": "claude-opus-5-5",
+      "turns": 31,
+      "durationMs": 151019,
+      "isError": false,
+      "permissionDenials": [],
+      "terminalReason": "completed",
+      "sessionId": "3c510421-aabc-499f-88eb-b78405cbbf04",
+      "rawSHA256": "3174f76ce7dc1b60e04c3230688213f0cbbe0ab041a38d1a751a7f0e9f9845dd",
+      "inputManifestSHA256": "24b9ef2c3836f368aa927679891bbecf3d4584b74fc497472bc04e3931796e23",
+      "inputs": 899,
+      "confirmedScopedRuntimeDefects": 0
+    }
+  },
+  "initialTestGaps": {
+    "overclaimingFaintName": "CLOSED: renamed to actual faint assertion",
+    "HPOracleCoverageAndQualification": "CLOSED: one stats fixture per starter plus explicitly synthetic shrinking-max controls; TS-derived new maximum, not full native stat oracle",
+    "missingNicknameFixture": "CLOSED: actual boolean assertion and omitted-flag negative regression",
+    "outerAbort": "CLOSED: abort first scene or after earlier completed candidate, restore state/mask, retry",
+    "concurrentQueue": "CLOSED: drain first then assert second run rejected; malformed-mutant stale cleanup no longer hides assertion",
+    "customNicknameRegister": "CLOSED: full phased register leaves confirmed custom name",
+    "cancelThenLaterFailure": "CLOSED: cancelled bit restored for whole technical source-action retry",
+    "caughtPartyGrowth": "CLOSED qualified: real fullHP Pidgey3/PokeBall code and successful deterministic tape; no fake XP/capture bits",
+    "multipleTargetLevelMoves": "CLOSED qualified: actual exported Lanturn27 rows mixed replacement/decline in source order",
+    "currentControlEvidence": "CLOSED: exact2c23baseline/17negative controls; original historical8/291 remains qualified"
+  },
+  "validation": {
+    "ownedTests": 23,
+    "affectedTests": 300,
+    "failed": 0,
+    "tscExit": 0,
+    "tscQualification": "Runtime TypeScript checked at test-onlydeb59749 with current runtime byte-identical; tsconfig excludes tests. Actual Node transform-types executes tests.",
+    "negativeControls": {
+      "runs": 17,
+      "assertionFailures": 16,
+      "ownedPromiseUnresolvedFailure": 1,
+      "distinctMutationQualification": "Pending-bit loss is exercised in two different source-action scenarios; not seventeen distinct algorithms.",
+      "oldComponentSource": "3a9a9b977b39d7f4f1106f197c8359e90931ccd8",
+      "oldComponentFailure": "Missing new Battle completion API; this is not the direct species155 versus156 assertion.",
+      "directActualMainWitness": "Separate immutable873de2c1 Main/VM/real Battle witness directly fails expected156 after Li14, records actual155/reward/save."
+    },
+    "nativeC": "Unchanged CheckEvolution bit/exit oracle stubs predicate; unchanged CalcMonStats HP tail uses TS-derived max. Separately reviewed predicate has9359 C kernel cases, not a queue full-stat claim.",
+    "supplementalLearnsetProvenance": "Post-review bounded direct raw wotbl.narc comparison proves all508 extracted records and Lanturn27 tuple equality. This self-audit supplements, without altering, the reviewer qualification that levelupdata assembly was absent."
+  },
+  "integrationRequirements": [
+    "One persistent queue per Battle owner; consumed mask belongs to queue instance",
+    "One source action owns party during scene; no concurrent battles",
+    "Ephemeral completion never enters State/save/structuredClone; outer Recovery retry replays battle after hydration for fresh identity/completion",
+    "Source callback owns combat\u2192queue\u2192field return; no save/reward/field/music release before queue finishes",
+    "Actual explicit form+boolean nickname metadata; browser-only legacy migration remains a separate policy leaf",
+    "Borrowed scene/learner ports honour AbortSignal and drain; same session handles learner source text/audio",
+    "Presentation/audio/RootMain/VM/World bindings are separate unapproved dependencies"
+  ],
+  "explicitUnsupported": [
+    "Only ordinary form0 EVO_LEVEL admitted; eligible friendship Togepi/Golbat/etc can block level-up action until implemented",
+    "No other evolutionmethod/item/trade/companion/form side-effect parity",
+    "No native moveAI/globalLCG/walking/renderedplaythrough/fullgame verification"
+  ],
+  "preservedHistories": [
+    "Initial own fixture mistakes: wrong ExpShare key and unsupported high-level Eruption fixture corrected before source freeze",
+    "Initial local control-flow TypeScript error corrected before reviewed source",
+    "v3 negative-control driver initially rejected expected unresolved-abort cancellation diagnostic",
+    "v4 concurrent-owner bad mutant produced stale-task cleanup error; test-only2c now drains before asserting second owner, finalv5 completed",
+    "Earlier firstbadge rejected starter-rival hypothesis and nurse-bank correction remain in separate pinned audit packet"
+  ],
+  "release": "No production merge/deployment claimed by this leaf; parent owns source integration and final host validation."
+}

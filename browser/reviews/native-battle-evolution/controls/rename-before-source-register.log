@@ -1,0 +1,40 @@
+TAP version 13
+# (node:93701) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native starter targets update only species-derived fields at the source callback boundaries
+not ok 1 - native starter targets update only species-derived fields at the source callback boundaries
+  ---
+  duration_ms: 8.356417
+  type: 'test'
+  location: '/private/tmp/hg-battle-evolution-controls-2c4f516a-v5/project/browser/src/source/battle-evolution.test.ts:41:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'BAYLEEF'
+    - 'CHIKORITA'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CHIKORITA'
+  actual: 'BAYLEEF'
+  operator: 'strictEqual'
+  stack: |-
+    Object.f.ports.present (/private/tmp/hg-battle-evolution-controls-2c4f516a-v5/project/browser/src/source/battle-evolution.test.ts:45:255)
+    BattleEvolutionQueue.run (/private/tmp/hg-battle-evolution-controls-2c4f516a-v5/project/browser/src/source/battle-evolution.ts:128:32)
+    TestContext.<anonymous> (/private/tmp/hg-battle-evolution-controls-2c4f516a-v5/project/browser/src/source/battle-evolution.test.ts:46:34)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1362.301
