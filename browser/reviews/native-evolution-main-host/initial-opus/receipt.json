@@ -1,0 +1,90 @@
+{
+  "runtime": "a25f629df53236e76afb34bd6f91b45788e8141b",
+  "testOnlyFollowup": "6c56dcff",
+  "result": "NOT_ACCEPTED",
+  "actualModel": "claude-opus-5-5",
+  "turns": 76,
+  "wallSeconds": 927.71678825,
+  "sourceIntegrity": {
+    "files": 8195,
+    "changed": [],
+    "missing": [],
+    "unexpected": []
+  },
+  "findings": {
+    "medium": 1,
+    "low": 2
+  },
+  "adjudication": "All three confirmed. Medium needs real closed-retained-parent takeover, not fabricated silence. Low fixes: dispose on fatal clock and admit persistent metadata/backend before title. Source fixes/followup pending; old result preserved verbatim.",
+  "qualification": "No browser/GPU/audible/build/deploy/full campaign parity; original copied tests stay immutable. Later192-case fixture-only checks are separate.",
+  "files": {
+    "source-manifest.json": {
+      "sha256": "02037117a4a576c9ac1a6bb0a2fe2194824512b377e491288d999ae762b23c74",
+      "bytes": 2372418
+    },
+    "integrity-after.json": {
+      "sha256": "bdd85d15f1428b61fee51486998de939b73cd942195790d7975bda67251709dd",
+      "bytes": 274
+    },
+    "review-prompt.txt": {
+      "sha256": "8261e4fd995ff11bbdb81f8d75f64d51ebeeb5e915fae3fc201e16c6a7204c52",
+      "bytes": 5975
+    },
+    "hg-evolution-main-owned-commits.json": {
+      "sha256": "81aef076e73eebc0cb4ed0f6d6a3f4de81e67227906b382a0ba59b660678c96d",
+      "bytes": 30506
+    },
+    "hg-evolution-main-preservation.json": {
+      "sha256": "2218f5349ce1ad5498be013359fd7e957e1f995b98293ddaacb6d37590d541cf",
+      "bytes": 4353
+    },
+    "stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "copied-source.tar.gz": {
+      "sha256": "63fbd014235b70c22a860c37e26578c59ad479ad74affdf2f44c87347a9cbfdb",
+      "bytes": 15290273
+    },
+    "execution.json": {
+      "sha256": "300dbda67882d540b7927352089debdf8af3ece51d8fd6d39733a1eb58af139f",
+      "bytes": 1362
+    },
+    "raw-result.json": {
+      "sha256": "b788033cb271a3f9ba5e2560ad4c856fcbce47b6605c55fccfeb7c15d3c47008",
+      "bytes": 10311
+    },
+    "owned-runtime.patch": {
+      "sha256": "64bf2e024c802a468fbfd4b5719bc43ceaf3c7127602539ec84a2c4dde43fb6a",
+      "bytes": 61096
+    },
+    "validation/hg-evolution-native-printer-old-failure.log.gz": {
+      "sha256": "0ed32641538177ca6c1a76de3258ea9c090c71cd0c4480cc0700c312dbb4b012",
+      "bytes": 1271
+    },
+    "validation/hg-evolution-main-final-owned-tests.log.gz": {
+      "sha256": "5eae24fd48a18d36e195ee79f1a39fb7bb53bf38bf545e7d9e7d5a985209848c",
+      "bytes": 11802
+    },
+    "validation/hg-evolution-main-native-rerun.log.gz": {
+      "sha256": "7dee892d22b77c8a4d84b6f314b0f164a5167db5de7e6ebe0451339120c9c3b0",
+      "bytes": 4353
+    },
+    "validation/hg-evolution-main-adjacent-initial.log.gz": {
+      "sha256": "568457a943a336984d735249a35356409ea3df2d9b370fde29b90023e2267c98",
+      "bytes": 16952
+    },
+    "validation/hg-evolution-main-owned-tsc.log.gz": {
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 20
+    },
+    "validation/hg-evolution-main-before-host-negative.log.gz": {
+      "sha256": "c8926deb69d0fa239e256188903156016ccf101f2f12995c0e0eca72bdce3e75",
+      "bytes": 1061
+    },
+    "validation/hg-evolution-view-update-before-failure.log.gz": {
+      "sha256": "cf8bf682c86bfa3695dfcb6cfd1cedf7f22542624235598f09de8a0fb4ff9449",
+      "bytes": 310
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "before": "54787f84",
+  "runtime": "a25f629d",
+  "mainBefore": "a3b7ab9cf8fb973daa442bacc4dd405d9dc9baf0bc6ad84ad7c3f7da860217e2",
+  "mainAfter": "ac5a8362f4d774d187aabff119bc3cd26be0acc3826ad436a60d2b1d724bdc00",
+  "unchanged": [
+    "reportNativeFieldFailure",
+    "initializeNativeField",
+    "installAzaleaField",
+    "reportInputError",
+    "musicChanged",
+    "watchMusic",
+    "musicFailed",
+    "clearMusicFailure",
+    "musicStatus",
+    "retryMusicRestores",
+    "musicDeadline",
+    "finishMusicUnlock",
+    "unlockSound",
+    "retryMusic",
+    "syncMusic",
+    "updatePreferences",
+    "textDelay",
+    "fieldControlsAvailable",
+    "resetFieldInput",
+    "syncInputContext",
+    "running",
+    "retainFieldInput",
+    "save",
+    "displayMapName",
+    "updateHUD",
+    "refreshNPCs",
+    "showPerson",
+    "trainerCollision",
+    "tryTrainerEncounter",
+    "trainerNotice",
+    "beginTrainerPath",
+    "finishTrainerPath",
+    "fieldRTCObservation",
+    "pollPhoneAdmission",
+    "pollFieldInput",
+    "refreshPhoneIndicator",
+    "answerPhone",
+    "tweenNPC",
+    "moveActor",
+    "tween",
+    "tweenPlayer",
+    "face",
+    "setPosition",
+    "chooseStarter",
+    "hatchEgg",
+    "captureField",
+    "executeSourceAction",
+    "runScript",
+    "runFieldEntry",
+    "checkFrameTriggers",
+    "warp",
+    "checkEvents",
+    "wildEncounter",
+    "whiteOut",
+    "trainerBattle",
+    "interact",
+    "step",
+    "menu",
+    "abortBagUse",
+    "useBagItem",
+    "partyMenu",
+    "choosePartyAction",
+    "summary",
+    "title",
+    "scriptWarp",
+    "requestNativeNickname",
+    "nicknamePartyMon",
+    "nicknameCapturedMon",
+    "admitNicknameMetadata"
+  ],
+  "changed": [
+    "readSave",
+    "restoreField",
+    "enterMap",
+    "withBattleMusic",
+    "startBattle",
+    "begin",
+    "boot"
+  ],
+  "added": [
+    "installEvolutionField",
+    "cancelEvolutionField",
+    "cameraControlsAvailable",
+    "drainBattleEvolution",
+    "admitFormMetadata"
+  ],
+  "removed": [],
+  "protectedModules": [
+    {
+      "path": "browser/src/source/world.ts",
+      "sha256": "2806f7ee08e1cc23be481d6d6fcd42fb2148e4cc5bfc7f9605752bea26f9894c"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "754ee848bc2c8376f17f9613e52ec06a4603492b5a5fac1b48fc38fefc6d1fed"
+    },
+    {
+      "path": "browser/src/source/battle.ts",
+      "sha256": "6047335626fc05985ac202121179b661274005697a6ec32e7bda05b75e238722"
+    },
+    {
+      "path": "browser/src/source/objects.ts",
+      "sha256": "268e80f013e5d2869c987cb3081e848ebbaf9dcb48f2f81e827b2f08cf50baaa"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+    },
+    {
+      "path": "browser/src/source/interface-panels.ts",
+      "sha256": "0e59715b39942960e191d791bde714a6c674fbee7e5086bf3ee1aa5ab6ee7c94"
+    },
+    {
+      "path": "browser/src/source/opening.ts",
+      "sha256": "81e1d48700c5ff9211443f16f337949c3507d0ec057bd9d8c0b6baa3f874e72f"
+    },
+    {
+      "path": "browser/src/source/opening-view.ts",
+      "sha256": "6cb5db0a0ca5762cd1de02fae1607b6316a9d5e083f4bd88b691fe1f0f1115e0"
+    },
+    {
+      "path": "browser/src/source/opening-audio.ts",
+      "sha256": "5768ad5f960540d234d93e004c4960ac3b50965714069f2119cb835b934b1693"
+    },
+    {
+      "path": "browser/src/source/egg-hatch-presentation.ts",
+      "sha256": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f"
+    },
+    {
+      "path": "browser/src/source/hatch-host-audio.ts",
+      "sha256": "167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-host.ts",
+      "sha256": "36e3e33c404b586c18970ea3bcb22c343d975d5418835b174e8ece586e785c6f"
+    },
+    {
+      "path": "browser/src/source/native-field-clock.ts",
+      "sha256": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749"
+    },
+    {
+      "path": "browser/src/source/azalea-field-bindings.ts",
+      "sha256": "be68324967887d7ab787bbc59de8873c10261d996d21ede5e6e9a39593ded7b3"
+    },
+    {
+      "path": "browser/src/source/phone-field-host.ts",
+      "sha256": "bbf3677cf424153825f665e9c88101e3fdbb60250daef5a455a81fc8c64f241f"
+    }
+  ],
+  "qualification": "Exact source bytes only; does not approve new contracts or future Root changes."
+}
