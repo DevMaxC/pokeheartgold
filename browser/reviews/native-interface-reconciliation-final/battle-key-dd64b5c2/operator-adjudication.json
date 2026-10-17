@@ -1,0 +1,67 @@
+{
+  "reviewCommit": "dd64b5c2771f25f4ee33968a0b7ec45edc32d740",
+  "reviewMainSHA256": "09fb84f4888ebb8cdd43020a02670b5deec8e6f8a9833de317d504b93274c0ae",
+  "originalWholeReviewCommit": "2e98afb82f89529758cd78481a7eed91c5a3a9e6",
+  "verdict": "PASS for the narrow battle Enter/Space default-activation correction; no remaining defect in scope.",
+  "rawResultSHA256": "ed25bbd8ace848528df56154e88396fac91febe68e0dc7b5336ffae389e2f97b",
+  "actualModelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1939,
+      "outputTokens": 24,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.002059,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 44,
+      "outputTokens": 12866,
+      "cacheReadInputTokens": 605883,
+      "cacheCreationInputTokens": 49717,
+      "webSearchRequests": 0,
+      "costUSD": 0.6272576000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 6919,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "turns": 25,
+  "scope": "Move fieldControlsAvailable gate before movement/Enter/Space preventDefault. Exact release Main/test overlays on original whole-review context; current release Battle menu methods proven identical, full release Battle provided as context only.",
+  "closedFinding": {
+    "severity": "Low",
+    "originalFile": "browser/src/source/main.ts",
+    "originalLine": 601,
+    "description": "Enter/Space default activation was prevented before checking field ownership, blocking real native Battle Fight/move/Back buttons.",
+    "fixCommit": "dd64b5c2771f25f4ee33968a0b7ec45edc32d740",
+    "regression": "Actual AST-bound Main listeners + real UI capture + real Battle/createMon data. Old release Main fails first Fight Enter; fixed source passes Fight/move/Back for both keys, stale field HUD negative, and owned modal key consumption."
+  },
+  "operatorValidation": {
+    "focusedTests": "75/75 PASS (logs preserved)",
+    "typecheck": "tsc command exited 0; preserved log is empty. Opus explicitly did not independently verify typecheck/hash.",
+    "diffCheck": "PASS before scoped commit"
+  },
+  "integrity": {
+    "files": 9085,
+    "graphSHA256": "0f0a0bb2a192f40156f2b5814b6ceb7d1624ab15e94362f44c9e731dfb8f3b6a",
+    "changed": [],
+    "unexpected": [],
+    "missing": [],
+    "manifestUnchanged": true,
+    "promptUnchanged": true
+  },
+  "unchangedConditionals": [
+    "Changed-map failed fight scenario remains labelled currently unreachable in original review.",
+    "Mom raw16 tape is per startBattle invocation; a fresh whole-scene battle retry reruns battle randomness. No stronger scene-stable RNG promise.",
+    "Platform AudioContext re-unlock remains source/platform qualification; no audible/device approval."
+  ],
+  "limits": "No approval transfer to newer Battle-core, World, engine, weighting, building, GPU/art, browser/device, full campaign or production release. Those require independent evidence. Original 88-turn result and original adjudication are preserved verbatim."
+}

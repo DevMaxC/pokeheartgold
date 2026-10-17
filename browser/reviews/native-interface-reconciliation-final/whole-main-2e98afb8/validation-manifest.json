@@ -1,0 +1,30 @@
+{
+  "files": {
+    "validation/scoped-postack-fixtures.log": {
+      "source": "/tmp/hg-native-interface-reconciliation/scoped-postack-fixtures.log",
+      "sha256": "a340f2ae154b14a9bd110750deb74b92fa218173c6176566bed4b5005e920a5f",
+      "bytes": 17477
+    },
+    "validation/scoped-postack-tsc.log": {
+      "source": "/tmp/hg-native-interface-reconciliation/scoped-postack-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "validation/bag-handback-before.log": {
+      "source": "/tmp/hg-native-interface-reconciliation/bag-handback-before.log",
+      "sha256": "4f0bd94e4670cfce7ae221848824d4bb4eadb152c4881eb1157de4f318148803",
+      "bytes": 1588
+    },
+    "validation/hg-item-music-migrated.log": {
+      "source": "/tmp/hg-item-music-migrated.log",
+      "sha256": "79bdaa3f546b8b10dbda60edbe1277f2b57ec01b8b887f8a3af5b3f4a03c8336",
+      "bytes": 10622
+    },
+    "validation/hg-item-music-migrated-tsc.log": {
+      "source": "/tmp/hg-item-music-migrated-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "qualification": "Scoped external test runs, not an executed review test or final whole-suite approval. Whole suite is running separately; future fixture-only revisions must remain qualified. Main bytes are fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14."
+}

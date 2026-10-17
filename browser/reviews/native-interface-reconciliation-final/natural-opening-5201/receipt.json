@@ -1,0 +1,201 @@
+{
+  "origin": "http://localhost:5201",
+  "tab": "tab_p",
+  "tools": "T3 preview only; actual browser UI keyboard/click/type and screenshots. Read-only DOM/debug/save inspection; no flags, position, victory or party injection.",
+  "sourceQualification": {
+    "wholeReviewCommit": "2e98afb82f89529758cd78481a7eed91c5a3a9e6",
+    "watchedRepository": "/Users/maxchurch/Documents/pokeheartgold-native-interface",
+    "watchedHEADAfterCheckpoint": "f1355c6033433f1bcdffd4528d6016b24c11b13f",
+    "watchedMainSHA256": "fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14",
+    "limits": "Live Vite source tree, not immutable release artifact. Parent merged production333423a4 once mid-first intro causing observed watcher reload. Restarted naturally; remaining path completed on unchanged Main. Release keyboard correction dd64 was applied only in campaign-release and was not browser-tested here."
+  },
+  "initialStorage": {},
+  "initialSessionStorage": {},
+  "exportedUTC": "2026-10-17T17:43:53.062Z",
+  "path": [
+    "Fresh separate5201 origin, modern native-identity title; chose New Game.",
+    "Native Oak topics, Marill, gender, name rejection and remembered gender focus; eventually Gold/Boy confirmed. Source identity text and shrink completed; no save before coherent initial room.",
+    "Native room64 at6.5/6.5. Walked west/north stairs; moved left from stairs to real home63.",
+    "Automatic Mom approach/dialogue completed; native Bag/Trainer Card/Save/Options flags granted by source script. Walked south to real town60 door.",
+    "Walked west along New Bark road and north into actual ElmLab61 entrance; no teleport.",
+    "Walked north across native coordinate trigger; scripted Elm approach, phone/email dialogue and instructions completed.",
+    "Walked east/north to native starter-table background8/4, pressedF; all three source sprites loaded. Keyboard right+Enter selectedCyndaquil; confirmedYes. ChoseNo nickname.",
+    "Received source level5 Cyndaquil, watched native follower walk beside player and Elm. Remaining Elm instructions completed; scene1 committed.",
+    "Walked south across actual assistant trigger; native obtain5Potions dialogue/acknowledgement and NPC return completed; scene2 committed. Stopped idle inside lab4.5/11.5."
+  ],
+  "checkpoint": {
+    "name": "Gold",
+    "gender": "boy",
+    "map": 61,
+    "x": 4.5,
+    "z": 11.5,
+    "starter": 155,
+    "party": [
+      {
+        "species": 155,
+        "level": 5,
+        "hp": 18
+      }
+    ],
+    "bag": {
+      "ITEM_POTION": 5
+    },
+    "sceneElmsLab": 2,
+    "gotStarter": true,
+    "preventEscape": false
+  },
+  "status": {
+    "error": "",
+    "follower": {
+      "facing": 1,
+      "moving": false,
+      "x": 4.5,
+      "y": 0,
+      "z": 10.5
+    },
+    "map": 61,
+    "music": {
+      "effective": {
+        "cue": {
+          "id": 1066,
+          "key": "SEQ_GS_UTSUGI_RABO"
+        },
+        "identity": "native-field-1",
+        "kind": "playing",
+        "positionSeconds": 52.29945402018234,
+        "source": "map"
+      },
+      "error": ""
+    },
+    "party": [
+      {
+        "hp": 18,
+        "level": 5,
+        "moves": [
+          {
+            "id": 33,
+            "maxPP": 35,
+            "pp": 35
+          },
+          {
+            "id": 43,
+            "maxPP": 30,
+            "pp": 30
+          }
+        ],
+        "species": 155
+      }
+    ],
+    "position": {
+      "x": 4.5,
+      "y": 0,
+      "z": 11.5
+    },
+    "ready": true,
+    "script": {
+      "command": "End",
+      "map": "T20R0101",
+      "pc": 390
+    },
+    "transitioning": false,
+    "uiBusy": false,
+    "unsupported": null,
+    "vmBusy": false,
+    "walking": false
+  },
+  "saveSHA256": "0acd3038acd9a0b69e25bc40f6f57905ed034968aeaab8f47e4aee4dba27ff32",
+  "screenshots": [
+    {
+      "label": "01-title",
+      "file": "01-title.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcnamjt-6a65d5aa.png",
+      "sha256": "37b584edb2dc268f601841f2e0ef3e5cce8cf830f5871363091f773921ee19c0"
+    },
+    {
+      "label": "02-oak-marill",
+      "file": "02-oak-marill.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcnewpw-bedd2110.png",
+      "sha256": "972af603e25cfea3e5fde952943c623b1b4a92c661505e3ba33316a4b187b1a9"
+    },
+    {
+      "label": "03-rejected-name-gender-focus",
+      "file": "03-rejected-name-gender-focus.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcngrfr-231f26f1.png",
+      "sha256": "1450b06d97c1892a4d2ebbce2f10114b6c033be4a917a8320dbb6058bfcf0c5b"
+    },
+    {
+      "label": "04-name-gold",
+      "file": "04-name-gold.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcnhn7x-cbb7e46d.png",
+      "sha256": "4421b6d2a820f79e15180f06a318c7ea4623393e5f6f78d8ae1878affdfe8dbf"
+    },
+    {
+      "label": "05-first-room",
+      "file": "05-first-room.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcnjirj-efc30dd9.png",
+      "sha256": "27b24a0509c9efec1842bac1e32ae7c24e1cd0317d6f0a769e9de49440721876"
+    },
+    {
+      "label": "06-mom-native-dialogue",
+      "file": "06-mom-native-dialogue.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcnumli-a4309488.png",
+      "sha256": "4b77c40381249cd54a4db92e91e618b18a11864422de580b2e42ba717cbcb644"
+    },
+    {
+      "label": "07-new-bark",
+      "file": "07-new-bark.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvco683i-84806994.png",
+      "sha256": "5d1e7aa53facd29f0494dcd438a875865768069cc747fdfa78592804479c99b4"
+    },
+    {
+      "label": "08-elm-approach",
+      "file": "08-elm-approach.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcobrw1-36401d41.png",
+      "sha256": "72817b3398db34b590b315a52fc7486e7638c27295479c941aed91ca18955670"
+    },
+    {
+      "label": "09-starter-loaded",
+      "file": "09-starter-loaded.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcoj60u-8ceaafb8.png",
+      "sha256": "8c4f459cbc3b2fc246f33ab549b162e6df9391e3d87e8f81beccc1e7fdb0f5ac"
+    },
+    {
+      "label": "10-starter-confirm",
+      "file": "10-starter-confirm.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcojkso-cff4b2bb.png",
+      "sha256": "1e4830967844f2e6ea0d125487a7cdbb8e9211a527257e45712e35ee13ade88a"
+    },
+    {
+      "label": "11-starter-received",
+      "file": "11-starter-received.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcojyp3-d0db80cf.png",
+      "sha256": "1044c986023d82610dd628c88395b2047727db9d22cb7cc9c77a7afbc7437569"
+    },
+    {
+      "label": "12-follower-walkthrough",
+      "file": "12-follower-walkthrough.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcoksw6-fd04bc4e.png",
+      "sha256": "fb28751a31663c9a35dd91e73257f230a4bc71b9ac6b365b557ff53558928f64"
+    },
+    {
+      "label": "13-assistant-potions",
+      "file": "13-assistant-potions.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcoozbt-41988b47.png",
+      "sha256": "e10c886cad27e676ab4d5ef5651983a1a77f2cb25208a66ff5c38876cf922c75"
+    },
+    {
+      "label": "14-committed-lab-checkpoint",
+      "file": "14-committed-lab-checkpoint.png",
+      "originalPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcoq3a0-fd7e8ea7.png",
+      "sha256": "a9db7d20658f4fab43ed6f4d86ebd31d85699dc0ed3b7885f276302d334dda05"
+    }
+  ],
+  "observations": [
+    "Initial optional native field cue1018 preparation timed out after4000ms; movement, scenes and menus remained usable. Later lab1066 reached playing with error empty. No audible/device quality approval.",
+    "Starter sprites initially pending one screenshot, then naturalWidth80 and actual following screenshot show all three loaded; not classified as persistent missing asset.",
+    "Two strict/invalid locator attempts in name/Back UI failed at automation selection, not runtime. Enter affirmed initial Girl/defaultTrudy; rejected name through actual nativeNo then selectedBoy/Gold normally.",
+    "No gameplay error or Unsupported command at final checkpoint. No battle/victory, route29/Cherrygrove, rival, egg, gym or campaign completion exercised."
+  ],
+  "ownership": "Separate QA origin with initially empty storage; exact committed save and storage backed up before parent source reload. Browser save left intact, no overwrite of another origin/profile.",
+  "approvalLimits": "Positive opening/house/Mom/Elm/starter/assistant milestone only. Not full campaign, final release, later World/engine/building graphics, audio, mobile or deployment approval."
+}
