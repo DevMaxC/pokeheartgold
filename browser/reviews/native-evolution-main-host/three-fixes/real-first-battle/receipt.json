@@ -1,0 +1,24 @@
+{
+  "immutableRuntimeReview": "80f4fdde2dae5041df61a2a7c2b98eda47a0b597",
+  "runtimeUnchanged": true,
+  "testSHA256": "bd2f1162cf2e6fa85790627398a592273546af27c442e2184cf0f1e093391ef1",
+  "change": "TEST ONLY: retained-owner prerequisite now comes from actual completed wild Battle/startBattle (no level-up), rather than music-only warmup. Then original Li13\u219214 evolves beforeTM70/save. Old522c Main on SAMEnewplayer fails false!=true.",
+  "validation": "11/11 actual earned Main cases +TSC pass. Immutable review includes preceding music-only setup, so these strengthened test bytes are separately qualified, not substituted into its source graph.",
+  "logs": {
+    "hg-evolution-main-real-first-battle-before-failure.log": {
+      "sha256": "7a389188fb87f33f0df3cdbdfb9ad531d8b1d858a3efd7faf034b533370b02f0",
+      "archiveSHA256": "817123414defb798095100895d05b9f4eb46fdf55f8319555c29c2ec9821b741",
+      "bytes": 1296
+    },
+    "hg-evolution-main-real-first-battle-final-tests.log": {
+      "sha256": "534bee052fc49b113b7fcfceefd7f1ed67c214f7e92f220dbb0d001b28d320e4",
+      "archiveSHA256": "7b699e50c28c442b6b63c77bd5aae1f9660d9bf4136c926daa5f636195b789de",
+      "bytes": 3710
+    },
+    "hg-evolution-main-real-first-battle-tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    }
+  }
+}
