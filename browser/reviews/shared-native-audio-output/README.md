@@ -1,0 +1,3 @@
+Borrow an existing gesture-unlocked field-player Context and preference gain for owned native effects. The player lifetime signal aborts synchronously before shared output teardown; consumers own their nodes and must never close/disconnect shared infrastructure. Construction, unlock, field/battle/hatch playback paths otherwise unchanged.
+
+45 player tests and TSC pass. Final actual Opus5.5 read-only review of copied exact patch/source reports no findings; root independently verifies all inputs stable. Earlier wrong-working-directory review and its explicit limitations are preserved. These checks do not verify future effect consumers, real WebAudio, mobile audio interruption, or browser audibility.
