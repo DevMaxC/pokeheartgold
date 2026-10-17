@@ -42,9 +42,10 @@ async function setup(withFollower=true){
 }
 
 test('actual room admission hydrates four spiders only for Continue; warp/connection reset original save state',async()=>{
- const h=await setup();try{assert.equal(h.world.scene.children.length,1);assert.equal(h.host.renderer.spiderModels.length,4);h.state.gymmick={kind:'azalea',spiders:[4,1,2,7],switches:3};await h.host.enter(map,'continue');assert.deepEqual(h.host.renderer.state,{spiders:[4,1,2,7],switches:3});h.host.init(h.context);assert.equal(h.state.gymmick.switches,3);
+ const h=await setup();try{assert.equal(h.world.scene.children.length,1);assert.equal(h.host.renderer.spiderModels.length,4);h.state.gymmick={kind:'azalea',spiders:[4,1,2,7],switches:3};await h.host.enter(map,'continue');assert.deepEqual(h.host.renderer.state,{spiders:[4,1,2,7],switches:3});h.host.init(h.context);assert.deepEqual(h.state.gymmick,{kind:'azalea',...initialAzaleaGymState()},'actual InitAzaleaGym resets unconditionally even when previous load was Continue');
  await h.host.enter(map,'connection');assert.deepEqual(h.host.renderer.state,initialAzaleaGymState());h.state.gymmick={kind:'azalea',spiders:[99,1,2,7],switches:3};await h.host.enter(map,'warp');assert.deepEqual(h.host.renderer.state,initialAzaleaGymState());
  h.state.gymmick={kind:'azalea',spiders:[99,1,2,7],switches:3};await assert.rejects(h.host.enter(map,'continue'),/Invalid native/);assert.equal(h.host.active,false);assert.equal(h.world.scene.children.length,0);
+ (h.state as any).gymmick={kind:'azalea',switches:99};await h.host.enter(map,'warp');assert.deepEqual(h.host.renderer.state,initialAzaleaGymState());
  }finally{await h.dispose();}
 });
 

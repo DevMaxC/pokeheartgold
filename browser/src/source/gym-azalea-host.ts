@@ -60,7 +60,7 @@ export class AzaleaGymHost{
  private resources:Promise<AzaleaGymResources>|null=null;
  private generation=0;private mapID=-1;private mapOwner:AbortController|null=null;private mapScope:NativeFieldTaskScope|null=null;
  private action:AbortController|null=null;private job:TickJob|null=null;
- private entryKind:AzaleaGymEntry='warp';private entrySaved:AzaleaGymState|undefined;private disposed=false;private busy=false;
+ private disposed=false;private busy=false;
  private view:AzaleaFieldPoint|null=null;private held=false;private streamPoint:{x:number;z:number}|null=null;
  private currentRiders:Riders|null=null;
  private external=new Map<AbortSignal,Set<Promise<unknown>>>();
@@ -84,7 +84,7 @@ export class AzaleaGymHost{
  async enter(map:SourceMap,kind:AzaleaGymEntry='warp'){
   this.leave();if(this.disposed)throw Error('Azalea host disposed');if(map.key!==AZALEA_GYM_KEY)return;
   if(map.id!==180||this.state.map!==180||this.world.fieldMapID!==180)throw Error('Azalea entry belongs to a different field');
-  const saved=this.state.gymmick?.kind==='azalea'?{spiders:[...this.state.gymmick.spiders]as[number,number,number,number],switches:this.state.gymmick.switches}:undefined;
+  const saved=kind==='continue'&&this.state.gymmick?.kind==='azalea'?azaleaGymEntryState(this.state.gymmick,'continue'):undefined;
   // Validate saved Continue before loading or publishing anything. Transition
   // entries intentionally ignore old/malformed saved values, as native Init.
   azaleaGymEntryState(saved,kind);const generation=this.generation;
@@ -94,7 +94,7 @@ export class AzaleaGymHost{
   // never by inventing SysTask insertion during task execution.
   await this.clock.settled();if(generation!==this.generation||this.disposed)return;
   if(this.world.fieldMapID!==map.id||this.state.map!==map.id){this.renderer.leave();return;}
-  const owner=new AbortController();this.mapID=map.id;this.mapOwner=owner;this.entryKind=kind;this.entrySaved=saved;
+  const owner=new AbortController();this.mapID=map.id;this.mapOwner=owner;
   try{
    const scope=this.clock.createScope(map.id,owner.signal);this.mapScope=scope;
    scope.onTick(frame=>{if(!scope.active||!this.active||!frame.mapRunning)return;this.renderer.updateNativeTick();const job=this.job;if(!job)return;try{check(job.signal);job.frame(++job.index);if(job.index===job.count)this.finishJob();}catch(error){this.finishJob(error);}});
@@ -102,7 +102,10 @@ export class AzaleaGymHost{
    this.commit(this.renderer.state!);
   }catch(error){this.leave();throw error;}
  }
- init(context:ScriptGymContext){this.context(context);if(this.moving)throw Error('Azalea Gym is busy');this.commit(this.renderer.init(this.entrySaved,this.entryKind));}
+ /** Literal InitAzaleaGym always resets the save. Continue retains because
+  * its field entry bypasses this OnTransition command, not because Init is
+  * conditional on the last load kind. */
+ init(context:ScriptGymContext){this.context(context);if(this.moving)throw Error('Azalea Gym is busy');this.commit(this.renderer.init(undefined,'warp'));}
  private finishJob(error?:unknown){const job=this.job;if(!job)return;this.job=null;job.detach();if(error!==undefined)job.reject(error);else job.resolve();}
  private ticks:AzaleaTicks=(count,frame,signal)=>{
   check(signal);this.assertCurrent();if(this.job)throw Error('Overlapping Azalea native tick phases');if(!Number.isInteger(count)||count<1)throw Error('Invalid Azalea native tick count');
