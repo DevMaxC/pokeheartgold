@@ -1,0 +1,17 @@
+{
+  "sourceBase": "355e288",
+  "validation": {
+    "tests": 55,
+    "passed": 55,
+    "failed": 0,
+    "tsc": "passed",
+    "logSha256": "9941869dddf7e843698ed1dc961fd436279e1db00b4b1a8b1416fea81c27eb38"
+  },
+  "change": "Actual enabled/muted/retry/second-Egg host fixture now supplies the new transport.prepare contract and asserts both original tracks are prepared before any playback. Current runtime main is unchanged by this test-only followup.",
+  "sources": {
+    "browser/src/source/main.ts": "0acddf79996e4f998fbc80b2fca6145e54a967324e55706b916955acae3935c7",
+    "browser/src/source/egg-field-main.test.ts": "c048e769cc7f73da73e794ff58da4524e1ccedd99daec2fb13f11b55e1a32504",
+    "browser/src/source/hatch-music.ts": "f5d07a88c34cf13b60b685a7a3c56b552f38591551e9202d57deffb10462c531"
+  },
+  "limits": "Current default root field snapshot is no-track. Separate audio owner is fixing one future injected-field wrong-voice restoration edge; no renderer/browser or full-suite approval is claimed here."
+}
