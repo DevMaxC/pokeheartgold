@@ -182,3 +182,45 @@ test('live preference read: recovery retry while muted releases hatch ownership 
  enabled=false;const muted=actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.context.master.gain.value,0);await muted;let outputReads=0;f.ports.sharedAudioOutput=()=>{outputReads++;throw Error('muted retry requested permission');};await f.retained[0]();assert.equal(outputReads,0);assert.equal(actual.nodes.length,2);
  const battle=actual.player.createCueSession();await battle.start(actual.B,new AbortController().signal);actual.context.state='running';enabled=true;await actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.nodes.length,3);assert.ok(actual.nodes[0].stopped);assert.equal(actual.nodes[2].stopped,false);await f.retained[0]();await flush();assert.equal(actual.nodes.length,3,'idempotent old hatch recovery cannot admit another field voice over battle');await battle.restore();await actual.player.dispose();
 });
+
+test('muted fanfare phase: initially muted still waits native15 ticks with no audio I/O or fabricated cry delay',async t=>{
+ t.mock.method(performance,'now',()=>1000);let waits=0;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>false,sharedAudioOutput:()=>{throw Error('muted output requested');},loadManifest:async()=>{throw Error('muted source requested');},wait:async milliseconds=>{waits++;assert.equal(milliseconds,15/30*1000);entered.resolve();await release.promise;}});
+ await f.audio.music.start(bg,f.signal.signal);await f.audio.cry(scene,f.signal.signal);assert.equal(waits,0);let done=false;const pending=f.audio.music.fanfare(me,f.signal.signal).then(()=>{done=true;});await admitted(entered.promise,pending,'muted native timer');assert.equal(waits,1);assert.equal(done,false);assert.equal(f.events.includes('transport'),false);assert.equal(f.nodes.length,0);assert.equal(f.errors.length,0);release.resolve();await pending;assert.equal(done,true);await f.audio.music.restore();
+});
+
+test('muted fanfare phase: just-muted BGM pauses until native timer; late unmute does not replay the missed sequence',async t=>{
+ t.mock.method(performance,'now',()=>1000);let enabled=true;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>enabled,wait:async milliseconds=>{assert.equal(milliseconds,500);entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);enabled=false;
+ const pending=f.audio.music.fanfare(me,f.signal.signal);await admitted(entered.promise,pending,'just-muted native timer');assert.deepEqual(f.songs[0].events,['pause']);assert.equal(f.events.includes('play:1188'),false);assert.equal(f.errors.length,0);enabled=true;await flush();assert.equal(f.songs.length,1);assert.deepEqual(f.songs[0].events,['pause']);release.resolve();await pending;assert.deepEqual(f.songs[0].events,['pause','resume']);await f.audio.music.restore();
+});
+
+test('muted fanfare phase: actual shared BGM stays paused through late unmute and resumes its captured phase after timer',async()=>{
+ let enabled=true;const entered=deferred(),release=deferred(),actual=actualPlayer();await actual.player.unlock();await actual.player.playCue(actual.A);const f=fixture({enabled:()=>enabled,player:actual.player,sharedAudioOutput:()=>actual.player.sharedAudioOutput(),wait:async()=>{entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);actual.context.currentTime=3;enabled=false;const muting=actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.context.master.gain.value,0);await muting;
+ const pending=f.audio.music.fanfare(me,f.signal.signal);await admitted(entered.promise,pending,'actual shared muted timer');assert.equal(actual.nodes.length,2);assert.equal(actual.nodes[1].stopped,true);actual.context.currentTime=100;enabled=true;await actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.context.master.gain.value,.37);assert.equal(actual.nodes.length,2,'unmute must not resume paused hatch BGM before native wait');release.resolve();await pending;assert.equal(actual.nodes.length,3);assert.equal(actual.nodes[2].offset,3);assert.equal(actual.contexts.length,1);assert.equal(f.errors.length,0);await f.audio.music.restore();await actual.player.dispose();
+});
+
+test('muted fanfare phase: mute during future manifest or preparation retains its no-voice timer without a mute diagnostic',async t=>{
+ t.mock.method(performance,'now',()=>1000);
+ for(const stage of['manifest','prepare']){let enabled=false;const entered=deferred(),release=deferred(),timer=deferred(),finish=deferred(),f=fixture({enabled:()=>enabled,loadManifest:async()=>{if(stage==='manifest'){entered.resolve();await release.promise;}return structuredClone(manifest);},wait:async milliseconds=>{assert.equal(milliseconds,500);timer.resolve();await finish.promise;}});await f.audio.music.start(bg,f.signal.signal);f.controls.prepare=async()=>{if(stage==='prepare'){entered.resolve();await release.promise;}};enabled=true;
+  const pending=f.audio.music.fanfare(me,f.signal.signal);await admitted(entered.promise,pending,'future fanfare '+stage);enabled=false;release.resolve();await admitted(timer.promise,pending,'muted post-'+stage+' timer');assert.equal(f.songs.length,0);assert.equal(f.errors.length,0);finish.resolve();await pending;await f.audio.music.restore();
+ }
+});
+
+test('muted fanfare phase: an admitted sequence ends before its native tail and late unmute cannot release that tail',async()=>{
+ let enabled=true;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>enabled,wait:async milliseconds=>{assert.equal(milliseconds,(139462-136052)/32768*1000);entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);let done=false;
+ const pending=f.audio.music.fanfare(me,f.signal.signal).then(()=>{done=true;});await admitted(f.songCreated(1188),pending,'admitted fanfare');enabled=false;assert.equal(done,false);f.songs[1].end();await admitted(entered.promise,pending,'native admitted tail');enabled=true;await flush();assert.equal(done,false);assert.deepEqual(f.songs[0].events,['pause']);assert.equal(f.events.filter(event=>event==='play:1188').length,1);release.resolve();await pending;assert.deepEqual(f.songs[0].events,['pause','resume']);await f.audio.music.restore();
+});
+
+test('muted fanfare phase: map cancellation or Return drains timer ownership and never resumes the obsolete BGM',async()=>{
+ for(const kind of['map','Return']){let enabled=true;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>enabled,wait:async()=>{entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);enabled=false;const pending=f.audio.music.fanfare(me,f.signal.signal),rejected=assert.rejects(pending,kind==='map'?/map transition/:/restored/);await admitted(entered.promise,pending,'owned muted timer');
+  if(kind==='map')f.signal.abort(Error('map transition'));else await f.audio.music.restore();await rejected;await f.audio.music.restore();release.resolve();await flush();assert.equal(f.paused,false);assert.ok(f.songs[0].events.includes('stop'));assert.equal(f.songs[0].events.includes('resume'),false);assert.equal(f.errors.length,0);
+ }
+});
+
+test('muted fanfare phase: real presentation cannot name before timer, and Return rolls back before a fresh successful Retry',async()=>{
+ const prior=globalThis.fetch;globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));try{
+  const data=await loadData(),map=await sourceJSON<SourceMap>('maps/73.json'),now=()=>new Date(2026,9,17,12),state=newState(data,'Ethan','boy',()=>.5);state.map=map.id;state.party=[createMon(data,155,5,state.name,()=>.5)];giveTogepiEgg(data,state,{now});state.party[1].friendship=0;const before=structuredClone(state);let choices=0,resumes=0;
+  for(const returning of[true,false]){const entered=deferred(),release=deferred(),printer=deferred<()=>void>(),f=fixture({enabled:()=>false,wait:async()=>{entered.resolve();await release.promise;}});const host:EggHatchHost={now,music:f.audio.music,view:signal=>({reveal:async()=>{},cry:next=>f.audio.cry(next,signal),finish:async()=>{},cancel(){}}),message:()=>returning?printer.promise:Promise.resolve(()=>{}),choose:async()=>{choices++;return 1;},nickname:async()=>{throw Error('declined nickname');},resumeField:async()=>{resumes++;}};
+   const pending=presentNativeEggHatch(data,state,map,host);await admitted(entered.promise,pending,'presentation muted timer');assert.equal(choices,0);assert.equal(resumes,0);if(returning){const rejected=assert.rejects(pending,/Return owned hatch/);printer.reject(Error('Return owned hatch'));await rejected;assert.deepEqual(state,before);release.resolve();await flush();assert.equal(choices,0);assert.equal(f.paused,false);}else{release.resolve();await pending;assert.equal(choices,1);assert.equal(resumes,1);assert.equal(state.party[1].isEgg,false);assert.equal(state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG,true);}assert.equal(f.errors.length,0);
+  }
+ }finally{globalThis.fetch=prior;}
+});

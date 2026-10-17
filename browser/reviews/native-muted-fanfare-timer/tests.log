@@ -1,0 +1,1544 @@
+TAP version 13
+# (node:11915) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: one persistent control mutes immediately, reflects Settings, and only unlocks on an explicit unmute
+ok 1 - one persistent control mutes immediately, reflects Settings, and only unlocks on an explicit unmute
+  ---
+  duration_ms: 1.501625
+  type: 'test'
+  ...
+# Subtest: mute propagates between same-origin tabs without a write loop or autoplay unlock
+ok 2 - mute propagates between same-origin tabs without a write loop or autoplay unlock
+  ---
+  duration_ms: 0.501542
+  type: 'test'
+  ...
+# Subtest: visibility and page lifecycle silence background output and never change the saved mute setting
+ok 3 - visibility and page lifecycle silence background output and never change the saved mute setting
+  ---
+  duration_ms: 0.384958
+  type: 'test'
+  ...
+# (node:11916) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the real standard2021 awaits its EggHatchAnim port and preserves the original Oh intro
+ok 4 - the real standard2021 awaits its EggHatchAnim port and preserves the original Oh intro
+  ---
+  duration_ms: 16.202
+  type: 'test'
+  ...
+# Subtest: the real standard2021 propagates a failed awaited hatch instead of finishing its script
+ok 5 - the real standard2021 propagates a failed awaited hatch instead of finishing its script
+  ---
+  duration_ms: 1.247542
+  type: 'test'
+  ...
+# Subtest: the host reveals in3D, joins original cry and text, then names and restores the field before completion
+ok 6 - the host reveals in3D, joins original cry and text, then names and restores the field before completion
+  ---
+  duration_ms: 2.543875
+  type: 'test'
+  ...
+# Subtest: a failed cry aborts and drains pending text before lifecycle rollback and field music cleanup
+ok 7 - a failed cry aborts and drains pending text before lifecycle rollback and field music cleanup
+  ---
+  duration_ms: 2.300042
+  type: 'test'
+  ...
+# Subtest: native fanfare starts after the cry while a slow printer can still be running without a confirm click
+ok 8 - native fanfare starts after the cry while a slow printer can still be running without a confirm click
+  ---
+  duration_ms: 130.929291
+  type: 'test'
+  ...
+# Subtest: failed announcement text aborts and drains its pending cry before lifecycle rollback
+ok 9 - failed announcement text aborts and drains its pending cry before lifecycle rollback
+  ---
+  duration_ms: 22.991584
+  type: 'test'
+  ...
+# Subtest: a failed cry cannot release the source lifecycle before its aborted printer has finished cleanup
+ok 10 - a failed cry cannot release the source lifecycle before its aborted printer has finished cleanup
+  ---
+  duration_ms: 6.333667
+  type: 'test'
+  ...
+# Subtest: a rejected or unresolved nickname decision cannot commit memo, Dex or field control
+ok 11 - a rejected or unresolved nickname decision cannot commit memo, Dex or field control
+  ---
+  duration_ms: 4.120667
+  type: 'test'
+  ...
+# Subtest: failed coherent field resume rolls back the already named mon and Dex while releasing presentation resources
+ok 12 - failed coherent field resume rolls back the already named mon and Dex while releasing presentation resources
+  ---
+  duration_ms: 2.260542
+  type: 'test'
+  ...
+# (node:11917) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: special cycle dates match the executable native table, including January12 rather than its incorrect January1 comment
+ok 13 - special cycle dates match the executable native table, including January12 rather than its incorrect January1 comment
+  ---
+  duration_ms: 73.361333
+  type: 'test'
+  ...
+# Subtest: the shared native u8 counter persists even with no Eggs and uses exact threshold equality across date changes
+ok 14 - the shared native u8 counter persists even with no Eggs and uses exact threshold equality across date changes
+  ---
+  duration_ms: 38.425375
+  type: 'test'
+  ...
+# Subtest: party Egg plans are pure and an Egg at ten cycles needs eleven complete cycles before a hatch is scheduled
+ok 15 - party Egg plans are pure and an Egg at ten cycles needs eleven complete cycles before a hatch is scheduled
+  ---
+  duration_ms: 11.629416
+  type: 'test'
+  ...
+# Subtest: fainted FlameBody/MagmaArmor accelerate by two, never stack, and Eggs/corrupt companions do not count
+ok 16 - fainted FlameBody/MagmaArmor accelerate by two, never stack, and Eggs/corrupt companions do not count
+  ---
+  duration_ms: 2.193167
+  type: 'test'
+  ...
+# Subtest: native prefix processing and later first-zero rescan select an earlier newly-ready Egg and leave later Eggs untouched
+ok 17 - native prefix processing and later first-zero rescan select an earlier newly-ready Egg and leave later Eggs untouched
+  ---
+  duration_ms: 0.851083
+  type: 'test'
+  ...
+# Subtest: step planning rejects invalid save/RTC/cycle input without committing a partial prefix
+ok 18 - step planning rejects invalid save/RTC/cycle input without committing a partial prefix
+  ---
+  duration_ms: 1.086542
+  type: 'test'
+  ...
+# Subtest: field hatch rewards occur before the standard intro, while direct EggHatchAnim does not invent the field-only Egg count
+ok 19 - field hatch rewards occur before the standard intro, while direct EggHatchAnim does not invent the field-only Egg count
+  ---
+  duration_ms: 2.25875
+  type: 'test'
+  ...
+# Subtest: hatch recreation preserves native identity/moves/IVs but resets level, EVs, status, item and PPUp capacity before the awaited reveal
+ok 20 - hatch recreation preserves native identity/moves/IVs but resets level, EVs, status, item and PPUp capacity before the awaited reveal
+  ---
+  duration_ms: 1.529375
+  type: 'test'
+  ...
+# Subtest: a delayed message asset load uses the current Egg and RNG instead of overwriting them with a stale hatch draft
+ok 21 - a delayed message asset load uses the current Egg and RNG instead of overwriting them with a stale hatch draft
+  ---
+  duration_ms: 46.882167
+  type: 'test'
+  ...
+# Subtest: native cry and hatch text begin together and announcement awaits cry before fanfare and the nickname prompt
+ok 22 - native cry and hatch text begin together and announcement awaits cry before fanfare and the nickname prompt
+  ---
+  duration_ms: 1.5585
+  type: 'test'
+  ...
+# Subtest: successful original Togepi hatch writes native memo/OT/Dex/Elm flag and pending trigger before nickname then awaits coherent field resume
+ok 23 - successful original Togepi hatch writes native memo/OT/Dex/Elm flag and pending trigger before nickname then awaits coherent field resume
+  ---
+  duration_ms: 1.147292
+  type: 'test'
+  ...
+# Subtest: the native met date is sampled after the reveal/decision and foreign OT transfers previous met data to Egg provenance
+ok 24 - the native met date is sampled after the reveal/decision and foreign OT transfers previous met data to Egg provenance
+  ---
+  duration_ms: 1.041542
+  type: 'test'
+  ...
+# Subtest: native owner comparison includes the OT name, and nonstandard hatch map sections fall back to MysteryZone
+ok 25 - native owner comparison includes the OT name, and nonstandard hatch map sections fall back to MysteryZone
+  ---
+  duration_ms: 0.983333
+  type: 'test'
+  ...
+# Subtest: known species do not get the unique-caught score twice and Elm trigger zero is not duplicated
+ok 26 - known species do not get the unique-caught score twice and Elm trigger zero is not duplicated
+  ---
+  duration_ms: 1.744125
+  type: 'test'
+  ...
+# Subtest: native nickname cancellation/default name preserves the species name and nickname flag comparison
+ok 27 - native nickname cancellation/default name preserves the species name and nickname flag comparison
+  ---
+  duration_ms: 6.708709
+  type: 'test'
+  ...
+# Subtest: every awaited presentation failure restores provisional lifecycle fields and original mon identity
+ok 28 - every awaited presentation failure restores provisional lifecycle fields and original mon identity
+  ---
+  duration_ms: 7.720292
+  type: 'test'
+  ...
+# Subtest: an early announcement failure cannot finish rollback or permit retry while its owned cry task is still running
+ok 29 - an early announcement failure cannot finish rollback or permit retry while its owned cry task is still running
+  ---
+  duration_ms: 1.878334
+  type: 'test'
+  ...
+# Subtest: unresolved native nickname responses roll back instead of silently accepting or committing a partial hatch
+ok 30 - unresolved native nickname responses roll back instead of silently accepting or committing a partial hatch
+  ---
+  duration_ms: 238.617208
+  type: 'test'
+  ...
+# Subtest: a field change during the awaited reveal is cancelled and the outer source checkpoint restores the complete action
+ok 31 - a field change during the awaited reveal is cancelled and the outer source checkpoint restores the complete action
+  ---
+  duration_ms: 4.879458
+  type: 'test'
+  ...
+# Subtest: root source rollback includes the preceding step and field reward; retry commits one hatch and one set of rewards
+ok 32 - root source rollback includes the preceding step and field reward; retry commits one hatch and one set of rewards
+  ---
+  duration_ms: 5.128625
+  type: 'test'
+  ...
+# Subtest: missing presentation/profile/provenance and unsupported form/reward paths never silently turn the Egg into a Pokémon
+ok 33 - missing presentation/profile/provenance and unsupported form/reward paths never silently turn the Egg into a Pokémon
+  ---
+  duration_ms: 169.734292
+  type: 'test'
+  ...
+# Subtest: Ranger Manaphy uses the native PID-local PRandom anti-shiny loop without extra saved LCG draws
+ok 34 - Ranger Manaphy uses the native PID-local PRandom anti-shiny loop without extra saved LCG draws
+  ---
+  duration_ms: 1.458458
+  type: 'test'
+  ...
+# Subtest: Ranger Manaphy rejects an invalid saved PID before a local reroll can disguise it
+ok 35 - Ranger Manaphy rejects an invalid saved PID before a local reroll can disguise it
+  ---
+  duration_ms: 1.302625
+  type: 'test'
+  ...
+# Subtest: field ordering source places hatch eligibility after trainer/coord/warp/forced/poison/Safari and before wild encounters/repel
+ok 36 - field ordering source places hatch eligibility after trainer/coord/warp/forced/poison/Safari and before wild encounters/repel
+  ---
+  duration_ms: 1.269208
+  type: 'test'
+  ...
+# Subtest: the actual standard hatch script still fails explicitly without the root EggHatchAnim integration port
+ok 37 - the actual standard hatch script still fails explicitly without the root EggHatchAnim integration port
+  ---
+  duration_ms: 6.319584
+  type: 'test'
+  ...
+# (node:11918) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+ok 38 - native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+  ---
+  duration_ms: 3.511458
+  type: 'test'
+  ...
+# Subtest: construction and map intent fetch no songs or Context until synchronous gesture unlock
+ok 39 - construction and map intent fetch no songs or Context until synchronous gesture unlock
+  ---
+  duration_ms: 213.046833
+  type: 'test'
+  ...
+# Subtest: same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+ok 40 - same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+  ---
+  duration_ms: 3.562
+  type: 'test'
+  ...
+# Subtest: mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+ok 41 - mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+  ---
+  duration_ms: 1.387334
+  type: 'test'
+  ...
+# Subtest: unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+ok 42 - unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+  ---
+  duration_ms: 1.270166
+  type: 'test'
+  ...
+# Subtest: bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+ok 43 - bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+  ---
+  duration_ms: 6.22225
+  type: 'test'
+  ...
+# Subtest: latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+ok 44 - latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+  ---
+  duration_ms: 1.565709
+  type: 'test'
+  ...
+# Subtest: late map-catalog completion cannot overwrite a newer direct cue intent
+ok 45 - late map-catalog completion cannot overwrite a newer direct cue intent
+  ---
+  duration_ms: 0.869625
+  type: 'test'
+  ...
+# Subtest: external abort during cue loading cannot interrupt the prior committed voice or start late audio
+ok 46 - external abort during cue loading cannot interrupt the prior committed voice or start late audio
+  ---
+  duration_ms: 1.492792
+  type: 'test'
+  ...
+# Subtest: field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+ok 47 - field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+  ---
+  duration_ms: 2.55625
+  type: 'test'
+  ...
+# Subtest: a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+ok 48 - a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+  ---
+  duration_ms: 0.984666
+  type: 'test'
+  ...
+# Subtest: shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+ok 49 - shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+  ---
+  duration_ms: 1.18775
+  type: 'test'
+  ...
+# Subtest: native effects borrow only the gesture-unlocked output, retain preferences and observe player disposal
+ok 50 - native effects borrow only the gesture-unlocked output, retain preferences and observe player disposal
+  ---
+  duration_ms: 0.531708
+  type: 'test'
+  ...
+# Subtest: whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+ok 51 - whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+  ---
+  duration_ms: 2.127167
+  type: 'test'
+  ...
+# Subtest: blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+ok 52 - blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+  ---
+  duration_ms: 211.111833
+  type: 'test'
+  ...
+# Subtest: catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+ok 53 - catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+  ---
+  duration_ms: 0.44275
+  type: 'test'
+  ...
+# Subtest: failed field restore is retryable and cannot silently mark a missing restored song successful
+ok 54 - failed field restore is retryable and cannot silently mark a missing restored song successful
+  ---
+  duration_ms: 25.540042
+  type: 'test'
+  ...
+# Subtest: missing map stops old committed and late-loading music rather than retaining stale intent
+ok 55 - missing map stops old committed and late-loading music rather than retaining stale intent
+  ---
+  duration_ms: 11.771
+  type: 'test'
+  ...
+# Subtest: native sequence identity preserves phase across map/override/radio label changes
+ok 56 - native sequence identity preserves phase across map/override/radio label changes
+  ---
+  duration_ms: 1.540792
+  type: 'test'
+  ...
+# Subtest: volume-only preferences share the active load without dropping its caller cancellation
+ok 57 - volume-only preferences share the active load without dropping its caller cancellation
+  ---
+  duration_ms: 7.541667
+  type: 'test'
+  ...
+# Subtest: battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+ok 58 - battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+  ---
+  duration_ms: 44.492458
+  type: 'test'
+  ...
+# Subtest: battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+ok 59 - battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+  ---
+  duration_ms: 23.424833
+  type: 'test'
+  ...
+# Subtest: muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+ok 60 - muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+  ---
+  duration_ms: 3.8225
+  type: 'test'
+  ...
+# Subtest: restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+ok 61 - restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+  ---
+  duration_ms: 0.770542
+  type: 'test'
+  ...
+# Subtest: a newer map during slow restore owns playback and cannot re-arm stale interruption
+ok 62 - a newer map during slow restore owns playback and cannot re-arm stale interruption
+  ---
+  duration_ms: 1.035375
+  type: 'test'
+  ...
+# Subtest: an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+ok 63 - an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+  ---
+  duration_ms: 5.0365
+  type: 'test'
+  ...
+# Subtest: repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+ok 64 - repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+  ---
+  duration_ms: 0.649375
+  type: 'test'
+  ...
+# Subtest: mute changes after encounter abort do not resurrect or reject its terminated owned cue
+ok 65 - mute changes after encounter abort do not resurrect or reject its terminated owned cue
+  ---
+  duration_ms: 5.589292
+  type: 'test'
+  ...
+# Subtest: restore in the suspension microtask cancels start and coherently releases the field
+ok 66 - restore in the suspension microtask cancels start and coherently releases the field
+  ---
+  duration_ms: 2.050416
+  type: 'test'
+  ...
+# Subtest: same native cue source label changes while interrupted remain current after phase restoration
+ok 67 - same native cue source label changes while interrupted remain current after phase restoration
+  ---
+  duration_ms: 9.325917
+  type: 'test'
+  ...
+# Subtest: catalog caller cancellation rejects promptly without poisoning a shared consumer
+ok 68 - catalog caller cancellation rejects promptly without poisoning a shared consumer
+  ---
+  duration_ms: 0.38275
+  type: 'test'
+  ...
+# Subtest: catalog deadline evicts a hung shared request and cannot adopt its late result
+ok 69 - catalog deadline evicts a hung shared request and cannot adopt its late result
+  ---
+  duration_ms: 15.373375
+  type: 'test'
+  ...
+# Subtest: abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+ok 70 - abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 1.2225
+  type: 'test'
+  ...
+# Subtest: abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+ok 71 - abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 2.031583
+  type: 'test'
+  ...
+# Subtest: abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+ok 72 - abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 0.734333
+  type: 'test'
+  ...
+# Subtest: background fetch deadline aborts the owner without attempting another codec or starting late audio
+ok 73 - background fetch deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 98.994458
+  type: 'test'
+  ...
+# Subtest: background decode deadline aborts the owner without attempting another codec or starting late audio
+ok 74 - background decode deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 21.955958
+  type: 'test'
+  ...
+# Subtest: a caller deadline during field restore preserves retryable interruption and no late voice
+ok 75 - a caller deadline during field restore preserves retryable interruption and no late voice
+  ---
+  duration_ms: 1.17875
+  type: 'test'
+  ...
+# Subtest: cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+ok 76 - cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+  ---
+  duration_ms: 5.212209
+  type: 'test'
+  ...
+# Subtest: already-aborted restore still tears down the session voice before rejecting, then can retry
+ok 77 - already-aborted restore still tears down the session voice before rejecting, then can retry
+  ---
+  duration_ms: 1.4435
+  type: 'test'
+  ...
+# Subtest: aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+ok 78 - aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+  ---
+  duration_ms: 0.630417
+  type: 'test'
+  ...
+# Subtest: shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+ok 79 - shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+  ---
+  duration_ms: 0.856667
+  type: 'test'
+  ...
+# Subtest: isUnlocked reports actual Context permission separately from music preparation success
+ok 80 - isUnlocked reports actual Context permission separately from music preparation success
+  ---
+  duration_ms: 64.439792
+  type: 'test'
+  ...
+# Subtest: player disposal rejects a pending field restore instead of reporting a newer-map success
+ok 81 - player disposal rejects a pending field restore instead of reporting a newer-map success
+  ---
+  duration_ms: 1.311333
+  type: 'test'
+  ...
+# Subtest: player disposal rejects a pending session restore instead of reporting a newer-map success
+ok 82 - player disposal rejects a pending session restore instead of reporting a newer-map success
+  ---
+  duration_ms: 0.688875
+  type: 'test'
+  ...
+# Subtest: hidden-page master gate silences field, battle and shared hatch output through late loads and preference changes
+ok 83 - hidden-page master gate silences field, battle and shared hatch output through late loads and preference changes
+  ---
+  duration_ms: 13.435958
+  type: 'test'
+  ...
+# Subtest: hiding while a decoder is pending cannot publish audible music after backgrounding
+ok 84 - hiding while a decoder is pending cannot publish audible music after backgrounding
+  ---
+  duration_ms: 8.37175
+  type: 'test'
+  ...
+# (node:11919) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual shared phase is captured after drain; both cues prepare on shared transport and actual fanfare ended precedes native timer/resume
+ok 85 - actual shared phase is captured after drain; both cues prepare on shared transport and actual fanfare ended precedes native timer/resume
+  ---
+  duration_ms: 64.88625
+  type: 'test'
+  ...
+# Subtest: capture-none still synchronously latches field interruption after bounded ignored drain and before manifest I/O
+ok 86 - capture-none still synchronously latches field interruption after bounded ignored drain and before manifest I/O
+  ---
+  duration_ms: 17.142
+  type: 'test'
+  ...
+# Subtest: failed native audio preparation does not fabricate voices and retains15 native30Hz ticks even when PlayFanfare admits no voice
+ok 87 - failed native audio preparation does not fabricate voices and retains15 native30Hz ticks even when PlayFanfare admits no voice
+  ---
+  duration_ms: 0.754375
+  type: 'test'
+  ...
+# Subtest: failed BGM can still play the actual native fanfare independently, without pretending a background voice
+ok 88 - failed BGM can still play the actual native fanfare independently, without pretending a background voice
+  ---
+  duration_ms: 0.664625
+  type: 'test'
+  ...
+# Subtest: deadline abort stops a late admitted owned voice, cancels ignored decode publication, and never waits forever
+ok 89 - deadline abort stops a late admitted owned voice, cancels ignored decode publication, and never waits forever
+  ---
+  duration_ms: 196.947167
+  type: 'test'
+  ...
+# Subtest: source cancellation and unsupported cue/source are explicit, and restore aborts in-flight preparation with no later start
+ok 90 - source cancellation and unsupported cue/source are explicit, and restore aborts in-flight preparation with no later start
+  ---
+  duration_ms: 2.964333
+  type: 'test'
+  ...
+# Subtest: restoration failure reports and retains an independently cancellable retry, never resurrects an obsolete field snapshot
+ok 91 - restoration failure reports and retains an independently cancellable retry, never resurrects an obsolete field snapshot
+  ---
+  duration_ms: 21.999459
+  type: 'test'
+  ...
+# Subtest: explicit mute creates no transport/Context or requests; source scope and missing required mechanism stay explicit
+ok 92 - explicit mute creates no transport/Context or requests; source scope and missing required mechanism stay explicit
+  ---
+  duration_ms: 0.769292
+  type: 'test'
+  ...
+# Subtest: native mono175 cry uses original pinned PCM/WAV, shared Context/master, actual ended and exactgenericPV volume120/127
+ok 93 - native mono175 cry uses original pinned PCM/WAV, shared Context/master, actual ended and exactgenericPV volume120/127
+  ---
+  duration_ms: 31.054375
+  type: 'test'
+  ...
+# Subtest: held original-WAV decode waits for fixture-owned cry admission and completion
+ok 94 - held original-WAV decode waits for fixture-owned cry admission and completion
+  ---
+  duration_ms: 3.215667
+  type: 'test'
+  ...
+# Subtest: technical suspended/fetch/undefined-decode/start failure permits real no-voice cry while cancellation/lifetime disposal remains explicit
+ok 95 - technical suspended/fetch/undefined-decode/start failure permits real no-voice cry while cancellation/lifetime disposal remains explicit
+  ---
+  duration_ms: 8.346833
+  type: 'test'
+  ...
+# Subtest: native hatch source ignores audio admissions, but starts15-count fanfare timer even on failed sequence
+ok 96 - native hatch source ignores audio admissions, but starts15-count fanfare timer even on failed sequence
+  ---
+  duration_ms: 4.276791
+  type: 'test'
+  ...
+# Subtest: actual lifecycle reaches native naming/Dex/flag/resume with technical no-audio admissions (presentation acknowledgements are mocked, no browser claim)
+ok 97 - actual lifecycle reaches native naming/Dex/flag/resume with technical no-audio admissions (presentation acknowledgements are mocked, no browser claim)
+  ---
+  duration_ms: 519.566084
+  type: 'test'
+  ...
+# Subtest: a reentrant source cancellation plus rejected synchronous suspension is observed and never becomes a technical silent fallback
+ok 98 - a reentrant source cancellation plus rejected synchronous suspension is observed and never becomes a technical silent fallback
+  ---
+  duration_ms: 0.582375
+  type: 'test'
+  ...
+# Subtest: actual final shared player prevents a capture-none late unlock from admitting field voice during hatch, then a later battle owns playback
+ok 99 - actual final shared player prevents a capture-none late unlock from admitting field voice during hatch, then a later battle owns playback
+  ---
+  duration_ms: 205.284541
+  type: 'test'
+  ...
+# Subtest: actual shared player cancels old pre-catalog field work even when catalog returns only after hatch restoration and later battle admission
+ok 100 - actual shared player cancels old pre-catalog field work even when catalog returns only after hatch restoration and later battle admission
+  ---
+  duration_ms: 410.037917
+  type: 'test'
+  ...
+# Subtest: actual shared player preserves effective radio identity/paused phase and one master Context through hatch transport ownership
+ok 101 - actual shared player preserves effective radio identity/paused phase and one master Context through hatch transport ownership
+  ---
+  duration_ms: 7.849417
+  type: 'test'
+  ...
+# Subtest: concurrent cleanup is idempotent and never aborts its own independently bounded field restoration
+ok 102 - concurrent cleanup is idempotent and never aborts its own independently bounded field restoration
+  ---
+  duration_ms: 1.128416
+  type: 'test'
+  ...
+# Subtest: native WAV preparation has an independent bounded budget beyond short drain/start deadlines and prepares both cues together
+ok 103 - native WAV preparation has an independent bounded budget beyond short drain/start deadlines and prepares both cues together
+  ---
+  duration_ms: 53.73075
+  type: 'test'
+  ...
+# Subtest: actual suspended shared Context cannot queue an old field voice on restoration; retained retry waits for host permission without unlocking itself
+ok 104 - actual suspended shared Context cannot queue an old field voice on restoration; retained retry waits for host permission without unlocking itself
+  ---
+  duration_ms: 9.341166
+  type: 'test'
+  ...
+# Subtest: restoration between drain completion and field capture cannot establish a latch after the owner has closed
+ok 105 - restoration between drain completion and field capture cannot establish a latch after the owner has closed
+  ---
+  duration_ms: 0.296917
+  type: 'test'
+  ...
+# Subtest: a broken failure-report callback remains explicit but cannot prevent physical field-interruption cleanup
+ok 106 - a broken failure-report callback remains explicit but cannot prevent physical field-interruption cleanup
+  ---
+  duration_ms: 0.256709
+  type: 'test'
+  ...
+# Subtest: an admitted shared-player lifetime disposal stays explicit for later hatch phases instead of becoming a technical no-voice fallback
+ok 107 - an admitted shared-player lifetime disposal stays explicit for later hatch phases instead of becoming a technical no-voice fallback
+  ---
+  duration_ms: 6.065792
+  type: 'test'
+  ...
+# Subtest: live preference read: mute after construction prevents transport, output and source requests
+ok 108 - live preference read: mute after construction prevents transport, output and source requests
+  ---
+  duration_ms: 2.274958
+  type: 'test'
+  ...
+# Subtest: live preference read: muted preparation admits no delayed BGM; later unmute admits original cry and prepared fanfare
+ok 109 - live preference read: muted preparation admits no delayed BGM; later unmute admits original cry and prepared fanfare
+  ---
+  duration_ms: 1.444958
+  type: 'test'
+  ...
+# Subtest: live preference read: mute during original cry decode prevents late start without cancelling subsequent phases
+ok 110 - live preference read: mute during original cry decode prevents late start without cancelling subsequent phases
+  ---
+  duration_ms: 1.259709
+  type: 'test'
+  ...
+# Subtest: live preference read: hatch begun muted can admit its future original fanfare after unmute without replaying BGM
+ok 111 - live preference read: hatch begun muted can admit its future original fanfare after unmute without replaying BGM
+  ---
+  duration_ms: 0.3235
+  type: 'test'
+  ...
+# Subtest: live preference read: master mute is synchronous during admitted fanfare and preserves actual end plus native timer
+ok 112 - live preference read: master mute is synchronous during admitted fanfare and preserves actual end plus native timer
+  ---
+  duration_ms: 10.613083
+  type: 'test'
+  ...
+# Subtest: live preference read: an admitted original cry completes while master output is muted or hidden
+ok 113 - live preference read: an admitted original cry completes while master output is muted or hidden
+  ---
+  duration_ms: 8.153041
+  type: 'test'
+  ...
+# Subtest: live preference read: muted locked hatch never creates or unlocks a Context; later unlock follows newer field intent
+ok 114 - live preference read: muted locked hatch never creates or unlocks a Context; later unlock follows newer field intent
+  ---
+  duration_ms: 2.23425
+  type: 'test'
+  ...
+# Subtest: live preference read: recovery retry while muted releases hatch ownership without reviving field over a later battle
+ok 115 - live preference read: recovery retry while muted releases hatch ownership without reviving field over a later battle
+  ---
+  duration_ms: 7.904542
+  type: 'test'
+  ...
+# Subtest: muted fanfare phase: initially muted still waits native15 ticks with no audio I/O or fabricated cry delay
+ok 116 - muted fanfare phase: initially muted still waits native15 ticks with no audio I/O or fabricated cry delay
+  ---
+  duration_ms: 0.977209
+  type: 'test'
+  ...
+# Subtest: muted fanfare phase: just-muted BGM pauses until native timer; late unmute does not replay the missed sequence
+ok 117 - muted fanfare phase: just-muted BGM pauses until native timer; late unmute does not replay the missed sequence
+  ---
+  duration_ms: 0.910667
+  type: 'test'
+  ...
+# Subtest: muted fanfare phase: actual shared BGM stays paused through late unmute and resumes its captured phase after timer
+ok 118 - muted fanfare phase: actual shared BGM stays paused through late unmute and resumes its captured phase after timer
+  ---
+  duration_ms: 6.239416
+  type: 'test'
+  ...
+# Subtest: muted fanfare phase: mute during future manifest or preparation retains its no-voice timer without a mute diagnostic
+ok 119 - muted fanfare phase: mute during future manifest or preparation retains its no-voice timer without a mute diagnostic
+  ---
+  duration_ms: 1.063125
+  type: 'test'
+  ...
+# Subtest: muted fanfare phase: an admitted sequence ends before its native tail and late unmute cannot release that tail
+ok 120 - muted fanfare phase: an admitted sequence ends before its native tail and late unmute cannot release that tail
+  ---
+  duration_ms: 1.308084
+  type: 'test'
+  ...
+# Subtest: muted fanfare phase: map cancellation or Return drains timer ownership and never resumes the obsolete BGM
+ok 121 - muted fanfare phase: map cancellation or Return drains timer ownership and never resumes the obsolete BGM
+  ---
+  duration_ms: 1.079084
+  type: 'test'
+  ...
+# Subtest: muted fanfare phase: real presentation cannot name before timer, and Return rolls back before a fresh successful Retry
+ok 122 - muted fanfare phase: real presentation cannot name before timer, and Return rolls back before a fresh successful Retry
+  ---
+  duration_ms: 388.235417
+  type: 'test'
+  ...
+# (node:11920) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: two rendered cues resolve independently through native SYMB→INFO→FAT and the exact original bank/wave archive
+ok 123 - two rendered cues resolve independently through native SYMB→INFO→FAT and the exact original bank/wave archive
+  ---
+  duration_ms: 34.121084
+  type: 'test'
+  ...
+# Subtest: optimized Python still refuses an unpinned renderer before importing or rendering any musical data
+ok 124 - optimized Python still refuses an unpinned renderer before importing or rendering any musical data
+  ---
+  duration_ms: 797.907625
+  type: 'test'
+  ...
+# Subtest: default no-track session starts native music, pauses its phase during fanfare and waits for the real completion
+ok 125 - default no-track session starts native music, pauses its phase during fanfare and waits for the real completion
+  ---
+  duration_ms: 1.410667
+  type: 'test'
+  ...
+# Subtest: actual radio/surf override snapshots are captured once, detached and restored rather than inferred from the map
+ok 126 - actual radio/surf override snapshots are captured once, detached and restored rather than inferred from the map
+  ---
+  duration_ms: 0.8265
+  type: 'test'
+  ...
+# Subtest: field restoration uses the phase actually paused after preparation, while preserving the originally captured voice identity
+ok 127 - field restoration uses the phase actually paused after preparation, while preserving the originally captured voice identity
+  ---
+  duration_ms: 0.520917
+  type: 'test'
+  ...
+# Subtest: a changed external field voice is rejected but cleanup restores that actually-paused voice instead of resurrecting the stale capture
+ok 128 - a changed external field voice is rejected but cleanup restores that actually-paused voice instead of resurrecting the stale capture
+  ---
+  duration_ms: 0.611042
+  type: 'test'
+  ...
+# Subtest: aborting an awaited fanfare stops both owned voices and restoration works independently of that aborted signal
+ok 129 - aborting an awaited fanfare stops both owned voices and restoration works independently of that aborted signal
+  ---
+  duration_ms: 2.019958
+  type: 'test'
+  ...
+# Subtest: a restored session never starts a late load and waits for owned work before returning
+ok 130 - a restored session never starts a late load and waits for owned work before returning
+  ---
+  duration_ms: 0.579667
+  type: 'test'
+  ...
+# Subtest: failed field suspension still restores the actual snapshot; failed restoration can retry without replaying media
+ok 131 - failed field suspension still restores the actual snapshot; failed restoration can retry without replaying media
+  ---
+  duration_ms: 0.528792
+  type: 'test'
+  ...
+# Subtest: deliberate mute has no loads, AudioContext, field snapshots or hidden audio substitute
+ok 132 - deliberate mute has no loads, AudioContext, field snapshots or hidden audio substitute
+  ---
+  duration_ms: 0.581667
+  type: 'test'
+  ...
+# Subtest: missing or mismatched enabled audio rejects explicitly, with no silent successful mute
+ok 133 - missing or mismatched enabled audio rejects explicitly, with no silent successful mute
+  ---
+  duration_ms: 0.43775
+  type: 'test'
+  ...
+# Subtest: the real native187 hatch scene decodes exactly one literal newline and all placeholders
+ok 134 - the real native187 hatch scene decodes exactly one literal newline and all placeholders
+  ---
+  duration_ms: 622.443417
+  type: 'test'
+  ...
+# Subtest: WebAudio checks native bytes, preserves measured loop/paused phase, awaits ended and disposes owned nodes/context
+ok 135 - WebAudio checks native bytes, preserves measured loop/paused phase, awaits ended and disposes owned nodes/context
+  ---
+  duration_ms: 18.165084
+  type: 'test'
+  ...
+# Subtest: WebAudio does not hang an aborted autoplay request or fetch/play a late cue afterward
+ok 136 - WebAudio does not hang an aborted autoplay request or fetch/play a late cue afterward
+  ---
+  duration_ms: 101.885125
+  type: 'test'
+  ...
+# (node:11921) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+ok 137 - owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+  ---
+  duration_ms: 95.512416
+  type: 'test'
+  ...
+# Subtest: owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+ok 138 - owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+  ---
+  duration_ms: 1.186459
+  type: 'test'
+  ...
+# Subtest: native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+ok 139 - native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+  ---
+  duration_ms: 1.468125
+  type: 'test'
+  ...
+# Subtest: party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+ok 140 - party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+  ---
+  duration_ms: 1.313625
+  type: 'test'
+  ...
+# Subtest: fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+ok 141 - fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+  ---
+  duration_ms: 0.910417
+  type: 'test'
+  ...
+# Subtest: Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+ok 142 - Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+  ---
+  duration_ms: 0.686375
+  type: 'test'
+  ...
+# Subtest: settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+ok 143 - settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+  ---
+  duration_ms: 0.973666
+  type: 'test'
+  ...
+# Subtest: title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+ok 144 - title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+  ---
+  duration_ms: 2.16925
+  type: 'test'
+  ...
+# Subtest: Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+ok 145 - Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+  ---
+  duration_ms: 1.961958
+  type: 'test'
+  ...
+# Subtest: a pending Settings music retry releases exact handlers and subscription without altering its replacement
+ok 146 - a pending Settings music retry releases exact handlers and subscription without altering its replacement
+  ---
+  duration_ms: 1.741167
+  type: 'test'
+  ...
+# Subtest: confirming a focused Retry twice cannot activate Settings Back when the request disables the button
+ok 147 - confirming a focused Retry twice cannot activate Settings Back when the request disables the button
+  ---
+  duration_ms: 1.315
+  type: 'test'
+  ...
+# Subtest: settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+ok 148 - settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+  ---
+  duration_ms: 280.653208
+  type: 'test'
+  ...
+# Subtest: replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+ok 149 - replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+  ---
+  duration_ms: 1.002958
+  type: 'test'
+  ...
+# Subtest: a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+ok 150 - a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+  ---
+  duration_ms: 0.617042
+  type: 'test'
+  ...
+# Subtest: modern party and summary use the native male sprite slot for genderless Pokémon without changing identity
+ok 151 - modern party and summary use the native male sprite slot for genderless Pokémon without changing identity
+  ---
+  duration_ms: 11.172167
+  type: 'test'
+  ...
+# Subtest: open Settings follows the global mute and cross-tab volume changes without replacing its owned panel
+ok 152 - open Settings follows the global mute and cross-tab volume changes without replacing its owned panel
+  ---
+  duration_ms: 30.399791
+  type: 'test'
+  ...
+# Subtest: turning music on from a saved mute performs its gesture unlock after enabling the preference
+ok 153 - turning music on from a saved mute performs its gesture unlock after enabling the preference
+  ---
+  duration_ms: 0.532083
+  type: 'test'
+  ...
+# (node:11922) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual production Main permits Enter and Space on real Battle Fight, move and Back buttons
+ok 154 - actual production Main permits Enter and Space on real Battle Fight, move and Back buttons
+  ---
+  duration_ms: 248.422208
+  type: 'test'
+  ...
+# Main SHA256 6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee; extracted callback SHA256 2c07f275e6c94e76bb6262cfba218bb295f46f7bf15742b7e0ddd51656002917
+# Subtest: field HUD Enter remains field-owned without native double-click, while editable inputs remain normal
+ok 155 - field HUD Enter remains field-owned without native double-click, while editable inputs remain normal
+  ---
+  duration_ms: 1.48725
+  type: 'test'
+  ...
+# Subtest: real owned UI choices consume Enter and Space once before the production field handler
+ok 156 - real owned UI choices consume Enter and Space once before the production field handler
+  ---
+  duration_ms: 2.371875
+  type: 'test'
+  ...
+# Subtest: global audio focus preserves Enter/Space defaults without stealing subsequent field movement or interaction
+ok 157 - global audio focus preserves Enter/Space defaults without stealing subsequent field movement or interaction
+  ---
+  duration_ms: 1.081458
+  type: 'test'
+  ...
+# (node:11923) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+ok 158 - actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+  ---
+  duration_ms: 418.352833
+  type: 'test'
+  ...
+# main SHA256 6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee; selected actual bindings 7aef117b9b9d21217d5c918d4f554bac27d2a2306ad8f4db1f739a2a9c1b7c55
+# Subtest: actual source script, room entry, menu and battle release all held field inputs before awaited work
+ok 159 - actual source script, room entry, menu and battle release all held field inputs before awaited work
+  ---
+  duration_ms: 1139.053625
+  type: 'test'
+  ...
+# Subtest: room warp resets touch/camera immediately even when destination metadata rejects before entry
+ok 160 - room warp resets touch/camera immediately even when destination metadata rejects before entry
+  ---
+  duration_ms: 175.244333
+  type: 'test'
+  ...
+# Subtest: touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+ok 161 - touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+  ---
+  duration_ms: 872.474042
+  type: 'test'
+  ...
+# Subtest: actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+ok 162 - actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+  ---
+  duration_ms: 114.591875
+  type: 'test'
+  ...
+# Subtest: field Enter prevents the restored HUD button default from reopening a menu after it closes
+ok 163 - field Enter prevents the restored HUD button default from reopening a menu after it closes
+  ---
+  duration_ms: 7.565125
+  type: 'test'
+  ...
+# Subtest: actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+ok 164 - actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+  ---
+  duration_ms: 425.242959
+  type: 'test'
+  ...
+# Subtest: actual context sync disables held input for UI, script, battle, transition and source recovery locks
+ok 165 - actual context sync disables held input for UI, script, battle, transition and source recovery locks
+  ---
+  duration_ms: 1012.365041
+  type: 'test'
+  ...
+# Subtest: keyboard admission and Q/E camera polling respect the same source recovery lock as touch and drag
+ok 166 - keyboard admission and Q/E camera polling respect the same source recovery lock as touch and drag
+  ---
+  duration_ms: 190.233083
+  type: 'test'
+  ...
+# Subtest: frame scenes cannot start during a source recovery or another owned modal action
+ok 167 - frame scenes cannot start during a source recovery or another owned modal action
+  ---
+  duration_ms: 256.932292
+  type: 'test'
+  ...
+# Subtest: actual save reports blocked or unavailable persistence without replacing the existing slot
+ok 168 - actual save reports blocked or unavailable persistence without replacing the existing slot
+  ---
+  duration_ms: 256.998167
+  type: 'test'
+  ...
+# Subtest: title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+ok 169 - title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+  ---
+  duration_ms: 181.058583
+  type: 'test'
+  ...
+# Subtest: Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+ok 170 - Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+  ---
+  duration_ms: 174.224375
+  type: 'test'
+  ...
+# Subtest: confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+ok 171 - confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+  ---
+  duration_ms: 176.829708
+  type: 'test'
+  ...
+# Subtest: live preference update uses actual normalization/persistence callback and keeps battle style intact
+ok 172 - live preference update uses actual normalization/persistence callback and keeps battle style intact
+  ---
+  duration_ms: 144.508666
+  type: 'test'
+  ...
+# Subtest: actual SourceActionRecovery running and hydration phases both block held input and durable saves
+ok 173 - actual SourceActionRecovery running and hydration phases both block held input and durable saves
+  ---
+  duration_ms: 214.770709
+  type: 'test'
+  ...
+# (node:11943) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual gesture handler invokes unlock synchronously, deduplicates pending gestures and permits retry after rejection
+ok 174 - actual gesture handler invokes unlock synchronously, deduplicates pending gestures and permits retry after rejection
+  ---
+  duration_ms: 590.824417
+  type: 'test'
+  ...
+# main SHA256 6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee; actual music bindings 0de901ab952def3107617bef2f9d3e9cd04ec8a51dfa1d4d4888abf03b65fb6e
+# Subtest: actual preference construction migrates defaults and preserves explicit mute through gameplay entry and gesture unlock
+ok 175 - actual preference construction migrates defaults and preserves explicit mute through gameplay entry and gesture unlock
+  ---
+  duration_ms: 641.383375
+  type: 'test'
+  ...
+# Subtest: actual map music synchronization deduplicates intent and suppresses failures from a replaced map request
+ok 176 - actual map music synchronization deduplicates intent and suppresses failures from a replaced map request
+  ---
+  duration_ms: 210.770291
+  type: 'test'
+  ...
+# Subtest: ordinary field gestures and key repeats do not retry a failed song or repeat its error toast
+ok 177 - ordinary field gestures and key repeats do not retry a failed song or repeat its error toast
+  ---
+  duration_ms: 308.091042
+  type: 'test'
+  ...
+# Subtest: a resumed Context with a failed initial song remains unlocked without gesture retries and recovers through Settings Retry
+ok 178 - a resumed Context with a failed initial song remains unlocked without gesture retries and recovers through Settings Retry
+  ---
+  duration_ms: 361.069625
+  type: 'test'
+  ...
+# Subtest: a first gesture song load replaced by a successful new map does not report an outage or replace that map
+ok 179 - a first gesture song load replaced by a successful new map does not report an outage or replace that map
+  ---
+  duration_ms: 257.4405
+  type: 'test'
+  ...
+# Subtest: a newer map does not hide a genuine Context permission rejection from the first gesture
+ok 180 - a newer map does not hide a genuine Context permission rejection from the first gesture
+  ---
+  duration_ms: 142.081917
+  type: 'test'
+  ...
+# Subtest: a failed first song after delayed Context resume stays retryable when the newer locked map response is settled
+ok 181 - a failed first song after delayed Context resume stays retryable when the newer locked map response is settled
+  ---
+  duration_ms: 233.192458
+  type: 'test'
+  ...
+# Subtest: a failed first song after delayed Context resume stays retryable when the newer locked map response is pending
+ok 182 - a failed first song after delayed Context resume stays retryable when the newer locked map response is pending
+  ---
+  duration_ms: 191.062708
+  type: 'test'
+  ...
+# Subtest: text/camera preferences do not touch audio, and explicit Retry exposes observable retryability
+ok 183 - text/camera preferences do not touch audio, and explicit Retry exposes observable retryability
+  ---
+  duration_ms: 190.463417
+  type: 'test'
+  ...
+# Subtest: late map success cannot erase a newer map failure diagnostic
+ok 184 - late map success cannot erase a newer map failure diagnostic
+  ---
+  duration_ms: 161.868125
+  type: 'test'
+  ...
+# Subtest: rapid volume changes ignore a superseded request even when the final content key is unchanged
+ok 185 - rapid volume changes ignore a superseded request even when the final content key is unchanged
+  ---
+  duration_ms: 348.89575
+  type: 'test'
+  ...
+# Subtest: actual battle setup uses the source trainer class, first living wild species and native cue selector
+ok 186 - actual battle setup uses the source trainer class, first living wild species and native cue selector
+  ---
+  duration_ms: 520.926
+  type: 'test'
+  ...
+# Subtest: awaited cue preparation locks movement, menu, save, source frames and keyboard/drag camera before Battle.active
+ok 187 - awaited cue preparation locks movement, menu, save, source frames and keyboard/drag camera before Battle.active
+  ---
+  duration_ms: 456.103458
+  type: 'test'
+  ...
+# Subtest: a stalled shared catalog yields to the battle deadline without starting a late cue
+ok 188 - a stalled shared catalog yields to the battle deadline without starting a late cue
+  ---
+  duration_ms: 209.9895
+  type: 'test'
+  ...
+# Subtest: a stalled fetch cannot delay battle past the preparation deadline or start a late cue
+ok 189 - a stalled fetch cannot delay battle past the preparation deadline or start a late cue
+  ---
+  duration_ms: 214.501875
+  type: 'test'
+  ...
+# Subtest: a stalled decode cannot delay battle past the preparation deadline or start a late cue
+ok 190 - a stalled decode cannot delay battle past the preparation deadline or start a late cue
+  ---
+  duration_ms: 174.130208
+  type: 'test'
+  ...
+# Subtest: a stalled blackout restore releases gameplay at the return deadline and late bytes cannot beat a newer map
+ok 191 - a stalled blackout restore releases gameplay at the return deadline and late bytes cannot beat a newer map
+  ---
+  duration_ms: 306.082958
+  type: 'test'
+  ...
+# Subtest: background restores stop at the current battle owner and cannot resume a second retained fallback or clear its error
+ok 192 - background restores stop at the current battle owner and cannot resume a second retained fallback or clear its error
+  ---
+  duration_ms: 100.604916
+  type: 'test'
+  ...
+# Subtest: failed cue decoding still runs the battle with old field phase paused, then restores it
+ok 193 - failed cue decoding still runs the battle with old field phase paused, then restores it
+  ---
+  duration_ms: 383.065125
+  type: 'test'
+  ...
+# Subtest: battle throw restores its actual field phase and releases the audio host lock without saving a battle result
+ok 194 - battle throw restores its actual field phase and releases the audio host lock without saving a battle result
+  ---
+  duration_ms: 335.206
+  type: 'test'
+  ...
+# Subtest: blackout retains music ownership until the desired spawn map is known, then restores only that map and resumes its frame scene once
+ok 195 - blackout retains music ownership until the desired spawn map is known, then restores only that map and resumes its frame scene once
+  ---
+  duration_ms: 202.205958
+  type: 'test'
+  ...
+# Subtest: retained destination restore ownership recovers only through explicit Retry or a newer map intent
+ok 196 - retained destination restore ownership recovers only through explicit Retry or a newer map intent
+  ---
+  duration_ms: 336.60075
+  type: 'test'
+  ...
+# Subtest: an unavailable return-map music selection never leaves the completed battle cue looping in the field
+ok 197 - an unavailable return-map music selection never leaves the completed battle cue looping in the field
+  ---
+  duration_ms: 276.014792
+  type: 'test'
+  ...
+# Subtest: actual catching-tutorial hook uses the shared native cue owner and battleType 1<<10, then resumes source entry after release
+ok 198 - actual catching-tutorial hook uses the shared native cue owner and battleType 1<<10, then resumes source entry after release
+  ---
+  duration_ms: 175.753792
+  type: 'test'
+  ...
+# (node:11971) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native transaction retains joystick + camera across completed steps and seamless OnLoad
+ok 199 - native transaction retains joystick + camera across completed steps and seamless OnLoad
+  ---
+  duration_ms: 469.595917
+  type: 'test'
+  ...
+# combined main SHA256 6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee
+# Subtest: native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+ok 200 - native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+  ---
+  duration_ms: 1049.957167
+  type: 'test'
+  ...
+# Subtest: touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+ok 201 - touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+  ---
+  duration_ms: 847.838666
+  type: 'test'
+  ...
+# Subtest: priority coordinate scene consumes a completed step before Egg/wild/phone admission
+ok 202 - priority coordinate scene consumes a completed step before Egg/wild/phone admission
+  ---
+  duration_ms: 34.559792
+  type: 'test'
+  ...
+# Subtest: Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+ok 203 - Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+  ---
+  duration_ms: 405.629458
+  type: 'test'
+  ...
+# Subtest: failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+ok 204 - failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+  ---
+  duration_ms: 135.412917
+  type: 'test'
+  ...
+# Subtest: nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+ok 205 - nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+  ---
+  duration_ms: 185.861
+  type: 'test'
+  ...
+# Subtest: loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+ok 206 - loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+  ---
+  duration_ms: 230.950792
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+ok 207 - explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+  ---
+  duration_ms: 307.403833
+  type: 'test'
+  ...
+# Subtest: Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+ok 208 - Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+  ---
+  duration_ms: 97.283209
+  type: 'test'
+  ...
+# Subtest: menu waits for native party child to finish and resets active phone only for the four real child actions
+ok 209 - menu waits for native party child to finish and resets active phone only for the four real child actions
+  ---
+  duration_ms: 260.442625
+  type: 'test'
+  ...
+# Subtest: actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+ok 210 - actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+  ---
+  duration_ms: 79.341542
+  type: 'test'
+  ...
+# Subtest: owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+ok 211 - owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+  ---
+  duration_ms: 55.0475
+  type: 'test'
+  ...
+# Subtest: modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+ok 212 - modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+  ---
+  duration_ms: 715.962875
+  type: 'test'
+  ...
+# Subtest: field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+ok 213 - field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+  ---
+  duration_ms: 3.211084
+  type: 'test'
+  ...
+# Subtest: hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+ok 214 - hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+  ---
+  duration_ms: 382.122792
+  type: 'test'
+  ...
+# Subtest: real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+ok 215 - real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+  ---
+  duration_ms: 935.235459
+  type: 'test'
+  ...
+# Subtest: Bag host keeps native Potion provisional until final acknowledgement, then commits one use
+ok 216 - Bag host keeps native Potion provisional until final acknowledgement, then commits one use
+  ---
+  duration_ms: 288.635792
+  type: 'test'
+  ...
+# Subtest: Bag lifecycle interruption rolls provisional party/bag back; explicit Retry owns a fresh signal and does not double consume
+ok 217 - Bag lifecycle interruption rolls provisional party/bag back; explicit Retry owns a fresh signal and does not double consume
+  ---
+  duration_ms: 387.014333
+  type: 'test'
+  ...
+# Subtest: title Settings and cancelled replacement retain the exact saved adventure and call native Continue once
+ok 218 - title Settings and cancelled replacement retain the exact saved adventure and call native Continue once
+  ---
+  duration_ms: 277.346458
+  type: 'test'
+  ...
+# Subtest: native party Escape cancels only its owned prompt/target, keeps whole records, and removes its abort listener
+ok 219 - native party Escape cancels only its owned prompt/target, keeps whole records, and removes its abort listener
+  ---
+  duration_ms: 467.772792
+  type: 'test'
+  ...
+# Subtest: field music cannot admit a failed-map cue while source hydration is incomplete
+ok 220 - field music cannot admit a failed-map cue while source hydration is incomplete
+  ---
+  duration_ms: 193.481125
+  type: 'test'
+  ...
+# Subtest: ordinary native Cherrygrove PASSERBY battle never requests the prototype noCritical override
+ok 221 - ordinary native Cherrygrove PASSERBY battle never requests the prototype noCritical override
+  ---
+  duration_ms: 325.746458
+  type: 'test'
+  ...
+# Subtest: actual battle host settles Mom against capped wallets and pre-battle message snapshot on win/cap/full-bank/zero/loss
+ok 222 - actual battle host settles Mom against capped wallets and pre-battle message snapshot on win/cap/full-bank/zero/loss
+  ---
+  duration_ms: 1412.152333
+  type: 'test'
+  ...
+# Subtest: fresh Mom purchase accelerates even with pending12; reading/zero-event settlement never reboosts
+ok 223 - fresh Mom purchase accelerates even with pending12; reading/zero-event settlement never reboosts
+  ---
+  duration_ms: 288.108083
+  type: 'test'
+  ...
+# Subtest: late Mom host failure Return restores wallet/store/pending/manager; explicit Retry purchases exactly once
+ok 224 - late Mom host failure Return restores wallet/store/pending/manager; explicit Retry purchases exactly once
+  ---
+  duration_ms: 435.2815
+  type: 'test'
+  ...
+# Subtest: actual Mother indicator/answer pins27, rejects unsupported contexts, and rolls back late call failure before Retry
+ok 225 - actual Mother indicator/answer pins27, rejects unsupported contexts, and rolls back late call failure before Retry
+  ---
+  duration_ms: 585.217958
+  type: 'test'
+  ...
+# Subtest: Mom berry admission receives an exact raw16 draw and Retry reuses it without another selection
+ok 226 - Mom berry admission receives an exact raw16 draw and Retry reuses it without another selection
+  ---
+  duration_ms: 322.065041
+  type: 'test'
+  ...
+# Subtest: native capture unlock excludes the global audio button while its focused field keys remain usable
+ok 227 - native capture unlock excludes the global audio button while its focused field keys remain usable
+  ---
+  duration_ms: 137.198916
+  type: 'test'
+  ...
+# Subtest: hatch blocks ordinary Settings admission while the independent global mute remains live
+ok 228 - hatch blocks ordinary Settings admission while the independent global mute remains live
+  ---
+  duration_ms: 100.485667
+  type: 'test'
+  ...
+# Subtest: actual hatch host fixes prior music jobs before ownership, forwards shared audio and retains failed restores
+ok 229 - actual hatch host fixes prior music jobs before ownership, forwards shared audio and retains failed restores
+  ---
+  duration_ms: 219.157542
+  type: 'test'
+  ...
+# Subtest: current global preferences survive actual source rollback and recovery Retry before native field hydration
+ok 230 - current global preferences survive actual source rollback and recovery Retry before native field hydration
+  ---
+  duration_ms: 404.755875
+  type: 'test'
+  ...
+# Subtest: hatch factory configuration failure always releases the main owner and reaches source recovery
+ok 231 - hatch factory configuration failure always releases the main owner and reaches source recovery
+  ---
+  duration_ms: 185.590917
+  type: 'test'
+  ...
+# Subtest: native hatch core/presenter with actual shared adapter survives technical no-voice admission and commits real Togepi/phone flags
+ok 232 - native hatch core/presenter with actual shared adapter survives technical no-voice admission and commits real Togepi/phone flags
+  ---
+  duration_ms: 219.47375
+  type: 'test'
+  ...
+# Subtest: Bag lifecycle abort in final leaf handback restores acknowledged provisional item before save
+ok 233 - Bag lifecycle abort in final leaf handback restores acknowledged provisional item before save
+  ---
+  duration_ms: 476.163625
+  type: 'test'
+  ...
+# Subtest: focused real battle Fight/move/Back retain Enter and Space defaults while field HUD and owned UI keep key ownership
+ok 234 - focused real battle Fight/move/Back retain Enter and Space defaults while field HUD and owned UI keep key ownership
+  ---
+  duration_ms: 461.794
+  type: 'test'
+  ...
+# (node:11972) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owned choices navigate enabled controls with arrows/Home/End and trap Tab in both directions
+ok 235 - owned choices navigate enabled controls with arrows/Home/End and trap Tab in both directions
+  ---
+  duration_ms: 7.553083
+  type: 'test'
+  ...
+# Subtest: Enter/Space/F confirm exactly once and consume the event before a field handler
+ok 236 - Enter/Space/F confirm exactly once and consume the event before a field handler
+  ---
+  duration_ms: 1.072208
+  type: 'test'
+  ...
+# Subtest: mandatory choices do not become keyboard cancellable merely because they have an AbortSignal
+ok 237 - mandatory choices do not become keyboard cancellable merely because they have an AbortSignal
+  ---
+  duration_ms: 94.073333
+  type: 'test'
+  ...
+# Subtest: Escape/B use only an explicit enabled cancelIndex, with invalid configuration rejected before replacement
+ok 238 - Escape/B use only an explicit enabled cancelIndex, with invalid configuration rejected before replacement
+  ---
+  duration_ms: 1.667625
+  type: 'test'
+  ...
+# Subtest: modal focus cannot escape, replacement avoids stale focus, and final close restores prior focus/inert state
+ok 239 - modal focus cannot escape, replacement avoids stale focus, and final close restores prior focus/inert state
+  ---
+  duration_ms: 0.672833
+  type: 'test'
+  ...
+# Subtest: editable naming keeps normal keys and IME, with one Done/Enter submit and native input hints
+ok 240 - editable naming keeps normal keys and IME, with one Done/Enter submit and native input hints
+  ---
+  duration_ms: 0.720792
+  type: 'test'
+  ...
+# Subtest: the fresh title uses original Ho-Oh art, no false Continue, and invokes gesture synchronously before resolution
+ok 241 - the fresh title uses original Ho-Oh art, no false Continue, and invokes gesture synchronously before resolution
+  ---
+  duration_ms: 0.876542
+  type: 'test'
+  ...
+# Subtest: saved title escapes profile/location/nicknames and renders bounded source sprites without exposing Egg species
+ok 242 - saved title escapes profile/location/nicknames and renders bounded source sprites without exposing Egg species
+  ---
+  duration_ms: 1.238958
+  type: 'test'
+  ...
+# Subtest: stale title clicks/abort/focus timers cannot unlock audio or resolve/close a newer prompt
+ok 243 - stale title clicks/abort/focus timers cannot unlock audio or resolve/close a newer prompt
+  ---
+  duration_ms: 1.500875
+  type: 'test'
+  ...
+# Subtest: title gesture failure rejects its owner coherently and a pre-aborted title does not replace a current panel
+ok 244 - title gesture failure rejects its owner coherently and a pre-aborted title does not replace a current panel
+  ---
+  duration_ms: 1.140417
+  type: 'test'
+  ...
+# Subtest: a synchronous gesture callback that replaces its own title cannot cancel the newer owned prompt
+ok 245 - a synchronous gesture callback that replaces its own title cannot cancel the newer owned prompt
+  ---
+  duration_ms: 16.222958
+  type: 'test'
+  ...
+# Subtest: closing a modal falls back to the world when its old focus target was disabled, and generic input permits Escape
+ok 246 - closing a modal falls back to the world when its old focus target was disabled, and generic input permits Escape
+  ---
+  duration_ms: 0.336417
+  type: 'test'
+  ...
+# Subtest: polite nonmodal toast owns its timer and stale disposers cannot hide a newer save/settings notice
+ok 247 - polite nonmodal toast owns its timer and stale disposers cannot hide a newer save/settings notice
+  ---
+  duration_ms: 0.313833
+  type: 'test'
+  ...
+# Subtest: generic panels retain explicit canDismiss behavior while an owned choice has keyboard priority over dialogue
+ok 248 - generic panels retain explicit canDismiss behavior while an owned choice has keyboard priority over dialogue
+  ---
+  duration_ms: 0.586917
+  type: 'test'
+  ...
+# Subtest: custom panels retain mandatory ownership and exact cleanup through replacement/abort without orphan promises
+ok 249 - custom panels retain mandatory ownership and exact cleanup through replacement/abort without orphan promises
+  ---
+  duration_ms: 0.791208
+  type: 'test'
+  ...
+# Subtest: custom explicit cancel resolves its value and detaches exact handlers, including B on a nontext slider
+ok 250 - custom explicit cancel resolves its value and detaches exact handlers, including B on a nontext slider
+  ---
+  duration_ms: 0.343833
+  type: 'test'
+  ...
+# Subtest: global mute stays focusable and keyboard-operable during a mandatory choice without accepting it
+ok 251 - global mute stays focusable and keyboard-operable during a mandatory choice without accepting it
+  ---
+  duration_ms: 0.463708
+  type: 'test'
+  ...
+1..251
+# tests 251
+# suites 0
+# pass 251
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 21071.003625

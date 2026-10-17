@@ -99,14 +99,15 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
    try{background=await startVoice(tracks!['1011'],signal);const current=background;void current.ended.then(()=>{if(!closed&&!owner.signal.aborted)report('hatch background ended',Error('Looping native hatch music ended unexpectedly'));},error=>{if(!closed&&!owner.signal.aborted)report('hatch background playback',error);}).catch(()=>{});}catch(error){fatal(error,signal);report('hatch music start',error);}
   },
   async fanfare(value,signal){
-   guard();cue(value,1188);bind(signal);if(!started||closed||fanfareStarted)throw new UnsupportedHatchHostAudio('Hatch fanfare requires its single active source session');fanfareStarted=true;if(!enabled())return;
+   guard();cue(value,1188);bind(signal);if(!started||closed||fanfareStarted)throw new UnsupportedHatchHostAudio('Hatch fanfare requires its single active source session');fanfareStarted=true;
    // A mute at hatch entry skipped I/O. An explicit later unmute may admit
    // this future native cue, without replaying the earlier background phase.
    // Previously failed admission is not silently retried.
-   await prepareMusic([1188],signal);if(!enabled())return;
+   await prepareMusic([1188],signal);
    let foreground:NativeMusicVoice|undefined,played=false;const begin=performance.now();try{
-    try{background?.pause();}catch(error){fatal(error,signal);report('hatch music pause',error);}if(tracks&&prepared.has(1188)){try{foreground=await startVoice(tracks['1188'],signal);await bounded(()=>foreground!.ended,[signal,owner.signal],'fanfare playback',NATIVE[1188].frames/32768*1000+timeout);played=true;}catch(error){fatal(error,signal);report(foreground?'fanfare playback':'fanfare start',error);}}else report('fanfare admission',Error('No prepared original fanfare voice'));
+    try{background?.pause();}catch(error){fatal(error,signal);report('hatch music pause',error);}if(enabled()){if(tracks&&prepared.has(1188)){try{foreground=await startVoice(tracks['1188'],signal);await bounded(()=>foreground!.ended,[signal,owner.signal],'fanfare playback',NATIVE[1188].frames/32768*1000+timeout);played=true;}catch(error){fatal(error,signal);report(foreground?'fanfare playback':'fanfare start',error);}}else report('fanfare admission',Error('No prepared original fanfare voice'));}
     // Native PlayFanfare starts15-count timer even if Sound_StartSeq fails.
+    // Mute suppresses audio admission, not this phase or its BGM pause/resume.
     // On success the verified asset already includes release after sequenceEnd;
     // completionFrame adds only the remaining native15/30-second timer tail.
     const milliseconds=played?(NATIVE[1188].completionFrame-NATIVE[1188].frames)/32768*1000:Math.max(0,15/30*1000-(performance.now()-begin));
