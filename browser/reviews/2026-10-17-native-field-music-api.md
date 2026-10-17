@@ -1,6 +1,6 @@
 # Native field music host API (source leaf)
 
-Base: `93bf982b0d866a1150f22eae6ad6caf91da46bc5`. Source player frozen for host integration; native corpus/export review continues separately. No main/UI/World integration or browser audio audition is claimed here. Initial actual Opus5.5 review found three reproducible lifecycle defects; this follow-up fixes them with regression tests. Follow-up independent review is pending.
+Base: `93bf982b0d866a1150f22eae6ad6caf91da46bc5`. Source player frozen for host integration; native corpus/export review continues separately. No main/UI/World integration or browser audio audition is claimed here. Initial actual Opus5.5 review found three reproducible lifecycle defects; this follow-up fixes them with regression tests. Three actual Opus5.5 player reviews and qualified adjudications are preserved in `browser/reviews/native-field-music/`. All reported Medium lifecycle defects are fixed; control observers intentionally expose cancelled playback promises, handled by the host.
 
 ```ts
 const player = createNativeFieldMusicPlayer({enabled: true, volume: 0.7});
@@ -33,7 +33,7 @@ Hatch transport uses the same unlocked Context and volume gain. Its dispose stop
 
 Construction does not request any song or create audio. A bounded decoded cache (default two cues) prevents all-track preload. AAC/M4A is primary, MP3 is an independently verified fallback; both are original native sequence/sample renders with lossy compression, not hardware bit-exact output. Native frame loop positions retain phase across pauses. Actual Safari/mobile decoding and listening remain browser verification work.
 
-Validation: 23 focused lifecycle/selector/session tests pass. Production TypeScript is checked for each scoped code handoff. Focused tests use an instrumented WebAudio port and do not constitute audio audition.
+Validation: 29 focused player/session tests and6 original-source battle-selector tests pass. Production TypeScript is checked for each scoped code handoff. Focused tests use an instrumented WebAudio port and do not constitute audio audition.
 
 Battle cue ownership (additive API):
 
