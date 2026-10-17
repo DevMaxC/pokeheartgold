@@ -73,6 +73,176 @@ GROUPS['3D sky and weather']=('browser/src/source/sky.ts',[
 'Original summit dates and post-Rocket Wednesday Lake of Rage weather are retained',
 'Sky and weather persist during 3D battles and stay outside interiors and ordinary caves',
 'Original weather audio, lightning, darkness, clock penalties and all battle weather rules are verified'])
+# Audited progression reconciliation at this immutable source checkpoint.
+# These scoped overrides are authoritative for the listed feature evidence;
+# update/remove them when later evidence supersedes the checkpoint. Never infer
+# campaign or browser parity merely from imported data or leaf fixture success.
+PROGRESSION_CHECKPOINT='536758a553891a934e5cbfca29473b3cbe77a647'
+PROGRESSION_AUDIT={'P01-002': ('partial',
+             'Native Ho-Oh model/joint animation, source title artwork/camera and cry are implemented. Five-scene '
+             'boot movie, title material/pattern effects, idle return, native BGM and hardware menus remain '
+             'missing. opening-art/opening-view fixtures and reviews/2026-10-17-opening-sequence.md are offline '
+             'evidence; rendered title parity is pending.'),
+ 'P01-003': ('implemented',
+             'Original Oak topic/control/adventure branches, five RTC greetings and awaited ball/Marill '
+             'demonstration use native messages, OAM/NANR artwork and original cries. '
+             'opening.test.ts/opening-art.test.ts/opening-view.test.ts cover the leaf behavior. Oak BGM, exact DS '
+             'timing/layout and fresh browser validation remain pending; see '
+             'reviews/2026-10-17-opening-sequence.md.'),
+ 'P01-004': ('implemented',
+             'Native boy/girl portraits, gender confirmation/rejection loops and remembered cursor feed the '
+             'matching field identity; opening*.test.ts covers draft selection and field handoff. '
+             'Browser-rendered framing, input and full identity playthrough remain unverified; see '
+             'reviews/2026-10-17-opening-sequence.md.'),
+ 'P01-005': ('implemented',
+             'Player naming uses the native English mapped glyph set, seven-glyph limit, imported gendered '
+             'defaults, case/spaces and source confirmation/rejection loops. '
+             'opening-input.test.ts/opening.test.ts and the actual startup-save fixture cover leaf behavior. '
+             'Browser navigation and general Pokemon/name-rater constraints are separate incomplete '
+             'requirements.'),
+ 'P01-010': ('implemented',
+             'newState plus original opening scripts initialize the implemented money/bag/menu/Pokedex locks; '
+             'trainer ID/native Egg RNG are persisted when required by the gift path. Complete native save '
+             'initialization, flag960, fishing/RTC/system records and PC mail remain gaps documented in '
+             'reviews/2026-10-17-opening-sequence.md. This is not a full startup-equivalence claim.'),
+ 'P02-021': ('pending',
+             'Source Route31/Violet maps are imported and shared trainer fixtures cover real Route31, Sprout and '
+             'Gym definitions, but a natural Route31-to-Violet/Sprout/Falkner traversal is not established. '
+             'Isolated trainer, lift and reward fixtures do not verify this combined story arrival.'),
+ 'P03-001': ('pending',
+             'trainer-scripts.test.ts/trainer-encounters.test.ts exercise actual Sprout Tower sage Nico through '
+             'the generic source single-trainer path. The complete tower traversal, elder, rival cutscene and '
+             'rewards have not been verified together; this combined requirement stays Pending.'),
+ 'P03-002': ('implemented',
+             'Native map135 VioletGymInit/Elevator drives original dynamic model111, 3x3 collision plate, 2-to-31 '
+             'height ride, player/follower, Continue/warp/recovery and free camera; gym-violet*.test.ts includes '
+             'actual main/VM/World hooks. Actual0859 Falkner reward fixtures cover badge, +30 score, TM51 '
+             'full-bag retry and persistence; battle outcomes are supplied by the fixture. Natural rendered Gym '
+             'traversal/combat and complete campaign parity remain unverified.'),
+ 'P03-003': ('implemented',
+             'Actual Violet aide script gives the native level1 Togepi Egg with PID/IV/OT/met data and '
+             'Extrasensory. Saved step cycles, ability modifiers, awaited 3D field hatch, original cry, '
+             'native1011/1188 audio, nickname/memo/Dex/Elm flags and rollback are implemented and covered by '
+             'eggs/egg-hatching/egg-field-main/party-field-main fixtures. Triggered Elm call selection exists as '
+             'a core; incoming field delivery and full hatch-to-call-to-lab browser playthrough are pending '
+             'at536758a. Breeding/inheritance is not included.'),
+ 'P05-011': ('pending',
+             'Violet lift is implemented with native model111, source grid/plate height selection, rider '
+             'animation, save/Continue and unload/failure cleanup (gym-violet*.test.ts). Other native '
+             'moving/elevator/warp-panel puzzles are not established; the all-world requirement remains Pending.'),
+ 'P05-020': ('pending',
+             'Continuous following and Egg/usable-mon selection are implemented. Field party switching refreshes '
+             'distinct same-species follower identity/appearance and keeps native fainted fallback '
+             '(party-field-main.test.ts/egg-consumers.test.ts). Complete source follower dialogue, restrictions '
+             'and all contexts remain pending.'),
+ 'P06-007': ('implemented',
+             'Source single-trainer sight/approach uses live facing, native ranges/type1/type2 and normalized4-8 '
+             'behavior, terrain/directional/height/actor/follower occupancy, distance-minus-one movement and '
+             'defeat persistence. Actual Wade/Sprout/Abe/Rod fixtures cover win/loss/repeat and save; battle '
+             'outcomes are fixture ports. Double/multi combat and hidden51-54 emergence remain explicitly '
+             'unsupported. See reviews/native-trainer-encounters-opus-adjudication.json; natural browser '
+             'encounters remain unverified.'),
+ 'P06-013': ('pending',
+             'Original opening grants, Falkner badge/TM51 full-bag retry and native Togepi Egg gift execute '
+             'through source scripts with capacity/flags/persistence fixtures. These implemented leaves do not '
+             'establish every event item/Pokemon/money grant or complete campaign command coverage.'),
+ 'P06-014': ('pending',
+             'Shared trainer registration/refusal/gift/rematch state and native Elm incoming-script/trigger '
+             'scheduler core have source fixtures (trainer-scripts.test.ts, phone*.test.ts). At536758a main has '
+             'no incoming-ring/answer/RTC field host; random callers, broader callers, forced-call contexts and '
+             'ring audio remain incomplete. Historical core review notes are not field-delivery approval.'),
+ 'P06-015': ('partial',
+             'Native virtual camera actor241 Create/RemoveCameraTarget and scripted movement preserve free orbit; '
+             'Violet lift awaits player/follower animation. Source-action recovery restores actors/height/camera '
+             'after failure (script-camera.test.ts/gym-violet-integration.test.ts). Full multi-character '
+             'cutscene/movement-command coverage and rendered campaign timing remain pending.'),
+ 'P07-004': ('pending',
+             'Native gift/hatch paths persist trainer ID, personality, OT/provenance and native Egg RNG; native '
+             'gender/PID bounds and Ranger anti-shiny leaf have source fixtures. Whole-game '
+             'ID/secret-ID/shiny/global-RNG equivalence for every acquisition path remains pending.'),
+ 'P07-008': ('implemented',
+             'Native field Summary/Switch/Cancel exchanges whole occupied Mon records, including Eggs and fainted '
+             'leads; source-slot/Cancel preserves order. Actual main binding saves the swap, returns target focus '
+             'and refreshes same-species follower identity. party-order.test.ts and party-field-main.test.ts '
+             'cover gift/hatch/reorder/Elm reward, save/Continue, abort and recovery. Native Battle Tower '
+             'partner-room Switch exception is retained. Browser interaction remains unverified.'),
+ 'P07-009': ('partial',
+             'Normal party summary and native Egg Watch presentation exist; Egg '
+             'species/level/HP/gender/stats/moves remain concealed until hatching. party-display.test.ts covers '
+             'native thresholds and normal-summary restoration. Complete original summary pages, forms and '
+             'ownership presentation are not verified.'),
+ 'P07-014': ('pending',
+             'Opening player naming and source starter/hatch nickname prompts are implemented; actual native187 '
+             'hatch text/choices have fixtures. All Pokemon nickname glyph/language constraints and the original '
+             'name-rater service remain incomplete.'),
+ 'P07-017': ('pending',
+             'Native gifted Togepi Egg, persistent shared step counter/cycle order, special dates, Flame '
+             'Body/Magma Armor modifier and awaited field hatching/memo/Dex/OT lifecycle are implemented. '
+             'eggs/egg-hatching/egg-field-main fixtures cover source order and transactional failure/retry. '
+             'Breeding, inherited data, global RTC-penalty detection, generic forced/poison/Safari step systems, '
+             'alternate-form/Jirachi rewards and full cry coverage remain gaps; the combined requirement stays '
+             'Pending.'),
+ 'P07-018': ('pending',
+             'Original starter acquisition and actual Violet aide Togepi Egg gift are implemented, including '
+             'capacity/non-award behavior and persistent identity. Source fixtures do not establish all gifts, '
+             'trades, static encounters or complete acquisition parity.'),
+ 'P11-003': ('pending',
+             'Field party menu/summary/reorder is connected in536758a, including owned Escape/Cancel, saved '
+             'whole-record swap, target focus, follower refresh and native partner-room exception '
+             '(party-field-main.test.ts). Field moves and complete native party contexts remain missing; the '
+             'combined requirement stays Pending.'),
+ 'P11-006': ('pending',
+             'Native scripted phone calls and triggered Elm selection/state core exist, but main536758a has no '
+             'field incoming-ring/answer host or complete Pokegear UI. Map/radio/cards, random-caller fallback '
+             'and full phone delivery remain incomplete. Do not infer field support from phone-scheduler '
+             'fixtures.'),
+ 'P11-007': ('implemented',
+             'Saved position/facing plus fieldHeight/Violet lift state restore through actual Continue/World/main '
+             'hooks; real warp/reentry resets source lift state. Recovery fixtures preserve actor/follower height '
+             'and free orbit. Egg counter/provenance and field party order survive JSON restoration. '
+             'All-map/browser save-resume parity remains unverified.'),
+ 'P11-008': ('implemented',
+             'Flags/vars/inventory/party persistence now includes native Egg profile/seed/cycles/provenance, '
+             'badge rewards and whole-record party order. Source-action checkpoints block autosave of provisional '
+             'hatches and restore failed step/script state. Actual binding fixtures cover save gates and '
+             'Retry/Return; this does not establish every campaign/storage subsystem.'),
+ 'P11-012': ('pending',
+             'Native opening typewriter and Shift/Set option exist; saved sound:false explicitly mutes hatch '
+             'cues/cry and sound:true uses the original native assets. The current options panel exposes battle '
+             'style only. Complete sound/text-speed/scene controls and native settings parity remain pending; '
+             'audio module tests are not option-UI verification.'),
+ 'P11-016': ('implemented',
+             'Source-action recovery checkpoints State, field actors, camera/lift state and gates saves/input '
+             'through awaited script/hatch work. Actual main fixtures cover failed field hydration, abort/drain, '
+             'Retry/Return and provisional follower suppression. General error UX across the campaign and '
+             'rendered checks remain pending; see native-hatch-host-final-adjudication.json.'),
+ 'P12-001': ('pending',
+             'No global route/town/interior/dungeon BGM player exists at536758a. Native1011 hatch music and1188 '
+             'fanfare have a dedicated owned session; its actual preexisting field snapshot is no track. An '
+             'injected future field-port contract is not implemented map-music selection.'),
+ 'P12-002': ('pending',
+             'General day/night BGM selection and field transitions remain unimplemented. Hatch-session '
+             'restoration can preserve an injected actual voice identity/phase, but current main supplies no '
+             'global field/radio/Surf music player.'),
+ 'P12-003': ('pending',
+             'Original battle/rival/Gym/legendary themes and victory jingles remain incomplete. The separately '
+             'exported1011 hatch music and1188 hatch fanfare do not fulfill battle-music coverage; see '
+             'reviews/2026-10-17-native-hatch-music/README.md.'),
+ 'P12-004': ('pending',
+             'Original PCM cries183/250 serve the opening and175 serves the 3D Togepi hatch, with exact '
+             'source-byte/rate fixtures. Missing hatch species/form cries reject explicitly rather than '
+             'substituting. All-species/form cry coverage and audible browser verification remain pending.'),
+ 'P12-005': ('pending',
+             'Original hatch music1011 and fanfare1188 are source-SSEQ/native-bank renders with owned awaited '
+             'playback, deliberate mute and abort cleanup. Menu/dialogue/movement/item/general field sound '
+             'effects remain unimplemented; emulator output is not DS hardware/DAC fidelity or whole-music '
+             'parity.'),
+ 'P15-020': ('implemented',
+             'Connections run OnTransition; rebuilds use OnTransition/OnLoad/OnResume and battle/demo returns '
+             'OnLoad/OnResume. Native Violet entry/lift hooks and real trainer-phone commands complete in offline '
+             'actual-main fixtures. A consuming connection frame event precedes Egg/wild processing exactly once '
+             '(egg-field-main.test.ts). All special/menu transitions and natural rendered playthrough remain '
+             'pending.')}
 features=[]
 for gi,(group,(source,items)) in enumerate(GROUPS.items(),1):
  for i,title in enumerate(items,1): features.append({'id':f'P{gi:02}-{i:03}','group':group,'feature':title,'source':source,'status':'pending','verification':None})
@@ -98,6 +268,11 @@ for name,rows,key in [('features',features,'id'),('maps',maps,'map')]:
    if row[key] in prior:
     for field,value in prior[row[key]].items():
      if field not in (key,'feature','source','group','fields'):row[field]=value
+feature_by_id={row['id']:row for row in features}
+for feature_id,(status,evidence) in PROGRESSION_AUDIT.items():
+ if feature_id not in feature_by_id:raise ValueError(f'Unknown audited feature {feature_id}')
+ if status not in ('pending','partial','implemented'):raise ValueError('This reconciliation cannot promote parity to Verified')
+ feature_by_id[feature_id].update(status=status,verification=evidence)
 source_revision='d7886a5'
 command_rows=[{'command':x,'status':'pending'} for x in sorted(commands)]
 prior_commands={row['command']:row for row in json.loads((OUT/'script-commands.json').read_text())} if (OUT/'script-commands.json').exists() else {}
@@ -106,12 +281,19 @@ for name,data in [('features',features),('maps',maps),('script-commands',command
  (OUT/(name+'.json')).write_text(json.dumps(data,indent=2)+'\n')
 lines=['# HeartGold 3D parity ledger','',f'Source baseline: `{source_revision}`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.','',f'Inventory: **{len(features)} system requirements, {len(maps)} map headers, {len(commands)} script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.','',
 '## Completion standard','',
-'- Pending: missing or not audited. Implemented: behavior exists but original-game equivalence is not established. Verified: a repeatable source-backed fixture or gameplay check confirms the behavior. Unsupported: an identified gap; never silently skip it.',
+'- Pending: missing or not audited. Partial: an implemented subset leaves identified requirement gaps. Implemented: behavior exists but original-game equivalence is not established. Verified: a repeatable source-backed fixture or gameplay check confirms the behavior. Unsupported: an identified gap; never silently skip it.',
 '- Map parity requires original mesh, textures, tile permissions, elevations, prop transforms, warps, NPC/event coordinates, and story conditions. A recreated town shape is insufficient.',
 '- Battle parity requires the original turn rules, damage/status/move/item/ability behaviors, trainer teams/AI, and progression consequences. A catch-only screen is insufficient.',
 '- End-to-end completion requires a fresh save through Red and the listed postgame/special systems, with inventory, party and flags surviving save/reload. Imported content and isolated menus do not satisfy this.',
 '- Connectivity/hardware-dependent systems must be implemented and tested against an explicit browser equivalent; unavailable original services must stay marked unsupported until that equivalent is agreed and working.',
 '- Production changes must be committed, merged into the fork default branch, deployed from that commit, and checked on the live site.','',
+'## Native progression checkpoint','',
+f'Ledger reconciliation: `{PROGRESSION_CHECKPOINT}`. Native opening branches, single-trainer sight/approach, Violet lift/rewards, the real Togepi Egg gift/hatch/audio and field party switching are implemented in scoped source paths. Their offline fixtures and historical review receipts do not establish a fresh-save campaign or browser playthrough.',
+'',
+'P03-001 stays Pending for the complete Sprout Tower sequence. P03-002/P03-003 are Implemented with explicit limits; no requirement is promoted to Verified here. Breeding/inheritance, broader puzzles, full battle/audio coverage and incoming phone field delivery at this checkpoint remain incomplete.',
+'',
+'See [the reconciliation evidence and boundaries](reviews/2026-10-17-parity-reconciliation.md) and `parity/features.json` for each updated requirement. Historical branch notes retain their original scope; later fixes are qualified in the reconciliation rather than retroactively approved.',
+'',
 '## Implementation sequence','',
 '1. Import original matrices, landscape/prop meshes, permissions, headers, event tables, messages, Pokémon/moves/items/trainers and script instruction lists. Validate IDs and cross-references.',
 '2. Replace invented layout and visible-wild encounters. Render the original world, enter original buildings, and use original tile terrain for collisions and random encounters.',
