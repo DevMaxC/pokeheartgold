@@ -1,0 +1,211 @@
+{
+  "baselineCommit": "0a0eaeecba922bdd116abd868ef8100d9d9f029c",
+  "branch": "fix/bag-live-host-preferences",
+  "scope": "Only field-bag-actions.ts runtime + its actual-host regressions; no Main/UI/audio runtime edits",
+  "files": [
+    {
+      "path": "browser/src/source/field-bag-actions.ts",
+      "bytes": 10389,
+      "sha256": "4dba2a7bee053eba24c6917db471c43867d6399ae000b358951c0d36a2c89969",
+      "gitBaselineBlob": "15a86af169979765233316eaca53fe8595fa1231"
+    },
+    {
+      "path": "browser/src/source/field-bag-actions.test.ts",
+      "bytes": 20197,
+      "sha256": "e0cdb4b3d23bdfbf4472251e394e717982d31e5de2519f838694a305a11c7d7b",
+      "gitBaselineBlob": "f5a80af4b41655a8a1f670bb41496d617fe847a9"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "bytes": 65947,
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+      "gitBaselineBlob": "5eb2feb778c5a20fc559614adc62541ec4c8dba4"
+    },
+    {
+      "path": "browser/src/source/audio-controls.ts",
+      "bytes": 1886,
+      "sha256": "8edc37b6c6c2a11edd94896ecd5d17e7c7c20754d4a576f6b8ae5a96adf5c655",
+      "gitBaselineBlob": "5db07c1c2344c05f984707dc72c593ddb231a5c2"
+    },
+    {
+      "path": "browser/src/source/audio-controls.test.ts",
+      "bytes": 3637,
+      "sha256": "0a8d5e6495e08c0df7f3ac4a4f6d1d233302dbf01b7a6710df558fc72a3f0221",
+      "gitBaselineBlob": "84c88074e0f6db0f303dcab1e999ddbfcfa912fc"
+    },
+    {
+      "path": "browser/src/source/interface-preferences.ts",
+      "bytes": 1656,
+      "sha256": "fbe1e2adf42cffc3c770b829cb33700a9bbcae860c01f5a03c0e01597fc90114",
+      "gitBaselineBlob": "4a9ff1c841c3674ff069f28580722b06ee630a61"
+    },
+    {
+      "path": "browser/src/source/interface-panels.ts",
+      "bytes": 15052,
+      "sha256": "0e59715b39942960e191d791bde714a6c674fbee7e5086bf3ee1aa5ab6ee7c94",
+      "gitBaselineBlob": "540943f667b79165c768f736a0693fb4f8373c25"
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "bytes": 17996,
+      "sha256": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4",
+      "gitBaselineBlob": "79336047cd67da6619bac6e66a29ab1cdb753176"
+    },
+    {
+      "path": "browser/src/source/ui-test-dom.ts",
+      "bytes": 7543,
+      "sha256": "5ccfad9716e6f42aa32745da67ec407c667fc79790c72ca2b8f03d7be9ca8a52",
+      "gitBaselineBlob": "f7777d87115a2897a3c4f29a06c60c1ae13b73d6"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "bytes": 5537,
+      "sha256": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378",
+      "gitBaselineBlob": "4c4e5484181b88d48ec8c3d349b06f4763b04a57"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "bytes": 5940,
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "gitBaselineBlob": "7ec9c3305998fa33ccb93ad5c4f1c40b08536822"
+    },
+    {
+      "path": "browser/src/source/script-recovery.test.ts",
+      "bytes": 28532,
+      "sha256": "616c2f2a4ec68531f192a5f6de0b70a40c3e2144900473cc6c2de9ecb005dcae",
+      "gitBaselineBlob": "69901e9fa908f103ec8ab056b075f63388d4960d"
+    },
+    {
+      "path": "browser/src/source/field-moves.ts",
+      "bytes": 11092,
+      "sha256": "724dbe21c4beffdd9a77ee2c3df357ffbf1e894d433192d3318a4c9f2dbfa5c6",
+      "gitBaselineBlob": "25e0b1c88361c3195a4cf634ec52b0be0863f2da"
+    },
+    {
+      "path": "browser/src/source/field-moves.test.ts",
+      "bytes": 13018,
+      "sha256": "2ba4e8c57a041d39acd6af5525d5b32116a46df9f2f6dd5f503b3bfcda0603c9",
+      "gitBaselineBlob": "2c9ab11f8577b06a7c8b6de83fde29b5f8f3b9ec"
+    },
+    {
+      "path": "browser/src/source/field-medicine.ts",
+      "bytes": 8856,
+      "sha256": "87aafe35e23fe868b8f2d4b047339650963f6495aeed29a29f117524cc242c0f",
+      "gitBaselineBlob": "7a60b2c8d77915c2286b91efcb06381f25635333"
+    },
+    {
+      "path": "browser/src/source/field-medicine.test.ts",
+      "bytes": 14982,
+      "sha256": "3bbcf7139732f315fc4a63b9f94b739caf23df86b5438981b92ebb050c22d61c",
+      "gitBaselineBlob": "2e04fee065e63b5fe5808351c39f52e633947922"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "bytes": 5051,
+      "sha256": "28bc41b2f0f63478863ad6d54ebb62b2cbdd3f003a731e21097e28dff9dc7174",
+      "gitBaselineBlob": "9f3d98298887524023b742387aba2bf62dedf8a9"
+    },
+    {
+      "path": "browser/src/source/native-rng.ts",
+      "bytes": 686,
+      "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e",
+      "gitBaselineBlob": "d50072a6b8afae4dd23a542f60787f97e99e5130"
+    },
+    {
+      "path": "browser/src/source/gender.ts",
+      "bytes": 909,
+      "sha256": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6",
+      "gitBaselineBlob": "632d31321d497c508beaffc419c7b6d6d9384546"
+    },
+    {
+      "path": "browser/src/source/mystery-gifts.ts",
+      "bytes": 2673,
+      "sha256": "7f08092031440aea353d43bba36351b5e545beff1d2a064a4f58073e793d97e4",
+      "gitBaselineBlob": "7ec6dd7e3eaecc6072f8d002818bd5b079f0adae"
+    },
+    {
+      "path": "browser/src/source/species-weights-data.ts",
+      "bytes": 14943,
+      "sha256": "62a55af2a84085f0c30399675429317f0a670d0410da4782f0dbd6c6ed31bb05",
+      "gitBaselineBlob": "2a78aed9735f90ea1d7129bbe4289dd7812afdf7"
+    },
+    {
+      "path": "browser/src/source/battle-weight.ts",
+      "bytes": 4039,
+      "sha256": "85040d93469f6dc25c21d1b679c314e7cfe5a4c06aefaa78c7b920eef4af2ba1",
+      "gitBaselineBlob": "e9151d4bd45ec8fc44f57b93a3a8c0579ea91f77"
+    },
+    {
+      "path": "browser/package.json",
+      "bytes": 462,
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251",
+      "gitBaselineBlob": "5424cb2f2c7dc53233b910518ae19015e772425a"
+    },
+    {
+      "path": "browser/package-lock.json",
+      "bytes": 38459,
+      "sha256": "c8d64e918ea03d88ef4eca43b5fffe2899cbd26fe5e4d7fa57fd74c38e19e00c",
+      "gitBaselineBlob": "4f61ccb62c3bbe646e024f71929ca5bd6b79e839"
+    },
+    {
+      "path": "browser/tsconfig.json",
+      "bytes": 249,
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0",
+      "gitBaselineBlob": "90654b988aa6a759e445bbc4823c4bdb74c19cb0"
+    },
+    {
+      "path": "browser/index.html",
+      "bytes": 4137,
+      "sha256": "0bfe60a61246a6c8a7a7072b8258a07a38bfef1d78f250021e0d3df8d8483e26",
+      "gitBaselineBlob": "297dcfbab06c07b1dfde14d0929944f42df120eb"
+    },
+    {
+      "path": "baseline/browser/src/source/field-bag-actions.ts",
+      "bytes": 10277,
+      "sha256": "05cdb9f1e4809dc512482e00c3da6ed958e05782b823a783a91f1dbdd9ba01fe",
+      "originalPath": "browser/src/source/field-bag-actions.ts"
+    },
+    {
+      "path": "baseline/browser/src/source/field-bag-actions.test.ts",
+      "bytes": 13779,
+      "sha256": "ae08d97970db6e6c81ed57a0b0bafb01f9a4611e30484b78bfbd1f9667fc49fc",
+      "originalPath": "browser/src/source/field-bag-actions.test.ts"
+    },
+    {
+      "path": "baseline/browser/src/source/main.ts",
+      "bytes": 65947,
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+      "originalPath": "browser/src/source/main.ts"
+    },
+    {
+      "path": "change.diff",
+      "bytes": 9580,
+      "sha256": "d824946b5e748eba1807d9f6c11bcc4352dac490b6616e1f855ae18933a23d08"
+    },
+    {
+      "path": "evidence/before-original-fixture-v1.log",
+      "bytes": 4898,
+      "sha256": "6b4e8b8be1101c56997a16068649d71269732436fd6e1b7691aee5e8e53c5692"
+    },
+    {
+      "path": "evidence/before-final-fixture.log",
+      "bytes": 8282,
+      "sha256": "49098208bc9272d598e26611388be157b34c1dedf58092d81f52c5f2d5223b52"
+    },
+    {
+      "path": "evidence/target-tests.log",
+      "bytes": 20358,
+      "sha256": "5bfd59b8b49756c409a07b669a5a6e29c2910c5d49d32c387dbe1381e38f2606"
+    },
+    {
+      "path": "evidence/tsc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prompt.txt",
+      "bytes": 3228,
+      "sha256": "3c90a14a41af27b4544437258bb413d358bd02099481bd6a82c1bb1ac5b899ae"
+    }
+  ]
+}
