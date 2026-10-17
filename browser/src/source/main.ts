@@ -27,6 +27,7 @@ import {partyHUD,partyRow,partySummary} from './party-display.ts';
 import {advancePartyEggStep,recordEggHatchEvent,type EggStepClock} from './egg-hatching.ts';
 import {presentNativeEggHatch} from './egg-hatch-presentation.ts';
 import {WorldEggHatchView} from './egg-hatch-view.ts';
+import {createNativeHatchMusicSession} from './hatch-music.ts';
 import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
 
 const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-qa':'heartgold-3d-v2';
@@ -132,13 +133,13 @@ async function chooseStarter(){
 }
 async function hatchEgg(){
   if(hatching)throw Error('An Egg hatch already owns the field');
-  // Enabled playback needs original sequence assets and an owned music player.
+  // Every attempt owns a fresh native-music session and effective field state.
   // A deliberate muted setting skips all audio, including the original cry.
-  if(state.options.sound)throw new UnsupportedScript(map.code,'NativeEggHatchMusic',vm.current?.pc??-1);
+  const sound=state.options.sound;
   hatching=true;hatchFollowerPendingCommit=true;keys.clear();drag=false;
   try{await presentNativeEggHatch(data,state,map,{
-    view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:async()=>{}}),
-    music:{start:async()=>{},fanfare:async()=>{},restore:async()=>{}},
+    view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:sound?undefined:async()=>{}}),
+    music:createNativeHatchMusicSession({enabled:sound}),
     message:(text,signal)=>ui.printMessage(text,(state.options.textSpeed===0?8:state.options.textSpeed===1?4:1)*1000/60,signal),
     choose:(text,options,signal)=>ui.choose(text,options,'',signal),
     nickname:(scene,signal)=>ui.input('Pokémon nickname',10,scene.speciesName,signal),
