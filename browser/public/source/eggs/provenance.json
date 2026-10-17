@@ -1,0 +1,57 @@
+{
+  "sourceIconIndex": 501,
+  "paletteBank": 1,
+  "frame": [
+    0,
+    0,
+    32,
+    32
+  ],
+  "image": "egg-icon.png",
+  "sources": [
+    {
+      "path": "files/poketool/icongra/poke_icon/poke_icon_00000501.png",
+      "sha256": "c772fb205fdd9daab5dac934f575cc3f1de19ab3dbf7a727a19092756d54f7ac"
+    },
+    {
+      "path": "files/poketool/icongra/poke_icon/poke_icon_00000000.pal",
+      "sha256": "028f1b846fd660fac729a37853fcd78d5c0e5ad37e72fecadb908913752cc569"
+    },
+    {
+      "path": "src/pokemon_icon_idx.c",
+      "sha256": "c394377eded3353079550669f1a809ef8eed8f3bcec6840019920a02a75827ec"
+    },
+    {
+      "path": "src/get_egg.c",
+      "sha256": "0908b443c2ea2c94893c4c073bceada92a7f7382011838ce989fcba8daa8cf40"
+    },
+    {
+      "path": "src/pokemon.c",
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    },
+    {
+      "path": "src/math_util.c",
+      "sha256": "ed76da9a0792494d7b22a029d903db402f5c2cec06212870e0337205be747612"
+    },
+    {
+      "path": "src/trainer_memo.c",
+      "sha256": "c68f7f7da5fb3c0ea7df00404a873a29864899a6025c081151d36f05eb050f9c"
+    },
+    {
+      "path": "src/field/scrcmd_pokemon_misc.c",
+      "sha256": "850fcb6773c043f18b2d082d0eb5c094923b89680ca03caf42485ac7f6864509"
+    },
+    {
+      "path": "src/field_misc_events.c",
+      "sha256": "66c6b095f98046a903108ec13ff07063540a227a80e8fa4496ee4b215d6b0eec"
+    },
+    {
+      "path": "include/constants/pokemon.h",
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+    },
+    {
+      "path": "include/config.h",
+      "sha256": "773f3b3ffaabd2750f040be690dc91c605d1ce58a6686bc85d41e6e1335ad419"
+    }
+  ]
+}

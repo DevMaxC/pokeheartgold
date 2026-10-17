@@ -7,6 +7,7 @@ import {originalSpawn} from './spawns.ts';
 import {timeOfDay,trainerCardStars} from './field-services.ts';
 import {mapWeather} from './atmosphere.ts';
 import {addSpecialGameStat,giveBadge,countBadges} from './game-stats.ts';
+import {giveTogepiEgg,isOriginalTogepiGift,isUsableBattler,partyMonSpecies,type EggContext} from './eggs.ts';
 import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDefeated,trainerContacts,phoneContactKey,phoneRematchTrainer,type TrainerContact} from './trainer-script-state.ts';
 
 export type EngagedTrainer={trainer:number;object:string};
@@ -15,6 +16,7 @@ export type TrainerApproachContext={eyeType:0|1|2;trainers:EngagedTrainer[]};
 import {SCRIPT_CAMERA_PERSON,SCRIPT_CAMERA_ACTOR} from './script-camera.ts';
 
 export type ScriptHooks={
+  eggContext?:EggContext;
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
   move:(object:string,label:string,map:SourceMap)=>Promise<void>;position:(object:string,x:number,z:number,facing?:number)=>void;
   face:(object:string,facing?:number)=>void;visible:(object:string,value:boolean)=>void;
@@ -109,7 +111,7 @@ export class ScriptVM{
         if(cmd==='SetLastInteractedTrainerFlag'||cmd==='GoToIfTrainerDefeated'){if(!originMap.events.objects.some(n=>n.id===this.context?.object))throw new UnsupportedScript(map.code,cmd,pc-1);const id=this.value('VAR_SPECIAL_LAST_TALKED',originMap);if(cmd==='SetLastInteractedTrainerFlag')setTrainerDefeated(this.state,id);else if(trainerDefeated(this.state,id))jump(a[0]);continue;}
         if(cmd==='GetTrainerNum'){this.set(a[0],activeTrainer());continue;}
         if(cmd==='TrainerIsDoubleBattle'){this.set(a[0],Number(!!this.data.trainers[activeTrainer()]?.double));continue;}
-        if(cmd==='PartyCheckForDouble'){this.set(a[0],Number(this.state.party.filter(mon=>!mon.isEgg&&mon.hp>0).length>=2));continue;}
+        if(cmd==='PartyCheckForDouble'){this.set(a[0],Number(this.state.party.filter(isUsableBattler).length>=2));continue;}
         if(cmd==='GetTrainerMsgParams'||cmd==='GetRematchMsgParams'){const double=!!this.data.trainers[activeTrainer()]?.double,partner=(this.context?.activeScript??scriptID)>=5000;const ids=cmd==='GetTrainerMsgParams'?(double?(partner?[7,9,10]:[3,5,6]):[0,2,0]):(double?(partner?[19,0,10]:[18,0,6]):[17,0,0]);a.forEach((token,i)=>this.set(token,ids[i]));continue;}
         if(cmd==='TrainerMessage'){const trainer=this.data.trainers[v(a[0])];if(!trainer)throw Error(`Missing original trainer ${v(a[0])}`);const message=trainer.messages?.find(row=>this.data.constants[row.type]===v(a[1]))?.message??'';lastMessage=this.text(message,map);if(lastMessage)await this.hooks.message(lastMessage);continue;}
         if(cmd==='EncounterMusic'){await this.hooks.encounterMusic?.(v(a[0]));continue;}
@@ -186,6 +188,9 @@ export class ScriptVM{
         if(cmd==='SetAvatarBits'){const transitions:Record<number,number>={[this.data.constants.PLAYER_TRANSITION_WALKING]:0,[this.data.constants.PLAYER_TRANSITION_HEAL]:10,[this.data.constants.PLAYER_TRANSITION_ROCKET]:3,[this.data.constants.PLAYER_TRANSITION_ROCKET_HEAL]:12};const next=transitions[v(a[0])];if(next===undefined)throw new UnsupportedScript(map.code,cmd,pc-1);this.state.avatarState=next;continue;}
         if(cmd==='UpdateAvatarState')continue;
         if(cmd==='PartyCountNotEgg'){this.set(a[0],this.state.party.filter(mon=>!mon.isEgg).length);continue;}
+        if(cmd==='PartyCountEgg'){this.set(a[0],this.state.party.filter(mon=>!!mon.isEgg).length);continue;}
+        if(cmd==='GiveTogepiEgg'){giveTogepiEgg(this.data,this.state,this.hooks.eggContext);continue;}
+        if(cmd==='MonIsFromTogepiEgg'){this.set(a[1],Number(isOriginalTogepiGift(this.data,this.state,this.state.party[v(a[0])])));continue;}
         if(cmd==='PartyHasPokerus'){this.set(a[0],Number(this.state.party.some(mon=>!!mon.pokerus)));continue;}
         if(cmd==='PokeCenAnim'){if(!this.hooks.healAnimation)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.healAnimation(v(a[0]));continue;}
         if(cmd==='FollowMonHopIntoBall'){this.hooks.followerVisible?.(false);continue;}
@@ -195,7 +200,7 @@ export class ScriptVM{
         if(cmd==='RegisterGearNumber'||cmd==='RegisterPokegearCard'){this.state.pokegear??={contacts:[],cards:[]};if(cmd==='RegisterGearNumber'){const key=phoneContactKey(this.data,v(a[0]));if(key&&!this.state.pokegear.contacts.includes(key))this.state.pokegear.contacts.push(key);}else if(!this.state.pokegear.cards.includes(v(a[0])))this.state.pokegear.cards.push(v(a[0]));continue;}
         if(cmd==='GetPartyCount'){this.set(a[0],this.state.party.length);continue;}
         if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,this.state.party.findIndex(m=>m.hp>0&&!m.isEgg)));continue;}
-        if(cmd==='GetPartyMonSpecies'){this.set(a[1],this.state.party[v(a[0])]?.species||0);continue;}
+        if(cmd==='GetPartyMonSpecies'){this.set(a[1],partyMonSpecies(this.state.party[v(a[0])]));continue;}
         if(cmd==='GetPartyMonForm2'){this.set(a[1],0);continue;}
         if(cmd==='GetStarterChoice'){this.set(a[0],this.state.starter);continue;}
         if(cmd==='SetStarterChoice'){this.state.starter=v(a[0]);continue;}

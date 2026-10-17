@@ -1,3 +1,4 @@
+import {sampleUint32} from './native-rng.ts';
 import {sourceJSON,type GameData,type State,type Mon,type Personal,type MoveData,type Trainer,type SpriteInfo,type SourceIndex} from './types.ts';
 
 export async function loadData():Promise<GameData>{
@@ -7,8 +8,8 @@ export async function loadData():Promise<GameData>{
   ]);
   return {index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names};
 }
-export function newState(data:GameData,name:string,gender:'boy'|'girl'):State{
-  return {version:2,gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
+export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{
+  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
 }
 export function titleCase(key:string){return key.replace(/^(SPECIES|MOVE|ITEM|TYPE|ABILITY)_/,'').toLowerCase().replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());}
 export function speciesName(data:GameData,id:number){return data.names?.species[id]||titleCase(data.personal[id]?.species||`Pokémon ${id}`);}
@@ -34,4 +35,4 @@ export function createMon(data:GameData,species:number,level:number,ot:string,rn
   return {species,level,name:speciesName(data,species),gender,...stats,hp:stats.maxHP,exp:data.growth[base.growthRate]?.[level]||0,ivs,evs,nature,personality,status:'',sleepTurns:0,moves:moves.map(id=>({id,pp:data.moves[id].pp,maxPP:data.moves[id].pp})),friendship:base.friendship,heldItem:null,ot,id:Math.floor(rng()*0xffffffff)};
 }
 export function healParty(state:State){for(const mon of state.party){mon.hp=mon.maxHP;mon.status='';mon.sleepTurns=0;for(const move of mon.moves)move.pp=move.maxPP;}}
-export function giveMon(state:State,mon:Mon){if(state.party.length<6)state.party.push(mon);else if(state.boxes.length<540)state.boxes.push(mon);else return false;for(const list of [state.seen,state.caught])if(!list.includes(mon.species))list.push(mon.species);return true;}
+export function giveMon(state:State,mon:Mon){if(state.party.length<6)state.party.push(mon);else if(state.boxes.length<540)state.boxes.push(mon);else return false;if(!mon.isEgg)for(const list of [state.seen,state.caught])if(!list.includes(mon.species))list.push(mon.species);return true;}
