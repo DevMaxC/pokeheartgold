@@ -1,0 +1,141 @@
+TAP version 13
+# (node:55248) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the game dispatcher applies family shells once on native placed clones
+ok 1 - the game dispatcher applies family shells once on native placed clones
+  ---
+  duration_ms: 1746.563834
+  type: 'test'
+  ...
+# Subtest: the runtime dispatcher uses real placement entrances before family repairs and removes false arch and castle hulls
+ok 2 - the runtime dispatcher uses real placement entrances before family repairs and removes false arch and castle hulls
+  ---
+  duration_ms: 2481.229291
+  type: 'test'
+  ...
+# Exercised 78 actual generic panels across 34 family/context fixtures.
+# Subtest: stream unload frees each placed shell resource once while keeping source assets and textures reusable
+ok 3 - stream unload frees each placed shell resource once while keeping source assets and textures reusable
+  ---
+  duration_ms: 979.816084
+  type: 'test'
+  ...
+# Subtest: no inventoried native node can be mistaken for a disposable placed exterior
+ok 4 - no inventoried native node can be mistaken for a disposable placed exterior
+  ---
+  duration_ms: 453.7415
+  type: 'test'
+  ...
+# (node:55249) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: priority decorative variants use native wall/roof art and keep original fronts and shared resources intact
+ok 5 - priority decorative variants use native wall/roof art and keep original fronts and shared resources intact
+  ---
+  duration_ms: 792.508208
+  type: 'test'
+  ...
+# Subtest: pharmacy rear continues the side timber/plaster bands without the navy entry-recess art or front sign
+ok 6 - pharmacy rear continues the side timber/plaster bands without the navy entry-recess art or front sign
+  ---
+  duration_ms: 15.37275
+  type: 'test'
+  ...
+# Subtest: lighthouse closes its true base and sixth tapered sector without projecting the door or opaque light sheets onto its back
+ok 7 - lighthouse closes its true base and sixth tapered sector without projecting the door or opaque light sheets onto its back
+  ---
+  duration_ms: 171.929167
+  type: 'test'
+  ...
+# Subtest: silo gains all rear hexagonal bands and the missing native cone sector instead of olive projection fins
+ok 8 - silo gains all rear hexagonal bands and the missing native cone sector instead of olive projection fins
+  ---
+  duration_ms: 12.76625
+  type: 'test'
+  ...
+# Subtest: decorative shells initialize skinned placement matrices and preserve real opposite-side entrances
+ok 9 - decorative shells initialize skinned placement matrices and preserve real opposite-side entrances
+  ---
+  duration_ms: 56.505375
+  type: 'test'
+  ...
+# Subtest: every exported decorative texture variant works directly under a transformed parent without a matrix pre-refresh
+ok 10 - every exported decorative texture variant works directly under a transformed parent without a matrix pre-refresh
+  ---
+  duration_ms: 597.935375
+  type: 'test'
+  ...
+# Subtest: new opaque decorative surfaces sample painted native atlas pixels rather than transparent carriers
+ok 11 - new opaque decorative surfaces sample painted native atlas pixels rather than transparent carriers
+  ---
+  duration_ms: 366.479459
+  type: 'test'
+  ...
+# Subtest: Olivine restaurant gains its subtly tapered rear wall, native sloped roof strip and chimney backs without reflecting the entry arch
+ok 12 - Olivine restaurant gains its subtly tapered rear wall, native sloped roof strip and chimney backs without reflecting the entry arch
+  ---
+  duration_ms: 11.922125
+  type: 'test'
+  ...
+# Subtest: open market canopies and lookout retain all native openings and patterned cloth without generic rear boards or magenta window caps
+ok 13 - open market canopies and lookout retain all native openings and patterned cloth without generic rear boards or magenta window caps
+  ---
+  duration_ms: 20.099667
+  type: 'test'
+  ...
+# Subtest: both fountain texture contexts receive only missing radial stone facets while translucent water stays native
+ok 14 - both fountain texture contexts receive only missing radial stone facets while translucent water stays native
+  ---
+  duration_ms: 9.454083
+  type: 'test'
+  ...
+# Subtest: Radio Tower rear uses gray base bands, the octagonal mast and native curved window/frame sectors
+ok 15 - Radio Tower rear uses gray base bands, the octagonal mast and native curved window/frame sectors
+  ---
+  duration_ms: 9.170166
+  type: 'test'
+  ...
+# Subtest: Celadon restaurant has a continuous threshold-height rear and the measured flat-ridge/raking roof profile
+ok 16 - Celadon restaurant has a continuous threshold-height rear and the measured flat-ridge/raking roof profile
+  ---
+  duration_ms: 394.231542
+  type: 'test'
+  ...
+# Subtest: deadwood becomes grounded upright solid pixel-art branches while its source card, ground patch and shared buffers remain independent
+ok 17 - deadwood becomes grounded upright solid pixel-art branches while its source card, ground patch and shared buffers remain independent
+  ---
+  duration_ms: 227.558167
+  type: 'test'
+  ...
+# Subtest: Ecruteak open gate keeps its complete native maroon roof and wide passage while adding only measured narrow backs
+ok 18 - Ecruteak open gate keeps its complete native maroon roof and wide passage while adding only measured narrow backs
+  ---
+  duration_ms: 157.731667
+  type: 'test'
+  ...
+# Subtest: Love House rear follows its masonry/cornice below the intact native hip roof without a diagonal repair strip
+ok 19 - Love House rear follows its masonry/cornice below the intact native hip roof without a diagonal repair strip
+  ---
+  duration_ms: 916.22425
+  type: 'test'
+  ...
+# Subtest: restaurant roof well has literal recessed inner walls rather than cyan through-slots or a raised flat cover
+ok 20 - restaurant roof well has literal recessed inner walls rather than cyan through-slots or a raised flat cover
+  ---
+  duration_ms: 40.547625
+  type: 'test'
+  ...
+# Subtest: Love House rear entrance guards are bounded in source space, while the gate passage stays open in transformed clones
+ok 21 - Love House rear entrance guards are bounded in source space, while the gate passage stays open in transformed clones
+  ---
+  duration_ms: 14.527917
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7124.714417
