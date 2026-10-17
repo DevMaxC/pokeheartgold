@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {loadData,newState,createMon,giveMon} from './data.ts';
 import {FieldObjects} from './objects.ts';
 import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
-import {SourceActionRecovery,SourceRecoveryError,restoreStateInPlace} from './script-recovery.ts';
+import {SourceActionRecovery,SourceRecoveryError,SourceTriggerGate,restoreStateInPlace,runRecoverableSourceAction} from './script-recovery.ts';
 import {sourceJSON,type SourceMap,type Script,type State} from './types.ts';
 
 globalThis.fetch=async input=>{
@@ -14,7 +14,7 @@ globalThis.fetch=async input=>{
 const data=await loadData();
 async function harness(id=156){
   const state=newState(data,'Ethan','boy');state.map=id;state.x=13.5;state.z=17.5;
-  let map=await sourceJSON<SourceMap>(`maps/${id}.json`),weather=12,visible=true,hydrations=0,failHydration=false;
+  let map=await sourceJSON<SourceMap>(`maps/${id}.json`),weather=12,visible=true,hydrations=0,failHydration=false,ready=true;
   const objects=new FieldObjects(data,state);objects.load(map.events.objects);
   const hooks:ScriptHooks={
     message:async()=>{},choice:async()=>1,move:async()=>{},
@@ -29,13 +29,13 @@ async function harness(id=156){
     restore:async(snapshot,error)=>{
       hydrations++;if(failHydration)throw Error('Original map download failed');
       map=await sourceJSON<SourceMap>(`maps/${state.map}.json`);
-      objects.load(map.events.objects);objects.restore(state.map,snapshot.actors);weather=snapshot.weather;visible=snapshot.visible;
+      objects.load(map.events.objects);objects.restore(state.map,snapshot.actors);weather=snapshot.weather;visible=snapshot.visible;ready=true;
       vm=new ScriptVM(data,state,hooks);if(error instanceof UnsupportedScript)vm.lastUnsupported={map:error.map,command:error.command,pc:error.pc};
     },
   });
   function save(){if(recovery.busy)return;state.objectEvents=objects.save(state.map);saved=JSON.stringify(state);writes++;}
   function script(instructions:Script['instructions']):SourceMap{return{...map,scripts:{entries:['start'],labels:{start:0},instructions}};}
-  return{state,objects,hooks,recovery,save,script,get map(){return map;},get vm(){return vm;},get weather(){return weather;},get visible(){return visible;},set visible(value){visible=value;},get saved(){return saved;},get writes(){return writes;},get hydrations(){return hydrations;},set failHydration(value){failHydration=value;},
+  return{state,objects,hooks,recovery,save,script,get ready(){return ready;},set ready(value){ready=value;},get map(){return map;},get vm(){return vm;},get weather(){return weather;},get visible(){return visible;},set visible(value){visible=value;},get saved(){return saved;},get writes(){return writes;},get hydrations(){return hydrations;},set failHydration(value){failHydration=value;},
     async enter(id:number){state.map=id;state.x=4.5;state.z=5.5;map=await sourceJSON<SourceMap>(`maps/${id}.json`);objects.load(map.events.objects);weather=0;visible=false;},
   };
 }
@@ -134,4 +134,84 @@ test('restoring in place deletes newly created optional keys and does not alias 
   state.trainerPhone={seeking:[4]};state.pokegear={contacts:['MOM'],cards:[1]};state.runningShoes=true;state.bag.ITEM_POTION=2;
   restoreStateInPlace(state,snapshot);assert.equal(state,root);assert.equal(Object.hasOwn(state,'trainerPhone'),false);assert.equal(Object.hasOwn(state,'pokegear'),false);assert.equal(Object.hasOwn(state,'runningShoes'),Object.hasOwn(snapshot,'runningShoes'));
   state.flags.NEW=true;state.bag.ITEM_POTION=10;restoreStateInPlace(state,snapshot);assert.deepEqual(state,snapshot);
+});
+
+
+test('automatic frame failures stay paused across steps; explicit retry and changing maps re-enable the scene',async()=>{
+  const h=await harness(),gate=new SourceTriggerGate(),key='156:VAR_UNK_40A4:0:source2';let attempts=0;
+  const poll=async()=>{
+    const location=String(h.state.map);gate.visit(location);
+    if(!gate.allows(key))return;
+    try{await h.recovery.run(async()=>{attempts++;await h.vm.run(h.map,2);});}
+    catch(error){gate.failed(location,key);throw error;}
+  };
+  await assert.rejects(poll(),UnsupportedScript);await poll();await poll();assert.equal(attempts,1);
+  // Explicit Retry must reopen the gate before an outer warp/entry is replayed.
+  gate.retry();await assert.rejects(poll(),UnsupportedScript);assert.equal(attempts,2);
+  h.state.x++;await poll();assert.equal(attempts,2);
+  gate.visit('61');gate.visit('156');await assert.rejects(poll(),UnsupportedScript);assert.equal(attempts,3);
+  assert.equal(h.vm.value('VAR_UNK_40A4',h.map),0);
+});
+
+test('field snapshots are detached at capture so later live-field mutation cannot corrupt recovery',async()=>{
+  const state=newState(data,'Ethan','boy'),field={actors:[{x:1}],height:2};
+  const recovery=new SourceActionRecovery(state,{capture:()=>field,restore:async snapshot=>{assert.deepEqual(snapshot,{actors:[{x:1}],height:2});}});
+  await assert.rejects(recovery.run(async()=>{field.actors[0].x=20;field.height=50;throw Error('stop');}),/stop/);
+});
+
+
+test('a nested destination trigger cannot overwrite the failed source trigger location on unwind',()=>{
+  const gate=new SourceTriggerGate();gate.visit('source:13,17');gate.visit('destination:4,5');
+  gate.failed('destination:4,5','destination-trigger');gate.failed('source:13,17','source-trigger');
+  gate.visit('source:13,17');assert.equal(gate.allows('source-trigger'),false);
+  gate.retry();assert.equal(gate.allows('source-trigger'),true);
+});
+
+
+test('a failed Continue entry can return to its hydrated field and save only after the error prompt closes',async()=>{
+  const h=await harness(),before=structuredClone(h.state),actors=h.objects.save(h.state.map);h.ready=false;
+  let attempts=0,prompts=0,promptOpen=false;
+  const result=await runRecoverableSourceAction(h.recovery,async()=>{attempts++;await h.vm.run(h.map,2);},{
+    failed:async error=>{prompts++;promptOpen=true;assert.equal(h.ready,true);assert.equal(h.recovery.busy,false);assert.deepEqual(h.state,before);assert.deepEqual(h.objects.save(h.state.map),actors);assert.ok(error instanceof UnsupportedScript);promptOpen=false;return 'return';},
+    recoveryFailed:async()=>assert.fail('field hydration should succeed'),retry:()=>assert.fail('no implicit retry'),
+    committed:()=>{assert.equal(promptOpen,false);h.save();},
+  });
+  assert.deepEqual(result,{ok:false});assert.equal(attempts,1);assert.equal(prompts,1);assert.equal(h.ready,true);assert.equal(h.writes,1);
+  assert.equal(JSON.parse(h.saved).vars.VAR_UNK_40A4,before.vars.VAR_UNK_40A4);
+});
+
+test('explicit retry replays a nested actual gift once from its checkpoint; children never prompt or save independently',async()=>{
+  const h=await harness(61);let messages=0,prompts=0,retries=0,attempts=0;
+  h.hooks.message=async()=>{messages++;if(messages===1)throw Error('gift message unavailable');};
+  const ports={failed:async()=>{prompts++;assert.equal(h.state.bag.ITEM_POTION,undefined);return 'retry' as const;},recoveryFailed:async()=>assert.fail('no failed hydration'),retry:()=>{retries++;},committed:()=>h.save()};
+  const result=await runRecoverableSourceAction(h.recovery,async()=>{
+    attempts++;await runRecoverableSourceAction(h.recovery,()=>h.vm.run(h.script([['GiveItemNoCheck',['ITEM_POTION','2']],['SetFlag',['GIFT_FINISHED']],['End',[]]]),1),ports);
+  },ports);
+  assert.equal(result.ok,true);assert.equal(prompts,1);assert.equal(retries,1);assert.equal(attempts,2);assert.equal(h.writes,1);assert.equal(h.state.bag.ITEM_POTION,2);assert.equal(h.state.flags.GIFT_FINISHED,true);
+});
+
+test('the recovery controller retries hydration without replaying source code, then offers a return and one coherent save',async()=>{
+  const h=await harness();h.failHydration=true;let runs=0,loadPrompts=0,scenePrompts=0;
+  const result=await runRecoverableSourceAction(h.recovery,async()=>{runs++;h.state.money=1;throw Error('scene failed');},{
+    failed:async()=>{scenePrompts++;assert.equal(h.recovery.busy,false);return 'return';},
+    recoveryFailed:async error=>{loadPrompts++;assert.ok(error instanceof SourceRecoveryError);assert.equal(h.recovery.busy,true);h.save();assert.equal(h.writes,0);h.failHydration=false;},
+    retry:()=>assert.fail('source replay was not requested'),committed:h.save,
+  });
+  assert.equal(result.ok,false);assert.equal(runs,1);assert.equal(loadPrompts,1);assert.equal(scenePrompts,1);assert.equal(h.hydrations,2);assert.equal(h.writes,1);assert.equal(h.state.money,3000);
+});
+
+test('play time never rewinds across failed scenes or repeated hydration attempts',async()=>{
+  const h=await harness();h.state.playSeconds=5;h.failHydration=true;
+  await assert.rejects(h.recovery.run(async()=>{h.state.playSeconds=15;h.state.money=1;throw Error('stop');}),SourceRecoveryError);
+  assert.equal(h.state.playSeconds,15);h.state.playSeconds=30;
+  await assert.rejects(h.recovery.retryRecovery(),SourceRecoveryError);assert.equal(h.state.playSeconds,30);
+  h.failHydration=false;h.state.playSeconds=45;await h.recovery.retryRecovery();assert.equal(h.state.playSeconds,45);assert.equal(h.state.money,3000);
+});
+
+test('a persistence callback failure does not falsely report an already completed source action as rolled back',async()=>{
+  const h=await harness();let reported=false;
+  await assert.rejects(runRecoverableSourceAction(h.recovery,async()=>{h.state.flags.FINISHED=true;},{
+    failed:async()=>{reported=true;return 'return';},recoveryFailed:async()=>assert.fail('no recovery'),retry:()=>{},committed:()=>{throw Error('persistence unavailable');},
+  }),/persistence unavailable/);
+  assert.equal(reported,false);assert.equal(h.state.flags.FINISHED,true);assert.equal(h.recovery.busy,false);
 });

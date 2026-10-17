@@ -13,7 +13,7 @@ import {doorwayEntry} from './terrain.ts';
 import {ledgeDirection,jumpHeight} from './ledges.ts';
 import {stepWarpFacing,pushWarp,fieldEntryScripts,arrivalStep,arrivalFacing} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
-import {SourceActionRecovery,SourceRecoveryError} from './script-recovery.ts';
+import {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction} from './script-recovery.ts';
 import {movementAction} from './movement.ts';
 import {findTrainerEncounter,fieldTrainerCollision,trainerEventPriority,approachTrainer,type TrainerEncounter} from './trainer-encounters.ts';
 import {mapBlackoutSpawn} from './spawns.ts';
@@ -24,6 +24,7 @@ import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} fr
 const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-qa':'heartgold-3d-v2';
 const keys=new Set<string>();const ui=new UI();
 const encounterChecks=new EncounterChecks();
+const frameTriggerGate=new SourceTriggerGate();
 let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data:GameData,objects:FieldObjects;
 let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
 let openingView:OpeningView|null=null;
@@ -121,45 +122,46 @@ async function chooseStarter(){
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
 }
 // Live actors are newer than state.objectEvents until the next durable save.
-function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,ready,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:world.sky.currentWeather,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
+function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,playerHeight:player.group.position.y,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:world.sky.currentWeather,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
   keys.clear();drag=false;transitioning=true;world.beginFieldTransition();ui.loading('Restoring the area…');
   try{
-    const restored=await world.enter(state.map,state.x,state.z,snapshot.weather);
+    Object.assign(world,snapshot.camera);
+    // Optional height/lift parameters are also understood by the gym hydration
+    // port. Older field worlds accept this compatible superset and ignore them.
+    const field:{enter:(id:number,x:number,z:number,weather?:number,initialHeight?:number,violetLift?:0|1)=>Promise<SourceMap>;clearScriptCameraTarget?:()=>void}=world;
+    field.clearScriptCameraTarget?.();
+    const gym=(state as State&{gymmick?:{kind:string;liftState:0|1}}).gymmick;
+    const restored=await field.enter(state.map,state.x,state.z,snapshot.weather,snapshot.playerHeight,gym?.kind==='violet'?gym.liftState:0);
     map=restored;world.clearNPCs();objects.load(map.events.objects);objects.restore(state.map,snapshot.actors);
     npcTweenY.clear();playerTweenY=undefined;stepFrame=-1;followerMoving=false;followerStep=-1;
     playerDirectionLocked=snapshot.playerDirectionLocked;followerSuppressed=snapshot.followerSuppressed;followerFacing=snapshot.followerFacing;previousStepJump=snapshot.previousStepJump;
-    lastWarp=snapshot.lastWarp;lastCoord=snapshot.lastCoord;player.group.visible=snapshot.playerVisible;player.group.position.set(state.x,world.height(state.x,state.z),state.z);
+    lastWarp=snapshot.lastWarp;lastCoord=snapshot.lastCoord;player.group.visible=snapshot.playerVisible;player.group.position.set(state.x,world.height(state.x,state.z,snapshot.playerHeight),state.z);
     // A failed starter/gift can have created a follower for a now-absent species.
     if(follower){world.scene.remove(follower.group);follower=null;followSpecies=0;}
     const lead=state.party.find(mon=>mon.hp>0),key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';
     if(lead&&data.sprites[key]){follower=world.paper(key,1.5);followSpecies=lead.species;if(snapshot.followerPosition)follower.group.position.fromArray(snapshot.followerPosition);else follower.group.position.copy(player.group.position);follower.group.visible=!followerSuppressed;}
     // Discard private child buffers, pending phone state and battle result too.
     vm=new ScriptVM(data,state,vm.hooks);if(error instanceof UnsupportedScript)vm.lastUnsupported={map:error.map,command:error.command,pc:error.pc};
-    Object.assign(world,snapshot.camera);ready=snapshot.ready;refreshNPCs();updateHUD();encounterChecks.reset();
+    ready=true;refreshNPCs();updateHUD();encounterChecks.reset();
   }finally{walking=false;transitioning=false;world.endFieldTransition();ui.loading(null);}
 }
-async function executeSourceAction<T>(action:()=>Promise<T>):Promise<{ok:true;value:T}|{ok:false}>{
-  if(sourceActions?.busy){return{ok:true,value:await sourceActions.run(action)};}
+async function executeSourceAction<T>(action:()=>Promise<T>){
   if(!sourceActions)throw Error('Source recovery is not initialized');
-  for(;;){
-    try{const value=await sourceActions.run(action);save();return{ok:true,value};}
-    catch(error){
-      const cause=error instanceof SourceRecoveryError?error.actionError:error;
-      lastError=String(cause);console.error(error);recoveryPrompt=true;keys.clear();
-      try{
-        while(sourceActions.recovering){
-          await ui.choose('The area could not be restored.',['Retry loading'],'Your last browser save is unchanged. '+String(error instanceof SourceRecoveryError?error.recoveryError:error));
-          try{await sourceActions.retryRecovery();}catch(retryError){error=retryError;console.error(retryError);}
-        }
-        const detail=(cause instanceof UnsupportedScript?`This scene needs the source command ${cause.command} (${cause.map}:${cause.pc}). `:'The scene could not finish. ')+ 'Changes from this scene were undone. Progress from completed earlier scenes is retained.';
-        const choice=await ui.choose('Scene not completed',ready?['Retry scene','Return to field']:['Retry scene'],detail);
-        if(choice!==0){save();return{ok:false};}
-      }finally{recoveryPrompt=false;}
-    }
-  }
+  return runRecoverableSourceAction(sourceActions,action,{
+    committed:save,retry:()=>frameTriggerGate.retry(),
+    recoveryFailed:async error=>{
+      recoveryPrompt=true;keys.clear();console.error(error);
+      try{await ui.choose('The area could not be restored.',['Retry loading'],'Your last browser save is unchanged. '+String(error.recoveryError));}finally{recoveryPrompt=false;}
+    },
+    failed:async cause=>{
+      lastError=String(cause);console.error(cause);recoveryPrompt=true;keys.clear();
+      const detail=(cause instanceof UnsupportedScript?`This scene needs the source command ${cause.command} (${cause.map}:${cause.pc}). `:'The scene could not finish. ')+ 'Changes from this scene were undone. Progress from completed earlier scenes is retained.';
+      try{return await ui.choose('Scene not completed',['Retry scene','Return to field'],detail)===0?'retry':'return';}finally{recoveryPrompt=false;}
+    },
+  });
 }
 async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter){
   if(vm.busy&&!nested)return false;
@@ -196,7 +198,16 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
   if(!deferTriggers)await checkFrameTriggers();
   });
 }
-async function checkFrameTriggers(){if(vm.busy||ui.busy||battle.active)return false;const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;await runScript(trigger.script);return true;}
+async function checkFrameTriggers(){
+  if(vm.busy||ui.busy||battle.active)return false;
+  const location=String(state.map);frameTriggerGate.visit(location);
+  const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;
+  const key=`${map.id}:${trigger.var}:${trigger.value}:${trigger.script}`;
+  if(!frameTriggerGate.allows(key))return false;
+  try{if(!await runScript(trigger.script))frameTriggerGate.failed(location,key);}
+  catch(error){frameTriggerGate.failed(location,key);throw error;}
+  return true;
+}
 async function warp(index:number,facing=state.facing){
   await executeSourceAction(async()=>{
   transitioning=true;keys.clear();
