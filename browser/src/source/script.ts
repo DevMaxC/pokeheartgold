@@ -12,12 +12,32 @@ import {addSpecialGameStat,giveBadge,countBadges} from './game-stats.ts';
 import {kurtApricornQuantity,totalApricornCount,kurtBall,clearKurtApricorn} from './apricorn-box.ts';
 import {giveTogepiEgg,isOriginalTogepiGift,isUsableBattler,partyMonSpecies,type EggContext} from './eggs.ts';
 import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDefeated,trainerContacts,phoneContactKey,phoneRematchTrainer,type TrainerContact} from './trainer-script-state.ts';
+import {getPartySlotWithMove,monHasMove,loadNativeFieldMoveData,resolveTeachingPersonalIndex} from './field-moves.ts';
 
 export type EngagedTrainer={trainer:number;object:string};
 /** Supplied by the field's sight detector, never inferred by the script VM. */
 export type TrainerApproachContext={eyeType:0|1|2;trainers:EngagedTrainer[]};
 import {SCRIPT_CAMERA_PERSON,SCRIPT_CAMERA_ACTOR} from './script-camera.ts';
 
+/** Every asynchronous port must stop its own actor/effect writes and settle
+ * when signal aborts. startEffect starts now; its Promise means finished and
+ * resources released, not merely scheduled. The VM owns doneVar and draining. */
+export type ScriptFieldMoveContext={map:SourceMap;object:string;signal:AbortSignal};
+export type ScriptFieldMovePorts={
+ cutIn:(partyIndex:number,context:ScriptFieldMoveContext)=>Promise<void>;
+ startEffect:(kind:0|3,context:ScriptFieldMoveContext)=>Promise<void>;
+ /** Ends at native TaskManager child completion; parent resumes that tick. */
+ swapPlayerFollower:(mode:1|2,context:ScriptFieldMoveContext)=>Promise<void>;
+ /** Same native task boundary. Diglett/Dugtrio skip creates no child: the port
+  * still waits one dispatch tick, matching the TRUE-returning command. */
+ jumpFollower:(count:number,context:ScriptFieldMoveContext)=>Promise<void>;
+ resetFollowerMovement:(context:ScriptFieldMoveContext)=>Promise<void>;
+ addFollowerMood:(signedDelta:number)=>void;
+ followerVisibleFlag:()=>boolean;
+ /** ScrCmd_PlayCry's second variable is the native playback pattern, not form. */
+ cry:(species:number,pattern:number,context:ScriptFieldMoveContext)=>Promise<void>;
+ waitFrames?:(frames:number,context:ScriptFieldMoveContext)=>Promise<void>;
+};
 export type ScriptHooks={
   eggContext?:EggContext;
   eggHatchAnim?:()=>Promise<void>;
@@ -36,6 +56,7 @@ export type ScriptHooks={
   trainerCandle?:(action:'bind'|'unbind'|'extinguish',useLastInteracted:boolean)=>Promise<void>|void;
   violetGym?:{init:()=>void|Promise<void>;elevator:()=>Promise<void>};
   cameraTarget?:(target:{map:SourceMap;x:number;z:number}|null)=>void;
+  fieldMoves?:ScriptFieldMovePorts;
 };
 export class UnsupportedScript extends Error{
   readonly map:string;readonly command:string;readonly pc:number;
@@ -53,6 +74,10 @@ export class ScriptVM{
   private battleWon=false;
   private pendingPhone:[number,number,number]|null=null;
   private context:{activeScript:number;map:SourceMap;object:string;phone:TrainerContact|null;approach?:TrainerApproachContext}|null=null;
+  private runAbort:AbortController|null=null;private runGeneration=0;private inheritedSignal:AbortSignal|undefined;private standardID:number|null=null;private fieldMoveOrigin:number|null=null;
+  /** The host cancels before an external map replacement/recovery. A failed
+   * run also aborts itself and drains ports before SourceActionRecovery sees it. */
+  cancel(reason:unknown=new DOMException('Source script was cancelled','AbortError')){if(this.runAbort&&!this.runAbort.signal.aborted){this.runGeneration++;this.runAbort.abort(reason);}this.child?.cancel(reason);}
   readonly data:GameData;readonly state:State;readonly hooks:ScriptHooks;
   constructor(data:GameData,state:State,hooks:ScriptHooks){this.data=data;this.state=state;this.hooks=hooks;}
   value(token:string,map:SourceMap):number{
@@ -63,9 +88,13 @@ export class ScriptVM{
     if(/^0x[0-9a-f]+$|^-?\d+$/i.test(token))return Number(token);
     return map.constants[token]??this.data.constants[token]??0;
   }
-  set(token:string,n:number){this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
+  set(token:string,n:number){this.runAbort?.signal.throwIfAborted();if(this.fieldMoveOrigin!==null&&this.state.map!==this.fieldMoveOrigin)throw Error('Field move was cancelled by a field change');this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
-  private async standard(id:number,object:string){const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;try{await child.run(common,entry,object,true);}finally{this.child=null;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}}
+  private async runChild(map:SourceMap,script:string|number,object:string,standardID:number|null=this.standardID,approach?:TrainerApproachContext):Promise<void>{
+    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;
+    try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
+  }
+  private async standard(id:number,object:string){const signal=this.runAbort?.signal;const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;signal?.throwIfAborted();const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);await this.runChild(common,entry,object,id);}
   text(message:string,map:SourceMap){
     const raw=map.messages[message]??message;
     return raw.replace(/\{STRVAR_1 (\d+), (\d+), \d+\}/g,(_,kind,slot)=>kind==='3'?this.state.name:this.buffers[Number(slot)]??(kind==='1'?this.state.rivalName:'')).replace(/\{YESNO \d+\}/g,'').replace(/\{[^}]+\}/g,'').replace(/\\+([nrf])/g,(_,control)=>control==='n'?'\n':'\\'+control);
@@ -74,31 +103,63 @@ export class ScriptVM{
     if(approach.trainers.length!==(approach.eyeType===0?1:2)||new Set(approach.trainers.map(t=>t.object)).size!==approach.trainers.length||approach.trainers.some(t=>!this.data.trainers[t.trainer]||!map.events.objects.some(n=>n.id===t.object&&trainerIdForScript(this.value(String(n.scriptId),map))===t.trainer))||approach.eyeType===1&&(approach.trainers[0].trainer!==approach.trainers[1].trainer||!this.data.trainers[approach.trainers[0].trainer].double)||approach.eyeType!==1&&approach.trainers.some(t=>this.data.trainers[t.trainer].double))throw Error('Invalid native engaged-trainer context');
     return this.run(map,TRAINER_APPROACH_SCRIPT,approach.trainers[0].object,false,approach);
   }
-  async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false,approach?:TrainerApproachContext){
-    if(this.busy&&!allowNested)return;
+  async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false,approach?:TrainerApproachContext):Promise<void>{
+    if(this.busy){if(!allowNested)return;await this.runChild(map,script,object,this.standardID,approach);return;}
     if(script===0)return;
+    const controller=new AbortController(),generation=++this.runGeneration,parentSignal=this.inheritedSignal,inheritAbort=()=>controller.abort(parentSignal?.reason);
+    this.runAbort=controller;parentSignal?.addEventListener('abort',inheritAbort,{once:true});
+    const finish=()=>{parentSignal?.removeEventListener('abort',inheritAbort);if(this.runAbort===controller){this.runAbort=null;this.fieldMoveOrigin=null;}this.busy=false;};
+    if(parentSignal?.aborted){inheritAbort();finish();controller.signal.throwIfAborted();}
     this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
     const scriptID=typeof script==='number'?script:this.value(script,map);if(!allowNested){this.battleWon=false;this.context={activeScript:scriptID,map,object,phone:null,approach};const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}
-    if(scriptID>=2000){try{await this.standard(scriptID,object);}finally{this.busy=false;}return;}
+    if(scriptID>=2000){try{await this.standard(scriptID,object);controller.signal.throwIfAborted();}catch(error){controller.abort(error);throw error;}finally{finish();}return;}
     const entry=scriptID-1;
     let label=typeof script==='string'&&map.scripts.labels[script]!==undefined?script:map.scripts.entries[entry];
-    if(label===undefined){this.busy=false;return;}
+    if(label===undefined){finish();return;}
     pc=map.scripts.labels[label];
     const jump=(target:string)=>{if(map.scripts.labels[target]===undefined)throw new Error(`Missing original script label ${target}`);pc=map.scripts.labels[target];};
     const conditions:Record<string,()=>boolean>={Eq:()=>compare===0,Ne:()=>compare!==0,Lt:()=>compare<0,Gt:()=>compare>0,Le:()=>compare<=0,Ge:()=>compare>=0};
     const v=(s:string)=>this.value(s,map);
     const originMap=this.context?.map??map;
+    const cutScript=(this.standardID===this.data.constants.std_field_cut||this.standardID===this.data.constants.std_menu_cut)&&map.code==='COMMON_0146';
+    if(cutScript)this.fieldMoveOrigin=originMap.id;
+    const assertLive=()=>{controller.signal.throwIfAborted();if(this.runAbort!==controller||this.runGeneration!==generation||cutScript&&this.state.map!==originMap.id)throw Error('Field move was cancelled by a field change');};
+    const fieldContext=():ScriptFieldMoveContext=>({map:originMap,object:this.context?.object??object,signal:controller.signal});
+    const requireFieldMoves=(command:string)=>{const ports=this.hooks.fieldMoves;if(!ports?.startEffect)throw new UnsupportedScript(map.code,command,pc-1);return ports;};
+    const aliveSlot=()=>this.state.party.findIndex(mon=>mon.hp>0&&!mon.isEgg&&!mon.checksumFailed);
+    const firstAlive=()=>{const slot=aliveSlot();if(slot<0)throw Error('Native first-alive party query has no valid non-Egg');return slot;};
+    const pendingFields:Promise<void>[]=[];let pendingCry:Promise<void>|null=null;
+    const asyncFailure:{failed:boolean;error?:unknown}={failed:false};
+    const own=(promise:Promise<void>,completed?:()=>void)=>{if(!promise||typeof promise.then!=='function')throw Error('Native field-move port must return a completion Promise');const owned=Promise.resolve(promise).then(()=>{controller.signal.throwIfAborted();if(this.runAbort!==controller||this.runGeneration!==generation||this.state.map!==originMap.id)throw Error('Field move was cancelled by a field change');completed?.();}).catch(error=>{if(!asyncFailure.failed){asyncFailure.failed=true;asyncFailure.error=error;}controller.abort(error);});pendingFields.push(owned);return owned;};
+    const awaitedField=async(promise:Promise<void>)=>{await own(promise);if(asyncFailure.failed)throw asyncFailure.error;controller.signal.throwIfAborted();};
+    // SetupNativeScript first polls next tick, then resumes bytecode one tick
+    // after its completion callback. Keep these boundaries local to Cut.
+    const resumeNativeField=async(pending:Promise<void>)=>{await waitFrames(1);await pending;if(asyncFailure.failed)throw asyncFailure.error;assertLive();await waitFrames(1);};
+    const raw=(token:string,bits:8|16)=>{const literal=/^(?:0x[0-9a-f]+|-?\d+)$/i.test(token)?Number(token):map.constants[token]??this.data.constants[token];if(!Number.isInteger(literal))throw new UnsupportedScript(map.code,this.instruction?.command??'NativeLiteral',pc-1);return literal&(bits===8?255:65535);};
+    const waitFrames=async(frames:number)=>{
+      if(!Number.isInteger(frames)||frames<0)throw Error('Invalid native frame count');
+      if(cutScript&&this.hooks.fieldMoves?.waitFrames){await this.hooks.fieldMoves.waitFrames(frames,fieldContext());assertLive();return;}
+      await new Promise<void>((resolve,reject)=>{const abort=()=>{clearTimeout(timer);reject(controller.signal.reason);},timer=setTimeout(()=>{controller.signal.removeEventListener('abort',abort);resolve();},Math.min(1000,frames*1000/60));controller.signal.addEventListener('abort',abort,{once:true});if(controller.signal.aborted)abort();});
+      assertLive();
+    };
     const actor=(token:string)=>v(token)===SCRIPT_CAMERA_PERSON?SCRIPT_CAMERA_ACTOR:token.startsWith('obj_')?token:originMap.events?.objects.find(n=>(originMap.constants[n.id]??this.data.constants[n.id])===v(token))?.id??this.hooks.objectName?.(v(token))??token;
     const activeTrainer=()=>{const script=this.context?.activeScript??scriptID,id=trainerIdForScript(script);if(id===null&&script!==TRAINER_APPROACH_SCRIPT)throw new UnsupportedScript(map.code,this.instruction?.command??'GetTrainerNum',pc-1);return id??740;};
     const engaged=(index:number)=>{const trainer=this.context?.approach?.trainers[index];if(!trainer)throw new UnsupportedScript(map.code,this.instruction?.command??'GetEyeTrainerNum',pc-1);return trainer;};
     try{
       let remaining=4000;
       while(true){
+        assertLive();if(asyncFailure.failed)throw asyncFailure.error;
         if(remaining--===0)throw new Error(`Source script instruction limit reached at ${map.code}:${pc}`);
         if(movementFailure.failed)throw movementFailure.error;
         const instruction=map.scripts.instructions[pc++];if(!instruction)break;const [cmd,a]=instruction;this.instruction={map:map.code,command:cmd,pc:pc-1};
         if(cmd==='End'||cmd==='EndScript')break;
         this.supported.add(cmd);
+        if(cutScript&&(cmd==='PlayCry'||cmd==='WaitCry')){
+          const ports=requireFieldMoves(cmd);if(!ports.cry)throw new UnsupportedScript(map.code,cmd,pc-1);
+          if(cmd==='PlayCry'){pendingCry=own(ports.cry(v(a[0]),v(a[1]),fieldContext()));}else{await resumeNativeField(pendingCry??Promise.resolve());pendingCry=null;}
+          continue;
+        }
+        if(cutScript&&cmd==='FollowMonResetMovement'){const ports=requireFieldMoves(cmd);if(!ports.resetFollowerMovement)throw new UnsupportedScript(map.code,cmd,pc-1);await awaitedField(ports.resetFollowerMovement(fieldContext()));await waitFrames(1);continue;}
         if(presentation.has(cmd))continue;
         if(cmd==='OpenMsg')continue;
         if(cmd==='GoTo'){jump(a[0]);continue;}
@@ -127,6 +188,42 @@ export class ScriptVM{
         if(cmd==='GetTrainerPathToPlayer'){if(!this.hooks.trainerPath)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.trainerPath(v(a[0]),engaged(v(a[0])));continue;}
         if(cmd==='TrainerStepTowardsPlayer'){if(!this.hooks.trainerStep)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[1],Number(await this.hooks.trainerStep(v(a[0]),engaged(v(a[0])))));continue;}
         if(cmd==='FollowMonIsActive'){if(!this.hooks.followerActive)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[0],Number(this.hooks.followerActive()));continue;}
+        if(cmd==='GetPartySlotWithMove'){this.set(a[0],getPartySlotWithMove(this.state.party,v(a[1])));continue;}
+        if(cmd==='MonHasMove'){const mon=this.state.party[v(a[2])];if(!mon)throw Error('Native move query has no party slot');this.set(a[0],Number(monHasMove(mon,v(a[1]))));continue;}
+        if(cmd==='GetFollowPokePartyIndex'){this.set(a[0],firstAlive());continue;}
+        if(cmd==='FollowMonIsInactiveOrVisible'){
+          if(!this.hooks.followerActive)throw new UnsupportedScript(map.code,cmd,pc-1);
+          const active=this.hooks.followerActive();if(active&&!this.hooks.fieldMoves?.followerVisibleFlag)throw new UnsupportedScript(map.code,cmd,pc-1);
+          this.set(a[0],Number(!active||this.hooks.fieldMoves!.followerVisibleFlag()));continue;
+        }
+        if(cmd==='PlayFieldMoveCutIn'){
+          if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);
+          const ports=requireFieldMoves(cmd),slot=v(a[0]);if(!ports.cutIn||!this.state.party[slot])throw new UnsupportedScript(map.code,cmd,pc-1);
+          await resumeNativeField(own(ports.cutIn(slot,fieldContext())));continue;
+        }
+        if(cmd==='StartFieldMoveEffect'){
+          if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);
+          const kind=v(a[0]);if(kind!==0&&kind!==3)throw new UnsupportedScript(map.code,cmd,pc-1);const ports=requireFieldMoves(cmd);
+          // COMMON_0146 runs Wait7/HidePerson before polling this variable.
+          // Awaiting completion here would hide the tree at the wrong phase.
+          // This TRUE-returning command yields once; Wait's native callback
+          // also resumes bytecode on the following tick (src/script.c).
+          this.set(a[1],0);own(ports.startEffect(kind,fieldContext()),()=>this.set(a[1],1));if(cutScript)await waitFrames(1);continue;
+        }
+        if(cmd==='SwapPlayerAndFollowMonPositions'){
+          if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);
+          const mode=raw(a[0],16),ports=requireFieldMoves(cmd);
+          if((mode!==1&&mode!==2)||!ports.swapPlayerFollower||!ports.jumpFollower||!ports.addFollowerMood||!ports.cry)throw new UnsupportedScript(map.code,cmd,pc-1);
+          await awaitedField(ports.swapPlayerFollower(mode,fieldContext()));continue;
+        }
+        if(cmd==='FollowMonAddMood'){if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);const ports=requireFieldMoves(cmd);if(!ports.addFollowerMood)throw new UnsupportedScript(map.code,cmd,pc-1);const byte=raw(a[0],8);ports.addFollowerMood(byte>=128?byte-256:byte);continue;}
+        if(cmd==='FollowMonJumpOnSpot'){if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);const ports=requireFieldMoves(cmd);if(!ports.jumpFollower)throw new UnsupportedScript(map.code,cmd,pc-1);await awaitedField(ports.jumpFollower(raw(a[0],8),fieldContext()));continue;}
+        if(cmd==='FirstAliveMonHasType'){
+          const mon=this.state.party[firstAlive()],native=await loadNativeFieldMoveData();controller.signal.throwIfAborted();
+          const base=this.data.personal[resolveTeachingPersonalIndex(native,mon.species,mon.form??0)];if(!base)throw Error('Missing original field Pokémon type record');let types=base.types.map(type=>this.data.constants[type]);
+          if(mon.species===this.data.constants.SPECIES_ARCEUS&&base.abilities.includes('ABILITY_MULTITYPE')){const item=mon.heldItem?this.data.items.find(row=>row.item===mon.heldItem):undefined;if(mon.heldItem&&!item)throw Error('Missing original Arceus held-item record');const effect=item?.holdEffect??'',type=this.data.constants['TYPE_'+effect.replace(/^HOLD_EFFECT_ARCEUS_/,'')];types=[effect.startsWith('HOLD_EFFECT_ARCEUS_')&&type!==undefined?type:this.data.constants.TYPE_NORMAL];}
+          this.set(a[1],Number(types.includes(raw(a[0],8))));continue;
+        }
         if(cmd==='EcruteakGymExtinguishCandle'||cmd==='EcruteakGymBindCandleToTrainer'||cmd==='EcruteakGymUnbindCandleFromTrainer'){if(originMap.id===this.data.constants.MAP_ECRUTEAK_GYM){if(!this.hooks.trainerCandle)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.trainerCandle(cmd==='EcruteakGymExtinguishCandle'?'extinguish':cmd==='EcruteakGymBindCandleToTrainer'?'bind':'unbind',cmd==='EcruteakGymExtinguishCandle'&&!!v(a[0]));}continue;}
         const branch=cmd.match(/^(GoTo|Call)If(Eq|Ne|Lt|Gt|Le|Ge)$/);if(branch){if(conditions[branch[2]]()){if(branch[1]==='Call')stack.push(pc);jump(a[0]);}continue;}
         if(cmd==='SetVar'||cmd==='CopyVar'||cmd==='SetOrCopyVar'){this.set(a[0],v(a[1]));continue;}
@@ -140,7 +237,7 @@ export class ScriptVM{
         if(cmd==='GetStdMsgNaix'){this.set(a[1],[752,211,30,435][v(a[0])]??0);continue;}
         if(cmd==='MsgBoxExtern'||cmd==='NonNPCMsgExtern'){const bank=await sourceJSON<Record<string,string>>(`messages/${v(a[0])}.json`),raw=bank[v(a[1])];if(raw===undefined)throw Error(`Missing source message ${v(a[0])}:${v(a[1])}`);lastMessage=this.text(raw,map);await this.hooks.message(lastMessage);continue;}
         if(cmd==='GetMenuChoice'||cmd==='YesNoBox'){this.set(a[0],await this.hooks.choice(lastMessage.split(/\\[rf]/).filter(Boolean).at(-1)));continue;}
-        if(cmd==='Wait'){await new Promise(resolve=>setTimeout(resolve,Math.min(1000,v(a[0])*1000/60)));continue;}
+        if(cmd==='Wait'){if(cutScript){const frames=raw(a[0],16);this.set(a[1],frames);for(let left=frames||65536;left>0;left--){await waitFrames(1);controller.signal.throwIfAborted();this.set(a[1],left-1);}await waitFrames(1);remaining=4000;}else await waitFrames(v(a[0]));continue;}
         if(cmd==='CreateCameraTarget'||cmd==='RemoveCameraTarget'){
           if(!this.hooks.cameraTarget)throw new UnsupportedScript(map.code,cmd,pc-1);
           this.hooks.cameraTarget(cmd==='CreateCameraTarget'?{map,x:v(a[0]),z:v(a[1])}:null);ownsCameraTarget=cmd==='CreateCameraTarget';continue;
@@ -209,8 +306,8 @@ export class ScriptVM{
         if(cmd==='GetTotalApricornCount'){this.set(a[0],totalApricornCount(this.state));continue;}
         if(cmd==='GetKurtBall'){this.set(a[0],kurtBall(this.data,this.state));continue;}
         if(cmd==='ClearKurtApricorn'){clearKurtApricorn(this.state);continue;}
-        if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,this.state.party.findIndex(m=>m.hp>0&&!m.isEgg)));continue;}
-        if(cmd==='GetPartyMonSpecies'){this.set(a[1],partyMonSpecies(this.state.party[v(a[0])]));continue;}
+        if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,aliveSlot()));continue;}
+        if(cmd==='GetPartyMonSpecies'){const mon=this.state.party[v(a[0])];this.set(a[1],mon?.checksumFailed?0:partyMonSpecies(mon));continue;}
         if(cmd==='GetPartyMonForm2'){this.set(a[1],0);continue;}
         if(cmd==='GetStarterChoice'){this.set(a[0],this.state.starter);continue;}
         if(cmd==='SetStarterChoice'){this.state.starter=v(a[0]);continue;}
@@ -219,7 +316,7 @@ export class ScriptVM{
         if(cmd==='BufferPlayersName'){this.buffers[v(a[0])]=this.state.name;continue;}
         if(cmd==='BufferRivalsName'){this.buffers[v(a[0])]=this.state.rivalName;continue;}
         if(cmd==='BufferFriendsName'){this.buffers[v(a[0])]=this.state.gender==='boy'?'Lyra':'Ethan';continue;}
-        if(cmd==='BufferMonSpeciesName'||cmd==='BufferPartyMonNick'||cmd==='BufferPartyMonSpeciesNameIndef'){const m=this.state.party[v(a[1])];this.buffers[v(a[0])]=m?(cmd==='BufferPartyMonNick'?m.name:cmd==='BufferPartyMonSpeciesNameIndef'?this.data.names.speciesIndefinite[m.species]:speciesName(this.data,m.species)):'';continue;}
+        if(cmd==='BufferMonSpeciesName'||cmd==='BufferPartyMonNick'||cmd==='BufferPartyMonSpeciesNameIndef'){const m=this.state.party[v(a[1])];if(!m)throw Error('Native party name buffer has no party slot');this.buffers[raw(a[0],8)]=cmd==='BufferPartyMonNick'?m.name:cmd==='BufferPartyMonSpeciesNameIndef'?this.data.names.speciesIndefinite[m.species]:speciesName(this.data,m.species);continue;}
         if(cmd==='BufferSpeciesName'){this.buffers[v(a[0])]=speciesName(this.data,v(a[1]));continue;}
         if(cmd==='BufferItemName'||cmd==='BufferItemNamePlural'||cmd==='BufferItemNameIndef'){const id=this.data.constants[this.itemKey(a[1],map)];this.buffers[v(a[0])]=this.data.names[cmd==='BufferItemNamePlural'?'itemsPlural':cmd==='BufferItemNameIndef'?'itemsIndefinite':'items'][id]||'';continue;}
         if(cmd==='BufferTMHMMoveName'){const slot=Number(a[0]);if(!Number.isInteger(slot)||slot<0||slot>255)throw Error('Invalid native message buffer byte');this.buffers[slot]=moveName(this.data,await tmhmMove(this.data,v(a[1])));continue;}
@@ -250,8 +347,8 @@ export class ScriptVM{
         if(cmd==='Warp'){await this.hooks.warp(v(a[0]),v(a[2]),v(a[3]),v(a[4]));continue;}
         this.supported.delete(cmd);throw new UnsupportedScript(map.code,cmd,pc-1);
       }
-      await Promise.all(pendingMoves);if(movementFailure.failed)throw movementFailure.error;await this.hooks.refresh();
-    }catch(error){if(error instanceof UnsupportedScript)this.lastUnsupported={map:error.map,command:error.command,pc:error.pc};throw error;}
-    finally{try{if(ownsCameraTarget)this.hooks.cameraTarget?.(null);}finally{await Promise.allSettled(pendingMoves);this.busy=false;}}
+      await Promise.all([...pendingMoves,...pendingFields]);controller.signal.throwIfAborted();if(asyncFailure.failed)throw asyncFailure.error;if(movementFailure.failed)throw movementFailure.error;await this.hooks.refresh();controller.signal.throwIfAborted();
+    }catch(error){controller.abort(error);if(error instanceof UnsupportedScript)this.lastUnsupported={map:error.map,command:error.command,pc:error.pc};throw error;}
+    finally{try{if(ownsCameraTarget)this.hooks.cameraTarget?.(null);}finally{await Promise.allSettled([...pendingMoves,...pendingFields]);finish();}}
   }
 }
