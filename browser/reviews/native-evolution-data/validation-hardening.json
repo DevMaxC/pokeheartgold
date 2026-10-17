@@ -161,8 +161,10 @@
   ],
   "logs": [
     {
-      "path": "boundary-hardening/before.log",
-      "sha256": "75814d197e6821d62c1b8dbc2c78a94e69815246df6ac4ee4085f43597216a20"
+      "path": "boundary-hardening/before.log.gz",
+      "sha256": "e60e7fa8fedeffd64c8fa7f74253f73ad92add2cb401a4a7d7e27acbb99fcf08",
+      "uncompressedSHA256": "75814d197e6821d62c1b8dbc2c78a94e69815246df6ac4ee4085f43597216a20",
+      "encoding": "gzip; raw Node log preserved byte-for-byte"
     },
     {
       "path": "boundary-hardening/after.log",
@@ -190,7 +192,9 @@
       "malformed inherited held-item keys",
       "level-up wrapper context overwritten by widened environment"
     ],
-    "sameNativeDifferentialCasesPass": 9359
+    "sameNativeDifferentialCasesPass": 9359,
+    "log": "boundary-hardening/before.log.gz",
+    "rawLogSHA256": "75814d197e6821d62c1b8dbc2c78a94e69815246df6ac4ee4085f43597216a20"
   },
   "afterPass": {
     "tests": 13,
