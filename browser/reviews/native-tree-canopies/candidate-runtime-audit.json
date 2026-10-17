@@ -1,0 +1,3137 @@
+{
+  "status": "Offline actual GLB/DataTexture candidate evidence; no browser/GPU/manual approval",
+  "sourceGraph": {
+    "src/source/tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "src/source/tree-fronds.test.ts": "ed70fbc18abfcd693a9478904d70ca38f76819221aefb869929037db7f20eff6",
+    "src/source/tree-volume.ts": "f91dd6d176b8f58c3d288abc1ce13c278c61b181a9cad3a057a6808a6fc68314",
+    "src/source/tree-texture.ts": "686de17c5d06c7bda0267db4c166728270cec67597c4f4c93f835d4e0c11f9c0",
+    "src/source/render-repair.ts": "dbd997dced09bd9c3dbcced83700f7fbd278cbc8ed1dbb6fe5274e2586738430",
+    "src/source/canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b",
+    "src/source/tree-fixture.test.ts": "cfcf807c53227ee85352e4afb9f4847d0a92fdecd1cf28ed2ae1042697e5c12d",
+    "src/source/tree-native.test.ts": "5f6f92358b2b7688efb4afccfd9f6d19a0a444a6c7424e457d37dc02e9855805",
+    "src/source/tree-volume.test.ts": "0bd350bfc4418a0e17e75b39d7124b4a23da569977c533ee12f8d8651c02276d",
+    "src/source/tree-texture.test.ts": "e6cb5784edf2ec311f604b05b2c7252c014e4507280b95d43dbbc11f7f8930b9",
+    "src/source/render-repair.test.ts": "6ab63a3fd41d3a3cc38e751306acbe27cc706cd76dfdcf6dfb210f26707607e4",
+    "src/source/canopy-occlusion.test.ts": "e6767b6bbd0186c5f5838b73dc5ebd99646c1728bebb0a8c77d5fa41ad41acc5",
+    "src/source/terrace-model.test.ts": "2353d32e66b4accfcdc05bf6c8d66e7600ac3e108e26dcc9a43926310d08093e",
+    "scripts/audit_tree_canopies.ts": "a139be72bc7b00c8ae0c2ffb2af59636774723e5c5088161375effeb42277f42",
+    "public/source/foliage.json": "86f0eca346766b1a358540039d66995fd8fa86fa4a162f67170c7c3bcae82e73"
+  },
+  "sourceGraphStable": true,
+  "nativeInputs": {
+    "land/446-88.glb": "435ffd280d025261db9f04b23ed4b2e847c718f2a9091f3f7fba2674794d43ae",
+    "land/447-88.glb": "31d4d5df4e3869b38e0503c73ed0d4474eb2ef30bdaf2c671ca7b552ed2727ff",
+    "land/50-6.glb": "1d9680039f387b794fd0ed320cf7b35d6ea704dba0a0aee6436b8bf011dc4496",
+    "land/89-8.glb": "1c037037030be49bada5d3d54dbffc2a87b2d59d24cf57fd0c92a5de63626950",
+    "land/356-93.glb": "8928e5ba99ba399e09d6210e362555ed580277f609082fcf85ee8ed951117da2",
+    "land/11-2.glb": "7c2cfc5b833de03f6e8e7676eab8cb0691db5834feb94328fd538c3bb1f99e23",
+    "land/141-13.glb": "42b118e05164fccc727a6eee7aac379e89ee1b814d6f889bd1351102ae6175aa",
+    "land/22-3.glb": "3cb554f45d9e7dd33dce66e294dbbf8a70e6dd7a1af2c2a89134129aa1e837dd",
+    "land/248-29.glb": "2e7096d170229043532e6fea25daca4787cb9ef7ee96ef27a837dd72e567f3ce",
+    "land/337-92.glb": "519a483af32fa7a06a58e24c6bbd24f05e1dd4074caa951af12e9a541cf79200",
+    "land/347-92.glb": "516371256986aa9e76627e7997b7d83a2f957efcdc3d7a5c992560252897ed24",
+    "land/349-92.glb": "e2ddcffcb5e1f5542c31e02e6b22f4eb361ab87899650c60d245dab577d0589b",
+    "land/352-92.glb": "25f35d110fcb691a9426a0d98518da46c60060078751e551796e217df3150d99",
+    "land/0-2.glb": "a27d12460cdbea01662466559bfdbdd071897edcb3c1170219a6631002fb83e1",
+    "land/112-9.glb": "50673afa299f8e4c838fd1174fb873a2d19d37690701a2c3786bbba10719e93a",
+    "land/116-10.glb": "865d8379556f2563ed456714a91ec71540a640644fd15ca21d46a69481d6138a",
+    "land/127-11.glb": "a63089a628a13b874880c8d62c6594458f1390cae4d0a2ee84754c75ba1ec4ee",
+    "land/133-12.glb": "7c7f6e8d9e8c22261c7cf7b5d76f3911dcb3d0f6cb456c59d41683172f331edb",
+    "land/155-14.glb": "af22fe6701be5b44a6041e7127d3de7ca6b238e0d44bba003e973c72326a2296",
+    "land/169-15.glb": "551a45d711c991702707be7107d0c18c7a65af6d92a180b0a02a92ab18eaaf37",
+    "land/17-2.glb": "2c2bafb12955d7f1c72ef3c66af5189e5994b5b64f8fe27c3a91622bd497672f",
+    "land/175-16.glb": "dd3539311d650e1892c8c83e2ee8dd99c03fde0f1bdace73fc42d67dee80ac97",
+    "land/186-18.glb": "4373d68e6f382df3203b2b3a59f4829750fbd2efbbf6a33b2d3a7a0048ffc084",
+    "land/190-17.glb": "c01b25b97d84a571f6adeef5df9d65496c558b3a1677e56e9d9b17302c8428eb",
+    "land/208-0.glb": "c0da842e296393d17e81d897673b55fb7569f320b58cd41c41b47d73748d7b83",
+    "land/30-20.glb": "8e99c38f603d8598f46c9d2d5cbf3649f75b36bcdeff43376d7e8d8cb3e3fc87",
+    "land/32-4.glb": "68625b82bce3683faa4fb48424d83dbc316420e1da85b165bce7b1cab6931fb1",
+    "land/35-5.glb": "b0afa884c42bab007525b20a2b3ef89ba2cbb3e1c09ca19cb0b5c140bbf0755d",
+    "land/391-97.glb": "eddaf9ad47febe32d1dd099bc6bdde0917f39d51b8b3941f3ff23aa7d6ef28cb",
+    "land/415-75.glb": "02e056ced97d9dfa6242ff04b4c458086c318343b036f120c77ba4dcf1f752f0",
+    "land/451-71.glb": "27fd96493f68f7408279f31eb7eeaca076b30dfdaf7142bffef98b6485d73180",
+    "land/504-74.glb": "71ab8f90a4782e5249503842c6405b5e28803d49ccadcad6adc1c0e9e18076b7",
+    "land/54-7.glb": "ab3937a3c94347cb02e214def440a654bc2aa878be9127f570261b415c950e8a",
+    "land/574-96.glb": "ef0edea92cbcbcddce00356d0c75472aef756048748ea073b9882cfb730535c8",
+    "land/639-90.glb": "621a599c974a04804f0bdda436e22f6aceb97c471841a0743895dcdd380027b4",
+    "land/72-19.glb": "df39bc6c3feaee3e154829ddc546ccb8ff25ebb7ce1978346cb335e3eadbf600",
+    "land/27-3.glb": "551ba59433e998e8dff202add52d25e2255b9d33ea371f78cce26b3e9d163b5f",
+    "land/28-3.glb": "e5950a400d47ac06b03d3cae482b0816568807783c54b1a4c5750cf4f47e8f35",
+    "land/29-3.glb": "dcb3e0c5ad04278e5fe2338afde295780361cce7bd98ee9d1254fafadbe4b4b7",
+    "land/578-102.glb": "2e9fbab77d0a51be15649723744fa5983d78af1c1c80eb80de043dd25c2e326a",
+    "land/93-8.glb": "78f79c941b6199d9d1bf165b6688e028ace03329bdac9da53a9e669c6224688b",
+    "props/1-136-7.glb": "d7e5c286a9f3d1b7b7473c011896048a7b92973e121fccc535b0bf3591debc79",
+    "foliage/0-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/2-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/2-tree01gs_lm1.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/2-treekn_lm1.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/3-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/3-tree_kk01.png": "3d5966f94c726b742d6cb91f0807bf99a812b8d325ff7525f137e5bd3cec950c",
+    "foliage/3-tree01gs.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/3-pasted__tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/3-pasted__tree02.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/4-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/5-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/6-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/6-en_tree02.png": "b09f9df3e1fa2a1026f0a1f8f6b2c2c2b3e7c9f3843353962dac6c121ac3365d",
+    "foliage/6-en_tree03.png": "6a162cad4cdb267dfff80bf2eacbe4c35ea07721e833b09f97fa9948d0bff707",
+    "foliage/6-en_tree04.png": "683bf29f417a24d15ca89aeb6a21832e887e4bbb2dee4313b304846af3bf5889",
+    "foliage/6-en_tree05.png": "35eec7016752fe46e334e51f957acb14a82604ba2af744db1d714cb63f372320",
+    "foliage/7-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/8-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/8-tree_ki.png": "c4733182f227c8d906ed8abe4a41a6a60e0268f1290ec8512de8fbe6e56facef",
+    "foliage/8-tree_ki2.png": "584e49b7bd1ab66a3965539f3ad52bd695f7be7ae1bf3ece1ea8f553da17d9d5",
+    "foliage/8-tree_ki3.png": "5213b4b1168d6f61465ceaa70e953e3b9a14597a0c9b53fb647c43f4ba74c8fe",
+    "foliage/8-tree_w01.png": "6f2909b05cc859bfc5c28384861078a25506296f68a7927834463a0535472248",
+    "foliage/8-tree_w01_2.png": "a76d0e1532241f79442163d44082ef55b61c735e98204744005ec2ba65c9a6b2",
+    "foliage/9-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/10-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/11-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/12-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/13-bush_a.png": "752409f03193098c95f0723b6471a24e071188b329a0260c903a5f654f9b1168",
+    "foliage/13-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/14-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/15-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/16-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/17-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/18-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/19-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/20-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/29-g02_tree2.png": "4c91a880cd5b8ca8fa9f05e15788f0d8c4d99272120add528dd9fc5067c44b21",
+    "foliage/29-g02_tree_un2.png": "2c889f62ec8e63eca2694128a305a5ddf892dbe14a8a92cbd81b95757709d6e8",
+    "foliage/29-tree01.png": "c1db68098cf5f79aea69b0da25dc1c5298637e2f8ec1d8b14b7a57b8ab33f894",
+    "foliage/71-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/74-tree01.png": "bcb179f7a2c4e3e908fc6566bda010629f3159c82076d266911dc89875708f61",
+    "foliage/75-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/88-t_tree2_b_lm16.png": "c500be8287b8e6ec06ec88bb08527f2e7da41a4e27ccce09de591d9dde334701",
+    "foliage/88-t_tree2_bx_lm6.png": "e0448acfcf49c5ee6795f87494d245f55fc7a413432c52f0a0e570eecbf75515",
+    "foliage/88-t_tree2_by_lm4.png": "204fedc9e4f1fa2cd5566fb763af5b1e39129c058a36ce99e4379edc0806385f",
+    "foliage/88-t_tree2_c_lm24.png": "78ece0c26927c5ba3a884f509a1882f239f197b9d07b366a5c6d54203da9e9fc",
+    "foliage/88-t_tree2_e_lm8.png": "817a452e36a913a6d29abdf372f725a3e17761765fb04afffebfdd416635b80e",
+    "foliage/88-t_tree2_ex_lm6.png": "a253126109fced4267cf3beb32d79e25e59a95e9d75b1bf0dbcfe828696116c7",
+    "foliage/88-t_tree2_ey_lm4.png": "ccb68cd578e7316edfe7800fd5bafb91d23045f5d69de9a8b6b3aa213a997eb8",
+    "foliage/88-t_tree2_f_lm8.png": "366f9bfcf55e62a7308d33aa14cceee8d1feb750a32e080cfd29c2022c43e090",
+    "foliage/88-t_tree2_fx_lm6.png": "d2b8d7f3b6a4bb91db220e2b4288df7b152d7515e17d8d02f3d13ba02d1f9f87",
+    "foliage/88-t_tree2_fy_lm4.png": "3b77fc195e5c9ec9bdbbe2a00568873486a12c62ba8ace32ddb38902ef86470d",
+    "foliage/88-t_tree2_g__lm6.png": "e2ea57c5ebbf5a55fb89e5b1c5af6d8fa349226680ad92de0c2c47bb8f357416",
+    "foliage/88-t_tree2_g_lm18.png": "b8ee18552f4714672000710a0051ff765056b50075f2f845829edf909dfc729e",
+    "foliage/88-t_tree2_b_lm70.png": "c500be8287b8e6ec06ec88bb08527f2e7da41a4e27ccce09de591d9dde334701",
+    "foliage/88-t_tree2_bx_lm9.png": "e0448acfcf49c5ee6795f87494d245f55fc7a413432c52f0a0e570eecbf75515",
+    "foliage/88-t_tree2_by_lm7.png": "204fedc9e4f1fa2cd5566fb763af5b1e39129c058a36ce99e4379edc0806385f",
+    "foliage/88-t_tree2_c_lm33.png": "78ece0c26927c5ba3a884f509a1882f239f197b9d07b366a5c6d54203da9e9fc",
+    "foliage/88-t_tree2_e_lm11.png": "817a452e36a913a6d29abdf372f725a3e17761765fb04afffebfdd416635b80e",
+    "foliage/88-t_tree2_ex_lm9.png": "a253126109fced4267cf3beb32d79e25e59a95e9d75b1bf0dbcfe828696116c7",
+    "foliage/88-t_tree2_ey_lm7.png": "ccb68cd578e7316edfe7800fd5bafb91d23045f5d69de9a8b6b3aa213a997eb8",
+    "foliage/88-t_tree2_f_lm11.png": "366f9bfcf55e62a7308d33aa14cceee8d1feb750a32e080cfd29c2022c43e090",
+    "foliage/88-t_tree2_fx_lm9.png": "d2b8d7f3b6a4bb91db220e2b4288df7b152d7515e17d8d02f3d13ba02d1f9f87",
+    "foliage/88-t_tree2_fy_lm7.png": "3b77fc195e5c9ec9bdbbe2a00568873486a12c62ba8ace32ddb38902ef86470d",
+    "foliage/88-t_tree2_g__lm9.png": "e2ea57c5ebbf5a55fb89e5b1c5af6d8fa349226680ad92de0c2c47bb8f357416",
+    "foliage/88-t_tree2_g_lm21.png": "b8ee18552f4714672000710a0051ff765056b50075f2f845829edf909dfc729e",
+    "foliage/90-tree01gs_lm1.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/92-bf_tree01_lm3.png": "bd8e1c6bc9b3fbfe15f9bc6855f6a077cadb0ec8e780e589f3f6c934f5d986d0",
+    "foliage/92-bf_tree02_lm3.png": "47d523216512973710029b00dd930947eaa5dbc141661b5304b1dfe354cb0cd6",
+    "foliage/92-bf_tree01_lm2.png": "bd8e1c6bc9b3fbfe15f9bc6855f6a077cadb0ec8e780e589f3f6c934f5d986d0",
+    "foliage/92-bf_tree02_lm2.png": "47d523216512973710029b00dd930947eaa5dbc141661b5304b1dfe354cb0cd6",
+    "foliage/92-bf_tree01_lm1.png": "bd8e1c6bc9b3fbfe15f9bc6855f6a077cadb0ec8e780e589f3f6c934f5d986d0",
+    "foliage/92-bf_tree02_lm1.png": "47d523216512973710029b00dd930947eaa5dbc141661b5304b1dfe354cb0cd6",
+    "foliage/93-conttree3_2_lm1.png": "17e0876c7442352c2d659ed615b677f6c214639277dc1977e2d189a118ed7f7c",
+    "foliage/93-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039",
+    "foliage/93-tree3_01_lm1.png": "caf06cc91b3a6311113770172b14066ac51068c4f37ff64bed6cfa29a4d8dad8",
+    "foliage/93-tree3_02_lm1.png": "0f05e4b627c0d9a8972cba6c0166da63581264fc326e739e9e778d72242a16a3",
+    "foliage/96-tree01.png": "76dbe8d3d9017029e0286133d5baed8b52abadcfcae7e912734681fe66fe5805",
+    "foliage/97-tree01.png": "887802b9a0470f2f83ec202e87fc48c3c67cae43fd0e8acdc86313432d48f14b",
+    "foliage/102-tree01.png": "5d9ac413c85c19a93975566eb8b0e5f4c597a5acb9ad28529f6d1f2e239c6039"
+  },
+  "nativeInputsStable": true,
+  "sourceGeometryUVMaterialsMapsUnchanged": true,
+  "metadataFamilies": 124,
+  "coveredMetadataFamilies": 124,
+  "selectedAssets": 42,
+  "uniqueGeneratedGeometries": 39,
+  "maxCellComponentInstances": 511,
+  "maxCellRenderedTriangles": 261600,
+  "records": [
+    {
+      "asset": "land/446-88.glb",
+      "sourceSHA": "435ffd280d025261db9f04b23ed4b2e847c718f2a9091f3f7fba2674794d43ae",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 0,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 218.72124999999983,
+      "componentInstances": 0,
+      "distinctNativeRoots": 0,
+      "draws": 0,
+      "renderedTriangles": 0,
+      "generated": [],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": true
+    },
+    {
+      "asset": "land/447-88.glb",
+      "sourceSHA": "31d4d5df4e3869b38e0503c73ed0d4474eb2ef30bdaf2c671ca7b552ed2727ff",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 0,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 5.9566249999998035,
+      "componentInstances": 0,
+      "distinctNativeRoots": 0,
+      "draws": 0,
+      "renderedTriangles": 0,
+      "generated": [],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": true
+    },
+    {
+      "asset": "land/50-6.glb",
+      "sourceSHA": "1d9680039f387b794fd0ed320cf7b35d6ea704dba0a0aee6436b8bf011dc4496",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 193,
+        "uprightPanels": 0,
+        "fencePosts": 20,
+        "flowerClumps": 0,
+        "terrainSkirts": 72,
+        "solidRocks": 2,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 312.3000830000001,
+      "componentInstances": 193,
+      "distinctNativeRoots": 193,
+      "draws": 10,
+      "renderedTriangles": 79200,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 1,
+          "trianglesPerInstance": 384,
+          "geometry": 0,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            8,
+            15,
+            55,
+            55
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 5,
+          "trianglesPerInstance": 384,
+          "geometry": 1,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            8,
+            15,
+            55,
+            55
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 12,
+          "trianglesPerInstance": 384,
+          "geometry": 1,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            8,
+            15,
+            55,
+            55
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 12,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 12,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 37,
+          "trianglesPerInstance": 384,
+          "geometry": 0,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            8,
+            15,
+            55,
+            55
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 15,
+          "trianglesPerInstance": 384,
+          "geometry": 4,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            8,
+            15,
+            55,
+            55
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 17,
+          "trianglesPerInstance": 384,
+          "geometry": 5,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            8,
+            15,
+            55,
+            55
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 94,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 94,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/89-8.glb",
+      "sourceSHA": "1c037037030be49bada5d3d54dbffc2a87b2d59d24cf57fd0c92a5de63626950",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 200,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 101,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 159.86529199999995,
+      "componentInstances": 200,
+      "distinctNativeRoots": 200,
+      "draws": 14,
+      "renderedTriangles": 66744,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 5,
+          "trianglesPerInstance": 288,
+          "geometry": 6,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            0,
+            3,
+            32,
+            31
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 9,
+          "trianglesPerInstance": 216,
+          "geometry": 7,
+          "canopyBoxes": 4,
+          "spriteBounds": [
+            0,
+            5,
+            32,
+            28
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 9,
+          "trianglesPerInstance": 48,
+          "geometry": 8,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 14,
+          "trianglesPerInstance": 144,
+          "geometry": 9,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            7,
+            17,
+            25,
+            32
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 14,
+          "trianglesPerInstance": 48,
+          "geometry": 10,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 15,
+          "trianglesPerInstance": 288,
+          "geometry": 11,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            18,
+            24,
+            46,
+            52
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 13,
+          "trianglesPerInstance": 192,
+          "geometry": 12,
+          "canopyBoxes": 4,
+          "spriteBounds": [
+            21,
+            11,
+            43,
+            32
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 13,
+          "trianglesPerInstance": 48,
+          "geometry": 13,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 57,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 57,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 38,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 38,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 49,
+          "trianglesPerInstance": 192,
+          "geometry": 12,
+          "canopyBoxes": 4,
+          "spriteBounds": [
+            21,
+            11,
+            43,
+            32
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 49,
+          "trianglesPerInstance": 48,
+          "geometry": 13,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/356-93.glb",
+      "sourceSHA": "8928e5ba99ba399e09d6210e362555ed580277f609082fcf85ee8ed951117da2",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 511,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 67,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 366.1422080000002,
+      "componentInstances": 511,
+      "distinctNativeRoots": 277,
+      "draws": 19,
+      "renderedTriangles": 261600,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 6,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 6,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 37,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 37,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 11,
+          "trianglesPerInstance": 264,
+          "geometry": 14,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            35,
+            38,
+            63,
+            63
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 11,
+          "trianglesPerInstance": 1096,
+          "geometry": 15,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            9,
+            1,
+            55,
+            37
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 11,
+          "trianglesPerInstance": 48,
+          "geometry": 16,
+          "canopyBoxes": 1
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 31,
+          "trianglesPerInstance": 264,
+          "geometry": 17,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            35,
+            37,
+            63,
+            63
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 31,
+          "trianglesPerInstance": 760,
+          "geometry": 18,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            1,
+            2,
+            37,
+            36
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 31,
+          "trianglesPerInstance": 48,
+          "geometry": 16,
+          "canopyBoxes": 1
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 90,
+          "trianglesPerInstance": 264,
+          "geometry": 19,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            2,
+            37,
+            30,
+            63
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 90,
+          "trianglesPerInstance": 700,
+          "geometry": 20,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            0,
+            1,
+            32,
+            35
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 90,
+          "trianglesPerInstance": 48,
+          "geometry": 16,
+          "canopyBoxes": 1
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 98,
+          "trianglesPerInstance": 264,
+          "geometry": 21,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            34,
+            37,
+            62,
+            63
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 98,
+          "trianglesPerInstance": 700,
+          "geometry": 22,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            32,
+            1,
+            64,
+            35
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 98,
+          "trianglesPerInstance": 48,
+          "geometry": 16,
+          "canopyBoxes": 1
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 4,
+          "trianglesPerInstance": 264,
+          "geometry": 19,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            2,
+            37,
+            30,
+            63
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 4,
+          "trianglesPerInstance": 700,
+          "geometry": 23,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            0,
+            1,
+            32,
+            35
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 4,
+          "trianglesPerInstance": 48,
+          "geometry": 16,
+          "canopyBoxes": 1
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/11-2.glb",
+      "sourceSHA": "7c2cfc5b833de03f6e8e7676eab8cb0691db5834feb94328fd538c3bb1f99e23",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 126,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 115,
+        "solidRocks": 4,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 171.25599999999986,
+      "componentInstances": 126,
+      "distinctNativeRoots": 126,
+      "draws": 8,
+      "renderedTriangles": 53472,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 12,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 12,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 28,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 28,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 54,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 54,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 32,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 32,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/141-13.glb",
+      "sourceSHA": "42b118e05164fccc727a6eee7aac379e89ee1b814d6f889bd1351102ae6175aa",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 16,
+        "uprightPanels": 0,
+        "fencePosts": 96,
+        "flowerClumps": 0,
+        "terrainSkirts": 142,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 24.52166699999998,
+      "componentInstances": 16,
+      "distinctNativeRoots": 16,
+      "draws": 5,
+      "renderedTriangles": 5328,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 2,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 2,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 4,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 4,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 10,
+          "trianglesPerInstance": 288,
+          "geometry": 26,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            1,
+            1,
+            15,
+            30
+          ]
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/22-3.glb",
+      "sourceSHA": "3cb554f45d9e7dd33dce66e294dbbf8a70e6dd7a1af2c2a89134129aa1e837dd",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 241,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 76,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 24.100832999999966,
+      "componentInstances": 241,
+      "distinctNativeRoots": 241,
+      "draws": 6,
+      "renderedTriangles": 104064,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 1,
+          "trianglesPerInstance": 312,
+          "geometry": 27,
+          "canopyBoxes": 4,
+          "spriteBounds": [
+            7,
+            19,
+            57,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 1,
+          "trianglesPerInstance": 72,
+          "geometry": 28,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 23,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 23,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 217,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 217,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/248-29.glb",
+      "sourceSHA": "2e7096d170229043532e6fea25daca4787cb9ef7ee96ef27a837dd72e567f3ce",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 15,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 349,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 185.17520799999966,
+      "componentInstances": 15,
+      "distinctNativeRoots": 15,
+      "draws": 4,
+      "renderedTriangles": 6792,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 1,
+          "trianglesPerInstance": 672,
+          "geometry": 29,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            16,
+            33,
+            112,
+            117
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 1,
+          "trianglesPerInstance": 72,
+          "geometry": 30,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 14,
+          "trianglesPerInstance": 384,
+          "geometry": 31,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 14,
+          "trianglesPerInstance": 48,
+          "geometry": 32,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/337-92.glb",
+      "sourceSHA": "519a483af32fa7a06a58e24c6bbd24f05e1dd4074caa951af12e9a541cf79200",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 242,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 3.7073749999999563,
+      "componentInstances": 242,
+      "distinctNativeRoots": 242,
+      "draws": 2,
+      "renderedTriangles": 81312,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 2,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 240,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/347-92.glb",
+      "sourceSHA": "516371256986aa9e76627e7997b7d83a2f957efcdc3d7a5c992560252897ed24",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 86,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 5.260041999999885,
+      "componentInstances": 86,
+      "distinctNativeRoots": 86,
+      "draws": 2,
+      "renderedTriangles": 28896,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 10,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 76,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/349-92.glb",
+      "sourceSHA": "e2ddcffcb5e1f5542c31e02e6b22f4eb361ab87899650c60d245dab577d0589b",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 162,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 6.0373329999993075,
+      "componentInstances": 162,
+      "distinctNativeRoots": 162,
+      "draws": 2,
+      "renderedTriangles": 54432,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 16,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 146,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/352-92.glb",
+      "sourceSHA": "25f35d110fcb691a9426a0d98518da46c60060078751e551796e217df3150d99",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 71,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 3.8047919999999067,
+      "componentInstances": 71,
+      "distinctNativeRoots": 71,
+      "draws": 2,
+      "renderedTriangles": 23856,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 3,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 68,
+          "trianglesPerInstance": 336,
+          "geometry": 33,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            6,
+            6,
+            42,
+            40
+          ]
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/0-2.glb",
+      "sourceSHA": "a27d12460cdbea01662466559bfdbdd071897edcb3c1170219a6631002fb83e1",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 116,
+        "uprightPanels": 0,
+        "fencePosts": 16,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 10.128209000000425,
+      "componentInstances": 116,
+      "distinctNativeRoots": 116,
+      "draws": 4,
+      "renderedTriangles": 50112,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 17,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 17,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 99,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 99,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/112-9.glb",
+      "sourceSHA": "50673afa299f8e4c838fd1174fb873a2d19d37690701a2c3786bbba10719e93a",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 43,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 342,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 21.22912499999984,
+      "componentInstances": 43,
+      "distinctNativeRoots": 43,
+      "draws": 4,
+      "renderedTriangles": 18576,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 25,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 25,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 18,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 18,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/116-10.glb",
+      "sourceSHA": "865d8379556f2563ed456714a91ec71540a640644fd15ca21d46a69481d6138a",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 74,
+        "uprightPanels": 0,
+        "fencePosts": 20,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 229.7380409999996,
+      "componentInstances": 74,
+      "distinctNativeRoots": 74,
+      "draws": 4,
+      "renderedTriangles": 30192,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 39,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 39,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 35,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 35,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/127-11.glb",
+      "sourceSHA": "a63089a628a13b874880c8d62c6594458f1390cae4d0a2ee84754c75ba1ec4ee",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 101,
+        "uprightPanels": 0,
+        "fencePosts": 103,
+        "flowerClumps": 0,
+        "terrainSkirts": 115,
+        "solidRocks": 3,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 14.863083000000188,
+      "componentInstances": 101,
+      "distinctNativeRoots": 101,
+      "draws": 4,
+      "renderedTriangles": 41208,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 17,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 17,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 84,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 84,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/133-12.glb",
+      "sourceSHA": "7c7f6e8d9e8c22261c7cf7b5d76f3911dcb3d0f6cb456c59d41683172f331edb",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 64,
+        "uprightPanels": 0,
+        "fencePosts": 208,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 9.195791999999528,
+      "componentInstances": 64,
+      "distinctNativeRoots": 64,
+      "draws": 4,
+      "renderedTriangles": 26112,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 44,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 44,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 20,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 20,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/155-14.glb",
+      "sourceSHA": "af22fe6701be5b44a6041e7127d3de7ca6b238e0d44bba003e973c72326a2296",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 24,
+        "uprightPanels": 0,
+        "fencePosts": 54,
+        "flowerClumps": 0,
+        "terrainSkirts": 107,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 8.438333999999486,
+      "componentInstances": 24,
+      "distinctNativeRoots": 24,
+      "draws": 4,
+      "renderedTriangles": 9792,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 7,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 7,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 17,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 17,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/169-15.glb",
+      "sourceSHA": "551a45d711c991702707be7107d0c18c7a65af6d92a180b0a02a92ab18eaaf37",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 128,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 74,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 12.720124999999825,
+      "componentInstances": 128,
+      "distinctNativeRoots": 128,
+      "draws": 4,
+      "renderedTriangles": 52224,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 98,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 98,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 30,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 30,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/17-2.glb",
+      "sourceSHA": "2c2bafb12955d7f1c72ef3c66af5189e5994b5b64f8fe27c3a91622bd497672f",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 29,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 528,
+        "solidRocks": 4,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 19.037249999999403,
+      "componentInstances": 29,
+      "distinctNativeRoots": 29,
+      "draws": 4,
+      "renderedTriangles": 11832,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 21,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 21,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 8,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 8,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/175-16.glb",
+      "sourceSHA": "dd3539311d650e1892c8c83e2ee8dd99c03fde0f1bdace73fc42d67dee80ac97",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 21,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 326,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 14.377708999999413,
+      "componentInstances": 21,
+      "distinctNativeRoots": 21,
+      "draws": 4,
+      "renderedTriangles": 8568,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 11,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 11,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 10,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 10,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/186-18.glb",
+      "sourceSHA": "4373d68e6f382df3203b2b3a59f4829750fbd2efbbf6a33b2d3a7a0048ffc084",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 6,
+        "uprightPanels": 0,
+        "fencePosts": 6,
+        "flowerClumps": 0,
+        "terrainSkirts": 202,
+        "solidRocks": 25,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 27.27679099999932,
+      "componentInstances": 6,
+      "distinctNativeRoots": 6,
+      "draws": 4,
+      "renderedTriangles": 2448,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 4,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 4,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 2,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 2,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/190-17.glb",
+      "sourceSHA": "c01b25b97d84a571f6adeef5df9d65496c558b3a1677e56e9d9b17302c8428eb",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 120,
+        "uprightPanels": 0,
+        "fencePosts": 49,
+        "flowerClumps": 0,
+        "terrainSkirts": 30,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 10.908416999999645,
+      "componentInstances": 120,
+      "distinctNativeRoots": 120,
+      "draws": 4,
+      "renderedTriangles": 48960,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 68,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 68,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 52,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 52,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/208-0.glb",
+      "sourceSHA": "c0da842e296393d17e81d897673b55fb7569f320b58cd41c41b47d73748d7b83",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 256,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 12.142166999999972,
+      "componentInstances": 256,
+      "distinctNativeRoots": 256,
+      "draws": 4,
+      "renderedTriangles": 110592,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 32,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 32,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 224,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 224,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/30-20.glb",
+      "sourceSHA": "8e99c38f603d8598f46c9d2d5cbf3649f75b36bcdeff43376d7e8d8cb3e3fc87",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 81,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 60,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 305.02129199999945,
+      "componentInstances": 81,
+      "distinctNativeRoots": 81,
+      "draws": 4,
+      "renderedTriangles": 34992,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 55,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 55,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 26,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 26,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/32-4.glb",
+      "sourceSHA": "68625b82bce3683faa4fb48424d83dbc316420e1da85b165bce7b1cab6931fb1",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 75,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 196,
+        "solidRocks": 2,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 13.667583000000377,
+      "componentInstances": 75,
+      "distinctNativeRoots": 75,
+      "draws": 4,
+      "renderedTriangles": 32400,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 50,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 50,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 25,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 25,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/35-5.glb",
+      "sourceSHA": "b0afa884c42bab007525b20a2b3ef89ba2cbb3e1c09ca19cb0b5c140bbf0755d",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 103,
+        "uprightPanels": 0,
+        "fencePosts": 54,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 11,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 13.695291999999426,
+      "componentInstances": 103,
+      "distinctNativeRoots": 103,
+      "draws": 4,
+      "renderedTriangles": 44496,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 67,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 67,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 36,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 36,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/391-97.glb",
+      "sourceSHA": "eddaf9ad47febe32d1dd099bc6bdde0917f39d51b8b3941f3ff23aa7d6ef28cb",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 10,
+        "uprightPanels": 0,
+        "fencePosts": 102,
+        "flowerClumps": 0,
+        "terrainSkirts": 221,
+        "solidRocks": 5,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 477.0862079999997,
+      "componentInstances": 10,
+      "distinctNativeRoots": 10,
+      "draws": 4,
+      "renderedTriangles": 4080,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 3,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 3,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 7,
+          "trianglesPerInstance": 336,
+          "geometry": 24,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            16,
+            53,
+            57
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 7,
+          "trianglesPerInstance": 72,
+          "geometry": 25,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/415-75.glb",
+      "sourceSHA": "02e056ced97d9dfa6242ff04b4c458086c318343b036f120c77ba4dcf1f752f0",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 137,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 394,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 13.537083000000166,
+      "componentInstances": 137,
+      "distinctNativeRoots": 137,
+      "draws": 4,
+      "renderedTriangles": 59184,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 85,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 85,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 52,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 52,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/451-71.glb",
+      "sourceSHA": "27fd96493f68f7408279f31eb7eeaca076b30dfdaf7142bffef98b6485d73180",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 176,
+        "uprightPanels": 0,
+        "fencePosts": 44,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 12.330790999999408,
+      "componentInstances": 176,
+      "distinctNativeRoots": 176,
+      "draws": 4,
+      "renderedTriangles": 76032,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 6,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 6,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 170,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 170,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/504-74.glb",
+      "sourceSHA": "71ab8f90a4782e5249503842c6405b5e28803d49ccadcad6adc1c0e9e18076b7",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 187,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 70,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 9.951041999999688,
+      "componentInstances": 187,
+      "distinctNativeRoots": 187,
+      "draws": 4,
+      "renderedTriangles": 80784,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 28,
+          "trianglesPerInstance": 384,
+          "geometry": 34,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 28,
+          "trianglesPerInstance": 48,
+          "geometry": 35,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 159,
+          "trianglesPerInstance": 384,
+          "geometry": 34,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 159,
+          "trianglesPerInstance": 48,
+          "geometry": 35,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/54-7.glb",
+      "sourceSHA": "ab3937a3c94347cb02e214def440a654bc2aa878be9127f570261b415c950e8a",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 59,
+        "uprightPanels": 0,
+        "fencePosts": 192,
+        "flowerClumps": 0,
+        "terrainSkirts": 65,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 13.901375000000371,
+      "componentInstances": 59,
+      "distinctNativeRoots": 59,
+      "draws": 4,
+      "renderedTriangles": 25488,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 33,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 33,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 26,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 26,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/574-96.glb",
+      "sourceSHA": "ef0edea92cbcbcddce00356d0c75472aef756048748ea073b9882cfb730535c8",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 46,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 357,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 11.831500000000233,
+      "componentInstances": 46,
+      "distinctNativeRoots": 46,
+      "draws": 4,
+      "renderedTriangles": 19872,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 21,
+          "trianglesPerInstance": 384,
+          "geometry": 36,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 21,
+          "trianglesPerInstance": 48,
+          "geometry": 37,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 25,
+          "trianglesPerInstance": 384,
+          "geometry": 36,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 25,
+          "trianglesPerInstance": 48,
+          "geometry": 37,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/639-90.glb",
+      "sourceSHA": "621a599c974a04804f0bdda436e22f6aceb97c471841a0743895dcdd380027b4",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 80,
+        "uprightPanels": 0,
+        "fencePosts": 96,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 6.760832999999366,
+      "componentInstances": 80,
+      "distinctNativeRoots": 80,
+      "draws": 4,
+      "renderedTriangles": 34560,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 48,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 48,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 32,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 32,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/72-19.glb",
+      "sourceSHA": "df39bc6c3feaee3e154829ddc546ccb8ff25ebb7ce1978346cb335e3eadbf600",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 131,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 11.329000000000633,
+      "componentInstances": 131,
+      "distinctNativeRoots": 131,
+      "draws": 4,
+      "renderedTriangles": 56592,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 39,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 39,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 92,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 92,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/27-3.glb",
+      "sourceSHA": "551ba59433e998e8dff202add52d25e2255b9d33ea371f78cce26b3e9d163b5f",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 29,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 154,
+        "solidRocks": 14,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 70.81920900000023,
+      "componentInstances": 29,
+      "distinctNativeRoots": 29,
+      "draws": 4,
+      "renderedTriangles": 12528,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 12,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 12,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 17,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 17,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/28-3.glb",
+      "sourceSHA": "e5950a400d47ac06b03d3cae482b0816568807783c54b1a4c5750cf4f47e8f35",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 93,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 106,
+        "solidRocks": 4,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 205.33737500000007,
+      "componentInstances": 93,
+      "distinctNativeRoots": 93,
+      "draws": 4,
+      "renderedTriangles": 40176,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 35,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 35,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 58,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 58,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/29-3.glb",
+      "sourceSHA": "dcb3e0c5ad04278e5fe2338afde295780361cce7bd98ee9d1254fafadbe4b4b7",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 61,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 213,
+        "solidRocks": 2,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 17.082625000000007,
+      "componentInstances": 61,
+      "distinctNativeRoots": 61,
+      "draws": 4,
+      "renderedTriangles": 26352,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 28,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 28,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 33,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 33,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/578-102.glb",
+      "sourceSHA": "2e9fbab77d0a51be15649723744fa5983d78af1c1c80eb80de043dd25c2e326a",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 15,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 401,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 17.040624999999636,
+      "componentInstances": 15,
+      "distinctNativeRoots": 15,
+      "draws": 2,
+      "renderedTriangles": 6480,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 15,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 15,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "land/93-8.glb",
+      "sourceSHA": "78f79c941b6199d9d1bf165b6688e028ace03329bdac9da53a9e669c6224688b",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 77,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 92,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 379.00774999999976,
+      "componentInstances": 77,
+      "distinctNativeRoots": 77,
+      "draws": 13,
+      "renderedTriangles": 30312,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 1,
+          "trianglesPerInstance": 288,
+          "geometry": 6,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            0,
+            3,
+            32,
+            31
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 1,
+          "trianglesPerInstance": 216,
+          "geometry": 7,
+          "canopyBoxes": 4,
+          "spriteBounds": [
+            0,
+            5,
+            32,
+            28
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 1,
+          "trianglesPerInstance": 48,
+          "geometry": 8,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 1,
+          "trianglesPerInstance": 288,
+          "geometry": 11,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            18,
+            24,
+            46,
+            52
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 2,
+          "trianglesPerInstance": 144,
+          "geometry": 9,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            7,
+            17,
+            25,
+            32
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 2,
+          "trianglesPerInstance": 48,
+          "geometry": 10,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 2,
+          "trianglesPerInstance": 288,
+          "geometry": 11,
+          "canopyBoxes": 6,
+          "spriteBounds": [
+            18,
+            24,
+            46,
+            52
+          ]
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 9,
+          "trianglesPerInstance": 192,
+          "geometry": 12,
+          "canopyBoxes": 4,
+          "spriteBounds": [
+            21,
+            11,
+            43,
+            32
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 9,
+          "trianglesPerInstance": 48,
+          "geometry": 13,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 29,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 29,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        },
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 32,
+          "trianglesPerInstance": 384,
+          "geometry": 2,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            11,
+            15,
+            53,
+            58
+          ]
+        },
+        {
+          "name": "solid-original-tree-trunks",
+          "instances": 32,
+          "trianglesPerInstance": 48,
+          "geometry": 3,
+          "canopyBoxes": 0
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    },
+    {
+      "asset": "props/1-136-7.glb",
+      "sourceSHA": "d7e5c286a9f3d1b7b7473c011896048a7b92973e121fccc535b0bf3591debc79",
+      "summary": {
+        "solidFaces": 0,
+        "billboardTrees": 1,
+        "uprightPanels": 0,
+        "fencePosts": 0,
+        "flowerClumps": 0,
+        "terrainSkirts": 0,
+        "solidRocks": 0,
+        "solidSeats": 0
+      },
+      "repairElapsedMs": 8.74933400000009,
+      "componentInstances": 1,
+      "distinctNativeRoots": 1,
+      "draws": 1,
+      "renderedTriangles": 504,
+      "generated": [
+        {
+          "name": "solid-original-tree-canopies",
+          "instances": 1,
+          "trianglesPerInstance": 504,
+          "geometry": 38,
+          "canopyBoxes": 5,
+          "spriteBounds": [
+            8,
+            1,
+            56,
+            58
+          ]
+        }
+      ],
+      "leftovers": [],
+      "nativeTreeAssemblyPreserved": false
+    }
+  ]
+}

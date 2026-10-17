@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import {addTreeVolumes} from './tree-volume.ts';
+import {addTreeFronds,treeFrondContact,type FrondTree} from './tree-fronds.ts';
+import {treeImagePixels,treeSpritePixels,treeSpriteComponents,type TreeShape} from './tree-texture.ts';
 import {solidFurniture} from './furniture.ts';
 
 type Triangle={points:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];material:THREE.MeshBasicMaterial;root?:THREE.Vector3};
@@ -295,75 +297,103 @@ function closeTerrain(root:THREE.Group,source:Triangle[],summary:RepairSummary){
 }
 
 function treeFamily(name:string){return name.replace(/_(?:re|un)(?=_|$)/,'').replace(/_lm\d+$/,'').replace(/gs$/,'');}
-function groundTreeAnchors(source:Triangle[]){
-  const anchors=new Map<string,THREE.Vector3[]>(),seen=new Set<string>();
+type TreeMark={anchor:THREE.Vector3;polygon:THREE.Vector3[]};
+function nativeTreeFamily(material:THREE.MeshBasicMaterial){const info=material.userData.treeInfo as {family?:string;asset?:string}|undefined;return info?.family??treeFamily(info?.asset?.replace(/^.*\/\d+-|\.png$/g,'')??material.name);}
+function groundTreeMarks(source:Triangle[]){
+  const aliases=new Map(source.filter(t=>t.material.userData.treeInfo).map(t=>[treeFamily(t.material.name),nativeTreeFamily(t.material)])),marks=new Map<string,TreeMark[]>();
   for(const triangle of source){if(!/_un(?:_|$)/.test(triangle.material.name)||Math.abs(normal(triangle).normalize().y)<.9)continue;const [a,b,c]=triangle.uv,den=(b.y-c.y)*(a.x-c.x)+(c.x-b.x)*(a.y-c.y);if(Math.abs(den)<1e-6)continue;
     for(let u=Math.floor(Math.min(a.x,b.x,c.x));u<Math.ceil(Math.max(a.x,b.x,c.x));u++)for(let v=Math.floor(Math.min(a.y,b.y,c.y));v<Math.ceil(Math.max(a.y,b.y,c.y));v++){
       const x=u+.5,y=v+.5,wa=((b.y-c.y)*(x-c.x)+(c.x-b.x)*(y-c.y))/den,wb=((c.y-a.y)*(x-c.x)+(a.x-c.x)*(y-c.y))/den,wc=1-wa-wb;if(Math.min(wa,wb,wc)<-1e-5)continue;
-      const p=triangle.points[0].clone().multiplyScalar(wa).addScaledVector(triangle.points[1],wb).addScaledVector(triangle.points[2],wc),family=treeFamily(triangle.material.name),key=family+':'+p.toArray().map(n=>Math.round(n*100)).join(',');if(seen.has(key))continue;seen.add(key);const group=anchors.get(family)||[];group.push(p);anchors.set(family,group);
+      const p=triangle.points[0].clone().multiplyScalar(wa).addScaledVector(triangle.points[1],wb).addScaledVector(triangle.points[2],wc),family=aliases.get(treeFamily(triangle.material.name))??treeFamily(triangle.material.name);let polygon=triangle.points.map((p,i)=>({p:p.clone(),uv:triangle.uv[i].clone()}));for(const distance of[(v:{uv:THREE.Vector2})=>v.uv.x-u,(v:{uv:THREE.Vector2})=>u+1-v.uv.x,(q:{uv:THREE.Vector2})=>q.uv.y-v,(q:{uv:THREE.Vector2})=>v+1-q.uv.y]){const next:typeof polygon=[];for(let i=0;i<polygon.length;i++){const a=polygon[i],b=polygon[(i+1)%polygon.length],da=distance(a),db=distance(b);if(da>=0)next.push(a);if((da<0&&db>0)||(da>0&&db<0)){const t=da/(da-db);next.push({p:a.p.clone().lerp(b.p,t),uv:a.uv.clone().lerp(b.uv,t)});}}polygon=next;}const tiles=marks.get(family)||[];if(polygon.length>=3)tiles.push({anchor:p,polygon:polygon.map(v=>v.p)});marks.set(family,tiles);
     }
-  }return anchors;
+  }return marks;
 }
-function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:RepairSummary,anchors:Map<string,THREE.Vector3[]>,roots:Set<string>):Triangle[]{
-  const eligible=source.filter(t=>(t.material.userData.treeInfo||/tree|bush/i.test(t.material.name))&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
-  const first=normal(eligible[0]).normalize();if(!eligible.every(t=>Math.abs(normal(t).normalize().dot(first))>.99&&t.material.map===eligible[0].material.map))return source;
-  const horizontal=new THREE.Vector3(first.z,0,-first.x).normalize();if((Math.abs(horizontal.x)>Math.abs(horizontal.z)?horizontal.x:horizontal.z)<0)horizontal.negate();
-  const converted=new Set<Triangle>();
-  const info=eligible[0].material.userData.treeInfo as {texture:THREE.Texture;centers:number[];footU?:number;footV:number;family?:string;topV?:number;crownWidth?:number;crownCenterU?:number}|undefined;
-  const family=info?.family??treeFamily(eligible[0].material.name),centers=info?.centers||[.5],footV=info?.footV??1;
-  const panels:{center:THREE.Vector3;width:number;height:number;uv:number[];offset:number;color:THREE.Color;crownOffset:THREE.Vector3}[]=[];
-  for(let i=0;i<eligible.length;i+=2){const pair=eligible.slice(i,i+2);if(pair.length!==2)continue;
-    const vertices=pair.flatMap(t=>t.points.map((point,j)=>({point,uv:t.uv[j]}))),lower=Math.min(...vertices.map(v=>v.point.y)),upper=Math.max(...vertices.map(v=>v.point.y));if(upper-lower<1)continue;
-    const bottom=vertices.filter(v=>Math.abs(v.point.y-lower)<.01),top=vertices.filter(v=>Math.abs(v.point.y-upper)<.01);if(!bottom.length||!top.length)continue;
-    const left=bottom.reduce((a,b)=>a.point.dot(horizontal)<b.point.dot(horizontal)?a:b),right=bottom.reduce((a,b)=>a.point.dot(horizontal)>b.point.dot(horizontal)?a:b),width=right.point.clone().sub(left.point).dot(horizontal),uLeft=left.uv.x,uRight=right.uv.x;if(width<.1||Math.abs(uRight-uLeft)<.001)continue;
-    const bottomCenter=left.point.clone().add(right.point).multiplyScalar(.5),topCenter=top[0].point.clone();topCenter.addScaledVector(horizontal,bottomCenter.dot(horizontal)-topCenter.dot(horizontal));
-    const height=bottomCenter.distanceTo(topCenter),fullWidth=width/Math.abs(uRight-uLeft),minimum=Math.min(uLeft,uRight),maximum=Math.max(uLeft,uRight);
-    // Forest textures contain several trunks, and source quads repeat that
-    // texture. Each trunk gets its own full original-tree billboard and pivot.
-    let resolved=false;for(let tile=Math.floor(minimum);tile<Math.ceil(maximum);tile++)for(const offset of centers){const u=tile+offset;if(u<minimum-1e-5||u>maximum+1e-5)continue;resolved=true;
-      const stem=left.point.clone().addScaledVector(horizontal,(u-uLeft)/(uRight-uLeft)*width),nearby=(anchors.get(family)||[]).filter(p=>p.distanceTo(stem)<fullWidth*.6).sort((a,b)=>a.distanceToSquared(stem)-b.distanceToSquared(stem));if(nearby.length)stem.copy(nearby[0]);
-      const key=family+':'+stem.toArray().map(n=>Math.round(n*100)).join(',');if(roots.has(key))continue;roots.add(key);
-      const center=stem.clone();center.y-=height*(1-footV);panels.push({center,width:fullWidth,height,uv:[uRight>uLeft?0:1,bottom[0].uv.y,uRight>uLeft?1:0,top[0].uv.y],offset:(uRight>uLeft?1:-1)*(.5-(info?.footU??.5)),color:pair[0].color[0],crownOffset:horizontal.clone().multiplyScalar((uRight>uLeft?1:-1)*((info?.crownCenterU??.5)-(info?.footU??.5))*fullWidth)});
-    }if(resolved)for(const triangle of pair)converted.add(triangle);
+function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:RepairSummary,roots:Set<string>,marks:Map<string,TreeMark[]>):Triangle[]{
+ const eligible=source.filter(t=>(t.material.userData.treeInfo||/tree|bush/i.test(t.material.name))&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
+ // Authored multipart 3D trees have nonparallel leaf planes. Preserve the whole
+ // assembly rather than turning every trunk/leaf face into a separate tree.
+ const first=normal(eligible[0]).normalize();if(!eligible.every(t=>Math.abs(normal(t).normalize().dot(first))>.99&&t.material===eligible[0].material))return source;
+ const material=eligible[0].material,info=material.userData.treeInfo as {texture?:THREE.Texture;centers:number[];footU?:number;footV:number;family?:string;topV?:number;asset?:string}|undefined,texture=info?.texture||material.map||undefined,pixels=treeImagePixels(texture?.image);if(!pixels)return source;
+ const inverse=root.matrixWorld.clone().invert(),family=nativeTreeFamily(material),converted=new Set<Triangle>();
+ type Part={pair:Triangle[];minU:number;maxU:number;minV:number;maxV:number;uAxis:THREE.Vector3;vAxis:THREE.Vector3;point:(u:number,v:number)=>THREE.Vector3};const parts:Part[]=[];
+ const cards=source.filter(t=>t.material===material&&Math.abs(normal(t).normalize().y)<.99);
+ for(let i=0;i<cards.length;i+=2){const pair=cards.slice(i,i+2);if(pair.length!==2)continue;const vertices=pair.flatMap(t=>t.points.map((point,j)=>({point,uv:t.uv[j]}))),unique=new Map(vertices.map(v=>[v.point.toArray().join(',')+':'+v.uv.toArray().join(','),v]));if(unique.size!==4)continue;
+  const t=pair[0],[a,b,c]=t.uv,ab=t.points[1].clone().sub(t.points[0]),ac=t.points[2].clone().sub(t.points[0]),du=b.x-a.x,dv=b.y-a.y,eu=c.x-a.x,ev=c.y-a.y,det=du*ev-eu*dv;if(Math.abs(det)<1e-8)continue;
+  const uAxis=ab.clone().multiplyScalar(ev).addScaledVector(ac,-dv).divideScalar(det),vAxis=ac.clone().multiplyScalar(du).addScaledVector(ab,-eu).divideScalar(det),point=(u:number,v:number)=>t.points[0].clone().addScaledVector(uAxis,u-a.x).addScaledVector(vAxis,v-a.y);
+  if(vertices.some(v=>point(v.uv.x,v.uv.y).distanceTo(v.point)>.001))continue;
+  parts.push({pair,uAxis,vAxis,point,minU:Math.min(...vertices.map(v=>v.uv.x)),maxU:Math.max(...vertices.map(v=>v.uv.x)),minV:Math.min(...vertices.map(v=>v.uv.y)),maxV:Math.max(...vertices.map(v=>v.uv.y))});
+ }
+ const groups=new Map<string,{shape:Partial<TreeShape>;trees:Parameters<typeof addTreeVolumes>[1];fronds:FrondTree[];keys:string[];pairs:Set<Triangle[]>}>(),alias=texture!==material.map,atlas=treeSpriteComponents(pixels).length>1;
+ const feet=(sprite:NonNullable<ReturnType<typeof treeSpritePixels>>)=>{const result:number[]=[],y=sprite.bounds[3]-1;let start=-1;for(let x=sprite.bounds[0];x<=sprite.bounds[2];x++){const yes=x<sprite.bounds[2]&&sprite.nativeAlpha[y*pixels.width+x];if(yes&&start<0)start=x;if(!yes&&start>=0){result.push((start+x)/2/pixels.width);start=-1;}}return result;};
+ // Atlas crowns and stumps may be authored as two consecutive slanted cards.
+ // Only pair disjoint V bands with the same physical horizontal centre/axis.
+ const companions=new Map<Part,Part>();for(let i=0;i+1<parts.length;i++){const upper=parts[i],lower=parts[i+1];if(upper.maxV>.65||lower.minV<.5)continue;const upperSprite=treeSpritePixels(pixels,{region:[0,upper.minV,1,upper.maxV]}),lowerSprite=treeSpritePixels(pixels,{region:[0,lower.minV,1,lower.maxV]});if(!upperSprite||!lowerSprite||upperSprite.bounds[3]>lowerSprite.bounds[1])continue;const a=upper.point((upper.minU+upper.maxU)/2,upper.maxV),b=lower.point((lower.minU+lower.maxU)/2,lower.maxV),axis=upper.uAxis.clone().normalize();if(Math.abs(a.clone().sub(b).dot(axis))>.05||Math.abs(axis.dot(lower.uAxis.clone().normalize()))<.999)continue;companions.set(upper,lower);companions.set(lower,upper);}
+ for(const part of parts){const localOrigin=part.point(0,0).applyMatrix4(inverse),localU=part.point(1,0).applyMatrix4(inverse).sub(localOrigin),localV=part.point(0,1).applyMatrix4(inverse).sub(localOrigin),width=localU.length(),height=localV.length();if(width<.1||height<1)continue;
+  const companion=companions.get(part),lower=companion?(part.minV>companion.minV?part:companion):undefined;
+  // A paired atlas is one tree: do not also revolve its lower ground patch
+  // into a second tall stump after the upper card has made the whole tree.
+  if(lower===part)continue;
+  // Isolated nearly-horizontal cards are ground art, not upright trees.
+  if(Math.abs(normal(part.pair[0]).normalize().y)>=.9&&!lower)continue;
+  const full=!atlas&&!lower,rootPart=lower??part,rootRegion=[0,Math.max(0,rootPart.minV),1,Math.min(1,rootPart.maxV)]as const,rootSprite=treeSpritePixels(pixels,full?{footV:info?.footV,footU:info?.footU}:{region:rootRegion});if(!rootSprite)continue;
+  const sourceOffsets=alias||full?(info?.centers??[rootSprite.shape.footU]):lower?feet(rootSprite):(info?.centers??[rootSprite.shape.footU]),baseOffsets=sourceOffsets.length?sourceOffsets:[rootSprite.shape.footU];
+   const markerAt=(ground:THREE.Vector3)=>{const floorY=Math.min(...rootPart.pair.flatMap(t=>t.points.map(p=>p.y))),axis=rootPart.uAxis.clone().normalize(),pixel=rootPart.uAxis.length()/pixels.width;
+    const contains=(polygon:THREE.Vector3[])=>{for(let i=1;i+1<polygon.length;i++){const[a,b,c]=[polygon[0],polygon[i],polygon[i+1]],den=(b.z-c.z)*(a.x-c.x)+(c.x-b.x)*(a.z-c.z);if(!den)continue;const wa=((b.z-c.z)*(ground.x-c.x)+(c.x-b.x)*(ground.z-c.z))/den,wb=((c.z-a.z)*(ground.x-c.x)+(a.x-c.x)*(ground.z-c.z))/den;if(wa>=0&&wb>=0&&wa+wb<=1)return true;}return false;};
+    const owners=(marks.get(family)||[]).filter(mark=>Math.abs(mark.anchor.y-floorY)<1e-5&&Math.abs(mark.anchor.clone().sub(ground).dot(axis))<=pixel*.5&&contains(mark.polygon)),unique=new Map(owners.map(mark=>[mark.anchor.toArray().join(','),mark.anchor]));return unique.size===1?[...unique.values()][0]:undefined;
+   };
+
+  const columns:number[]=[];for(let tile=Math.floor(rootPart.minU);tile<Math.ceil(rootPart.maxU);tile++)for(const offset of baseOffsets)if(tile+offset>=rootPart.minU-1e-5&&tile+offset<=rootPart.maxU+1e-5)columns.push(tile+offset);
+  const hasNativeRoot=columns.length>0;if(alias&&!hasNativeRoot){const all:number[]=[];for(let tile=Math.floor(rootPart.minU)-1;tile<=Math.ceil(rootPart.maxU)+1;tile++)for(const offset of baseOffsets)all.push(tile+offset);columns.push(Math.max(...all.filter(u=>u<rootPart.minU)),Math.min(...all.filter(u=>u>rootPart.maxU)));}
+  // A rootless sliver may be removed only after BOTH owners are proven.
+  // Do not hide the whole card after replacing just one neighbouring plant.
+  if(alias&&!hasNativeRoot&&!columns.every(u=>{const p=rootPart.point(u,info?.footV??rootSprite.shape.footV);if(markerAt(p))return true;const prefix=family+':'+p.toArray().map(n=>Math.round(n*100)).join(',')+':';return[...roots].some(key=>key.startsWith(prefix));}))continue;
+  for(const rootU of columns){if(!Number.isFinite(rootU))continue;const offset=((rootU%1)+1)%1,outside=rootU<rootPart.minU-1e-5||rootU>rootPart.maxU+1e-5;
+   const ground=rootPart.point(rootU,alias?(info?.footV??rootSprite.shape.footV):rootSprite.shape.footV);let ownedMarker:THREE.Vector3|undefined;
+   ownedMarker=markerAt(ground);if(outside&&!ownedMarker)continue;
+   const partBottom=part.point(0,part.maxV),u=ground.clone().sub(partBottom).dot(part.uAxis)/part.uAxis.lengthSq(),partTile=Math.floor(u),partOffset=u-partTile;
+   if(!outside&&(u<part.minU-1e-5||u>part.maxU+1e-5))continue;
+   const at=baseOffsets.indexOf(offset),left=at? (baseOffsets[at-1]+offset)/2:0,right=at+1<baseOffsets.length?(offset+baseOffsets[at+1])/2:1;
+   // A root's atlas cell is bounded by neighbouring native root columns. For a
+   // single selected half-atlas card, its literal U range is the tighter bound.
+   const halfWidth=lower?Math.min(.5,(right-left)*rootPart.uAxis.length()/part.uAxis.length()/2):Infinity;
+   const region=[Math.max(0,part.minU-partTile,lower?partOffset-halfWidth:left),Math.max(0,part.minV),Math.min(1,part.maxU-partTile,lower?partOffset+halfWidth:right),Math.min(1,part.maxV)]as const;
+   const shape:Partial<TreeShape>=alias||full?{footU:info?.footU??rootSprite.shape.footU,footV:info?.footV??rootSprite.shape.footV,topV:info?.topV}:{region,footU:Math.fround(partOffset)};const sprite=treeSpritePixels(pixels,shape);if(!sprite)continue;
+   const stem=part.point(u,alias?(info?.footV??sprite.shape.footV):sprite.shape.footV);if(lower){stem.x=ground.x;stem.z=ground.z;}
+   if(ownedMarker){const shift=ownedMarker.clone().sub(ground);stem.add(shift);ground.copy(ownedMarker);}
+   const partKey=JSON.stringify(shape),key=family+':'+ground.toArray().map(n=>Math.round(n*100)).join(',')+':'+partKey;if(roots.has(key)){part.pair.forEach(t=>converted.add(t));if(lower)lower.pair.forEach(t=>converted.add(t));continue;}
+   const group=groups.get(partKey)??{shape,trees:[],fronds:[],keys:[],pairs:new Set<Triangle[]>()};if(group.keys.includes(key)){part.pair.forEach(t=>converted.add(t));if(lower)lower.pair.forEach(t=>converted.add(t));continue;}const center=stem.applyMatrix4(inverse);center.y-=height*(1-sprite.shape.footV);
+   const tree={center,width,height,axis:localU.clone().normalize(),groundRoot:ground.clone().applyMatrix4(inverse),color:part.pair[0].color[0].clone().multiply(material.color)};
+   if(lower){const tile=Math.floor(rootU),rootShape:Partial<TreeShape>={region:[Math.max(0,lower.minU-tile,left),Math.max(0,lower.minV),Math.min(1,lower.maxU-tile,right),Math.min(1,lower.maxV)],footU:offset},rootPixels=treeSpritePixels(pixels,rootShape);if(!rootPixels)continue;const origin=lower.point(0,0).applyMatrix4(inverse),uAxis=lower.point(1,0).applyMatrix4(inverse).sub(origin),vAxis=lower.point(0,1).applyMatrix4(inverse).sub(origin),contact=treeFrondContact(sprite),crownY=part.point(partTile+contact.u,contact.v).applyMatrix4(inverse).y;
+    group.fronds.push({...tree,crownY,rootWidth:uAxis.length(),rootHeight:Math.abs(vAxis.y),rootAxis:uAxis.normalize(),rootShape,rootColor:lower.pair[0].color[0].clone().multiply(lower.pair[0].material.color)});group.pairs.add(lower.pair);
+   }else group.trees.push(tree);
+   group.keys.push(key);group.pairs.add(part.pair);groups.set(partKey,group);
   }
-  if(!converted.size)return source;
-  if(panels.length){
-  const base=new THREE.PlaneGeometry(1,1);base.translate(0,.5,0);const geometry=new THREE.InstancedBufferGeometry();geometry.index=base.index;for(const [name,attribute]of Object.entries(base.attributes))geometry.setAttribute(name,attribute);
-  geometry.setAttribute('uvRect',new THREE.InstancedBufferAttribute(new Float32Array(panels.flatMap(p=>p.uv)),4));geometry.setAttribute('pivotOffset',new THREE.InstancedBufferAttribute(new Float32Array(panels.map(p=>p.offset)),1));geometry.setAttribute('treeColor',new THREE.InstancedBufferAttribute(new Float32Array(panels.flatMap(p=>p.color.toArray())),3));
-  const material=new THREE.ShaderMaterial({uniforms:THREE.UniformsUtils.merge([THREE.UniformsLib.fog,{map:{value:info?.texture||eligible[0].material.map}}]),fog:true,side:THREE.DoubleSide,vertexShader:`
-    attribute vec4 uvRect; attribute float pivotOffset; attribute vec3 treeColor;
-    varying vec2 vUv; varying vec3 vColor;
-    #include <fog_pars_vertex>
-    void main(){
-      mat4 objectInstance=modelMatrix*instanceMatrix;
-      vec3 center=(objectInstance*vec4(0.,0.,0.,1.)).xyz;
-      vec3 right=normalize(vec3(viewMatrix[0][0],0.,viewMatrix[2][0]));
-      vec3 worldPosition=center+right*(position.x+pivotOffset)*length(objectInstance[0].xyz)+vec3(0.,position.y*length(objectInstance[1].xyz),0.);
-      vec4 mvPosition=viewMatrix*vec4(worldPosition,1.);
-      gl_Position=projectionMatrix*mvPosition;
-      vUv=vec2(mix(uvRect.x,uvRect.z,uv.x),mix(uvRect.y,uvRect.w,uv.y));vColor=treeColor;
-      #include <fog_vertex>
-    }`,fragmentShader:`
-    uniform sampler2D map;varying vec2 vUv;varying vec3 vColor;
-    #include <fog_pars_fragment>
-    void main(){vec4 sampleColor=texture2D(map,vUv);if(sampleColor.a<.45)discard;gl_FragColor=vec4(sampleColor.rgb*vColor,1.);
-      #include <tonemapping_fragment>
-      #include <colorspace_fragment>
-      #include <fog_fragment>
-    }`});
-  const trees=new THREE.InstancedMesh(geometry,material,panels.length),dummy=new THREE.Object3D();trees.name='camera-facing-original-trees';trees.frustumCulled=false;trees.userData.footV=footV;
-  panels.forEach((p,i)=>{dummy.position.copy(p.center);dummy.scale.set(p.width,p.height,1);dummy.updateMatrix();trees.setMatrixAt(i,dummy.matrix);});root.add(trees);trees.visible=false;addTreeVolumes(root,panels,info?.texture||eligible[0].material.map||undefined,{footV,topV:info?.topV,crownWidth:info?.crownWidth,crownCenterU:info?.crownCenterU});summary.billboardTrees+=panels.length;
-  }mesh.visible=false;
-  // Preserve non-tree parts, shadows and degenerate triangles in mixed meshes.
-  const remaining=new Map<THREE.MeshBasicMaterial,Triangle[]>();for(const triangle of source)if(!converted.has(triangle)){const group=remaining.get(triangle.material)||[];group.push(triangle);remaining.set(triangle.material,group);}
-  for(const [material,triangles]of remaining){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.points.flatMap(p=>p.toArray())),3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.uv.flatMap(p=>p.toArray())),2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.color.flatMap(p=>p.toArray())),3));geometry.setAttribute('sceneryRoot',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.points.flatMap(()=>t.root?[...t.root.toArray(),1]:[0,0,0,0])),4));geometry.computeVertexNormals();const leftover=new THREE.Mesh(geometry,material);leftover.name='original-scenery-remainder';root.add(leftover);}
-  return source.filter(t=>!converted.has(t));
+ }
+ for(const group of groups.values())if(group.fronds.length?addTreeFronds(root,group.fronds,texture,group.shape):addTreeVolumes(root,group.trees,texture,group.shape)){group.keys.forEach(key=>roots.add(key));group.pairs.forEach(pair=>pair.forEach(t=>converted.add(t)));summary.billboardTrees+=group.trees.length+group.fronds.length*2;}
+
+ // A pure atlas gap can also belong to complete canonical cards in another
+ // primitive. Require BOTH literal UV-derived root points to be owned already;
+ // no nearest-marker/proximity substitution is allowed on this removal path.
+ if(alias&&info?.centers.length)for(const part of parts){if(part.pair.some(t=>converted.has(t)))continue;const columns:number[]=[];for(let tile=Math.floor(part.minU)-1;tile<=Math.ceil(part.maxU)+1;tile++)for(const center of info.centers)columns.push(tile+center);if(columns.some(u=>u>=part.minU&&u<=part.maxU))continue;const left=Math.max(...columns.filter(u=>u<part.minU)),right=Math.min(...columns.filter(u=>u>part.maxU));if(!Number.isFinite(left)||!Number.isFinite(right))continue;
+  const owned=[left,right].every(u=>{const stem=part.point(u,info.footV),prefix=family+':'+stem.toArray().map(n=>Math.round(n*100)).join(',')+':';return[...roots].some(key=>key.startsWith(prefix));});if(owned)part.pair.forEach(t=>converted.add(t));
+ }
+
+ if(!converted.size)return source;mesh.visible=false;
+ // Remove cards only after their actual pixels produced a complete volume.
+ // Mixed-mesh shadows/ground marks keep their original geometry and UVs.
+ const remaining=new Map<THREE.MeshBasicMaterial,Triangle[]>();for(const triangle of source)if(!converted.has(triangle)){const group=remaining.get(triangle.material)||[];group.push(triangle);remaining.set(triangle.material,group);}
+ for(const [material,triangles]of remaining){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.points.flatMap(p=>p.clone().applyMatrix4(inverse).toArray())),3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.uv.flatMap(p=>p.toArray())),2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.color.flatMap(p=>p.toArray())),3));geometry.setAttribute('sceneryRoot',new THREE.Float32BufferAttribute(triangles.flatMap(t=>t.points.flatMap(()=>t.root?[...t.root.clone().applyMatrix4(inverse).toArray(),1]:[0,0,0,0])),4));geometry.computeVertexNormals();const leftover=new THREE.Mesh(geometry,material);leftover.name='original-scenery-remainder';root.add(leftover);}
+ return source.filter(t=>!converted.has(t));
 }
 
 /** Shared by every imported landscape/prop, including future streamed locations. */
 export function repairOriginalAsset(root:THREE.Group,isProp:boolean):RepairSummary{
-  root.updateMatrixWorld(true);const solidSeats=isProp?solidFurniture(root):0;root.updateMatrixWorld(true);const meshes:THREE.Mesh[]=[];root.traverseVisible(object=>{if(object instanceof THREE.Mesh)meshes.push(object);});
-  const summary={solidFaces:0,billboardTrees:0,uprightPanels:0,fencePosts:0,flowerClumps:0,terrainSkirts:0,solidRocks:0,solidSeats};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),ground=sources.flat(),anchors=groundTreeAnchors(ground),roots=new Set<string>();
-  for(let i=0;i<meshes.length;i++){const fences=solidFences(root,meshes[i],sources[i],ground,summary),adjusted=uprightScenery(root,fences.mesh,fences.source,ground,summary),flowers=flowerVolume(root,adjusted.mesh,adjusted.source,summary),rocks=rockVolume(root,flowers.mesh,flowers.source,ground,summary);solid.push(...treePanels(root,rocks.mesh,rocks.source,summary,anchors,roots));}
+  root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const solidSeats=isProp?solidFurniture(root):0;root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const meshes:THREE.Mesh[]=[];root.traverseVisible(object=>{if(object instanceof THREE.Mesh)meshes.push(object);});
+  const summary={solidFaces:0,billboardTrees:0,uprightPanels:0,fencePosts:0,flowerClumps:0,terrainSkirts:0,solidRocks:0,solidSeats};const solid:Triangle[]=[],sources=meshes.map(mesh=>triangles(mesh)),ground=sources.flat(),marks=groundTreeMarks(ground),roots=new Set<string>();
+  for(let i=0;i<meshes.length;i++){const fences=solidFences(root,meshes[i],sources[i],ground,summary),adjusted=uprightScenery(root,fences.mesh,fences.source,ground,summary),flowers=flowerVolume(root,adjusted.mesh,adjusted.source,summary),rocks=rockVolume(root,flowers.mesh,flowers.source,ground,summary);solid.push(...treePanels(root,rocks.mesh,rocks.source,summary,roots,marks));}
+  // Some native primitives contain only the narrow gap between two roots whose
+  // complete cards occur in a later primitive. Revisit those leftovers after
+  // every valid replacement exists; the same two-root ownership check applies.
+  root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const remainders:THREE.Mesh[]=[];root.traverseVisible(o=>{if(o instanceof THREE.Mesh&&o.name==='original-scenery-remainder')remainders.push(o);});for(const remainder of remainders)treePanels(root,remainder,triangles(remainder),summary,roots,marks);
   if(isProp)closeProps(root,solid,summary);else closeTerrain(root,solid,summary);root.userData.renderRepairs=summary;return summary;
 }

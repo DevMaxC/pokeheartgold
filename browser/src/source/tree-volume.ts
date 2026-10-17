@@ -1,42 +1,42 @@
 import * as THREE from 'three';
-import {treeLeafPixels,type TreeShape} from './tree-texture.ts';
+import {treeImagePixels,treeSpritePixels,treeInteriorPixels,type TreeShape} from './tree-texture.ts';
 
-type Tree={center:THREE.Vector3;width:number;height:number;color:THREE.Color;crownOffset?:THREE.Vector3};
-const leafTextures=new WeakMap<THREE.Texture,Map<string,THREE.Texture>>();
-const canopyLobes=[[.44,.43,.26,.4],[.65,.34,.24,.32],[.83,.2,.17,.2]];
-let crownGeometry:THREE.BufferGeometry|undefined,trunkGeometry:THREE.CylinderGeometry|undefined;
-function leafTexture(source:THREE.Texture|undefined,shape:TreeShape){
- if(!source)return null;const key=[shape.footV,shape.topV??0,shape.crownWidth??1,shape.crownCenterU??.5].join(','),cached=leafTextures.get(source)?.get(key);if(cached)return cached;
- const image=source.image as CanvasImageSource&{width?:number;height?:number};if(!image?.width||!image.height||typeof document==='undefined')return null;
- try{
-  // Reuse the original leaf pixels, excluding the baked trunk and root art.
-  // Extend their colour through alpha margins: the closed mesh owns silhouette.
-  const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0);const patch=treeLeafPixels(ctx.getImageData(0,0,canvas.width,canvas.height).data,canvas.width,canvas.height,shape);if(!patch)return null;
-  const texture=new THREE.DataTexture(patch.data,patch.width,patch.height);texture.colorSpace=THREE.SRGBColorSpace;texture.flipY=true;texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.wrapS=THREE.RepeatWrapping;texture.needsUpdate=true;const entries=leafTextures.get(source)??new Map<string,THREE.Texture>();entries.set(key,texture);leafTextures.set(source,entries);return texture;
- }catch{return null;}
-}
-function crown(){
- if(crownGeometry)return crownGeometry;
- const positions:number[]=[],uvs:number[]=[],colors:number[]=[],light=new THREE.Vector3(-.5,.85,.3).normalize();
- for(const [y,xRadius,yRadius,zRadius]of canopyLobes){
-  const lobe=new THREE.SphereGeometry(1,12,6).toNonIndexed();lobe.scale(xRadius,yRadius,zRadius);lobe.translate(0,y,0);const p=lobe.getAttribute('position'),uv=lobe.getAttribute('uv');
-  for(let i=0;i<p.count;i+=3){const a=new THREE.Vector3().fromBufferAttribute(p,i),b=new THREE.Vector3().fromBufferAttribute(p,i+1),c=new THREE.Vector3().fromBufferAttribute(p,i+2),normal=b.clone().sub(a).cross(c.clone().sub(a)).normalize(),shade=.82+.22*Math.max(-.5,normal.dot(light));for(let j=0;j<3;j++){positions.push(p.getX(i+j),p.getY(i+j),p.getZ(i+j));uvs.push(uv.getX(i+j),uv.getY(i+j));colors.push(shade,shade,shade);}}
-  lobe.dispose();
+type Tree={center:THREE.Vector3;width:number;height:number;color:THREE.Color;axis?:THREE.Vector3;groundRoot?:THREE.Vector3};
+type Sprite=NonNullable<ReturnType<typeof treeSpritePixels>>;
+type Profile={y:number;cx:number;radius:number};
+type NativeVolume={sprite:Sprite;leaves:THREE.BufferGeometry;trunks:THREE.BufferGeometry;texture:THREE.DataTexture;canopyBoxes:number[][];profile:Profile[]};
+const volumes=new Map<string,NativeVolume[]>(),sourceVolumes=new WeakMap<THREE.Texture,Map<string,NativeVolume>>();
+const sameBytes=(a:ArrayLike<number>,b:ArrayLike<number>)=>a.length===b.length&&Array.from(a).every((v,i)=>v===b[i]);
+function nativeVolume(source:THREE.Texture|undefined,shape:Partial<TreeShape>){
+ const shapeKey=JSON.stringify(shape),cached=source&&sourceVolumes.get(source)?.get(shapeKey);if(cached)return cached;
+ const remember=(volume:NativeVolume)=>{if(source){const entries=sourceVolumes.get(source)??new Map<string,NativeVolume>();entries.set(shapeKey,volume);sourceVolumes.set(source,entries);}return volume;};
+ const pixels=treeImagePixels(source?.image);if(!pixels)return null;const sprite=treeSpritePixels(pixels,shape);if(!sprite)return null;
+ let hash=2166136261;for(const value of pixels.data)hash=Math.imul(hash^value,16777619);const key=[pixels.width,pixels.height,hash,source?.colorSpace,...Object.values(sprite.shape)].join(','),entries=volumes.get(key)??[],old=entries.find(v=>sameBytes(v.sprite.data,sprite.data)&&sameBytes(v.sprite.nativeAlpha,sprite.nativeAlpha));if(old)return remember(old);
+ const[left,top,right,bottom]=sprite.bounds,profile:Profile[]=[],segments=12,rowStep=3;
+ const row=(y:number)=>{const opaque:number[]=[];for(let x=left;x<right;x++)if(sprite.nativeAlpha[y*pixels.width+x])opaque.push(x);return opaque;};
+ for(let y=top;y<bottom;y+=rowStep){const at=Math.min(bottom-1,Math.floor(y+rowStep/2)),xs=row(at);if(xs.length)profile.push({y:at+.5,cx:(xs[0]+xs.at(-1)!+1)/2,radius:(xs.at(-1)!-xs[0]+1)/2});}
+ const first=row(top),last=row(bottom-1);profile.unshift({y:top,cx:(first[0]+first.at(-1)!+1)/2,radius:(first.at(-1)!-first[0]+1)/2});profile.push({y:bottom,cx:(last[0]+last.at(-1)!+1)/2,radius:(last.at(-1)!-last[0]+1)/2});
+ const attributes=[null,{p:[]as number[],uv:[]as number[]},{p:[]as number[],uv:[]as number[]}],kinds:number[]=[],boxes=new Map<number,THREE.Box3>(),boxStep=Math.ceil((profile.length-1)/6);
+ const point=(ring:number,i:number)=>{const r=profile[ring],angle=(i%segments)/segments*Math.PI*2;return[(r.cx+Math.sin(angle)*r.radius)/pixels.width-sprite.shape.footU,sprite.shape.footV-r.y/pixels.height,Math.cos(angle)*r.radius*.8/pixels.width];};
+ const vertex=(kind:number,p:number[],u:number,v:number)=>{attributes[kind]!.p.push(...p);attributes[kind]!.uv.push(u,v);};
+ // Native row widths and centres determine the whole silhouette. Joining the
+ // rings continuously avoids the flat shelves and striped faces of voxel caps.
+ for(let ring=0;ring+1<profile.length;ring++){
+  const a=profile[ring],b=profile[ring+1],kind=(a.y+b.y)/2>=top+(bottom-top)*.7&&a.radius+b.radius<=(right-left)*.35?2:1;kinds.push(kind);
+  for(let i=0;i<segments;i++){const j=i+1,u0=i/segments*2,u1=j/segments*2,v0=a.y/pixels.height,v1=b.y/pixels.height,aa=point(ring,i),bb=point(ring+1,i),cc=point(ring+1,j),dd=point(ring,j);for(const[p,u,v]of[[aa,u0,v0],[bb,u0,v1],[cc,u1,v1],[aa,u0,v0],[cc,u1,v1],[dd,u1,v0]]as const)vertex(kind,p,u,v);
+   if(kind===1){const key=Math.floor(ring/boxStep),box=boxes.get(key)??new THREE.Box3();for(const p of[aa,bb,cc,dd])box.expandByPoint(new THREE.Vector3(...p.map(Math.fround)));boxes.set(key,box);}
+  }
  }
- crownGeometry=new THREE.BufferGeometry();crownGeometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));crownGeometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));crownGeometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));crownGeometry.computeVertexNormals();crownGeometry.computeBoundingSphere();return crownGeometry;
+ const cap=(ring:number,kind:number,up:boolean)=>{const r=profile[ring],centre=[r.cx/pixels.width-sprite.shape.footU,sprite.shape.footV-r.y/pixels.height,0],v=r.y/pixels.height;for(let i=0;i<segments;i++){const a=point(ring,i),b=point(ring,i+1),u0=i/segments*2,u1=(i+1)/segments*2;for(const[p,u]of(up?[[centre,(u0+u1)/2],[a,u0],[b,u1]]:[[centre,(u0+u1)/2],[b,u1],[a,u0]])as[number[],number][])vertex(kind,p,u,v);}};
+ cap(0,kinds[0],true);cap(profile.length-1,kinds.at(-1)!,false);for(let i=1;i<kinds.length;i++)if(kinds[i]!==kinds[i-1]){cap(i,kinds[i-1],false);cap(i,kinds[i],true);}
+ const geometry=(kind:1|2)=>{const a=attributes[kind]!,g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(a.p,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(a.uv,2));g.computeVertexNormals();g.computeBoundingSphere();return g;},interior=treeInteriorPixels(pixels,sprite),texture=new THREE.DataTexture(interior,pixels.width,pixels.height);texture.colorSpace=source?.colorSpace||THREE.SRGBColorSpace;texture.flipY=false;texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.wrapS=THREE.MirroredRepeatWrapping;texture.generateMipmaps=false;texture.needsUpdate=true;
+ const result={sprite,leaves:geometry(1),trunks:geometry(2),texture,profile,canopyBoxes:[...boxes.values()].map(b=>[...b.min.toArray(),...b.max.toArray()])};entries.push(result);volumes.set(key,entries);return remember(result);
 }
-/** Closed layered crowns and trunks have a top and a back at every camera
- * pitch. Each original tree keeps its own authored ground pivot and palette. */
-export function addTreeVolumes(root:THREE.Group,trees:Tree[],source:THREE.Texture|undefined,shape:TreeShape){
- const {footV,topV=0,crownWidth=1}=shape;
- const texture=leafTexture(source,shape),leaves=new THREE.InstancedMesh(crown(),new THREE.MeshBasicMaterial({map:texture,color:texture?0xffffff:'#7b9e36',vertexColors:true}),trees.length);
- if(!trunkGeometry){trunkGeometry=new THREE.CylinderGeometry(.055,.075,1,8,1);trunkGeometry.translate(0,.5,0);}
- const roots=trees.map(tree=>[tree.center.x,tree.center.y+tree.height*(1-footV),tree.center.z]);
- const trunks=new THREE.InstancedMesh(trunkGeometry,new THREE.MeshBasicMaterial({color:'#795b3d'}),trees.length),dummy=new THREE.Object3D();leaves.name='solid-original-tree-canopies';trunks.name='solid-original-tree-trunks';leaves.userData.sceneryRoots=roots;trunks.userData.sceneryRoots=roots;leaves.userData.canopyLobes=canopyLobes;
- trees.forEach((tree,i)=>{
-  const ground=tree.center.clone();ground.y+=tree.height*(1-footV);const offset=tree.crownOffset??new THREE.Vector3(),visibleHeight=tree.height*(footV-topV),width=tree.width*crownWidth/.86,branch=offset.clone().add(new THREE.Vector3(0,visibleHeight*.34,0));
-  dummy.position.copy(ground);dummy.scale.set(width,branch.length(),width);dummy.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),branch.clone().normalize());dummy.updateMatrix();trunks.setMatrixAt(i,dummy.matrix);
-  dummy.position.copy(ground).add(offset);dummy.scale.set(width,visibleHeight,width);dummy.rotation.set(0,Math.sin(tree.center.x*1.13+tree.center.z*.79)*Math.PI,0);dummy.updateMatrix();leaves.setMatrixAt(i,dummy.matrix);leaves.setColorAt(i,tree.color);trunks.setColorAt(i,tree.color);
- });
- leaves.computeBoundingSphere();trunks.computeBoundingSphere();root.add(leaves,trunks);return{leaves,trunks};
+/** Readable native art becomes a closed, painted tree at the authored root.
+ * Unknown images keep their source cards instead of an invented olive fallback. */
+export function addTreeVolumes(root:THREE.Group,trees:Tree[],source:THREE.Texture|undefined,shape:Partial<TreeShape>){
+ const volume=nativeVolume(source,shape);if(!volume)return null;const material=new THREE.MeshBasicMaterial({map:volume.texture,color:0xffffff,side:THREE.FrontSide}),leaves=new THREE.InstancedMesh(volume.leaves,material,trees.length),trunks=new THREE.InstancedMesh(volume.trunks,material,trees.length),dummy=new THREE.Object3D(),roots=trees.map(tree=>tree.groundRoot?.toArray()??[tree.center.x,tree.center.y+tree.height*(1-volume.sprite.shape.footV),tree.center.z]);
+ leaves.name='solid-original-tree-canopies';trunks.name='solid-original-tree-trunks';leaves.userData.canopyBoxes=volume.canopyBoxes;leaves.userData.sceneryRoots=roots;trunks.userData.sceneryRoots=roots;leaves.userData.nativeTreeBounds=volume.sprite.bounds;leaves.userData.nativeTreeShape=volume.sprite.shape;leaves.userData.nativeTreeProfile=volume.profile;trunks.visible=volume.trunks.getAttribute('position').count>0;
+ for(const[at,tree]of trees.entries()){dummy.position.copy(tree.center);dummy.position.y+=tree.height*(1-volume.sprite.shape.footV);dummy.scale.set(tree.width,tree.height,tree.width);dummy.rotation.set(0,tree.axis?-Math.atan2(tree.axis.z,tree.axis.x):0,0);dummy.updateMatrix();for(const mesh of[leaves,trunks]){mesh.setMatrixAt(at,dummy.matrix);mesh.setColorAt(at,tree.color);}}
+ leaves.computeBoundingSphere();trunks.computeBoundingSphere();root.add(leaves,trunks);return{leaves,trunks,shape:volume.sprite.shape};
 }

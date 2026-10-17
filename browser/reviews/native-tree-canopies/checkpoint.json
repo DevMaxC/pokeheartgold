@@ -1,0 +1,62 @@
+{
+  "status": "Candidate source held for independent code review; browser/GPU/aesthetic approval unavailable",
+  "baseCommit": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+  "createdUTC": "2026-10-17T15:06:44.970689+00:00",
+  "runtime": {
+    "browser/src/source/canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b",
+    "browser/src/source/render-repair.ts": "dbd997dced09bd9c3dbcced83700f7fbd278cbc8ed1dbb6fe5274e2586738430",
+    "browser/src/source/tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "browser/src/source/tree-texture.ts": "686de17c5d06c7bda0267db4c166728270cec67597c4f4c93f835d4e0c11f9c0",
+    "browser/src/source/tree-volume.ts": "f91dd6d176b8f58c3d288abc1ce13c278c61b181a9cad3a057a6808a6fc68314"
+  },
+  "changedSourceFiles": [
+    "browser/scripts/audit_tree_canopies.ts",
+    "browser/src/source/canopy-occlusion.test.ts",
+    "browser/src/source/canopy-occlusion.ts",
+    "browser/src/source/render-repair.test.ts",
+    "browser/src/source/render-repair.ts",
+    "browser/src/source/terrace-model.test.ts",
+    "browser/src/source/tree-fixture.test.ts",
+    "browser/src/source/tree-fronds.test.ts",
+    "browser/src/source/tree-fronds.ts",
+    "browser/src/source/tree-native.test.ts",
+    "browser/src/source/tree-texture.test.ts",
+    "browser/src/source/tree-texture.ts",
+    "browser/src/source/tree-volume.test.ts",
+    "browser/src/source/tree-volume.ts"
+  ],
+  "tests": {
+    "targeted": 60,
+    "passed": 60,
+    "failed": 0,
+    "typescript": "PASS",
+    "testLogSHA": "f8eb8576a0013aaccd83bc88a352bbb4b7b44b7ec45147deefba05d091682486",
+    "typeScriptLogSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "nativeFixture": {
+    "metadataFamilies": 124,
+    "assets": 42,
+    "sourceGraphStable": true,
+    "nativeInputsStable": true,
+    "zeroTreeCardRemainders": true,
+    "preservedMultipartAssemblyAssets": [
+      "land/446-88.glb",
+      "land/447-88.glb"
+    ]
+  },
+  "budget": {
+    "scope": "Generated visible instanced tree geometry in42 selected actual assets, not entire streamed world or GPU measurements",
+    "candidateMaxCellTriangles": 261600,
+    "candidateMaxCellDraws": 19,
+    "baselineTotalTriangles": 1491560,
+    "candidateTotalTriangles": 1761144,
+    "note": "Root/assembly discovery differs:356 old152 roots vs candidate277; old source card leftovers are recorded. Ordinary NewBark256 roots392\u2192432 triangles each. Candidate paired palms include both short root and frond meshes plus measured bark shaft."
+  },
+  "gates": {
+    "actualOpus": "PENDING",
+    "browser": "BLOCKED: preview automation host disconnected; no retry or alternate driver",
+    "GPUPerformance": "NOT MEASURED",
+    "allFamilyAestheticApproval": "NOT CLAIMED",
+    "productionMergeDeployment": "PARENT OWNED; not complete"
+  }
+}
