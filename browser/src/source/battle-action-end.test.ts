@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {Battle} from './battle.ts';
 import {loadData,newState,createMon,calculateStats} from './data.ts';
-import {giveTogepiEgg} from './eggs.ts';
 import {freshStages} from './battle-math.ts';
 import {sourceJSON,type Mon} from './types.ts';
 import type {UI} from './ui.ts';
@@ -19,7 +18,7 @@ function mon(species:number,level:number){return createMon(data,species,level,'E
 function moves(mon:Mon,...keys:string[]){mon.moves=keys.map(key=>{const id=data.constants[key],pp=data.moves[id].pp;return{id,pp,maxPP:pp};});}
 function fixture(player:Mon,enemies:Mon[],options:{bench?:Mon[];slot?:number;trainer?:number;rng?:()=>number;replace?:number}={}){
   const elements=new Map<string,{innerHTML:string;hidden:boolean}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}} as unknown as Document;
-  const state=newState(data,'Ethan','boy',()=>.5);state.party=[player,...options.bench??[]];
+  const state=newState(data,'Ethan','boy');state.party=[player,...options.bench??[]];
   const messages:string[]=[],events:{text:string;hp:number;maxHP:number;level:number;def:number}[]=[];
   const battle=new Battle(data,state,{choose:async()=>options.replace??4} as unknown as UI,options.rng??(()=>.5));
   Reflect.set(battle,'say',async(text:string)=>{messages.push(text);events.push({text,hp:player.hp,maxHP:player.maxHP,level:player.level,def:player.stats.def});});
@@ -178,8 +177,8 @@ test('fainting the last player by recoil stops before a surviving foe spends its
   const f=fixture(player,[enemy],{slot:-1}),pp=enemy.moves[0].pp;assert.equal(await f.start(),'lost');assert.equal(enemy.moves[0].pp,pp);assert.ok(!f.messages.some(text=>text.includes('used Harden')));
 });
 
-test('a recoil-fainted participant gets no EXP while a living Share holder receives its pool and the gifted Egg stays unchanged',async()=>{
+test('a recoil-fainted participant gets no EXP while a living Share holder receives its pool and an optional legacy Egg record stays unchanged',async()=>{
   const player=mon(16,30),enemy=mon(19,2),holder=mon(152,5);player.hp=1;enemy.hp=1;holder.heldItem='ITEM_EXP__SHARE';
-  const f=fixture(player,[enemy],{slot:-1,bench:[holder]}),exp=player.exp,holderExp=holder.exp;f.state.nativeEggSeed=1;giveTogepiEgg(data,f.state,{now:()=>new Date(2026,9,17)});const egg=structuredClone(f.state.party[2]);
+  const f=fixture(player,[enemy],{slot:-1,bench:[holder]}),exp=player.exp,holderExp=holder.exp;const legacyEgg={...mon(175,1),isEgg:true,name:'Egg'};f.state.party.push(legacyEgg);const egg=structuredClone(legacyEgg);
   assert.equal(await f.start(),'won');assert.equal(player.exp,exp);assert.deepEqual(player.evs,[0,0,0,0,0,0]);assert.ok(holder.exp>holderExp);assert.deepEqual(f.state.party[2],egg);
 });
