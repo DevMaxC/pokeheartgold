@@ -41,7 +41,11 @@ function controller(){
 const sourceMessages=await Promise.all([187,302].map(async bank=>JSON.parse(await readFile(new URL(`../../public/source/messages/${bank}.json`,import.meta.url),'utf8'))as Record<string,string>));
 
 test('real native hatch187 and Egg summary302 messages decode literal newline tokens without double decoding',async()=>{
-  const d=dom();try{const ui=new UI();for(const[bank,key]of[[0,'1'],[1,'105']]as const){const text=sourceMessages[bank][key];assert.ok(text.includes('\\n'));const pending=ui.message(text);assert.equal(d.ids.get('dialogue-text')!.textContent,text.replace(/\\n/g,'\n'));assert.equal(d.ids.get('dialogue-text')!.textContent.includes('\\n'),false);ui.advance();await pending;}}finally{d.restore();}
+  const fixtures=[
+    {text:sourceMessages[0]['1'],expected:'Would you like to nickname the\nnewly hatched {STRVAR_1 0, 0, 0}? {YESNO 0}'},
+    {text:sourceMessages[1]['105'],expected:'“The Egg Watch”\nSounds can be heard\ncoming from inside!\nIt will hatch soon!'},
+  ];
+  const d=dom();try{const ui=new UI();for(const{text,expected}of fixtures){assert.ok(text.includes('\\n'));const pending=ui.message(text);assert.equal(d.ids.get('dialogue-text')!.textContent,expected);ui.advance();await pending;}}finally{d.restore();}
 });
 
 test('aborting an instant page or active typewriter rejects and removes its timer, advance callback and listener',async()=>{
