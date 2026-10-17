@@ -1,0 +1,146 @@
+{
+  "candidateCommit": "b1ad9303279a075ec8adc7f3e026f23afb777870",
+  "baselineCommit": "cf8c15a3bb4c9560f4268f3fd353bf1e68b6fada",
+  "runtimeScope": [
+    "browser/src/source/main.ts",
+    "browser/src/source/ui.ts",
+    "browser/src/source/interface-panels.ts",
+    "browser/src/source/field-music.ts"
+  ],
+  "runtimeSHA256": {
+    "browser/src/source/main.ts": "3642e3ed94adfc3d318c8cec66e6c21971c6cd8125240a9c59a4f16303deddef",
+    "browser/src/source/ui.ts": "71542a27b03ca746ff766b16ffca0193910c291a84a9238ca83647eae3715ada",
+    "browser/src/source/interface-panels.ts": "e2de13ff98e685dfce2553d9fef9ad69fdb07e2bf53c6a7793cf4062a09f90e4",
+    "browser/src/source/field-music.ts": "9fec85e213809fc609fe715b22ecf0c84678ca4f8907e9364489a2b0056cab32"
+  },
+  "validation": {
+    "fullSuite": {
+      "command": "npm test",
+      "cwd": "browser",
+      "tests": 447,
+      "passed": 447,
+      "failed": 0,
+      "log": "validation/full-tests.log"
+    },
+    "typescript": {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "log": "validation/tsc.log"
+    },
+    "focusAndSettingsAndHost": {
+      "tests": 47,
+      "passed": 47,
+      "log": "validation/focused-tests.log",
+      "qualification": "Before addition of one final real shared-catalog deadline test; final447-test suite includes it."
+    },
+    "finalFullSuite": {
+      "command": "npm test",
+      "cwd": "browser",
+      "tests": 453,
+      "passed": 453,
+      "failed": 0,
+      "log": "validation/full-tests-b1ad9303.log"
+    },
+    "finalTypescript": {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "log": "validation/tsc-b1ad9303.log"
+    },
+    "finalFocusedSuite": {
+      "tests": 68,
+      "passed": 68,
+      "log": "validation/U1-N2r-positive.log",
+      "qualification": "Plus3 strengthened boundary checks including neutral preference/request/panel/save invariants."
+    }
+  },
+  "negativeControls": [
+    {
+      "finding": "F1",
+      "log": "validation/old-gesture-retry-negative.log.gz",
+      "intervention": "Old automatic-retry host against actual new gesture regression harness",
+      "observed": "22 failed song requests instead of expected1"
+    },
+    {
+      "finding": "F2",
+      "log": "validation/old-deadline-negative.log.gz",
+      "intervention": "External copy of frozen candidate test harness/player with only withBattleMusic replaced by its exact cf8 Git source body; native/catalog fixture inputs unchanged",
+      "observed": "All4 tests fail at1500ms: catalog/fetch/decode have not entered Battle.active; blackout still holds battleSoundOwned. All4 pass frozen candidate."
+    },
+    {
+      "finding": "F3",
+      "log": "validation/old-initial-focus-isolated.log.gz",
+      "intervention": "External copy of frozen candidate focus test with ui.ts/interface-panels.ts replaced by exact cf8 Git source",
+      "observed": "Initial focused action is back rather than party. Early failed assertion causes cancellation of still-pending owner during teardown, producing an additional AbortError cleanup rejection; this is not separately classified as runtime finding."
+    },
+    {
+      "finding": "F4",
+      "log": "validation/old-enter-default-negative.log.gz",
+      "intervention": "Actual original host binding with real owned UI return-focus and explicit native button default emulation only when Enter unprevented",
+      "observed": "Enter is not prevented; new host prevents default and does not reopen menu."
+    },
+    {
+      "finding": "Manual follow-up Low",
+      "log": "validation/unlock-stale-negative.log.gz",
+      "intervention": "External exact2470 source copy with actual-main/real-player probe appended; initial unlock joins ignored-abort mapA fetch then mapB succeeds",
+      "observed": "False outage toast1 instead of0; musicError eventually clears after B succeeds. Fixed by serial-bound unlock completion/error handling; real Context permission failures remain observable."
+    }
+  ],
+  "policy": {
+    "hostPreparationDeadlineMs": 1500,
+    "hostReturnDeadlineMs": 1500,
+    "leafWholePreparationIOTimeoutMs": 4000,
+    "failedRestore": "Retained until actual restore succeeds; latest desired map is selected before retry. Aborted owned cue stops without later resurrection.",
+    "retry": "Failed song loading is retried explicitly through Settings or genuine map/preference intent. Ordinary gestures only resume actual blocked AudioContext permission.",
+    "notice": "One nonmodal toast per unresolved outage, current status/retry in owned Settings panel."
+  },
+  "reviewStatus": "PASS scoped source: original4 findings resolved, subsequent confirmedLows fixed and final actual OpusclosurePASS. Full453/453 +TSC.",
+  "limitations": [
+    "No browser/GPU/mobile/default-action execution/audio audition. Enter default behavior is explicitly emulated by the host regression.",
+    "Synthetic AudioContext validates source/selection/ownership/timing contracts, not sound quality or platform codec output.",
+    "No source-game full parity, broad terrain/building or audio export/catalog completeness approval.",
+    "No push, merge, build, deployment or production verification performed by this scoped agent."
+  ],
+  "coreFixCommit": "2470c14af8748f952a0f0ce5ba561642e5c43b60",
+  "unlockFollowupCommit": "461065b3",
+  "ownerFollowupCommit": "5e4f5552ddaab3c3214be9cff3d114e5e17f28aa",
+  "reviews": [
+    {
+      "commit": "0eee799ff225d61a4f10a6e938db2de3fc18c093",
+      "scope": "Original combined interface against productionc4",
+      "verdict": "Four validatedfindings; unchanged original raw/packet retained",
+      "path": "original-0eee799f"
+    },
+    {
+      "commit": "2470c14af8748f952a0f0ce5ba561642e5c43b60",
+      "scope": "Four-finding fix",
+      "verdict": "Original4 resolved; newLowsN1/N2 fixed later",
+      "path": "followup-2470c14a"
+    },
+    {
+      "commit": "5e4f5552ddaab3c3214be9cff3d114e5e17f28aa",
+      "scope": "Restore-owner/focus/initialunlock follow-up",
+      "verdict": "N1PASS; U1/N2r fixed later",
+      "path": "followup-5e4f5552"
+    },
+    {
+      "commit": "b1ad9303279a075ec8adc7f3e026f23afb777870",
+      "scope": "FinalU1/N2r closure",
+      "verdict": "PASS, no new bugfound",
+      "path": "closure-b1ad9303"
+    }
+  ],
+  "finalReviewRawSHA256": "29d35f091f68d7069a06dbc658877e66245722098aecb599c722608937dae68a",
+  "finalReviewGraphSHA256": "a8003ef012391a34d5c95aa47e2fe04b61c8467d14a1d93c4e301df9daf92694",
+  "sourceCommits": [
+    "2470c14af8748f952a0f0ce5ba561642e5c43b60",
+    "461065b3",
+    "5e4f5552ddaab3c3214be9cff3d114e5e17f28aa",
+    "b1ad9303279a075ec8adc7f3e026f23afb777870"
+  ],
+  "leafSourceCommits": [
+    "3b80e77e",
+    "09faeb1f",
+    "f00c9b87"
+  ],
+  "packaging": "Large exact source manifests/patches are losslessly gzipped, with decoded hashes in file-encodings.json. Original review-artifacts.tar.gz preserved unchanged. No source snapshot is copied into the repository; exact Gitblob/SHA manifests preserve source provenance."
+}

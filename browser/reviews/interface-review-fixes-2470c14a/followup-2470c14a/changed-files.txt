@@ -1,0 +1,23 @@
+ .../native-field-music/cancellation/README.md      |  29 +++
+ .../cancellation/final-tests.log                   | 276 +++++++++++++++++++++
+ .../native-field-music/cancellation/final-tsc.log  |   0
+ .../cancellation/followup-manifest.json            |   8 +
+ .../cancellation/followup-prompt.txt               |   1 +
+ .../cancellation/followup-result.json              |   1 +
+ .../cancellation/followup-stderr.log               |   0
+ .../cancellation/initial-manifest.json             |  10 +
+ .../cancellation/initial-prompt.txt                |   5 +
+ .../cancellation/initial-result.json               |   1 +
+ .../cancellation/initial-stderr.log                |   0
+ .../cancellation/initial-tests.log                 | 264 ++++++++++++++++++++
+ .../cancellation/initial-tsc.log                   |   0
+ .../native-field-music/cancellation/receipt.json   |  47 ++++
+ browser/src/source/field-music.test.ts             |  65 ++++-
+ browser/src/source/field-music.ts                  |  59 +++--
+ browser/src/source/interface-panels.test.ts        |  35 +++
+ browser/src/source/interface-panels.ts             |  14 +-
+ browser/src/source/main-interface.test.ts          |  12 +-
+ browser/src/source/main-music.test.ts              |  72 +++++-
+ browser/src/source/main.ts                         |  52 ++--
+ browser/src/source/ui.ts                           |   2 +-
+ 22 files changed, 895 insertions(+), 58 deletions(-)

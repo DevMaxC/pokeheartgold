@@ -42,6 +42,7 @@ export class UI{
     if(event.defaultPrevented||event.ctrlKey||event.metaKey||event.altKey)return;
     const target=event.target as HTMLElement|null;
     if(this.panelOpen){
+      if(['Enter','Space','KeyF'].includes(event.code)&&target?.closest('[data-panel-neutral]')&&$('panel-content').contains(target)){event.preventDefault();return;}
       const controls=this.focusables(),active=document.activeElement as HTMLElement|null,index=controls.indexOf(active!);
       if(event.code==='Tab'){event.preventDefault();if(!controls.length)this.focusPanel();else controls[index<0?(event.shiftKey?controls.length-1:0):(index+(event.shiftKey?-1:1)+controls.length)%controls.length].focus();return;}
       if(this.editable(target)){
