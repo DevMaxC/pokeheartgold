@@ -34,7 +34,7 @@ export class NativeCutResources{
   const m=manifest;if(m.version!==1||m.ticksPerSecond!==30||m.modelFinishedAfterUpdates!==45||m.completionAfterQueueUpdates!==47||m.nativeNodeNames.length!==12||m.joint.frameCount!==45||m.joint.nativeFrames.length!==45||m.joint.nativeFrames.some(row=>row.length!==12)||m.color.frameCount!==45||m.texture.frameCount!==45)throw Error('Invalid original Cut animation resources');
   for(const row of m.joint.nativeFrames)for(const pose of row)for(const values of[pose.translationFx32,pose.scaleFx32,pose.inverseScaleFx32])if(values.length!==3||!values.every(Number.isInteger))throw Error('Invalid original Cut joint frame');
   for(const track of Object.values(m.color.tracks))if(track.colors.length!==4||track.alpha.length!==45||!track.alpha.every(value=>Number.isInteger(value)&&value>=0&&value<=31))throw Error('Invalid original Cut color frame');
-  for(const track of Object.values(m.texture.tracks))if(track.dimensions.length!==2||!track.dimensions.every(value=>Number.isInteger(value)&&value>0)||track.matricesFx32.length!==45||track.matricesFx32.some(row=>row.length!==6||!row.every(Number.isInteger)))throw Error('Invalid original Cut texture frame');
+  for(const track of Object.values(m.texture.tracks))if(track.dimensions.length!==2||!track.dimensions.every(value=>value===8)||track.matricesFx32.length!==45||track.matricesFx32.some(row=>row.length!==6||!row.every(Number.isInteger)))throw Error('Invalid original Cut texture frame');
  }
  instance(){
   if(this.disposed)throw Error('Original Cut resources are disposed');const instance=clone(this.template)as THREE.Group,geometries=new Map<THREE.BufferGeometry,THREE.BufferGeometry>(),materials=new Map<THREE.Material,THREE.Material>(),textures=new Map<THREE.Texture,THREE.Texture>();
@@ -66,7 +66,7 @@ export function applyNativeCutFrame(instance:THREE.Group,manifest:NativeCutManif
  if(!Number.isInteger(frame)||frame<0||frame>=45)throw RangeError('Invalid original Cut frame');let bones=0;const painted=new Set<THREE.Material>();
  instance.traverse(object=>{
   const index=object.userData.nativeCutJoint;if(index!==undefined){if(!Number.isInteger(index)||index<0||index>=12)throw Error('Invalid original Cut joint identity');const pose=manifest.joint.nativeFrames[frame][index];object.matrixAutoUpdate=false;object.matrix.makeScale(...pose.scaleFx32.map(value=>value/4096)as[number,number,number]);object.matrix.setPosition(...pose.translationFx32.map(value=>value/4096)as[number,number,number]);object.matrixWorldNeedsUpdate=true;bones++;}
-  if(object instanceof THREE.Mesh)for(const material of Array.isArray(object.material)?object.material:[object.material]){if(painted.has(material))continue;painted.add(material);const color=manifest.color.tracks[material.name];if(!color)throw Error('Original Cut material was not preserved');material.opacity=color.alpha[frame]/31;const diffuse=color.colors[0];(material as THREE.MeshBasicMaterial).color.setRGB((diffuse&31)/31,(diffuse>>5&31)/31,(diffuse>>10&31)/31);
+  if(object instanceof THREE.Mesh)for(const material of Array.isArray(object.material)?object.material:[object.material]){if(painted.has(material))continue;painted.add(material);const color=manifest.color.tracks[material.name];if(!color)throw Error('Original Cut material was not preserved');material.opacity=color.alpha[frame]/31;const diffuse=color.colors[0];(material as THREE.MeshBasicMaterial).color.setRGB((diffuse&31)/31,(diffuse>>5&31)/31,(diffuse>>10&31)/31,THREE.SRGBColorSpace);
    const texture=manifest.texture.tracks[material.name],map=(material as THREE.MeshBasicMaterial).map;if(texture){if(!map)throw Error('Original Cut texture is missing');const[a,b,c,d,x,y]=texture.matricesFx32[frame],[w,h]=texture.dimensions;map.matrixAutoUpdate=false;map.matrix.set(a/4096,c*h/w/4096,x/w/65536,b*w/h/4096,d/4096,y/h/65536,0,0,1);}
   }
  });
@@ -83,16 +83,16 @@ export class NativeCutFieldEffect{
  constructor(readonly resources:NativeCutResources,private readonly ports:{scene:THREE.Scene;field:()=>CutField;audio:CutSoundPort}){this.group.name='native-cut-field-effect';}
  start(kind:0|3,context:CutEffectContext):Promise<void>{
   return new Promise((resolve,reject)=>{
-   let instance:THREE.Group|undefined,sound:CutOwnedSound|undefined;
+   let instance:THREE.Group|undefined,sound:CutOwnedSound|undefined,controller:AbortController|undefined;
    try{
     check(context.signal);if(this.active)throw Error('Original Cut effect already active');if(kind!==0&&kind!==3)throw Error('Unsupported original field move effect');const field=this.ports.field();if(field.map!==context.map)throw Error('Original Cut field changed');if(typeof field.mapRunning!=='boolean')throw Error('Original Cut requires actual field-map running state');const actor=kind===0?field.player:field.follower;if(!actor)throw Error('Original Cut follower is not present');if(![actor.x,actor.y,actor.z].every(Number.isFinite)||!Number.isInteger(actor.facing)||actor.facing<0||actor.facing>3)throw Error('Invalid original Cut performer');
     instance=this.resources.instance();const deltas=[[0,-1],[0,1],[-1,0],[1,0]],delta=deltas[actor.facing];this.group.position.set(Math.floor(actor.x)+.5+delta[0],actor.y,Math.floor(actor.z)+.5+delta[1]);this.group.scale.setScalar(1/16);this.group.visible=field.mapRunning;this.group.add(instance);applyNativeCutFrame(instance,this.resources.manifest,0);
-    const controller=new AbortController();sound=this.ports.audio.startSE(controller.signal);if(!sound||typeof sound.stop!=='function'||!sound.ended||typeof sound.ended.then!=='function')throw Error('Original Cut audio must return an owned voice');
+    controller=new AbortController();sound=this.ports.audio.startSE(controller.signal);if(!sound||typeof sound.stop!=='function'||!sound.ended||typeof sound.ended.then!=='function')throw Error('Original Cut audio must return an owned voice');
     const abort=()=>this.cancel(error(context.signal.reason)),run={context,instance,controller,sound,frame:0,wrapperState:0 as 0|1,elapsed:0,resolve,reject,detach:()=>context.signal.removeEventListener('abort',abort),finishing:false};this.run=run;this.active=true;this.ports.scene.add(this.group);context.signal.addEventListener('abort',abort,{once:true});if(context.signal.aborted){abort();return;}
     // Native Cut ignores PlaySE admission/completion; the audio port owns status
     // reporting and any voice that continues after the visual task is deleted.
-    void sound.ended.catch(()=>{});
-   }catch(reason){let failure=reason;try{if(typeof sound?.stop==='function')sound.stop(reason);}catch(cleanup){failure=new AggregateError([reason,cleanup],'Original Cut start/voice cleanup failed');}finally{if(instance){disposeCutObject(instance);if(!this.run){this.group.removeFromParent();this.group.clear();}}}reject(failure);}
+    void sound.ended.catch(reason=>{if(reason instanceof UnsupportedNativeCutAudio&&this.run===run)this.cancel(reason);});
+   }catch(reason){let failure=reason??Error('Original Cut start failed without an error value');try{controller?.abort(failure);if(typeof sound?.stop==='function')sound.stop(failure);}catch(cleanup){failure=new AggregateError([reason,cleanup],'Original Cut start/voice cleanup failed');}finally{if(instance&&this.run?.instance===instance)this.settle(this.run,failure);else if(instance){disposeCutObject(instance);if(!this.run){this.group.removeFromParent();this.group.clear();}}}reject(failure);}
   });
  }
  update(dt:number){
@@ -126,11 +126,14 @@ export type CutAudioPorts={output:()=>CutAudioOutput;enabled:()=>boolean;onStatu
  * real visual/script to continue. Missing required mechanisms remain unsupported.
  */
 export function createNativeCutAudio(resources:NativeCutResources,ports:CutAudioPorts){
+ if(resources.manifest.audio.cryPattern!==0||resources.manifest.audio.crySequence.volume!==120||resources.manifest.audio.crySequence.nativeInitialVolume!==100)throw new UnsupportedNativeCutAudio('Invalid original Cut cry gain/pattern metadata');
  if(!ports||typeof ports.output!=='function'||typeof ports.enabled!=='function'||typeof ports.onStatus!=='function'||ports.fetchBytes!==undefined&&typeof ports.fetchBytes!=='function')throw new UnsupportedNativeCutAudio('Original Cut requires output, enabled and audio status ports');
  if(ports.ioTimeoutMs!==undefined&&(!Number.isInteger(ports.ioTimeoutMs)||ports.ioTimeoutMs<1||ports.ioTimeoutMs>120000))throw new UnsupportedNativeCutAudio('Invalid original Cut resource deadline');
- const owner=new AbortController(),buffers=new Map<string,AudioBuffer>(),voices=new Set<CutOwnedSound>();let disposed=false,sePrepared=false;
- const guard=()=>{if(disposed||resources.disposed)throw Error('Original Cut audio is disposed');};
- const report=(operation:'se'|'cry',asset:AudioAsset,status:CutAudioStatus['status'],reason?:unknown)=>{const event:CutAudioStatus={operation,asset:asset.file,status};if(reason!==undefined)event.error=reason;try{ports.onStatus(event);}catch(cause){throw new UnsupportedNativeCutAudio('Original Cut audio status port failed: '+String(cause));}return event;};
+ const owner=new AbortController(),buffers=new Map<string,AudioBuffer>(),voices=new Set<CutOwnedSound>();let disposed=false,sePrepared=false,statusFault:UnsupportedNativeCutAudio|undefined,rejectFailure!:(reason:unknown)=>void;
+ const failure=new Promise<never>((_,reject)=>{rejectFailure=reject;});void failure.catch(()=>{});
+ const audioError=(reason:unknown)=>reason??Error('Original Cut audio failed without an error value');
+ const guard=()=>{if(statusFault)throw statusFault;if(disposed||resources.disposed)throw Error('Original Cut audio is disposed');};
+ const report=(operation:'se'|'cry',asset:AudioAsset,status:CutAudioStatus['status'],reason?:unknown)=>{const event:CutAudioStatus={operation,asset:asset.file,status};if(reason!==undefined)event.error=reason;try{ports.onStatus(event);}catch(cause){statusFault??=new UnsupportedNativeCutAudio('Original Cut audio status port failed: '+String(cause));rejectFailure(statusFault);throw statusFault;}return event;};
  const fatal=(reason:unknown,signal:AbortSignal)=>{check(signal);check(owner.signal);guard();if(reason instanceof UnsupportedNativeCutAudio)throw reason;};
  const output=()=>{guard();const value=ports.output();if(!value?.context||!value.destination||value.destination.context!==value.context||typeof value.context.createBufferSource!=='function'||typeof value.context.createGain!=='function'||typeof value.context.decodeAudioData!=='function')throw new UnsupportedNativeCutAudio('Original Cut sound requires a valid shared game AudioContext/output');if(value.context.state!=='running')throw Error('Original Cut game AudioContext is not running');return value;};
  const fetchBytes=ports.fetchBytes??(async(url:string,signal:AbortSignal)=>{const response=await fetch(url,{signal});if(!response.ok)throw Error('Original Cut audio could not load');return response.arrayBuffer();});
@@ -143,22 +146,25 @@ export function createNativeCutAudio(resources:NativeCutResources,ports:CutAudio
  const play=(buffer:AudioBuffer,signal:AbortSignal,gainValue=1):CutOwnedSound=>{
   check(signal);const {context,destination}=output(),node=context.createBufferSource(),gain=context.createGain();let settled=false,resolve!:()=>void,reject!:(reason:unknown)=>void,timer:ReturnType<typeof setTimeout>|undefined;
   const ended=new Promise<void>((yes,no)=>{resolve=yes;reject=no;});void ended.catch(()=>{});const stop=(reason?:unknown)=>{if(settled)return;settled=true;clearTimeout(timer);signal.removeEventListener('abort',abort);owner.signal.removeEventListener('abort',destroy);node.onended=null;try{node.stop();}catch{}try{node.disconnect();}finally{gain.disconnect();}voices.delete(voice);if(reason!==undefined)reject(reason);else resolve();},abort=()=>stop(error(signal.reason)),destroy=()=>stop(error(owner.signal.reason));
-  const voice:CutOwnedSound={admission:'playing',ended,stop};voices.add(voice);signal.addEventListener('abort',abort,{once:true});owner.signal.addEventListener('abort',destroy,{once:true});node.onended=()=>stop();timer=setTimeout(()=>stop(Error('Original Cut audio did not finish')),buffer.duration*1000+2000);try{check(signal);check(owner.signal);gain.gain.value=gainValue;node.buffer=buffer;node.connect(gain);gain.connect(destination);node.start();}catch(reason){stop(error(reason));throw reason;}return voice;
+  const voice:CutOwnedSound={admission:'playing',ended,stop};voices.add(voice);signal.addEventListener('abort',abort,{once:true});owner.signal.addEventListener('abort',destroy,{once:true});node.onended=()=>stop();timer=setTimeout(()=>stop(Error('Original Cut audio did not finish')),buffer.duration*1000+2000);try{check(signal);check(owner.signal);gain.gain.value=gainValue;node.buffer=buffer;node.connect(gain);gain.connect(destination);node.start();}catch(reason){stop(audioError(reason));throw reason;}return voice;
  };
  const silent=(admission:'muted'|'failed-admission'):CutOwnedSound=>({admission,ended:Promise.resolve(),stop(){}});
  return{
-  async prepareSE(signal:AbortSignal){guard();check(signal);sePrepared=true;const asset=resources.manifest.audio.sound;if(!ports.enabled())return report('se',asset,'muted');try{await linked(input=>prepare(asset,input),signal);return report('se',asset,'prepared');}catch(reason){fatal(reason,signal);return report('se',asset,'failed-admission',error(reason));}},
+  /** Observe once per owner; preserves configuration failure even after the
+   * visual task has completed and no active action can receive its rejection. */
+  failure,
+  async prepareSE(signal:AbortSignal){guard();check(signal);sePrepared=true;const asset=resources.manifest.audio.sound;if(!ports.enabled())return report('se',asset,'muted');try{await linked(input=>prepare(asset,input),signal);return report('se',asset,'prepared');}catch(reason){fatal(reason,signal);return report('se',asset,'failed-admission',audioError(reason));}},
   startSE(signal:AbortSignal){
    guard();check(signal);const asset=resources.manifest.audio.sound;if(!ports.enabled()){report('se',asset,'muted');return silent('muted');}if(!sePrepared)throw new UnsupportedNativeCutAudio('Original Cut sound must be prepared before script dispatch');
-   let voice:CutOwnedSound;try{const buffer=buffers.get(asset.file);if(!buffer)throw Error('Original Cut audio preparation admitted no voice');voice=play(buffer,signal);}catch(reason){fatal(reason,signal);report('se',asset,'failed-admission',error(reason));return silent('failed-admission');}
+   let voice:CutOwnedSound;try{const buffer=buffers.get(asset.file);if(!buffer)throw Error('Original Cut audio preparation admitted no voice');voice=play(buffer,signal);}catch(reason){fatal(reason,signal);report('se',asset,'failed-admission',audioError(reason));return silent('failed-admission');}
    try{report('se',asset,'started');}catch(reason){voice.stop(reason);throw reason;}
    // Status delivery failures stay explicit rejections; technical failures are
    // observed/reported and resolve because no native voice is playing anymore.
-   const ended=voice.ended.then(()=>{report('se',asset,'ended');},reason=>{fatal(reason,signal);report('se',asset,'failed-playback',error(reason));});void ended.catch(()=>{});return{admission:'playing' as const,ended,stop:voice.stop};
+   const ended=voice.ended.then(()=>{report('se',asset,'ended');},reason=>{fatal(reason,signal);report('se',asset,'failed-playback',audioError(reason));});void ended.catch(()=>{});return{admission:'playing' as const,ended,stop:voice.stop};
   },
   async cry(species:number,pattern:number,signal:AbortSignal){
    guard();check(signal);if(pattern!==0)throw new UnsupportedNativeCutAudio('Unsupported original Cut cry pattern');if(!Number.isInteger(species)||species<1||species>494)throw new UnsupportedNativeCutAudio('Original Cut cry species not exported');const asset=resources.manifest.audio.cries[String(species)];if(!asset)throw new UnsupportedNativeCutAudio('Original Cut cry is missing');if(!ports.enabled())return report('cry',asset,'muted');let started=false;
-   try{return await linked(async input=>{const buffer=await prepare(asset,input);check(input);const voice=play(buffer,input,resources.manifest.audio.crySequence.volume/127*resources.manifest.audio.crySequence.nativeInitialVolume/127);started=true;try{report('cry',asset,'started');}catch(reason){voice.stop(reason);throw reason;}await voice.ended;return report('cry',asset,'ended');},signal);}catch(reason){fatal(reason,signal);return report('cry',asset,started?'failed-playback':'failed-admission',error(reason));}
+   try{return await linked(async input=>{const buffer=await prepare(asset,input);check(input);const voice=play(buffer,input,resources.manifest.audio.crySequence.volume/127*resources.manifest.audio.crySequence.nativeInitialVolume/127);started=true;try{report('cry',asset,'started');}catch(reason){voice.stop(reason);throw reason;}await voice.ended;return report('cry',asset,'ended');},signal);}catch(reason){fatal(reason,signal);return report('cry',asset,started?'failed-playback':'failed-admission',audioError(reason));}
   },
   dispose(){if(disposed)return;disposed=true;owner.abort(Error('Original Cut audio disposed'));for(const voice of[...voices])voice.stop(Error('Original Cut audio disposed'));buffers.clear();},
  };
