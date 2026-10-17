@@ -1,0 +1,34 @@
+TAP version 13
+# (node:57779) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ordinary campaign streaming keeps released scenery while terrain closure requires explicit audit opt-in
+not ok 1 - ordinary campaign streaming keeps released scenery while terrain closure requires explicit audit opt-in
+  ---
+  duration_ms: 104.60275
+  type: 'test'
+  location: '/private/tmp/hg-campaign-terrain-policy-before-fixture.test.ts:87:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    only the independently opted-in audit world adds candidate terrain
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-campaign-terrain-policy-before-fixture.test.ts:97:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1950.29575

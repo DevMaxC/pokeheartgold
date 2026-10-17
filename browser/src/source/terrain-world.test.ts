@@ -98,3 +98,14 @@ test('ordinary campaign streaming keeps released scenery while terrain closure r
   assert.equal(loaded.group.children[0].children[0].geometry,geometry,'both paths retain the cached source terrain');world.releaseCell(loaded);
  }
 });
+
+test('released forest filler still streams its foundation and releases only placed resources',async()=>{
+ const texture=new THREE.DataTexture(new Uint8Array([255,255,255,255]),1,1),donor=await nativeTemplate('land/210-0.glb',texture),material=new THREE.MeshBasicMaterial({map:texture,side:THREE.DoubleSide});material.name='grass01';const geometry=new THREE.PlaneGeometry(512,512);geometry.rotateX(-Math.PI/2);const template=new THREE.Group();template.add(new THREE.Mesh(geometry,material));
+ const cell:Cell={x:0,z:0,land:208,altitude:14,asset:'land/forest-policy-fixture.glb',props:[]},land:Land={permissions:Array(1024).fill(0x8000),plates:[{bounds:[-16,-16,16,16],normal:[0,1,0],constant:0}]},map={id:0,matrix:0,cells:[cell],events:{warps:[],objects:[],bgs:[],coords:[]}},world=Object.create(OriginalWorld.prototype) as any;
+ Object.assign(world,{scene:new THREE.Scene(),matrix:{width:1,height:2,headers:[0,65535],models:[208,0],altitudes:[14,2]},activeMatrix:0,generation:1,pending:null,index:{maps:{0:{id:0}}},maps:new Map([[0,map]]),cells:new Map(),landCache:new Map([[208,Promise.resolve(land)]]),entrances:Promise.resolve({0:[]}),terraces:null,backgroundCliff:null,latestStream:{matrix:0,id:0,x:16,z:16},loading:false});
+ world.asset=async(path:string)=>{if(path===cell.asset)return template;if(path==='land/210-0.glb')return donor;throw Error('Unexpected source request '+path);};
+ const shared=sharedResources(template,donor),disposed=new Map<object,number>();for(const resource of shared)resource.addEventListener('dispose',()=>disposed.set(resource,(disposed.get(resource)??0)+1));
+ await world.stream(0,16,16);const loaded=world.cells.get('0,0'),foundation=loaded.group.children.find((o:THREE.Object3D)=>o.name==='source-background-foundation') as THREE.Mesh;assert.ok(foundation,'ordinary owner0 retains the released forest foundation');assert.equal(foundation.material.map,texture);assert.equal(loaded.group.children.some((o:THREE.Object3D)=>o.name.startsWith('terrain-scenery-')),false);
+ const owned=[foundation.geometry,foundation.material];for(const resource of owned)resource.addEventListener('dispose',()=>disposed.set(resource,(disposed.get(resource)??0)+1));world.releaseCell(loaded);
+ for(const resource of owned)assert.equal(disposed.get(resource),1);for(const resource of shared)assert.equal(disposed.has(resource),false,'cached source assets survive the restored path');
+});
