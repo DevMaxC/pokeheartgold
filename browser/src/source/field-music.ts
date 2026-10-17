@@ -20,6 +20,9 @@ export function nativeFieldMusic(catalog:NativeFieldCatalog,map:Pick<SourceMap,'
 
 export type SharedHatchTrack=NativeMusicCue&{file:string;sampleRate:number;frames:number;completionFrame:number;loopFrames:[number,number]|null;wavSHA256:string};
 export type SharedMusicVoice={ended:Promise<void>;pause:()=>void;resume:()=>void;stop:(reason?:unknown)=>void};
+/** A child presentation returns to its still-silent parent. Only the outer
+ * cue session may restore field music after the whole source action ends. */
+export type NativeCueChildLease={readonly signal:AbortSignal;release:(signal:AbortSignal)=>Promise<void>};
 type Voice=SharedMusicVoice&{position:()=>number;isStopped:()=>boolean};
 export type SharedHatchTransport={prepare:(track:SharedHatchTrack,signal:AbortSignal)=>Promise<void>;play:(track:SharedHatchTrack,signal:AbortSignal)=>Promise<SharedMusicVoice>;dispose:()=>Promise<void>};
 export type FieldMusicOptions={enabled:boolean;volume:number;loadCatalog?:(signal:AbortSignal)=>Promise<NativeFieldCatalog>;fetchBytes?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;createContext?:()=>AudioContext;maxDecodedTracks?:number;unlockTimeoutMs?:number;ioTimeoutMs?:number};
@@ -184,20 +187,33 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    assertOpen();const owner:{preferences?:()=>Promise<void>}={},abort=new AbortController();
    let saved:EffectiveMusic|undefined,owned:Voice|undefined,track:NativeFieldTrack|undefined;
    let started=false,closed=false,restored=false,restoring:Promise<void>|undefined,preparing:Promise<void>|undefined;
+   let child:{controller:AbortController;released:boolean}|undefined,silentParent=false;
+   const cancelChild=()=>{const previous=child;child=undefined;previous?.controller.abort(reason(abort.signal));};abort.signal.addEventListener('abort',cancelChild,{once:true});
    let detach=()=>{};
    const update=async()=>{
-    if(closed||abort.signal.aborted||!saved||!track||!unlocked||context?.state!=='running')return;
+    if(closed||abort.signal.aborted||silentParent||!saved||!track||!unlocked||context?.state!=='running')return;
     if(!enabled){owned?.pause();return;}
     if(owned&&!owned.isStopped()){owned.resume();return;}
     if(track.status==='silence')return;
     if(preparing)return preparing;
     const pending=(async()=>{
      const decoded=await decodeTrack(track!,abort.signal);check(abort.signal);check(lifetime.signal);assertOpen();
-     if(closed)return;owned=voice(decoded.buffer,track!.loopFrames??null,track!.sampleRate!,abort.signal,0,decoded.leadingSeconds);if(!enabled)owned.pause();
+     if(closed||silentParent)return;owned=voice(decoded.buffer,track!.loopFrames??null,track!.sampleRate!,abort.signal,0,decoded.leadingSeconds);if(!enabled)owned.pause();
     })();preparing=pending;try{await pending;}finally{if(preparing===pending)preparing=undefined;}
    };
    owner.preferences=update;
    return{
+    /** Native post-battle evolution may replace the battle cue without an
+     * intervening field resume. The paused parent stays silent across all
+     * candidates, including preference changes and already-pending decodes.
+     * This is deliberately not a general resume-after-child music API. */
+    borrow(options:{resumeOnRelease:false}):NativeCueChildLease{
+     assertOpen();check(abort.signal);if(options?.resumeOnRelease!==false)throw new UnsupportedNativeMusic('Post-battle child must return to a silent parent');
+     if(!started||closed||!saved||cueSession!==owner)throw Error('Native cue child requires its active parent');if(child)throw Error('A native cue child already owns the parent');
+     const lease={controller:new AbortController(),released:false},wasSilent=silentParent;child=lease;silentParent=true;
+     try{owned?.pause();}catch(error){child=undefined;silentParent=wasSilent;lease.controller.abort(error);throw error;}
+     return{signal:lease.controller.signal,async release(signal){if(lease.released)return;check(signal);if(child===lease)child=undefined;lease.released=true;lease.controller.abort(new DOMException('Native cue child released','AbortError'));}};
+    },
     async start(cue:NativeMusicCue,signal:AbortSignal){
      assertOpen();check(signal);if(started||closed)throw Error('Native cue session already started or closed');if(interrupted||cueSession)throw Error('Another native music interruption is active');started=true;cueSession=owner;
      const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));

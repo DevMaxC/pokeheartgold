@@ -189,3 +189,40 @@ test('hidden-page master gate silences field, battle and shared hatch output thr
 test('hiding while a decoder is pending cannot publish audible music after backgrounding',async()=>{
  const f=fixture();await f.player.unlock();const pending=deferred<ArrayBuffer>();f.controls.fetch=()=>pending.promise;const playing=f.player.playCue(A);await flush();f.player.setPageActive(false);pending.resolve(f.files.get('/source/music/'+f.catalog.tracks[A.id].formats![0].file)!);await playing;assert.equal(f.sources.length,1);assert.equal(f.contexts[0].gain.gain.value,0);f.player.setPageActive(true);assert.equal(f.contexts[0].gain.gain.value,.5);await f.player.dispose();
 });
+
+test('post-battle child leases pause battle music across every candidate without a field or preference gap',async()=>{
+ const f=fixture();await f.player.unlock();await f.player.playCue(A,'map');f.contexts[0].currentTime=2;const parent=f.player.createCueSession();await parent.start(B,new AbortController().signal);assert.equal(f.sources.length,2);
+ const first=parent.borrow({resumeOnRelease:false});assert.equal(first.signal.aborted,false);assert.equal(f.sources[1].stopped,true);assert.equal(f.sources[0].stopped,true);
+ f.player.setPageActive(false);await f.player.setPreferences({enabled:false,volume:.2});await f.player.setPreferences({enabled:true,volume:.8});assert.equal(f.contexts[0].gain.gain.value,0);f.player.setPageActive(true);assert.equal(f.contexts[0].gain.gain.value,.8);assert.equal(f.sources.length,2,'neither the private battle cue nor field cue may restart');
+ await first.release(new AbortController().signal);assert.equal(first.signal.aborted,true);await f.player.setPreferences({enabled:true,volume:.7});assert.equal(f.sources.length,2,'returning from one candidate leaves the parent silent');
+ const second=parent.borrow({resumeOnRelease:false});await second.release(new AbortController().signal);assert.equal(f.sources.length,2);await parent.restore();assert.equal(f.sources.length,3);assert.equal(f.sources[2].buffer.metadata.id,A.id);assert.equal(f.sources[2].offset,2);assert.equal(f.contexts.length,1);await f.player.dispose();
+});
+
+test('a preference decoder started before child admission cannot publish a late battle cue after release',async()=>{
+ const f=fixture(),decoding=deferred<any>(),entered=deferred<void>();await f.player.unlock();await f.player.setPreferences({enabled:false,volume:.5});await f.player.playCue(A);const parent=f.player.createCueSession();await parent.start(B,new AbortController().signal);
+ f.controls.decode=()=>{entered.resolve();return decoding.promise;};const unmute=f.player.setPreferences({enabled:true,volume:.5});await entered.promise;const child=parent.borrow({resumeOnRelease:false});decoding.resolve({numberOfChannels:2,duration:10,metadata:{id:B.id}});await unmute;assert.equal(f.sources.length,0);
+ await child.release(new AbortController().signal);await f.player.setPreferences({enabled:true,volume:.6});assert.equal(f.sources.length,0);f.controls.decode=undefined;await parent.restore();assert.equal(f.sources.length,1);assert.equal(f.sources[0].buffer.metadata.id,A.id);await f.player.dispose();
+});
+
+test('an aborted child release keeps its ownership retryable and refuses a competing candidate',async()=>{
+ const f=fixture();await f.player.unlock();await f.player.playCue(A);const parent=f.player.createCueSession();await parent.start(B,new AbortController().signal);const child=parent.borrow({resumeOnRelease:false}),cancel=new AbortController();cancel.abort(Error('cleanup deadline'));
+ await assert.rejects(child.release(cancel.signal),/cleanup deadline/);assert.equal(child.signal.aborted,false);assert.throws(()=>parent.borrow({resumeOnRelease:false}),/already owns/);await child.release(new AbortController().signal);assert.equal(child.signal.aborted,true);await child.release(cancel.signal);await parent.restore();await f.player.dispose();
+});
+
+test('parent restore cancels its child, and a stale release cannot change a newer parent owner',async()=>{
+ const f=fixture();await f.player.unlock();await f.player.playCue(A);const old=f.player.createCueSession();await old.start(B,new AbortController().signal);const child=old.borrow({resumeOnRelease:false});await old.restore();assert.equal(child.signal.aborted,true);
+ const current=f.player.createCueSession();await current.start(B,new AbortController().signal);const voice=f.sources.at(-1);await child.release(new AbortController().signal);assert.equal(voice.stopped,false);const currentChild=current.borrow({resumeOnRelease:false});await child.release(new AbortController().signal);assert.equal(currentChild.signal.aborted,false);await currentChild.release(new AbortController().signal);await current.restore();await f.player.dispose();
+});
+
+test('parent and player cancellation invalidate child lifetime before any field restoration',async()=>{
+ for(const dispose of[false,true]){
+  const f=fixture(),owner=new AbortController();await f.player.unlock();await f.player.playCue(A);const parent=f.player.createCueSession();await parent.start(B,owner.signal);const child=parent.borrow({resumeOnRelease:false});let activeDuringCancel=false;child.signal.addEventListener('abort',()=>{activeDuringCancel=f.contexts[0].state==='running';});
+  if(dispose)await f.player.dispose();else owner.abort(Error('source action cancelled'));assert.equal(child.signal.aborted,true);assert.equal(activeDuringCancel,true);assert.equal(f.sources.length,2);await child.release(new AbortController().signal);
+  if(dispose){assert.equal(f.contexts[0].state,'closed');await assert.rejects(parent.restore(),/disposed/);}else{await parent.restore();assert.equal(f.sources.length,3);await f.player.dispose();}
+ }
+});
+
+test('child ownership requires an active parent and an explicit silent-return policy without unlocking sound',async()=>{
+ const f=fixture(),parent=f.player.createCueSession();assert.throws(()=>parent.borrow({resumeOnRelease:false}),/active parent/);assert.throws(()=>parent.borrow({resumeOnRelease:true}as any),/silent parent/);assert.equal(f.contexts.length,0);assert.equal(f.requests.length,0);
+ await parent.start(B,new AbortController().signal);const child=parent.borrow({resumeOnRelease:false});assert.equal(f.contexts.length,0,'locked playback does not acquire a Context');await child.release(new AbortController().signal);await parent.restore();assert.throws(()=>parent.borrow({resumeOnRelease:false}),/restored|active parent/);await f.player.dispose();
+});
