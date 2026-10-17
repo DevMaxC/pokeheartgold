@@ -1,0 +1,129 @@
+TAP version 13
+# (node:47854) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Irwin party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+not ok 1 - actual Irwin party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+  ---
+  duration_ms: 5.576333
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:20:59'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'female'
+    - 'genderless'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'genderless'
+  actual: 'female'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:22:122)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: actual Jasmine party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+not ok 2 - actual Jasmine party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+  ---
+  duration_ms: 0.887
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:20:59'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'female'
+    - 'genderless'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'genderless'
+  actual: 'female'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:22:122)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: both trainer genders and every forced-gender/ability case match literal native C selectors for all7 personal ratios
+not ok 3 - both trainer genders and every forced-gender/ability case match literal native C selectors for all7 personal ratios
+  ---
+  duration_ms: 1.356375
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:28:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    BULBASAUR, TRPOKE_GENDER_OVERRIDE_MALE/TRPOKE_ABILITY_OVERRIDE_OFF
+    + actual - expected
+    
+    + 11334178
+    - 11334177
+             ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 11334177
+  actual: 11334178
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:32:341)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native PID selector and ability-bit carry across a multi-Pokémon trainer party are retained
+not ok 4 - native PID selector and ability-bit carry across a multi-Pokémon trainer party are retained
+  ---
+  duration_ms: 0.763667
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:37:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+    +   14155550,
+    +   14155550,
+    +   14155550,
+    +   9532034,
+    +   9532034
+    -   14155549,
+    -   14155549,
+    -   14155548,
+    -   9532033,
+    -   9532033
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 14155549
+    1: 14155549
+    2: 14155548
+    3: 9532033
+    4: 9532033
+  actual:
+    0: 14155550
+    1: 14155550
+    2: 14155550
+    3: 9532034
+    4: 9532034
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-native-gender/browser/src/source/trainer-gender.test.ts:44:150)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 405.241875

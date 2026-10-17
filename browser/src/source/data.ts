@@ -1,4 +1,5 @@
 import {sampleUint32} from './native-rng.ts';
+import {nativeMonGender} from './gender.ts';
 import {sourceJSON,type GameData,type State,type Mon,type Personal,type MoveData,type Trainer,type SpriteInfo,type SourceIndex} from './types.ts';
 
 export async function loadData():Promise<GameData>{
@@ -30,7 +31,7 @@ export function calculateStats(base:Personal,level:number,ivs:number[],evs:numbe
 export function createMon(data:GameData,species:number,level:number,ot:string,rng:()=>number=Math.random):Mon{
   const base=data.personal[species];if(!base)throw Error(`Unknown original species ${species}`);
   const ivs=Array.from({length:6},()=>Math.floor(rng()*32)),evs=Array(6).fill(0),personality=Math.floor(rng()*0x100000000),nature=personality%25;
-  const stats=calculateStats(base,level,ivs,evs,nature),gender=personality%256<base.genderRatio*256?'female':'male';
+  const stats=calculateStats(base,level,ivs,evs,nature),gender=nativeMonGender(base.genderRatio,personality);
   const moves:number[]=[];for(const row of data.learnsets[species]||[])if(row.level<=level){const previous=moves.indexOf(row.move);if(previous>=0)moves.splice(previous,1);moves.push(row.move);if(moves.length>4)moves.shift();}
   return {species,level,name:speciesName(data,species),gender,...stats,hp:stats.maxHP,exp:data.growth[base.growthRate]?.[level]||0,ivs,evs,nature,personality,status:'',sleepTurns:0,moves:moves.map(id=>({id,pp:data.moves[id].pp,maxPP:data.moves[id].pp})),friendship:base.friendship,heldItem:null,ot,id:Math.floor(rng()*0xffffffff)};
 }
