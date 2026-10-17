@@ -1,3 +1,4 @@
+import {newMysteryGiftSave} from './mystery-gifts.ts';
 import {sampleUint32} from './native-rng.ts';
 import {nativeMonGender} from './gender.ts';
 import {sourceJSON,type GameData,type State,type Mon,type Personal,type MoveData,type Trainer,type SpriteInfo,type SourceIndex} from './types.ts';
@@ -10,7 +11,7 @@ export async function loadData():Promise<GameData>{
   return {index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names,eggSummary};
 }
 export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{
-  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
+  return {version:2,mysteryGifts:newMysteryGiftSave(),trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
 }
 export function titleCase(key:string){return key.replace(/^(SPECIES|MOVE|ITEM|TYPE|ABILITY)_/,'').toLowerCase().replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());}
 export function speciesName(data:GameData,id:number){return data.names?.species[id]||titleCase(data.personal[id]?.species||`Pokémon ${id}`);}
