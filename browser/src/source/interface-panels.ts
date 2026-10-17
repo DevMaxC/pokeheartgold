@@ -55,7 +55,7 @@ export class InterfacePanels{
    const update=(patch:Partial<InterfacePreferences>)=>{this.ports.updatePreferences({...this.ports.preferences(),...patch});updateMusicStatus();};
    bind('settings-done','click',()=>resolve());
    const back=$<HTMLButtonElement>('panel-content').querySelector<HTMLButtonElement>('[data-action="back"]')!;const leave=()=>{if(current())resolve();};back.onclick=leave;cleanups.push(()=>{if(back.onclick===leave)back.onclick=null;});
-   bind('setting-music','click',()=>{const music=!this.ports.preferences().music;update({music});$('setting-music').textContent=music?'On':'Off';$('setting-music').setAttribute('aria-pressed',String(music));});
+   bind('setting-music','click',()=>{const music=!this.ports.preferences().music;update({music});if(music)this.ports.gesture();$('setting-music').textContent=music?'On':'Off';$('setting-music').setAttribute('aria-pressed',String(music));});
    bind('setting-volume','input',()=>{const volume=Number($<HTMLInputElement>('setting-volume').value)/100;update({volume});$('setting-volume-value').textContent=`${Math.round(volume*100)}%`;});
    bind('setting-camera','input',()=>{const cameraSensitivity=Number($<HTMLInputElement>('setting-camera').value)/100;update({cameraSensitivity});$('setting-camera-value').textContent=cameraSensitivity.toFixed(1)+'×';});
    bind('setting-layout','click',()=>{this.ports.touch.setPreferences({layout:this.ports.touch.preferences.layout==='joystick'?'dpad':'joystick'});$('setting-layout').textContent=this.ports.touch.preferences.layout==='joystick'?'Joystick':'D-pad';});
