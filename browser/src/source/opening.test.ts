@@ -22,7 +22,7 @@ test('Control Info No repeats its lessons, Yes returns to topics, and Adventure 
  const f=fixture([0,0,1,0,0,1,2,0,0,0]);await runOakIntroduction(data,f.port,{now:at(4)});
  const actual=f.trace.filter(e=>e.kind==='message').map(e=>e.value),control=[9,10,11,12,23,13,14,15,16,17].map(i=>message(i));
  assert.deepEqual(actual.slice(0,21),[message(7),...control,...control]);assert.deepEqual(actual.slice(21,29),[7,28,29,30,31,32,33,7].map(i=>message(i)));assert.equal(actual.filter(t=>t===message(6)).length,1);
- assert.equal(f.questions.filter(q=>q.prompt===message(26)).length,2);assert.equal(f.questions.filter(q=>q.choices.includes(message(44))).length,3);assert.equal(f.queue.length,0);
+ assert.equal(f.questions.filter(q=>q.prompt===message(26)).length,2);assert.deepEqual(f.questions.find(q=>q.prompt===message(26))!.choices,['Yes','No']);assert.equal(f.questions.filter(q=>q.choices.includes(message(44))).length,3);assert.equal(f.queue.length,0);
 });
 test('gender rejection and name rejection return to character selection with the native remembered cursor',async()=>{
  const f=fixture([2,0,1,1,0,1,0,0,0],['Alice','Case']),result=await runOakIntroduction(data,f.port,{now:at(20)});assert.deepEqual(result,{name:'Case',gender:'boy'});

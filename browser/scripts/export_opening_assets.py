@@ -48,7 +48,10 @@ cells=[]
 for i in range(count):
  num,attrs,start,maxx,maxy,minx,miny=struct.unpack_from('<HHIhhhh',bank,cellstart+i*16);image=Image.new('RGBA',(maxx-minx+1,maxy-miny+1));basepal=1 if i==2 else 0
  for j in reversed(range(num)):
-  a,b,c=struct.unpack_from('<HHH',bank,oamstart+start+j*6);x=b&511;y=a&255;x=x-512 if x>=256 else x;y=y-256 if y>=128 else y;w,h=sizes[(a>>14)&3][(b>>14)&3];tile=c&1023;pal=basepal+((c>>12)&15)
+  # Sprite_SetPaletteOverride overwrites OAM's high palette nibble, rather
+  # than adding to it (src/sprite.c:368; g2d_renderer.c:75). The tiny ball
+  # cell already carries OAM palette1; adding its override again turns black.
+  a,b,c=struct.unpack_from('<HHH',bank,oamstart+start+j*6);x=b&511;y=a&255;x=x-512 if x>=256 else x;y=y-256 if y>=128 else y;w,h=sizes[(a>>14)&3][(b>>14)&3];tile=c&1023;pal=basepal
   for py in range(h):
    for px in range(w):
     sx=w-1-px if b&4096 else px;sy=h-1-py if b&8192 else py;color=tilepixel(raw,tile+(sy//8)*(w//8)+sx//8,sx%8,sy%8)

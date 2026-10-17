@@ -2,15 +2,27 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {inflateSync} from 'node:zlib';
 import * as THREE from 'three';
 import {GLTFLoader,type GLTF} from 'three/addons/loaders/GLTFLoader.js';
 import {OpeningTitleCamera,loadOpeningTitleAssets} from './opening-stage.ts';
 const assets=new URL('../../public/source/opening/',import.meta.url),repo=new URL('../../../',import.meta.url);
 const manifest=JSON.parse(await readFile(new URL('assets.json',assets),'utf8'));
+function rgbaPNG(bytes:Buffer){
+ const width=bytes.readUInt32BE(16),height=bytes.readUInt32BE(20);assert.equal(bytes[24],8);assert.equal(bytes[25],6);const chunks:Buffer[]=[];for(let offset=8;offset<bytes.length;){const length=bytes.readUInt32BE(offset);if(bytes.toString('ascii',offset+4,offset+8)==='IDAT')chunks.push(bytes.subarray(offset+8,offset+8+length));offset+=length+12;}
+ const raw=inflateSync(Buffer.concat(chunks)),stride=width*4,out=Buffer.alloc(height*stride);let at=0;const paeth=(a:number,b:number,c:number)=>{const p=a+b-c,pa=Math.abs(p-a),pb=Math.abs(p-b),pc=Math.abs(p-c);return pa<=pb&&pa<=pc?a:pb<=pc?b:c;};
+ for(let y=0;y<height;y++){const filter=raw[at++];assert.ok(filter<=4);for(let x=0;x<stride;x++){const i=y*stride+x,a=x>=4?out[i-4]:0,b=y?out[i-stride]:0,c=y&&x>=4?out[i-stride-4]:0;out[i]=(raw[at++]+(filter===0?0:filter===1?a:filter===2?b:filter===3?Math.floor((a+b)/2):paeth(a,b,c)))&255;}}
+ return out;
+}
 test('all displayed native portraits, shrink frames and demonstration resources retain exact source hashes and literal cell/animation structure',async()=>{
  for(const source of manifest.sources){const bytes=await readFile(new URL(source.path,repo));assert.equal(createHash('sha256').update(bytes).digest('hex'),source.sha256,source.path);}
  for(const key of['oak','boy','girl',...['boy','girl'].flatMap(g=>[1,2,3,4].map(i=>`${g}-shrink-${i}`))]){const entry=manifest.backgrounds[key],bytes=await readFile(new URL(entry.image,assets));assert.equal(bytes.toString('hex',0,8),'89504e470d0a1a0a');assert.equal(bytes.readUInt32BE(16),256);assert.equal(bytes.readUInt32BE(20),192);assert.equal(entry.tilemap,9);assert.ok(entry.opaqueBounds[3]>entry.opaqueBounds[1]);}
  assert.deepEqual(manifest.demo.cells.map((c:{bounds:number[]})=>[c.bounds[2]-c.bounds[0]+1,c.bounds[3]-c.bounds[1]+1]),[[48,48],[80,80],[16,16]]);assert.deepEqual(manifest.demo.sequences.map((s:{frames:unknown[]})=>s.frames.length),[1,24,2,1]);assert.deepEqual(manifest.demo.sourceSpritePosition,[160,80]);assert.equal(manifest.demo.sequences[1].frames[0].scale[0],205/4096);for(const s of manifest.demo.sequences)for(const f of s.frames)assert.ok(f.duration>0&&f.cell>=0&&f.cell<3);
+});
+test('the native ball uses the literal overwritten OAM palette1, preserving red/white artwork instead of adding the offset into black palette2',async()=>{
+ const rgba=rgbaPNG(await readFile(new URL('demo-cell-2.png',assets))),colors=new Map<string,number>();for(let i=0;i<rgba.length;i+=4)if(rgba[i+3]){const color=Array.from(rgba.subarray(i,i+3)).join(',');colors.set(color,(colors.get(color)??0)+1);}
+ // Native palette1, entries2(white) and6(red), from intro63.NCLR.
+ assert.ok(colors.has('246,255,255'));assert.ok(colors.has('213,65,57'));assert.ok(colors.size>=5);assert.equal(colors.get('0,0,0')??0,0);
 });
 test('native Marill and Ho-Oh WAVs preserve the original PCM sample bytes, rates and lengths',async()=>{
  for(const species of['183','250']){const entry=manifest.cries[species],b=await readFile(new URL(`cry-${species}.wav`,assets));assert.equal(b.toString('ascii',0,4),'RIFF');assert.equal(b.toString('ascii',8,12),'WAVE');assert.equal(b.readUInt16LE(22),1);assert.equal(b.readUInt32LE(24),10512);assert.equal(b.readUInt16LE(34),8);assert.equal(b.readUInt32LE(40),entry.frames);const native=Buffer.from(Array.from(b.subarray(44),v=>(v+128)&255));assert.equal(createHash('sha256').update(native).digest('hex'),entry.signedPCMSourceSHA256);}

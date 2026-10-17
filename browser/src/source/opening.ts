@@ -60,7 +60,7 @@ export async function runOakIntroduction(data:OpeningData,port:OpeningPort,conte
    // browser demonstrates the same confirm action with its actual controls.
    await port.choose(text(25),['Continue']);
    for(const id of[13,14,15,16,17])await say(id);
-   understood=await port.choose(text(26),yesno)===0;
+   understood=await port.choose(text(26),[text(61),text(62)])===0;
   }
  }
  const now=(context.now??(()=>new Date()))();port.scene({phase:'greeting'});await say(oakGreetingMessage(now.getHours(),now.getMinutes()));

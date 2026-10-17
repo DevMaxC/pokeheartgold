@@ -28,7 +28,7 @@ The browser uses one localStorage key per normal/QA mode. It has no independent 
 
 ## Asset provenance and regeneration
 
-`public/source/opening/assets.json` records original-file SHA256 hashes, exact NCGR/NCLR/NSCR portrait sources, NCER cell bounds and NANR transforms, source PCM hashes and unsupported title effects. The2D decoder uses original indices, tile flips, palettes and OAM entries; it does not redraw the art. Ho-Oh is converted from original NSBMD/NSBCA/NSBTA/NSBTP via apicula. The invalid targetless material-animation clip is excluded; valid57-channel native joint animation remains. Marill183 and Ho-Oh250 cries retain exact mono PCM8 sample data at10512Hz, wrapped in WAV for browser playback.
+`public/source/opening/assets.json` records original-file SHA256 hashes, exact NCGR/NCLR/NSCR portrait sources, NCER cell bounds and NANR transforms, source PCM hashes and unsupported title effects. The2D decoder uses original indices, tile flips, palettes and OAM entries; it does not redraw the art. Sprite palette overrides replace the OAM palette nibble (`src/sprite.c:368–373`, `lib/NitroSystem/src/g2d_renderer.c:75`); a decoded-pixel regression protects the red/white ball from a double palette offset. Ho-Oh is converted from original NSBMD/NSBCA/NSBTA/NSBTP via apicula. The invalid targetless material-animation clip is excluded; valid57-channel native joint animation remains. Marill183 and Ho-Oh250 cries retain exact mono PCM8 sample data at10512Hz, wrapped in WAV for browser playback.
 
 Recreate the complete export from the repository root with Python containing Pillow+ndspy and a built apicula:
 
@@ -40,9 +40,9 @@ Without optional flags, the script regenerates2D artwork and preserves existing 
 
 ## Validation and limits
 
-- `node --experimental-transform-types --test src/source/opening*.test.ts`:20 tests pass after the final source/DOM/resource fixes. Covers native branches and save boundary, exact art/audio provenance, native joint animation matrices, camera script, SVG visibility/projection, typewriter paging and partial-load resource cleanup.
+- `node --experimental-transform-types --test src/source/opening*.test.ts`:21 tests pass after the final source/DOM/resource/palette fixes. Covers native branches and save boundary, exact art/audio provenance, native joint animation matrices, camera script, SVG visibility/projection, decoded ball colors, typewriter paging and partial-load resource cleanup.
 - `npx tsc --noEmit`: passes.
-- Full `npm test`:184/184 pass, including all20 opening tests.
+- Full `npm test`:184/184 pass at checkpoint `eacc233`, including20 opening tests. The subsequent bounded palette/Control Info label correction passes all21 current opening tests and TypeScript; no claim of a second full-suite run.
 - Decoded Oak/Marill/title artwork was inspected as local PNGs. Those inputs are not browser-rendered screenshots.
 - No Vite build or browser automation was run for this branch. The preview host is disconnected; actual title framing, mobile layout, audio timing, focus/navigation and save/reload gameplay remain unverified.
 
