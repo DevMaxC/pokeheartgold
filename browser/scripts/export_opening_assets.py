@@ -27,6 +27,7 @@ def tilepixel(raw,t,x,y):
 def bg(n,pal):
  raw=tiles(n);colors=palette(pal);b=original(9,'NSCR');width,height=struct.unpack_from('<HH',b,24);assert(width,height)==(256,192);image=Image.new('RGBA',(width,height))
  for i,(entry,)in enumerate(struct.iter_unpack('<H',b[36:])):
+  assert entry>>12==0,'Native opening BG is expected to use palette bank0'
   t=entry&1023;flipx=bool(entry&1024);flipy=bool(entry&2048)
   for y in range(8):
    for x in range(8):
@@ -52,6 +53,7 @@ for i in range(count):
   # than adding to it (src/sprite.c:368; g2d_renderer.c:75). The tiny ball
   # cell already carries OAM palette1; adding its override again turns black.
   a,b,c=struct.unpack_from('<HHH',bank,oamstart+start+j*6);x=b&511;y=a&255;x=x-512 if x>=256 else x;y=y-256 if y>=128 else y;w,h=sizes[(a>>14)&3][(b>>14)&3];tile=c&1023;pal=basepal
+  assert not a&0x300,'Affine/double-size OAM needs a separate native transform decoder'
   for py in range(h):
    for px in range(w):
     sx=w-1-px if b&4096 else px;sy=h-1-py if b&8192 else py;color=tilepixel(raw,tile+(sy//8)*(w//8)+sx//8,sx%8,sy%8)
@@ -68,15 +70,22 @@ for i in range(seqCount):
   else:assert element==0
   assert cell<len(cells);frames.append(frame)
  sequences.append({'frames':frames,'loopStart':loop,'loop':mode==2,'mode':mode})
+# src/oaks_speech.c:1830/1847 sets absolute palette5 for ball sequence3 and
+# palette4 for Marill. Their native cells are disjoint; bank5 is relative1.
+assert {f['cell']for f in sequences[3]['frames']}=={2}
+assert all(f['cell']!=2 for s in sequences[:3]for f in s['frames'])
 # Source title logo/background PNGs are artwork inputs, not screenshots.
 for name,filename in [('title-logo','titledemo_00000003.png'),('title-background','titledemo_00000034.png')]:
  p=ROOT/'files/demo/title/titledemo'/filename;used.add(p);im=Image.open(p);rgba=im.convert('RGBA');pixels=rgba.load()
  if name=='title-logo':
+  assert im.mode=='P','Original indexed title logo expected for transparent palette0'
   for y in range(im.height):
    for x in range(im.width):
     if im.getpixel((x,y))==0:pixels[x,y]=(*pixels[x,y][:3],0)
  rgba.save(OUT/f'{name}.png');assets[name]={'image':f'{name}.png','size':list(rgba.size)}
-title_paths=[ROOT/'files/demo/title/titledemo'/f'titledemo_{i:08}.{ext}' for i,ext in [(25,'NSBMD'),(26,'NSBCA'),(27,'NSBTA'),(28,'NSBMA'),(29,'NSBTP')]]
+title_paths=[ROOT/'files/demo/title/titledemo'/f'titledemo_{i:08}.{ext}' for i,ext in [(25,'NSBMD'),(26,'NSBCA'),(27,'NSBTA'),(29,'NSBTP')]]
+if not args.title_model and(OUT/'ho-oh.glb').exists():
+ assert {str(p.relative_to(ROOT))for p in title_paths}<={s['path']for s in previous.get('sources',[])},'Existing title model lacks conversion provenance; rerun --title-model'
 if args.title_model:
  executable=args.apicula or ROOT/'.local-tools/apicula/target/release/apicula'
  with tempfile.TemporaryDirectory() as folder:
@@ -94,6 +103,11 @@ if args.title_model:
   encoded=json.dumps(j,separators=(',',':')).encode();encoded+=b' '*((-len(encoded))%4)
   (OUT/'ho-oh.glb').write_bytes(struct.pack('<III',0x46546c67,2,20+len(encoded)+len(tail))+struct.pack('<II',len(encoded),0x4e4f534a)+encoded+tail)
 if args.title_model:used.update(title_paths)
+joint_animation=False
+if(OUT/'ho-oh.glb').exists():
+ b=(OUT/'ho-oh.glb').read_bytes();j=json.loads(b[20:20+struct.unpack_from('<I',b,12)[0]])
+ assert len(j.get('animations',[]))==1 and len(j['animations'][0]['channels'])==57 and all('node'in c['target']for c in j['animations'][0]['channels']),'Original57-channel joint animation expected; regenerate --title-model'
+ joint_animation=True
 audio={species:entry for species,entry in previous.get('cries',{}).items()if(OUT/entry.get('file',entry.get('image',''))).is_file()}if not args.audio else{}
 if args.audio:
  from ndspy.soundArchive import SDAT
@@ -109,5 +123,5 @@ preserve={str(p.relative_to(ROOT))for p in title_paths}if not args.title_model a
 if not args.audio and audio:preserve.add('files/data/sound/gs_sound_data.sdat')
 sources={s['path']:s for s in previous.get('sources',[])if s['path']in preserve}
 sources.update({str(p.relative_to(ROOT)):{'path':str(p.relative_to(ROOT)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in sorted(used)})
-manifest={'source':'src/oaks_speech.c:496, src/oaks_speech_obj.c:129, files/data/resdat/resdat_00000078.json','backgrounds':assets,'title':{'model':'ho-oh.glb'if(OUT/'ho-oh.glb').exists()else None,'nativeJointAnimation':(OUT/'ho-oh.glb').exists(),'unsupported':['NSBMA palette animation28','NSBTA/NSBTP material and pattern playback','separate sparkle model38..40','five-scene intro movie','title and introduction BGM']},'cries':audio,'demo':{'cells':cells,'sequences':sequences,'sourceSpritePosition':[160,80]},'sources':sorted(sources.values(),key=lambda s:s['path'])}
+manifest={'source':'src/oaks_speech.c:496, src/oaks_speech_obj.c:129, files/data/resdat/resdat_00000078.json','backgrounds':assets,'title':{'model':'ho-oh.glb'if(OUT/'ho-oh.glb').exists()else None,'nativeJointAnimation':joint_animation,'unsupported':['NSBMA palette animation28','NSBTA/NSBTP material and pattern playback','separate sparkle model38..40','five-scene intro movie','title and introduction BGM']},'cries':audio,'demo':{'cells':cells,'sequences':sequences,'sourceSpritePosition':[160,80]},'sources':sorted(sources.values(),key=lambda s:s['path'])}
 (OUT/'assets.json').write_text(json.dumps(manifest,indent=2)+'\n');print(f'Decoded {len(assets)} native backgrounds, {len(cells)} cells and {len(sequences)} animation sequences into {OUT}')

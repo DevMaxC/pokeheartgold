@@ -3,9 +3,10 @@ import {UI,$,escapeHTML as esc} from './ui.ts';
 import {OpeningTitleStage} from './opening-stage.ts';
 import {OPENING_NAME_KEYBOARD,normalizeOpeningName,validOpeningName,type OpeningEffect,type OpeningGender,type OpeningPort,type OpeningScene} from './opening.ts';
 import {sourceJSON} from './types.ts';
-import {drawOpeningDemo,setOpeningDemoVisible,type OpeningDemo} from './opening-art.ts';
+import {drawOpeningDemo,setOpeningDemoVisible,prepareOpeningArtwork,animateOpeningShrink,type OpeningArtwork} from './opening-art.ts';
+import {chooseOpeningButton} from './opening-input.ts';
 import './opening.css';
-type Assets={demo:OpeningDemo};
+type Assets=OpeningArtwork;
 const source='/source/opening/';const wait=(ms:number)=>new Promise<void>(resolve=>setTimeout(resolve,ms));
 export class OpeningView implements OpeningPort{
  private root:HTMLElement;private stage:OpeningTitleStage|null=null;private assets:Assets|null=null;
@@ -21,8 +22,9 @@ export class OpeningView implements OpeningPort{
   const actions=$('opening-title-actions');actions.innerHTML=`<button class="opening-start" id="opening-start">${esc(startText)}<small>Enter · Touch · Click</small></button>`;
   await new Promise<void>(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;removeEventListener('keydown',key);actions.innerHTML='';this.playCry(250);this.root.classList.add('opening-do-flash');setTimeout(()=>{this.root.classList.remove('opening-do-flash');resolve();},180);},key=(event:KeyboardEvent)=>{if(!event.repeat&&['Enter','Space','KeyF'].includes(event.code)){event.preventDefault();finish();}};$('opening-start').onclick=finish;addEventListener('keydown',key);setTimeout(()=>$('opening-start')?.focus(),0);});
  }
- async prepare(){this.assets=await sourceJSON<Assets>('opening/assets.json');}
+ async prepare(){const assets=await sourceJSON<Assets>('opening/assets.json');await prepareOpeningArtwork(assets);this.assets=assets;}
  scene(view:OpeningScene){
+  if(this.phase==='title'){this.stage?.dispose();this.stage=null;}
   this.current=view;this.phase=view.phase;this.root.dataset.phase=view.phase;this.root.dataset.oak=view.oak??'center';$('opening-hint').textContent=view.hint??'';
   const portrait=$<HTMLImageElement>('opening-portrait');portrait.hidden=!['oak','naming','shrink'].includes(view.phase);portrait.src=source+(view.phase==='shrink'?(view.gender??'boy'):'oak')+'.png';portrait.alt=view.phase==='shrink'?(view.gender==='girl'?'Lyra':'Ethan'):'Professor Oak';
   if(!['oak'].includes(view.phase)){setOpeningDemoVisible($('opening-demo'),false);this.animation=null;}
@@ -30,8 +32,8 @@ export class OpeningView implements OpeningPort{
  message(text:string){return this.ui.message(text,4*1000/60);}
  async choose(prompt:string,choices:string[],initialIndex=0,detail=''){
   const gender=choices.length===2&&choices[0]==='Boy'&&choices[1]==='Girl';
-  this.ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span>${prompt?`<h2>${esc(prompt)}</h2>`:''}${detail?`<p>${esc(detail)}</p>`:''}<div class="${gender?'opening-character-choices':'actions'}">${choices.map((text,i)=>`<button data-opening-choice="${i}"${i===initialIndex?' class="opening-selected"':''}>${gender?`<img src="${source}${i?'girl':'boy'}-choice.png" alt="">`:''}${esc(text)}</button>`).join('')}</div>`);this.ui.canDismiss=false;
-  return new Promise<number>(resolve=>{let done=false;const buttons=Array.from(document.querySelectorAll<HTMLButtonElement>('[data-opening-choice]'));const key=(event:KeyboardEvent)=>{if(event.repeat)return;const current=Math.max(0,buttons.indexOf(document.activeElement as HTMLButtonElement));if(['ArrowLeft','ArrowUp','ArrowRight','ArrowDown'].includes(event.code)){event.preventDefault();const direction=['ArrowLeft','ArrowUp'].includes(event.code)?-1:1;buttons[(current+direction+buttons.length)%buttons.length].focus();}else if(['Enter','Space','KeyF'].includes(event.code)){event.preventDefault();buttons[current].click();}};for(const button of buttons)button.onclick=()=>{if(done)return;done=true;removeEventListener('keydown',key);const value=Number(button.dataset.openingChoice);this.ui.close();resolve(value);};addEventListener('keydown',key);setTimeout(()=>buttons[initialIndex]?.focus(),0);});
+  this.ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span>${prompt?`<h2>${esc(prompt)}</h2>`:''}${detail?`<p>${esc(detail)}</p>`:''}<div class="${gender?'opening-character-choices':'actions'}">${choices.map((text,i)=>`<button data-opening-choice="${i}"${i===initialIndex?' class="opening-selected"':''}>${gender?`<img src="${source}${i?'girl':'boy'}-choice.png" alt="">`:''}${esc(text)}</button>`).join('')}</div>`,false);this.ui.canDismiss=false;
+  const value=await chooseOpeningButton(Array.from(document.querySelectorAll<HTMLButtonElement>('[data-opening-choice]')),initialIndex);this.ui.close();return value;
  }
  async name(prompt:string,maximum:number){
   this.ui.panel(`<span class="eyebrow">${this.current.gender==='girl'?'GIRL':'BOY'}</span><h2>${esc(prompt)}</h2><form id="opening-name-form"><input id="opening-name" aria-label="${esc(prompt)}" maxlength="${maximum}" autocomplete="off" autocapitalize="off"><p class="opening-name-count" id="opening-name-count">0 / ${maximum}</p><div class="opening-keyboard-tabs">${Object.keys(OPENING_NAME_KEYBOARD).map((tab,i)=>`<button type="button" data-name-page="${tab}" aria-pressed="${i===0}">${tab}</button>`).join('')}</div><div id="opening-keyboard"></div><div class="actions"><button id="opening-name-back" type="button">Backspace</button><button type="submit">OK</button></div></form>`);this.ui.canDismiss=false;
@@ -49,7 +51,7 @@ export class OpeningView implements OpeningPort{
   if(effect==='marill-appear'){this.demo(1);const frames=this.assets!.demo.sequences[1].frames;await wait(frames.reduce((n,f)=>n+f.duration,0)*1000/60);return;}
   if(effect==='marill-cry'){this.demo(2);this.playCry(183);await wait(40*1000/60);return;}
   if(effect==='marill-hide'){this.animation=null;setOpeningDemoVisible($('opening-demo'),false);await wait(300);return;}
-  if(effect==='player-shrink'){const portrait=$<HTMLImageElement>('opening-portrait');for(let i=1;i<=4;i++){portrait.src=source+(gender??'boy')+'-shrink-'+i+'.png';await wait(9*1000/60);}portrait.hidden=true;await wait(150);}
+  if(effect==='player-shrink'){const portrait=$<HTMLImageElement>('opening-portrait');await animateOpeningShrink(gender??'boy',file=>{portrait.hidden=file===null;if(file)portrait.src=source+file;});}
  }
  draw(dt:number){if(this.disposed)return;if(this.phase==='title')this.stage?.draw(dt);if(this.animation&&this.assets){const sequence=this.assets.demo.sequences[this.animation.sequence];this.animation.elapsed+=dt*60;while(this.animation.elapsed>=sequence.frames[this.animation.frame].duration){this.animation.elapsed-=sequence.frames[this.animation.frame].duration;if(this.animation.frame+1<sequence.frames.length)this.animation.frame++;else if(sequence.loop)this.animation.frame=sequence.loopStart;else{this.animation.elapsed=0;break;}}this.drawDemo();}}
  dispose(){if(this.disposed)return;this.disposed=true;this.animation=null;for(const audio of this.sounds)audio.pause();this.sounds.clear();this.stage?.dispose();this.root.remove();document.body.classList.remove('in-opening');}

@@ -22,7 +22,7 @@ Implementation base: `081c5ec`. This change implements the original Oak dialogue
 
 `runOpeningSession` keeps the existing State intact while choices and animations operate on a draft. Continue bypasses intro/default-name preparation. A rejected replacement confirmation returns to the menu. Only a successfully completed final shrink invokes `newState`; the existing `begin` path then performs field entry and saving. `save()` already ignores pagehide while `started` is false, so leaving during the introduction does not persist its draft.
 
-Controller tests cover Continue, replacement cancellation, failed asset preparation, an awaited final shrink, a separate resumed Continue while the draft is pending and a rejected final effect. These are repeatable offline behavior checks. Browser reload/pagehide/storage behavior, field entry failures and actual rendered interactions still require integration verification; they are not inferred from the controller tests.
+Controller tests cover Continue, replacement cancellation, failed asset preparation, an awaited final shrink, a separate resumed Continue while the draft is pending and a rejected final effect. The real `save` callback is also exercised with an incomplete startup state and retained serialized save; it requires `ready`, so a failed first entry cannot overwrite the slot. Unrecovered `begin` failure resets `started`/`ready`. Integrated recovery retains its stronger transaction/hydration guards; an explicit Return after coherent hydration may commit the already confirmed new-game checkpoint. Browser reload/pagehide/storage playback and actual rendered interactions still require integration verification; they are not inferred from offline tests.
 
 The browser uses one localStorage key per normal/QA mode. It has no independent adventure slots. Its agreed adaptation allows the newly confirmed adventure to replace the slot after character creation; the DS instead prohibits saving a new session while an old save exists. The warning states the browser behavior and never copies the native prohibition falsely.
 
@@ -40,9 +40,10 @@ Without optional flags, the script regenerates2D artwork and preserves existing 
 
 ## Validation and limits
 
-- `node --experimental-transform-types --test src/source/opening*.test.ts`:21 tests pass after the final source/DOM/resource/palette fixes. Covers native branches and save boundary, exact art/audio provenance, native joint animation matrices, camera script, SVG visibility/projection, decoded ball colors, typewriter paging and partial-load resource cleanup.
+- `node --experimental-transform-types --test src/source/opening*.test.ts`:27 tests pass after the source/DOM/resource/palette and Opus fixes. Covers native branches and save boundary, actual startup save callback, exact art/audio provenance, native joint animation matrices, camera script, SVG visibility/projection, decoded ball colors, required image preparation, shrink timing, remembered cursor/focus, typewriter paging and partial-load resource cleanup including bone textures.
 - `npx tsc --noEmit`: passes.
-- Full `npm test`:184/184 pass at checkpoint `eacc233`, including20 opening tests. The subsequent bounded palette/Control Info label correction passes all21 current opening tests and TypeScript; no claim of a second full-suite run.
+- Full `npm test`:191/191 pass after the Opus fixes, including all27 opening tests. The previous implementation checkpoint `eacc233` also passed184/184. Final selection-outline CSS/documentation changes followed the run without additional runtime logic changes.
+- Actual read-only Claude Opus5.5 review, model-use receipt, input hashes and defect disposition: `2026-10-17-opening-sequence-opus-5.5.{md,json}`. This review did not execute commands or use a browser and does not establish rendered parity.
 - Decoded Oak/Marill/title artwork was inspected as local PNGs. Those inputs are not browser-rendered screenshots.
 - No Vite build or browser automation was run for this branch. The preview host is disconnected; actual title framing, mobile layout, audio timing, focus/navigation and save/reload gameplay remain unverified.
 

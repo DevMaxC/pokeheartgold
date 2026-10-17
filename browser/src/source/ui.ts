@@ -9,7 +9,7 @@ export class UI{
   }
   get busy(){return this.panelOpen||this.dialogueOpen;}
   advance(){this.next?.();}
-  panel(html:string){this.panelOpen=true;this.canDismiss=true;$('panel-content').innerHTML=html;$('panel').hidden=false;$('original-world').inert=true;$('game-hud').inert=true;$('touch-pad').inert=true;setTimeout(()=>$('panel-content').querySelector<HTMLElement>('button,input')?.focus(),0);}
+  panel(html:string,autoFocus=true){this.panelOpen=true;this.canDismiss=true;$('panel-content').innerHTML=html;$('panel').hidden=false;$('original-world').inert=true;$('game-hud').inert=true;$('touch-pad').inert=true;if(autoFocus)setTimeout(()=>$('panel-content').querySelector<HTMLElement>('button,input')?.focus(),0);}
   close(){this.panelOpen=false;$('panel').hidden=true;$('original-world').inert=false;$('game-hud').inert=false;$('touch-pad').inert=false;$('original-world').focus();}
   async message(text:string,characterDelay=0){
     const pages=text.replace(/\\n/g,'\n').split(/\\[rf]/).map(s=>s.trim()).filter(Boolean);

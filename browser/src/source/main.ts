@@ -38,7 +38,7 @@ let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=
 let followerPrevious:{x:number;z:number;height:number}|null=null;let playerTweenY:number|undefined;let previousStepJump=false;
 const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
-function save(){if(!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
+function save(){if(!ready||!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
 function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag?s:null;}catch{return null;}}
 function displayMapName(m:SourceMap){const names:Record<string,string>={T20:'New Bark Town',T20R0202:'Your room',T20R0201:'Home',T20R0101:'Professor Elm’s Lab',T20R0102:'Elm’s home',T21:'Cherrygrove City',T22:'Violet City'};if(names[m.code])return names[m.code];return m.key.replace('MAP_','').split('_').map(word=>/^\d+$/.test(word)?word:word[0]+word.slice(1).toLowerCase()).join(' ');}
 function updateHUD(){
@@ -150,9 +150,9 @@ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unkno
 }
 async function executeSourceAction<T>(action:()=>Promise<T>){
   if(!sourceActions)throw Error('Source recovery is not initialized');
-  const triggerState=frameTriggerGate.snapshot();
+  const triggerState=frameTriggerGate.snapshot(),trainerState=trainerAttempts.snapshot();
   return runRecoverableSourceAction(sourceActions,action,{
-    committed:save,retry:()=>frameTriggerGate.restore(triggerState),
+    committed:save,retry:()=>{frameTriggerGate.restore(triggerState);trainerAttempts.restore(trainerState);},
     recoveryFailed:async error=>{
       recoveryPrompt=true;keys.clear();console.error(error);
       try{await ui.choose('The area could not be restored.',['Retry loading'],'Your last browser save is unchanged. '+String(error.recoveryError));}finally{recoveryPrompt=false;}
@@ -328,7 +328,7 @@ async function title(){
 async function begin(){
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
   vm=new ScriptVM(data,state,{objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
-  sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;await enterMap(state.map,state.x,state.z,true,true);ready=true;save();$('original-world').focus();
+  sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,true);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);

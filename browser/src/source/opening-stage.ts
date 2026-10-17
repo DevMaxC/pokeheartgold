@@ -19,9 +19,9 @@ export class OpeningTitleCamera{
  }
 }
 function disposeResources(model:THREE.Object3D|null,background:THREE.Texture|null){
- const maps=new Set<THREE.Texture>(),materials=new Set<THREE.Material>(),geometries=new Set<THREE.BufferGeometry>();
- model?.traverse(o=>{if(!(o instanceof THREE.Mesh))return;geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);for(const value of Object.values(m))if(value instanceof THREE.Texture)maps.add(value);}});
- if(background)maps.add(background);for(const map of maps)map.dispose();for(const material of materials)material.dispose();for(const geometry of geometries)geometry.dispose();
+ const maps=new Set<THREE.Texture>(),materials=new Set<THREE.Material>(),geometries=new Set<THREE.BufferGeometry>(),skeletons=new Set<THREE.Skeleton>();
+ model?.traverse(o=>{if(!(o instanceof THREE.Mesh))return;if(o instanceof THREE.SkinnedMesh)skeletons.add(o.skeleton);geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);for(const value of Object.values(m))if(value instanceof THREE.Texture)maps.add(value);}});
+ if(background)maps.add(background);for(const skeleton of skeletons)skeleton.dispose();for(const map of maps)map.dispose();for(const material of materials)material.dispose();for(const geometry of geometries)geometry.dispose();
 }
 /** Keep a failed optional title import from leaking the other successful
  * request. Both requests settle before the native-art fallback takes over. */
