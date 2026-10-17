@@ -1,0 +1,7825 @@
+{
+  "status": "Exact93bf982 native source vs candidate offline tree-only geometry/draw counts; no GPU timing/quality equivalence",
+  "baseline": "93bf982",
+  "candidateSources": {
+    "src/source/tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "src/source/tree-fronds.test.ts": "ed70fbc18abfcd693a9478904d70ca38f76819221aefb869929037db7f20eff6",
+    "src/source/tree-volume.ts": "f91dd6d176b8f58c3d288abc1ce13c278c61b181a9cad3a057a6808a6fc68314",
+    "src/source/tree-texture.ts": "686de17c5d06c7bda0267db4c166728270cec67597c4f4c93f835d4e0c11f9c0",
+    "src/source/render-repair.ts": "dbd997dced09bd9c3dbcced83700f7fbd278cbc8ed1dbb6fe5274e2586738430",
+    "src/source/canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b",
+    "src/source/tree-fixture.test.ts": "cfcf807c53227ee85352e4afb9f4847d0a92fdecd1cf28ed2ae1042697e5c12d",
+    "src/source/tree-native.test.ts": "5f6f92358b2b7688efb4afccfd9f6d19a0a444a6c7424e457d37dc02e9855805",
+    "src/source/tree-volume.test.ts": "0bd350bfc4418a0e17e75b39d7124b4a23da569977c533ee12f8d8651c02276d",
+    "src/source/tree-texture.test.ts": "e6cb5784edf2ec311f604b05b2c7252c014e4507280b95d43dbbc11f7f8930b9",
+    "src/source/render-repair.test.ts": "6ab63a3fd41d3a3cc38e751306acbe27cc706cd76dfdcf6dfb210f26707607e4",
+    "src/source/canopy-occlusion.test.ts": "e6767b6bbd0186c5f5838b73dc5ebd99646c1728bebb0a8c77d5fa41ad41acc5",
+    "src/source/terrace-model.test.ts": "2353d32e66b4accfcdc05bf6c8d66e7600ac3e108e26dcc9a43926310d08093e",
+    "scripts/audit_tree_canopies.ts": "a139be72bc7b00c8ae0c2ffb2af59636774723e5c5088161375effeb42277f42",
+    "public/source/foliage.json": "86f0eca346766b1a358540039d66995fd8fa86fa4a162f67170c7c3bcae82e73"
+  },
+  "records": [
+    {
+      "asset": "land/208-0.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 256,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 100352,
+        "roots": 256,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 32
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 256,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 110592,
+        "componentInstances": 256,
+        "distinctRoots": 256,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/17-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 29,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 528,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11368,
+        "roots": 29,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 29,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 528,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11832,
+        "componentInstances": 29,
+        "distinctRoots": 29,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/18-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 90,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 450,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 35280,
+        "roots": 90,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 90,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 450,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 36720,
+        "componentInstances": 90,
+        "distinctRoots": 90,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/19-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 137,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 291,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 53704,
+        "roots": 137,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 137,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 291,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 55896,
+        "componentInstances": 137,
+        "distinctRoots": 137,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/20-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 94,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 144,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 36848,
+        "roots": 94,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 94,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 144,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 38352,
+        "componentInstances": 94,
+        "distinctRoots": 94,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/0-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 116,
+          "uprightPanels": 0,
+          "fencePosts": 16,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 45472,
+        "roots": 116,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 116,
+          "uprightPanels": 0,
+          "fencePosts": 16,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50112,
+        "componentInstances": 116,
+        "distinctRoots": 116,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/1-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 137,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 53704,
+        "roots": 137,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 137,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 59184,
+        "componentInstances": 137,
+        "distinctRoots": 137,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/10-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 100,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 257,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39200,
+        "roots": 100,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 100,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 257,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 43200,
+        "componentInstances": 100,
+        "distinctRoots": 100,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/2-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 96,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 37632,
+        "roots": 96,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 14
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 97,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 41904,
+        "componentInstances": 97,
+        "distinctRoots": 97,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/3-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 127,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 49784,
+        "roots": 127,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 14
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 130,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 56160,
+        "componentInstances": 130,
+        "distinctRoots": 130,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/4-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 46,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 85,
+          "solidRocks": 32,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18032,
+        "roots": 46,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 46,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 85,
+          "solidRocks": 32,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 19872,
+        "componentInstances": 46,
+        "distinctRoots": 46,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/5-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 80,
+          "uprightPanels": 7,
+          "fencePosts": 84,
+          "flowerClumps": 38,
+          "terrainSkirts": 63,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 31360,
+        "roots": 80,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 80,
+          "uprightPanels": 7,
+          "fencePosts": 84,
+          "flowerClumps": 38,
+          "terrainSkirts": 63,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 34560,
+        "componentInstances": 80,
+        "distinctRoots": 80,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/6-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 78,
+          "uprightPanels": 0,
+          "fencePosts": 20,
+          "flowerClumps": 0,
+          "terrainSkirts": 141,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 30576,
+        "roots": 78,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 24
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 78,
+          "uprightPanels": 0,
+          "fencePosts": 20,
+          "flowerClumps": 0,
+          "terrainSkirts": 141,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 33696,
+        "componentInstances": 78,
+        "distinctRoots": 78,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/7-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 240,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 133,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 94080,
+        "roots": 240,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 32
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 240,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 133,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 103680,
+        "componentInstances": 240,
+        "distinctRoots": 240,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/8-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 88,
+          "uprightPanels": 0,
+          "fencePosts": 10,
+          "flowerClumps": 0,
+          "terrainSkirts": 104,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 34496,
+        "roots": 88,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 88,
+          "uprightPanels": 0,
+          "fencePosts": 10,
+          "flowerClumps": 0,
+          "terrainSkirts": 104,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 38016,
+        "componentInstances": 88,
+        "distinctRoots": 88,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/9-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 143,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 56056,
+        "roots": 143,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 143,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 61776,
+        "componentInstances": 143,
+        "distinctRoots": 143,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/11-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 126,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 115,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 8,
+        "triangles": 49392,
+        "roots": 126,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 126,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 115,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 8,
+        "triangles": 53472,
+        "componentInstances": 126,
+        "distinctRoots": 126,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/12-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 43,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 262,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 16856,
+        "roots": 43,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 43,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 262,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 17544,
+        "componentInstances": 43,
+        "distinctRoots": 43,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/13-2.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 39,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 21,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 15288,
+        "roots": 39,
+        "leftovers": [
+          {
+            "material": "treekn_re_lm1",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 39,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 21,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 15912,
+        "componentInstances": 39,
+        "distinctRoots": 39,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/28-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 75,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 106,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 29400,
+        "roots": 75,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 18
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 93,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 106,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40176,
+        "componentInstances": 93,
+        "distinctRoots": 93,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/29-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 53,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 213,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 20776,
+        "roots": 53,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 61,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 213,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 26352,
+        "componentInstances": 61,
+        "distinctRoots": 61,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/21-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 156,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 68,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 61152,
+        "roots": 156,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 10
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 156,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 68,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 67392,
+        "componentInstances": 156,
+        "distinctRoots": 156,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/22-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 241,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 76,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 6,
+        "triangles": 94472,
+        "roots": 241,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 241,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 76,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 6,
+        "triangles": 104064,
+        "componentInstances": 241,
+        "distinctRoots": 241,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/23-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 173,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 67816,
+        "roots": 173,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 173,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 74736,
+        "componentInstances": 173,
+        "distinctRoots": 173,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/24-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 101,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39592,
+        "roots": 101,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 101,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 43632,
+        "componentInstances": 101,
+        "distinctRoots": 101,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/25-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 82,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 98,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 32144,
+        "roots": 82,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 82,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 98,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 35424,
+        "componentInstances": 82,
+        "distinctRoots": 82,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/26-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 84,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 192,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 32928,
+        "roots": 84,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 84,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 192,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 36288,
+        "componentInstances": 84,
+        "distinctRoots": 84,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/27-3.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 29,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 154,
+          "solidRocks": 14,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11368,
+        "roots": 29,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 29,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 154,
+          "solidRocks": 14,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 12528,
+        "componentInstances": 29,
+        "distinctRoots": 29,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/32-4.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 75,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 196,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 29400,
+        "roots": 75,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 75,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 196,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 32400,
+        "componentInstances": 75,
+        "distinctRoots": 75,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/33-4.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 113,
+          "uprightPanels": 0,
+          "fencePosts": 13,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 44296,
+        "roots": 113,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 113,
+          "uprightPanels": 0,
+          "fencePosts": 13,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 48816,
+        "componentInstances": 113,
+        "distinctRoots": 113,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/34-4.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 125,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 151,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 49000,
+        "roots": 125,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 125,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 151,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 54000,
+        "componentInstances": 125,
+        "distinctRoots": 125,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/35-5.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 103,
+          "uprightPanels": 0,
+          "fencePosts": 54,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40376,
+        "roots": 103,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 103,
+          "uprightPanels": 0,
+          "fencePosts": 54,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 44496,
+        "componentInstances": 103,
+        "distinctRoots": 103,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/36-5.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 34,
+          "uprightPanels": 0,
+          "fencePosts": 38,
+          "flowerClumps": 0,
+          "terrainSkirts": 20,
+          "solidRocks": 17,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 13328,
+        "roots": 34,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 34,
+          "uprightPanels": 0,
+          "fencePosts": 38,
+          "flowerClumps": 0,
+          "terrainSkirts": 20,
+          "solidRocks": 17,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 14688,
+        "componentInstances": 34,
+        "distinctRoots": 34,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/37-5.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 169,
+          "uprightPanels": 0,
+          "fencePosts": 46,
+          "flowerClumps": 0,
+          "terrainSkirts": 80,
+          "solidRocks": 15,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 66248,
+        "roots": 169,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 10
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 169,
+          "uprightPanels": 0,
+          "fencePosts": 46,
+          "flowerClumps": 0,
+          "terrainSkirts": 80,
+          "solidRocks": 15,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 73008,
+        "componentInstances": 169,
+        "distinctRoots": 169,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/38-5.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 20,
+          "uprightPanels": 0,
+          "fencePosts": 92,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 7,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 7840,
+        "roots": 20,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 20,
+          "uprightPanels": 0,
+          "fencePosts": 92,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 7,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 8640,
+        "componentInstances": 20,
+        "distinctRoots": 20,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/39-5.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 210,
+          "flowerClumps": 0,
+          "terrainSkirts": 16,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3920,
+        "roots": 10,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 210,
+          "flowerClumps": 0,
+          "terrainSkirts": 16,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4320,
+        "componentInstances": 10,
+        "distinctRoots": 10,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/50-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 193,
+          "uprightPanels": 0,
+          "fencePosts": 20,
+          "flowerClumps": 0,
+          "terrainSkirts": 72,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 16,
+        "triangles": 75656,
+        "roots": 193,
+        "leftovers": [
+          {
+            "material": "en_tree05_re",
+            "triangles": 2
+          },
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 193,
+          "uprightPanels": 0,
+          "fencePosts": 20,
+          "flowerClumps": 0,
+          "terrainSkirts": 72,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 10,
+        "triangles": 79200,
+        "componentInstances": 193,
+        "distinctRoots": 193,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/51-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 209,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 44,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 18,
+        "triangles": 81928,
+        "roots": 209,
+        "leftovers": [
+          {
+            "material": "en_tree03_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 209,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 44,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 11,
+        "triangles": 81648,
+        "componentInstances": 209,
+        "distinctRoots": 209,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/44-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 219,
+          "uprightPanels": 0,
+          "fencePosts": 103,
+          "flowerClumps": 0,
+          "terrainSkirts": 53,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 85848,
+        "roots": 219,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 219,
+          "uprightPanels": 0,
+          "fencePosts": 103,
+          "flowerClumps": 0,
+          "terrainSkirts": 53,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 94608,
+        "componentInstances": 219,
+        "distinctRoots": 219,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/45-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 115,
+          "flowerClumps": 0,
+          "terrainSkirts": 89,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 23128,
+        "roots": 59,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 26
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 115,
+          "flowerClumps": 0,
+          "terrainSkirts": 89,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25488,
+        "componentInstances": 59,
+        "distinctRoots": 59,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/46-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 80,
+          "flowerClumps": 0,
+          "terrainSkirts": 52,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 23128,
+        "roots": 59,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 80,
+          "flowerClumps": 0,
+          "terrainSkirts": 52,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25488,
+        "componentInstances": 59,
+        "distinctRoots": 59,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/47-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 136,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 211,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 53312,
+        "roots": 136,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 136,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 211,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 58752,
+        "componentInstances": 136,
+        "distinctRoots": 136,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/48-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 191,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 74872,
+        "roots": 191,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 191,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 82512,
+        "componentInstances": 191,
+        "distinctRoots": 191,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/49-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 139,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 54488,
+        "roots": 139,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 139,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 60048,
+        "componentInstances": 139,
+        "distinctRoots": 139,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/52-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 130,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50960,
+        "roots": 130,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 130,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 56160,
+        "componentInstances": 130,
+        "distinctRoots": 130,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/53-6.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 39,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 15288,
+        "roots": 39,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 39,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 16848,
+        "componentInstances": 39,
+        "distinctRoots": 39,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/54-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 192,
+          "flowerClumps": 0,
+          "terrainSkirts": 65,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 23128,
+        "roots": 59,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 192,
+          "flowerClumps": 0,
+          "terrainSkirts": 65,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25488,
+        "componentInstances": 59,
+        "distinctRoots": 59,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/55-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 103,
+          "uprightPanels": 0,
+          "fencePosts": 128,
+          "flowerClumps": 0,
+          "terrainSkirts": 50,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40376,
+        "roots": 103,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 24
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 103,
+          "uprightPanels": 0,
+          "fencePosts": 128,
+          "flowerClumps": 0,
+          "terrainSkirts": 50,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 44496,
+        "componentInstances": 103,
+        "distinctRoots": 103,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/56-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 43,
+          "uprightPanels": 0,
+          "fencePosts": 222,
+          "flowerClumps": 0,
+          "terrainSkirts": 130,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 16856,
+        "roots": 43,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 43,
+          "uprightPanels": 0,
+          "fencePosts": 222,
+          "flowerClumps": 0,
+          "terrainSkirts": 130,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18576,
+        "componentInstances": 43,
+        "distinctRoots": 43,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/57-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 69,
+          "uprightPanels": 0,
+          "fencePosts": 36,
+          "flowerClumps": 0,
+          "terrainSkirts": 268,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 27048,
+        "roots": 69,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 30
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 69,
+          "uprightPanels": 0,
+          "fencePosts": 36,
+          "flowerClumps": 0,
+          "terrainSkirts": 268,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 29808,
+        "componentInstances": 69,
+        "distinctRoots": 69,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/58-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 55,
+          "uprightPanels": 0,
+          "fencePosts": 279,
+          "flowerClumps": 0,
+          "terrainSkirts": 144,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 21560,
+        "roots": 55,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 55,
+          "uprightPanels": 0,
+          "fencePosts": 279,
+          "flowerClumps": 0,
+          "terrainSkirts": 144,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 23760,
+        "componentInstances": 55,
+        "distinctRoots": 55,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/59-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 130,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 234,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50960,
+        "roots": 130,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 130,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 234,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 56160,
+        "componentInstances": 130,
+        "distinctRoots": 130,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/61-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 2,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 115,
+          "solidRocks": 39,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 784,
+        "roots": 2,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 2,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 115,
+          "solidRocks": 39,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 864,
+        "componentInstances": 2,
+        "distinctRoots": 2,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/62-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 45,
+          "flowerClumps": 0,
+          "terrainSkirts": 202,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3920,
+        "roots": 10,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 45,
+          "flowerClumps": 0,
+          "terrainSkirts": 202,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4320,
+        "componentInstances": 10,
+        "distinctRoots": 10,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/101-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 22,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 211,
+          "solidRocks": 6,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 8624,
+        "roots": 22,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 22,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 211,
+          "solidRocks": 6,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9504,
+        "componentInstances": 22,
+        "distinctRoots": 22,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/102-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 53,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 135,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 20776,
+        "roots": 53,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 53,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 135,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 22896,
+        "componentInstances": 53,
+        "distinctRoots": 53,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/103-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 27,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 263,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 10584,
+        "roots": 27,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 27,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 263,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11664,
+        "componentInstances": 27,
+        "distinctRoots": 27,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/82-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 129,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 188,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50568,
+        "roots": 129,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 129,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 188,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 55728,
+        "componentInstances": 129,
+        "distinctRoots": 129,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/83-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 66,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 265,
+          "solidRocks": 6,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25872,
+        "roots": 66,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 66,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 265,
+          "solidRocks": 6,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 28512,
+        "componentInstances": 66,
+        "distinctRoots": 66,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/85-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 40,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 227,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 15680,
+        "roots": 40,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 40,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 227,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 17280,
+        "componentInstances": 40,
+        "distinctRoots": 40,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/87-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 103,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 88,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40376,
+        "roots": 103,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 103,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 88,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 44496,
+        "componentInstances": 103,
+        "distinctRoots": 103,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/88-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 33,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 200,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 12936,
+        "roots": 33,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 33,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 200,
+          "solidRocks": 4,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 14256,
+        "componentInstances": 33,
+        "distinctRoots": 33,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/89-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 200,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 101,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 16,
+        "triangles": 78400,
+        "roots": 200,
+        "leftovers": [
+          {
+            "material": "tree_w02",
+            "triangles": 20
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 200,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 101,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 14,
+        "triangles": 66744,
+        "componentInstances": 200,
+        "distinctRoots": 200,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/90-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 163,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 37,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 14,
+        "triangles": 63896,
+        "roots": 163,
+        "leftovers": [
+          {
+            "material": "tree_w02",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 163,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 37,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 13,
+        "triangles": 47952,
+        "componentInstances": 163,
+        "distinctRoots": 163,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/91-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 141,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 79,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 12,
+        "triangles": 55272,
+        "roots": 141,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 141,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 79,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 11,
+        "triangles": 58824,
+        "componentInstances": 141,
+        "distinctRoots": 141,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/92-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 184,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 140,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 18,
+        "triangles": 72128,
+        "roots": 184,
+        "leftovers": [
+          {
+            "material": "tree_w02",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 184,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 140,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 15,
+        "triangles": 69216,
+        "componentInstances": 184,
+        "distinctRoots": 184,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/93-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 77,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 92,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 16,
+        "triangles": 30184,
+        "roots": 77,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 77,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 92,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 13,
+        "triangles": 30312,
+        "componentInstances": 77,
+        "distinctRoots": 77,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/94-8.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 60,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 88,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 23520,
+        "roots": 60,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 60,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 88,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25920,
+        "componentInstances": 60,
+        "distinctRoots": 60,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/112-9.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 43,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 342,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 16856,
+        "roots": 43,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 43,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 342,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18576,
+        "componentInstances": 43,
+        "distinctRoots": 43,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/113-9.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 38,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 377,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 14896,
+        "roots": 38,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 38,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 377,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 16416,
+        "componentInstances": 38,
+        "distinctRoots": 38,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/114-9.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 95,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 201,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 37240,
+        "roots": 95,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 16
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 95,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 201,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 41040,
+        "componentInstances": 95,
+        "distinctRoots": 95,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/115-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 14,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 169,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 5488,
+        "roots": 14,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 14,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 169,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 5712,
+        "componentInstances": 14,
+        "distinctRoots": 14,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/116-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 74,
+          "uprightPanels": 0,
+          "fencePosts": 20,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 29008,
+        "roots": 74,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 16
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 74,
+          "uprightPanels": 0,
+          "fencePosts": 20,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 30192,
+        "componentInstances": 74,
+        "distinctRoots": 74,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/117-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 79,
+          "uprightPanels": 0,
+          "fencePosts": 152,
+          "flowerClumps": 0,
+          "terrainSkirts": 130,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 30968,
+        "roots": 79,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 79,
+          "uprightPanels": 0,
+          "fencePosts": 152,
+          "flowerClumps": 0,
+          "terrainSkirts": 130,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 32232,
+        "componentInstances": 79,
+        "distinctRoots": 79,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/118-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 74,
+          "uprightPanels": 0,
+          "fencePosts": 16,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 29008,
+        "roots": 74,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 74,
+          "uprightPanels": 0,
+          "fencePosts": 16,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 30192,
+        "componentInstances": 74,
+        "distinctRoots": 74,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/119-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 69,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 238,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 27048,
+        "roots": 69,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 69,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 238,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 28152,
+        "componentInstances": 69,
+        "distinctRoots": 69,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/120-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 167,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 65464,
+        "roots": 167,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 167,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 68136,
+        "componentInstances": 167,
+        "distinctRoots": 167,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/122-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 26,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 232,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 10192,
+        "roots": 26,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 26,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 232,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 10608,
+        "componentInstances": 26,
+        "distinctRoots": 26,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/123-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 48,
+          "uprightPanels": 0,
+          "fencePosts": 14,
+          "flowerClumps": 0,
+          "terrainSkirts": 326,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18816,
+        "roots": 48,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 48,
+          "uprightPanels": 0,
+          "fencePosts": 14,
+          "flowerClumps": 0,
+          "terrainSkirts": 326,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 19584,
+        "componentInstances": 48,
+        "distinctRoots": 48,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/124-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 45,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 248,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 17640,
+        "roots": 45,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 45,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 248,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18360,
+        "componentInstances": 45,
+        "distinctRoots": 45,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/125-10.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 27,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 316,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 10584,
+        "roots": 27,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 10
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 27,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 316,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11016,
+        "componentInstances": 27,
+        "distinctRoots": 27,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/127-11.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 101,
+          "uprightPanels": 0,
+          "fencePosts": 103,
+          "flowerClumps": 0,
+          "terrainSkirts": 115,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39592,
+        "roots": 101,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 101,
+          "uprightPanels": 0,
+          "fencePosts": 103,
+          "flowerClumps": 0,
+          "terrainSkirts": 115,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 41208,
+        "componentInstances": 101,
+        "distinctRoots": 101,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/129-11.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 30,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 14,
+          "solidRocks": 13,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11760,
+        "roots": 30,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 30,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 14,
+          "solidRocks": 13,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 12240,
+        "componentInstances": 30,
+        "distinctRoots": 30,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/130-11.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 83,
+          "uprightPanels": 0,
+          "fencePosts": 30,
+          "flowerClumps": 0,
+          "terrainSkirts": 42,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 32536,
+        "roots": 83,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 83,
+          "uprightPanels": 0,
+          "fencePosts": 30,
+          "flowerClumps": 0,
+          "terrainSkirts": 42,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 33864,
+        "componentInstances": 83,
+        "distinctRoots": 83,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/131-11.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 109,
+          "uprightPanels": 0,
+          "fencePosts": 44,
+          "flowerClumps": 0,
+          "terrainSkirts": 102,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 42728,
+        "roots": 109,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 109,
+          "uprightPanels": 0,
+          "fencePosts": 44,
+          "flowerClumps": 0,
+          "terrainSkirts": 102,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 44472,
+        "componentInstances": 109,
+        "distinctRoots": 109,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/132-11.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 130,
+          "uprightPanels": 0,
+          "fencePosts": 54,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50960,
+        "roots": 130,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 130,
+          "uprightPanels": 0,
+          "fencePosts": 54,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 53040,
+        "componentInstances": 130,
+        "distinctRoots": 130,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/133-12.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 64,
+          "uprightPanels": 0,
+          "fencePosts": 208,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25088,
+        "roots": 64,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 64,
+          "uprightPanels": 0,
+          "fencePosts": 208,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 26112,
+        "componentInstances": 64,
+        "distinctRoots": 64,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/134-12.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 112,
+          "uprightPanels": 0,
+          "fencePosts": 212,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 43904,
+        "roots": 112,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 112,
+          "uprightPanels": 0,
+          "fencePosts": 212,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 45696,
+        "componentInstances": 112,
+        "distinctRoots": 112,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/135-12.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 25,
+          "uprightPanels": 0,
+          "fencePosts": 136,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9800,
+        "roots": 25,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 25,
+          "uprightPanels": 0,
+          "fencePosts": 136,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 10200,
+        "componentInstances": 25,
+        "distinctRoots": 25,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/136-12.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 64,
+          "uprightPanels": 0,
+          "fencePosts": 152,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25088,
+        "roots": 64,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 64,
+          "uprightPanels": 0,
+          "fencePosts": 152,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 26112,
+        "componentInstances": 64,
+        "distinctRoots": 64,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/141-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 16,
+          "uprightPanels": 0,
+          "fencePosts": 96,
+          "flowerClumps": 0,
+          "terrainSkirts": 142,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 6,
+        "triangles": 6272,
+        "roots": 16,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 16,
+          "uprightPanels": 0,
+          "fencePosts": 96,
+          "flowerClumps": 0,
+          "terrainSkirts": 142,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 5,
+        "triangles": 5328,
+        "componentInstances": 16,
+        "distinctRoots": 16,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/142-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 60,
+          "uprightPanels": 0,
+          "fencePosts": 39,
+          "flowerClumps": 0,
+          "terrainSkirts": 203,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 6,
+        "triangles": 23520,
+        "roots": 60,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 22
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 60,
+          "uprightPanels": 0,
+          "fencePosts": 39,
+          "flowerClumps": 0,
+          "terrainSkirts": 203,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 5,
+        "triangles": 23880,
+        "componentInstances": 60,
+        "distinctRoots": 60,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/143-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 75,
+          "uprightPanels": 0,
+          "fencePosts": 65,
+          "flowerClumps": 0,
+          "terrainSkirts": 102,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 6,
+        "triangles": 29400,
+        "roots": 75,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 75,
+          "uprightPanels": 0,
+          "fencePosts": 65,
+          "flowerClumps": 0,
+          "terrainSkirts": 102,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 5,
+        "triangles": 29040,
+        "componentInstances": 75,
+        "distinctRoots": 75,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/144-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 85,
+          "uprightPanels": 3,
+          "fencePosts": 122,
+          "flowerClumps": 15,
+          "terrainSkirts": 52,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 6,
+        "triangles": 33320,
+        "roots": 85,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 85,
+          "uprightPanels": 3,
+          "fencePosts": 122,
+          "flowerClumps": 15,
+          "terrainSkirts": 52,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 5,
+        "triangles": 31440,
+        "componentInstances": 85,
+        "distinctRoots": 85,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/146-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 4,
+          "uprightPanels": 0,
+          "fencePosts": 47,
+          "flowerClumps": 0,
+          "terrainSkirts": 187,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 1568,
+        "roots": 4,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 4,
+          "uprightPanels": 0,
+          "fencePosts": 47,
+          "flowerClumps": 0,
+          "terrainSkirts": 187,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 1632,
+        "componentInstances": 4,
+        "distinctRoots": 4,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/147-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 29,
+          "uprightPanels": 0,
+          "fencePosts": 64,
+          "flowerClumps": 0,
+          "terrainSkirts": 172,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11368,
+        "roots": 29,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 29,
+          "uprightPanels": 0,
+          "fencePosts": 64,
+          "flowerClumps": 0,
+          "terrainSkirts": 172,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11832,
+        "componentInstances": 29,
+        "distinctRoots": 29,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/148-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 22,
+          "uprightPanels": 0,
+          "fencePosts": 104,
+          "flowerClumps": 0,
+          "terrainSkirts": 134,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 8624,
+        "roots": 22,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 23,
+          "uprightPanels": 0,
+          "fencePosts": 104,
+          "flowerClumps": 0,
+          "terrainSkirts": 134,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9384,
+        "componentInstances": 23,
+        "distinctRoots": 23,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/149-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 97,
+          "flowerClumps": 0,
+          "terrainSkirts": 197,
+          "solidRocks": 6,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3920,
+        "roots": 10,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 97,
+          "flowerClumps": 0,
+          "terrainSkirts": 197,
+          "solidRocks": 6,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4080,
+        "componentInstances": 10,
+        "distinctRoots": 10,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/151-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 133,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3920,
+        "roots": 10,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 133,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4080,
+        "componentInstances": 10,
+        "distinctRoots": 10,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/152-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 32,
+          "uprightPanels": 0,
+          "fencePosts": 41,
+          "flowerClumps": 0,
+          "terrainSkirts": 108,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 12544,
+        "roots": 32,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 18
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 32,
+          "uprightPanels": 0,
+          "fencePosts": 41,
+          "flowerClumps": 0,
+          "terrainSkirts": 108,
+          "solidRocks": 1,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 13056,
+        "componentInstances": 32,
+        "distinctRoots": 32,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/153-13.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 123,
+          "uprightPanels": 0,
+          "fencePosts": 133,
+          "flowerClumps": 0,
+          "terrainSkirts": 116,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 48216,
+        "roots": 123,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 123,
+          "uprightPanels": 0,
+          "fencePosts": 133,
+          "flowerClumps": 0,
+          "terrainSkirts": 116,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50184,
+        "componentInstances": 123,
+        "distinctRoots": 123,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/154-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 13,
+          "uprightPanels": 0,
+          "fencePosts": 48,
+          "flowerClumps": 0,
+          "terrainSkirts": 158,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 5096,
+        "roots": 13,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 13,
+          "uprightPanels": 0,
+          "fencePosts": 48,
+          "flowerClumps": 0,
+          "terrainSkirts": 158,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 5304,
+        "componentInstances": 13,
+        "distinctRoots": 13,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/155-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 24,
+          "uprightPanels": 0,
+          "fencePosts": 54,
+          "flowerClumps": 0,
+          "terrainSkirts": 107,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9408,
+        "roots": 24,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 24,
+          "uprightPanels": 0,
+          "fencePosts": 54,
+          "flowerClumps": 0,
+          "terrainSkirts": 107,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9792,
+        "componentInstances": 24,
+        "distinctRoots": 24,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/158-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 25,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 165,
+          "solidRocks": 17,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9800,
+        "roots": 25,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 25,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 165,
+          "solidRocks": 17,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 10200,
+        "componentInstances": 25,
+        "distinctRoots": 25,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/159-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 60,
+          "uprightPanels": 0,
+          "fencePosts": 46,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 17,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 23520,
+        "roots": 60,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 60,
+          "uprightPanels": 0,
+          "fencePosts": 46,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 17,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 24480,
+        "componentInstances": 60,
+        "distinctRoots": 60,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/160-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 66,
+          "uprightPanels": 0,
+          "fencePosts": 28,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 15,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25872,
+        "roots": 66,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 66,
+          "uprightPanels": 0,
+          "fencePosts": 28,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 15,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 26928,
+        "componentInstances": 66,
+        "distinctRoots": 66,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/161-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 156,
+          "uprightPanels": 0,
+          "fencePosts": 261,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 61152,
+        "roots": 156,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 156,
+          "uprightPanels": 0,
+          "fencePosts": 261,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 63648,
+        "componentInstances": 156,
+        "distinctRoots": 156,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/162-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 134,
+          "uprightPanels": 0,
+          "fencePosts": 282,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 52528,
+        "roots": 134,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 134,
+          "uprightPanels": 0,
+          "fencePosts": 282,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 54672,
+        "componentInstances": 134,
+        "distinctRoots": 134,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/163-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 100,
+          "uprightPanels": 0,
+          "fencePosts": 58,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 25,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39200,
+        "roots": 100,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 100,
+          "uprightPanels": 0,
+          "fencePosts": 58,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 25,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40800,
+        "componentInstances": 100,
+        "distinctRoots": 100,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/164-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 7,
+          "uprightPanels": 0,
+          "fencePosts": 68,
+          "flowerClumps": 0,
+          "terrainSkirts": 86,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 2744,
+        "roots": 7,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 7,
+          "uprightPanels": 0,
+          "fencePosts": 68,
+          "flowerClumps": 0,
+          "terrainSkirts": 86,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 2856,
+        "componentInstances": 7,
+        "distinctRoots": 7,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/165-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 123,
+          "uprightPanels": 0,
+          "fencePosts": 75,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 48216,
+        "roots": 123,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 123,
+          "uprightPanels": 0,
+          "fencePosts": 75,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50184,
+        "componentInstances": 123,
+        "distinctRoots": 123,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/166-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 115,
+          "uprightPanels": 0,
+          "fencePosts": 64,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 45080,
+        "roots": 115,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 115,
+          "uprightPanels": 0,
+          "fencePosts": 64,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 46920,
+        "componentInstances": 115,
+        "distinctRoots": 115,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/167-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 114,
+          "uprightPanels": 0,
+          "fencePosts": 64,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 44688,
+        "roots": 114,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 114,
+          "uprightPanels": 0,
+          "fencePosts": 64,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 46512,
+        "componentInstances": 114,
+        "distinctRoots": 114,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/168-14.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 35,
+          "uprightPanels": 0,
+          "fencePosts": 74,
+          "flowerClumps": 0,
+          "terrainSkirts": 44,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 13720,
+        "roots": 35,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 35,
+          "uprightPanels": 0,
+          "fencePosts": 74,
+          "flowerClumps": 0,
+          "terrainSkirts": 44,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 14280,
+        "componentInstances": 35,
+        "distinctRoots": 35,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/169-15.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 128,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 74,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 50176,
+        "roots": 128,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 44
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 128,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 74,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 52224,
+        "componentInstances": 128,
+        "distinctRoots": 128,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/170-15.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 102,
+          "uprightPanels": 0,
+          "fencePosts": 58,
+          "flowerClumps": 0,
+          "terrainSkirts": 28,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39984,
+        "roots": 102,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 102,
+          "uprightPanels": 0,
+          "fencePosts": 58,
+          "flowerClumps": 0,
+          "terrainSkirts": 28,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 41616,
+        "componentInstances": 102,
+        "distinctRoots": 102,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/171-15.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 89,
+          "uprightPanels": 0,
+          "fencePosts": 67,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 34888,
+        "roots": 89,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 89,
+          "uprightPanels": 0,
+          "fencePosts": 67,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 36312,
+        "componentInstances": 89,
+        "distinctRoots": 89,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/172-15.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 148,
+          "uprightPanels": 0,
+          "fencePosts": 28,
+          "flowerClumps": 0,
+          "terrainSkirts": 42,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 58016,
+        "roots": 148,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 148,
+          "uprightPanels": 0,
+          "fencePosts": 28,
+          "flowerClumps": 0,
+          "terrainSkirts": 42,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 60384,
+        "componentInstances": 148,
+        "distinctRoots": 148,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/173-15.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 174,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 68208,
+        "roots": 174,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 174,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 70992,
+        "componentInstances": 174,
+        "distinctRoots": 174,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/174-15.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 105,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 231,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 41160,
+        "roots": 105,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 105,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 231,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 42840,
+        "componentInstances": 105,
+        "distinctRoots": 105,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/175-16.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 19,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 326,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 7448,
+        "roots": 19,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 21,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 326,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 8568,
+        "componentInstances": 21,
+        "distinctRoots": 21,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/176-16.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 21,
+          "flowerClumps": 0,
+          "terrainSkirts": 162,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 7056,
+        "roots": 18,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 21,
+          "flowerClumps": 0,
+          "terrainSkirts": 162,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 7344,
+        "componentInstances": 18,
+        "distinctRoots": 18,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/181-16.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 99,
+          "uprightPanels": 0,
+          "fencePosts": 108,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 38808,
+        "roots": 99,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 99,
+          "uprightPanels": 0,
+          "fencePosts": 108,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40392,
+        "componentInstances": 99,
+        "distinctRoots": 99,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/182-16.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 170,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 32,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 66640,
+        "roots": 170,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 170,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 32,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 69360,
+        "componentInstances": 170,
+        "distinctRoots": 170,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/183-16.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 186,
+          "uprightPanels": 6,
+          "fencePosts": 0,
+          "flowerClumps": 11,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 72912,
+        "roots": 186,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 186,
+          "uprightPanels": 6,
+          "fencePosts": 0,
+          "flowerClumps": 11,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 75888,
+        "componentInstances": 186,
+        "distinctRoots": 186,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/184-16.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 46,
+          "uprightPanels": 0,
+          "fencePosts": 67,
+          "flowerClumps": 0,
+          "terrainSkirts": 40,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18032,
+        "roots": 46,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 20
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 46,
+          "uprightPanels": 0,
+          "fencePosts": 67,
+          "flowerClumps": 0,
+          "terrainSkirts": 40,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18768,
+        "componentInstances": 46,
+        "distinctRoots": 46,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/185-16.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 99,
+          "uprightPanels": 0,
+          "fencePosts": 145,
+          "flowerClumps": 0,
+          "terrainSkirts": 58,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 38808,
+        "roots": 99,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 99,
+          "uprightPanels": 0,
+          "fencePosts": 145,
+          "flowerClumps": 0,
+          "terrainSkirts": 58,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40392,
+        "componentInstances": 99,
+        "distinctRoots": 99,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/190-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 120,
+          "uprightPanels": 0,
+          "fencePosts": 49,
+          "flowerClumps": 0,
+          "terrainSkirts": 30,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 47040,
+        "roots": 120,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 120,
+          "uprightPanels": 0,
+          "fencePosts": 49,
+          "flowerClumps": 0,
+          "terrainSkirts": 30,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 48960,
+        "componentInstances": 120,
+        "distinctRoots": 120,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/191-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 195,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 76440,
+        "roots": 195,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 195,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 79560,
+        "componentInstances": 195,
+        "distinctRoots": 195,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/192-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 37,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 142,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 14504,
+        "roots": 37,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 37,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 142,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 15096,
+        "componentInstances": 37,
+        "distinctRoots": 37,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/193-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 25,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 119,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9800,
+        "roots": 25,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 25,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 119,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 10200,
+        "componentInstances": 25,
+        "distinctRoots": 25,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/194-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 73,
+          "uprightPanels": 0,
+          "fencePosts": 42,
+          "flowerClumps": 0,
+          "terrainSkirts": 34,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 28616,
+        "roots": 73,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 73,
+          "uprightPanels": 0,
+          "fencePosts": 42,
+          "flowerClumps": 0,
+          "terrainSkirts": 34,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 29784,
+        "componentInstances": 73,
+        "distinctRoots": 73,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/195-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 51,
+          "uprightPanels": 0,
+          "fencePosts": 62,
+          "flowerClumps": 0,
+          "terrainSkirts": 102,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 19992,
+        "roots": 51,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 51,
+          "uprightPanels": 0,
+          "fencePosts": 62,
+          "flowerClumps": 0,
+          "terrainSkirts": 102,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 20808,
+        "componentInstances": 51,
+        "distinctRoots": 51,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/196-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 439,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 5880,
+        "roots": 15,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 439,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 6120,
+        "componentInstances": 15,
+        "distinctRoots": 15,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/197-17.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 11,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 258,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4312,
+        "roots": 11,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 11,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 258,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4488,
+        "componentInstances": 11,
+        "distinctRoots": 11,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/186-18.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 6,
+          "uprightPanels": 0,
+          "fencePosts": 6,
+          "flowerClumps": 0,
+          "terrainSkirts": 202,
+          "solidRocks": 25,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 2352,
+        "roots": 6,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 6,
+          "uprightPanels": 0,
+          "fencePosts": 6,
+          "flowerClumps": 0,
+          "terrainSkirts": 202,
+          "solidRocks": 25,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 2448,
+        "componentInstances": 6,
+        "distinctRoots": 6,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/199-18.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 87,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 136,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 34104,
+        "roots": 87,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 32
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 87,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 136,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 35496,
+        "componentInstances": 87,
+        "distinctRoots": 87,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/200-18.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 113,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 51,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 44296,
+        "roots": 113,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 40
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 113,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 51,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 46104,
+        "componentInstances": 113,
+        "distinctRoots": 113,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/201-18.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 96,
+          "uprightPanels": 0,
+          "fencePosts": 36,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 37632,
+        "roots": 96,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 96,
+          "uprightPanels": 0,
+          "fencePosts": 36,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39168,
+        "componentInstances": 96,
+        "distinctRoots": 96,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/202-18.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 72,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 33,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 28224,
+        "roots": 72,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 72,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 33,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 29376,
+        "componentInstances": 72,
+        "distinctRoots": 72,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/72-19.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 117,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 45864,
+        "roots": 117,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 131,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 56592,
+        "componentInstances": 131,
+        "distinctRoots": 131,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/73-19.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 103,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 40376,
+        "roots": 103,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 111,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 47952,
+        "componentInstances": 111,
+        "distinctRoots": 111,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/74-19.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 39,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 156,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 15288,
+        "roots": 39,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 39,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 156,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 16848,
+        "componentInstances": 39,
+        "distinctRoots": 39,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/75-19.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 24,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 92,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 9408,
+        "roots": 24,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 18
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 27,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 92,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 11664,
+        "componentInstances": 27,
+        "distinctRoots": 27,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/76-19.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 12,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 177,
+          "solidRocks": 7,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4704,
+        "roots": 12,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 12,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 177,
+          "solidRocks": 7,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 5184,
+        "componentInstances": 12,
+        "distinctRoots": 12,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/77-19.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 62,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 141,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 24304,
+        "roots": 62,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 34
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 62,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 141,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 26784,
+        "componentInstances": 62,
+        "distinctRoots": 62,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/78-19.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 124,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 7056,
+        "roots": 18,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 124,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 7776,
+        "componentInstances": 18,
+        "distinctRoots": 18,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/30-20.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 81,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 31752,
+        "roots": 81,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 16
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 81,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 60,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 34992,
+        "componentInstances": 81,
+        "distinctRoots": 81,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/31-20.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 9,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 78,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 3528,
+        "roots": 9,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 9,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 78,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3888,
+        "componentInstances": 9,
+        "distinctRoots": 9,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/248-29.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 349,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 5880,
+        "roots": 15,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 349,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 6792,
+        "componentInstances": 15,
+        "distinctRoots": 15,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/451-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 176,
+          "uprightPanels": 0,
+          "fencePosts": 44,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 68992,
+        "roots": 176,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 176,
+          "uprightPanels": 0,
+          "fencePosts": 44,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 76032,
+        "componentInstances": 176,
+        "distinctRoots": 176,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/452-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 119,
+          "uprightPanels": 0,
+          "fencePosts": 180,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 46648,
+        "roots": 119,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 119,
+          "uprightPanels": 0,
+          "fencePosts": 180,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 51408,
+        "componentInstances": 119,
+        "distinctRoots": 119,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/453-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 187,
+          "uprightPanels": 0,
+          "fencePosts": 96,
+          "flowerClumps": 0,
+          "terrainSkirts": 44,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 73304,
+        "roots": 187,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 187,
+          "uprightPanels": 0,
+          "fencePosts": 96,
+          "flowerClumps": 0,
+          "terrainSkirts": 44,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 80784,
+        "componentInstances": 187,
+        "distinctRoots": 187,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/454-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 140,
+          "uprightPanels": 0,
+          "fencePosts": 52,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 54880,
+        "roots": 140,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 140,
+          "uprightPanels": 0,
+          "fencePosts": 52,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 60480,
+        "componentInstances": 140,
+        "distinctRoots": 140,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/455-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 1,
+          "uprightPanels": 0,
+          "fencePosts": 84,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 392,
+        "roots": 1,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 1,
+          "uprightPanels": 0,
+          "fencePosts": 84,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 432,
+        "componentInstances": 1,
+        "distinctRoots": 1,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/456-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 109,
+          "uprightPanels": 0,
+          "fencePosts": 100,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 42728,
+        "roots": 109,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 109,
+          "uprightPanels": 0,
+          "fencePosts": 100,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 47088,
+        "componentInstances": 109,
+        "distinctRoots": 109,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/458-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 100,
+          "uprightPanels": 3,
+          "fencePosts": 280,
+          "flowerClumps": 24,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39200,
+        "roots": 100,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 100,
+          "uprightPanels": 3,
+          "fencePosts": 280,
+          "flowerClumps": 24,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 43200,
+        "componentInstances": 100,
+        "distinctRoots": 100,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/459-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 215,
+          "uprightPanels": 0,
+          "fencePosts": 44,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 84280,
+        "roots": 215,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 215,
+          "uprightPanels": 0,
+          "fencePosts": 44,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 92880,
+        "componentInstances": 215,
+        "distinctRoots": 215,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/457-71.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 192,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 75264,
+        "roots": 192,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 192,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 82944,
+        "componentInstances": 192,
+        "distinctRoots": 192,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/504-74.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 187,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 70,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 73304,
+        "roots": 187,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 187,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 70,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 80784,
+        "componentInstances": 187,
+        "distinctRoots": 187,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/505-74.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 200,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 78400,
+        "roots": 200,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 200,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 86400,
+        "componentInstances": 200,
+        "distinctRoots": 200,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/506-74.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 178,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 108,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 69776,
+        "roots": 178,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 10
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 178,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 108,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 76896,
+        "componentInstances": 178,
+        "distinctRoots": 178,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/507-74.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 201,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 104,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 78792,
+        "roots": 201,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 12
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 201,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 104,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 86832,
+        "componentInstances": 201,
+        "distinctRoots": 201,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/508-74.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 205,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 80360,
+        "roots": 205,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 4
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 205,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 88560,
+        "componentInstances": 205,
+        "distinctRoots": 205,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/509-74.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 229,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 72,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 89768,
+        "roots": 229,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 230,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 72,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 99360,
+        "componentInstances": 230,
+        "distinctRoots": 230,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/415-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 137,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 394,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 53704,
+        "roots": 137,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 28
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 137,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 394,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 59184,
+        "componentInstances": 137,
+        "distinctRoots": 137,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/652-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 9,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 48,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 3528,
+        "roots": 9,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 9,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 48,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3888,
+        "componentInstances": 9,
+        "distinctRoots": 9,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/653-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 2,
+          "uprightPanels": 0,
+          "fencePosts": 348,
+          "flowerClumps": 0,
+          "terrainSkirts": 8,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 784,
+        "roots": 2,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 2,
+          "uprightPanels": 0,
+          "fencePosts": 348,
+          "flowerClumps": 0,
+          "terrainSkirts": 8,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 864,
+        "componentInstances": 2,
+        "distinctRoots": 2,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/654-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 4,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 49,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 1568,
+        "roots": 4,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 4,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 49,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 1728,
+        "componentInstances": 4,
+        "distinctRoots": 4,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/657-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 5,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 108,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 1960,
+        "roots": 5,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 5,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 108,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 2160,
+        "componentInstances": 5,
+        "distinctRoots": 5,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/658-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 109,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 42728,
+        "roots": 109,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 26
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 109,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 47088,
+        "componentInstances": 109,
+        "distinctRoots": 109,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/659-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 101,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 58,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 39592,
+        "roots": 101,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 18
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 101,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 58,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 43632,
+        "componentInstances": 101,
+        "distinctRoots": 101,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/660-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 3,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 88,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 1176,
+        "roots": 3,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 3,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 88,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 1296,
+        "componentInstances": 3,
+        "distinctRoots": 3,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/662-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 293,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 23128,
+        "roots": 59,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 8
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 59,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 293,
+          "solidRocks": 2,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 25488,
+        "componentInstances": 59,
+        "distinctRoots": 59,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/663-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 4,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 56,
+          "solidRocks": 7,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 1568,
+        "roots": 4,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 4,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 56,
+          "solidRocks": 7,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 1728,
+        "componentInstances": 4,
+        "distinctRoots": 4,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/666-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 224,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 87808,
+        "roots": 224,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 224,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 96768,
+        "componentInstances": 224,
+        "distinctRoots": 224,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/669-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 48,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 246,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18816,
+        "roots": 48,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 48,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 246,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 20736,
+        "componentInstances": 48,
+        "distinctRoots": 48,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/670-75.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 6,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 170,
+          "solidRocks": 30,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 2352,
+        "roots": 6,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 6,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 170,
+          "solidRocks": 30,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 2592,
+        "componentInstances": 6,
+        "distinctRoots": 6,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/446-88.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 0,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 0,
+        "triangles": 0,
+        "roots": 0,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 0,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 0,
+        "triangles": 0,
+        "componentInstances": 0,
+        "distinctRoots": 0,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/447-88.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 0,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 0,
+        "triangles": 0,
+        "roots": 0,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 0,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 0,
+        "triangles": 0,
+        "componentInstances": 0,
+        "distinctRoots": 0,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/639-90.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 80,
+          "uprightPanels": 0,
+          "fencePosts": 96,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 31360,
+        "roots": 80,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 80,
+          "uprightPanels": 0,
+          "fencePosts": 96,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 34560,
+        "componentInstances": 80,
+        "distinctRoots": 80,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/641-90.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 146,
+          "uprightPanels": 0,
+          "fencePosts": 4,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 57232,
+        "roots": 146,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 146,
+          "uprightPanels": 0,
+          "fencePosts": 4,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 63072,
+        "componentInstances": 146,
+        "distinctRoots": 146,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/640-90.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 24,
+          "fencePosts": 122,
+          "flowerClumps": 44,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 5880,
+        "roots": 15,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 24,
+          "fencePosts": 122,
+          "flowerClumps": 44,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 6480,
+        "componentInstances": 15,
+        "distinctRoots": 15,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/349-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 162,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 63504,
+        "roots": 162,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 162,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 54432,
+        "componentInstances": 162,
+        "distinctRoots": 162,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/347-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 86,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 33712,
+        "roots": 86,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 86,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 28896,
+        "componentInstances": 86,
+        "distinctRoots": 86,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/348-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 233,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 91336,
+        "roots": 233,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 233,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 78288,
+        "componentInstances": 233,
+        "distinctRoots": 233,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/351-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 144,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 56448,
+        "roots": 144,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 144,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 48384,
+        "componentInstances": 144,
+        "distinctRoots": 144,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/337-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 242,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 94864,
+        "roots": 242,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 242,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 81312,
+        "componentInstances": 242,
+        "distinctRoots": 242,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/352-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 71,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 27832,
+        "roots": 71,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 71,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 23856,
+        "componentInstances": 71,
+        "distinctRoots": 71,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/353-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 3,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 1176,
+        "roots": 3,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 3,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 1,
+        "triangles": 1008,
+        "componentInstances": 3,
+        "distinctRoots": 3,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/354-92.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 67,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 26264,
+        "roots": 67,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 67,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 22512,
+        "componentInstances": 67,
+        "distinctRoots": 67,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/356-93.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 152,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 67,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 8,
+        "triangles": 59584,
+        "roots": 152,
+        "leftovers": [
+          {
+            "material": "tree3_01_lm1",
+            "triangles": 22
+          },
+          {
+            "material": "conttree3_2_lm1",
+            "triangles": 108
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 511,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 67,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 19,
+        "triangles": 261600,
+        "componentInstances": 511,
+        "distinctRoots": 277,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/357-93.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 61,
+          "flowerClumps": 0,
+          "terrainSkirts": 215,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3920,
+        "roots": 10,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 61,
+          "flowerClumps": 0,
+          "terrainSkirts": 215,
+          "solidRocks": 11,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4320,
+        "componentInstances": 10,
+        "distinctRoots": 10,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/574-96.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 46,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 357,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 18032,
+        "roots": 46,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 10
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 46,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 357,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 19872,
+        "componentInstances": 46,
+        "distinctRoots": 46,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/575-96.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 31,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 297,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 12152,
+        "roots": 31,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 2
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 31,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 297,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 13392,
+        "componentInstances": 31,
+        "distinctRoots": 31,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/576-96.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 40,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 329,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 15680,
+        "roots": 40,
+        "leftovers": [
+          {
+            "material": "tree01_re",
+            "triangles": 6
+          }
+        ]
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 40,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 329,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 17280,
+        "componentInstances": 40,
+        "distinctRoots": 40,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/577-96.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 245,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 7056,
+        "roots": 18,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 245,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 7776,
+        "componentInstances": 18,
+        "distinctRoots": 18,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/391-97.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 102,
+          "flowerClumps": 0,
+          "terrainSkirts": 221,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3920,
+        "roots": 10,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 102,
+          "flowerClumps": 0,
+          "terrainSkirts": 221,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4080,
+        "componentInstances": 10,
+        "distinctRoots": 10,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/392-97.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 8,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 113,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 3136,
+        "roots": 8,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 8,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 113,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 3264,
+        "componentInstances": 8,
+        "distinctRoots": 8,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/393-97.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 102,
+          "flowerClumps": 0,
+          "terrainSkirts": 221,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 3920,
+        "roots": 10,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 10,
+          "uprightPanels": 0,
+          "fencePosts": 102,
+          "flowerClumps": 0,
+          "terrainSkirts": 221,
+          "solidRocks": 5,
+          "solidSeats": 0
+        },
+        "draws": 4,
+        "triangles": 4080,
+        "componentInstances": 10,
+        "distinctRoots": 10,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/394-97.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 8,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 113,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 3136,
+        "roots": 8,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 8,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 113,
+          "solidRocks": 3,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 3264,
+        "componentInstances": 8,
+        "distinctRoots": 8,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/578-102.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 401,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 5880,
+        "roots": 15,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 15,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 401,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 6480,
+        "componentInstances": 15,
+        "distinctRoots": 15,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "land/580-102.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 368,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 7056,
+        "roots": 18,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 18,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 368,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 7776,
+        "componentInstances": 18,
+        "distinctRoots": 18,
+        "leftovers": []
+      }
+    },
+    {
+      "asset": "props/1-136-7.glb",
+      "baseline": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 1,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 2,
+        "triangles": 392,
+        "roots": 1,
+        "leftovers": []
+      },
+      "candidate": {
+        "summary": {
+          "solidFaces": 0,
+          "billboardTrees": 1,
+          "uprightPanels": 0,
+          "fencePosts": 0,
+          "flowerClumps": 0,
+          "terrainSkirts": 0,
+          "solidRocks": 0,
+          "solidSeats": 0
+        },
+        "draws": 1,
+        "triangles": 504,
+        "componentInstances": 1,
+        "distinctRoots": 1,
+        "leftovers": []
+      }
+    }
+  ]
+}
