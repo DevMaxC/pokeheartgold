@@ -8,6 +8,7 @@ import {originalSpawn} from './spawns.ts';
 import {timeOfDay,trainerCardStars} from './field-services.ts';
 import {mapWeather} from './atmosphere.ts';
 import {addSpecialGameStat,giveBadge,countBadges} from './game-stats.ts';
+import {kurtApricornQuantity,totalApricornCount,kurtBall,clearKurtApricorn} from './apricorn-box.ts';
 import {giveTogepiEgg,isOriginalTogepiGift,isUsableBattler,partyMonSpecies,type EggContext} from './eggs.ts';
 import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDefeated,trainerContacts,phoneContactKey,phoneRematchTrainer,type TrainerContact} from './trainer-script-state.ts';
 
@@ -203,6 +204,10 @@ export class ScriptVM{
         if(cmd==='CheckRunningShoes'){this.set(a[0],Number(!!this.state.runningShoes));continue;}
         if(cmd==='RegisterGearNumber'||cmd==='RegisterPokegearCard'){this.state.pokegear??={contacts:[],cards:[]};if(cmd==='RegisterGearNumber'){const key=phoneContactKey(this.data,v(a[0]));if(key&&!this.state.pokegear.contacts.includes(key))this.state.pokegear.contacts.push(key);}else if(!this.state.pokegear.cards.includes(v(a[0])))this.state.pokegear.cards.push(v(a[0]));continue;}
         if(cmd==='GetPartyCount'){this.set(a[0],this.state.party.length);continue;}
+        if(cmd==='GetKurtApricornQuantity'){this.set(a[0],kurtApricornQuantity(this.state));continue;}
+        if(cmd==='GetTotalApricornCount'){this.set(a[0],totalApricornCount(this.state));continue;}
+        if(cmd==='GetKurtBall'){this.set(a[0],kurtBall(this.data,this.state));continue;}
+        if(cmd==='ClearKurtApricorn'){clearKurtApricorn(this.state);continue;}
         if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,this.state.party.findIndex(m=>m.hp>0&&!m.isEgg)));continue;}
         if(cmd==='GetPartyMonSpecies'){this.set(a[1],partyMonSpecies(this.state.party[v(a[0])]));continue;}
         if(cmd==='GetPartyMonForm2'){this.set(a[1],0);continue;}

@@ -1,0 +1,47 @@
+{
+  "parentCommit": "0389f9a6",
+  "scope": "native saved Apricorn counts/Kurt job and four existing VM queries",
+  "sourceSha256": {
+    "src/apricorn_box.c": "6986a2fd5b29f46b4838f1c60d6b29098a9033386e3c701148b9c72aaedf485c",
+    "src/scrcmd_apricorn.c": "f830a4861cceda0c410f74862c054499f338aac8aa66487e5f136f6f12c9fedb",
+    "src/field/scrcmd_pokemon_misc.c": "850fcb6773c043f18b2d082d0eb5c094923b89680ca03caf42485ac7f6864509",
+    "include/apricorn_internal.h": "b86230875bfd215fe9f02d237cb7dee5eb3857e9a81b57a94778b5d9dafa030c",
+    "asm/apricorn_box_data.s": "5c1ba231cd571883672e3824850a36e93bc2b26781a77272ba1b60afdb574fae",
+    "files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s": "9805b8b82020ac7bc0ea5f686cdd643b09a4a738304b269df9f8f6a7911e6dde",
+    "browser/public/source/maps/164.json": "bd779e717d921601c0b52d43ab9ca3f4ab6fc4cbdc22da1167489a7fab8e49a3",
+    "browser/src/source/apricorn-box.ts": "10e00123d5ffcee3b7fcc694910fed3bc2bb101ab090c331ac63a4da428875bb",
+    "browser/src/source/apricorn-box.test.ts": "b39542415dc226a4df6c7ba291b5d8541de4e69c1c9af39db32881aba4b37e51",
+    "browser/src/source/script.ts": "6dc6ce283571b6f3a97be0a2bc57f9a4a0ee6aae427f6e119e97e841e0302b94",
+    "browser/src/source/types.ts": "74bab3fae4bfd56b517d099031810762fea2edd1443a3ffc968c6ba9fe4538fe"
+  },
+  "validation": {
+    "affectedTests": {
+      "passed": 58,
+      "logSha256": "7778ad6220880e96952594202c96768fa803f9c12f9e30953dacdd18be3b8855"
+    },
+    "typescript": {
+      "exitCode": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "confirmedOriginalGift": {
+    "itemId": 492,
+    "itemKey": "ITEM_FAST_BALL",
+    "correction": "initial source trace mislabeled492 Lure Ball; native script/data never changed"
+  },
+  "implementedVMCommands": [
+    "GetKurtApricornQuantity",
+    "GetTotalApricornCount",
+    "GetKurtBall",
+    "ClearKurtApricorn"
+  ],
+  "explicitRemainingGaps": [
+    "LaunchApricornBoxForKurt selection UI",
+    "Apricorn tree animation/collection field binding",
+    "daily/time/crafting completion scheduler",
+    "Aprijuice",
+    "Azalea Gym/native field Cut"
+  ],
+  "mainUnchanged": true,
+  "completeGameParity": false
+}
