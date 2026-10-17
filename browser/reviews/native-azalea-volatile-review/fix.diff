@@ -1,0 +1,260 @@
+diff --git a/browser/reviews/native-azalea-volatile-contract.json b/browser/reviews/native-azalea-volatile-contract.json
+index daa805f4..9c3c3a4a 100644
+--- a/browser/reviews/native-azalea-volatile-contract.json
++++ b/browser/reviews/native-azalea-volatile-contract.json
+@@ -176,6 +176,46 @@
+       "path": "files/battledata/script/subscript/subscript_0012_UpdateStatStage.s",
+       "sha256": "ba9ac6363a1fbff29b678ddd7189f4245bf4b894c6fcdba8d3947b8e62125336",
+       "bytes": 1306
++    },
++    {
++      "path": "include/battle/battle.h",
++      "sha256": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972",
++      "bytes": 17444
++    },
++    {
++      "path": "include/battle/battle_system.h",
++      "sha256": "c29fa4c2d0e9ff58ef01ccbc55e94adeac55a110630dd6ee101d50e39e3091b6",
++      "bytes": 10303
++    },
++    {
++      "path": "src/battle/battle_system.c",
++      "sha256": "00bdbdc5d780d7562cfa8f5ab8907d8e2cbc1b2e0d563c7b3e236d88ac96cdc4",
++      "bytes": 75182
++    },
++    {
++      "path": "browser/public/source/items.json",
++      "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab",
++      "bytes": 663829
++    },
++    {
++      "path": "files/battledata/script/subscript/subscript_0010_ShowParty.s",
++      "sha256": "d0844a25ceb19c48c0128aede85ff442536d1a45aea216cb5ec198e6a0db8cbb",
++      "bytes": 725
++    },
++    {
++      "path": "files/battledata/script/subscript/subscript_0002_UpdateHp.s",
++      "sha256": "c02a6c456535ebdfc2b317ba87163ddcdaab9f1b8b9ab7a43617e5b922c3ea44",
++      "bytes": 804
++    },
++    {
++      "path": "files/battledata/script/subscript/subscript_0099_HazardsCheck.s",
++      "sha256": "639d41b883f4638d9cdf0553a3c7fdc1ddfbf22137d67e4c66631f9c7fd08a9b",
++      "bytes": 2136
++    },
++    {
++      "path": "files/battledata/script/subscript/subscript_0153_Pursuit.s",
++      "sha256": "33b5e5dc99fced31086f1b482146614bc8709719dd68b757b8dd8314351d0c7b",
++      "bytes": 4726
+     }
+   ],
+   "effects": {
+@@ -192,6 +232,10 @@
+     "No battle.ts/battle-math.ts/main/UI/World changes or newly admitted effects.",
+     "No Transform/BatonPass/doubles controller is implemented. Current-type/ability/held-item conditions must be supplied by a native host, not inferred from species alone.",
+     "Scoped raw16 RNG distribution/consumption is explicit; global RNG parity is not claimed.",
+-    "U-turn is a phase/gate contract only, not an executed pivot. Unsupported remains until every native selected branch is supported."
++    "U-turn is a phase/gate contract only, not an executed pivot. Unsupported remains until every native selected branch is supported.",
++    "MOVE_SUCCEEDED is set by TryMove before accuracy/effect outcome; a later miss or failed effect remains Spite history. Native FAIL includes MISSED via DID_NOT_HIT; timing, not mask exclusion, explains the result.",
++    "nativeMeanLookOnLeave explicitly rejects Attract/Bind bits: this narrow primitive is not the complete native departure pipeline.",
++    "Reflect helper stores logical8 LightClay turns; native packed3bit initial0 is active and decrements to7. Only native donor modifier0/3 is a supported host input.",
++    "Primary scripts and explicit Uturn party-list/Pursuit/hazards/HP callees are pinned; this is not every transitive nested battle subscript."
+   ]
+ }
+diff --git a/browser/reviews/native-azalea-volatile-contract.md b/browser/reviews/native-azalea-volatile-contract.md
+index f8a17660..5ab0a6ec 100644
+--- a/browser/reviews/native-azalea-volatile-contract.md
++++ b/browser/reviews/native-azalea-volatile-contract.md
+@@ -2,20 +2,22 @@
+ 
+ This layer defines source-backed scalar operations and lifecycle boundaries for seven moves selected by the actual upcoming trainer teams. It does not edit `Battle`, its math, admission list, UI or World. All seven effects remain Unsupported. Tests build the actual imported Proton/Bugsy/rival teams, but do not execute complete natural battles or inject a victory. A successful primitive test cannot establish that those campaign battles are playable.
+ 
+-`native-azalea-volatile-contract.json` pins35 full native C/subscript/data files. Native `effect_script_0047/0049/0065/0100/0106/0109/0228` and their complete downstream subscripts were read with the controller/command/util context. Upcoming Proton486 has Supersonic; Bugsy21 has Focus Energy/U-turn; the Azalea rival variants266/269/1 have Supersonic/Spite/Mean Look/Curse, with Reflect on Bayleef in variant1. These are selected-move risks, not proof that every possible winning strategy must select them.
++`native-azalea-volatile-contract.json` pins43 full native C/subscript/data files. Native `effect_script_0047/0049/0065/0100/0106/0109/0228` and the directly relevant primary subscripts were read with the controller/command/util context. Explicit U-turn ShowParty/Pursuit/Hazards/UpdateHP callees are now pinned too; their entire transitive nested subscript closure is not claimed. Upcoming Proton486 has Supersonic; Bugsy21 has Focus Energy/U-turn; the Azalea rival variants266/269/1 have Supersonic/Spite/Mean Look/Curse, with Reflect on Bayleef in variant1. These are selected-move risks, not proof that every possible winning strategy must select them.
+ 
+-The proposed active-battler state is `{status2,meanLookSource,previousMove}`; Reflect belongs to the side. These are ephemeral, separate from saved Pokémon. The host must bind each battler slot to the correct active Mon and update both sides when switching or fainting. It must preserve native before-turn Rage masking: when a raging battler selects a non-Rage move, `status2 &= STATUS2_RAGE` clears its other flags before either action. The existing engine only models some flags, so adding one flag without expanding that mask would be incorrect.
++The proposed active-battler state is `{status2,meanLookSource,previousMove}`; Reflect belongs to the side. These are ephemeral, separate from saved Pokémon. `nativeMeanLookOnLeave` is only a narrow Mean Look/history hook, not the whole native departure pipeline; it rejects active Attract/Bind ownership until those cleanup branches exist. The host must bind each battler slot to the correct active Mon and update both sides when switching or fainting. It must preserve native before-turn Rage masking: when a raging battler selects a non-Rage move, `status2 &= STATUS2_RAGE` clears its other flags before either action. Rage also clears after a non-Rage move and on its native disobedience branch; these existing paths remain host duties. The existing engine only models some flags, so adding one flag without expanding that mask would be incorrect.
+ 
+ | Effect | Pure API and exact native boundary | Required host work before admission |
+ | --- | --- | --- |
+-| Supersonic49 | `nativeConfusionDuration(raw16)` uses `raw%4+2`. `nativeConfusionCheck(status2,draw)` decrements first; reaching0 snaps out without drawing. Otherwise raw lowbit1 acts,0 requests self-hit. | Direct subscript0037 admission checks Own Tempo with Mold Breaker semantics, substitute, existing confusion, missed/semi-invulnerable and Safeguard before duration RNG. Controller case11 runs after earlier sleep/freeze/flinch and before paralysis/PP/accuracy. Self-hit calls native CalcMoveDamage with Struggle, power40, attacker=target, crit1, then ApplyDamageRange(raw%16); it is not a normal attack with STAB/type/critical or the selected move's PP. Self-faint, ability/item survival and action history need their native branches. |
+-| Focus Energy47 | `nativeFocusEnergy` fails to stack; `nativeCriticalMultiplier` adds2stages and clamps at4 using divisors16/8/4/3/2. Armor/Lucky Chant block after the crit draw; Sniper yields3. | Resolve current ability and held-item/species/move critical contributions in the native order. Keep the flag until native departure/Rage cleanup; do not expire it after one move. Apply the resulting native multiplier in damage, including Sniper rather than a boolean-only critical flag. |
+-| Spite100 | `nativePreviousMove` preserves history under NO_MOVE_SET; otherwise records a successful move or clears on failure. `nativeSpite` looks up the first matching slot and removes min(4,remainingPP) without RNG. | Supply `moveNoBattlerPrev`, not current selected ID or the previous slot number. Update history at native action end, reset on switch/faint, preserve NO_MOVE_SET behavior. Apply PP to the correct active party Mon; learning/replacing a move can make the history ID unavailable. Admission still uses actual move-status flags. |
+-| Mean Look106 | `nativeVolatileOnLeave` resets the departing single-battle battler and clears Mean Look on its source-owned victims. `nativeMeanLookBlocks` distinguishes ordinary switch versus escape bypasses. | Check native protected/did-not-hit/already-trapped/substitute/HP branches, record source battler, gate ordinary switching and Run independently. Shed Shell permits switching; Smoke Ball/Run Away/NO_EXP permit escape. Gen IV Ghost types have no automatic trap exemption. U-turn does not call the ordinary trapping guard. Baton Pass is outside this primitive's scope. |
++| Supersonic49 | `nativeConfusionDuration(raw16)` uses `raw%4+2`. `nativeConfusionCheck(status2,draw)` decrements first; reaching0 snaps out without drawing. Otherwise raw lowbit1 acts,0 requests self-hit. | Direct subscript0037 admission checks Own Tempo with Mold Breaker semantics, substitute, existing confusion, missed/semi-invulnerable and Safeguard before duration RNG. Controller case11 runs after earlier sleep/freeze/flinch and before paralysis/PP/accuracy. Self-hit calls native CalcMoveDamage with Struggle, power40, attacker=target, crit1, sideCondition=0, fieldCondition=0, type=0, then ApplyDamageRange(raw%16); Reflect/weather do not reduce/boost this self-hit. It is not a normal attack with STAB/type/critical or the selected move's PP. Self-faint, ability/item survival and action history need their native branches. Tangled Feet modifies accuracy while the target is confused, and Persim/Lum cure confusion; these are current Gen IV data cases that need actual host branches. |
++| Focus Energy47 | `nativeFocusEnergy` fails to stack; `nativeCriticalMultiplier` adds2stages and clamps at4 using divisors16/8/4/3/2. Armor/Lucky Chant block after the crit draw; Sniper yields3. | Resolve ability and held-item/species/move critical contributions in the native order: Super Luck reads the raw battleMons ability, armor uses the ignored-ability check, and Sniper uses GetBattlerAbility. CalcCrit skips the draw for tutorial/first-rival battle types; the host must skip calling this primitive there. Do not expire the flag after one move. Departure/Rage/Haze can clear it; Psych Up OR-copies it and Lansat can set it. Apply the resulting native multiplier in damage, including Sniper rather than a boolean-only critical flag. |
++| Spite100 | `nativePreviousMove` preserves history under NO_MOVE_SET; otherwise records when the literal native MOVE_SUCCEEDED flag is set or clears when absent. The API calls this `moveSucceededFlag`, not hit/effect success. `nativeSpite` looks up the first matching slot and removes min(4,remainingPP) without RNG. | Supply `moveNoBattlerPrev`, not current selected ID or the previous slot number. TryMove sets MOVE_SUCCEEDED before later accuracy/effect execution: a miss or second Focus Energy failure still records its move; flinch/full paralysis/confusion self-hit returns before that flag and clears history, except the separate NO_MOVE_SET guard. Update history at native action end and reset on switch/faint. Apply PP to the correct active party Mon; learning/replacing a move can make the history ID unavailable. Admission still uses actual move-status flags. |
++| Mean Look106 | `nativeMeanLookOnLeave` resets the departing single-battle battler and clears Mean Look on its source-owned victims. `nativePlayerMeanLookBlocks` distinguishes ordinary switch versus escape bypasses. | Check native protected/did-not-hit/already-trapped/substitute/HP branches, record source battler, gate ordinary switching and Run independently. Shed Shell permits switching; Smoke Ball/Run Away/NO_EXP permit escape. Gen IV Ghost types have no automatic trap exemption. U-turn does not call the ordinary trapping guard. Enemy RunInput instead hard-blocks BIND/MEAN_LOOK without those player bypasses (`nativeEnemyTrapBlocksEscape`). Attract/Bind ownership and Baton Pass are outside this departure primitive; active bits reject explicitly. |
+ | Curse109 | `nativeCurseKind` takes current types. `nativeNormalCurseChanges` preserves speed−1, attack+1, defense+1 order. `nativeGhostCurseCost` is floor(maxHP/2), minimum1; `nativeCurseResidual` is floor(maxHP/4), minimum1, zero under Magic Guard. | Re-select the native target if Ghost typing changes a self-selected Curse, check semi-invulnerability/substitute/already-cursed, install status and pay the sacrifice even if it faints the user. Normal self changes use native stage/message/cap behavior. Residual runs after poison/burn/nightmare, before binding, for a still-living cursed target; clear when that target leaves. It continues after the caster leaves. |
+-| Reflect65 | `nativeReflectStart` creates5(+native held modifier) turns and never refreshes an active screen. `nativeReflectTick` includes the activation turn. `nativeReflectIntermediate` applies only to physical noncritical damage, at the post-burn intermediate before final+2, crit/range/STAB/type. | Side state survives party switches. Resolve Light Clay's current native held effect/modifier, expire in field-condition update before per-Mon residuals and show native expiry. Physical screen removal/critical bypass and the doubles2/3 scalar are in the formula, but a doubles controller remains unsupported. Do not halve final damage. |
+-| U-turn228 | `nativePivotGate` and `nativePivotPhases` describe only the initial native branch and sequencing, not an executable pivot. | After a source-eligible hit (including its actual substitute semantics), first check opponent party blackout and user reserve. The pivot subscript then checks on-hit ability/item, Destiny Bond and Grudge, attacker life, Pursuit and life again, status-on-switch, withdrawal, native party choice, switch/update and hazards. CanSwitchMon counts living non-Egg reserves, not trap flags. No reserve/blackout returns to normal after-move processing. Choice/PP/history, enemy selection, remaining opponent action targeting the replacement, replacement failure recovery and ActionEnd EXP must all be integrated before this effect is admitted. |
++| Reflect65 | `nativeReflectStart` creates5(+native held modifier) turns and never refreshes an active screen. `nativeReflectTick` includes the activation turn. `nativeReflectIntermediate` applies only to physical noncritical damage, at the post-burn intermediate before final+2, crit/range/STAB/type. | The helper represents a logical remaining duration, not packed native SideConditionData: native3bit counter wraps5+3 to0 while the side flag stays active, then first decrement wraps to7. Logical8 has the same native expiry/no-refresh behavior. Side state survives party switches. Resolve Light Clay's current native held effect/modifier0/3 (other modifier/count domains reject), expire in field-condition update before per-Mon residuals and show native expiry. Physical screen removal/critical bypass and the doubles2/3 scalar are in the formula, but a doubles controller remains unsupported. Do not halve final damage. |
++| U-turn228 | `nativePivotGate` and `nativePivotPhases` describe only the initial native branch and sequencing, not an executable pivot. | After a source-eligible hit (including its actual substitute semantics), first check opponent party blackout and user reserve; TryReplaceFaintedMon sets showPartyFlags early before on-hit reactions can faint the attacker. The pivot subscript then checks on-hit ability/item, Destiny Bond and Grudge, attacker life, Pursuit and life again, status-on-switch, withdrawal, native party choice, switch/update and hazards. CanSwitchMon counts living non-Egg reserves, not trap flags. No reserve/blackout returns to normal after-move processing. Choice/PP/history, enemy selection, remaining opponent action targeting the replacement, replacement failure recovery and ActionEnd EXP must all be integrated before this effect is admitted. |
+ 
+ Raw-u16 RNG callbacks make the scoped modulo/low-bit operations and branch draw counts reviewable. They do not provide global battle RNG parity, a seed/stream implementation or a mapping from every existing engine float draw. Ability/item/type flags accepted by a pure function must come from actual battle context; immutable personal species types alone cannot stand in for Roost, suppressed abilities or future Transform. Current Gen IV species/abilities and held items such as Own Tempo, Mold Breaker, Magic Guard, armor, Sniper, Light Clay and Shed Shell are real data cases, not hypothetical future generations. Transform, Baton Pass, double battle control and unported reactions stay explicit Unsupported requirements where encountered.
+ 
+-Initial9 primitive/source-fixture tests and TypeScript pass. No engine effect was enabled, no battle victory was supplied, and no build/browser/full suite was run. An actual read-only Opus review will be recorded separately; the earlier gym or Apricorn reviews do not cover this new layer. Parent integration must add real selected-move/action-order/RNG/lifecycle tests and actual native trainer battles before advancing campaign parity.
++The initial9 primitive/source-fixture tests and TypeScript passed at64d301b4. The bounded follow-up adds native pre-hit history timing, all rival variants, explicit ownership rejection, packed Reflect expiry and exact source callee provenance. No engine effect was enabled, no battle victory was supplied, and no build/browser/full suite was run. Actual read-only Opus review found no arithmetic/RNG bug but identified two misleading host-contract claims (history success and generic departure naming), corrected here; a narrow fix follow-up is pending and the original raw review is retained separately. The earlier gym or Apricorn reviews do not cover this new layer. Parent integration must add real selected-move/action-order/RNG/lifecycle tests and actual native trainer battles before advancing campaign parity.
++
++The original Opus report also asserted that MOVE_STATUS_FAIL excludes MISSED. That premise was independently disproved: FAIL includes DID_NOT_HIT, which includes MISSED. Its contract finding is still valid because MOVE_SUCCEEDED is set before the later miss/effect result. The source regression pins this timing and the true mask separately rather than propagating that mistaken explanation.
+diff --git a/browser/src/source/battle-volatiles.test.ts b/browser/src/source/battle-volatiles.test.ts
+index 89a04459..76d2df7a 100644
+--- a/browser/src/source/battle-volatiles.test.ts
++++ b/browser/src/source/battle-volatiles.test.ts
+@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
+ import {createHash} from 'node:crypto';
+ import {loadData,createMon} from './data.ts';
+ import {originalTrainerParty} from './trainers.ts';
+-import {initialNativeVolatile,nativeStatus2 as bit,nativeBeforeTurnStatus2,nativeConfusionDuration,nativeConfusionCheck,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativeVolatileOnLeave,nativeMeanLookBlocks,nativeCurseKind,nativeGhostCurseCost,nativeCurseResidual,nativeNormalCurseChanges,nativeReflectStart,nativeReflectTick,nativeReflectIntermediate,nativePivotGate,nativePivotPhases} from './battle-volatiles.ts';
++import {initialNativeVolatile,nativeStatus2 as bit,nativeBeforeTurnStatus2,nativeConfusionDuration,nativeConfusionCheck,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativeMeanLookOnLeave,nativePlayerMeanLookBlocks,nativeEnemyTrapBlocksEscape,nativeCurseKind,nativeGhostCurseCost,nativeCurseResidual,nativeNormalCurseChanges,nativeReflectStart,nativeReflectTick,nativeReflectIntermediate,nativePivotGate,nativePivotPhases} from './battle-volatiles.ts';
+ globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
+ const data=await loadData(),root=new URL('../../../',import.meta.url),contract=JSON.parse(await readFile(new URL('../../reviews/native-azalea-volatile-contract.json',import.meta.url),'utf8'));
+ function noDraw():never{throw Error('This native branch must not consume RNG');}
+@@ -19,7 +19,7 @@ test('contract pins full relevant native C/subscript/data files and all7 selecte
+ 
+ test('native status2 bits and Rage masking retain only Rage before a non-Rage selection',async()=>{
+   const source=await readFile(new URL('include/constants/battle.h',root),'utf8');for(const[name,shift]of[['FOCUS_ENERGY',20],['RAGE',23],['MEAN_LOOK',26],['CURSE',28]]as const)assert.match(source,new RegExp(`#define STATUS2_${name}\\s+\\(1 << ${shift}\\)`));
+-  const flags=bit.rage|bit.focusEnergy|bit.curse|bit.meanLook|5;assert.equal(nativeBeforeTurnStatus2(flags,33,99),bit.rage);assert.equal(nativeBeforeTurnStatus2(flags,99,99),flags);assert.equal(nativeBeforeTurnStatus2(bit.focusEnergy|3,0,99),bit.focusEnergy|3);
++  const flags=bit.rage|bit.focusEnergy|bit.curse|bit.meanLook|5;assert.equal(nativeBeforeTurnStatus2(flags,33,99),bit.rage);assert.equal(nativeBeforeTurnStatus2(flags,0,99),bit.rage,'accepted non-Fight actions select MOVE_NONE');assert.equal(nativeBeforeTurnStatus2(flags,99,99),flags);assert.equal(nativeBeforeTurnStatus2(bit.focusEnergy|3,0,99),bit.focusEnergy|3);
+ });
+ 
+ test('Supersonic duration uses raw modulo and attacker confusion decrements before a50percent low-bit check',()=>{
+@@ -36,18 +36,22 @@ test('FocusEnergy boosts native critical stage by2 without stacking and armor st
+   let calls=0;assert.equal(nativeCriticalMultiplier(focus.status2,0,()=>{calls++;return 0;},{blocked:true,sniper:true}),1);assert.equal(calls,1);
+ });
+ 
+-test('Spite targets the first native matching successful move, caps at remaining PP and preserves other slot data',async()=>{
++test('Spite targets the first native matching TryMove-recorded move, caps at remaining PP and preserves other slot data',async()=>{
+   const gastly=(await originalTrainerParty(data,data.constants.TRAINER_RIVAL_SILVER))[0];assert.equal(gastly.species,data.constants.SPECIES_GASTLY);assert.ok(gastly.moves.some(move=>move.id===data.constants.MOVE_SPITE));
+   const player=createMon(data,152,18,'Ethan',()=>.5),move=player.moves.at(-1)!,before=structuredClone(player.moves);move.pp=2;before[before.length-1].pp=2;
+   const result=nativeSpite(player.moves,move.id)!;assert.equal(result.slot,player.moves.length-1);assert.equal(result.lost,2);assert.equal(result.moves[result.slot].pp,0);assert.equal(result.moves[result.slot].maxPP,move.maxPP);assert.deepEqual(player.moves,before);
+   assert.equal(nativeSpite(player.moves,0),null);assert.equal(nativeSpite(player.moves,0xffff),null);assert.equal(nativeSpite([{id:33,pp:0,maxPP:35}],33),null);assert.equal(nativeSpite([{id:33,pp:9,maxPP:35},{id:33,pp:7,maxPP:35}],33)!.slot,0);
+-  assert.equal(nativePreviousMove(move.id,33,{noMoveSet:false,succeeded:false}),0);assert.equal(nativePreviousMove(move.id,33,{noMoveSet:false,succeeded:true}),33);assert.equal(nativePreviousMove(move.id,33,{noMoveSet:true,succeeded:false}),move.id);
++  assert.equal(nativePreviousMove(move.id,33,{noMoveSet:false,moveSucceededFlag:false}),0);assert.equal(nativePreviousMove(move.id,33,{noMoveSet:false,moveSucceededFlag:true}),33);assert.equal(nativePreviousMove(move.id,33,{noMoveSet:true,moveSucceededFlag:false}),move.id);
++  for(const outcome of['miss','effect-script-failure']){const recorded=nativePreviousMove(0,move.id,{noMoveSet:false,moveSucceededFlag:true});assert.equal(recorded,move.id,outcome);assert.equal(nativeSpite(player.moves,recorded)!.lost,2,outcome);}
++  for(const outcome of['full-paralysis','confusion-self-hit','flinch'])assert.equal(nativeSpite(player.moves,nativePreviousMove(move.id,33,{noMoveSet:false,moveSucceededFlag:false})),null,outcome);
+ });
+ 
+ test('MeanLook retains native single-battler provenance and its switch versus escape bypasses differ',()=>{
+   const trapped={status2:bit.meanLook|bit.curse|3,meanLookSource:1,previousMove:33},source={status2:bit.focusEnergy,meanLookSource:0,previousMove:212},before=structuredClone([trapped,source]);
+-  assert.deepEqual(nativeVolatileOnLeave([trapped,source],1),[{...trapped,status2:bit.curse|3},initialNativeVolatile()]);assert.deepEqual(nativeVolatileOnLeave([trapped,source],0),[initialNativeVolatile(),source]);assert.deepEqual([trapped,source],before);
+-  const flags={shedShell:false,smokeBall:false,runAway:false,noExperienceBattle:false};assert.equal(nativeMeanLookBlocks(trapped.status2,'switch',flags),true);assert.equal(nativeMeanLookBlocks(trapped.status2,'switch',{...flags,runAway:true}),true);assert.equal(nativeMeanLookBlocks(trapped.status2,'switch',{...flags,shedShell:true}),false);assert.equal(nativeMeanLookBlocks(trapped.status2,'escape',{...flags,shedShell:true}),true);for(const key of['runAway','smokeBall','noExperienceBattle'])assert.equal(nativeMeanLookBlocks(trapped.status2,'escape',{...flags,[key]:true}),false);
++  assert.deepEqual(nativeMeanLookOnLeave([trapped,source],1),[{...trapped,status2:bit.curse|3},initialNativeVolatile()]);assert.deepEqual(nativeMeanLookOnLeave([trapped,source],0),[initialNativeVolatile(),source]);assert.deepEqual([trapped,source],before);
++  for(const unsupported of[bit.bind,1<<16])assert.throws(()=>nativeMeanLookOnLeave([{...trapped,status2:trapped.status2|unsupported},source],1),/Unsupported native Attract\/Bind/);
++  assert.equal(nativeEnemyTrapBlocksEscape(bit.meanLook),true);assert.equal(nativeEnemyTrapBlocksEscape(bit.bind),true);assert.equal(nativeEnemyTrapBlocksEscape(0),false);
++  const flags={shedShell:false,smokeBall:false,runAway:false,noExperienceBattle:false};assert.equal(nativePlayerMeanLookBlocks(trapped.status2,'switch',flags),true);assert.equal(nativePlayerMeanLookBlocks(trapped.status2,'switch',{...flags,runAway:true}),true);assert.equal(nativePlayerMeanLookBlocks(trapped.status2,'switch',{...flags,shedShell:true}),false);assert.equal(nativePlayerMeanLookBlocks(trapped.status2,'escape',{...flags,shedShell:true}),true);for(const key of['runAway','smokeBall','noExperienceBattle'])assert.equal(nativePlayerMeanLookBlocks(trapped.status2,'escape',{...flags,[key]:true}),false);
+ });
+ 
+ test('actual rival Ghost Curse uses current types, integer half sacrifice and quarter residual with MagicGuard immunity',async()=>{
+@@ -56,11 +60,37 @@ test('actual rival Ghost Curse uses current types, integer half sacrifice and qu
+ });
+ 
+ test('Reflect activation counts its own turn, never refreshes and modifies the physical pre+2 intermediate',()=>{
+-  assert.deepEqual(nativeReflectStart(0,0),{applied:true,turns:5});assert.deepEqual(nativeReflectStart(0,3),{applied:true,turns:8});assert.deepEqual(nativeReflectStart(2,3),{applied:false,turns:2});let turns=5;for(let end=1;end<=5;end++){const result=nativeReflectTick(turns);turns=result.turns;assert.equal(result.expired,end===5);}assert.deepEqual(nativeReflectTick(0),{turns:0,expired:false});
++  assert.deepEqual(nativeReflectStart(0,0),{applied:true,turns:5});assert.deepEqual(nativeReflectStart(0,3),{applied:true,turns:8});assert.deepEqual(nativeReflectStart(2,3),{applied:false,turns:2});let turns=5;for(let end=1;end<=5;end++){const result=nativeReflectTick(turns);turns=result.turns;assert.equal(result.expired,end===5);}assert.deepEqual(nativeReflectTick(0),{turns:0,expired:false});assert.throws(()=>nativeReflectStart(0,4),/Unsupported native screen/);assert.throws(()=>nativeReflectTick(9),RangeError);
+   const context={active:true,physical:true,criticalMultiplier:1,removesScreens:false,doubleBattleTwoTargets:false};assert.equal(nativeReflectIntermediate(15,context)+2,9);assert.notEqual(nativeReflectIntermediate(15,context)+2,Math.floor((15+2)/2));for(const changed of[{physical:false},{criticalMultiplier:2},{removesScreens:true},{active:false}])assert.equal(nativeReflectIntermediate(15,{...context,...changed}),15);assert.equal(nativeReflectIntermediate(15,{...context,doubleBattleTwoTargets:true}),10);
+ });
+ 
+ test('actual Bugsy Uturn has usable reserves but its pure gate does not claim an executed pivot or victory',async()=>{
+   const team=await originalTrainerParty(data,data.constants.TRAINER_LEADER_BUGSY_BUGSY);assert.equal(team[0].species,data.constants.SPECIES_SCYTHER);assert.ok(team[0].moves.some(move=>move.id===data.constants.MOVE_U_TURN));const reserve=team.slice(1).some(mon=>!mon.isEgg&&mon.hp>0);assert.equal(reserve,true);assert.equal(nativePivotGate(1,reserve),'continue');assert.equal(nativePivotGate(0,reserve),'battle-over');assert.equal(nativePivotGate(1,false),'no-reserve');
+-  assert.ok(nativePivotPhases.indexOf('ability-on-hit')<nativePivotPhases.indexOf('pursuit'));assert.ok(nativePivotPhases.indexOf('pursuit')<nativePivotPhases.indexOf('party-selection'));assert.equal(nativePivotPhases.at(-1),'hazards');assert.throws(()=>nativeVolatileOnLeave([initialNativeVolatile(),initialNativeVolatile(),initialNativeVolatile()],0),/single-battle/);
++  assert.ok(nativePivotPhases.indexOf('ability-on-hit')<nativePivotPhases.indexOf('pursuit'));assert.ok(nativePivotPhases.indexOf('pursuit')<nativePivotPhases.indexOf('party-selection'));assert.equal(nativePivotPhases.at(-1),'hazards');assert.throws(()=>nativeMeanLookOnLeave([initialNativeVolatile(),initialNativeVolatile(),initialNativeVolatile()],0),/single-battle/);
++});
++
++
++test('Spite history records native MOVE_SUCCEEDED before later miss/effect failure, with FAIL mask provenance kept exact',async()=>{
++  const controller=await readFile(new URL('src/battle/battle_controller_player.c',root),'utf8'),constants=await readFile(new URL('include/constants/battle.h',root),'utf8'),start=controller.indexOf('static void BattleControllerPlayer_TryMove(BattleSystem *battleSystem, BattleContext *ctx) {'),end=controller.indexOf('static void BattleControllerPlayer_CheckMoveHit(',start),tryMove=controller.slice(start,end);
++  assert.ok(tryMove.indexOf('BATTLE_STATUS2_MOVE_SUCCEEDED;')<tryMove.indexOf('ReadBattleScriptFromNarc(ctx, NARC_a_0_0_0, ctx->moveNoCur)'));assert.ok(end>start);
++  assert.match(constants,/#define MOVE_STATUS_DID_NOT_HIT[^\n]*MOVE_STATUS_MISSED/);assert.match(constants,/#define MOVE_STATUS_FAIL\s+\(MOVE_STATUS_DID_NOT_HIT/);
++  // FAIL does include MISSED. History persists because TryMove flags the move
++  // before that later result, not because the native failure mask excludes it.
++  const history=controller.slice(controller.indexOf('static void BattleControllerPlayer_UpdateMoveHistory(BattleSystem *battleSystem, BattleContext *ctx) {'),controller.indexOf('static void BattleControllerPlayer_ActionEnd(BattleSystem *battleSystem, BattleContext *ctx) {'));assert.match(history,/if \(ctx->battleStatus2 & BATTLE_STATUS2_MOVE_SUCCEEDED\)/);
++});
++
++test('both additional actual Azalea rival variants contain the source volatile move set',async()=>{
++  for(const key of['TRAINER_RIVAL_SILVER_7','TRAINER_RIVAL_SILVER_10']){const party=await originalTrainerParty(data,data.constants[key]),effects=new Set(party.flatMap(mon=>mon.moves.map(move=>data.moves[move.id].effect)));for(const effect of[49,100,106,109])assert.ok(effects.has(effect),`${key}/${effect}`);}
++});
++
++test('actual3bit Reflect packing and sole LightClay modifier match logical5/8turn expiry and reject refresh',async()=>{
++  const header=await readFile(new URL('include/battle/battle.h',root),'utf8'),bits=Number(header.match(/reflectTurns\s*:\s*(\d+)/)![1]);assert.equal(bits,3);const donors=data.items.filter(item=>item.holdEffect==='HOLD_EFFECT_EXTEND_SCREENS');assert.deepEqual(donors.map(item=>[item.item,Number(item.holdEffectParam)]),[['ITEM_LIGHT_CLAY',3]]);
++  for(const extension of[0,3]){let packed=(5+extension)&7,logical=nativeReflectStart(0,extension).turns,active=true;assert.equal(nativeReflectStart(logical,extension).applied,false,'active screen never refreshes even when native packed counter is0');for(let turn=1;turn<=5+extension;turn++){packed=(packed-1)&7;active=packed!==0;const next=nativeReflectTick(logical);logical=next.turns;assert.equal(next.expired,!active);assert.equal(logical,active?packed:0);}}
++});
++
++test('all15 pivot protocol phases follow the pinned native0175 and ShowParty010 source sequence',async()=>{
++  const pivot=await readFile(new URL('files/battledata/script/subscript/subscript_0175_PivotMove.s',root),'utf8'),party=await readFile(new URL('files/battledata/script/subscript/subscript_0010_ShowParty.s',root),'utf8'),source=pivot+'\n'+party;
++  const mapping=[['opponent-blackout','CheckBlackOut'],['user-reserve','TryReplaceFaintedMon'],['ability-on-hit','TriggerAbilityOnHit'],['held-item-on-pivot','TriggerHeldItemOnPivotMove'],['destiny-bond','STATUS2_DESTINY_BOND'],['grudge','TryGrudge'],['attacker-alive','CompareMonDataToValue OPCODE_EQU, BATTLER_CATEGORY_ATTACKER, BMON_DATA_HP, 0'],['recall-message','PrintMessage msg_0197_01067'],['pursuit','Call BATTLE_SUBSCRIPT_PURSUIT'],['attacker-alive-after-pursuit','CompareMonDataToValue OPCODE_EQU, BATTLER_CATEGORY_ATTACKER, BMON_DATA_HP, 0'],['status-on-switch','TryRestoreStatusOnSwitch'],['withdraw-animation','DeletePokemon'],['party-selection','GoToSubscript BATTLE_SUBSCRIPT_SHOW_PARTY_LIST'],['switch-and-update','SwitchAndUpdateMon'],['hazards','Call BATTLE_SUBSCRIPT_HAZARDS_CHECK']];let cursor=0;
++  for(const[phase,opcode]of mapping){const at=source.indexOf(opcode,cursor);assert.ok(at>=cursor,phase);cursor=at+opcode.length;}assert.deepEqual([...nativePivotPhases],mapping.map(([phase])=>phase));
++  const controller=await readFile(new URL('src/battle/battle_controller_player.c',root),'utf8');assert.match(controller,/CalcMoveDamage\(battleSystem, ctx, MOVE_STRUGGLE, 0, 0, 40, 0, ctx->battlerIdAttacker, ctx->battlerIdAttacker, 1\)/,'confusion passes no screen/weather field condition');
+ });
+diff --git a/browser/src/source/battle-volatiles.ts b/browser/src/source/battle-volatiles.ts
+index 2b102a65..8804ee8f 100644
+--- a/browser/src/source/battle-volatiles.ts
++++ b/browser/src/source/battle-volatiles.ts
+@@ -1,7 +1,7 @@
+ /** Pure Gen IV primitives, deliberately not admitted by Battle's effect list.
+  * Hosts must supply native phase/ability/item decisions; see the source contract.
+  * Volatiles belong to an active battler, never the saved party Pokémon. */
+-export const nativeStatus2={confusion:7,focusEnergy:1<<20,rage:1<<23,meanLook:1<<26,curse:1<<28}as const;
++export const nativeStatus2={confusion:7,focusEnergy:1<<20,rage:1<<23,bind:7<<13,attract:15<<16,meanLook:1<<26,curse:1<<28}as const;
+ export type NativeBattlerVolatile={status2:number;meanLookSource:number;previousMove:number};
+ export type NativeDraw16=()=>number;
+ function integer(value:number,min:number,max:number,label:string){if(!Number.isInteger(value)||value<min||value>max)throw RangeError(`Invalid native ${label}`);return value;}
+@@ -31,29 +31,38 @@ export function nativeCriticalMultiplier(value:number,extraStages:number,rng:Nat
+ }
+ 
+ export type NativePP={id:number;pp:number;maxPP:number};
+-/** TrySpite uses moveNoBattlerPrev, the first matching move, and no RNG. */
++/** TrySpite uses moveNoBattlerPrev, the first matching move, and no RNG.
++ * This is the native TryMove flag history, not a hit/effect-success history. */
+ export function nativeSpite(moves:readonly NativePP[],previousMove:number){
+   if(moves.length>4)throw RangeError('Invalid native move slots');integer(previousMove,0,0xffff,'previous move');
+   const slot=previousMove?moves.findIndex(move=>move.id===previousMove):-1;if(slot<0)return null;
+   const move=moves[slot];integer(move.pp,0,255,'move PP');if(move.pp===0)return null;const lost=Math.min(4,move.pp);
+   return{slot,move:previousMove,lost,moves:moves.map((value,index)=>index===slot?{...value,pp:value.pp-lost}:value)};
+ }
+-/** UpdateMoveHistory's NO_MOVE_SET guard is distinct from success/failure. */
+-export function nativePreviousMove(previous:number,current:number,flags:{noMoveSet:boolean;succeeded:boolean}){integer(previous,0,0xffff,'previous move');integer(current,0,0xffff,'current move');return flags.noMoveSet?previous:flags.succeeded?current:0;}
++/** UpdateMoveHistory uses the literal MOVE_SUCCEEDED flag: TryMove sets it
++ * BEFORE accuracy/effect-script failure. A later miss/failed FocusEnergy is
++ * recorded too. NO_MOVE_SET instead preserves the previous history. */
++export function nativePreviousMove(previous:number,current:number,flags:{noMoveSet:boolean;moveSucceededFlag:boolean}){integer(previous,0,0xffff,'previous move');integer(current,0,0xffff,'current move');return flags.noMoveSet?previous:flags.moveSucceededFlag?current:0;}
+ 
+-/** This is the native SINGLE-battle status2 ownership cleanup, not BatonPass.
++/** Narrow SINGLE-battle MeanLook/history departure primitive, not the full
++ * native leave pipeline or BatonPass. Attract/Bind ownership is unported and
++ * must reject here until a host implements those native cleanup branches.
+  * Source departure clears its victims' MeanLook flag; its stale owner byte is
+  * harmless and retained just as in InitSwitchWork/InitFaintedWork. */
+-export function nativeVolatileOnLeave(battlers:readonly NativeBattlerVolatile[],leaving:number){
+-  if(battlers.length!==2)throw RangeError('Only native single-battle cleanup is implemented');integer(leaving,0,1,'leaving battler');
++export function nativeMeanLookOnLeave(battlers:readonly NativeBattlerVolatile[],leaving:number){
++  if(battlers.length!==2)throw RangeError('Only native single-battle MeanLook departure is implemented');integer(leaving,0,1,'leaving battler');
++  for(const value of battlers){status(value.status2);if(value.status2&(nativeStatus2.attract|nativeStatus2.bind))throw Error('Unsupported native Attract/Bind departure ownership');}
+   return battlers.map((value,index)=>{status(value.status2);return index===leaving?initialNativeVolatile():{...value,status2:value.meanLookSource===leaving?(value.status2&~nativeStatus2.meanLook)>>>0:value.status2};});
+ }
+ /** The ordinary-switch ShedShell bypass differs from Escape's SmokeBall/
+  * RunAway/NO_EXP bypass. Gen IV does not give Ghost types trap immunity. */
+-export function nativeMeanLookBlocks(value:number,action:'switch'|'escape',context:{shedShell:boolean;smokeBall:boolean;runAway:boolean;noExperienceBattle:boolean}){
++export function nativePlayerMeanLookBlocks(value:number,action:'switch'|'escape',context:{shedShell:boolean;smokeBall:boolean;runAway:boolean;noExperienceBattle:boolean}){
+   status(value);return!!(value&nativeStatus2.meanLook)&&!(action==='switch'?context.shedShell:context.smokeBall||context.runAway||context.noExperienceBattle);
+ }
+ 
++/** Enemy RunInput has a distinct hard gate, with no player escape bypass. */
++export function nativeEnemyTrapBlocksEscape(value:number){status(value);return!!(value&(nativeStatus2.bind|nativeStatus2.meanLook));}
++
+ function maximumHP(value:number){return integer(value,1,65535,'maximum HP');}
+ export function nativeCurseKind(currentTypes:readonly number[],ghostType:number){return currentTypes.includes(ghostType)?'ghost' as const:'normal' as const;}
+ // DamageDivide has a minimum absolute1 for nonzero numerators.
+@@ -63,10 +72,10 @@ export function nativeCurseResidual(maxHP:number,magicGuard:boolean){maximumHP(m
+  * actual stat-stage admission/messages remain the existing native host's job. */
+ export const nativeNormalCurseChanges=[['speed',-1],['atk',1],['def',1]]as const;
+ 
+-export function nativeReflectStart(turns:number,heldExtension:number){integer(turns,0,255,'Reflect turns');integer(heldExtension,0,250,'screen extension');return turns?{applied:false,turns}:{applied:true,turns:5+heldExtension};}
++export function nativeReflectStart(turns:number,heldExtension:number){integer(turns,0,8,'logical Reflect turns');if(heldExtension!==0&&heldExtension!==3)throw RangeError('Unsupported native screen extension');return turns?{applied:false,turns}:{applied:true,turns:5+heldExtension};}
+ /** Field-condition update precedes per-mon poison/burn/Curse. The activation
+  * turn counts; the side state survives an ordinary party switch. */
+-export function nativeReflectTick(turns:number){integer(turns,0,255,'Reflect turns');return{turns:Math.max(0,turns-1),expired:turns===1};}
++export function nativeReflectTick(turns:number){integer(turns,0,8,'logical Reflect turns');return{turns:Math.max(0,turns-1),expired:turns===1};}
+ /** CalcMoveDamage applies screens to its physical intermediate AFTER burn,
+  * BEFORE +2, critical multiplier, range, STAB and type. Not final damage/2. */
+ export function nativeReflectIntermediate(damage:number,context:{active:boolean;physical:boolean;criticalMultiplier:number;removesScreens:boolean;doubleBattleTwoTargets:boolean}){

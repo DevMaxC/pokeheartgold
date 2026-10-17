@@ -77,6 +77,9 @@ test('Spite history records native MOVE_SUCCEEDED before later miss/effect failu
   // FAIL does include MISSED. History persists because TryMove flags the move
   // before that later result, not because the native failure mask excludes it.
   const history=controller.slice(controller.indexOf('static void BattleControllerPlayer_UpdateMoveHistory(BattleSystem *battleSystem, BattleContext *ctx) {'),controller.indexOf('static void BattleControllerPlayer_ActionEnd(BattleSystem *battleSystem, BattleContext *ctx) {'));assert.match(history,/if \(ctx->battleStatus2 & BATTLE_STATUS2_MOVE_SUCCEEDED\)/);
+  assert.match(tryMove,/ctx->commandNext = CONTROLLER_COMMAND_24;/);assert.match(controller,/\[CONTROLLER_COMMAND_24\] = BattleControllerPlayer_CheckMoveHit/);
+  const hit=controller.slice(end,controller.indexOf('static void BattleControllerPlayer_DirectSideEffect(BattleSystem *battleSystem, BattleContext *ctx) {',end));assert.match(hit,/BattleSystem_CheckMoveHit\(battleSystem, ctx,/);
+  const util=await readFile(new URL('src/battle/battle_util.c',root),'utf8'),reset=Number.parseInt(util.match(/ctx->battleStatus2 &= (0x[0-9A-F]+);/)![1]);assert.equal(reset,0xFFFFFEA1);assert.match(constants,/#define BATTLE_STATUS2_MOVE_SUCCEEDED\s+\(1 << 6\)/);assert.equal(reset&(1<<6),0,'per-action reset removes the previous TryMove flag before an early status return');
 });
 
 test('both additional actual Azalea rival variants contain the source volatile move set',async()=>{
