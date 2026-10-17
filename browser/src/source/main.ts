@@ -30,15 +30,18 @@ import {chooseFieldPartySwitchTarget,swapFieldPartySlots} from './party-order.ts
 import {advancePartyEggStep,recordEggHatchEvent,type EggStepClock} from './egg-hatching.ts';
 import {presentNativeEggHatch} from './egg-hatch-presentation.ts';
 import {WorldEggHatchView} from './egg-hatch-view.ts';
-import {createNativeHatchMusicSession} from './hatch-music.ts';
+import {createHatchHostAudio} from './hatch-host-audio.ts';
 import {FieldPhoneHost} from './phone-field-host.ts';
 import type {PhoneAdmissionRules} from './phone-random.ts';
 import {phoneCall} from './phone.ts';
+import {momSavingsActive,settleMomBattleMoney} from './mom-savings.ts';
 import {TouchControls} from './touch-controls.ts';
 import {CameraInput} from './camera-input.ts';
 import {fieldInput,fieldInputFacing} from './field-input.ts';
 import {readInterfacePreferences,writeInterfacePreferences} from './interface-preferences.ts';
-import {InterfacePanels} from './interface-panels.ts';
+import {InterfacePanels,type InterfaceBagUseContext} from './interface-panels.ts';
+import {loadNativeFieldMoveData,type NativeFieldMoveData} from './field-moves.ts';
+import {useFieldBagItem} from './field-bag-actions.ts';
 import {createNativeFieldMusicPlayer,UnsupportedNativeMusic,type EffectiveMusic} from './field-music.ts';
 import {nativeBattleMusic} from './battle-music.ts';
 import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
@@ -65,6 +68,7 @@ let hatching=false,hatchFollowerPendingCommit=false;
 // steps and connection OnLoad scripts may own a transaction without dropping
 // its pointer; real scenes and recovery always cancel field input.
 let ordinaryInputOwners=0,preservedControlScripts=0,sourceSceneOwners=0;
+let nativeFieldMoveData:NativeFieldMoveData,activeBagUse:AbortController|null=null;
 const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
 let preferenceStorage:Storage|null=null;try{preferenceStorage=localStorage;}catch{/* Private browsing still has working controls. */}
@@ -102,7 +106,7 @@ async function retryMusic(){
   musicKey='';syncMusic();await musicRequestPending;
 }
 function syncMusic(){
-  if(!started||!map||transitioning&&!connecting||battle?.active||battleSoundOwned||hatching)return;
+  if(!started||!ready||!map||map.id!==state.map||sourceActions?.recovering||recoveryPrompt||transitioning&&!connecting||battle?.active||battleSoundOwned||hatching)return;
   const hour=new Date().getHours(),key=JSON.stringify([map.id,hour,state.flags,preferences.music,preferences.volume]);if(key===musicKey)return;musicKey=key;const request=++musicRequestSerial;
   const pending=music.playMap(map,{hour,flags:state.flags}).then(async result=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=result.status==='locked';if(musicSettledLocked||battleSoundOwned||hatching)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey&&!battleSoundOwned&&!hatching)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=false;if(battleSoundOwned||hatching)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
 }
@@ -168,15 +172,22 @@ async function pollFieldInput(){
     if(!sourceActions?.busy&&!recoveryPrompt&&!transitioning&&!walking&&!hatching&&!battleSoundOwned&&!vm.busy&&!ui.busy&&!battle.active)await pollPhoneAdmission();
   }finally{fieldPolling=false;}
 }
-function refreshPhoneIndicator(){const available=fieldPhone.current(),button=$<HTMLButtonElement>('phone-ring');button.hidden=available.kind!=='elm'||!ready||transitioning||recoveryPrompt||!!sourceActions?.busy||vm.busy||ui.busy||battle.active||hatching||battleSoundOwned;}
+function refreshPhoneIndicator(){
+  const available=fieldPhone.current(),button=$<HTMLButtonElement>('phone-ring'),supported=available.kind==='elm'||available.kind==='mother';
+  const caller=available.kind==='mother'?'Mom':'Professor Elm';if(button.dataset.caller!==caller){button.dataset.caller=caller;button.innerHTML=`${caller} is calling<small>Answer <kbd>R</kbd></small>`;button.setAttribute('aria-label',`Answer ${caller}’s phone call`);}
+  button.hidden=!supported||!ready||transitioning||recoveryPrompt||!!sourceActions?.busy||vm.busy||ui.busy||battle.active||hatching||battleSoundOwned;
+}
 async function answerPhone(){
   const blocked=()=>!started||!ready||sourceActions?.busy||recoveryPrompt||transitioning||walking||vm.busy||ui.busy||battle.active||hatching||battleSoundOwned;
-  if(blocked()||fieldPhone.current().kind!=='elm')return;
-  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter)||blocked()||fieldPhone.current().kind!=='elm')return;
+  const supported=()=>{const kind=fieldPhone.current().kind;return kind==='elm'||kind==='mother';};
+  if(blocked()||!supported())return;
+  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter)||blocked()||!supported())return;
   resetFieldInput();
-  // Native launch consumes/reset the incoming call before PhoneCall_InitContext
-  // declines a map without reception. A connection may retain a ringing call.
-  await fieldPhone.answerElm(state,executeSourceAction,call=>map.fields.incomingCalls==='TRUE'?phoneCall(data,state,call.contact,call.scripted,call.script,text=>ui.message(vm.text(text,map),textDelay()),text=>ui.choose('',['Yes','No'],text)):Promise.resolve());
+  // Each adapter pins its exact native optional token BEFORE the root captures
+  // State and phone. Generic/random/forced calls remain explicitly unsupported.
+  const deliver=(call:{contact:number;scripted:number;script:number})=>map.fields.incomingCalls==='TRUE'?phoneCall(data,state,call.contact,call.scripted,call.script,text=>ui.message(vm.text(text,map),textDelay()),text=>ui.choose('',['Yes','No'],text)):Promise.resolve();
+  if(fieldPhone.current().kind==='mother')await fieldPhone.answerMother(state,executeSourceAction,deliver);
+  else await fieldPhone.answerElm(state,executeSourceAction,deliver);
   refreshPhoneIndicator();
 }
 async function tweenNPC(npc:NPC&{step:number;previousX?:number;previousZ?:number;previousY?:number},x:number,z:number,seconds:number,jump=false){
@@ -226,13 +237,15 @@ async function chooseStarter(){
 }
 async function hatchEgg(){
   if(hatching)throw Error('An Egg hatch already owns the field');
-  // Every attempt owns a fresh native-music session and effective field state.
-  // A deliberate muted setting skips all audio, including the original cry.
-  const sound=state.options.sound;
+  // Capture the SAME prior field/unlock jobs for every bounded drain/retry;
+  // a newer map or restore owner must never become its own drain dependency.
+  const priorMusicWork=[musicRequestPending,unlockPending];
   hatching=true;hatchFollowerPendingCommit=true;resetFieldInput();
-  try{await presentNativeEggHatch(data,state,map,{
-    view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:sound?undefined:async()=>{}}),
-    music:createNativeHatchMusicSession({enabled:sound,field:music.field,transport:music.createHatchTransport()}),
+  try{
+  const audio=createHatchHostAudio({enabled:state.options.sound,player:music,sharedAudioOutput:()=>music.sharedAudioOutput(),drainFieldWork:async()=>{await Promise.allSettled(priorMusicWork);},report:musicFailed,retainRestore:retry=>{pendingMusicRestores.add(retry);},timeoutMs:MUSIC_WAIT_MS});
+  await presentNativeEggHatch(data,state,map,{
+    view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:audio.cry}),
+    music:audio.music,
     phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),
     message:(text,signal)=>ui.printMessage(text,(state.options.textSpeed===0?8:state.options.textSpeed===1?4:1)*1000/60,signal),
     choose:(text,options,signal)=>ui.choose(text,options,'',signal),
@@ -245,7 +258,7 @@ function captureField(){return{actors:map?objects.save(state.map):state.objectEv
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
-  followerPrevious=null;resetFieldInput();transitioning=true;connecting=false;musicKey='';musicRequestSerial++;world.beginFieldTransition();ui.loading('Restoring the area…');
+  abortBagUse();followerPrevious=null;resetFieldInput();transitioning=true;connecting=false;musicKey='';musicRequestSerial++;world.beginFieldTransition();ui.loading('Restoring the area…');
   try{
     fieldPhone.restore(snapshot.phone);
     phoneAdmissionGate.restore(snapshot.phoneAdmission);
@@ -315,7 +328,7 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
   const continuing=entryMode==='continue';
   if(continuing&&(connection||!restoreObjects))throw Error('Continue requires saved actors and cannot be a connection');
   await executeSourceAction(async()=>{
-  if(!connection)fieldPhone.resetForSourceEvent();
+  if(!connection){abortBagUse();fieldPhone.resetForSourceEvent();}
   world.clearScriptCameraTarget();
   encounterChecks.reset();
   const {initialHeight,violetLift}=gymFieldEntry(state,restoreObjects,connection),previousRestore=restoringGym;restoringGym=restoreObjects;
@@ -415,22 +428,32 @@ async function withBattleMusic<T>(enemies:Mon[],trainer:number|null,action:()=>P
   }
 }
 async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){
-  const nested=!!sourceActions?.busy,battleMap=state.map,opponents=structuredClone(enemies);let blackedOut=false;
+  const nested=!!sourceActions?.busy,battleMap=state.map,opponents=structuredClone(enemies),momDraws:number[]=[];let blackedOut=false;
   const outcome=await runFieldBattleAction({nested,execute:executeSourceAction,
     fight:async()=>{
       fieldPhone.resetForSourceEvent();
       // Retry restores State and receives a fresh copy of the same encounter.
-      const attempt=structuredClone(opponents);blackedOut=false;resetFieldInput();encounterChecks.reset();
+      const attempt=structuredClone(opponents),beforeMoney=state.money,sentToMom=momSavingsActive(state);let momDraw=0;blackedOut=false;resetFieldInput();encounterChecks.reset();
+      // BattleSetup_CopyResultsToSaveData settles the two actual capped
+      // wallets after result presentation, including zero/loss outcomes.
+      const settleMoney=()=>{const settlement=settleMomBattleMoney(data,state,{beforeMoney,afterMoney:state.money,random16:()=>momDraws[momDraw++]??(momDraws[momDraw-1]=Math.floor(Math.random()*0x10000))});
+        // This returned purchase event is fresh even if its saved bit was
+        // already pending. Continue/reading a bit never accelerates a ring.
+        if(settlement.phoneTrigger)fieldPhone.triggerQueued(settlement.phoneTrigger.id,settlement.phoneTrigger.accelerate);
+      };
       const result=await withBattleMusic(attempt,trainer,async()=>{
-        const result=await battle.start(attempt,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY',weather:world.sky.currentWeather});
+        const result=await battle.start(attempt,trainer,{weather:world.sky.currentWeather});
         if(result==='lost'){
           if(canLose)healParty(state);
-          else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null){blackedOut=true;await whiteOut(nested,!nested);}}
+          else state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);
+          settleMoney();
+          if(!canLose&&trainer===null){blackedOut=true;await whiteOut(nested,!nested);}
         }
         return result;
       });
       if(result==='caught'){const mon=attempt[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
-      if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`,textDelay());}
+      if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!${sentToMom?'\nSent some to Mom!':''}`,textDelay());}
+      if(result!=='lost')settleMoney();
       updateHUD();return result==='won';
     },
     resume:async()=>{
@@ -477,6 +500,19 @@ async function menu(){
   if(!started||!ready||sourceActions?.busy||recoveryPrompt||hatching||battleSoundOwned||transitioning||vm.busy||walking||battle.active||ui.busy)return;
   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
   resetFieldInput();try{await panels.menu();}finally{resetFieldInput();}
+}
+function abortBagUse(reason:unknown=new DOMException('The field changed during item use','AbortError')){activeBagUse?.abort(reason);}
+async function useBagItem(item:string,context:InterfaceBagUseContext){
+  if(!started||!ready||sourceActions?.busy||recoveryPrompt||hatching||battleSoundOwned||transitioning||walking||vm.busy||battle.active)throw new DOMException('The field cannot use an item now','AbortError');
+  // Enter the outer owner synchronously. All item data is already available;
+  // there is no unowned fetch between leaving Bag and opening its target.
+  const outcome=await executeSourceAction(async()=>{
+    const controller=new AbortController(),cancel=()=>controller.abort(context.signal.reason??new DOMException('The Bag was closed','AbortError'));
+    activeBagUse=controller;context.signal.addEventListener('abort',cancel,{once:true});if(context.signal.aborted)cancel();
+    try{const result=await useFieldBagItem(ui,data,nativeFieldMoveData,{state:()=>state,expectedState:context.state,signal:controller.signal},item);updateHUD();return result;}
+    finally{context.signal.removeEventListener('abort',cancel);if(activeBagUse===controller)activeBagUse=null;}
+  });
+  if(outcome.ok&&outcome.value.status==='unsupported')console.warn('Unsupported field item action',item,outcome.value.requirements);
 }
 async function partyMenu(focused=0){
   for(;;){
@@ -541,7 +577,7 @@ async function begin(entryMode:'warp'|'continue'='warp'){
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
-  data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences:value=>{const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=writeInterfacePreferences(preferenceStorage,value);if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();},touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
+  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences:value=>{const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=writeInterfacePreferences(preferenceStorage,value);if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();},touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started){openingView?.draw(dt);return;}syncMusic();
     state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
@@ -565,8 +601,8 @@ addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.al
   if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(e.code))e.preventDefault();
   if(!fieldControlsAvailable())return;keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat)void interact().catch(reportInputError);
 });
-addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',resetFieldInput);addEventListener('pagehide',()=>{resetFieldInput();save();});
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){resetFieldInput();soundUnlocked=false;}});
+addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',resetFieldInput);addEventListener('pagehide',()=>{abortBagUse();resetFieldInput();save();});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){abortBagUse();resetFieldInput();soundUnlocked=false;}});
 $('open-menu').onclick=()=>{unlockSound();void menu().catch(reportInputError);};
 $('phone-ring').onclick=()=>{unlockSound();void answerPhone().catch(reportInputError);};
 boot().catch(error=>{console.error(error);ui.loading(null);ui.panel('<h2>Johto could not load.</h2><p>The world needs WebGL 2 and its original data files. Reload to try again.</p><button id="retry" class="game-button">Retry</button>');$('retry').onclick=()=>location.reload();});
