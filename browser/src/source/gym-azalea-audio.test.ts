@@ -11,9 +11,9 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
 function deferred<T=void>(){let resolve!:(value:T)=>void,reject!:(error:unknown)=>void;const promise=new Promise<T>((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};}
 function voice(){const done=deferred();let stops=0;return{ended:done.promise,stop(){stops++;done.resolve();},done,get stops(){return stops;}};}
 function wavDuration(data:ArrayBuffer){const v=new DataView(data);for(let at=12;at+8<v.byteLength;){const size=v.getUint32(at+4,true);if(String.fromCharCode(...new Uint8Array(data,at,4))==='data')return size/4/32768;at+=8+size+(size%2);}throw Error('No WAV data');}
-function fixture(options:{decode?:(data:ArrayBuffer)=>Promise<any>;read?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;report?:(value:AzaleaAudioStatus)=>void}={}){
+function fixture(options:{timeout?:number;decode?:(data:ArrayBuffer)=>Promise<any>;read?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;report?:(value:AzaleaAudioStatus)=>void}={}){
  const shared=signal(),nodes:any[]=[],statuses:AzaleaAudioStatus[]=[],destination={name:'fieldGain'},events=new EventTarget(),context:any={addEventListener:events.addEventListener.bind(events),removeEventListener:events.removeEventListener.bind(events),dispatchEvent:events.dispatchEvent.bind(events),state:'running',sampleRate:32768,decodeAudioData:options.decode??(async(data:ArrayBuffer)=>({numberOfChannels:2,duration:wavDuration(data)})),createBufferSource(){const node:any={onended:null,loop:false,stops:0,disconnects:0,start(){},stop(){node.stops++;},connect(to:unknown){assert.equal(to,destination);},disconnect(){node.disconnects++;},end(){node.onended?.();}};nodes.push(node);return node;}};
- const player=new NativeSEPlayer3(resources,shared.signal),audio=createNativeAzaleaAudio(resources,{player,output:()=>({context,output:destination,signal:shared.signal}),report:options.report??(value=>statuses.push(value)),fetchBytes:options.read??(async url=>bytes(url.split('/').at(-1)!)),ioTimeoutMs:50});
+ const player=new NativeSEPlayer3(resources,shared.signal),audio=createNativeAzaleaAudio(resources,{player,output:()=>({context,output:destination,signal:shared.signal}),report:options.report??(value=>statuses.push(value)),fetchBytes:options.read??(async url=>bytes(url.split('/').at(-1)!)),ioTimeoutMs:options.timeout??4000});
  return{audio,player,shared,nodes,statuses,context};
 }
 
@@ -83,6 +83,26 @@ test('asynchronous status failure is observable without escaping native node eve
 test('Context suspension during switch releases only owned voice and reports technical no-voice',async()=>{
  const f=fixture();await f.audio.prepare([1561,2171],signal().signal);const waiting=f.audio.switch1561(signal().signal);f.context.state='suspended';f.context.dispatchEvent(new Event('statechange'));assert.equal((await waiting).kind,'no-voice');assert.equal(f.nodes[0].disconnects,1);assert.ok(f.statuses.some(row=>row.stage==='no-voice'&&row.detail?.includes('became suspended')));f.audio.dispose();f.player.dispose();
 });
-test('shared output owner identity is immutable across native audio actions',async()=>{
- const shared=signal(),player=new NativeSEPlayer3(resources,shared.signal);let output={context:{},output:{},signal:shared.signal}as any;const audio=createNativeAzaleaAudio(resources,{player,output:()=>output,report(){}});await assert.rejects(audio.prepare([1561,2171],signal().signal),/lifecycle port/);audio.dispose();player.dispose();
+test('shared output owner identity is immutable across native actions',async()=>{
+ const f=fixture(),output={context:f.context,output:{},signal:f.shared.signal}as any;const replacement=createNativeAzaleaAudio(resources,{player:f.player,output:()=>output,report(){},fetchBytes:async url=>bytes(url.split('/').at(-1)!)});await replacement.prepare([1561,2171],signal().signal);output.output={};assert.throws(()=>replacement.robot2171({}),/changed owner/);replacement.dispose();f.audio.dispose();f.player.dispose();
+});
+
+test('bounded noncooperative preparation times out as diagnosed technical no-voice',async()=>{
+ const f=fixture({timeout:5,decode:()=>new Promise(()=>{})});await f.audio.prepare([1561,2171],signal().signal);assert.equal(f.statuses.filter(row=>row.stage==='no-voice'&&row.detail?.includes('timed out')).length,2);assert.equal((await f.audio.switch1561(signal().signal)).kind,'no-voice');f.audio.dispose();f.player.dispose();
+});
+
+test('temporary technical preparation failure retries on later admission',async()=>{
+ let calls=0;const f=fixture({decode:async data=>{if(++calls===1)throw Error('Temporary device failure');return{numberOfChannels:2,duration:wavDuration(data)};}});await f.audio.prepare([1561,2171],signal().signal);assert.equal(calls,2);await f.audio.prepare([1561,2171],signal().signal);assert.equal(calls,3);assert.equal(f.statuses.filter(row=>row.id===1561&&row.stage==='prepared').length,1);const waiting=f.audio.switch1561(signal().signal);f.nodes[0].end();await flush();f.player.soundUpdate();assert.equal((await waiting).kind,'voice');f.audio.dispose();f.player.dispose();
+});
+test('same owner replay retains new voice tracking for Context cancellation',async()=>{
+ const f=fixture();await f.audio.prepare([1561,2171],signal().signal);const owner={};f.audio.robot2171(owner);f.audio.robot2171(owner);assert.equal(f.nodes[0].disconnects,1);f.context.state='suspended';f.context.dispatchEvent(new Event('statechange'));assert.equal(f.nodes[1].disconnects,1);assert.equal(f.player.isPlaying(1561),false);f.audio.dispose();f.player.dispose();
+});
+test('Context change during requested fade is completion, not stray no-voice',async()=>{
+ const f=fixture();await f.audio.prepare([1561,2171],signal().signal);const owner={};f.audio.robot2171(owner);f.audio.stop2171(owner,1);f.context.state='suspended';f.context.dispatchEvent(new Event('statechange'));assert.equal(f.statuses.filter(row=>row.stage==='no-voice').length,0);assert.equal(f.nodes[0].disconnects,1);f.audio.dispose();f.player.dispose();
+});
+test('reentrant native admission from old-voice stop cannot leak an overwritten voice',()=>{
+ const p=new NativeSEPlayer3(resources,signal().signal);let innerStarts=0;const old=voice();p.play(1610,{},()=>({ended:old.ended,stop(){old.stop();assert.throws(()=>p.play(1561,{},()=>{innerStarts++;return voice();}),/Reentrant/);}}));const next=voice();assert.equal(p.play(2171,{},()=>next).kind,'voice');assert.equal(innerStarts,0);assert.equal(old.stops,1);p.dispose();assert.equal(next.stops,1);
+});
+test('shared registry disposal inside transport admission stops the just-created voice',()=>{
+ const p=new NativeSEPlayer3(resources,signal().signal),v=voice();assert.throws(()=>p.play(2171,{},()=>{p.dispose();return v;}),/disposed/);assert.equal(v.stops,1);
 });
