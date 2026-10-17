@@ -14,6 +14,7 @@ import {ledgeDirection,jumpHeight} from './ledges.ts';
 import {stepWarpFacing,pushWarp,fieldEntryScripts,arrivalStep,arrivalFacing} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
 import {movementAction} from './movement.ts';
+import {findTrainerEncounter,fieldTrainerCollision,trainerEventPriority,approachTrainer,type TrainerEncounter} from './trainer-encounters.ts';
 import {mapBlackoutSpawn} from './spawns.ts';
 import {originalTrainerParty,battleMoneyLoss,trainerPrize} from './trainers.ts';
 import {catchingTutorialState} from './tutorial.ts';
@@ -27,6 +28,8 @@ let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elap
 let openingView:OpeningView|null=null;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
 let lastWarp='',lastCoord='',lastError='';
+let fieldPolling=false,lastTrainerAttempt='',lastTrainerLocation='';let activeTrainerEncounter:TrainerEncounter|null=null;
+const trainerApproachTasks=new Map<number,Promise<void>>();
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
 let playerTweenY:number|undefined;let previousStepJump=false;
 const npcTweenY=new Map<string,number>();
@@ -40,6 +43,43 @@ function updateHUD(){
 }
 function refreshNPCs(){world.updateNPCs(objects.snapshot());for(const[id,y]of npcTweenY){const actor=world.npcSprites.get(id);if(actor)actor.group.position.y=y;}}
 function showPerson(object:string,value:boolean){objects.show(object,value);refreshNPCs();}
+function trainerCollision(){return fieldTrainerCollision({permission:(x,z)=>world.permission(x,z),height:(...args)=>world.height(...args),walkable:(...args)=>world.walkable(...args),actorHeight:actor=>world.npcSprites.get(actor.id)?.group.position.y??world.height(actor.x+.5,actor.z+.5,actor.y/16),playerHeight:()=>player.group.position.y,occupants:()=>follower?.group.visible&&!followerSuppressed?[{x:follower.group.position.x,z:follower.group.position.z,height:follower.group.position.y}]:[]},state,objects.snapshot());}
+async function tryTrainerEncounter(){
+  if(vm.busy||ui.busy||battle.active||transitioning)return false;
+  const location=`${state.map}:${Math.floor(state.x)},${Math.floor(state.z)}`;if(location!==lastTrainerLocation){lastTrainerAttempt='';lastTrainerLocation=location;}
+  const encounter=findTrainerEncounter(data,state,map,objects.snapshot(),trainerCollision());if(!encounter)return false;
+  const signature=`${state.map}:${Math.floor(state.x)},${Math.floor(state.z)}:${encounter.trainers.map(t=>t.object).join(',')}`;
+  // Failed, unsupported scenes may be left by walking away; never retry them
+  // every animation frame at the same tile. Manual interaction still retries.
+  if(signature===lastTrainerAttempt)return false;lastTrainerAttempt=signature;activeTrainerEncounter=encounter;trainerApproachTasks.clear();
+  try{await runScript(3739,encounter.trainers[0].object,false,false,false,encounter);}
+  finally{await Promise.allSettled(trainerApproachTasks.values());trainerApproachTasks.clear();activeTrainerEncounter=null;}
+  return true;
+}
+async function trainerNotice(plan:TrainerEncounter['trainers'][number],hidden:boolean){
+  if(hidden)throw new UnsupportedScript(map.code,'RevealTrainer',vm.current?.pc??-1);
+  face(plan.object,plan.direction);const actor=world.npcSprites.get(plan.object);if(!actor)throw Error('Trainer actor is not rendered');
+  const notice=document.createElement('div');notice.textContent='!';notice.setAttribute('aria-hidden','true');Object.assign(notice.style,{position:'fixed',pointerEvents:'none',zIndex:'20',font:'bold 24px monospace',color:'#25394b',background:'#fffef2',border:'2px solid #25394b',padding:'1px 7px',transform:'translate(-50%,-100%)'});document.body.append(notice);
+  try{await tween(.5,()=>{const point=actor.group.position.clone();point.y+=2.8;point.project(world.camera);const rect=$('original-world').getBoundingClientRect();notice.style.left=`${rect.left+(point.x+1)*rect.width/2}px`;notice.style.top=`${rect.top+(1-point.y)*rect.height/2}px`;});await tween(.5,()=>{});}finally{notice.remove();}
+}
+async function beginTrainerPath(index:number,trainer:{trainer:number;object:string}){
+  const encounter=activeTrainerEncounter,plan=encounter?.trainers[index],actor=objects.get(trainer.object);if(!encounter||!plan||plan.object!==trainer.object||plan.trainer!==trainer.trainer||!actor)throw Error('Missing native trainer approach plan');
+  const collision=trainerCollision(),task=approachTrainer(plan,index,encounter.eyeType,actor,state,collision,{notice:trainerNotice,step:async(plan,x,z)=>{const npc=objects.get(plan.object);if(!npc)throw Error('Trainer disappeared during approach');await tweenNPC(npc,x,z,.25);},facePlayer:direction=>{state.facing=direction;},finish:plan=>{objects.movement(plan.object,0);refreshNPCs();}});
+  // Native path creation starts a task; the following TrainerStep command
+  // awaits its completion. Observe rejection immediately to avoid an orphan.
+  trainerApproachTasks.set(index,task);void task.catch(()=>{});
+}
+async function finishTrainerPath(index:number){const task=trainerApproachTasks.get(index);if(!task)throw Error('Native trainer approach task was not started');await task;trainerApproachTasks.delete(index);return true;}
+async function pollFieldInput(){
+  if(fieldPolling||walking||transitioning||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
+  try{if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);await step(Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0);}}
+  finally{fieldPolling=false;}
+}
+async function tweenNPC(npc:NPC&{step:number},x:number,z:number,seconds:number,jump=false){
+  const from={x:npc.x,z:npc.z},fromY=world.npcSprites.get(npc.id)?.group.position.y??world.height(from.x+.5,from.z+.5),toY=world.height(x+.5,z+.5,fromY,from.x+.5,from.z+.5);
+  try{await tween(seconds,t=>{npc.x=from.x+(x-from.x)*t;npc.z=from.z+(z-from.z)*t;npc.step=t*4;if(jump)npcTweenY.set(npc.id,jumpHeight(fromY,toY,t));refreshNPCs();});}
+  finally{npcTweenY.delete(npc.id);npc.step=-1;refreshNPCs();}
+}
 async function moveActor(object:string,label:string,source:SourceMap){
   const start=source.scripts.labels[label];if(start===undefined)return;let index=start;
   while(index<source.scripts.instructions.length){const [command,args]=source.scripts.instructions[index++];if(command==='EndMovement')break;
@@ -52,7 +92,7 @@ async function moveActor(object:string,label:string,source:SourceMap){
       if(facing===null)continue;const repeats=action.repeats;
       for(let i=0;i<repeats;i++){
         const d={x:deltas[facing].x*action.distance,z:deltas[facing].z*action.distance};if(isPlayer)await tweenPlayer(state.x+d.x,state.z+d.z,action.seconds,action.jump);else{
-          const from={x:npc!.x,z:npc!.z},fromY=world.npcSprites.get(npc!.id)?.group.position.y??world.height(from.x+.5,from.z+.5),toY=world.height(from.x+d.x+.5,from.z+d.z+.5,fromY,from.x+.5,from.z+.5);try{await tween(action.seconds,t=>{npc!.x=from.x+d.x*t;npc!.z=from.z+d.z*t;npc!.step=t*4;if(action.jump)npcTweenY.set(npc!.id,jumpHeight(fromY,toY,t));refreshNPCs();});}finally{npcTweenY.delete(npc!.id);npc!.step=-1;refreshNPCs();}
+          await tweenNPC(npc!,npc!.x+d.x,npc!.z+d.z,action.seconds,action.jump);
         }
       }
     }else if(action.delay)await new Promise(resolve=>setTimeout(resolve,action.delay*1000));
@@ -78,11 +118,11 @@ async function chooseStarter(){
   }
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
 }
-async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false){
+async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter){
   if(vm.busy&&!nested)return;
   const runner=nested?new ScriptVM(data,state,vm.hooks):vm;
   if(!preserveControls)keys.clear();walking=true;
-  try{await runner.run(map,script,object);updateHUD();}
+  try{try{if(approach){if(approach.eyeType!==0)throw new UnsupportedScript(map.code,'TrainerBattleDouble',-1);await runner.runTrainerApproach(map,approach);}else await runner.run(map,script,object);}finally{if(approach)await Promise.allSettled(trainerApproachTasks.values());}updateHUD();}
   catch(error){lastError=String(error);console.error(error);if(error instanceof UnsupportedScript)await ui.message('This scene is still being restored. Your progress has been kept.');else await ui.message('The scene could not finish. Your progress has been kept.');}
   finally{walking=false;save();}
   if(!nested&&!vm.busy&&!deferTriggers)await checkFrameTriggers();
@@ -125,6 +165,7 @@ async function warp(index:number,facing=state.facing){
   }finally{transitioning=false;}
 }
 async function checkEvents(enteredDoor=false){
+  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
   const x=Math.floor(state.x),z=Math.floor(state.z);const owner=world.owner(state.x,state.z);
   if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
   const warpIndex=map.events.warps.findIndex(w=>w.x===x&&w.z===z),key=map.id+':'+x+','+z;
@@ -133,7 +174,6 @@ async function checkEvents(enteredDoor=false){
   if(trigger){const id=String(trigger.scriptId)+':'+key;if(id!==lastCoord){lastCoord=id;await runScript(trigger.scriptId);return;}}else lastCoord='';
   const transitionFacing=enteredDoor?state.facing:stepWarpFacing(world.permission(state.x,state.z),state.facing);
   if(warpIndex>=0&&key!==lastWarp&&transitionFacing!==null){await warp(warpIndex,transitionFacing);save();return;}if(warpIndex<0)lastWarp='';
-  if(await checkFrameTriggers())return;
   if(!vm.busy&&!ui.busy&&!transitioning)await wildEncounter();
 }
 async function wildEncounter(){
@@ -151,12 +191,13 @@ async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false)
   if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`);}
   if(state.map===battleMap){keys.clear();await runFieldEntry('resume');await checkFrameTriggers();}updateHUD();save();return result==='won';
 }
-async function trainerBattle(id:number,options?:{second:number;canLose:boolean;suppressFollower:boolean}){const trainer=data.trainers[id];if(!trainer)throw Error(`Missing trainer ${id}`);if(options?.second||trainer.double)throw Error('Original double/multi battles are still being ported');return startBattle(await originalTrainerParty(data,id),id,options?.canLose);}
+async function trainerBattle(id:number,options?:{second:number;canLose:boolean;suppressFollower:boolean}){const trainer=data.trainers[id];if(!trainer)throw Error(`Missing trainer ${id}`);if(options?.second||trainer.double)throw new UnsupportedScript(map.code,'TrainerBattleDouble',vm.current?.pc??-1);return startBattle(await originalTrainerParty(data,id),id,options?.canLose);}
 async function interact(){
   if(ui.dialogueOpen){ui.advance();return;}if(!started||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
   const d=deltas[state.facing],x=Math.floor(state.x)+d.x,z=Math.floor(state.z)+d.z;
   const actorAt=(xx:number,zz:number)=>[...world.npcSprites.values()].find(n=>n.group.visible&&Math.floor(n.group.position.x)===xx&&Math.floor(n.group.position.z)===zz);
   const npc=actorAt(x,z)||((world.permission(x,z)&255)===0x80?actorAt(x+d.x,z+d.z):undefined);
+  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
   if(npc){await runScript(npc.npc.scriptId,npc.npc.id);return;}
   const bg=map.events.bgs.find(b=>(b.x===x&&b.z===z)||(b.x===Math.floor(state.x)&&b.z===Math.floor(state.z)));
   if(bg)await runScript(bg.scriptId);
@@ -176,7 +217,7 @@ async function step(facing:number){
   finally{walking=false;}
   encounterChecks.step();await checkEvents(enteredDoor);
 }
-function menu(){if(!started||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(ui.panelOpen){ui.close();return;}
+async function menu(){if(!started||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(!ui.panelOpen&&await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;if(ui.panelOpen){ui.close();return;}
   const entries=[['party','Pokémon',`${state.party.length} in your party`],['bag','Bag','Items and Key Items'],['trainer',state.name,`${state.badges.length} Badges`],['save','Save','Save your adventure'],['options','Options','Game settings'],['close','Close','Return to Johto']];
   const unlocks:Record<string,string>={bag:'FLAG_GOT_BAG',trainer:'FLAG_GOT_TRAINER_CARD',save:'FLAG_GOT_SAVE_BUTTON',options:'FLAG_GOT_OPTIONS_BUTTON'};
   ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Menu</h2><div class="menu-list">${entries.filter(([key])=>key==='party'?state.party.length:!unlocks[key]||state.flags[unlocks[key]]).map(([key,label,detail])=>`<button data-menu="${key}">${esc(label)}<small>${esc(detail)}</small></button>`).join('')}</div>`);
@@ -203,7 +244,7 @@ async function title(){
 }
 async function begin(){
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
-  vm=new ScriptVM(data,state,{weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
+  vm=new ScriptVM(data,state,{objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
   started=true;await enterMap(state.map,state.x,state.z,true,true);ready=true;save();$('original-world').focus();
 }
 async function boot(){
@@ -214,7 +255,7 @@ async function boot(){
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;}
     if(ready&&!transitioning)world.updateStreaming(state.map,state.x,state.z);
-    if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active){const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);const facing=Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0;void step(facing).catch(error=>{console.error(error);lastError=String(error);});}}
+    if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
     world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
     (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();

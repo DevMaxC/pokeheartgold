@@ -12,7 +12,7 @@ export function setTrainerDefeated(state:State,id:number,defeated=true){state.fl
 export type TrainerContact={id:number;key:string;trainer:number;gift:number;messageBank:number};
 export type TrainerContacts={contacts:TrainerContact[];rematchSets:number[][]};
 let contacts:Promise<TrainerContacts>|undefined;
-export function trainerContacts(){return contacts??=sourceJSON<TrainerContacts>('trainer-contacts.json');}
+export function trainerContacts(){if(!contacts){const loading:Promise<TrainerContacts>=sourceJSON<TrainerContacts>('trainer-contacts.json').catch(error=>{if(contacts===loading)contacts=undefined;throw error;});contacts=loading;}return contacts;}
 export function phoneContactKey(data:GameData,id:number){return id===255?undefined:Object.keys(data.constants).find(key=>key.startsWith('PHONE_CONTACT_')&&data.constants[key]===id);}
 function flagAt(data:GameData,state:State,id:number){const key=Object.keys(data.constants).find(key=>key.startsWith('FLAG_')&&data.constants[key]===id);return !!(state.flags['#'+id]??(key?state.flags[key]:false));}
 /** phone_rematch.c / trainer_rematch.c. Scheduling calls is a separate field service. */
