@@ -190,3 +190,15 @@ test('a stale Save callback cannot save, unlock sound, navigate, or resolve a re
     const old=f.panels.menu(),rejected=assert.rejects(old,{name:'AbortError'}),save=f.action('save'),stale=save.onclick!,next=f.ui.choose('Recovery',['Retry']);await rejected;assert.equal(save.onclick,null);stale();assert.equal(f.saves,0);assert.equal(f.gestures,0);assert.match(f.html(),/Recovery/);assert.equal(f.ui.panelOpen,true);f.d.buttons[0].click();await next;
   }finally{f.restore();}
 });
+
+
+test('open Settings follows the global mute and cross-tab volume changes without replacing its owned panel',async()=>{
+ const f=fixture();try{const listeners=new Set<()=>void>();Object.assign(f.ports,{watchMusic:(listener:()=>void)=>{listeners.add(listener);return()=>{listeners.delete(listener);};}});const pending=f.panels.settings();f.ports.updatePreferences({...f.prefs,music:false,volume:.17});for(const listener of listeners)listener();assert.equal(f.node('setting-music').textContent,'Off');assert.equal(f.node('setting-music').getAttribute('aria-pressed'),'false');assert.equal(f.node('setting-volume').value,'17');assert.equal(f.node('setting-volume-value').textContent,'17%');assert.equal(f.ui.panelOpen,true);f.node('setting-music').click();assert.equal(f.prefs.music,true);f.node('settings-done').click();await pending;assert.equal(listeners.size,0);
+ }finally{f.restore();}
+});
+
+
+test('turning music on from a saved mute performs its gesture unlock after enabling the preference',async()=>{
+ const f=fixture(false);try{f.ports.updatePreferences({...f.prefs,music:false});const observed:boolean[]=[];f.ports.gesture=()=>{observed.push(f.prefs.music);};const pending=f.panels.settings();f.node('setting-music').click();assert.equal(f.prefs.music,true);assert.deepEqual(observed,[false,true],'the enabling user gesture reaches unlock with the new preference');assert.equal(f.node('setting-music').textContent,'On');f.node('settings-done').click();await pending;
+ }finally{f.restore();}
+});

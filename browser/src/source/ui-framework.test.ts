@@ -96,3 +96,11 @@ test('custom explicit cancel resolves its value and detaches exact handlers, inc
     const owner=new AbortController(),pending=ui.customPanel<void>('<button id="done">Done</button>',()=>()=>{cleaned++;},owner.signal),rejected=assert.rejects(pending,{name:'AbortError'});owner.abort();await rejected;assert.equal(cleaned,2);assert.equal(ui.panelOpen,false);
   }finally{c.restore();d.restore();}
 });
+
+
+test('global mute stays focusable and keyboard-operable during a mandatory choice without accepting it',async()=>{
+ const d=dom(),c=clock();try{const button=d.document.createElement('button');button.setAttribute('data-global-audio','');button.id='audio-toggle';d.document.body.appendChild(button);let muted=false;button.onclick=()=>{muted=!muted;};const ui=new UI(),pending=ui.choose('Choose your Pokémon',['Yes','No']);c.flush();d.key('Tab',{shiftKey:true});assert.equal(d.document.activeElement,button);
+ for(const code of['Enter','Space']){const event=d.key(code);assert.equal(event.defaultPrevented,false,'native button default remains available');if(!event.defaultPrevented)button.click();assert.equal(ui.panelOpen,true,'mute cannot accept a mandatory source choice');}assert.equal(muted,false);
+ d.key('Tab');assert.equal(d.document.activeElement,d.buttons[0]);d.key('Enter');assert.equal(await pending,0);
+ }finally{c.restore();d.restore();}
+});

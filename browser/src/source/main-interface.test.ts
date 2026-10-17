@@ -27,7 +27,9 @@ function visit(node:ts.Node){if(ts.isFunctionDeclaration(node)&&node.name?.text=
 assert.ok(render&&interfacePorts);
 const renderInput=render.body!.statements.filter(node=>/^(syncInputContext\(\)|if\(!started\))/.test(node.getText(ast))||node.getText(ast).includes("keys.has('KeyQ')")||node.getText(ast).includes('fieldInputFacing(')).map(node=>node.getText(ast)).join('\n');
 assert.match(renderInput,/fieldInputFacing/);assert.match(renderInput,/keys.has\('KeyQ'\)/);
-const preferenceUpdate=(interfacePorts.properties.find(property=>property.name?.getText(ast)==='updatePreferences')as ts.PropertyAssignment).initializer.getText(ast);
+const preferencePort=interfacePorts.properties.find(property=>property.name?.getText(ast)==='updatePreferences')!;
+const preferenceUpdate=ts.isShorthandPropertyAssignment(preferencePort)?functions.get(preferencePort.name.text)!:(preferencePort as ts.PropertyAssignment).initializer.getText(ast);
+assert.ok(preferenceUpdate,'actual shared preference function is bound');
 const begin=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='begin')as ts.FunctionDeclaration;
 const beginPreferences=begin.body!.statements.filter(node=>/^state\.options\.(sound|textSpeed)=/.test(node.getText(ast))).map(node=>node.getText(ast)).join('\n');
 assert.match(beginPreferences,/sound/);assert.match(beginPreferences,/textSpeed/);

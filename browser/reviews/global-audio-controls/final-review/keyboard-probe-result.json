@@ -1,0 +1,134 @@
+{
+  "scope": "Actual frozen Main AST callback executed. Explicit focused-button event target. Does not execute real browser focus/default activation.",
+  "mainSHA256": "db2ea92b5d2aa2f66c2862999e573fe2eab665a43615e8c148861b2051102a8a",
+  "callbackSHA256": "ce9b9a1a8daeaa6da2ae84936c9d41908ee0f81135d04074ec2356c7f4ea61ff",
+  "cases": [
+    {
+      "code": "KeyW",
+      "audioFocused": true,
+      "prevented": true,
+      "keys": [
+        "KeyW"
+      ],
+      "effects": [
+        "unlock"
+      ]
+    },
+    {
+      "code": "KeyW",
+      "audioFocused": false,
+      "prevented": true,
+      "keys": [
+        "KeyW"
+      ],
+      "effects": [
+        "unlock"
+      ]
+    },
+    {
+      "code": "KeyF",
+      "audioFocused": true,
+      "prevented": true,
+      "keys": [
+        "KeyF"
+      ],
+      "effects": [
+        "unlock",
+        "interact"
+      ]
+    },
+    {
+      "code": "KeyF",
+      "audioFocused": false,
+      "prevented": true,
+      "keys": [
+        "KeyF"
+      ],
+      "effects": [
+        "unlock",
+        "interact"
+      ]
+    },
+    {
+      "code": "KeyQ",
+      "audioFocused": true,
+      "prevented": true,
+      "keys": [
+        "KeyQ"
+      ],
+      "effects": [
+        "unlock"
+      ]
+    },
+    {
+      "code": "KeyQ",
+      "audioFocused": false,
+      "prevented": true,
+      "keys": [
+        "KeyQ"
+      ],
+      "effects": [
+        "unlock"
+      ]
+    },
+    {
+      "code": "KeyE",
+      "audioFocused": true,
+      "prevented": true,
+      "keys": [
+        "KeyE"
+      ],
+      "effects": [
+        "unlock"
+      ]
+    },
+    {
+      "code": "KeyE",
+      "audioFocused": false,
+      "prevented": true,
+      "keys": [
+        "KeyE"
+      ],
+      "effects": [
+        "unlock"
+      ]
+    },
+    {
+      "code": "Enter",
+      "audioFocused": true,
+      "prevented": false,
+      "keys": [],
+      "effects": []
+    },
+    {
+      "code": "Enter",
+      "audioFocused": false,
+      "prevented": true,
+      "keys": [
+        "Enter"
+      ],
+      "effects": [
+        "unlock",
+        "interact"
+      ]
+    },
+    {
+      "code": "Space",
+      "audioFocused": true,
+      "prevented": false,
+      "keys": [],
+      "effects": []
+    },
+    {
+      "code": "Space",
+      "audioFocused": false,
+      "prevented": true,
+      "keys": [
+        "Space"
+      ],
+      "effects": [
+        "unlock"
+      ]
+    }
+  ]
+}

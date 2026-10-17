@@ -1,0 +1,107 @@
+{
+  "sourceCommit": "84864cb72f650069d72bbd14877ba1bc04b63518",
+  "observer": "root actual T3 browser",
+  "settingsCaptureCommit": "82b800a3; final84864 only adds explicit Settings-On gesture after preference update",
+  "settings": {
+    "viewport": [
+      390,
+      844
+    ],
+    "globalMuteVisible": true,
+    "observedEnterThenSpace": "toggles preference and Settings On/Off without dismissing owned panel",
+    "volumeThroughout": 0,
+    "finalMuted": true
+  },
+  "crossTab": {
+    "origin": "http://localhost:5204",
+    "tabs": [
+      "tab_t",
+      "tab_u"
+    ],
+    "observedButtonSequence": [
+      "Unmute",
+      "Mute",
+      "Unmute"
+    ],
+    "musicPreferenceSequence": [
+      false,
+      true,
+      false
+    ],
+    "volumeThroughout": 0,
+    "storageEvents": "natural same-origin delivery; receiver never clicked"
+  },
+  "battleControls": {
+    "method": "Actual imported Battle.draw/menu DOM using newly constructed unsaved fixture State. No Battle.start, gameplay progression, battle scene renderer or sound audition. Element-from-point checks each button center.",
+    "poses": [
+      {
+        "viewport": [
+          390,
+          844
+        ],
+        "muteX": 309.6796875,
+        "cameraX": [
+          209,
+          258
+        ],
+        "topmostIds": [
+          "audio-toggle",
+          "battle-camera-left",
+          "battle-camera-right"
+        ]
+      },
+      {
+        "viewport": [
+          320,
+          568
+        ],
+        "muteX": 239.6796875,
+        "cameraX": [
+          139,
+          188
+        ],
+        "topmostIds": [
+          "audio-toggle",
+          "battle-camera-left",
+          "battle-camera-right"
+        ]
+      },
+      {
+        "viewport": [
+          844,
+          390
+        ],
+        "muteX": 763.6796875,
+        "cameraX": [
+          662,
+          712
+        ],
+        "topmostIds": [
+          "audio-toggle",
+          "battle-camera-left",
+          "battle-camera-right"
+        ]
+      }
+    ],
+    "allHeights": 44,
+    "muteWidth": 68.3203125
+  },
+  "cleanup": "tab_t reloaded back to ordinary title; tab_u ordinary title. Both explicitly muted, volume zero. No gameplay save created for this diagnostic.",
+  "stoppedBackgroundPreview": {
+    "tab": "tab_p",
+    "origin": "http://localhost:5201",
+    "priorCue": 1066,
+    "priorKey": "SEQ_GS_UTSUGI_RABO",
+    "action": "persist music:false then reload to title",
+    "observedAfter": "saved Gold profile on title; gameActive:false; music preference false"
+  },
+  "canonicalExistingTab": {
+    "tab": "tab_r",
+    "action": "persist music:false and reload title",
+    "hadActiveGame": false
+  },
+  "limitations": [
+    "No real phone hardware/audibility/FPS claim.",
+    "Other old disconnected preview tabs could not be inspected; no blanket all-tabs shutdown claim."
+  ]
+}

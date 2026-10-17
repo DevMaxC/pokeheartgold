@@ -20,16 +20,16 @@ const names=['musicChanged','watchMusic','musicFailed','clearMusicFailure','musi
 for(const name of names)assert.ok(functions.has(name),'Main music binding moved: '+name);
 function initializer(name:string){for(const statement of ast.statements)if(ts.isVariableStatement(statement))for(const declaration of statement.declarationList.declarations)if(declaration.name.getText(ast)===name)return declaration.initializer!;throw Error('Main initializer moved: '+name);}
 const cameraPorts=(initializer('camera')as ts.NewExpression).arguments![1].getText(ast),touchActions=(initializer('touch')as ts.NewExpression).arguments![1].getText(ast);
-let tutorial:ts.Expression|undefined,preferenceUpdate:ts.Expression|undefined,render:ts.FunctionDeclaration|undefined;
+let tutorial:ts.Expression|undefined,preferenceUpdate:string|undefined,render:ts.FunctionDeclaration|undefined;
 function visit(node:ts.Node){
  if(ts.isNewExpression(node)&&node.expression.getText(ast)==='ScriptVM'&&node.arguments?.[2]&&ts.isObjectLiteralExpression(node.arguments[2]))tutorial=(node.arguments[2].properties.find(p=>p.name?.getText(ast)==='catchingTutorial')as ts.PropertyAssignment)?.initializer;
- if(ts.isNewExpression(node)&&node.expression.getText(ast)==='InterfacePanels')preferenceUpdate=((node.arguments![2]as ts.ObjectLiteralExpression).properties.find(p=>p.name?.getText(ast)==='updatePreferences')as ts.PropertyAssignment).initializer;
+ if(ts.isNewExpression(node)&&node.expression.getText(ast)==='InterfacePanels'){const port=(node.arguments![2]as ts.ObjectLiteralExpression).properties.find(p=>p.name?.getText(ast)==='updatePreferences')!;preferenceUpdate=ts.isShorthandPropertyAssignment(port)?functions.get(port.name.text):(port as ts.PropertyAssignment).initializer.getText(ast);}
  if(ts.isFunctionDeclaration(node)&&node.name?.text==='render')render=node;ts.forEachChild(node,visit);
 }visit(ast);assert.ok(tutorial&&preferenceUpdate&&render);
 const begin=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='begin')as ts.FunctionDeclaration;
 const beginPreferences=begin.body!.statements.filter(node=>/^state\.options\.(sound|textSpeed)=/.test(node.getText(ast))).map(node=>node.getText(ast)).join('\n');assert.match(beginPreferences,/sound/);
 const renderInput=render.body!.statements.filter(node=>node.getText(ast).includes("keys.has('KeyQ')")||node.getText(ast).includes('fieldInputFacing(')).map(node=>node.getText(ast)).join('\n');assert.match(renderInput,/fieldInputFacing/);assert.match(renderInput,/keys.has\('KeyQ'\)/);
-const bindings=names.map(name=>functions.get(name)).join('\n')+'\nfunction renderInputActual(dt){'+renderInput+'}\nfunction beginPreferencesActual(){'+beginPreferences+'}\nglobalThis.updatePreferencesActual='+preferenceUpdate.getText(ast)+';\nglobalThis.tutorialActual='+tutorial.getText(ast)+';';
+const bindings=names.map(name=>functions.get(name)).join('\n')+'\nfunction renderInputActual(dt){'+renderInput+'}\nfunction beginPreferencesActual(){'+beginPreferences+'}\nglobalThis.updatePreferencesActual='+preferenceUpdate+';\nglobalThis.tutorialActual='+tutorial.getText(ast)+';';
 const events=ast.statements.filter(node=>ts.isExpressionStatement(node)&&ts.isCallExpression(node.expression)&&['addEventListener','document.addEventListener'].includes(node.expression.expression.getText(ast))).map(node=>node.getText(ast)).join('\n');
 const mainHash=createHash('sha256').update(source).digest('hex'),bindingHash=createHash('sha256').update(bindings+events+cameraPorts+touchActions).digest('hex');
 

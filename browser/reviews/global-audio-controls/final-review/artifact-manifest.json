@@ -1,0 +1,131 @@
+{
+  "sourceCommit": "84864cb72f650069d72bbd14877ba1bc04b63518",
+  "browserEvidenceHashMismatches": [],
+  "files": [
+    {
+      "path": "adjudication.md",
+      "bytes": 2570,
+      "sha256": "4b2b5d787780081367599c5b0c08100cf2ddb67a1d26ce8170f5bf117b9af530"
+    },
+    {
+      "path": "failed-launch-receipt.json",
+      "bytes": 388,
+      "sha256": "a73a293c71c60491088c4a208e102f3bf1e414bc5d6288c6e10f6a55cd4b0eb8"
+    },
+    {
+      "path": "failed-wrong-cwd-result.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "failed-wrong-cwd-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "input-manifest.json",
+      "bytes": 26263,
+      "sha256": "5b3b8274c986db206e972dfc20cf196ce2ec1a46a58f170d878d2ec0fdfd3b7d"
+    },
+    {
+      "path": "integrity.json",
+      "bytes": 1493,
+      "sha256": "f4cdd07fe292a6645e13fb8538a606168d15a573b0906896c8c34d3c5a6c2176"
+    },
+    {
+      "path": "keyboard-probe-result.json",
+      "bytes": 2388,
+      "sha256": "e3de2dcebd233b669138cbe76d6c0bd5217f78bdd117c27fd0b2c25401fa5973"
+    },
+    {
+      "path": "keyboard-probe-stdout.json",
+      "bytes": 2388,
+      "sha256": "e3de2dcebd233b669138cbe76d6c0bd5217f78bdd117c27fd0b2c25401fa5973"
+    },
+    {
+      "path": "keyboard-probe.mjs",
+      "bytes": 2649,
+      "sha256": "bef5c39ad8e93459162315a32cd96f196b40c014a08ec34d86f8f4427c8415b4"
+    },
+    {
+      "path": "parent-browser-evidence/battle-controls-320x568.png",
+      "bytes": 102198,
+      "sha256": "a606bf6ee43d0d48a45de48b496939cf06149cafea489edf041c5723610ccf7a"
+    },
+    {
+      "path": "parent-browser-evidence/battle-controls-390x844.png",
+      "bytes": 114091,
+      "sha256": "09fbad223cb1973a10453931b0596c1d9f0684b2e2e62fc7fed172d74b33ffeb"
+    },
+    {
+      "path": "parent-browser-evidence/battle-controls-844x390.png",
+      "bytes": 83868,
+      "sha256": "103991c4114051516f83acdd9625cdd304d78b61d3f881a8a114ea5b6ec61a96"
+    },
+    {
+      "path": "parent-browser-evidence/manifest.json",
+      "bytes": 486,
+      "sha256": "2083dc1fdc307c7f60e6b5b47de21f96324842a4c1038d312959312ad07239ed"
+    },
+    {
+      "path": "parent-browser-evidence/receipt.json",
+      "bytes": 2829,
+      "sha256": "ce2fb70311797de69f3ff2e747084c10fed25fecd751e54cc6ad9d203592bece"
+    },
+    {
+      "path": "parent-browser-evidence/settings-390x844.png",
+      "bytes": 110644,
+      "sha256": "26ef1dc2b1c68dda40f16b06236897d0b2d1b3d035af14aaae93e8d2d7b355a3"
+    },
+    {
+      "path": "parent-test-evidence/hg-audio-controls-84864-build.log",
+      "bytes": 806,
+      "sha256": "4971ba205eddf40f2f6085bafa6bc9d23ecf5c638bc12dc21c95ce5743a36d1d"
+    },
+    {
+      "path": "parent-test-evidence/hg-audio-controls-84864-full-tests.log",
+      "bytes": 201490,
+      "sha256": "3b8dc34e4bbc1edd334ea3a67e8d83b0b9a3c92551936787cea1c4927a3b21d1"
+    },
+    {
+      "path": "parent-test-evidence/hg-audio-controls-targets-v5.log",
+      "bytes": 35753,
+      "sha256": "82041b20e25a8855cc3460c487026a9824e620705ac03a41024359b3aaea0d1f"
+    },
+    {
+      "path": "prompt.txt",
+      "bytes": 3801,
+      "sha256": "83927564aa86fcf6667a92cbe755cf7d081bf1777f7cfcd8b9fe3f6f6bf784ac"
+    },
+    {
+      "path": "result.json",
+      "bytes": 8811,
+      "sha256": "a3ad2973233b2205b6e7b18e3ceb24ba896c24f3cd4171ffe0c9515a02fc774f"
+    },
+    {
+      "path": "review-result.md",
+      "bytes": 6647,
+      "sha256": "33621297405487285c44c74bc0628f3c6fb37d053eec04a123addf73bf982102"
+    },
+    {
+      "path": "settings-order-probe-result.json",
+      "bytes": 1596,
+      "sha256": "2cd0c616a055866f43420dbe3b28242c1b48cbca55c40030fda9199b437e45d7"
+    },
+    {
+      "path": "settings-order-probe.mjs",
+      "bytes": 2389,
+      "sha256": "515794170de06d74e4409052359ce4bc281cd47d157f130d612d5573e259d217"
+    },
+    {
+      "path": "snapshot.tar.gz",
+      "bytes": 370636,
+      "sha256": "16cc2dadafc92017224a8dcafea5c18ccfd397deaf6e5fd994040ae5aff1fa42"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

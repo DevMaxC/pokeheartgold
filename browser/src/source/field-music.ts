@@ -56,12 +56,13 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
  const limit=options.maxDecodedTracks??2;if(!Number.isInteger(limit)||limit<1||limit>4)throw Error('Native audio decoded cache must contain one to four tracks');
  const ioTimeout=options.ioTimeoutMs??4000;if(!Number.isInteger(ioTimeout)||ioTimeout<1||ioTimeout>120000)throw Error('Native audio I/O deadline must be one to 120000 milliseconds');
  const lifetime=new AbortController(),cache=new Map<number,{buffer:AudioBuffer;leadingSeconds:number}>(),allVoices=new Set<Voice>();
- let enabled=options.enabled,volume=options.volume,context:AudioContext|undefined,gain:GainNode|undefined,unlocked=false,disposed=false;
+ let enabled=options.enabled,volume=options.volume,context:AudioContext|undefined,gain:GainNode|undefined,unlocked=false,disposed=false,pageActive=true;
  let manifest:Promise<NativeFieldCatalog>|undefined,desired:NativeFieldSelection|null=null,current:{selection:NativeFieldSelection;identity:string;voice:Voice}|null=null;
  let serial=0,generation=0,intent=0,loading:AbortController|undefined,interrupted=false;
  let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:{preferences?:()=>Promise<void>}|undefined;
  const fetchBytes=options.fetchBytes??bytes;
  const assertOpen=()=>{if(disposed)throw Error('Native field music player is disposed');};
+ const updateGain=()=>{if(gain)gain.gain.value=enabled&&pageActive?volume:0;};
  const io=async<T>(work:(signal:AbortSignal)=>Promise<T>,signals:AbortSignal[],label:string):Promise<T>=>{
   const controller=new AbortController(),inputs=[...signals,lifetime.signal],handlers=inputs.map(signal=>()=>controller.abort(reason(signal)));
   for(let index=0;index<inputs.length;index++){if(inputs[index].aborted)handlers[index]();else inputs[index].addEventListener('abort',handlers[index],{once:true});}
@@ -156,7 +157,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
   async unlock():Promise<void>{
    assertOpen();
    // This entire construction/resume invocation runs in the gesture stack.
-   if(!context){context=(options.createContext??(()=>{const Constructor=globalThis.AudioContext??(globalThis as unknown as{webkitAudioContext:typeof AudioContext}).webkitAudioContext;if(!Constructor)throw Error('Native music requires WebAudio');return new Constructor();}))();gain=context.createGain();gain.gain.value=enabled?volume:0;gain.connect(context.destination);}
+   if(!context){context=(options.createContext??(()=>{const Constructor=globalThis.AudioContext??(globalThis as unknown as{webkitAudioContext:typeof AudioContext}).webkitAudioContext;if(!Constructor)throw Error('Native music requires WebAudio');return new Constructor();}))();gain=context.createGain();updateGain();gain.connect(context.destination);}
    const ctx=context;const resumed=ctx.resume();
    let timer:ReturnType<typeof setTimeout>|undefined,cancel!:()=>void;
    try{await Promise.race([resumed,new Promise<never>((_yes,no)=>{cancel=()=>no(reason(lifetime.signal));lifetime.signal.addEventListener('abort',cancel,{once:true});timer=setTimeout(()=>no(Error('Tap again to allow original game music')),options.unlockTimeoutMs??2000);})]);assertOpen();if(ctx.state!=='running')throw Error('Native music was not allowed to start');unlocked=true;if(cueSession?.preferences)await cueSession.preferences();await(pendingPlayback??reconcile());}
@@ -164,7 +165,10 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
   },
   async playMap(map:Pick<SourceMap,'id'>,state:FieldMusicState,signal?:AbortSignal){assertOpen();if(signal)check(signal);const request=++intent,id=map.id,inputs=structuredClone(state),native=await getCatalog(signal);if(signal)check(signal);if(request!==intent)throw Error('Native music map intent replaced');try{desired=nativeFieldMusic(native,{id},inputs);}catch(error){desired=null;await reconcile(signal);throw error;}return reconcile(signal);},
   async playCue(cue:NativeMusicCue,source:MusicSource='other',signal?:AbortSignal){assertOpen();if(signal)check(signal);validCue(cue);intent++;desired={cue:{...cue},source};return reconcile(signal);},
-  async setPreferences(preferences:{enabled:boolean;volume:number}){assertOpen();if(typeof preferences.enabled!=='boolean'||!Number.isFinite(preferences.volume)||preferences.volume<0||preferences.volume>1)throw Error('Invalid native music preferences');const changed=enabled!==preferences.enabled;enabled=preferences.enabled;volume=preferences.volume;if(gain)gain.gain.value=enabled?volume:0;if(cueSession?.preferences)await cueSession.preferences();if(!changed&&pendingPlayback)return pendingPlayback;return reconcile();},
+  async setPreferences(preferences:{enabled:boolean;volume:number}){assertOpen();if(typeof preferences.enabled!=='boolean'||!Number.isFinite(preferences.volume)||preferences.volume<0||preferences.volume>1)throw Error('Invalid native music preferences');const changed=enabled!==preferences.enabled;enabled=preferences.enabled;volume=preferences.volume;updateGain();if(cueSession?.preferences)await cueSession.preferences();if(!changed&&pendingPlayback)return pendingPlayback;return reconcile();},
+  /** Gate the one shared output immediately, including pending/owned cues.
+   * Hidden pages stay silent without suspending source task completion. */
+  setPageActive(active:boolean){assertOpen();pageActive=active;updateGain();},
   capture:snapshot,
   /** A non-field native cue (e.g. battle) with an owned interruption. */
   createCueSession(){
