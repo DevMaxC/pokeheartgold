@@ -104,9 +104,12 @@ export function createNativeHatchMusicSession(options:HatchMusicOptions):HatchMu
    // performs only a sample-node start, with no network/checksum/decode gap.
    await transport.prepare(asset,controller.signal);await transport.prepare(fanfareAsset,controller.signal);check(controller.signal);
    if(snapshot.kind==='playing'){
-    suspended=true;const paused=await options.field!.suspend(structuredClone(snapshot));
-    if(paused.kind!=='playing'||paused.identity!==snapshot.identity||paused.cue.id!==snapshot.cue.id||paused.cue.key!==snapshot.cue.key||paused.source!==snapshot.source||!Number.isFinite(paused.positionSeconds)||paused.positionSeconds<0)throw Error('The actual field music voice changed before suspension');
-    snapshot=structuredClone(paused);check(controller.signal);
+    suspended=true;const expected=snapshot,paused=await options.field!.suspend(structuredClone(expected));
+    // If an external player changed voices during preparation, release OUR
+    // interruption of the voice actually paused, never resurrect the old one.
+    if(paused.kind==='none'||(paused.kind==='playing'&&Number.isFinite(paused.positionSeconds)&&paused.positionSeconds>=0))snapshot=structuredClone(paused);
+    if(paused.kind!=='playing'||paused.identity!==expected.identity||paused.cue.id!==expected.cue.id||paused.cue.key!==expected.cue.key||paused.source!==expected.source||!Number.isFinite(paused.positionSeconds)||paused.positionSeconds<0)throw Error('The actual field music voice changed before suspension');
+    check(controller.signal);
    }
    try{background=await transport.play(asset,controller.signal);check(controller.signal);}catch(error){background?.stop(error);throw error;}
   });},

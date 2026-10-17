@@ -76,6 +76,11 @@ for sid, key in [(1011, 'SEQ_GS_SHINKA'), (1188, 'SEQ_ME_SHINKAOME')]:
     arc = archive.sequence(sid)
     entry = arc.entries[0]
     check(entry.name == key and entry.bank_id == bank_id and entry.volume == native[seq_record + 6], 'Native hatch export source/renderer validation failed: 75')
+    sequence_file = resource(u16(seq_record))
+    sequence_offset = sequence_file['offset']
+    events_offset = u32(sequence_offset + 0x18)
+    check(arc.blob == native[sequence_offset + events_offset:sequence_offset + sequence_file['size']],
+          'Renderer event payload differs from the original native SSEQ FAT bytes')
     bank, waves = archive.bank(bank_id)  # no heuristic bank remapping
     render = LiveRenderer(arc.blob, entry.offset, bank, waves, entry.volume,
                           32768, player_prio=entry.cpr, loop_passes=2)
