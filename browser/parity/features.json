@@ -2156,8 +2156,8 @@
     "group": "3D world depth and navigation",
     "feature": "Hill and cliff backs are opaque from newly accessible camera angles",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+    "status": "partial",
+    "verification": "Placed-land boundary repair uses native opaque geometry, collision floors, terrain offsets and exact entrance/open-passage guards. Current focused New Bark checks cover1008surface rays, two reachable camera witnesses and108opening rays; they do not establish all-map coverage. Full792-context audit, unresolved Route44 terrain, final changed-source rendering and production release remain pending."
   },
   {
     "id": "P15-005",
@@ -2244,8 +2244,8 @@
     "group": "3D world depth and navigation",
     "feature": "Raised background forests and authored forest platforms have opaque terrain sides",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Matrix-altitude filler steps and elevated tree-ground patches receive cliff sides. Actual Route 30 land/7-2 forest platform at y=5 over y=1 ground identified and rendered in streamed Cherrygrove context."
+    "status": "partial",
+    "verification": "Placed-land boundary repair uses native opaque geometry, collision floors, terrain offsets and exact entrance/open-passage guards. Current focused New Bark checks cover1008surface rays, two reachable camera witnesses and108opening rays; they do not establish all-map coverage. Full792-context audit, unresolved Route44 terrain, final changed-source rendering and production release remain pending."
   },
   {
     "id": "P15-016",
