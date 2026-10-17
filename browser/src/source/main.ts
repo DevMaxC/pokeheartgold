@@ -569,7 +569,7 @@ async function title(){
     if(saved&&await ui.choose('Start a new adventure?',['Keep existing adventure','Start New Game'],'The new adventure will replace this browser’s HeartGold save after you finish creating your character.',undefined,{cancelIndex:0})===0)continue;
     // Modern title navigation selects the path; the actual Oak introduction
     // still owns every tutorial, identity, confirmation and shrink phase.
-    openingView=new OpeningView(ui);
+    openingView=new OpeningView(ui,()=>preferences.music?music.sharedAudioOutput():null);
     try{state=await runOpeningSession(null,async()=>({messages:data.intro.msg_0219,defaultNames:await sourceJSON<Record<string,string>>('messages/254.json')}),openingView,identity=>newState(data,identity.name,identity.gender),{});}
     finally{openingView.dispose();openingView=null;resetFieldInput();}
     await begin('warp');return;

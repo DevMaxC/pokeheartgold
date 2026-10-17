@@ -5,14 +5,17 @@ import {OPENING_NAME_KEYBOARD,normalizeOpeningName,validOpeningName,type Opening
 import {sourceJSON} from './types.ts';
 import {drawOpeningDemo,setOpeningDemoVisible,prepareOpeningArtwork,animateOpeningShrink,type OpeningArtwork} from './opening-art.ts';
 import {chooseOpeningButton} from './opening-input.ts';
+import {createOpeningAudio} from './opening-audio.ts';
+import type {SharedNativeAudioOutput} from './field-music.ts';
 import './opening.css';
 type Assets=OpeningArtwork;
 const source='/source/opening/';const wait=(ms:number)=>new Promise<void>(resolve=>setTimeout(resolve,ms));
 export class OpeningView implements OpeningPort{
  private root:HTMLElement;private stage:OpeningTitleStage|null=null;private assets:Assets|null=null;
  private phase='title';private animation:{sequence:number;frame:number;elapsed:number}|null=null;private current:OpeningScene={phase:'topics'};private disposed=false;
- private sounds=new Set<HTMLAudioElement>();
- constructor(private ui:UI){
+ private audio:ReturnType<typeof createOpeningAudio>;
+ constructor(private ui:UI,output:()=>SharedNativeAudioOutput|null){
+  this.audio=createOpeningAudio(output);
   document.body.classList.add('in-opening');this.root=document.createElement('section');this.root.id='opening-scene';this.root.dataset.phase='title';this.root.setAttribute('aria-label','Pokémon HeartGold introduction');
   this.root.innerHTML=`<img class="opening-title-logo" src="${source}title-logo.png" alt="Pokémon HeartGold"><div class="opening-paper-stage"><img id="opening-portrait" src="${source}oak.png" alt="Professor Oak" hidden><svg id="opening-demo" viewBox="0 0 256 192" aria-label="Marill demonstration" hidden><image id="opening-demo-cell"/></svg></div><p id="opening-hint"></p><div id="opening-title-actions"></div><div class="opening-flash"></div>`;document.getElementById('game')!.append(this.root);
  }
@@ -20,7 +23,7 @@ export class OpeningView implements OpeningPort{
   this.phase='title';this.root.dataset.phase='title';this.ui.loading('Loading the opening…');
   try{this.stage=await OpeningTitleStage.create(renderer);}catch(error){console.warn('Original title model could not load; native title artwork remains available.',error);this.root.classList.add('opening-title-fallback');}finally{this.ui.loading(null);}
   const actions=$('opening-title-actions');actions.innerHTML=`<button class="opening-start" id="opening-start">${esc(startText)}<small>Enter · Touch · Click</small></button>`;
-  await new Promise<void>(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;removeEventListener('keydown',key);actions.innerHTML='';this.playCry(250);this.root.classList.add('opening-do-flash');setTimeout(()=>{this.root.classList.remove('opening-do-flash');resolve();},180);},key=(event:KeyboardEvent)=>{if(!event.repeat&&['Enter','Space','KeyF'].includes(event.code)){event.preventDefault();finish();}};$('opening-start').onclick=finish;addEventListener('keydown',key);setTimeout(()=>$('opening-start')?.focus(),0);});
+  await new Promise<void>(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;removeEventListener('keydown',key);actions.innerHTML='';this.playCry(250);this.root.classList.add('opening-do-flash');setTimeout(()=>{this.root.classList.remove('opening-do-flash');resolve();},180);},key=(event:KeyboardEvent)=>{if((event.target as HTMLElement|null)?.closest?.('[data-global-audio]'))return;if(!event.defaultPrevented&&!event.repeat&&['Enter','Space','KeyF'].includes(event.code)){event.preventDefault();finish();}};$('opening-start').onclick=finish;addEventListener('keydown',key);setTimeout(()=>$('opening-start')?.focus(),0);});
  }
  async prepare(){const assets=await sourceJSON<Assets>('opening/assets.json');await prepareOpeningArtwork(assets);this.assets=assets;}
  scene(view:OpeningScene){
@@ -45,7 +48,7 @@ export class OpeningView implements OpeningPort{
   return new Promise<string>(resolve=>{let done=false;$('opening-name-form').onsubmit=event=>{event.preventDefault();update();if(done||!input.reportValidity())return;done=true;const result=normalizeOpeningName(input.value);this.ui.close();resolve(result);};});
  }
  private demo(sequence:number){if(!this.assets)throw Error('Opening demonstration assets are unavailable');this.animation={sequence,frame:0,elapsed:0};setOpeningDemoVisible($('opening-demo'),true);this.drawDemo();}
- private playCry(species:183|250){const audio=new Audio(source+`cry-${species}.wav`);audio.volume=.6;this.sounds.add(audio);audio.onended=()=>this.sounds.delete(audio);void audio.play().catch(error=>{this.sounds.delete(audio);console.warn('Original opening cry could not play.',error);});}
+ private playCry(species:183|250){void this.audio.playCry(species).catch(error=>{if(!this.disposed)console.warn('Original opening cry could not play.',error);});}
  private drawDemo(){if(this.assets&&this.animation)drawOpeningDemo($('opening-demo-cell'),this.assets.demo,this.animation.sequence,this.animation.frame);}
  async effect(effect:OpeningEffect,gender?:OpeningGender){
   if(effect==='oak-right'||effect==='oak-left'){this.root.dataset.oak=effect==='oak-right'?'right':'center';await wait(450);return;}
@@ -56,5 +59,5 @@ export class OpeningView implements OpeningPort{
   if(effect==='player-shrink'){const portrait=$<HTMLImageElement>('opening-portrait');await animateOpeningShrink(gender??'boy',file=>{portrait.hidden=file===null;if(file)portrait.src=source+file;});}
  }
  draw(dt:number){if(this.disposed)return;if(this.phase==='title')this.stage?.draw(dt);if(this.animation&&this.assets){const sequence=this.assets.demo.sequences[this.animation.sequence];this.animation.elapsed+=dt*60;while(this.animation.elapsed>=sequence.frames[this.animation.frame].duration){this.animation.elapsed-=sequence.frames[this.animation.frame].duration;if(this.animation.frame+1<sequence.frames.length)this.animation.frame++;else if(sequence.loop)this.animation.frame=sequence.loopStart;else{this.animation.elapsed=0;break;}}this.drawDemo();}}
- dispose(){if(this.disposed)return;this.disposed=true;this.animation=null;for(const audio of this.sounds)audio.pause();this.sounds.clear();this.stage?.dispose();this.root.remove();document.body.classList.remove('in-opening');}
+ dispose(){if(this.disposed)return;this.disposed=true;this.animation=null;this.audio.dispose();this.stage?.dispose();this.root.remove();document.body.classList.remove('in-opening');}
 }
