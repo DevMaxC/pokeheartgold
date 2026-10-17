@@ -21,8 +21,15 @@ function harness(playerSpecies=21,enemySpecies=19,rng:()=>number=()=>.5){
 type Harness=ReturnType<typeof harness>;
 async function attack(h:Harness,playerSide=true,slot=0){await Reflect.get(h.battle,'attack').call(h.battle,playerSide,slot);}
 function stages(h:Harness,playerSide=true){return Reflect.get(h.battle,playerSide?'playerStages':'enemyStages')as ReturnType<typeof freshStages>;}
-async function oneAction(h:Harness,action:{kind:'move';slot:number}|{kind:'item';item:string}|{kind:'run'},enemySlot=0){const stop=new Error('unit turn boundary');let selections=0;Reflect.set(h.battle,'active',true);Reflect.set(h.battle,'chooseEnemyMove',()=>enemySlot);Reflect.set(h.battle,'nextAction',async()=>{if(selections++)throw stop;return action;});await assert.rejects(Reflect.get(h.battle,'loop').call(h.battle),(error:unknown)=>error===stop);}
+async function oneAction(h:Harness,action:{kind:'move';slot:number}|{kind:'item';item:string}|{kind:'switch';index:number}|{kind:'run'},enemySlot=0){const stop=new Error('unit turn boundary');let selections=0;Reflect.set(h.battle,'active',true);Reflect.set(h.battle,'chooseEnemyMove',()=>enemySlot);Reflect.set(h.battle,'nextAction',async()=>{if(selections++)throw stop;return action;});await assert.rejects(Reflect.get(h.battle,'loop').call(h.battle),(error:unknown)=>error===stop);}
 async function oneTurn(h:Harness,playerSlot=0,enemySlot=0){await oneAction(h,{kind:'move',slot:playerSlot},enemySlot);}
+async function rageVolatiles(playerSide=true){
+  // All legal native GenIV moves: Dunsparce learns Rage/DefenseCurl/Glare,
+  // accepts TM32 DoubleTeam, and Sentret learns Foresight at level1.
+  const h=harness(playerSide?206:161,playerSide?161:206,()=>.9),rager=playerSide?h.player:h.enemy,foe=playerSide?h.enemy:h.player;
+  assert.ok(data.personal[206].tms.includes(32));for(const key of['MOVE_RAGE','MOVE_DEFENSE_CURL','MOVE_GLARE'])assert.ok(data.learnsets[206].some(m=>m.move===data.constants[key]&&m.level<=20));assert.ok(data.learnsets[161].some(m=>m.move===data.constants.MOVE_FORESIGHT&&m.level===1));
+  moves(rager,'MOVE_RAGE','MOVE_DOUBLE_TEAM','MOVE_DEFENSE_CURL','MOVE_GLARE');moves(foe,'MOVE_FORESIGHT','MOVE_TACKLE');await attack(h,playerSide,1);await attack(h,playerSide,2);await oneTurn(h,0,0);rager.hp=foe.hp=200;rager.stats.speed=1;foe.stats.speed=100;return{h,rager,foe};
+}
 
 test('native multi-hit sampling has GenIV probabilities and SkillLink consumes no count draw',()=>{
   const counts=[0,0,0,0,0,0];for(let first=0;first<4;first++)for(let second=0;second<4;second++){const draws=sequence([(first+.1)/4,(second+.1)/4]);counts[multiHitCount(draws.rng)]++;assert.equal(draws.calls,first<2?1:2);}assert.deepEqual(counts.slice(2),[6,6,2,2]);assert.equal(multiHitCount(()=>{throw Error('SkillLink must not roll hit count');},true),5);
@@ -38,6 +45,14 @@ test('missed FuryAttack rolls no count or damage, and fainting stops remaining h
 test('SkillLink makes five hits; Ghost immunity stops without a hit-count message',async()=>{
   const skill=harness(91);skill.player.personality=1;moves(skill.player,'MOVE_FURY_ATTACK');await attack(skill);assert.equal(skill.calls.filter(x=>x==='hit').length,5);assert.ok(skill.messages.includes('Hit 5 times!'));
   const immune=harness(21,92);moves(immune.player,'MOVE_FURY_ATTACK');await attack(immune);assert.equal(immune.enemy.hp,200);assert.equal(immune.calls.filter(x=>x==='hit').length,0);assert.ok(!immune.messages.some(x=>/^Hit \d/.test(x)));
+});
+test('native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit',async()=>{
+  const draws=sequence([0,0,0,.5,.9999]),h=harness(29,19,draws.rng);moves(h.player,'MOVE_DOUBLE_KICK');const pp=h.player.moves[0].pp;
+  await attack(h);assert.equal(h.enemy.hp,158,'base8: critical85% against Normal=26, ordinary100%=16');assert.equal(h.player.moves[0].pp,pp-1);assert.equal(draws.calls,5,'no random hit-count draw');assert.equal(h.calls.filter(x=>x==='attack').length,2);assert.equal(h.calls.filter(x=>x==='hit').length,2);assert.equal(h.messages.filter(x=>x==='A critical hit!').length,1);assert.ok(h.messages.includes('Hit 2 times!'));
+  const koDraws=sequence([0,.5,0]),ko=harness(29,19,koDraws.rng);moves(ko.player,'MOVE_DOUBLE_KICK');ko.enemy.hp=1;await attack(ko);assert.equal(ko.enemy.hp,0);assert.equal(koDraws.calls,3,'fainting skips the second critical/damage rolls');assert.equal(ko.calls.filter(x=>x==='attack').length,1);assert.ok(ko.messages.includes('Hit 1 time!'));
+});
+test('DoubleKick builds surviving Rage once for each native hit',async()=>{
+  const h=harness(158,29);moves(h.player,'MOVE_RAGE');moves(h.enemy,'MOVE_DOUBLE_KICK');await attack(h);h.player.hp=200;await attack(h,false);assert.equal(stages(h).atk,2);assert.equal(h.messages.filter(x=>x.includes('rage is building')).length,2);assert.ok(h.messages.includes('Hit 2 times!'));stages(h).atk=5;await attack(h,false);assert.equal(stages(h).atk,6,'the two hits still respect the native stat cap');
 });
 test('Roost heals half rounded down and suppresses only Flying matchups without changing species',async()=>{
   const h=harness(17);moves(h.player,'MOVE_ROOST');h.player.maxHP=41;h.player.hp=10;const types=[...data.personal[17].types];await attack(h);assert.equal(h.player.hp,30);assert.ok(Reflect.get(h.battle,'roosting').has(h.player));assert.equal(typeEffectiveness(data,data.constants.TYPE_GROUND,17),0);assert.equal(typeEffectiveness(data,data.constants.TYPE_GROUND,17,false,true),1);assert.equal(typeEffectiveness(data,data.constants.TYPE_FIGHTING,17,false,true),2);assert.equal(typeEffectiveness(data,data.constants.TYPE_GROUND,146,false,true),2);assert.deepEqual(data.personal[17].types,types);
@@ -76,6 +91,24 @@ test('Rage persists through successful item use and failed escape, and rejected 
 });
 test('Rage survives inability to act, but a missed or failed different move clears it',async()=>{
   for(const mode of['sleep','paralysis','flinch','miss','failed-recovery']as const){let blocked=false;const h=harness(158,19,()=>blocked?mode==='miss'?.999:0:.5);moves(h.player,'MOVE_RAGE','MOVE_TACKLE','MOVE_ROOST');await attack(h);blocked=true;const pp=h.player.moves[mode==='failed-recovery'?2:1].pp;if(mode==='sleep'){h.player.status='SLP';h.player.sleepTurns=2;}if(mode==='paralysis')h.player.status='PAR';if(mode==='flinch')Reflect.set(h.battle,'flinch',true);if(mode==='miss')stages(h).accuracy=-1;await attack(h,true,mode==='failed-recovery'?2:1);const cannotAct=['sleep','paralysis','flinch'].includes(mode);assert.equal(Reflect.get(h.battle,'raging').has(h.player),cannotAct,mode);assert.equal(h.player.moves[mode==='failed-recovery'?2:1].pp,pp-(cannotAct?0:1));}
+});
+test('native Rage before-turn masking clears Foresight and DefenseCurl before either side attacks',async()=>{
+  for(const playerSide of[true,false])for(const repeat of[false,true]){
+    const{h,rager}=await rageVolatiles(playerSide);let checked=false;const say=Reflect.get(h.battle,'say');Reflect.set(h.battle,'say',async(text:string)=>{if(text.includes('SENTRET used Tackle')){checked=true;assert.ok(Reflect.get(h.battle,'raging').has(rager),'Rage survives until another move executes');assert.equal(Reflect.get(h.battle,'identified').has(rager),repeat);assert.equal(Reflect.get(h.battle,'curled').has(rager),repeat);}await say(text);});
+    await oneTurn(h,playerSide?(repeat?0:3):1,playerSide?1:(repeat?0:3));assert.ok(checked);assert.equal(stages(h,playerSide).atk,repeat?1:0);assert.equal(Reflect.get(h.battle,'raging').has(rager),repeat);assert.equal(Reflect.get(h.battle,'identified').has(rager),repeat);assert.equal(Reflect.get(h.battle,'curled').has(rager),repeat);assert.equal(stages(h,playerSide).def,1,'masking the curl flag preserves its Defense boost');assert.equal(stages(h,playerSide).evasion,1);
+    // Native Tackle accuracy95 *75/100 truncates to71; the port's older
+    // fractional threshold is71.25. Roll90 misses under either calculation.
+    if(repeat)assert.ok(rager.hp<200);else assert.equal(rager.hp,200);
+  }
+});
+test('Rage masks other status2 flags on selection even when the chosen move cannot act',async()=>{
+  for(const playerSide of[true,false]){const{h,rager}=await rageVolatiles(playerSide);rager.status='SLP';rager.sleepTurns=2;const pp=rager.moves[3].pp;await oneTurn(h,playerSide?3:1,playerSide?1:3);assert.ok(Reflect.get(h.battle,'raging').has(rager));assert.ok(!Reflect.get(h.battle,'identified').has(rager));assert.ok(!Reflect.get(h.battle,'curled').has(rager));assert.equal(rager.moves[3].pp,pp);assert.equal(rager.hp,200);}
+});
+test('accepted non-Fight actions mask Rage volatiles; rejected menu choices preserve them',async()=>{
+  for(const mode of['potion','escape','no-effect-item','trainer-run','switch']as const){const{h,rager}=await rageVolatiles();h.state.bag.ITEM_POTION=1;if(mode==='potion')rager.hp=100;if(mode==='escape')h.enemy.stats.speed=1000;if(mode==='trainer-run')Reflect.set(h.battle,'trainer',20);if(mode==='switch')h.state.party.push(createMon(data,152,20,'Ethan',()=>.5));const rejected=mode==='no-effect-item'||mode==='trainer-run';await oneAction(h,mode==='potion'||mode==='no-effect-item'?{kind:'item',item:'ITEM_POTION'}:mode==='switch'?{kind:'switch',index:1}:{kind:'run'},1);assert.equal(Reflect.get(h.battle,'identified').has(rager),rejected,mode);assert.equal(Reflect.get(h.battle,'curled').has(rager),rejected,mode);assert.equal(Reflect.get(h.battle,'raging').has(rager),mode!=='switch',mode);if(mode==='potion')assert.equal(rager.hp,120);if(mode==='escape')assert.equal(rager.hp,200);}
+});
+test('native no-PP selection retains the last Rage slot until Struggle actually executes',async()=>{
+  for(const playerSide of[true,false]){const{h,rager}=await rageVolatiles(playerSide);for(const move of rager.moves)move.pp=0;let checked=false;const say=Reflect.get(h.battle,'say');Reflect.set(h.battle,'say',async(text:string)=>{if(text.includes('SENTRET used Tackle')){checked=true;assert.ok(Reflect.get(h.battle,'identified').has(rager));assert.ok(Reflect.get(h.battle,'curled').has(rager));assert.ok(Reflect.get(h.battle,'raging').has(rager));}await say(text);});await oneTurn(h,playerSide?-1:1,playerSide?1:-1);assert.ok(checked);assert.equal(stages(h,playerSide).atk,1);assert.ok(!Reflect.get(h.battle,'raging').has(rager));assert.ok(Reflect.get(h.battle,'identified').has(rager));assert.ok(Reflect.get(h.battle,'curled').has(rager));assert.ok(rager.moves.every(m=>m.pp===0));}
 });
 test('switching and battle completion clear Rage/Roost without storing them on Pokémon',async()=>{
   const h=harness(158);moves(h.player,'MOVE_RAGE');await attack(h);Reflect.get(h.battle,'roosting').add(h.player);const old=h.player;h.state.party.push(createMon(data,152,10,'Ethan',()=>.5));await Reflect.get(h.battle,'switch').call(h.battle,1);assert.ok(!Reflect.get(h.battle,'raging').has(old));assert.ok(!Reflect.get(h.battle,'roosting').has(old));Reflect.get(h.battle,'raging').add(h.battle.player);Reflect.get(h.battle,'roosting').add(h.battle.player);Reflect.get(h.battle,'finish').call(h.battle,'ran');assert.equal(Reflect.get(h.battle,'raging').size,0);assert.equal(Reflect.get(h.battle,'roosting').size,0);assert.ok(!('roosting'in old)&&!('raging'in old));

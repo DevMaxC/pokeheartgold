@@ -14,6 +14,7 @@ export class Battle{
   private fleeAttempts=0;private turns=0;private flinch=false;private messageText='';
   private identified=new Set<Mon>();private curled=new Set<Mon>();
   private roosting=new Set<Mon>();private raging=new Set<Mon>();private weather:BattleWeather='clear';
+  private selectedMoveSlots=new Map<Mon,number>();
   private tutorial=false;private noCritical=false;
   readonly data:GameData;readonly state:State;readonly ui:UI;readonly rng:()=>number;readonly view?:BattleView;
   constructor(data:GameData,state:State,ui:UI,rng:()=>number=Math.random,view?:BattleView){this.data=data;this.state=state;this.ui=ui;this.rng=rng;this.view=view;}
@@ -22,7 +23,7 @@ export class Battle{
     this.tutorial=!!options.tutorial;this.noCritical=this.tutorial||!!options.noCritical;
     // Capture the native field weather once; sky animation and later map
     // changes never decide healing amounts during a battle.
-    this.weather=fieldBattleWeather(options.weather??0);this.roosting.clear();this.raging.clear();
+    this.weather=fieldBattleWeather(options.weather??0);this.roosting.clear();this.raging.clear();this.selectedMoveSlots.clear();
     this.active=true;this.enemies=enemies;this.trainer=trainer;this.playerIndex=Math.max(0,this.state.party.findIndex(m=>m.hp>0));this.enemyIndex=0;this.playerStages=freshStages();this.enemyStages=freshStages();this.turns=0;this.fleeAttempts=0;
     this.identified.clear();this.curled.clear();$('battle-screen').hidden=false;$('game-hud').hidden=true;$('touch-pad').hidden=true;
     const before=structuredClone({party:this.state.party,boxes:this.state.boxes,bag:this.state.bag,seen:this.state.seen,caught:this.state.caught});
@@ -36,8 +37,8 @@ export class Battle{
     })().catch(error=>{Object.assign(this.state,before);this.finishError();fail(error);});
     return complete;
   }
-  private finishError(){this.roosting.clear();this.raging.clear();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;this.resolve=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;}
-  private finish(result:Result){this.roosting.clear();this.raging.clear();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;this.resolve?.(result);this.resolve=null;}
+  private finishError(){this.roosting.clear();this.raging.clear();this.selectedMoveSlots.clear();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;this.resolve=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;}
+  private finish(result:Result){this.roosting.clear();this.raging.clear();this.selectedMoveSlots.clear();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;this.resolve?.(result);this.resolve=null;}
   private image(mon:Mon,facing:'front'|'back'){return `/source/pokemon/${mon.species}-${mon.gender}-${facing}.png`;}
   private status(mon:Mon){return `<div class="mon-line"><span>${esc(mon.name)} <small>${mon.gender==='female'?'♀':'♂'}</small></span><small>Lv.${mon.level}</small></div><span class="hp-bar"><i style="width:${Math.max(0,mon.hp/mon.maxHP*100)}%;background:${mon.hp/mon.maxHP<.2?'#cd745c':mon.hp/mon.maxHP<.5?'#ccb262':'#73a775'}"></i></span><span class="hp-value">${mon.status?mon.status+' · ':''}${mon.hp} / ${mon.maxHP}</span>`;}
   private draw(){
@@ -75,27 +76,38 @@ export class Battle{
     const action=await this.nextAction();this.actions=null;this.turns++;this.flinch=false;
     if(action.kind==='run'){
       if(this.trainer!==null){await this.say('No! There’s no running from a Trainer battle!');continue;}
+      this.prepareRageTurn(this.player);
       this.fleeAttempts++;const odds=Math.floor(this.player.stats.speed*128/Math.max(1,this.enemy.stats.speed))+30*this.fleeAttempts;
       if(this.player.stats.speed>this.enemy.stats.speed||Math.floor(this.rng()*256)<odds){await this.say('Got away safely!');this.finish('ran');break;}await this.say('Can’t escape!');await this.enemyTurn();
-    }else if(action.kind==='switch'){await this.switch(action.index);await this.enemyTurn();}
+    }else if(action.kind==='switch'){this.prepareRageTurn(this.player);await this.switch(action.index);await this.enemyTurn();}
     else if(action.kind==='item'){const used=await this.item(action.item);if(!this.active)break;if(used)await this.enemyTurn();else continue;}
     else{
       const playerMove=this.selectMove(this.player,action.slot),enemySlot=this.chooseEnemyMove(),enemyMove=this.selectMove(this.enemy,enemySlot);
+      this.prepareRageTurn(this.player,action.slot);this.prepareRageTurn(this.enemy,enemySlot);
       const ps=this.player.stats.speed*stageMultiplier(this.playerStages.speed)*(this.player.status==='PAR'?.25:1),es=this.enemy.stats.speed*stageMultiplier(this.enemyStages.speed)*(this.enemy.status==='PAR'?.25:1);
       const first=playerMove.priority>enemyMove.priority||(playerMove.priority===enemyMove.priority&&(ps>es||(ps===es&&this.rng()<.5)));
       if(first){await this.attack(true,action.slot);if(this.enemy.hp>0)await this.attack(false,enemySlot);}else{await this.attack(false,enemySlot);if(this.player.hp>0)await this.attack(true,action.slot);}
     }
     if(!this.active)break;
     for(const playerSide of [true,false]){const mon=playerSide?this.player:this.enemy;if(mon.hp>0&&['PSN','TOX','BRN'].includes(mon.status)){const damage=Math.max(1,Math.floor(mon.maxHP/(mon.status==='BRN'?8:8)));mon.hp=Math.max(0,mon.hp-damage);await this.say(`${mon.name} is hurt by ${mon.status==='BRN'?'its burn':'poison'}!`);}}
-    if(this.enemy.hp<=0){await this.say(`${this.enemy.name} fainted!`);await this.gainExperience();if(this.enemyIndex+1>=this.enemies.length){await this.say(this.trainer!==null?'You defeated the opposing Trainer!':'You won the battle!');this.finish('won');break;}this.raging.delete(this.enemy);this.roosting.delete(this.enemy);this.enemyIndex++;this.enemyStages=freshStages();await this.say(`The opposing Trainer sent out ${this.enemy.name}!`);}
+    if(this.enemy.hp<=0){await this.say(`${this.enemy.name} fainted!`);await this.gainExperience();if(this.enemyIndex+1>=this.enemies.length){await this.say(this.trainer!==null?'You defeated the opposing Trainer!':'You won the battle!');this.finish('won');break;}this.raging.delete(this.enemy);this.roosting.delete(this.enemy);this.selectedMoveSlots.delete(this.enemy);this.enemyIndex++;this.enemyStages=freshStages();await this.say(`The opposing Trainer sent out ${this.enemy.name}!`);}
     if(this.player.hp<=0){await this.say(`${this.player.name} fainted!`);if(!this.state.party.some(m=>m.hp>0)){await this.say(`${this.state.name} has no Pokémon left to fight!`);this.finish('lost');break;}
       const next=await new Promise<Action>(resolve=>{this.actions=resolve;this.partyMenu(true);});this.actions=null;if(next.kind==='switch')await this.switch(next.index);
     }
   }}
   private selectMove(mon:Mon,slot:number){return slot<0?this.data.moves[165]:this.data.moves[mon.moves[slot].id];}
+  private prepareRageTurn(mon:Mon,slot?:number){
+    // Native BEFORE_TURN uses status2 &= STATUS2_RAGE, retaining Rage while
+    // clearing the other implemented status2 flags even if this move cannot act.
+    // GetBattlerSelectedMove returns NONE for non-Fight actions. The no-PP
+    // selection path retains its prior move slot; Struggle is chosen later.
+    if(slot!==undefined&&slot>=0)this.selectedMoveSlots.set(mon,slot);
+    const selected=slot===undefined?0:mon.moves[this.selectedMoveSlots.get(mon)??-1]?.id??0;
+    if(this.raging.has(mon)&&selected!==this.data.constants.MOVE_RAGE){this.identified.delete(mon);this.curled.delete(mon);}
+  }
   private chooseEnemyMove(){const slots=this.enemy.moves.map((m,i)=>m.pp>0?i:-1).filter(i=>i>=0);return slots.length?slots[Math.floor(this.rng()*slots.length)]:-1;}
-  private async enemyTurn(){if(this.enemy.hp>0&&this.player.hp>0){const slot=this.chooseEnemyMove();this.selectMove(this.enemy,slot);await this.attack(false,slot);}}
-  private async switch(index:number){await this.say(`${this.player.name}, that’s enough! Come back!`);this.identified.delete(this.player);this.curled.delete(this.player);this.raging.delete(this.player);this.roosting.delete(this.player);this.playerIndex=index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);}
+  private async enemyTurn(){if(this.enemy.hp>0&&this.player.hp>0){const slot=this.chooseEnemyMove();this.prepareRageTurn(this.enemy,slot);await this.attack(false,slot);}}
+  private async switch(index:number){await this.say(`${this.player.name}, that’s enough! Come back!`);this.identified.delete(this.player);this.curled.delete(this.player);this.raging.delete(this.player);this.roosting.delete(this.player);this.selectedMoveSlots.delete(this.player);this.playerIndex=index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);}
   private async attack(playerSide:boolean,slot:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
     if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
@@ -124,14 +136,14 @@ export class Battle{
       attacker.hp=Math.min(attacker.maxHP,attacker.hp+amount);if(move.effect===214)this.roosting.add(attacker);this.draw();await this.say(`${attacker.name} regained health!`);return;
     }
     if([1,33,66,67].includes(move.effect)){await this.inflict(defender,move.effect===1?'SLP':move.effect===33?'TOX':move.effect===66?'PSN':'PAR');return;}
-    const planned=move.effect===29?multiHitCount(this.rng,monAbility(this.data,attacker)==='ABILITY_SKILL_LINK'):1;let landed=0;
+    const planned=move.effect===44?2:move.effect===29?multiHitCount(this.rng,monAbility(this.data,attacker)==='ABILITY_SKILL_LINK'):1;let landed=0;
     for(let hit=0;hit<planned;hit++){
     if(hit)await this.view?.attack(playerSide,move);
     // The native multi-hit controller reruns critical/damage calculation for
     // every hit, skips additional accuracy/PP checks and stops on fainting.
     const critical=!this.noCritical&&this.rng()<(move.effect===43?1/8:1/16);const {damage,effectiveness}=moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{roosting:this.roosting.has(defender)});
     let total=move.effect===41?40:move.effect===87?attacker.level:move.effect===40?Math.max(1,Math.floor(defender.hp/2)):damage;
-    if(move.effect===44)total*=2;total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
+    total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));
     if(effectiveness===0)await this.say('It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
     if(total>0){landed++;if(move.effect===81)this.raging.add(attacker);if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
@@ -142,7 +154,7 @@ export class Battle{
     if(move.effect===31&&this.rng()*100<move.effectChance)this.flinch=true;
     if(defender.hp<=0||attacker.hp<=0||effectiveness===0)break;
     }
-    if(move.effect===29&&landed)await this.say(`Hit ${landed} time${landed===1?'':'s'}!`);
+    if((move.effect===29||move.effect===44)&&landed)await this.say(`Hit ${landed} time${landed===1?'':'s'}!`);
     }finally{
       // Native TryAfterMoveItems clears Rage after another move executes,
       // including a miss/failure. Selection, items and inability to act keep it.
@@ -156,6 +168,7 @@ export class Battle{
     if(isCaptureBall(this.data,item)){
       if(this.trainer!==null){await this.say('The Trainer blocked the Ball! Don’t be a thief!');return false;}
       if(this.state.party.length>=6&&this.state.boxes.length>=540){await this.say('There is no room in the party or PC.');return false;}
+      this.prepareRageTurn(this.player);this.selectedMoveSlots.delete(this.player);
       takeBagItem(this.state.bag,item,1);await this.say(`${this.state.name} used a ${itemName(this.data,item)}!`);
       const multiplier=item==='ITEM_ULTRA_BALL'?20:item==='ITEM_GREAT_BALL'?15:10;const shakes=this.tutorial||item==='ITEM_MASTER_BALL'?4:catchShakes(this.data.personal[this.enemy.species].catchRate,this.enemy.hp,this.enemy.maxHP,multiplier,this.enemy.status,this.rng);
       await this.view?.capture(shakes);
@@ -165,9 +178,10 @@ export class Battle{
     }
     const record=this.data.items.find(i=>i.item===item);if(!record)return false;
     const target=this.player;const before=target.hp,status=target.status;let amount=Number(record.hp_restore_param)||0;if(amount===255)amount=target.maxHP;
-    if(record.hp_restore==='true')target.hp=Math.min(target.maxHP,target.hp+amount);
-    const cure:Record<string,string>={PSN:'psn_heal',TOX:'psn_heal',PAR:'prz_heal',BRN:'brn_heal',FRZ:'frz_heal',SLP:'slp_heal'};if(record[cure[target.status]]==='true')target.status='';
-    if(before===target.hp&&status===target.status){await this.say('It won’t have any effect.');return false;}
+    const hp=record.hp_restore==='true'?Math.min(target.maxHP,target.hp+amount):target.hp;
+    const cure:Record<string,string>={PSN:'psn_heal',TOX:'psn_heal',PAR:'prz_heal',BRN:'brn_heal',FRZ:'frz_heal',SLP:'slp_heal'},nextStatus=record[cure[status]]==='true'?'':status;
+    if(before===hp&&status===nextStatus){await this.say('It won’t have any effect.');return false;}
+    this.prepareRageTurn(target);this.selectedMoveSlots.delete(target);target.hp=hp;target.status=nextStatus;
     takeBagItem(this.state.bag,item,1);await this.say(`${this.state.name} used ${itemName(this.data,item)}!`);return true;
   }
   private async gainExperience(){
