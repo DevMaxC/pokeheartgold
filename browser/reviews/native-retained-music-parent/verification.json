@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "candidateCommit": "a826594ddb6605ba8fbc2b32103f696e02e40527",
+  "baseCommit": "5ca737f61704edf67369078b9b5b334ce5a0955b",
+  "sourceHashes": {
+    "browser/src/source/field-music.ts": "992ac65d602d5572f5692eedadd77509efe25466b0f12a3976b0320b4c0132dd",
+    "browser/src/source/field-music.test.ts": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b"
+  },
+  "snapshotInputManifestSHA256": "4c799d75b447a33dcaee935bd5a48d2a890cee08c74ceb54b8d817347abb6aae",
+  "snapshotFileCount": 329,
+  "allSnapshotInputsUnchangedAfterReview": true,
+  "allOwnedSourceBytesEqualCommittedBlobs": true,
+  "actualReview": {
+    "model": "claude-opus-5-5",
+    "durationMs": 197554,
+    "turns": 19,
+    "isError": false,
+    "permissionDenials": [],
+    "rawSHA256": "5c8b49dcc0070a9cd908a1a8ce7beacb01f09efd1c22aa1e1db9dfe32d2eb4d8",
+    "verdict": "ACCEPT_WITH_QUALIFICATIONS",
+    "confirmedDefects": 0,
+    "modelUsageQualification": "Actual Opus5.5 review, with small Haiku routing recorded in raw modelUsage."
+  },
+  "checks": {
+    "playerTests": 64,
+    "existing": 59,
+    "new": 5,
+    "typeScriptExitCode": 0,
+    "baselineBehaviorControlDetected": true,
+    "mutationsDetected": 3
+  },
+  "hostEvidenceQualification": "Separate host owner reports actual old Main next-Li battle false/new earned Cyndaquil13->14->Quilava success with old retry during OSCILLATE. This leaf does not approve Main. Host packet records its own exact source/review.",
+  "retainedQualifications": [
+    "Superseded old restore resolves terminal cleanup, not field restoration. Do not clear current diagnosis because it resolves.",
+    "Restore after disposal on an unused no-snapshot handle now rejects (previously resolved); root teardown is terminal.",
+    "Caller abort/cleanup timeout count as failed retained restore, not just decode failure.",
+    "Silent-only technical recovery; no source cue/hardware/browser/Main approval.",
+    "Reentrant takeover through injected fetch abort handlers violates real host contract and remains optional hardening, not a confirmed defect.",
+    "Microtask-success-window/asynchronous-drain-abort paths were reasoned about by reviewer but not directly tested."
+  ],
+  "historicalSetupFailure": "Initial root npx chose unrelated tsc shim; explicit installed browser compiler passed. Original log retained.",
+  "durablePacket": {
+    "path": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-retained-music-parent-final-a826594d",
+    "manifestSHA256": "940f672c769456e46c2925bef97791869fe85808f47120c7142b69438a462100",
+    "qualification": "Archive contains complete immutable329-file source/control inputs; portable per-file original paths/hashes remain in input-manifest. No current host approval transferred."
+  }
+}
