@@ -1,0 +1,45 @@
+TAP version 13
+# (node:24964) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native island surf uses the omitted Maya translation, with unchanged geometry and ocean heights
+ok 1 - native island surf uses the omitted Maya translation, with unchanged geometry and ocean heights
+  ---
+  duration_ms: 471.297666
+  type: 'test'
+  ...
+# Subtest: real GLTFLoader clones only the surf transform and originalMaterial keeps native repeat/alpha/flipY
+ok 2 - real GLTFLoader clones only the surf transform and originalMaterial keeps native repeat/alpha/flipY
+  ---
+  duration_ms: 71.123709
+  type: 'test'
+  ...
+# Subtest: all 27 native surf asset variants carry their exact source translation
+ok 3 - all 27 native surf asset variants carry their exact source translation
+  ---
+  duration_ms: 671.090417
+  type: 'test'
+  ...
+# native island backing adjudication {"scope":"Actual originalMaterial/repairOriginalAsset/shorelineUnderlay/terraceModel pipeline; 560 finite native island ray/nearest-PNG samples plus 10 explicit witnesses; no browser/continuous visibility claim","legacyBackingOcclusions":0,"nativeSamples":[{"point":[524.95,406.6],"material":"swave_un","rgba":[231,231,198,255],"y":0.9718750000000256},{"point":[524.15,406.6],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[530.85,407.4],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[528.6,408.85],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[524.4,404.6],"material":"","rgba":[255,255,255,255],"y":1.620667726797297},{"point":[530.4,405.6],"material":"swave_un","rgba":[222,222,189,255],"y":0.7750000000000128},{"point":[530.4,408.6],"material":"swave_un","rgba":[206,198,148,255],"y":0.6624999999999872},{"point":[524.4,408.6],"material":"swave_un","rgba":[206,198,148,255],"y":0.6624999999999872},{"point":[527.4,407.4],"material":"beach01","rgba":[247,247,214,255],"y":1},{"point":[532.3,407.4],"material":"sea_un","rgba":[41,123,255,255],"y":0.4375}]}
+# Subtest: actual native island backing stays below the corrected shoreline at 560 finite samples
+ok 4 - actual native island backing stays below the corrected shoreline at 560 finite samples
+  ---
+  duration_ms: 7886.714083
+  type: 'test'
+  ...
+# (node:24965) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: shoreline backing fills native sand and shallows below the art while deep water stays exposed
+ok 5 - shoreline backing fills native sand and shallows below the art while deep water stays exposed
+  ---
+  duration_ms: 2.76125
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9836.960375
