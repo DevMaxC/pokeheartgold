@@ -1,14 +1,10 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {treeLeafPixels,type TreeShape} from './tree-texture.ts';
+import {treeSpritePixels,treeInteriorPixels,treeSpriteComponents} from './tree-texture.ts';
 
-test('small and off-centre native tree banks sample foliage above their trunk and roots',()=>{
- for(const shape of [{topV:.171875,footV:.5,crownWidth:.34375,crownCenterU:.5},{topV:.09375,footV:.625,crownWidth:.5625,crownCenterU:.375}] satisfies TreeShape[]){
-  const pixels=new Uint8Array(64*64*4),height=shape.footV-shape.topV;
-  for(let y=0;y<64;y++)for(let x=0;x<64;x++){const visible=y/64>=shape.topV&&y/64<shape.footV&&Math.abs(x/64-shape.crownCenterU)<shape.crownWidth/2;if(!visible)continue;const leaf=y/64<shape.topV+height*.6,i=(y*64+x)*4;pixels.set(leaf?[70,150,40,255]:[130,65,25,255],i);}
-  const patch=treeLeafPixels(pixels,64,64,shape);assert.ok(patch);assert.ok(patch.sourceRect[3]/64<shape.topV+height*.6);for(let i=0;i<patch.data.length;i+=4)assert.deepEqual(Array.from(patch.data.slice(i,i+4)),[70,150,40,255]);
- }
+test('selected atlas plants retain independent bounds and foot UVs rather than the full atlas',()=>{
+ const data=new Uint8Array(16*16*4);for(let y=2;y<14;y++)for(let x=1;x<6;x++)data.set([45,140,70,255],(y*16+x)*4);for(let y=1;y<8;y++)for(let x=10;x<15;x++)data.set([180,90,30,255],(y*16+x)*4);const source={data,width:16,height:16},before=data.slice(),sprite=treeSpritePixels(source,{region:[0,0,.5,1]});assert.ok(sprite);assert.deepEqual(sprite.bounds,[1,2,6,14]);assert.equal(sprite.shape.footU,3.5/16);assert.equal(sprite.shape.footV,14/16);assert.equal(treeSpriteComponents(source).length,2);assert.equal(treeSpritePixels(source,{region:[0,0,.5,1]}),sprite,'Repeated instances reuse measured sprite data');assert.deepEqual(source.data,before);
 });
-test('transparent leaf-patch holes extend original opaque leaf colour',()=>{
- const data=new Uint8Array(16*16*4);data.set([80,160,50,255],(5*16+8)*4);const patch=treeLeafPixels(data,16,16,{footV:1,topV:0,crownWidth:1,crownCenterU:.5});assert.ok(patch);for(let i=0;i<patch.data.length;i+=4)assert.deepEqual(Array.from(patch.data.slice(i,i+4)),[80,160,50,255]);assert.equal(treeLeafPixels(new Uint8Array(16*16*4),16,16,{footV:1}),null);
+test('interior-row wrapping uses only actual selected native pixels and preserves native stem colours',()=>{
+ const data=new Uint8Array(16*16*4);for(let y=1;y<11;y++)for(let x=2;x<14;x++)data.set(x===2||x===13?[8,20,5,255]:[50+x*5,130+y*3,42,255],(y*16+x)*4);for(let y=11;y<15;y++)for(let x=6;x<10;x++)data.set([110+x,70+y,35,255],(y*16+x)*4);const source={data,width:16,height:16},sprite=treeSpritePixels(source)!;const result=treeInteriorPixels(source,sprite),native=new Set<string>();for(let i=0;i<data.length;i+=4)if(data[i+3]>=128)native.add(Array.from(data.slice(i,i+3)).join(','));for(let i=0;i<result.length;i+=4){assert.equal(result[i+3],255);assert.ok(native.has(Array.from(result.slice(i,i+3)).join(',')));}for(let x=0;x<16;x++)assert.notDeepEqual(Array.from(result.slice((5*16+x)*4,(5*16+x)*4+3)),[8,20,5],'Baked outside outline is not wrapped as a vertical stripe');for(let x=0;x<16;x++){const i=(13*16+x)*4;assert.ok(result[i]>110&&result[i+1]<100,'Stem row stays native wood');}assert.equal(treeSpritePixels({data:new Uint8Array(4),width:1,height:1}),null);
 });

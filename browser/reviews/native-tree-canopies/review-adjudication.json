@@ -1,0 +1,174 @@
+{
+  "status": "Source blocker fixed; independent signed-V follow-up found no introduced geometry/cache/winding/anchor defect. Browser/GPU/visual release gates unverified.",
+  "sourceCommits": [
+    "a79fbd5403902aa04cf990810b45293526f198d7",
+    "d7a2397d88aefa46be6f0c739c99e5c0cff5fa4f"
+  ],
+  "baseCommit": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+  "runtime": {
+    "browser/src/source/tree-texture.ts": "570e0aa6b83b040d537e6723befc39ec9b7e42872f2a13b88c232cf7ba36d32b",
+    "browser/src/source/tree-volume.ts": "f0f5f433bdc81fc98d97d1cc9df9f394045770c7590d2dab7fadc1d6f6ff605f",
+    "browser/src/source/tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "browser/src/source/render-repair.ts": "05366194f0a3a4ee3cb83eeba297d7168a065f2308d4f1f2db9c39bbdfde509e",
+    "browser/src/source/canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b"
+  },
+  "snapshotIntegrity": [
+    {
+      "scope": "a79-initial",
+      "path": "/tmp/hg-native-tree-opus-review-20261017-160644",
+      "fileCount": 232,
+      "manifestSHA256": "7039f8e3d9026f5c90d60488ede494701b36b55df3324457593e3382581ae76d",
+      "mismatches": []
+    },
+    {
+      "scope": "d7-signed-V-followup",
+      "path": "/tmp/hg-native-tree-signed-V-followup-20261017-163110",
+      "fileCount": 483,
+      "manifestSHA256": "57094a0d8829f027c40bba06fe2e37215fbb2f99a734a4c636335ccc7d542852",
+      "mismatches": []
+    }
+  ],
+  "actualReviews": [
+    {
+      "scope": "a79 initial",
+      "model": "claude-opus-5-5",
+      "exitCode": 0,
+      "isError": false,
+      "turns": 59,
+      "rawSHA256": "3498ef11daf4b8f79508b00f43bc9a12a1789e0dc5f78e066328b2e55947cb54",
+      "verdict": "Needs signed native V fix; one demonstrated native blocker; conditional notes retained."
+    },
+    {
+      "scope": "d7 signed-V follow-up",
+      "model": "claude-opus-5-5",
+      "exitCode": 0,
+      "isError": false,
+      "turns": 40,
+      "rawSHA256": "e8963c53402704a860c936b2385ea2fe8db64d9e7ecb1068896a48393b2bfb9e",
+      "verdict": "Blocker1 fixed in source; no introduced mirrored geometry/cache/winding/anchor defect. This is bounded source review, not browser/GPU/aesthetic approval."
+    }
+  ],
+  "signedV": {
+    "actualNativeAssets": [
+      {
+        "asset": "land/89-8.glb",
+        "nativeUpwardVTriangles": 28,
+        "negativeGrowthCanopies": 14
+      },
+      {
+        "asset": "land/90-8.glb",
+        "nativeUpwardVTriangles": 10,
+        "negativeGrowthCanopies": 5
+      },
+      {
+        "asset": "land/91-8.glb",
+        "nativeUpwardVTriangles": 2,
+        "negativeGrowthCanopies": 1
+      },
+      {
+        "asset": "land/92-8.glb",
+        "nativeUpwardVTriangles": 10,
+        "negativeGrowthCanopies": 5
+      },
+      {
+        "asset": "land/93-8.glb",
+        "nativeUpwardVTriangles": 4,
+        "negativeGrowthCanopies": 2
+      }
+    ],
+    "nativeSourceTriangles": 54,
+    "correctedInstances": 27,
+    "rootContract": "Retain native footU=.34375/footV=1 upper attachment; mirror closed geometry downward and reverse triangle/UV winding. Full-V unbaking, width, atlas region and palette unchanged.",
+    "beforeRegression": "Failed emitted Y/UV orientation",
+    "afterRegression": "Passed literal native foot anchors, hanging below attachment, shared closed stem/leaf cap, exact edge closure and FrontSide top/bottom UV first-hit order"
+  },
+  "validation": {
+    "targetTestsPassed": 61,
+    "targetTestsFailed": 0,
+    "targetTestProcessExitCode": 0,
+    "typescriptProcessExitCode": 0,
+    "nativeAssets": 204,
+    "metadataFamilies": 124,
+    "literalInventoriedUVRectangles": 319,
+    "sourceAndNativeInputsStable": true,
+    "sourceGeometryUVMaterialsMapsUnchanged": true,
+    "remainingSourceTreeCardRemainders": 0,
+    "native88MultipartAssemblies": "preserved",
+    "generatedGeometryVariants": 39,
+    "maximumGeneratedTrianglesInOneCell": 261600,
+    "maximumGeneratedDrawsInOneCell": 19,
+    "signedVFixChangesTriangleRootDrawCounts": false
+  },
+  "conditions": [
+    {
+      "finding": 2,
+      "status": "Conditional remains; not waived",
+      "evidence": "Per-group conversion is not a general per-card transaction. All current204 assets complete; all234 native palm crown/root/shaft assemblies pass. No current source group failure was established. No speculative redesign applied."
+    },
+    {
+      "finding": 3,
+      "status": "Native foot preserved; floor contact not asserted",
+      "evidence": "Unmarked roots use literal opaque native UV foot points. Example141-13 footY48.79 versus transparent card edge48 is inherited native image placement, not a demonstrated new displacement. Forest208 uses all256 literal ground-marker roots. No generic floor inference/lowering was added."
+    },
+    {
+      "finding": 4,
+      "status": "Current paired-native dataset covered; future atlas patterns unsupported",
+      "evidence": "Known native93 paired crown/stump bands are consecutive and have the measured shared foot rows. All204 used assets replay; no unequal-foot or differently arranged native pair failure was established."
+    },
+    {
+      "finding": 5,
+      "status": "Not triggered by current metadata",
+      "evidence": "All165 centre values in124 metadata records are exact integer/128 values. Derived alpha-run centres also use power-of-two native image dimensions. Non-representative future decimal centres remain outside this evidence."
+    },
+    {
+      "finding": 6,
+      "status": "No current native paired reflection witness",
+      "evidence": "Native93 paired U bases are positive and V bases downward. An independently mirrored-U or upward-V frond family remains unverified; source fix covers ordinary actual positive-V tree_ki."
+    },
+    {
+      "finding": 7,
+      "status": "Bounded by current source catalogue; no GPU claim",
+      "evidence": "All204 relevant assets produce39 geometry variants. Shaft textures remain per cached source repair call. World retains source templates; generated maps/geometry share cached-source lifetime. Initial GC-only failure-path concern not promoted to observed GPU leak."
+    },
+    {
+      "finding": 8,
+      "status": "Wording corrected; API retry only",
+      "evidence": "Unreadable pixels retain native cards. World.asset caches a successfully retained template, so no automatic runtime re-repair is promised. GLTFLoader/TextureLoader normally await image decode; browser readback failure behavior is unverified."
+    },
+    {
+      "finding": 9,
+      "status": "Legacy diagnostic/component semantics retained",
+      "evidence": "billboardTrees counts palm crown/root components twice; distinctNativeRoots is reported separately. Palm shafts have analytic boxes; narrow ordinary trunks do not. No gameplay tree collision logic changed."
+    }
+  ],
+  "rootCauseCorrection": "The original status overstates DataTexture\u2192drawImage failure as the production screenshot cause. The failing typed-image path is demonstrated in native DataTexture fixtures. World normally loads browser GLTF/TextureLoader images, so screenshot-specific canvas/readback failure is unverified. The unconditional olive fallback and smooth lobe geometry are source-confirmed. Historical raw text remains unchanged.",
+  "unverified": [
+    "Actual browser/GPU rendering and seams",
+    "GPU/main-thread performance on device",
+    "All-family final aesthetic approval",
+    "Floor contact beyond actual native marker/UV-foot evidence",
+    "Production push/merge/deployment; parent owned"
+  ],
+  "createdUTC": "2026-10-17T15:37:38.036069+00:00",
+  "postReviewTestFidelity": {
+    "exactFinalRegressionReplayedAgainstA79": true,
+    "exitCode": 1,
+    "failure": "Generated source V rows keep the literal native positive-Y direction",
+    "finalTestSHA256": "e67f7672f2721cd32b15389495ab4317562a8255fdc525c1827af461f366a874",
+    "note": "The original before-log preceded added joint/first-hit assertions; it established orientation failure only. The later61-pass run establishes final contacts/winding. The final exact test is now independently replayed against unchanged a79 source in a private copy and fails at the same orientation assertion. No runtime source or immutable reviewer input changed."
+  },
+  "geometryIntegrationFixture": {
+    "scope": "Test-fixture-only integration correction after source review",
+    "runtimeUnchanged": true,
+    "test": "browser/src/source/source-assets.test.ts",
+    "testSHA256": "58b7a0eb69e66bc74e1e9a07c5d123eadb73693143f13f008becab019915970e",
+    "before": "Unreadable Texture placeholders intentionally retain source, so legacy tree-replacement/root assertions fail;7/9pass.",
+    "after": "Native204 tree assets use existing reviewed actual GLB/RGBA fixture; structural placeholders remain for other assets; all1594geometry sweep/540headers/3realnative terrace fixtures/40furniture variants preserved;9/9PASS.",
+    "tests": 9,
+    "passed": 9,
+    "failed": 0,
+    "processExitCode": 0,
+    "typescriptExitCode": 0,
+    "note": "This only changes test inputs/assertions to reflect native pixel requirement and component/root semantics. Runtime/source review snapshots remain byte-identical; no new runtime approval implied."
+  }
+}

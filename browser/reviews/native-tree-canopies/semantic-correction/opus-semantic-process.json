@@ -1,0 +1,30 @@
+{
+  "command": [
+    "claude",
+    "--restricted",
+    "--model",
+    "claude-opus-5-5",
+    "--effort",
+    "high",
+    "--tools",
+    "Read,Glob,Grep",
+    "--allowedTools",
+    "Read,Glob,Grep",
+    "--permission-mode",
+    "dontAsk",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--no-session-persistence",
+    "--output-format",
+    "json",
+    "--max-turns",
+    "80",
+    "-p",
+    "<immutable review-request.txt>"
+  ],
+  "snapshot": "/tmp/hg-native-tree-semantic-review-20261017-172820",
+  "startedUTC": "2026-10-17T16:28:22.965862+00:00",
+  "finishedUTC": "2026-10-17T16:35:16.272839+00:00",
+  "exitCode": 0
+}

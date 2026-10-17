@@ -1,0 +1,377 @@
+TAP version 13
+# Subtest: native crown row boxes block the actual sight segment without raycasting tree triangles
+ok 1 - native crown row boxes block the actual sight segment without raycasting tree triangles
+  ---
+  duration_ms: 78.141542
+  type: 'test'
+  ...
+# Subtest: canopy caches preserve hierarchy transforms and invalidate after a moved instance or parent
+ok 2 - canopy caches preserve hierarchy transforms and invalidate after a moved instance or parent
+  ---
+  duration_ms: 6.786041
+  type: 'test'
+  ...
+# Subtest: battle camera clears a foreground crown while retaining the requested horizontal orbit
+ok 3 - battle camera clears a foreground crown while retaining the requested horizontal orbit
+  ---
+  duration_ms: 0.997959
+  type: 'test'
+  ...
+# Subtest: hidden tree parents do not obstruct the battle camera
+ok 4 - hidden tree parents do not obstruct the battle camera
+  ---
+  duration_ms: 0.958792
+  type: 'test'
+  ...
+# Subtest: a missing rear surface becomes a closed prism, with every edge used twice
+ok 5 - a missing rear surface becomes a closed prism, with every edge used twice
+  ---
+  duration_ms: 1.254708
+  type: 'test'
+  ...
+# Subtest: one-sided building and small-prop geometry gets solid rear surfaces
+ok 6 - one-sided building and small-prop geometry gets solid rear surfaces
+  ---
+  duration_ms: 9.278625
+  type: 'test'
+  ...
+# Subtest: fully volumetric props and translucent ground shadows are left intact
+ok 7 - fully volumetric props and translucent ground shadows are left intact
+  ---
+  duration_ms: 2.284833
+  type: 'test'
+  ...
+# Subtest: a disconnected mailbox gets its own local backing rather than the building bounds
+ok 8 - a disconnected mailbox gets its own local backing rather than the building bounds
+  ---
+  duration_ms: 1.477958
+  type: 'test'
+  ...
+# Subtest: an original front doorway does not create a transparent hole through the rear
+ok 9 - an original front doorway does not create a transparent hole through the rear
+  ---
+  duration_ms: 2.451
+  type: 'test'
+  ...
+# Subtest: tilted native tree cards become closed pixel-textured instances at their literal foot UV
+ok 10 - tilted native tree cards become closed pixel-textured instances at their literal foot UV
+  ---
+  duration_ms: 5.903291
+  type: 'test'
+  ...
+# Subtest: blended source materials retain their original depth-write setting
+ok 11 - blended source materials retain their original depth-write setting
+  ---
+  duration_ms: 0.42925
+  type: 'test'
+  ...
+# Subtest: recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+ok 12 - recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+  ---
+  duration_ms: 1.6655
+  type: 'test'
+  ...
+# Subtest: a mailbox touching a building at one corner still uses local bounds
+ok 13 - a mailbox touching a building at one corner still uses local bounds
+  ---
+  duration_ms: 1.023792
+  type: 'test'
+  ...
+# Subtest: a source entrance closes a partial rear wall across the mirrored doorway opening
+ok 14 - a source entrance closes a partial rear wall across the mirrored doorway opening
+  ---
+  duration_ms: 153.127458
+  type: 'test'
+  ...
+# Subtest: opposing source entrances keep a real passage and unrelated props receive no new wall
+ok 15 - opposing source entrances keep a real passage and unrelated props receive no new wall
+  ---
+  duration_ms: 3.553208
+  type: 'test'
+  ...
+# Subtest: rear closure uses the original world doorway after prop rotation and translation
+ok 16 - rear closure uses the original world doorway after prop rotation and translation
+  ---
+  duration_ms: 37.650541
+  type: 'test'
+  ...
+# Subtest: rear wall cladding reuses source wall UVs while staying opaque
+ok 17 - rear wall cladding reuses source wall UVs while staying opaque
+  ---
+  duration_ms: 4.233458
+  type: 'test'
+  ...
+# Subtest: split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+ok 18 - split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+  ---
+  duration_ms: 0.825584
+  type: 'test'
+  ...
+# Subtest: native door direction overrides an ambiguous corner of the building bounds
+ok 19 - native door direction overrides an ambiguous corner of the building bounds
+  ---
+  duration_ms: 1.579709
+  type: 'test'
+  ...
+# Subtest: rotated native tree quads retain measured UV scale and mixed-mesh shadows
+ok 20 - rotated native tree quads retain measured UV scale and mixed-mesh shadows
+  ---
+  duration_ms: 3.872666
+  type: 'test'
+  ...
+# Subtest: repeated forest and lightmap cards create four native root instances on their ground marks
+ok 21 - repeated forest and lightmap cards create four native root instances on their ground marks
+  ---
+  duration_ms: 57.919583
+  type: 'test'
+  ...
+# Subtest: tilted flower beds become separately rooted crossed clumps with depth
+ok 22 - tilted flower beds become separately rooted crossed clumps with depth
+  ---
+  duration_ms: 29.347792
+  type: 'test'
+  ...
+# Subtest: source fence cards and horizontal atlas runs become solid upright posts and rails
+ok 23 - source fence cards and horizontal atlas runs become solid upright posts and rails
+  ---
+  duration_ms: 0.862833
+  type: 'test'
+  ...
+# Subtest: standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+ok 24 - standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+  ---
+  duration_ms: 0.598208
+  type: 'test'
+  ...
+# Subtest: adjacent leaning rock cards become separate closed boulders with depth in every direction
+ok 25 - adjacent leaning rock cards become separate closed boulders with depth in every direction
+  ---
+  duration_ms: 2.685917
+  type: 'test'
+  ...
+# Subtest: an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+ok 26 - an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+  ---
+  duration_ms: 1.192875
+  type: 'test'
+  ...
+# Subtest: off-centre native plant art retains its selected atlas half around the measured ground pivot
+ok 27 - off-centre native plant art retains its selected atlas half around the measured ground pivot
+  ---
+  duration_ms: 76.336333
+  type: 'test'
+  ...
+# Subtest: open hill and cliff backs receive opaque skirts down to their original base
+ok 28 - open hill and cliff backs receive opaque skirts down to their original base
+  ---
+  duration_ms: 1.419792
+  type: 'test'
+  ...
+# Subtest: raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+ok 29 - raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+  ---
+  duration_ms: 3.512625
+  type: 'test'
+  ...
+# Subtest: deformed original ground agrees with actor height on both terraces and retains shared source geometry
+ok 30 - deformed original ground agrees with actor height on both terraces and retains shared source geometry
+  ---
+  duration_ms: 167.579167
+  type: 'test'
+  ...
+# Subtest: new ledge faces are opaque from both sides and join upper/lower floor edges
+ok 31 - new ledge faces are opaque from both sides and join upper/lower floor edges
+  ---
+  duration_ms: 64.020084
+  type: 'test'
+  ...
+# Subtest: raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+ok 32 - raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+  ---
+  duration_ms: 0.682083
+  type: 'test'
+  ...
+# Subtest: separate solid rocks retain their shapes when rooted on different terrace heights
+ok 33 - separate solid rocks retain their shapes when rooted on different terrace heights
+  ---
+  duration_ms: 17.968375
+  type: 'test'
+  ...
+# Subtest: jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+ok 34 - jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+  ---
+  duration_ms: 10.153834
+  type: 'test'
+  ...
+# Subtest: crossed flowers crossing a ledge translate as one rooted clump
+ok 35 - crossed flowers crossing a ledge translate as one rooted clump
+  ---
+  duration_ms: 175.115583
+  type: 'test'
+  ...
+# Subtest: touching boulders retain distinct authored roots across a ledge
+ok 36 - touching boulders retain distinct authored roots across a ledge
+  ---
+  duration_ms: 12.784083
+  type: 'test'
+  ...
+# Subtest: native water and shoreline artwork stays flat when it overhangs a displaced land tile
+ok 37 - native water and shoreline artwork stays flat when it overhangs a displaced land tile
+  ---
+  duration_ms: 10.066458
+  type: 'test'
+  ...
+# Subtest: exported visual floor profiles cover both sides of every native ledge
+ok 38 - exported visual floor profiles cover both sides of every native ledge
+  ---
+  duration_ms: 12.665291
+  type: 'test'
+  ...
+# Subtest: split native crown/stump components move by the same authored ground height
+ok 39 - split native crown/stump components move by the same authored ground height
+  ---
+  duration_ms: 149.1935
+  type: 'test'
+  ...
+# Subtest: stale terrain work stops before replacing shared source geometry
+ok 40 - stale terrain work stops before replacing shared source geometry
+  ---
+  duration_ms: 10.607375
+  type: 'test'
+  ...
+# Subtest: native paired fronds share cached geometry, retain placed roots and cover every emitted vertex with analytic camera bounds
+ok 41 - native paired fronds share cached geometry, retain placed roots and cover every emitted vertex with analytic camera bounds
+  ---
+  duration_ms: 263.575541
+  type: 'test'
+  ...
+# Subtest: missing native root pixels and invalid paired placement add no partial replacement and remain retryable
+ok 42 - missing native root pixels and invalid paired placement add no partial replacement and remain retryable
+  ---
+  duration_ms: 25.4345
+  type: 'test'
+  ...
+# Subtest: literal NewBark forest retains all 256 native ground roots and replaces the narrow repeated-card fragments
+ok 43 - literal NewBark forest retains all 256 native ground roots and replaces the narrow repeated-card fragments
+  ---
+  duration_ms: 254.780792
+  type: 'test'
+  ...
+# Subtest: actual paired palm atlases have closed alpha-shaped fronds, a short native root and a continuous measured bark shaft
+ok 44 - actual paired palm atlases have closed alpha-shaped fronds, a short native root and a continuous measured bark shaft
+  ---
+  duration_ms: 3923.250666
+  type: 'test'
+  ...
+# Subtest: used atlas halves and partial V cards retain measured native width and full UV-basis height
+ok 45 - used atlas halves and partial V cards retain measured native width and full UV-basis height
+  ---
+  duration_ms: 622.346625
+  type: 'test'
+  ...
+# Subtest: literal upward-V tree_ki keeps its native hanging orientation and UV foot attachment
+ok 46 - literal upward-V tree_ki keeps its native hanging orientation and UV foot attachment
+  ---
+  duration_ms: 229.567833
+  type: 'test'
+  ...
+# Subtest: literal authored 3D tree assemblies retain every native surface, material and palette
+ok 47 - literal authored 3D tree assemblies retain every native surface, material and palette
+  ---
+  duration_ms: 196.479
+  type: 'test'
+  ...
+# Subtest: unmatched native antenna tree prop retains its gray needle/ornament pixels, not a stock green tree
+ok 48 - unmatched native antenna tree prop retains its gray needle/ornament pixels, not a stock green tree
+  ---
+  duration_ms: 16.541334
+  type: 'test'
+  ...
+# Subtest: placed native SkinnedMesh roots remain local and separate template clones keep their shared source untouched
+ok 49 - placed native SkinnedMesh roots remain local and separate template clones keep their shared source untouched
+  ---
+  duration_ms: 22.978792
+  type: 'test'
+  ...
+# Subtest: unreadable native pixels leave the source cards intact until a valid retry
+ok 50 - unreadable native pixels leave the source cards intact until a valid retry
+  ---
+  duration_ms: 2.176
+  type: 'test'
+  ...
+# Subtest: both literal _un tile owners are required before replacing an atlas sliver; nearby/partial/foreign marks cannot authorize removal
+ok 51 - both literal _un tile owners are required before replacing an atlas sliver; nearby/partial/foreign marks cannot authorize removal
+  ---
+  duration_ms: 2.647917
+  type: 'test'
+  ...
+# Subtest: all actual land28/29 clipped forest roots use their native markers, including the distinct −224 Z row
+ok 52 - all actual land28/29 clipped forest roots use their native markers, including the distinct −224 Z row
+  ---
+  duration_ms: 225.298
+  type: 'test'
+  ...
+# Subtest: the complete native forest uses cached analytic canopy batches without triangle raycasts
+ok 53 - the complete native forest uses cached analytic canopy batches without triangle raycasts
+  ---
+  duration_ms: 240.729291
+  type: 'test'
+  ...
+# Subtest: selected atlas plants retain independent bounds and foot UVs rather than the full atlas
+ok 54 - selected atlas plants retain independent bounds and foot UVs rather than the full atlas
+  ---
+  duration_ms: 34.721375
+  type: 'test'
+  ...
+# Subtest: interior-row wrapping uses only actual selected native pixels and preserves native stem colours
+ok 55 - interior-row wrapping uses only actual selected native pixels and preserves native stem colours
+  ---
+  duration_ms: 1.831292
+  type: 'test'
+  ...
+# Subtest: actual native foliage is closed and pixel textured from above, back and sides, with native root art
+ok 56 - actual native foliage is closed and pixel textured from above, back and sides, with native root art
+  ---
+  duration_ms: 98.080709
+  type: 'test'
+  ...
+# {"nativeTreeVariants":80,"totalVariantTriangles":32304,"maxVariantTriangles":744,"elapsedMs":1421.8923340000001}
+# Subtest: all 80 literal foliage PNG variants retain native palette, alpha-derived outline, bounded cached geometry and textured caps
+ok 57 - all 80 literal foliage PNG variants retain native palette, alpha-derived outline, bounded cached geometry and textured caps
+  ---
+  duration_ms: 1424.030667
+  type: 'test'
+  ...
+# Subtest: DataTexture and actual browser image read paths yield the same native pixels; unreadable art is retained for retry
+ok 58 - DataTexture and actual browser image read paths yield the same native pixels; unreadable art is retained for retry
+  ---
+  duration_ms: 0.958458
+  type: 'test'
+  ...
+# Subtest: atlas regions retain only selected native plant pixels and root columns
+ok 59 - atlas regions retain only selected native plant pixels and root columns
+  ---
+  duration_ms: 3.078042
+  type: 'test'
+  ...
+# Subtest: native foot UV and orientation survive placed rotation/scale and asymmetrical canopy art
+ok 60 - native foot UV and orientation survive placed rotation/scale and asymmetrical canopy art
+  ---
+  duration_ms: 2.413708
+  type: 'test'
+  ...
+# Subtest: battle camera still skips dense tree instances while retaining solid architecture
+ok 61 - battle camera still skips dense tree instances while retaining solid architecture
+  ---
+  duration_ms: 208.990709
+  type: 'test'
+  ...
+1..61
+# tests 61
+# suites 0
+# pass 61
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6749.890916

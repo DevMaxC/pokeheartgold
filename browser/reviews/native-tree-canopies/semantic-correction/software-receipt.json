@@ -1,0 +1,543 @@
+{
+  "status": "Software original/before/corrected proof; no browser/GPU/production visual approval",
+  "beforeSources": {
+    "tree-volume.ts": "f0f5f433bdc81fc98d97d1cc9df9f394045770c7590d2dab7fadc1d6f6ff605f",
+    "tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "tree-texture.ts": "570e0aa6b83b040d537e6723befc39ec9b7e42872f2a13b88c232cf7ba36d32b",
+    "render-repair.ts": "b973231d2e465714a0d2631028b193b581c1b08a8c6eab595bc935494eb72d27",
+    "canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b"
+  },
+  "candidateSources": {
+    "tree-volume.ts": "f0f5f433bdc81fc98d97d1cc9df9f394045770c7590d2dab7fadc1d6f6ff605f",
+    "tree-fronds.ts": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+    "tree-texture.ts": "570e0aa6b83b040d537e6723befc39ec9b7e42872f2a13b88c232cf7ba36d32b",
+    "render-repair.ts": "60c619ae2c845737d1743f40cb6453288a59f634cbd276cadb2f881a7d8305bc",
+    "canopy-occlusion.ts": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b"
+  },
+  "records": [
+    {
+      "asset": "land/89-8.glb",
+      "material": "tree_ki",
+      "sourceQuad": [
+        {
+          "p": [
+            [
+              40.40625,
+              58.5625,
+              244.8125
+            ],
+            [
+              53.203125,
+              58.5625,
+              244.8125
+            ],
+            [
+              53.203125,
+              63.515625,
+              240.765625
+            ]
+          ],
+          "uv": [
+            [
+              0,
+              0.53125
+            ],
+            [
+              1,
+              0.53125
+            ],
+            [
+              1,
+              0.994140625
+            ]
+          ],
+          "normal": [
+            0,
+            0.6327055284501125,
+            0.7743924807671262
+          ]
+        },
+        {
+          "p": [
+            [
+              40.40625,
+              58.5625,
+              244.8125
+            ],
+            [
+              53.203125,
+              63.515625,
+              240.765625
+            ],
+            [
+              40.40625,
+              63.515625,
+              240.765625
+            ]
+          ],
+          "uv": [
+            [
+              0,
+              0.53125
+            ],
+            [
+              1,
+              0.994140625
+            ],
+            [
+              0,
+              0.994140625
+            ]
+          ],
+          "normal": [
+            0,
+            0.6327055284501125,
+            0.7743924807671262
+          ]
+        }
+      ],
+      "sourceBasis": {
+        "origin": [
+          40.40625,
+          52.87790084388186,
+          249.4570147679325
+        ],
+        "U": [
+          12.796874999999998,
+          0,
+          0
+        ],
+        "V": [
+          0,
+          10.700421940928269,
+          -8.742616033755274
+        ]
+      },
+      "sourceGround": [
+        44.80517578125,
+        63.578322784810126,
+        240.71439873417722
+      ],
+      "candidateTriangles": 2,
+      "sourceAndCorrectionIdenticalProjectionPixels": true,
+      "png": "/tmp/hg-tree-semantic-tree_ki-comparison.png",
+      "pngSHA256": "a1dc50cc925b4939f23502cad58df35a731318f966a94cb2db45b960ba4011c1",
+      "projectionPixelHashes": [
+        [
+          "f4f0eb7ce24c34cfd5a7507a69b5a53dc7ec77b6489d42faa6a6073143b4347b",
+          "55330bea42d37ca57b14bceb974d01ef87b3f1b1d464245aa84cff611c265b06",
+          "8f397d8a326c06ffb667f1c5045eff51d19ae866a52bbf794d1cad84f9320ac4",
+          "9d6dd6c63b8f30ffbe5fbbcaffc72dfeef4959cc2ac7abd62617a96b5aab3ab1",
+          "4f54de6bc527ded8a89fadf734ba85bc45a51331d139a9457245df61cc0f81ab"
+        ],
+        [
+          "fd4138b787dae8a1ce9041ad6e6b60edebec9dfeb3219b2bcec3401c62361229",
+          "1400252ec46c7310949d5e088d8ac69262ea388e70372abb9f92b00c93c7f5fe",
+          "1e154c2406e5a01f4b2a110ceb6508dab807c7f8b6db5d04ca10caff31afcc21",
+          "5830bf2409e596a59f57c6bc55405b5905b0d432c85e47f53a7b5814aa761af3",
+          "b81ce63f1de01579740e4fd743fe5aa4df56c83b54871bed2c51691aa0fa29fa"
+        ],
+        [
+          "f4f0eb7ce24c34cfd5a7507a69b5a53dc7ec77b6489d42faa6a6073143b4347b",
+          "55330bea42d37ca57b14bceb974d01ef87b3f1b1d464245aa84cff611c265b06",
+          "8f397d8a326c06ffb667f1c5045eff51d19ae866a52bbf794d1cad84f9320ac4",
+          "9d6dd6c63b8f30ffbe5fbbcaffc72dfeef4959cc2ac7abd62617a96b5aab3ab1",
+          "4f54de6bc527ded8a89fadf734ba85bc45a51331d139a9457245df61cc0f81ab"
+        ]
+      ]
+    },
+    {
+      "asset": "land/89-8.glb",
+      "material": "tree_ki2",
+      "sourceQuad": [
+        {
+          "p": [
+            [
+              116.40625,
+              69.546875,
+              238.796875
+            ],
+            [
+              103.59375,
+              69.546875,
+              238.796875
+            ],
+            [
+              103.59375,
+              58.453125,
+              245.203125
+            ]
+          ],
+          "uv": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "normal": [
+            0,
+            0.5000743770922671,
+            0.865982457891487
+          ]
+        },
+        {
+          "p": [
+            [
+              116.40625,
+              69.546875,
+              238.796875
+            ],
+            [
+              103.59375,
+              58.453125,
+              245.203125
+            ],
+            [
+              116.40625,
+              58.453125,
+              245.203125
+            ]
+          ],
+          "uv": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "normal": [
+            0,
+            0.5000743770922671,
+            0.865982457891487
+          ]
+        }
+      ],
+      "sourceBasis": {
+        "origin": [
+          103.59375,
+          69.546875,
+          238.796875
+        ],
+        "U": [
+          12.8125,
+          0,
+          0
+        ],
+        "V": [
+          0,
+          -11.09375,
+          6.40625
+        ]
+      },
+      "sourceGround": [
+        110.6005859375,
+        58.7998046875,
+        245.0029296875
+      ],
+      "candidateTriangles": 2,
+      "sourceAndCorrectionIdenticalProjectionPixels": true,
+      "png": "/tmp/hg-tree-semantic-tree_ki2-comparison.png",
+      "pngSHA256": "a9f6950f0fae5be2bf1ed1afcf243a428ed13bcba5357d5249c31024b19827ee",
+      "projectionPixelHashes": [
+        [
+          "d35ac4869187960e3d343a91bc98fbec4b560110503fd4023030802a88702d9d",
+          "1c3fb7ba9108c9e7534cf9e2b1818e19925d269dbfcec42d32c5fd4eedb8d767",
+          "8f397d8a326c06ffb667f1c5045eff51d19ae866a52bbf794d1cad84f9320ac4",
+          "9b50573a961bbb886b5edcdc863109f19b04dbae2a717ff12cf77dba13d7b351",
+          "5ba4ba87b9aa1227e8792b809465e669fbd7a0fd1a0d94694ccdd21141775e38"
+        ],
+        [
+          "c9ec013805eec3fcfe9f567ff1eadcc9febbbf4030300bff3d4b5f61f778c550",
+          "2324777e455e3103c9887dec29011bfdc50e63149e126ef28b77b7dc65f4f2bc",
+          "a327cd7c0395439f7aeb900e1fe199abf131a71bb6eeda23e9e0fc5459ee15ba",
+          "2197e213096d722b7b09e8753a884770c4e085640125a9d3b48d4847de264368",
+          "b506e728cbe74375b50f18eac37fbfc0a5c72e51143d346f9aef1489584d3d02"
+        ],
+        [
+          "d35ac4869187960e3d343a91bc98fbec4b560110503fd4023030802a88702d9d",
+          "1c3fb7ba9108c9e7534cf9e2b1818e19925d269dbfcec42d32c5fd4eedb8d767",
+          "8f397d8a326c06ffb667f1c5045eff51d19ae866a52bbf794d1cad84f9320ac4",
+          "9b50573a961bbb886b5edcdc863109f19b04dbae2a717ff12cf77dba13d7b351",
+          "5ba4ba87b9aa1227e8792b809465e669fbd7a0fd1a0d94694ccdd21141775e38"
+        ]
+      ]
+    },
+    {
+      "asset": "land/89-8.glb",
+      "material": "tree_ki3",
+      "sourceQuad": [
+        {
+          "p": [
+            [
+              -28,
+              60.1875,
+              194.46875
+            ],
+            [
+              -12,
+              60.1875,
+              194.46875
+            ],
+            [
+              -12,
+              72.515625,
+              184.265625
+            ]
+          ],
+          "uv": [
+            [
+              0.986328125,
+              0.99609375
+            ],
+            [
+              0.015625,
+              0.99609375
+            ],
+            [
+              0.015625,
+              0
+            ]
+          ],
+          "normal": [
+            0,
+            0.6375876965531518,
+            0.7703777834309905
+          ]
+        },
+        {
+          "p": [
+            [
+              -28,
+              60.1875,
+              194.46875
+            ],
+            [
+              -12,
+              72.515625,
+              184.265625
+            ],
+            [
+              -28,
+              72.515625,
+              184.265625
+            ]
+          ],
+          "uv": [
+            [
+              0.986328125,
+              0.99609375
+            ],
+            [
+              0.015625,
+              0
+            ],
+            [
+              0.986328125,
+              0
+            ]
+          ],
+          "normal": [
+            0,
+            0.6375876965531518,
+            0.7703777834309905
+          ]
+        }
+      ],
+      "sourceBasis": {
+        "origin": [
+          -11.742454728370223,
+          72.515625,
+          184.265625
+        ],
+        "U": [
+          -16.482897384305833,
+          0,
+          0
+        ],
+        "V": [
+          0,
+          -12.376470588235293,
+          10.24313725490196
+        ]
+      },
+      "sourceGround": [
+        -14.317907444668009,
+        61.68621323529412,
+        193.22837009803922
+      ],
+      "candidateTriangles": 2,
+      "sourceAndCorrectionIdenticalProjectionPixels": true,
+      "png": "/tmp/hg-tree-semantic-tree_ki3-comparison.png",
+      "pngSHA256": "cbb54531656e850cfaf3e9e966840d5a8391c85996fe194287327e25105ce751",
+      "projectionPixelHashes": [
+        [
+          "168bfc52dafe26df0c1d0128209e6c0e17aea860e0947c1c8dfe345436531a33",
+          "f157d028cf61a79974943d3844bcae1746838dcffdd2d218e7252b38a85baaf1",
+          "8f397d8a326c06ffb667f1c5045eff51d19ae866a52bbf794d1cad84f9320ac4",
+          "9d142f5c16fb3656481a28e2c9d69d1cf8a0490c6667e1c937c2443569f815d3",
+          "dcfdc999ece1dad8eb60bc8a5240d840da8c15fa06343352ec6362eab8466890"
+        ],
+        [
+          "983d49ab7f70bc88652da1cd51236465066714349a7da6b418e48f92f14f1613",
+          "9b3a5ecdc6c2f31ba9133d36fffc30f4f2e5ea6c4040a1b2e4de047bee94037a",
+          "d7432780fcf8da736ca9d9759b558c5656a21ec7f9163efc55cd27db1945bb68",
+          "bd133cd3ab0c30fcd9f932692c1769166573fb5b02e70b9761ce036d264bcfdd",
+          "08cad7a996e59649a1998ecdaf9c23d0d7bcd933eac2a23aabdf0248eea4c98a"
+        ],
+        [
+          "168bfc52dafe26df0c1d0128209e6c0e17aea860e0947c1c8dfe345436531a33",
+          "f157d028cf61a79974943d3844bcae1746838dcffdd2d218e7252b38a85baaf1",
+          "8f397d8a326c06ffb667f1c5045eff51d19ae866a52bbf794d1cad84f9320ac4",
+          "9d142f5c16fb3656481a28e2c9d69d1cf8a0490c6667e1c937c2443569f815d3",
+          "dcfdc999ece1dad8eb60bc8a5240d840da8c15fa06343352ec6362eab8466890"
+        ]
+      ]
+    },
+    {
+      "asset": "props/1-136-7.glb",
+      "material": "tree01",
+      "sourceQuad": [
+        {
+          "p": [
+            [
+              -32,
+              0,
+              10
+            ],
+            [
+              32,
+              0,
+              10
+            ],
+            [
+              32,
+              49.337890625,
+              -30.765625
+            ]
+          ],
+          "uv": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "normal": [
+            0,
+            0.6369579429485926,
+            0.7708985529333269
+          ]
+        },
+        {
+          "p": [
+            [
+              -32,
+              0,
+              10
+            ],
+            [
+              32,
+              49.337890625,
+              -30.765625
+            ],
+            [
+              -32,
+              49.337890625,
+              -30.765625
+            ]
+          ],
+          "uv": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "normal": [
+            0,
+            0.6369579429485926,
+            0.7708985529333269
+          ]
+        }
+      ],
+      "sourceBasis": {
+        "origin": [
+          -32,
+          49.337890625,
+          -30.765625
+        ],
+        "U": [
+          64,
+          0,
+          0
+        ],
+        "V": [
+          0,
+          -49.337890625,
+          40.765625
+        ]
+      },
+      "sourceGround": [
+        0,
+        0,
+        0
+      ],
+      "candidateTriangles": 1108,
+      "sourceAndCorrectionIdenticalProjectionPixels": false,
+      "png": "/tmp/hg-tree-semantic-antenna136-comparison.png",
+      "pngSHA256": "ddd82f088e30b2980f3aaabf01c0f7a05d3fba9a0a92e09a0378a0429bf31b27",
+      "projectionPixelHashes": [
+        [
+          "037e0e946823fcd46043b9633861093e0563bd4f42c063ec0d58f120be19a455",
+          "db47ab1d6c997f508810edb0474d87108090fccf31d6195eac513476b96d565f",
+          "8f397d8a326c06ffb667f1c5045eff51d19ae866a52bbf794d1cad84f9320ac4",
+          "d91ad167303ed7db5b81698aa73da50f3240e79095e4bbc8ebab6c1b528a93a8",
+          "36188c8f93d3b839080b740d7e0e5153c8465759002664d24d9e6db8f3dddb02"
+        ],
+        [
+          "bb57d4a83a428e7fcf4d624043e5202576e2faf6fd74ffd3487c76fa8fd892ba",
+          "b9136c0486fc6bc72d7765aa7a4229df5b489945d9bb0865ab33ec556cd6cb24",
+          "6072f8307cc01e8a13046addce03c9fb76437853e1aaa4fa23c044601c6ed986",
+          "44a7d0a6c2b9f8744b1ad890d3c90a53825184fb361e9355472dc3402c4255b5",
+          "10fa6a2a6174445c588756abfa3c9de9e8c355c07c3df57c581e492542479f7c"
+        ],
+        [
+          "c93b8fe79d268dc5177411323e54e2196b7f7531c56f2f0e51a889cf0bf2b712",
+          "e4959a363cd26a785d5299be00d8da14e62fff07ea46b747c1d1be5c14223877",
+          "2b7ed76aaa22e1e8f831d9d5a1111ea89ad750397df802c7c77b521fc10da974",
+          "b492fd4e25f81201dba9f66450a46bb845cec0878fd876a7fe2ecc4cbb4b37d2",
+          "1adc8cf59b0fe8c1219c9fc1c90b281da2d815d40f72688aaea86a876f4ef62a"
+        ]
+      ]
+    }
+  ]
+}
