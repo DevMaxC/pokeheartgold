@@ -1,0 +1,43 @@
+{
+  "commit": "66a1858f61bb071139bec3d1c413bf0bb4cc1791",
+  "status": "Independent agent preliminary findings, actual Opus process pending",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "P2",
+      "file": "browser/src/source/main.ts",
+      "line": 289,
+      "trigger": "Focus persistent Mute button, then press KeyW/KeyF/Q/E with ordinary field admission available",
+      "incorrectOutcome": "All such events return before keyboard input/action admission. Explicit actual-AST probe confirms target-dependent omission.",
+      "evidence": "keyboard-probe-result.json",
+      "narrowRecommendation": "Reserve native Enter/Space default for global audio button but let ordinary field keys reach existing UI/game-context gates.",
+      "browserQualification": "No real browser focus/default activation exercised. Focused-button target is explicit in probe."
+    },
+    {
+      "id": "F2",
+      "severity": "P2",
+      "file": "browser/src/source/style.css",
+      "lines": [
+        443,
+        446,
+        448,
+        556
+      ],
+      "trigger": "Battle at typical390px portrait viewport, safe-area offsets equal in both controls",
+      "incorrectOutcome": "Mute box x314..378,y12..56 at minimum64x44 covers right44x44 battle camera button approx x332..376,y12..56. New CSS reserves field HUD but does not reserve battle heading.",
+      "evidence": "Literal CSS plus actual Battle HTML/onClick handlers at battle.ts57\u201358; deterministic box calculation, not browser screenshot",
+      "narrowRecommendation": "Reserve global audio button width/spacing in battle heading at all breakpoint overrides."
+    },
+    {
+      "id": "F3",
+      "severity": "P2",
+      "file": "browser/src/source/interface-panels.ts",
+      "line": 52,
+      "origin": "Parent identified and fixed in71b8c5f7; independently confirmed literal old-source trace",
+      "trigger": "Open Settings, then toggle global Mute or receive same-origin sound/volume preference update",
+      "incorrectOutcome": "watchMusic invokes old updateMusicStatus, which updates only status/retry. Visible On/Off aria-pressed and volume input/output retain initial values until that Settings control itself changes or panel reopens. Audio preference state itself changes correctly.",
+      "narrowRecommendation": "Synchronize visible music toggle and volume controls from current shared preferences in existing guarded watcher, retain cleanup."
+    }
+  ],
+  "otherChecks": "Static source search finds only field-music creates production AudioContext. All generated voices connect shared gain. updateGain derives current enabled&&pageActive and runs synchronously before awaits; initial bind render/visibility uses already-initialized preferences/music, no confirmed TDZ. These are read-only traces, not browser audio/device QA."
+}

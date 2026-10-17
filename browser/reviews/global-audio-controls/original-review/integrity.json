@@ -1,0 +1,44 @@
+{
+  "checkedUTC": "2026-10-17T18:16:29.271173+00:00",
+  "commit": "66a1858f61bb071139bec3d1c413bf0bb4cc1791",
+  "manifestSHA256": "f966f33ab1a5c7908b8bfc42dc0dd61186e15e862858cac08902f68997547ff8",
+  "promptSHA256": "459b8fcb3c6454574e1f70b40b7aceb77cbd776d15f3c229e99f1996d95a598b",
+  "rawSHA256": "513beafd0d05067f8cd9e7c618c8039b1635ae511e2b75b005873feaef28c84b",
+  "changedInputs": [],
+  "unexpectedFiles": [],
+  "numTurns": 22,
+  "durationMs": 242781,
+  "isError": false,
+  "permissionDenials": [],
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1626,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001726,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 34,
+      "outputTokens": 18891,
+      "cacheReadInputTokens": 1147741,
+      "cacheCreationInputTokens": 97910,
+      "webSearchRequests": 0,
+      "costUSD": 1.0970542,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 12504,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "resultScope": "Exact frozen66a production global mute; findings not approval of follow-up."
+}
