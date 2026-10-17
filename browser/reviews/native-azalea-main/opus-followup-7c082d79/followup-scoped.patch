@@ -1,0 +1,399 @@
+diff --git a/browser/scripts/test_hatch_fanfare_timer.py b/browser/scripts/test_hatch_fanfare_timer.py
+new file mode 100644
+index 00000000..d4fdb234
+--- /dev/null
++++ b/browser/scripts/test_hatch_fanfare_timer.py
+@@ -0,0 +1,123 @@
++"""Run original PlayFanfare/Wait bodies with only device-admission stubs.
++
++This proves the literal timer/pause FSM, not hardware audio or browser timing.
++No original C function body is translated or rewritten.
++"""
++import hashlib
++import json
++from pathlib import Path
++import re
++import subprocess
++import tempfile
++import unittest
++
++ROOT = Path(__file__).resolve().parents[2]
++SOURCE = (ROOT / 'src/sound_playback.c').read_text()
++
++
++def body(name):
++    match = re.search(r'\b(?:BOOL|void)\s+' + name + r'\([^;{}]*\)\s*\{', SOURCE)
++    if not match:
++        raise AssertionError('Original function missing: ' + name)
++    depth, end = 1, match.end()
++    while depth:
++        depth += (SOURCE[end] == '{') - (SOURCE[end] == '}')
++        end += 1
++    return SOURCE[match.start():end]
++
++
++NAMES = ['StartFanfareWaitTimer', 'PlayFanfare',
++         'IsFanfarePlayingOrWaiting', 'StopFanfare', 'IsFanfarePlaying']
++BODIES = '\n\n'.join(body(name) for name in NAMES)
++PREFIX = r'''
++#include <assert.h>
++#include <stdint.h>
++#include <stdio.h>
++typedef uint8_t u8; typedef uint16_t u16; typedef int BOOL;
++#define TRUE 1
++#define FALSE 0
++enum SoundHandleNo {SND_HANDLE_ME = 2};
++static u16 timer;
++static int attr, handle, player, admission, voices;
++static int fieldPaused, radioPaused, fieldPauseCalls, radioPauseCalls;
++static int starts, stops;
++void *GF_SdatGetAttrPtr(int id) {return id == 14 ? (void *)&timer : (void *)&attr;}
++void GF_GetBankInfoBySeqNo(u16 seq) {assert(seq == 1188);}
++int GF_GetCurrentPlayingBGM(void) {return 1011;}
++u8 GF_GetPlayerNoBySeq(int seq) {assert(seq == 1011);return player;}
++void Sound_SetPlayerPause(u8 id, BOOL pause) {
++    assert(id == player);fieldPaused = pause;fieldPauseCalls++;
++}
++void SndRadio_PausePlayer(BOOL pause) {radioPaused = pause;radioPauseCalls++;}
++void GF_Snd_SaveState(void *state) {assert(state);}
++void GF_Snd_LoadSeqEx(u16 seq, int mode) {assert(seq == 1188 && mode == 3);}
++BOOL Sound_StartSeq(enum SoundHandleNo h, int p, int b, int priority, u16 seq, u8 gb) {
++    assert(h == SND_HANDLE_ME && p == -1 && b == -1 && priority == -1);
++    assert(seq == 1188 && gb == 0 && timer == 15);
++    assert(player == 255 ? radioPaused : fieldPaused);
++    starts++;return admission;
++}
++void Sound_ApplyVoiceChatVolume(u16 seq, enum SoundHandleNo h) {
++    assert(seq == 1188 && h == SND_HANDLE_ME);
++}
++int GF_SndPlayerCountPlayingSeqByPlayerNo(int p) {assert(p == 2);return voices;}
++void *GF_GetSoundHandle(enum SoundHandleNo h) {assert(h == SND_HANDLE_ME);return &handle;}
++void NNS_SndPlayerStopSeq(void *h, int fade) {assert(h == &handle && fade == 0);stops++;}
++int Sound_GetSavedHeapLevel(int slot) {assert(slot == 6);return 7;}
++void GF_Snd_LoadState(int level) {assert(level == 7);}
++'''
++SUFFIX = r'''
++static void scenario(const char *name, int p, int accepts, int playingPolls) {
++    player=p;admission=accepts;voices=accepts;timer=0;
++    fieldPaused=radioPaused=fieldPauseCalls=radioPauseCalls=starts=stops=0;
++    assert(PlayFanfare(1188) == accepts);
++    assert(timer == 15 && starts == 1 && stops == 0);
++    for(int i=0;i<playingPolls;i++) {
++        assert(IsFanfarePlaying() == TRUE && timer == 15 && stops == 0);
++    }
++    voices=0;
++    for(int i=0;i<15;i++) {
++        assert(IsFanfarePlaying() == TRUE && timer == 14-i && stops == 0);
++        assert(player == 255 ? radioPaused : fieldPaused);
++    }
++    assert(IsFanfarePlaying() == FALSE);
++    assert(timer == 0 && stops == 1 && fieldPaused == 0 && radioPaused == 0);
++    assert(player == 255 ? fieldPauseCalls == 0 && radioPauseCalls == 2
++                         : fieldPauseCalls == 2 && radioPauseCalls == 1);
++    printf("{\"case\":\"%s\",\"admission\":%d,\"playingPolls\":%d,"
++           "\"timerTruePolls\":15,\"terminalFalse\":true,\"resumed\":true}",
++           name,accepts,playingPolls);
++}
++int main(void) {
++    printf("[");scenario("failed-field",1,0,0);printf(",");
++    scenario("failed-radio",255,0,0);printf(",");
++    scenario("admitted-sequence",1,1,9);printf("]\n");return 0;
++}
++'''
++
++
++class OriginalHatchFanfareTimer(unittest.TestCase):
++    def test_original_c_failed_admission_and_active_sequence(self):
++        wrapper = PREFIX + BODIES + SUFFIX
++        with tempfile.TemporaryDirectory(prefix='hg-hatch-fanfare-c-') as directory:
++            source, executable = Path(directory) / 'oracle.c', Path(directory) / 'oracle'
++            source.write_text(wrapper)
++            subprocess.run(['cc', '-std=c11', '-Werror', str(source), '-o', str(executable)], check=True)
++            output = subprocess.check_output([str(executable)], text=True)
++        cases = json.loads(output)
++        self.assertEqual([case['timerTruePolls'] for case in cases], [15, 15, 15])
++        self.assertEqual(cases[2]['playingPolls'], 9)
++        print(json.dumps({'nativeSourceSHA256': hashlib.sha256(SOURCE.encode()).hexdigest(),
++                          'nativeBodySHA256': {name: hashlib.sha256(body(name).encode()).hexdigest() for name in NAMES},
++                          'wrapperSHA256': hashlib.sha256(wrapper.encode()).hexdigest(),
++                          'cases': cases}, sort_keys=True))
++
++    def test_hatch_ignores_admission_and_falls_through_to_native_wait(self):
++        hatch = (ROOT / 'src/hatch_egg_app.c').read_text()
++        self.assertRegex(hatch, r'PlayFanfare\(SEQ_ME_SHINKAOME\);\s*app->state\+\+;\s*case 9:\s*if \(IsFanfarePlaying\(\)\)')
++        self.assertLess(body('PlayFanfare').index('StartFanfareWaitTimer'), body('PlayFanfare').index('Sound_StartSeq'))
++        self.assertLess(body('PlayFanfare').index('Sound_SetPlayerPause'), body('PlayFanfare').index('Sound_StartSeq'))
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/browser/src/source/azalea-field-sound.test.ts b/browser/src/source/azalea-field-sound.test.ts
+index d220bfc4..56a5a2f4 100644
+--- a/browser/src/source/azalea-field-sound.test.ts
++++ b/browser/src/source/azalea-field-sound.test.ts
+@@ -15,14 +15,14 @@ const deferred=<T>()=>{let resolve!:(value:T)=>void,reject!:(error:unknown)=>voi
+ const arrayBuffer=(bytes:Buffer)=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)as ArrayBuffer;
+ 
+ // Explicit WebAudio port only: no real Context, output device or audition.
+-function fixture(options:{loader?:(signal:AbortSignal)=>Promise<NativeAzaleaAudioResources>;metadataTimeoutMs?:number;report?:(status:AzaleaAudioStatus)=>void}={}){
++function fixture(options:{loader?:(signal:AbortSignal)=>Promise<NativeAzaleaAudioResources>;metadataTimeoutMs?:number;report?:(status:AzaleaAudioStatus)=>void;outputError?:()=>Error|undefined}={}){
+  const lifetime=new AbortController(),nodes:any[]=[],statuses:AzaleaAudioStatus[]=[],field={map:180,mapRunning:true};let outputReads=0,loads=0;
+  const context={state:'running',sampleRate:32768,addEventListener(){},removeEventListener(){},
+   async decodeAudioData(value:ArrayBuffer){const wav=Buffer.from(value);let channels=0,rate=0,bits=0,data=0;for(let at=12;at+8<=wav.length;){const size=wav.readUInt32LE(at+4),tag=wav.toString('ascii',at,at+4);if(tag==='fmt '){channels=wav.readUInt16LE(at+10);rate=wav.readUInt32LE(at+12);bits=wav.readUInt16LE(at+22);}if(tag==='data')data=size;at+=8+size+(size&1);}return{numberOfChannels:channels,duration:data/(channels*bits/8)/rate};},
+   createBufferSource(){const node={buffer:null,onended:null as null|(()=>void),loop:false,loopStart:0,loopEnd:0,starts:0,stops:0,connect(){},disconnect(){},start(){node.starts++;},stop(){node.stops++;},end(){node.onended?.();}};nodes.push(node);return node;},
+  };
+  const clock=new NativeFieldClock({field:()=>field,onError:error=>{throw error;}}),output={context:context as unknown as AudioContext,output:{context}as unknown as AudioNode,signal:lifetime.signal};
+- const sound=new AzaleaFieldSound({clock,signal:lifetime.signal,output:()=>{outputReads++;return output;},report:status=>{statuses.push(status);options.report?.(status);},loadMetadata:signal=>{loads++;return options.loader?options.loader(signal):Promise.resolve(structuredClone(metadata));},fetchBytes:async url=>arrayBuffer(await readFile(new URL(url.split('/').at(-1)!,root))),metadataTimeoutMs:options.metadataTimeoutMs});
++ const sound=new AzaleaFieldSound({clock,signal:lifetime.signal,output:()=>{outputReads++;const error=options.outputError?.();if(error)throw error;return output;},report:status=>{statuses.push(status);options.report?.(status);},loadMetadata:signal=>{loads++;return options.loader?options.loader(signal):Promise.resolve(structuredClone(metadata));},fetchBytes:async url=>arrayBuffer(await readFile(new URL(url.split('/').at(-1)!,root))),metadataTimeoutMs:options.metadataTimeoutMs});
+  const frame=async()=>{clock.frame(1/30);await clock.settled();};
+  return{sound,clock,lifetime,field,nodes,statuses,context,frame,outputReads:()=>outputReads,loads:()=>loads,dispose(){sound.dispose();clock.dispose();}};
+ }
+@@ -59,6 +59,16 @@ test('locked shared output is diagnosed no-voice, while malformed source metadat
+  const broken=fixture({loader:async()=>({...structuredClone(metadata),version:99})as unknown as NativeAzaleaAudioResources});try{await assert.rejects(broken.sound.audio.prepare([1561,2171],new AbortController().signal),UnsupportedNativeAzaleaAudio);assert.equal(broken.nodes.length,0);}finally{broken.dispose();}
+ });
+ 
++test('a real-style throwing shared output after preparation still preempts PLAYER3 and admits technical no-voice',async()=>{
++ let unavailable=false;const h=fixture({outputError:()=>unavailable?Error('Shared native audio Context is not running'):undefined});
++ try{
++  await h.sound.audio.prepare([1561,2171],new AbortController().signal);assert.equal(h.sound.audio.robot2171({}).kind,'voice');
++  const player=await h.sound.preparePlayer(new AbortController().signal);assert.equal(player.isPlaying(2171),true);unavailable=true;
++  const outcome=await h.sound.audio.switch1561(new AbortController().signal);
++  assert.ok(outcome.kind==='no-voice');assert.match(outcome.detail,/Context is not running/);assert.equal(h.nodes.length,1,'no late replacement source is created');assert.equal(h.nodes[0].stops,1,'equal priority admission preempts before the shared output failure');assert.equal(player.isPlaying(1561),false);
++ }finally{h.dispose();}
++});
++
+ test('root disposal removes the global callback and rejects pending source admission without unlocking',async()=>{
+  const late=deferred<NativeAzaleaAudioResources>(),h=fixture({loader:()=>late.promise});
+  try{const pending=h.sound.preparePlayer(new AbortController().signal);h.lifetime.abort(new DOMException('root closed','AbortError'));await assert.rejects(pending,{name:'AbortError'});late.resolve(structuredClone(metadata));await h.frame();assert.equal(h.nodes.length,0);assert.equal(h.outputReads(),0);await assert.rejects(h.sound.preparePlayer(new AbortController().signal),{name:'AbortError'});}finally{h.dispose();}
+diff --git a/browser/src/source/field-entry-main.test.ts b/browser/src/source/field-entry-main.test.ts
+index 7de45dca..24a5ee6a 100644
+--- a/browser/src/source/field-entry-main.test.ts
++++ b/browser/src/source/field-entry-main.test.ts
+@@ -96,18 +96,18 @@ test('actual warp retains all three entry phases and real entry resets while Con
+ test('actual Continue passes saved Violet height/lift into World entry without the warp initializer',async()=>{
+  const c=await entryFixture(135);c.state.fieldHeight=31;c.state.gymmick={kind:'violet',liftState:1};
+  await c.actualEnter(135,c.state.x,c.state.z,true,true,false,false,'continue');
+- assert.deepEqual(c.log.find(row=>row[0]==='world-enter').slice(-2),[31,1]);assert.deepEqual(c.state.gymmick,{kind:'violet',liftState:1});assert.equal(c.log.some(row=>row[0]==='script'),false,'Violet only has native OnTransition');
++ assert.deepEqual(c.log.find(row=>row[0]==='world-enter').slice(-3),[31,1,'continue']);assert.deepEqual(c.state.gymmick,{kind:'violet',liftState:1});assert.equal(c.log.some(row=>row[0]==='script'),false,'Violet only has native OnTransition');
+ });
+ 
+ test('actual begin forwards explicit entry mode separately from actor restoration and saves only after entry',async()=>{
+  for(const mode of['continue','warp']){
+-  const state=newState(data,'Case','boy',()=>.5),calls=[],c={preferences:{music:false,textSpeed:1},state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
+-   Battle:class{},WorldBattleView:class{},captureField(){return{};},restoreField:unexpected,started:false,ready:false,
++  const state=newState(data,'Case','boy',()=>.5),calls=[];let finishInstall,enteredInstall;const entered=new Promise(resolve=>{enteredInstall=resolve;}),install=new Promise(resolve=>{finishInstall=resolve;}),gymPorts={init:unexpected,spinarak:unexpected,switch:unexpected},c={preferences:{music:false,textSpeed:1},state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
++   Battle:class{},WorldBattleView:class{},async installAzaleaField(){calls.push(['install-azalea']);assert.equal(c.started,false);enteredInstall();await install;c.world.azaleaGym={scriptPorts:gymPorts};},captureField(){return{};},restoreField:unexpected,started:false,ready:false,
+    beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,scriptWarp:unexpected,
+    enterMap:async(...args)=>{calls.push(['enter',...args]);assert.equal(c.started,true);},save(){calls.push(['save']);},$:()=>({focus(){calls.push(['focus']);}}),
+   };
+-  createContext(c);runInContext(compile(beginSource)+';globalThis.actualBegin=begin;',c);await c.actualBegin(mode);
+-  assert.deepEqual(calls[0],['enter',state.map,state.x,state.z,true,mode==='continue',false,false,mode]);assert.deepEqual(calls.slice(1),[['save'],['focus']]);assert.equal(c.ready,true);
++  createContext(c);runInContext(compile(beginSource)+';globalThis.actualBegin=begin;',c);const pending=c.actualBegin(mode);await entered;assert.deepEqual(calls,[['install-azalea']]);assert.equal(c.started,false);finishInstall();await pending;assert.equal(c.vm.hooks.azaleaGym,gymPorts);
++  assert.deepEqual(calls[1],['enter',state.map,state.x,state.z,true,mode==='continue',false,false,mode]);assert.deepEqual(calls.slice(2),[['save'],['focus']]);assert.equal(c.ready,true);
+  }
+ });
+ 
+diff --git a/browser/src/source/hatch-host-audio.test.ts b/browser/src/source/hatch-host-audio.test.ts
+index 33d6e5c9..c6e8724d 100644
+--- a/browser/src/source/hatch-host-audio.test.ts
++++ b/browser/src/source/hatch-host-audio.test.ts
+@@ -182,3 +182,45 @@ test('live preference read: recovery retry while muted releases hatch ownership
+  enabled=false;const muted=actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.context.master.gain.value,0);await muted;let outputReads=0;f.ports.sharedAudioOutput=()=>{outputReads++;throw Error('muted retry requested permission');};await f.retained[0]();assert.equal(outputReads,0);assert.equal(actual.nodes.length,2);
+  const battle=actual.player.createCueSession();await battle.start(actual.B,new AbortController().signal);actual.context.state='running';enabled=true;await actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.nodes.length,3);assert.ok(actual.nodes[0].stopped);assert.equal(actual.nodes[2].stopped,false);await f.retained[0]();await flush();assert.equal(actual.nodes.length,3,'idempotent old hatch recovery cannot admit another field voice over battle');await battle.restore();await actual.player.dispose();
+ });
++
++test('muted fanfare phase: initially muted still waits native15 ticks with no audio I/O or fabricated cry delay',async t=>{
++ t.mock.method(performance,'now',()=>1000);let waits=0;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>false,sharedAudioOutput:()=>{throw Error('muted output requested');},loadManifest:async()=>{throw Error('muted source requested');},wait:async milliseconds=>{waits++;assert.equal(milliseconds,15/30*1000);entered.resolve();await release.promise;}});
++ await f.audio.music.start(bg,f.signal.signal);await f.audio.cry(scene,f.signal.signal);assert.equal(waits,0);let done=false;const pending=f.audio.music.fanfare(me,f.signal.signal).then(()=>{done=true;});await admitted(entered.promise,pending,'muted native timer');assert.equal(waits,1);assert.equal(done,false);assert.equal(f.events.includes('transport'),false);assert.equal(f.nodes.length,0);assert.equal(f.errors.length,0);release.resolve();await pending;assert.equal(done,true);await f.audio.music.restore();
++});
++
++test('muted fanfare phase: just-muted BGM pauses until native timer; late unmute does not replay the missed sequence',async t=>{
++ t.mock.method(performance,'now',()=>1000);let enabled=true;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>enabled,wait:async milliseconds=>{assert.equal(milliseconds,500);entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);enabled=false;
++ const pending=f.audio.music.fanfare(me,f.signal.signal);await admitted(entered.promise,pending,'just-muted native timer');assert.deepEqual(f.songs[0].events,['pause']);assert.equal(f.events.includes('play:1188'),false);assert.equal(f.errors.length,0);enabled=true;await flush();assert.equal(f.songs.length,1);assert.deepEqual(f.songs[0].events,['pause']);release.resolve();await pending;assert.deepEqual(f.songs[0].events,['pause','resume']);await f.audio.music.restore();
++});
++
++test('muted fanfare phase: actual shared BGM stays paused through late unmute and resumes its captured phase after timer',async()=>{
++ let enabled=true;const entered=deferred(),release=deferred(),actual=actualPlayer();await actual.player.unlock();await actual.player.playCue(actual.A);const f=fixture({enabled:()=>enabled,player:actual.player,sharedAudioOutput:()=>actual.player.sharedAudioOutput(),wait:async()=>{entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);actual.context.currentTime=3;enabled=false;const muting=actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.context.master.gain.value,0);await muting;
++ const pending=f.audio.music.fanfare(me,f.signal.signal);await admitted(entered.promise,pending,'actual shared muted timer');assert.equal(actual.nodes.length,2);assert.equal(actual.nodes[1].stopped,true);actual.context.currentTime=100;enabled=true;await actual.player.setPreferences({enabled,volume:.37});assert.equal(actual.context.master.gain.value,.37);assert.equal(actual.nodes.length,2,'unmute must not resume paused hatch BGM before native wait');release.resolve();await pending;assert.equal(actual.nodes.length,3);assert.equal(actual.nodes[2].offset,3);assert.equal(actual.contexts.length,1);assert.equal(f.errors.length,0);await f.audio.music.restore();await actual.player.dispose();
++});
++
++test('muted fanfare phase: mute during future manifest or preparation retains its no-voice timer without a mute diagnostic',async t=>{
++ t.mock.method(performance,'now',()=>1000);
++ for(const stage of['manifest','prepare']){let enabled=false;const entered=deferred(),release=deferred(),timer=deferred(),finish=deferred(),f=fixture({enabled:()=>enabled,loadManifest:async()=>{if(stage==='manifest'){entered.resolve();await release.promise;}return structuredClone(manifest);},wait:async milliseconds=>{assert.equal(milliseconds,500);timer.resolve();await finish.promise;}});await f.audio.music.start(bg,f.signal.signal);f.controls.prepare=async()=>{if(stage==='prepare'){entered.resolve();await release.promise;}};enabled=true;
++  const pending=f.audio.music.fanfare(me,f.signal.signal);await admitted(entered.promise,pending,'future fanfare '+stage);enabled=false;release.resolve();await admitted(timer.promise,pending,'muted post-'+stage+' timer');assert.equal(f.songs.length,0);assert.equal(f.errors.length,0);finish.resolve();await pending;await f.audio.music.restore();
++ }
++});
++
++test('muted fanfare phase: an admitted sequence ends before its native tail and late unmute cannot release that tail',async()=>{
++ let enabled=true;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>enabled,wait:async milliseconds=>{assert.equal(milliseconds,(139462-136052)/32768*1000);entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);let done=false;
++ const pending=f.audio.music.fanfare(me,f.signal.signal).then(()=>{done=true;});await admitted(f.songCreated(1188),pending,'admitted fanfare');enabled=false;assert.equal(done,false);f.songs[1].end();await admitted(entered.promise,pending,'native admitted tail');enabled=true;await flush();assert.equal(done,false);assert.deepEqual(f.songs[0].events,['pause']);assert.equal(f.events.filter(event=>event==='play:1188').length,1);release.resolve();await pending;assert.deepEqual(f.songs[0].events,['pause','resume']);await f.audio.music.restore();
++});
++
++test('muted fanfare phase: map cancellation or Return drains timer ownership and never resumes the obsolete BGM',async()=>{
++ for(const kind of['map','Return']){let enabled=true;const entered=deferred(),release=deferred(),f=fixture({enabled:()=>enabled,wait:async()=>{entered.resolve();await release.promise;}});await f.audio.music.start(bg,f.signal.signal);enabled=false;const pending=f.audio.music.fanfare(me,f.signal.signal),rejected=assert.rejects(pending,kind==='map'?/map transition/:/restored/);await admitted(entered.promise,pending,'owned muted timer');
++  if(kind==='map')f.signal.abort(Error('map transition'));else await f.audio.music.restore();await rejected;await f.audio.music.restore();release.resolve();await flush();assert.equal(f.paused,false);assert.ok(f.songs[0].events.includes('stop'));assert.equal(f.songs[0].events.includes('resume'),false);assert.equal(f.errors.length,0);
++ }
++});
++
++test('muted fanfare phase: real presentation cannot name before timer, and Return rolls back before a fresh successful Retry',async()=>{
++ const prior=globalThis.fetch;globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));try{
++  const data=await loadData(),map=await sourceJSON<SourceMap>('maps/73.json'),now=()=>new Date(2026,9,17,12),state=newState(data,'Ethan','boy',()=>.5);state.map=map.id;state.party=[createMon(data,155,5,state.name,()=>.5)];giveTogepiEgg(data,state,{now});state.party[1].friendship=0;const before=structuredClone(state);let choices=0,resumes=0;
++  for(const returning of[true,false]){const entered=deferred(),release=deferred(),printer=deferred<()=>void>(),f=fixture({enabled:()=>false,wait:async()=>{entered.resolve();await release.promise;}});const host:EggHatchHost={now,music:f.audio.music,view:signal=>({reveal:async()=>{},cry:next=>f.audio.cry(next,signal),finish:async()=>{},cancel(){}}),message:()=>returning?printer.promise:Promise.resolve(()=>{}),choose:async()=>{choices++;return 1;},nickname:async()=>{throw Error('declined nickname');},resumeField:async()=>{resumes++;}};
++   const pending=presentNativeEggHatch(data,state,map,host);await admitted(entered.promise,pending,'presentation muted timer');assert.equal(choices,0);assert.equal(resumes,0);if(returning){const rejected=assert.rejects(pending,/Return owned hatch/);printer.reject(Error('Return owned hatch'));await rejected;assert.deepEqual(state,before);release.resolve();await flush();assert.equal(choices,0);assert.equal(f.paused,false);}else{release.resolve();await pending;assert.equal(choices,1);assert.equal(resumes,1);assert.equal(state.party[1].isEgg,false);assert.equal(state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG,true);}assert.equal(f.errors.length,0);
++  }
++ }finally{globalThis.fetch=prior;}
++});
+diff --git a/browser/src/source/hatch-host-audio.ts b/browser/src/source/hatch-host-audio.ts
+index 120e3cf2..ea166ea7 100644
+--- a/browser/src/source/hatch-host-audio.ts
++++ b/browser/src/source/hatch-host-audio.ts
+@@ -99,14 +99,15 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
+    try{background=await startVoice(tracks!['1011'],signal);const current=background;void current.ended.then(()=>{if(!closed&&!owner.signal.aborted)report('hatch background ended',Error('Looping native hatch music ended unexpectedly'));},error=>{if(!closed&&!owner.signal.aborted)report('hatch background playback',error);}).catch(()=>{});}catch(error){fatal(error,signal);report('hatch music start',error);}
+   },
+   async fanfare(value,signal){
+-   guard();cue(value,1188);bind(signal);if(!started||closed||fanfareStarted)throw new UnsupportedHatchHostAudio('Hatch fanfare requires its single active source session');fanfareStarted=true;if(!enabled())return;
++   guard();cue(value,1188);bind(signal);if(!started||closed||fanfareStarted)throw new UnsupportedHatchHostAudio('Hatch fanfare requires its single active source session');fanfareStarted=true;
+    // A mute at hatch entry skipped I/O. An explicit later unmute may admit
+    // this future native cue, without replaying the earlier background phase.
+    // Previously failed admission is not silently retried.
+-   await prepareMusic([1188],signal);if(!enabled())return;
++   await prepareMusic([1188],signal);
+    let foreground:NativeMusicVoice|undefined,played=false;const begin=performance.now();try{
+-    try{background?.pause();}catch(error){fatal(error,signal);report('hatch music pause',error);}if(tracks&&prepared.has(1188)){try{foreground=await startVoice(tracks['1188'],signal);await bounded(()=>foreground!.ended,[signal,owner.signal],'fanfare playback',NATIVE[1188].frames/32768*1000+timeout);played=true;}catch(error){fatal(error,signal);report(foreground?'fanfare playback':'fanfare start',error);}}else report('fanfare admission',Error('No prepared original fanfare voice'));
++    try{background?.pause();}catch(error){fatal(error,signal);report('hatch music pause',error);}if(enabled()){if(tracks&&prepared.has(1188)){try{foreground=await startVoice(tracks['1188'],signal);await bounded(()=>foreground!.ended,[signal,owner.signal],'fanfare playback',NATIVE[1188].frames/32768*1000+timeout);played=true;}catch(error){fatal(error,signal);report(foreground?'fanfare playback':'fanfare start',error);}}else report('fanfare admission',Error('No prepared original fanfare voice'));}
+     // Native PlayFanfare starts15-count timer even if Sound_StartSeq fails.
++    // Mute suppresses audio admission, not this phase or its BGM pause/resume.
+     // On success the verified asset already includes release after sequenceEnd;
+     // completionFrame adds only the remaining native15/30-second timer tail.
+     const milliseconds=played?(NATIVE[1188].completionFrame-NATIVE[1188].frames)/32768*1000:Math.max(0,15/30*1000-(performance.now()-begin));
+diff --git a/browser/src/source/main-azalea.test.ts b/browser/src/source/main-azalea.test.ts
+index 9c7724fa..3135b798 100644
+--- a/browser/src/source/main-azalea.test.ts
++++ b/browser/src/source/main-azalea.test.ts
+@@ -14,7 +14,12 @@ import {NativeFieldClock} from './native-field-clock.ts';
+ import {OriginalWorld} from './world.ts';
+ import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
+ import {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction} from './script-recovery.ts';
+-import {TrainerAttemptLatch} from './trainer-encounters.ts';
++import {TrainerAttemptLatch,trainerEventPriority,fieldTrainerCollision,findTrainerEncounter,MissingTrainerPartner} from './trainer-encounters.ts';
++import {furnitureBlocksStep} from './furniture-collision.ts';
++import {findCoordinateTrigger} from './coordinate-triggers.ts';
++import {doorwayEntry} from './terrain.ts';
++import {ledgeDirection,jumpHeight} from './ledges.ts';
++import {pushWarp,stepWarpFacing} from './field-transitions.ts';
+ import {FieldObjects} from './objects.ts';
+ import {FieldPhoneHost} from './phone-field-host.ts';
+ import {loadData,newState,createMon} from './data.ts';
+@@ -32,7 +37,8 @@ import type {AzaleaGymResources,AzaleaResourceManifest} from './gym-azalea-world
+ 
+ // Exercise actual host statements. The renderer/GPU is an explicit port;
+ // route vectors and logical boarding coordinates come from the native plan.
+-const source=await readFile(new URL('./main.ts',import.meta.url),'utf8');
++const mainInput=process.env.HG_AZALEA_MAIN_REVIEW_MAIN??new URL('./main.ts',import.meta.url);
++const source=await readFile(mainInput,'utf8');
+ const sourceSHA=createHash('sha256').update(source).digest('hex');
+ const ast=ts.createSourceFile('main.ts',source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
+ const functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node]));
+@@ -47,7 +53,7 @@ function renderStatement(condition:string){
+ 
+ const sourceRoot=new URL('../../public/source/',import.meta.url),originalFetch=globalThis.fetch;
+ globalThis.fetch=async input=>{const name=String(input).replace(/^.*\/source\//,'');try{const bytes=await readFile(new URL(name,sourceRoot));return{ok:true,status:200,json:async()=>JSON.parse(bytes.toString()),arrayBuffer:async()=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)}as Response;}catch{return{ok:false,status:404}as Response;}};
+-after(()=>{globalThis.fetch=originalFetch;});
++after(async()=>{globalThis.fetch=originalFetch;assert.equal(createHash('sha256').update(await readFile(mainInput)).digest('hex'),sourceSHA,'Main source changed during actual binding tests');});
+ const data=await loadData(),nativeMap=JSON.parse((await readFile(new URL('maps/180.json',sourceRoot))).toString())as SourceMap;
+ 
+ async function nativeResources():Promise<AzaleaGymResources>{
+@@ -68,7 +74,7 @@ class ActualHostWithGPUResources extends AzaleaGymHost{
+ }
+ 
+ async function fixture(withFollower=true){
+- const dom=installUIDOM(),ui=new UI(),state=newState(data,'Gold','boy'),lifetime=new AbortController(),writes:any[]=[],events:any[]=[];
++ const dom=installUIDOM(),ui=new UI(),raf:(()=>void)[]=[],state=newState(data,'Gold','boy'),lifetime=new AbortController(),writes:any[]=[],events:any[]=[];
+  Object.assign(state,{map:180,x:3.5,z:32.5,facing:0});if(withFollower)state.party=[createMon(data,155,5,state.name)];
+  const player={group:new THREE.Group()},follower=withFollower?{group:new THREE.Group()}:null;player.group.position.set(state.x,0,state.z);follower?.group.position.set(state.x,0,state.z+1);
+  const world=Object.assign(Object.create(OriginalWorld.prototype)as OriginalWorld,{
+@@ -79,6 +85,7 @@ async function fixture(withFollower=true){
+  });
+  // The production shared player stays genuinely locked. No Context exists;
+  // real source assets/configuration still admit diagnosed technical no-voice.
++ let milliseconds=0;
+  const music=createNativeFieldMusicPlayer({enabled:false,volume:0,createContext:()=>{assert.fail('unit tests must never unlock a real audio Context');}});
+  const objects=new FieldObjects(data,state);objects.load(nativeMap.events.objects);
+  const prefs={...defaultInterfacePreferences,music:false,volume:0},fieldPhone=new FieldPhoneHost(JSON.parse((await readFile(new URL('phone-triggers.json',sourceRoot))).toString()),0,12);
+@@ -88,23 +95,25 @@ async function fixture(withFollower=true){
+   started:true,ready:true,transitioning:false,connecting:false,walking:false,hatching:false,battleSoundOwned:false,recoveryPrompt:false,sourceSceneOwners:0,ordinaryInputOwners:0,preservedControlScripts:0,
+   followerSuppressed:false,followerFacing:0,followerMoving:false,followerStep:-1,followerPrevious:null,playerDirectionLocked:false,playerTweenY:undefined,stepFrame:-1,previousStepJump:false,restoringGym:false,
+   battle:{active:false},activeBagUse:null,fieldPolling:false,lastWarp:'',lastCoord:'',lastError:'',musicKey:'',musicRequestSerial:0,musicPreferencePending:0,npcTweenY:new Map(),activeTrainerEncounter:null,trainerApproachTasks:new Map(),
++  keys:new Set(),touch:{read:()=>({horizontal:0,forward:0,run:false})},trainerEventPriority,fieldTrainerCollision,findTrainerEncounter,MissingTrainerPartner,furnitureBlocksStep,findCoordinateTrigger,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,performance:{now:()=>milliseconds},requestAnimationFrame:(callback:()=>void)=>{raf.push(callback);},deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],
+   firstFollowerMon,gymFieldEntry,fieldEntryScripts,mapWeather,AbortController,DOMException,structuredClone,
+   refreshNPCs(){events.push('refresh');},updateHUD(){events.push('hud');},resetFieldInput(){events.push('reset-input');},syncMusic(){events.push('sync-music');},musicChanged(){},musicFailed(error:unknown){events.push(['music-error',error]);},
+   reportNativeFieldFailure(error:unknown){events.push(['field-error',error]);},console:{warn(...args:unknown[]){events.push(['warn',...args]);},error(...args:unknown[]){events.push(['error',...args]);}},
+-  encounterChecks:{reset(){events.push('reset-encounter');}},mapBlackoutSpawn:async()=>null,save(){if(c.sourceActions?.busy)return false;writes.push(structuredClone(state));return true;},
++  encounterChecks:{reset(){events.push('reset-encounter');},step(){events.push('completed-step');}},mapBlackoutSpawn:async()=>null,save(){if(c.sourceActions?.busy)return false;writes.push(structuredClone(state));return true;},
+   $:(id:string)=>dom.ids.get(id)??dom.document.createElement('div'),followMon:state.party[0]??null,followSpecies:state.party[0]?.species??0,
+  };
+  createContext(c);
+- const names=['initializeNativeField','installAzaleaField','abortBagUse','captureField','restoreField','executeSourceAction','runScript','runFieldEntry','enterMap','checkFrameTriggers','fieldControlsAvailable','menu','save','updatePreferences','step','interact','tryTrainerEncounter','pollFieldInput','answerPhone','refreshPhoneIndicator','useBagItem'];
++ const names=['initializeNativeField','installAzaleaField','abortBagUse','captureField','restoreField','executeSourceAction','runScript','runFieldEntry','enterMap','checkFrameTriggers','fieldControlsAvailable','menu','save','updatePreferences','step','interact','tryTrainerEncounter','pollFieldInput','answerPhone','refreshPhoneIndicator','useBagItem','running','tween','tweenPlayer','checkEvents','trainerCollision','retainFieldInput'];
+  // Save is a real binding too; its storage/field ownership gates must remain.
+  const prefStore=new Map<string,string>();Object.assign(c,{writeInterfacePreferences,preferenceStorage:{getItem:(key:string)=>prefStore.get(key)??null,setItem:(key:string,value:string)=>prefStore.set(key,value)},SAVE_KEY:'azalea-unit-save',localStorage:{setItem(_key:string,value:string){writes.push(JSON.parse(value));}}});
+  runInContext(compile(names.map(name=>{assert.ok(functions.has(name),name);return functions.get(name)!.getText(ast);}).join('\n')),c);
++ for(const cell of nativeMap.cells){const land=JSON.parse((await readFile(new URL('lands/'+cell.land+'.json',sourceRoot))).toString());world.cells.set(cell.x+','+cell.z,{cell,land,map:nativeMap,group:new THREE.Group(),furniture:[]});}
+  c.initializeNativeField();await c.installAzaleaField();
+  let hooksExpression:ts.Expression|undefined;function hook(node:ts.Node){if(ts.isNewExpression(node)&&node.expression.getText(ast)==='ScriptVM'&&node.arguments?.[2]&&ts.isObjectLiteralExpression(node.arguments[2])){const property=node.arguments[2].properties.find(value=>value.name?.getText(ast)==='azaleaGym')as ts.PropertyAssignment|undefined;if(property)hooksExpression=property.initializer;}ts.forEachChild(node,hook);}hook(functions.get('begin')!);assert.ok(hooksExpression,'actual Main source gym hook');
+  const unsupported=()=>{throw Error('Unexpected unrelated VM command in native gym fixture');};
+  const hooks:ScriptHooks={message:async()=>unsupported(),choice:async()=>unsupported(),move:async()=>unsupported(),position:unsupported,face:unsupported,visible:unsupported,chooseStarter:async()=>unsupported(),nickname:async()=>unsupported(),refresh:async()=>{},battle:async()=>unsupported(),warp:async()=>unsupported(),azaleaGym:runInContext(compile('('+hooksExpression.getText(ast)+')'),c)};
+  c.vm=new ScriptVM(data,state,hooks);c.sourceActions=new SourceActionRecovery(state,{capture:c.captureField,restore:c.restoreField});
+- const frame=async()=>{c.fieldClock.frame(1/30);await c.fieldClock.settled();await new Promise<void>(resolve=>setImmediate(resolve));};
++ const frame=async()=>{milliseconds+=1000/30;for(const callback of raf.splice(0))callback();c.fieldClock.frame(1/30);await c.fieldClock.settled();await new Promise<void>(resolve=>setImmediate(resolve));};
+  const renderCode=compile(renderStatement('player')+'\n'+renderStatement('follower'));
+  const render=()=>{c.lead=firstFollowerMon(state.party);runInContext(renderCode,c);};
+  async function until<T>(pending:Promise<T>,onFrame?:()=>void){let done=false,value:T|undefined,error:unknown;pending.then(result=>{value=result;done=true;},reason=>{error=reason;done=true;});for(let tick=0;!done&&tick<1200;tick++){await frame();render();onFrame?.();}assert.ok(done,'actual Main source action did not settle');if(error!==undefined)throw error;return value!;}
+@@ -238,3 +247,28 @@ test('native cart ownership blocks independent field actions without relying on
+   Reflect.set(h.world.azaleaGym,'busy',false);assert.equal(h.fieldControlsAvailable(),true,'positive control: idle native host releases field admission');
+  }finally{Reflect.set(h.world.azaleaGym,'busy',false);await h.dispose();}
+ });
++
++
++test('eight source walking ticks map to one Paper walk cycle for player and follower',()=>{
++ const paper=()=>({group:new THREE.Group(),texture:new THREE.Texture(),sprite:new THREE.Mesh(),info:{frames:16,columns:4,rows:4}}),player=paper(),follower=paper(),state={x:3.5,z:32.5,facing:0};
++ let step=0;const columns:number[][]=[[],[]],world={azaleaGym:{riderPosition:null,playerHeld:false},violetGym:{riderHeight:undefined},height:()=>0,yaw:0,animate:OriginalWorld.prototype.animate};
++ const c=createContext({world,state,player,follower,lead:{},followerSuppressed:false,followerFacing:0,followerMoving:false,walking:false,stepFrame:-1,playerTweenY:undefined,fieldActors:{movement:()=>({direction:0,step})}});
++ const draw=compile(renderStatement('player')+'\n'+renderStatement('follower'));
++ for(step=0;step<8;step++){runInContext(draw,c);columns[0].push(player.texture.offset.x*4);columns[1].push(follower.texture.offset.x*4);}
++ for(const frames of columns)assert.deepEqual(frames,[0,0,1,1,2,2,3,3],'source displacement ticks are not atlas column indices');
++});
++
++test('actual ordinary step enters the native coordinate ride and whole-step Return or Retry restores its original tile',async()=>{
++ for(const retry of[false,true]){const h=await fixture();try{
++  Object.assign(h.state,{x:3.5,z:33.5});h.player.group.position.set(3.5,0,33.5);h.follower.group.position.set(3.5,0,34.5);await h.enter('continue');h.follower.group.position.set(3.5,0,34.5);
++  assert.equal(h.world.permission(3.5,32.5),0,'literal native land249 boarding permission');assert.equal(h.world.walkable(3.5,32.5,3.5,33.5,0),true);
++  const before=h.captureField(),writes=h.writes.length,puzzle=structuredClone(h.state.gymmick);let cancelled=false,prompted=false;
++  const pending=h.step(0);
++  await h.until(pending,()=>{
++   if(!cancelled&&h.world.azaleaGym.riderPosition?.x>4.5){cancelled=true;h.vm.cancel(Error('coordinate ride interrupted'));}
++   if(h.ui.panelOpen&&h.dom.ids.get('panel-content')?.innerHTML.includes('Return to field')){prompted=true;assert.deepEqual([h.state.x,h.state.z],[3.5,33.5],'outer step checkpoint precedes entering coordinate3,32');assert.deepEqual(h.follower.group.position.toArray(),before.followerPosition);assert.deepEqual(h.state.gymmick,puzzle);assert.equal(h.world.azaleaGym.moving,false);assert.equal(h.save(),false);h.dom.buttons[retry?0:1].click();}
++  });
++  assert.equal(cancelled,true,'actual coordinate matcher and VM must start the ride');assert.equal(prompted,true);assert.equal(h.writes.length,writes+1,'the ordinary step and nested ride commit once together');assert.equal(h.events.filter((event:any)=>event==='completed-step').length,retry?2:1);
++  assert.deepEqual([h.state.x,h.state.z],retry?[9.5,23.5]:[3.5,33.5]);assert.deepEqual(h.state.gymmick,retry?{kind:'azalea',spiders:[4,1,2,7],switches:0}:puzzle);assert.equal(h.sourceActions.busy,false);
++ }finally{await h.dispose();}}
++});
+diff --git a/browser/src/source/main.ts b/browser/src/source/main.ts
+index 3714859d..97fc6895 100644
+--- a/browser/src/source/main.ts
++++ b/browser/src/source/main.ts
+@@ -607,11 +607,12 @@ async function begin(entryMode:'warp'|'continue'='warp'){
+ }
+ async function boot(){
+   [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
++  // Owned steps carry eight native displacement ticks; Paper uses four atlas phases per tile.
+   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started){openingView?.draw(dt);return;}syncMusic();
+-    state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){const rider=world.azaleaGym?.riderPosition,movement=fieldActors?.movement('player');if(rider)player.group.position.set(rider.x,rider.y,rider.z);else player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,movement?.direction??state.facing,movement?.step??(world.azaleaGym?.playerHeld?-1:walking?stepFrame:-1));}
++    state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){const rider=world.azaleaGym?.riderPosition,movement=fieldActors?.movement('player');if(rider)player.group.position.set(rider.x,rider.y,rider.z);else player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,movement?.direction??state.facing,movement?movement.step/2:(world.azaleaGym?.playerHeld?-1:walking?stepFrame:-1));}
+     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
+     const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&(followMon!==(lead??null)||followSpecies!==(lead?.species??0))){const position=follower?.group.position.clone()??player.group.position.clone();if(follower)world.removePaper(follower);follower=null;followSpecies=lead?.species??0;followMon=lead??null;const key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';if(lead&&data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(position);}}
+-    if(follower){const movement=fieldActors?.movement('follower');world.animate(follower,movement?.direction??followerFacing,movement?.step??(world.azaleaGym?.playerHeld?-1:followerMoving?followerStep:-1));follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
++    if(follower){const movement=fieldActors?.movement('follower');world.animate(follower,movement?.direction??followerFacing,movement?movement.step/2:(world.azaleaGym?.playerHeld?-1:followerMoving?followerStep:-1));follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
+     if(fieldControlsAvailable()){if(keys.has('KeyQ'))world.yaw+=dt*1.4*preferences.cameraSensitivity;if(keys.has('KeyE'))world.yaw-=dt*1.4*preferences.cameraSensitivity;}
+     if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);
+     if(ready&&!hatching&&!battleSoundOwned&&!world.azaleaGym?.moving&&!sourceActions?.busy&&!recoveryPrompt&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
