@@ -1,0 +1,10 @@
+{
+  "originalScriptSha256": "fd3971a5ec460a36333b835191226201bc03ae5b292f63bc2be175a867a8022e",
+  "mutation": "remove exactly if(!allowNested)this.mysteryGiftSession.save=null;",
+  "mutantScriptSha256": "8122db1d012cabb0c1783f6628d7f3fd499658c1fd9f6980b6d3c76153f9d11f",
+  "mutantTestChange": "replace from './script.ts' with from './.mg-mutant-script.ts'",
+  "command": "node --experimental-transform-types --test --test-name-pattern='raw selector' src/source/.mg-mutant-test.ts",
+  "expectedExit": 1,
+  "observation": "first direct failed-run pointer assertion fails before any new root reset; cancellation mutant path not independently reached because same test stops at first failure",
+  "qualification": "Agent-generated construction evidence after reviewer follow-up; not an additional Opus-reviewed input."
+}

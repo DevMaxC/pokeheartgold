@@ -1,0 +1,341 @@
+commit 88d7a5667f71b2f95a0be88091aa57ccb6c65776
+Author:     Max Church <maxchurch01@gmail.com>
+AuthorDate: Sat Oct 17 17:39:16 2026 +0100
+Commit:     Max Church <maxchurch01@gmail.com>
+CommitDate: Sat Oct 17 17:39:16 2026 +0100
+
+    Initialize native Mystery Gift state for Mart deliverymen
+
+diff --git a/browser/src/source/data.ts b/browser/src/source/data.ts
+index 7365d527..390adbe1 100644
+--- a/browser/src/source/data.ts
++++ b/browser/src/source/data.ts
+@@ -1,3 +1,4 @@
++import {newMysteryGiftSave} from './mystery-gifts.ts';
+ import {sampleUint32} from './native-rng.ts';
+ import {nativeMonGender} from './gender.ts';
+ import {sourceJSON,type GameData,type State,type Mon,type Personal,type MoveData,type Trainer,type SpriteInfo,type SourceIndex} from './types.ts';
+@@ -10,7 +11,7 @@ export async function loadData():Promise<GameData>{
+   return {index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names,eggSummary};
+ }
+ export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{
+-  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
++  return {version:2,mysteryGifts:newMysteryGiftSave(),trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
+ }
+ export function titleCase(key:string){return key.replace(/^(SPECIES|MOVE|ITEM|TYPE|ABILITY)_/,'').toLowerCase().replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());}
+ export function speciesName(data:GameData,id:number){return data.names?.species[id]||titleCase(data.personal[id]?.species||`Pokémon ${id}`);}
+diff --git a/browser/src/source/fixtures/mystery-gift-legacy-v2.json b/browser/src/source/fixtures/mystery-gift-legacy-v2.json
+new file mode 100644
+index 00000000..b3b6b9d3
+--- /dev/null
++++ b/browser/src/source/fixtures/mystery-gift-legacy-v2.json
+@@ -0,0 +1,54 @@
++{
++  "nativeBase": "e4bfa73ac49dcbf76df2ada9c7ff5f3f73c6b3d8",
++  "qualification": "All six reachable browser data.ts constructor revisions before this base; exact snippets extracted from their Git blobs. Only these own browser-v2 save shapes are migrated, not native .sav or foreign import formats.",
++  "entries": [
++    {
++      "commit": "013a6d89ad16d94a9e328b8ed2721a68b37dfb4e",
++      "path": "browser/src/source/data.ts",
++      "gitBlob": "7365d527d67042c28a3e08494a99dd5cd25f86c8",
++      "fileSha256": "8651684dee9ccc7dcf43999a01dcd074f9d65c7f5a6b203701e1be02267f87ae",
++      "constructorSha256": "d1187f60608bd3314dc5d9a9d0a6b05cb6eb68a078d43cc5a6863c91e91385ba",
++      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{\n  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
++    },
++    {
++      "commit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
++      "path": "browser/src/source/data.ts",
++      "gitBlob": "5d7fc57c6520be71a894cfe3a03111535e120701",
++      "fileSha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0",
++      "constructorSha256": "d1187f60608bd3314dc5d9a9d0a6b05cb6eb68a078d43cc5a6863c91e91385ba",
++      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{\n  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
++    },
++    {
++      "commit": "8f1649b17a9ce8d4f9553e56666dfe77e9d5661c",
++      "path": "browser/src/source/data.ts",
++      "gitBlob": "14c586599b5f9f5717fa6a1ef7d5bb40b67e4493",
++      "fileSha256": "48a127cd48b47a32470d9306b0aed5925008a20e808f8b7cfa42e4be55a4d130",
++      "constructorSha256": "d1187f60608bd3314dc5d9a9d0a6b05cb6eb68a078d43cc5a6863c91e91385ba",
++      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{\n  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
++    },
++    {
++      "commit": "8b33642d9f07351194f6c5a824fa2811e074f286",
++      "path": "browser/src/source/data.ts",
++      "gitBlob": "42b8d22599931b267f84a5abdcc2e595a819b332",
++      "fileSha256": "01e48e2d8b5c15161ddc2a890371b0c3cae32fc9dedbef64d2805cd6cb311f20",
++      "constructorSha256": "b59bd4bc638f9a4eb186397c536d8dcd93f8acaa1618523e8d9a7c4713ae4ea5",
++      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl'):State{\n  return {version:2,gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
++    },
++    {
++      "commit": "5160efe009041718f2138b28cfb49e42b640d4c2",
++      "path": "browser/src/source/data.ts",
++      "gitBlob": "46f671369bcf17dc045467798817f43b432c00bc",
++      "fileSha256": "6a8b4993a2c56ef092022e20452cf38f4e62d55daa4541501528b62a91599540",
++      "constructorSha256": "a77e433a779d831643b30c69c47889383fe4202e21b8065607f14bf226a69ccd",
++      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl'):State{\n  return {version:2,name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
++    },
++    {
++      "commit": "432a1cfaadb35917f917a086e9dc033d639c1682",
++      "path": "browser/src/source/data.ts",
++      "gitBlob": "ad5b6bd9b6042b0b6ccd111620dc3f96bca4820c",
++      "fileSha256": "352e42de37f42a31f26b4f74b79937dcb09d29a794754733daa3c7ca7ff32191",
++      "constructorSha256": "a77e433a779d831643b30c69c47889383fe4202e21b8065607f14bf226a69ccd",
++      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl'):State{\n  return {version:2,name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
++    }
++  ]
++}
+diff --git a/browser/src/source/mom-gift-host.test.ts b/browser/src/source/mom-gift-host.test.ts
+index ab622996..f0781654 100644
+--- a/browser/src/source/mom-gift-host.test.ts
++++ b/browser/src/source/mom-gift-host.test.ts
+@@ -25,8 +25,8 @@ function state():State&MomSavingsState{const value:State&MomSavingsState=newStat
+ const baseHooks=():ScriptHooks=>({message:async()=>{},choice:async()=>assert.fail('native gift delivery has no choice'),move:async()=>{},position(){},face(){},visible(){},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>assert.fail(),warp:async()=>assert.fail('delivery never warps')});
+ function delivery(row=placements[0]){
+   const value=state();value.map=row.map.id;
+-  // Native COMMON0144 init would clear this flag for a nonempty queue. That
+-  // shared MysteryGift init is deliberately NOT claimed implemented here.
++  // This isolated Mother-host fixture starts after COMMON0144 init; actual
++  // Mart entry initialization is covered by mystery-gifts.test.ts.
+   value.flags.FLAG_HIDE_MOM_GIFT_DELIVERYMAN=false;
+   const objects=new FieldObjects(data,value);objects.load(row.map.events.objects);objects.snapshot();
+   const phone=new FieldPhoneHost(rules,1000,9),messages:string[]=[],controls:{message?:(text:string,index:number)=>void|Promise<void>;refresh?:()=>void}={};
+@@ -84,13 +84,13 @@ test('cancellation and controlled bag/head changes between source phases never d
+     await assert.rejects(f.run(),kind==='head'?/matching source item grant/:kind==='capacity'?/grant failed/:/cancelled/);assert.deepEqual(f.value,before);
+   }
+ });
+-test('transient delivery-bank fetch retries and shared MysteryGift init remains explicitly unsupported',async()=>{
++test('transient delivery-bank fetch retries and shared init reads the represented empty store',async()=>{
+   // Standard banks may already be cached in this process; use an independent
+   // bank key with identical exact source bytes to exercise cache eviction.
+   const f=delivery(),copy={...data,index:{...data.index,stdScripts:data.index.stdScripts.map(row=>row.min===10200?{...row,bank:'0144-retry-fixture'}:row)}};
+   const original=globalThis.fetch;let loads=0;globalThis.fetch=async input=>{if(String(input)==='/source/scripts/0144-retry-fixture.json'){loads++;if(loads===1)return new Response('',{status:503});return new Response(await readFile(new URL('../../public/source/scripts/0144.json',import.meta.url)));}return original(input);};
+   try{const vm=new ScriptVM(copy,f.value,f.vm.hooks);await assert.rejects(f.owner.run(()=>vm.run(f.row.map,10202,f.row.object.id)),/503/);await f.owner.run(()=>vm.run(f.row.map,10202,f.row.object.id));assert.equal(loads,2);assert.equal(f.value.bag.ITEM_SUPER_POTION,1);}finally{globalThis.fetch=original;}
+-  const init=delivery(),before=structuredClone(init.value);await assert.rejects(init.owner.run(()=>init.vm.run(init.row.map,c.std_hide_show_deliverymen,init.row.object.id)),(error:unknown)=>error instanceof UnsupportedScript&&error.command==='MysteryGift');assert.deepEqual(init.value,before);
++  const init=delivery();await init.owner.run(()=>init.vm.run(init.row.map,c.std_hide_show_deliverymen,init.row.object.id));assert.equal(init.value.flags.FLAG_HIDE_MOM_GIFT_DELIVERYMAN,false);assert.equal(init.value.flags.FLAG_HIDE_MYSTERY_GIFT_DELIVERYMAN,true);assert.equal(init.vm.lastUnsupported,null);
+ });
+ test('Mother trigger12 rings as exact script27, is not inferred on Continue, and answering never awards a gift',async()=>{
+   const value=state(),host=new FieldPhoneHost(rules,1000,9),queue=readMomSavings(value);value.phoneTriggers=[12];
+diff --git a/browser/src/source/mystery-gifts.test.ts b/browser/src/source/mystery-gifts.test.ts
+new file mode 100644
+index 00000000..1a421c3e
+--- /dev/null
++++ b/browser/src/source/mystery-gifts.test.ts
+@@ -0,0 +1,96 @@
++import {stripTypeScriptTypes} from 'node:module';
++import {createHash} from 'node:crypto';
++import {sampleUint32} from './native-rng.ts';
++import {test,after} from 'node:test';
++import assert from 'node:assert/strict';
++import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';
++import {tmpdir} from 'node:os';
++import {join} from 'node:path';
++import {execFileSync} from 'node:child_process';
++import {loadData,newState} from './data.ts';
++import {sourceJSON,type SourceMap,type State} from './types.ts';
++import {newMysteryGiftSave,ensureMysteryGiftSave,nextMysteryGift,MYSTERY_GIFT_SAVE_SIZE,validateMysteryGiftSave} from './mystery-gifts.ts';
++import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
++import {FieldObjects} from './objects.ts';
++import {readMomSavings,type MomSavingsState} from './mom-savings.ts';
++import {SourceActionRecovery,runRecoverableSourceAction} from './script-recovery.ts';
++
++globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));}catch{return new Response('',{status:404});}};
++const data=await loadData(),c=data.constants,common=await sourceJSON<SourceMap>('scripts/0144.json');
++const maps=await Promise.all(Object.keys(data.index.maps).map(id=>sourceJSON<SourceMap>(`maps/${id}.json`)));
++const marts=maps.filter(map=>map.events.objects.some(object=>object.scriptId==='std_moms_gift_deliveryman'));
++const state=():State&MomSavingsState=>Object.assign(newState(data,'Ethan','boy',()=>.5),{momSavings:{balance:2900,normalGiftsGiven:1,gifts:[{item:c.ITEM_SUPER_POTION,quantity:1}]},phoneTriggers:[12]});
++function queue(value:State,index:number,tag:number){const bytes=value.mysteryGifts!.bytes,offset=0x100+index*0x104;bytes[offset]=tag&255;bytes[offset+1]=tag>>>8;}
++function fixture(map=marts[0]){
++  const value=state();value.map=map.id;const objects=new FieldObjects(data,value);objects.load(map.events.objects);objects.snapshot();const messages:string[]=[],control:{message?:(text:string)=>void|Promise<void>;refresh?:()=>void}={};
++  const hooks:ScriptHooks={message:async text=>{messages.push(text);await control.message?.(text);},choice:async()=>assert.fail('no native delivery choice'),move:async()=>{},position(){},face(){},visible(){},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{objects.snapshot();control.refresh?.();},battle:async()=>assert.fail(),warp:async()=>assert.fail('delivery init never warps')};
++  const vm=new ScriptVM(data,value,hooks),owner=new SourceActionRecovery(value,{capture:()=>objects.save(value.map),restore:async saved=>{objects.load(map.events.objects);objects.restore(value.map,saved);objects.snapshot();}});
++  const run=(script:string|number,object='obj_player')=>owner.run(()=>vm.run(map,script,object));
++  const init=()=>run(map.initScripts.OnTransition),mother=map.events.objects.find(object=>object.scriptId==='std_moms_gift_deliveryman')!,mystery=map.events.objects.find(object=>object.scriptId==='std_mystery_gift_deliveryman')!;
++  return{value,objects,messages,control,vm,owner,run,init,mother,mystery,map};
++}
++function commands(instructions:SourceMap['scripts']['instructions']):SourceMap{return{...marts[0],code:'MG_ABI_FIXTURE',scripts:{entries:['start'],labels:{start:0},instructions:[...instructions,['End',[]]]}};}
++
++test('new browser games get distinct exact native zero stores and only absent known browser-v2 saves migrate',()=>{
++  const a=state(),b=state();assert.equal(MYSTERY_GIFT_SAVE_SIZE,0x1680);assert.equal(a.mysteryGifts!.bytes.length,5760);assert.ok(a.mysteryGifts!.bytes.every(byte=>byte===0));assert.notEqual(a.mysteryGifts,b.mysteryGifts);assert.notEqual(a.mysteryGifts!.bytes,b.mysteryGifts!.bytes);
++  for(const enabled of[false,true]){const legacy=state();delete legacy.mysteryGifts;legacy.mysteryGiftEnabled=enabled;legacy.flags.FLAG_HIDE_MYSTERY_GIFT_DELIVERYMAN=false;const store=ensureMysteryGiftSave(legacy);assert.equal(nextMysteryGift(store),null);assert.equal(ensureMysteryGiftSave(legacy),store);assert.deepEqual(JSON.parse(JSON.stringify(legacy)).mysteryGifts,store);}
++  for(const change of[(s:State)=>{(s as unknown as{version:number}).version=1;},(s:State)=>{delete(s as Partial<State>).boxes;},(s:State)=>{(s as unknown as{flags:unknown}).flags=[];}]){const value=state();delete value.mysteryGifts;change(value);const before=structuredClone(value);assert.throws(()=>ensureMysteryGiftSave(value),/provenance/);assert.deepEqual(value,before);}
++});
++test('all six exact historic browser-v2 constructors retain the required legacy fields and migrate without losing state',async()=>{
++  const history=JSON.parse(await readFile(new URL('./fixtures/mystery-gift-legacy-v2.json',import.meta.url),'utf8')) as{entries:{commit:string;source:string;constructorSha256:string}[]};assert.equal(history.entries.length,6);
++  for(const row of history.entries){assert.equal(createHash('sha256').update(row.source).digest('hex'),row.constructorSha256);
++    // Execute the exact trusted Git fixture, with only type syntax removed.
++    const plain=stripTypeScriptTypes(row.source.replace(/^export /,'')),build=new Function('sampleUint32',plain+';return newState;')(sampleUint32) as typeof newState;
++    for(const gender of['boy','girl']as const){const legacy=build(data,'Ethan',gender,()=>.5),before=structuredClone(legacy);assert.equal(Object.hasOwn(legacy,'mysteryGifts'),false,row.commit);assert.equal(legacy.version,2);assert.ok(Array.isArray(legacy.boxes));assert.equal(legacy.gender,gender);assert.equal(legacy.options.battleStyle,'shift');ensureMysteryGiftSave(legacy);assert.equal(nextMysteryGift(legacy.mysteryGifts!),null);const{mysteryGifts:_,...retained}=legacy;assert.deepEqual(retained,before);}
++  }
++});
++test('present malformed/unknown stores never turn into empty and every payload/history byte round trips',()=>{
++  for(const bad of[null,undefined,{}, {format:'unknown',bytes:Array(5760).fill(0)},{format:'hgss-mystery-gift-v1',bytes:Array(5759).fill(0)},...[-1,256,.5,NaN].map(byte=>({format:'hgss-mystery-gift-v1',bytes:[byte,...Array(5759).fill(0)]}))]){const value=state();Object.assign(value,{mysteryGifts:bad});const before=structuredClone(value);assert.throws(()=>ensureMysteryGiftSave(value),/Mystery Gift save/);assert.deepEqual(value,before);}
++  const sparse=newMysteryGiftSave();delete sparse.bytes[2];assert.throws(()=>validateMysteryGiftSave(sparse),/Malformed/);
++  const value=state();value.mysteryGifts!.bytes=value.mysteryGifts!.bytes.map((_,i)=>(i*73+17)%256);const saved=JSON.parse(JSON.stringify(value));assert.deepEqual(ensureMysteryGiftSave(saved),value.mysteryGifts);assert.deepEqual(saved,value);assert.equal(nextMysteryGift(newMysteryGiftSave()),null);
++  const cardsOnly=state();cardsOnly.mysteryGifts!.bytes[0x920]=3;cardsOnly.mysteryGifts!.bytes[0x1328]=1;cardsOnly.mysteryGifts!.bytes[0]=255;assert.equal(nextMysteryGift(cardsOnly.mysteryGifts!),null);
++});
++test('literal native first-valid tag ABI matches compiled original C across every slot and 16-bit boundary',async()=>{
++  const native=await readFile(new URL('../../../src/mystery_gift.c',import.meta.url),'utf8'),header=await readFile(new URL('../../../include/mystery_gift.h',import.meta.url),'utf8'),save=await readFile(new URL('../../../src/save.c',import.meta.url),'utf8');
++  assert.match(save,/MI_CpuClearFast\(ptr, headers\[i\]\.size\);\s*chunkHeaders\[i\]\.initFunc\(ptr\)/);assert.match(header,/MysteryGift gifts\[NUM_SAVED_MYSTERY_GIFTS\];\s*\/\/ 0100/);assert.match(header,/size = 0x1680/);
++  const extract=(name:string)=>{const match=new RegExp('(?:^|\\n)[^\\n;{}]*\\b'+name+'\\([^;{}]*\\)\\s*\\{').exec(native);assert.ok(match,'literal native definition '+name);const start=match.index+Number(match[0].startsWith('\n')),begin=native.indexOf('{',start);let end=begin+1,depth=1;while(depth){if(native[end]==='{')depth++;if(native[end]==='}')depth--;end++;}return native.slice(native.lastIndexOf('\n',start)+1,end);};
++  const code=`#include <stdint.h>\n#include <stdio.h>\n#include <stddef.h>\n#include <string.h>\ntypedef uint16_t u16;typedef uint32_t u32;typedef int BOOL;\n#define TRUE 1\n#define FALSE 0\n#define MG_TAG_INVALID 0\n#define MG_TAG_MAX 16\n#define NUM_SAVED_MYSTERY_GIFTS 8\n#define GF_ASSERT(x) ((void)0)\ntypedef union {uint8_t raw[256];uint32_t align;} MysteryGiftData;\n${header.slice(header.indexOf('typedef struct WonderCardInfo'),header.indexOf('// Save block API')).replace(/u8 /g,'uint8_t ').replace(/s32 /g,'int32_t ').replace(/NUM_MYSTERY_GIFT_RECV_FLAGS \/ 8/g,'256').replace(/NUM_SAVED_WONDER_CARDS/g,'3')}\nstatic MysteryGiftSave block,*sMysteryGiftSaveData=&block;\n${extract('MysteryGiftTagIsValid')}\n${extract('SaveMysteryGift_GetByIdx')}\n${extract('SaveMysteryGift_TagAtIndexIsValid')}\n${extract('SaveMGDataPtr_GetFirstGiftIndex')}\n${extract('SaveMGDataPtr_GetTagByIndex')}\nint main(void){_Static_assert(sizeof(MysteryGiftSave)==0x1680,"save size");_Static_assert(offsetof(MysteryGiftSave,gifts)==0x100,"gift offset");_Static_assert(sizeof(MysteryGift)==0x104,"gift size");_Static_assert(sizeof(WonderCard)==0x358,"card size");_Static_assert(offsetof(MysteryGiftSave,cards)==0x920,"cards offset");_Static_assert(offsetof(MysteryGiftSave,specialWonderCard)==0x1328,"special card offset");unsigned slot,tag;while(scanf("%u %u",&slot,&tag)==2){memset(&block,0,sizeof block);block.gifts[slot].tag=tag;int n=SaveMGDataPtr_GetFirstGiftIndex();printf("%d %u\\n",n,SaveMGDataPtr_GetTagByIndex(n));}return 0;}`;
++  const dir=await mkdtemp(join(tmpdir(),'hg-mg-oracle-'));after(()=>rm(dir,{recursive:true,force:true}));await writeFile(join(dir,'oracle.c'),code);execFileSync('cc',['-std=c11',join(dir,'oracle.c'),'-o',join(dir,'oracle')]);
++  const cases=Array.from({length:8},(_,slot)=>[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,255,256,65535].map(tag=>({slot,tag}))).flat(),actual=execFileSync(join(dir,'oracle'),{input:cases.map(({slot,tag})=>`${slot} ${tag}`).join('\n'),encoding:'utf8'}).trim().split('\n');
++  cases.forEach(({slot,tag},i)=>{const value=state();queue(value,slot,tag);const result=nextMysteryGift(value.mysteryGifts!);assert.equal(`${result?.index??-1} ${result?.tag??0}`,actual[i]);});
++  const value=state();queue(value,0,16);queue(value,6,1);queue(value,2,15);assert.deepEqual(nextMysteryGift(value.mysteryGifts!),{index:2,tag:15});
++});
++
++test('all sixteen original Mart OnTransition standards derive independent Mom-first and Mystery Gift visibility from actual stores',async()=>{
++  assert.equal(marts.length,16);assert.equal(c.std_hide_show_deliverymen,10200);assert.equal(c.std_hide_show_deliverymen_2,10203);
++  for(const map of marts)for(const hasMom of[false,true])for(const tag of[0,3]){const f=fixture(map);if(!hasMom)f.value.momSavings!.gifts=[];if(tag)queue(f.value,7,tag);const before=structuredClone(f.value.mysteryGifts);await f.init();assert.equal(f.objects.get(f.mother.id)!.visible,hasMom);assert.equal(f.objects.get(f.mystery.id)!.visible,!!tag);assert.equal(f.value.flags.FLAG_HIDE_MOM_GIFT_DELIVERYMAN,!hasMom);assert.equal(f.value.flags.FLAG_HIDE_MYSTERY_GIFT_DELIVERYMAN,!tag);assert.equal(f.vm.value('VAR_MYSTERY_GIFT_CHECK',map),Number(!!tag));assert.deepEqual(f.value.mysteryGifts,before);assert.equal(f.vm.lastUnsupported,null);if(map.id===530)assert.equal(f.vm.value('VAR_UNK_40E5',map),2);
++    const order=common.scripts.instructions.slice(common.scripts.labels[common.scripts.entries[map.id===530?3:0]]).map(row=>row[0]);assert.ok(order.indexOf('MomGiftCheck')<order.indexOf('MysteryGift',1));
++  }
++});
++test('real initialized Mart Mom delivery grants only acknowledged packages; empty/full/cancel/late failure and Retry preserve gift history',async()=>{
++  for(const mode of['success','empty','full','cancel','late','retry']as const){const f=fixture();queue(f.value,3,3);f.value.mysteryGifts!.bytes[19]=193;if(mode==='empty')f.value.momSavings!.gifts=[];await f.init();if(mode==='full')f.value.bag.ITEM_SUPER_POTION=999;const before=structuredClone(f.value),savedActors=f.objects.save(f.value.map);let failed=false;
++    f.control.message=()=>{if(!failed&&f.value.bag.ITEM_SUPER_POTION===1&&['cancel','late','retry'].includes(mode)){failed=true;if(mode==='cancel')f.vm.cancel();else throw Error('late native acknowledgement');}};
++    const action=()=>f.vm.run(f.map,f.mother.scriptId,f.mother.id);
++    if(mode==='retry'){const result=await runRecoverableSourceAction(f.owner,action,{failed:async()=> 'retry',recoveryFailed:async e=>{throw e;},retry(){},committed(){}});assert.equal(result.ok,true);}
++    else if(mode==='cancel'||mode==='late'){await assert.rejects(f.owner.run(action));assert.deepEqual(f.value,before);assert.deepEqual(f.objects.save(f.value.map),savedActors);continue;}
++    else await f.owner.run(action);
++    assert.deepEqual(f.value.mysteryGifts,before.mysteryGifts);if(mode==='success'||mode==='retry'){assert.equal(f.value.bag.ITEM_SUPER_POTION,1);assert.equal(readMomSavings(f.value).gifts.length,0);await f.init();assert.equal(f.objects.get(f.mother.id)!.visible,false);assert.equal(f.objects.get(f.mystery.id)!.visible,true);}else{assert.deepEqual(f.value.bag,before.bag);assert.deepEqual(readMomSavings(f.value),readMomSavings(before));}
++  }
++});
++test('empty Mystery Gift dialogue works; real queued gift remains explicit Unsupported and unconsumed through Return/Retry',async()=>{
++  const empty=fixture();await empty.init();await empty.run(empty.mystery.scriptId,empty.mystery.id);assert.equal(empty.messages.at(-1),empty.vm.text('msg_0209_00003',common));assert.equal(empty.vm.lastUnsupported,null);
++  const f=fixture();queue(f.value,0,3);await f.init();const before=structuredClone(f.value);let attempts=0;
++  const result=await runRecoverableSourceAction(f.owner,async()=>{attempts++;await f.vm.run(f.map,f.mystery.scriptId,f.mystery.id);},{failed:async error=>{assert.ok(error instanceof UnsupportedScript);assert.equal(error.command,'MysteryGift');assert.deepEqual(f.value,before);return attempts===1?'retry':'return';},recoveryFailed:async e=>{throw e;},retry(){},committed(){}});assert.equal(result.ok,false);assert.equal(attempts,2);assert.deepEqual(f.value,before);
++});
++test('raw selector is never VAR-dereferenced, query outputs are native, NopVar490 preserves its variable and session never leaks after error/cancel',async()=>{
++  const value=state();queue(value,4,15);const vm=new ScriptVM(data,value,fixture().vm.hooks);
++  const map=commands([['SetVar',['VAR_TEMP_x4000','99']],['MysteryGift',['SCR_MG_BEGIN']],['MysteryGift',['SCR_MG_HAS_GIFT','VAR_SPECIAL_x8004']],['MysteryGift',['SCR_MG_GET_TYPE','VAR_SPECIAL_x8005']],['NopVar490',['VAR_TEMP_x4000']],['MysteryGift',['SCR_MG_END2']]]);
++  await vm.run(map,1);assert.equal(vm.value('VAR_TEMP_x4000',map),99);assert.equal(vm.value('VAR_SPECIAL_x8004',map),1);assert.equal(vm.value('VAR_SPECIAL_x8005',map),15);
++  for(const end of['SCR_MG_END','SCR_MG_END2'])await assert.rejects(vm.run(commands([['MysteryGift',['SCR_MG_BEGIN']],['MysteryGift',[end]],['MysteryGift',['SCR_MG_HAS_GIFT','VAR_SPECIAL_x8004']]]),1),/without native BEGIN/);
++  const bad=commands([['SetVar',['VAR_TEMP_x4000','0']],['MysteryGift',['VAR_TEMP_x4000']]]);await assert.rejects(vm.run(bad,1),e=>e instanceof UnsupportedScript&&e.command==='MysteryGift');
++  await assert.rejects(vm.run(commands([['MysteryGift',['SCR_MG_BEGIN']],['UnportedFixture',[]]]),1),UnsupportedScript);assert.equal((vm as unknown as{mysteryGiftSession:{save:unknown}}).mysteryGiftSession.save,null,'failed run releases its pointer before any new root run');await assert.rejects(vm.run(commands([['MysteryGift',['SCR_MG_HAS_GIFT','VAR_SPECIAL_x8004']]]),1),/without native BEGIN/);
++  const cancel=commands([['MysteryGift',['SCR_MG_BEGIN']],['Message',['cancel']],['MysteryGift',['SCR_MG_GET_TYPE','VAR_SPECIAL_x8004']]]);vm.hooks.message=async()=>vm.cancel();await assert.rejects(vm.run(cancel,1));assert.equal((vm as unknown as{mysteryGiftSession:{save:unknown}}).mysteryGiftSession.save,null,'cancelled run releases its pointer before any new root run');await assert.rejects(vm.run(commands([['MysteryGift',['SCR_MG_GET_TYPE','VAR_SPECIAL_x8004']]]),1),/without native BEGIN/);
++});
++test('failed Mart migration/init refresh restores the original absent legacy store and actual actor snapshot',async()=>{
++  const f=fixture();delete f.value.mysteryGifts;const before=structuredClone(f.value),actors=f.objects.save(f.value.map);f.control.refresh=()=>{throw Error('init renderer failure');};await assert.rejects(f.init(),/init renderer failure/);assert.deepEqual(f.value,before);assert.deepEqual(f.objects.save(f.value.map),actors);assert.equal(Object.hasOwn(f.value,'mysteryGifts'),false);f.control.refresh=undefined;await f.init();assert.equal(nextMysteryGift(f.value.mysteryGifts!),null);
++});
+diff --git a/browser/src/source/mystery-gifts.ts b/browser/src/source/mystery-gifts.ts
+new file mode 100644
+index 00000000..7ec6dd7e
+--- /dev/null
++++ b/browser/src/source/mystery-gifts.ts
+@@ -0,0 +1,32 @@
++import type {State} from './types.ts';
++
++// Native MysteryGiftSave: 0x100 receipt bits, 8*0x104 gifts, 3*0x358
++// cards, and one 0x358 special card (include/mystery_gift.h). Preserve the
++// complete block rather than deriving delivery presence from menu/field flags.
++export const MYSTERY_GIFT_SAVE_SIZE=0x1680;
++export type MysteryGiftSave={format:'hgss-mystery-gift-v1';bytes:number[]};
++export function newMysteryGiftSave():MysteryGiftSave{return{format:'hgss-mystery-gift-v1',bytes:Array<number>(MYSTERY_GIFT_SAVE_SIZE).fill(0)};}
++export function validateMysteryGiftSave(value:unknown):MysteryGiftSave{
++  if(!value||typeof value!=='object'||Array.isArray(value))throw Error('Unsupported Mystery Gift save format');
++  const store=value as MysteryGiftSave;
++  if(store.format!=='hgss-mystery-gift-v1'||!Array.isArray(store.bytes)||store.bytes.length!==MYSTERY_GIFT_SAVE_SIZE||Object.keys(store).some(key=>key!=='format'&&key!=='bytes'))throw Error('Unsupported Mystery Gift save format');
++  for(let i=0;i<MYSTERY_GIFT_SAVE_SIZE;i++)if(!Object.hasOwn(store.bytes,i)||!Number.isInteger(store.bytes[i])||store.bytes[i]<0||store.bytes[i]>255)throw Error('Malformed Mystery Gift save bytes');
++  return store;
++}
++/** Only our historical browser-v2 State had an absent block: its VM never
++ * implemented gift reception/import. This is not a native .sav import or a
++ * repair of a present invalid block. The host reads these saves from its own
++ * heartgold-3d-v2 / heartgold-3d-v2-qa keys; foreign/unknown-version state requires an explicit importer. */
++export function ensureMysteryGiftSave(state:State):MysteryGiftSave{
++  if(Object.hasOwn(state,'mysteryGifts'))return validateMysteryGiftSave(state.mysteryGifts);
++  const record=(v:unknown)=>!!v&&typeof v==='object'&&!Array.isArray(v);
++  if(state.version!==2||typeof state.name!=='string'||!['boy','girl'].includes(state.gender)||!Number.isInteger(state.map)||!Number.isFinite(state.x)||!Number.isFinite(state.z)||!record(state.flags)||!record(state.vars)||!record(state.bag)||!Array.isArray(state.party)||!Array.isArray(state.boxes)||!record(state.options))throw Error('Unknown legacy browser Mystery Gift save provenance');
++  return state.mysteryGifts=newMysteryGiftSave();
++}
++/** SaveMGDataPtr_GetFirstGiftIndex / MysteryGiftTagIsValid: native tags outside
++ * 1..15 are unoccupied. Card history alone never means a queued delivery. */
++export function nextMysteryGift(store:MysteryGiftSave):{index:number;tag:number}|null{
++  const bytes=validateMysteryGiftSave(store).bytes;
++  for(let index=0;index<8;index++){const offset=0x100+index*0x104,tag=bytes[offset]|bytes[offset+1]<<8;if(tag>0&&tag<16)return{index,tag};}
++  return null;
++}
+diff --git a/browser/src/source/script.ts b/browser/src/source/script.ts
+index c12c56d3..5a45d95c 100644
+--- a/browser/src/source/script.ts
++++ b/browser/src/source/script.ts
+@@ -1,3 +1,4 @@
++import {ensureMysteryGiftSave,nextMysteryGift,type MysteryGiftSave} from './mystery-gifts.ts';
+ import {isTMHMItem,tmhmMove} from './tmhm.ts';
+ import {speciesName,titleCase,healParty,moveName} from './data.ts';
+ import type {GameData,SourceMap,State} from './types.ts';
+@@ -75,6 +76,7 @@ export class ScriptVM{
+   buffers:Record<number,string>={};
+   private battleWon=false;
+   private pendingPhone:[number,number,number]|null=null;
++  private mysteryGiftSession:{save:MysteryGiftSave|null}={save:null};
+   private momGiftDelivery:{gift:MomGift;given:boolean}|null=null;
+   private context:{activeScript:number;map:SourceMap;object:string;phone:TrainerContact|null;approach?:TrainerApproachContext}|null=null;
+   private runAbort:AbortController|null=null;private runGeneration=0;private inheritedSignal:AbortSignal|undefined;private standardID:number|null=null;private fieldMoveOrigin:number|null=null;
+@@ -94,7 +96,7 @@ export class ScriptVM{
+   set(token:string,n:number){this.runAbort?.signal.throwIfAborted();if(this.fieldMoveOrigin!==null&&this.state.map!==this.fieldMoveOrigin)throw Error('Field move was cancelled by a field change');this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
+   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
+   private async runChild(map:SourceMap,script:string|number,object:string,standardID:number|null=this.standardID,approach?:TrainerApproachContext):Promise<void>{
+-    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;child.momGiftDelivery=this.momGiftDelivery;
++    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;child.momGiftDelivery=this.momGiftDelivery;child.mysteryGiftSession=this.mysteryGiftSession;
+     try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;this.momGiftDelivery=child.momGiftDelivery;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
+   }
+   private async standard(id:number,object:string){const signal=this.runAbort?.signal;const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;signal?.throwIfAborted();const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);await this.runChild(common,entry,object,id);}
+@@ -111,9 +113,9 @@ export class ScriptVM{
+     if(script===0)return;
+     const controller=new AbortController(),generation=++this.runGeneration,parentSignal=this.inheritedSignal,inheritAbort=()=>controller.abort(parentSignal?.reason);
+     this.runAbort=controller;parentSignal?.addEventListener('abort',inheritAbort,{once:true});
+-    const finish=()=>{parentSignal?.removeEventListener('abort',inheritAbort);if(this.runAbort===controller){this.runAbort=null;this.fieldMoveOrigin=null;}this.busy=false;};
++    const finish=()=>{if(!allowNested)this.mysteryGiftSession.save=null;parentSignal?.removeEventListener('abort',inheritAbort);if(this.runAbort===controller){this.runAbort=null;this.fieldMoveOrigin=null;}this.busy=false;};
+     if(parentSignal?.aborted){inheritAbort();finish();controller.signal.throwIfAborted();}
+-    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;this.momGiftDelivery=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
++    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;this.momGiftDelivery=null;this.mysteryGiftSession={save:null};}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
+     const scriptID=typeof script==='number'?script:this.value(script,map);if(!allowNested){this.battleWon=false;this.context={activeScript:scriptID,map,object,phone:null,approach};const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}
+     if(scriptID>=2000){try{await this.standard(scriptID,object);controller.signal.throwIfAborted();}catch(error){controller.abort(error);throw error;}finally{finish();}return;}
+     const entry=scriptID-1;
+@@ -262,6 +264,27 @@ export class ScriptVM{
+         if(cmd==='FlashAction'||cmd==='DefogAction'){const flag=cmd==='FlashAction'?'FLAG_SYS_FLASH':'FLAG_SYS_DEFOG',action=v(a[0]);if(action===2)this.set(a[1],Number(!!this.state.flags[flag]));else if(action===0||action===1)this.state.flags[flag]=!!action;else throw new UnsupportedScript(map.code,cmd,pc-1);continue;}
+         if(cmd==='GivePokedex'){this.state.pokedexEnabled=true;continue;}
+         if(cmd==='CheckPokedex'){this.set(a[0],Number(!!this.state.pokedexEnabled));continue;}
++        if(cmd==='NopVar490'){
++          // ScrCmd_NopVar490 consumes one ScriptGetVarPointer and never writes it.
++          if(a.length!==1)throw new UnsupportedScript(map.code,cmd,pc-1);
++          const id=raw(a[0],16);if(id>=0x4000&&!(id<=0x416f||id>=0x8000&&id<=0x800d))throw new UnsupportedScript(map.code,cmd,pc-1);
++          continue;
++        }
++        if(cmd==='MysteryGift'){
++          // Selector is ScriptReadHalfword: a VAR selector is its literal ID,
++          // never the current value stored in that variable.
++          const selector=raw(a[0],16);
++          if(selector===0){this.mysteryGiftSession.save=ensureMysteryGiftSave(this.state);continue;}
++          if(selector===7||selector===8){this.mysteryGiftSession.save=null;continue;}
++          if(selector===1||selector===2){
++            if(!this.mysteryGiftSession.save)throw Error('Mystery Gift query without native BEGIN');
++            const gift=nextMysteryGift(this.mysteryGiftSession.save);
++            this.set(a[1],selector===1?Number(gift!==null):gift?.tag??0);continue;
++          }
++          // External gift checks, grants and message construction require the
++          // native tag-specific payload adapters. Never consume queued bytes.
++          throw new UnsupportedScript(map.code,cmd,pc-1);
++        }
+         if(cmd==='SetMysteryGiftActive'){this.state.mysteryGiftEnabled=true;continue;}
+         if(cmd==='SetSpawn'){this.state.lastHeal={...(await originalSpawn(v(a[0]))).death};continue;}
+         if(cmd==='PhoneCall'){const args=a.map(v);this.set('VAR_SPECIAL_x8004',args[0]);this.set('VAR_SPECIAL_x8005',args[1]);this.set('VAR_SPECIAL_x8006',args[2]);await this.standard(this.data.constants.std_phone_call,object);continue;}
+diff --git a/browser/src/source/types.ts b/browser/src/source/types.ts
+index a9e31cf9..27ddcd41 100644
+--- a/browser/src/source/types.ts
++++ b/browser/src/source/types.ts
+@@ -1,3 +1,4 @@
++import type {MysteryGiftSave} from './mystery-gifts.ts';
+ export type Vec = {x:number; z:number};
+ export type Prop = {id:number;position:number[];rotation:number[];scale:number[];asset:string};
+ export type Cell = {x:number;z:number;land:number;altitude:number;props:Prop[];asset:string};
+@@ -17,7 +18,7 @@ export type MonProvenance={otId:number;otGender:'boy'|'girl';language:number;gam
+ export type Mon = {isEgg?:boolean;checksumFailed?:boolean;hasNickname?:boolean;form?:number;markings?:number;provenance?:MonProvenance;pokerus?:number;species:number;level:number;name:string;gender:'male'|'female'|'genderless';hp:number;maxHP:number;exp:number;ivs:number[];evs:number[];nature:number;personality:number;status:string;sleepTurns:number;moves:{id:number;pp:number;maxPP:number}[];stats:{atk:number;def:number;spatk:number;spdef:number;speed:number};friendship:number;heldItem:string|null;ot:string;id:number};
+ export type ObjectEventSave={map:number;actors:{id:string;x:number;z:number;facing:number;movement?:number;shown?:boolean;invisible:boolean;directionLocked:boolean}[]};
+ export type ApricornBoxSave={apricorns:number[];kurtQuantity:number;kurtApricorn:number};
+-export type State = {version:2;apricornBox?:ApricornBoxSave;eggCycleSteps?:number;trainerId?:number;nativeEggSeed?:number;togepiGiftIdentity?:{personality:number;gender:Mon['gender']};gameStats?:Record<number,number>;fieldHeight?:number;gymmick?:{kind:'violet';liftState:0|1};avatarState?:number;battleTowerStreaks?:number[];name:string;gender:'boy'|'girl';rivalName:string;map:number;x:number;z:number;facing:number;money:number;flags:Record<string,boolean>;vars:Record<string,number>;party:Mon[];boxes:Mon[];bag:Record<string,number>;badges:number[];seen:number[];caught:number[];starter:number;story:number;lastHeal:{map:number;x:number;z:number};playSeconds:number;objectEvents?:ObjectEventSave;runningShoes?:boolean;pokedexEnabled?:boolean;mysteryGiftEnabled?:boolean;phoneTriggers?:number[];phoneRecentCallers?:number[];trainerPhone?:{seeking:number[];gifts:Record<number,number>};pokegear?:{contacts:string[];cards:number[]};options:{textSpeed:number;battleStyle:'shift'|'set';sound:boolean}};
++export type State = {version:2;mysteryGifts?:MysteryGiftSave;apricornBox?:ApricornBoxSave;eggCycleSteps?:number;trainerId?:number;nativeEggSeed?:number;togepiGiftIdentity?:{personality:number;gender:Mon['gender']};gameStats?:Record<number,number>;fieldHeight?:number;gymmick?:{kind:'violet';liftState:0|1};avatarState?:number;battleTowerStreaks?:number[];name:string;gender:'boy'|'girl';rivalName:string;map:number;x:number;z:number;facing:number;money:number;flags:Record<string,boolean>;vars:Record<string,number>;party:Mon[];boxes:Mon[];bag:Record<string,number>;badges:number[];seen:number[];caught:number[];starter:number;story:number;lastHeal:{map:number;x:number;z:number};playSeconds:number;objectEvents?:ObjectEventSave;runningShoes?:boolean;pokedexEnabled?:boolean;mysteryGiftEnabled?:boolean;phoneTriggers?:number[];phoneRecentCallers?:number[];trainerPhone?:{seeking:number[];gifts:Record<number,number>};pokegear?:{contacts:string[];cards:number[]};options:{textSpeed:number;battleStyle:'shift'|'set';sound:boolean}};
+ export type GameData = {eggSummary?:Record<string,string>;index:SourceIndex;constants:Record<string,number>;sprites:Record<string,SpriteInfo>;personal:Personal[];moves:MoveData[];learnsets:{level:number;move:number}[][];growth:Record<string,number[]>;encounters:{map:string;land:{rate:number;mons:{level:number|{HEARTGOLD:number};species:Record<string,string|{HEARTGOLD:string}>}[]}}[];trainers:Trainer[];items:Record<string,string>[];typeChart:number[][];initial:{flags:Record<string,boolean>;vars:Record<string,number>};intro:Record<string,Record<string,string|null>>;names:Record<string,Record<number,string>>};
+ export type Trainer = {name:string;class:string;party:{species:string;level:number;difficulty:number;moves?:string[];item?:string;genderOverride?:string;abilityOverride?:string}[];items:string[];ai_flags:number;double:number;messages?:{type:string;message:string}[]};
+ export async function sourceJSON<T>(path:string):Promise<T> {const response=await fetch(`/source/${path}`);if(!response.ok)throw Error(`Original data could not load: ${path} (${response.status})`);return response.json();}
