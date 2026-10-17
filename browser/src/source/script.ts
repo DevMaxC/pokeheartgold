@@ -3,6 +3,7 @@ import type {GameData,SourceMap,State} from './types.ts';
 import {sourceJSON} from './types.ts';
 import {hasBagSpace,addBagItem,takeBagItem} from './bag.ts';
 import {phoneCall} from './phone.ts';
+import {setPendingPhoneTrigger,unsetPendingPhoneTrigger} from './phone-scheduler.ts';
 import {originalSpawn} from './spawns.ts';
 import {timeOfDay,trainerCardStars} from './field-services.ts';
 import {mapWeather} from './atmosphere.ts';
@@ -18,6 +19,7 @@ import {SCRIPT_CAMERA_PERSON,SCRIPT_CAMERA_ACTOR} from './script-camera.ts';
 export type ScriptHooks={
   eggContext?:EggContext;
   eggHatchAnim?:()=>Promise<void>;
+  phoneTrigger?:(id:number,accelerate:boolean)=>void;
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
   move:(object:string,label:string,map:SourceMap)=>Promise<void>;position:(object:string,x:number,z:number,facing?:number)=>void;
   face:(object:string,facing?:number)=>void;visible:(object:string,value:boolean)=>void;
@@ -170,7 +172,7 @@ export class ScriptVM{
         if(cmd==='ClearPhoneRematchSeeking'){if(this.state.trainerPhone)this.state.trainerPhone.seeking=this.state.trainerPhone.seeking.filter(id=>id!==v(a[0]));continue;}
         if(cmd==='GetPhoneContactGiftItem'){const id=this.context?.phone?.id;this.set(a[0],id===undefined?0:this.state.trainerPhone?.gifts[id]??0);if(id!==undefined&&this.state.trainerPhone)delete this.state.trainerPhone.gifts[id];continue;}
         if(cmd==='GetPhoneContactRandomGiftBerry'){const gift=this.context?.phone?.gift??0;this.set(a[0],gift===this.data.constants.ITEM_CHERI_BERRY?gift+Math.floor(Math.random()*10):gift);continue;}
-        if(cmd==='SetPhoneCallTrigger'||cmd==='UnsetPhoneCallTrigger'){this.state.phoneTriggers??=[];const id=v(a[0]);this.state.phoneTriggers=this.state.phoneTriggers.filter(trigger=>trigger!==id);if(cmd==='SetPhoneCallTrigger'&&v(a[1]))this.state.phoneTriggers.push(id);continue;}
+        if(cmd==='SetPhoneCallTrigger'||cmd==='UnsetPhoneCallTrigger'){const id=v(a[0]);if(cmd==='SetPhoneCallTrigger'){setPendingPhoneTrigger(this.state,id);this.hooks.phoneTrigger?.(id,!!v(a[1]));}else unsetPendingPhoneTrigger(this.state,id);continue;}
         if(cmd==='GetFriendSprite'){this.set(a[0],this.data.constants[this.state.gender==='boy'?'SPRITE_HEROINE':'SPRITE_HERO']);continue;}
         if(cmd==='CheckBadge'){this.set(a[1],Number(this.state.badges.includes(v(a[0]))));continue;}
         if(cmd==='GiveBadge'){const index=v(a[0]);if(!Number.isInteger(index)||index<0||index>=16)throw new UnsupportedScript(map.code,cmd,pc-1);giveBadge(this.state,index);continue;}
