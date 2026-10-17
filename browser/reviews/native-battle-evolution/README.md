@@ -19,3 +19,5 @@ The native C queue oracle stubs its evolution predicate to isolate bit/order/exi
 ## Provenance
 
 `initial/` and `followup/` contain unchanged raw actual CLI output, prompts and exact input manifests. Complete verified865/899-input source archives live in the external packet alongside this metadata. All files are hashed in each packet manifest. Historical fixture, TSC and control-driver failures are preserved with their adjudication. The initial first-badge audit packet is separately frozen at manifest404ab397bd7b10d6f1c0ad74be6ed0ed03333ffa097c785623aef7eaaa6fe1ed; earlier rejected hypotheses remain historical, not current findings.
+
+Raw `.log` files in this repository packet are stored losslessly as `.log.gz`; `lossless-log-storage.json` records each original path and uncompressed hash. Decompression reproduces the unchanged raw evidence, including native TAP whitespace. The external packet retains the original plain files.
