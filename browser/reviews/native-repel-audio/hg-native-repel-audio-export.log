@@ -1,0 +1,34 @@
+{
+  "players": {
+    "3": {
+      "id": 3,
+      "maxSequences": 1,
+      "channelMask": 55296,
+      "heapSize": 2000,
+      "recordOffset": 96640,
+      "recordSHA256": "8f8b689866316e6d0d9ddb7d98eb4b8f54e8ab003a0c70190041017e79723ca0"
+    },
+    "4": {
+      "id": 4,
+      "maxSequences": 1,
+      "channelMask": 55296,
+      "heapSize": 2000,
+      "recordOffset": 96648,
+      "recordSHA256": "8f8b689866316e6d0d9ddb7d98eb4b8f54e8ab003a0c70190041017e79723ca0"
+    }
+  },
+  "sounds": {
+    "1500": {
+      "player": 4,
+      "frames": 25776,
+      "loopFrames": null,
+      "wavSHA256": "8ff9198120baebfe2bcd4f163de80d2fe8b5ce910fe7e4a5b36d1661c588cc12"
+    },
+    "1535": {
+      "player": 3,
+      "frames": 22362,
+      "loopFrames": null,
+      "wavSHA256": "8e934e0d73ef4105eb053843b78058a71bc0eedd37ad650e7b032a14ef2b8c28"
+    }
+  }
+}

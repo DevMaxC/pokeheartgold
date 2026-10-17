@@ -1,0 +1,17 @@
+{
+  "scope": "Renderer track-end versus PCM release-tail measurement only. ARM7 SND_GetPlayerStatus lifetime is unavailable; neither boundary is claimed as native WaitSE/count timing.",
+  "rendererCommit": "80f878b0ebf100f391028bcef69f7c5743473770",
+  "sourceSDATSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+  "sounds": {
+    "1500": {
+      "estimatedTrackEndSample": 6145,
+      "renderedPCMReleaseTailFrames": 25776,
+      "sampleRate": 32768
+    },
+    "1535": {
+      "estimatedTrackEndSample": 12120,
+      "renderedPCMReleaseTailFrames": 22362,
+      "sampleRate": 32768
+    }
+  }
+}

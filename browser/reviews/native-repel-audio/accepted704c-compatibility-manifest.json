@@ -1,0 +1,46 @@
+{
+  "scope": "Compatibility of final20 Repel tests with exact accepted704c shared PLAYER3 rather than dependency93acce; temporary fixture only, no repository source edits.",
+  "acceptedDependencyCommit": "704cacea1f02cb609db84ed3d5f7f6ea74d1beae",
+  "files": [
+    {
+      "path": "browser/package.json",
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+    },
+    {
+      "path": "browser/public/source/azalea-audio/resources.json",
+      "sha256": "fca2bfd8fc1e869bd56a73ff1f510230da6f3a0f3e97e5397030f9bdfa629e11"
+    },
+    {
+      "path": "browser/public/source/repel-audio/1500-SEQ_SE_DP_SELECT.wav",
+      "sha256": "8ff9198120baebfe2bcd4f163de80d2fe8b5ce910fe7e4a5b36d1661c588cc12"
+    },
+    {
+      "path": "browser/public/source/repel-audio/1535-SEQ_SE_DP_CARD2.wav",
+      "sha256": "8e934e0d73ef4105eb053843b78058a71bc0eedd37ad650e7b032a14ef2b8c28"
+    },
+    {
+      "path": "browser/public/source/repel-audio/resources.json",
+      "sha256": "dce8041f05495ded978a921e03b1d45018ac80141b1bdd246d4da3a7f002d994"
+    },
+    {
+      "path": "browser/src/source/azalea-audio-data.ts",
+      "sha256": "1e124adc767c2faddee567a661cc96ecc2a1625f2d1ca7ecbc186c2123580b59"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-audio.ts",
+      "sha256": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7"
+    },
+    {
+      "path": "browser/src/source/repel-audio-data.ts",
+      "sha256": "3f7cfd0b175ab06a229d50971a5faadb45f87ef668ba2233a3d70048769a4df7"
+    },
+    {
+      "path": "browser/src/source/repel-audio.test.ts",
+      "sha256": "1a58d696860a51ee539e3190d7cf0e206394f35eba14ae1e99c20599b1ca506d"
+    },
+    {
+      "path": "browser/src/source/repel-audio.ts",
+      "sha256": "f4f5a1645e9a49b3cf181762a54c35016f3ef4e1f331db1e2aef22bac556afc4"
+    }
+  ]
+}

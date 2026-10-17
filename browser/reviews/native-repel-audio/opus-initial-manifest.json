@@ -1,0 +1,316 @@
+{
+  "createdUTC": "2026-10-17T18:48:07.606053+00:00",
+  "sourceRepository": "/Users/maxchurch/Documents/pokeheartgold-repel-audio",
+  "dependencyGitCommit": "93acce920d9fb0106bfe5d2aba5e95b918e70452",
+  "sourceMode": "New WIP leaf copied immutable; exact unchanged93acce92 dependency; contextfieldmusic exactGit5298; renderer pinned",
+  "runtimeSHA256": "6e02e2086d42b4aab70d5f93e14f9ae8f57715307ddddaadee01ff26162b5584",
+  "scope": "SELECT1500 PLAYER4 + CARD21535 PLAYER3 finite original resources/transport/new root-owned NativeSEPlayer4, no Main/VM/World/clock/Bag edits",
+  "files": [
+    {
+      "path": "browser/package.json",
+      "bytes": 462,
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/public/source/azalea-audio/resources.json",
+      "bytes": 220019,
+      "sha256": "fca2bfd8fc1e869bd56a73ff1f510230da6f3a0f3e97e5397030f9bdfa629e11",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/public/source/repel-audio/1500-SEQ_SE_DP_SELECT.wav",
+      "bytes": 103148,
+      "sha256": "8ff9198120baebfe2bcd4f163de80d2fe8b5ce910fe7e4a5b36d1661c588cc12",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/public/source/repel-audio/1535-SEQ_SE_DP_CARD2.wav",
+      "bytes": 89492,
+      "sha256": "8e934e0d73ef4105eb053843b78058a71bc0eedd37ad650e7b032a14ef2b8c28",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/public/source/repel-audio/resources.json",
+      "bytes": 284012,
+      "sha256": "dce8041f05495ded978a921e03b1d45018ac80141b1bdd246d4da3a7f002d994",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/reviews/native-repel-audio/README.md",
+      "bytes": 5987,
+      "sha256": "c0d62330dd1834ec33c57ce07f4017007abc793a917c1b86465b86007438ccc5",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/reviews/native-repel-audio/hg-native-repel-audio-export.log",
+      "bytes": 846,
+      "sha256": "b2879fffffcd9576d3272e3ece4df5fea916c7459d4fd1cb54ac04593f52d302",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/reviews/native-repel-audio/hg-native-repel-audio-python-tests.log",
+      "bytes": 104,
+      "sha256": "ecb41da8a5885599f2243951bca42c3ba14c4620fc2fa1831af5f23dadbc5464",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/reviews/native-repel-audio/hg-repel-audio-node-tests.log",
+      "bytes": 4457,
+      "sha256": "2890448c78e4f542689540f7cfb5c226b1a1bb0650d64b6348a28f9d865f3cdb",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/reviews/native-repel-audio/hg-repel-audio-tsc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/reviews/native-repel-audio/verification.json",
+      "bytes": 1061,
+      "sha256": "076d1e40e3fd772af9d9ca49c0e77dfd54c85e2548dcaaf20806d092c1ac6476",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/scripts/export_repel_audio.py",
+      "bytes": 8416,
+      "sha256": "3e4e3b4180093168e77a5341145f9f1e07cbf5ee4bc1607f7cfefa664fb0f628",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/scripts/test_repel_audio_resources.py",
+      "bytes": 10281,
+      "sha256": "c4a638766dd976a44259fa095602e96a5722ded70141e73e15715058e2052ef7",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/azalea-audio-data.ts",
+      "bytes": 173,
+      "sha256": "1e124adc767c2faddee567a661cc96ecc2a1625f2d1ca7ecbc186c2123580b59",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-audio.test.ts",
+      "bytes": 15620,
+      "sha256": "d0ae362e0c1294ca56508395622607cbabbf185147162ca5f16fcd1b39d3c9f0",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-audio.ts",
+      "bytes": 16438,
+      "sha256": "9cb584bc8fa7f60921e4f1f8ea8b5adb6e2f7f6d184c2d8b5b31269c2470f7b2",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-host.ts",
+      "bytes": 19552,
+      "sha256": "7ef053f8dc56f541cc839cf297f95ccb8d89178931bd155a3bd9d9e87d0b3023",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/native-field-clock.ts",
+      "bytes": 9577,
+      "sha256": "7202dc98d46c46b2655c24f441d1b5ace51e687214b2e3a4cf1152def575f962",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/repel-audio-data.ts",
+      "bytes": 167,
+      "sha256": "3f7cfd0b175ab06a229d50971a5faadb45f87ef668ba2233a3d70048769a4df7",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/repel-audio.test.ts",
+      "bytes": 13977,
+      "sha256": "710454e7c333273ff935efb0c916b455e0cc9e3321d59399704a0106ce7695ee",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/repel-audio.ts",
+      "bytes": 16916,
+      "sha256": "6e02e2086d42b4aab70d5f93e14f9ae8f57715307ddddaadee01ff26162b5584",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "bytes": 5431,
+      "sha256": "4fdca09d6c065480648e09f228f5f88198711342b5a530df7f0be673b2429339",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "browser/tsconfig.json",
+      "bytes": 249,
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "files/data/sound/gs_sound_data.sdat",
+      "bytes": 8660096,
+      "sha256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0003.s",
+      "bytes": 30801,
+      "sha256": "1f42d38cc186d261855ce6fb009cc20cf135a1b3e2a68d2bd1f611da2199b682",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "include/constants/sndseq.h",
+      "bytes": 96776,
+      "sha256": "8d6b246a5eca81b8711a410aa260cf5d87f4c33286955f6d0d0155ef3f28dca1",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "lib/NitroSystem/src/snd_arc_player.c",
+      "bytes": 4099,
+      "sha256": "0775464b076c0d018544f1899f0025cb6c8ee54ef31b8f0951f03195d068b33b",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "lib/NitroSystem/src/snd_fader.c",
+      "bytes": 877,
+      "sha256": "f7aba68b4e60e0e3091e87cf1e2d9da92f6aee2c3dc864c2df5ad9491b3f56e6",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "lib/NitroSystem/src/snd_player.c",
+      "bytes": 16180,
+      "sha256": "60287a32f8edc3d38ecc40b96ebfb7f42493aedb3e3f44e632a601654de0cb64",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "lib/include/nnsys/snd/seqdata.h",
+      "bytes": 230,
+      "sha256": "17b63f9d595bc7684d5aa866163aa77a71dad987fb6fdc74f6d5a7434b3c821a",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "src/application/bag/bag_app.c",
+      "bytes": 129912,
+      "sha256": "01706acdab11d738a9d2cb0d24ffa173bad6742bb6b7d884c2d07d36cbccf0a1",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "src/field/field_move_cut_in_effects.c",
+      "bytes": 40366,
+      "sha256": "1b8d585af71e7cbb407ae265ffc35c954d4b1b9f01f1020054e1f478d08cf9a9",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "src/main.c",
+      "bytes": 10320,
+      "sha256": "5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "src/sound.c",
+      "bytes": 13154,
+      "sha256": "602b63ad508782142b3ef8033f5e00513d05fd8880e30d9633543e0b22300ea9",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "src/sound_gb.c",
+      "bytes": 3328,
+      "sha256": "010357fd77cc19a931b2cf0cf385f407d860863e4b1c760a6ac5c3b5723400a1",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "src/sound_playback.c",
+      "bytes": 26853,
+      "sha256": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "src/sound_system.c",
+      "bytes": 31272,
+      "sha256": "87225f374d36440d2c413dc42c88508fabf6456318f0f72ce84b892504443323",
+      "source": "Frozen new leaf + unchanged dependency93acce92"
+    },
+    {
+      "path": "context/browser/src/source/field-music.ts",
+      "bytes": 25581,
+      "sha256": "045d75d3f3fdf38e545ccb31777b42d9e1c5b2ef36e00ebc47359797f5da6268",
+      "source": "Exact campaign Git5298dc0c shared-output context only; not new leaf host integration"
+    },
+    {
+      "path": "renderer/dualrip/engine/sdat/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/engine/sdat/channel.py",
+      "bytes": 15415,
+      "sha256": "dcbbb8eaf78a2813fd10f176388da6d6239a701da6195191ed784775b530ca16",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/engine/sdat/cprims.py",
+      "bytes": 2860,
+      "sha256": "4ec0d314bfd17bebf6a551a97315e9f74ef3b567d05897694735e79385e0d1e9",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/engine/sdat/render.py",
+      "bytes": 8262,
+      "sha256": "34aa705379e3023e7c3be004dd293fbda59af3263a22c76c12714cb0e27eba6c",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/engine/sdat/sequencer.py",
+      "bytes": 25578,
+      "sha256": "d67c36e6c547e4d84154232d408eb0bfa753660369e810fd46b959232b3daf40",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/engine/sdat/tables.py",
+      "bytes": 10905,
+      "sha256": "f02a82985b96916293fba8dbf2204f27396a14ea118638410040e848c0d9dd0f",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/formats/sdat/__init__.py",
+      "bytes": 103,
+      "sha256": "02c53df2796c85cb34a9ea53201cdea7607a7da13e2f32ae26418bdb2337a6d0",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/formats/sdat/common.py",
+      "bytes": 328,
+      "sha256": "372c9ee925e44e64ef299e4f27068fc2efa90f726337ecdaa5bcee143289ac81",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/formats/sdat/rom.py",
+      "bytes": 1183,
+      "sha256": "58c75448fbcd1dd526107e584afda3c0f32097b543f6820d84f850ddadf5f065",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/formats/sdat/sbnk.py",
+      "bytes": 2410,
+      "sha256": "07971e00df2262877ebfc293f11a2f4609d5fe2aceee458c80fee6274d384d94",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/formats/sdat/sdat.py",
+      "bytes": 7925,
+      "sha256": "26ed84b07711c5bc877fe4ddbb6315eb2752a9874fda292b92de36930284eebf",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/formats/sdat/swar.py",
+      "bytes": 3208,
+      "sha256": "d729a9eb33000fbe97472a55795de29d4326f5ff5537444aeabeb3bf06704cf1",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    },
+    {
+      "path": "renderer/dualrip/export.py",
+      "bytes": 14472,
+      "sha256": "66f70c0b18e6db203ca6374f4964e71cf05210f744fec455f92c0f29d263558e",
+      "source": "Pinned renderer 80f878b0ebf100f391028bcef69f7c5743473770"
+    }
+  ]
+}

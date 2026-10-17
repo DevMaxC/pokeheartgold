@@ -1,0 +1,48 @@
+{
+  "dependencyBase": "93acce92",
+  "scope": "New Repel sound leaf only; no Main/VM/World/clock/existing Azalea edits",
+  "files": [
+    {
+      "path": "browser/src/source/repel-audio.ts",
+      "sha256": "f4f5a1645e9a49b3cf181762a54c35016f3ef4e1f331db1e2aef22bac556afc4"
+    },
+    {
+      "path": "browser/src/source/repel-audio-data.ts",
+      "sha256": "3f7cfd0b175ab06a229d50971a5faadb45f87ef668ba2233a3d70048769a4df7"
+    },
+    {
+      "path": "browser/src/source/repel-audio.test.ts",
+      "sha256": "1a58d696860a51ee539e3190d7cf0e206394f35eba14ae1e99c20599b1ca506d"
+    },
+    {
+      "path": "browser/scripts/export_repel_audio.py",
+      "sha256": "3e4e3b4180093168e77a5341145f9f1e07cbf5ee4bc1607f7cfefa664fb0f628"
+    },
+    {
+      "path": "browser/scripts/test_repel_audio_resources.py",
+      "sha256": "c4a638766dd976a44259fa095602e96a5722ded70141e73e15715058e2052ef7"
+    },
+    {
+      "path": "browser/public/source/repel-audio/resources.json",
+      "sha256": "dce8041f05495ded978a921e03b1d45018ac80141b1bdd246d4da3a7f002d994"
+    }
+  ],
+  "focusedNodeTests": 20,
+  "resourcePythonTests": 5,
+  "tsc": "PASS",
+  "beforeFail": "All three review regressions fail against original6e02e208; raw TAP retained losslessly.",
+  "review": "Actual Opus5.5 follow-up closesF1/F2/F3, no newconfirmed scopeddefect. Runtime exactf4f5a164 unchanged afterreview; finaltest-onlydelta not claimed as reviewed testbytes.",
+  "limitations": "No Main/VM/World/clock bindings, no audition/browser/build/fullsuite; native ARM7 natural-end timing and global channel mixing unverified.",
+  "accepted704cCompatibilityTests": 20,
+  "reviewedRuntimeSHA256": "f4f5a1645e9a49b3cf181762a54c35016f3ef4e1f331db1e2aef22bac556afc4",
+  "archives": [
+    {
+      "path": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-repel-audio-original-6e02e208",
+      "artifactManifestSHA256": "5298636ae378da7f03720451b21e18112587841d54f401c3f174282aa9392b74"
+    },
+    {
+      "path": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-repel-audio-final-f4f5a164",
+      "artifactManifestSHA256": "4b12604d978d708aa4696a907f90ba994e416f5576daa23b4e1732b92d33d223"
+    }
+  ]
+}
