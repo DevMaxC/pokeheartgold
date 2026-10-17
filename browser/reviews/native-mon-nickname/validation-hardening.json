@@ -1,0 +1,101 @@
+{
+  "previousSource": "f51b01533be5ca46ff88947689b6abfbdd51d005",
+  "qualification": "Scoped source hardening; actual follow-up review pending. No Main/VM/UI edits. Deployment prohibited without same-release Main setters.",
+  "focused": {
+    "exit": 0,
+    "tests": 63,
+    "pass": 63,
+    "fail": 0,
+    "command": "node --experimental-transform-types --test browser/src/source/mon-nickname.test.ts browser/src/source/evolution-native.test.ts browser/src/source/gender.test.ts browser/src/source/trainer-gender.test.ts browser/src/source/eggs.test.ts browser/src/source/battle-experience.test.ts browser/src/source/battle-experience-plan.test.ts browser/src/source/battle-experience-integration.test.ts",
+    "nicknameComparisons": 23480,
+    "evolutionComparisons": 9359
+  },
+  "originalC": {
+    "exit": 0,
+    "tests": 2,
+    "command": "python3 browser/scripts/test_mon_nickname.py",
+    "actualCases": [
+      118,
+      120
+    ],
+    "originalFunctions": [
+      "StringNotEqual",
+      "String_Compare",
+      "CopyStringToU16Array",
+      "NamingScreen_PMCharArrayIsAllSpaces"
+    ],
+    "originalFragments": [
+      "NamingScreenApp_Exit condition",
+      "Task_NamingScreen equality block"
+    ],
+    "boundedWrappers": [
+      "English canonical table storage",
+      "String allocation with real size/magic and11u16 backing",
+      "original Pokemon callers empty backup context",
+      "primitive/assertion adapters"
+    ]
+  },
+  "tsc": {
+    "exit": 0,
+    "command": "./browser/node_modules/.bin/tsc --noEmit -p browser/tsconfig.json"
+  },
+  "beforeControl": {
+    "runtime": "exact f51b0153 data.ts and mon-nickname.ts temporarily substituted, restored in finally",
+    "sameTest": "persisted migration and fresh-state markers",
+    "exit": 1,
+    "failed": 1,
+    "reason": "second Continue inferred true for newly missing flag; new source leaves it undefined and explicitly unresolved"
+  },
+  "sourceFiles": [
+    {
+      "path": "browser/src/source/mon-nickname.ts",
+      "sha256": "9c092a075e923b245f69ec12b30702fc5965ef448b0d65205a53267855ba97bb"
+    },
+    {
+      "path": "browser/src/source/nickname-data.ts",
+      "sha256": "472acc983877b58d104e409b12bbc1481f7baeeced895252874b6193abc99376"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "6440446e47ea254bfec0234443d2a1bd5d434d980118616c10ebb0350c9d9524"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "84e549244f6ba7cac2e8bfbf00006ba9ef77133cb6b16c638847d472ab23e9be"
+    },
+    {
+      "path": "browser/src/source/mon-nickname.test.ts",
+      "sha256": "0afd36fd7313c8e870150f0bb2e6827868df86a6dbc31a4cdcfb42e3d00370f9"
+    },
+    {
+      "path": "browser/scripts/export_nickname_data.py",
+      "sha256": "8f1d0b7c68c4b4381600162160ee8ec6d91fa41d89c658c926cedd0cb0b4986e"
+    },
+    {
+      "path": "browser/scripts/test_mon_nickname.py",
+      "sha256": "15cb97fe4b2349165e7254ee1576f006395d2826b1ac07a12d55f9b47ae399ee"
+    }
+  ],
+  "logs": [
+    {
+      "path": "browser/reviews/native-mon-nickname/hardening-focused-tests.log.gz",
+      "sha256": "97ca95ee761ea75ba029ae0f2db6859408f0c17641b515619d1774b8096e5784",
+      "uncompressedSHA256": "8b2c42fe901b65bd6d4a6235c266487dbcb3115202dc25ecf6564b85e93dcfd5"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/hardening-original-c-tests.log.gz",
+      "sha256": "3fc811c093fcd1decaff05481b6960f5119d596fc4e4153683b3967c3d380b5d",
+      "uncompressedSHA256": "6dbf625aed623451c4e82f1686eb3109306be97532659388be55396fe11fe82f"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/hardening-tsc.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/old-marker-fail.log.gz",
+      "sha256": "e836688d0912bd1a254db1de58f17009f2bcdd795987ba9a001d48ff560a28a9",
+      "uncompressedSHA256": "031d12e2f2ad7be9647d40a14b2ac1b61f615776ba3e38eb04746889ce1ba6f5"
+    }
+  ]
+}

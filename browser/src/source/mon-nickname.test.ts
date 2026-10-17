@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {createMon,loadData} from './data.ts';
+import {createMon,loadData,newState} from './data.ts';
 import {canonicalNativeSpeciesName,nativeNicknameCodes,resolveNativeNicknameInput,resolveNativeFieldNicknameInput,applyNativeNicknameResult,applyNativeFieldNicknameInput,migrateLegacyBrowserNicknames,UnsupportedNativeNickname} from './mon-nickname.ts';
 import {NATIVE_SPECIES_NICKNAMES,NATIVE_SPECIES_NICKNAME_CODES,NATIVE_NICKNAME_GLYPHS,NATIVE_NICKNAME_AMBIGUOUS_GLYPHS,NATIVE_NICKNAME_PROVENANCE} from './nickname-data.ts';
 import type {Mon,State,GameData} from './types.ts';
@@ -12,13 +12,17 @@ import type {Mon,State,GameData} from './types.ts';
 globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));}catch{return new Response('',{status:404});}};
 const data=await loadData(),root=fileURLToPath(new URL('../../../',import.meta.url));
 const subject=(name='CYNDAQUIL',hasNickname?:boolean)=>({species:155,name,...(hasNickname===undefined?{}:{hasNickname})});
-function legacy(party:unknown[],boxes:unknown[]=[]){return{version:2,party,boxes}as Pick<State,'version'|'party'|'boxes'>;}
-const migrate=(state:Pick<State,'version'|'party'|'boxes'>)=>migrateLegacyBrowserNicknames(data,state,{origin:'local-browser-v2'});
+function legacy(party:unknown[],boxes:unknown[]=[]){return{version:2,party,boxes}as Pick<State,'version'|'party'|'boxes'|'nicknameMetadata'>;}
+const migrate=(state:Pick<State,'version'|'party'|'boxes'|'nicknameMetadata'>)=>migrateLegacyBrowserNicknames(data,state,{origin:'local-browser-v2'});
 
 test('all496 original237 English rows/glyph units are source-pinned and regeneration is byte-identical',async()=>{
  for(const source of NATIVE_NICKNAME_PROVENANCE.sources)assert.equal(createHash('sha256').update(await readFile(root+source.path)).digest('hex'),source.sha256,source.path);
  assert.equal(NATIVE_SPECIES_NICKNAMES.length,496);assert.equal(Object.keys(NATIVE_NICKNAME_GLYPHS).length,2870);
  assert.deepEqual(NATIVE_NICKNAME_AMBIGUOUS_GLYPHS,{'ｚ':[223,245]});
+ assert.equal(new Set(Object.values(NATIVE_NICKNAME_GLYPHS)).size,2870,'field JS equality is injective over admitted native encoding');
+ // Independent original charmap sentinels; not generated from names.inputs().
+ assert.equal(NATIVE_NICKNAME_GLYPHS['♀'],0x1bc);assert.equal(NATIVE_NICKNAME_GLYPHS['♂'],0x1bb);assert.equal(NATIVE_NICKNAME_GLYPHS['’'],0x1b3);assert.equal(NATIVE_NICKNAME_GLYPHS['.'],0x1ae);
+ assert.deepEqual(nativeNicknameCodes('MR. MIME'),[0x137,0x13c,0x1ae,0x1de,0x137,0x133,0x137,0x12f,0xffff]);
  for(let species=0;species<496;species++){
   assert.equal(canonicalNativeSpeciesName(data,species),data.names.species[species]);
   assert.deepEqual(nativeNicknameCodes(data.names.species[species]),NATIVE_SPECIES_NICKNAME_CODES[species]);
@@ -71,7 +75,16 @@ test('explicit local-v2 migration admits old default starters and preserves all 
  const result=migrate(state);assert.equal(result.kind,'complete');assert.equal(result.changed.length,7);assert.equal(result.retained,2);
  assert.deepEqual(party.map(mon=>('hasNickname'in mon?mon.hasNickname:undefined)),[false,false,false,true,true,true]);assert.equal(boxes[0].hasNickname,true);assert.equal(boxes[1].hasNickname,false);assert.equal(boxes[2].hasNickname,true);
  assert.deepEqual([...party,...boxes].map(mon=>mon.name),beforeNames);assert.equal(result.changed.filter(row=>row.basis==='exact-canonical').length,3);
- const again=migrate(state);assert.equal(again.changed.length,0);assert.equal(again.retained,9);assert.ok(Object.isFrozen(result)&&Object.isFrozen(result.changed));
+ assert.equal(result.admission,'migrated');assert.deepEqual(state.nicknameMetadata,{version:1,origin:'migrated-local-v2'});
+ const again=migrate(state);assert.equal(again.changed.length,0);assert.equal(again.retained,9);assert.equal(again.admission,'already-marked');assert.ok(Object.isFrozen(result)&&Object.isFrozen(result.changed));
+});
+
+test('persisted migration and fresh-state markers never infer newly missing flags on later Continue',()=>{
+ const state=legacy([subject()]);migrate(state);const saved=JSON.parse(JSON.stringify(state));saved.party.push(subject('LaterName'));
+ const second=migrate(saved);assert.equal(saved.party[1].hasNickname,undefined);assert.equal(second.admission,'already-marked');assert.equal(second.kind,'partial');assert.equal(second.changed.length,0);assert.equal(second.unresolved[0].reason,'required-flag-missing-after-admission');
+ const fresh=newState(data,'Case','boy',()=>.5);assert.deepEqual(fresh.nicknameMetadata,{version:1,origin:'fresh-browser'});fresh.party.push(subject()as Mon);
+ const admission=migrate(fresh);assert.equal(admission.kind,'partial');assert.equal(admission.changed.length,0);assert.equal(fresh.party[0].hasNickname,undefined);
+ for(const marker of[null,{version:2,origin:'migrated-local-v2'},{version:1,origin:'foreign-save'}]){const invalid={...legacy([subject()]),nicknameMetadata:marker};assert.throws(()=>migrate(invalid as never),UnsupportedNativeNickname);assert.equal(invalid.party[0].hasNickname,undefined);}
 });
 
 test('migration preserves Eggs/corruption/foreign/missing data as explicit exclusions, never fabricated false',()=>{
@@ -83,6 +96,7 @@ test('migration preserves Eggs/corruption/foreign/missing data as explicit exclu
  const missing=migrateLegacyBrowserNicknames(incompatible,legacy([mon]),{origin:'local-browser-v2'});assert.equal(missing.kind,'partial');assert.equal(missing.unresolved[0].reason,'missing-original-canonical-name');assert.equal(mon.hasNickname,undefined);
  assert.throws(()=>migrateLegacyBrowserNicknames(data,legacy([subject()]),{origin:'raw-native-sav'}as never),UnsupportedNativeNickname);
  assert.throws(()=>migrate({...legacy([]),version:1}as never),UnsupportedNativeNickname);
+ const invalidButFlagged={...subject(),species:999,hasNickname:true};const invalidResult=migrate(legacy([invalidButFlagged]));assert.equal(invalidResult.retained,0);assert.equal(invalidResult.unresolved[0].reason,'invalid-species-or-name');assert.equal(invalidButFlagged.hasNickname,true);
 });
 
 test('historical exact Main naming body changes text without flag/return; proposed field binding returns exact0/1',async()=>{

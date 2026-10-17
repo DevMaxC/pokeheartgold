@@ -1,0 +1,43 @@
+{
+  "reviewedCommit": "f51b01533be5ca46ff88947689b6abfbdd51d005",
+  "model": "claude-opus-5-5",
+  "verdict": "CHANGES_REQUESTED",
+  "durationMS": 276351,
+  "snapshotManifestSHA256": "7e4c7a5172665d31fd5fd13e72de314957ef29f00a9c0dc274cbfc9397b24178",
+  "snapshotFiles": 42,
+  "postReviewMismatches": 0,
+  "rawResultSHA256": "16ef6b8189831c21292ec8e38a44e73a056887e86c59d7c109556e310a10a84e",
+  "adjudications": [
+    {
+      "finding": 1,
+      "decision": "accepted",
+      "action": "Forbid deployment of factory/save-marker without same-release Main setters, even before evolution enabled. No Main edits in leaf."
+    },
+    {
+      "finding": 2,
+      "decision": "accepted",
+      "action": "Persist optional versioned browser marker on newState and first legacy migration; already-marked calls never infer missing flags. Added true old-fail/new-pass repeated Continue test."
+    },
+    {
+      "finding": 3,
+      "decision": "accepted",
+      "action": "Compile actual original120 STRING_AND_FLAG for capture alongside118 field, plus original String copy/compare functions."
+    },
+    {
+      "finding": 4,
+      "decision": "accepted",
+      "action": "Compile literal original naming-screen exit condition; explicitly bound backup to empty as original Pokemon callers do."
+    },
+    {
+      "finding": 5,
+      "decision": "accepted",
+      "action": "Assert glyph encoding injectivity and independent charmap sentinels/complete MR. MIME code row."
+    },
+    {
+      "finding": 6,
+      "decision": "accepted",
+      "action": "Pin original npc_trade.c source supporting explicit flag override."
+    }
+  ],
+  "qualification": "Initial review only; corrected source requires fresh focused tests/source freeze and actual follow-up review. No current Main/VM/UI approval."
+}

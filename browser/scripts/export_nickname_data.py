@@ -15,7 +15,8 @@ OUTPUT=ROOT/'browser/src/source/nickname-data.ts'
 SOURCES=['files/msgdata/msg/msg_0237.gmm','charmap.txt','include/constants/charcode.h','include/constants/global.h',
          'include/constants/pokemon.h','src/msgdata.c','src/pokemon.c',
          'src/string_util.c','src/naming_screen.c','src/launch_application.c',
-         'src/scrcmd_c.c','src/hatch_egg_task.c','src/battle/battle_command.c']
+         'src/scrcmd_c.c','src/hatch_egg_task.c','src/battle/battle_command.c','src/npc_trade.c',
+         'src/pm_string.c','include/pm_string.h']
 
 
 def inputs():
@@ -30,6 +31,7 @@ def inputs():
             if code<0xff00 and not 0xd800<=ord(match[2])<=0xdfff:
                 candidates.setdefault(match[2],[]).append(code)
     glyphs={char:codes[0] for char,codes in candidates.items() if len(codes)==1}
+    assert len(set(glyphs.values()))==len(glyphs),'Distinct represented characters must encode distinctly'
     aliases={char:codes for char,codes in candidates.items() if len(codes)!=1}
     units=[[glyphs[c] for c in names[i]]+[0xffff] for i in range(496)]
     assert all(len(row)<=11 for row in units)

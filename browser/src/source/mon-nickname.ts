@@ -62,6 +62,7 @@ export function applyNativeFieldNicknameInput(data:NameData,mon:Pick<Mon,'specie
 
 export type BrowserNicknameMigrationReceipt=Readonly<{
  policy:'local-browser-v2-name-preservation';kind:'complete'|'partial';
+ admission:'migrated'|'already-marked';
  changed:readonly Readonly<{location:'party'|'boxes';index:number;species:number;hasNickname:boolean;basis:'exact-canonical'|'preserve-existing-text'}>[];
  retained:number;skippedEggs:number;
  unresolved:readonly Readonly<{location:'party'|'boxes';index:number;reason:string}>[];
@@ -70,11 +71,16 @@ export type BrowserNicknameMigrationReceipt=Readonly<{
  * It cannot recover a historic raw DS flag. Missing exact-current-canonical
  * names become false; ALL other existing names become true to preserve text,
  * including TitleCase defaults/arbitrary legacy Unicode. Present booleans are
- * authoritative. No caller may infer again on each evolution/queue poll.
+ * authoritative. A persisted browser marker prevents inference on later
+ * Continue/admission calls. Fresh browser states start with that marker.
+ * No caller may infer again on each evolution/queue poll.
  * Partial/unresolved records remain without fabricated metadata; queue's
  * required boolean port must still reject them if an actual slot needs it. */
-export function migrateLegacyBrowserNicknames(data:NameData,state:Pick<State,'version'|'party'|'boxes'>,context:{origin:'local-browser-v2'}):BrowserNicknameMigrationReceipt{
+export function migrateLegacyBrowserNicknames(data:NameData,state:Pick<State,'version'|'party'|'boxes'|'nicknameMetadata'>,context:{origin:'local-browser-v2'}):BrowserNicknameMigrationReceipt{
  if(context?.origin!=='local-browser-v2'||state?.version!==2||!Array.isArray(state.party)||!Array.isArray(state.boxes))unsupported('Nickname migration requires an explicitly admitted local browser version2 save');
+ const marker=state.nicknameMetadata;
+ if(marker!==undefined&&(!marker||marker.version!==1||(marker.origin!=='fresh-browser'&&marker.origin!=='migrated-local-v2')))unsupported('Unknown browser nickname admission marker');
+ const infer=marker===undefined;
  const changed:BrowserNicknameMigrationReceipt['changed'][number][]=[],unresolved:BrowserNicknameMigrationReceipt['unresolved'][number][]=[],writes:{mon:Mon;flag:boolean}[]=[];let retained=0,skippedEggs=0;
  for(const location of['party','boxes']as const)state[location].forEach((mon,index)=>{
   const unknown=(reason:string)=>unresolved.push(Object.freeze({location,index,reason}));
@@ -85,10 +91,12 @@ export function migrateLegacyBrowserNicknames(data:NameData,state:Pick<State,'ve
   if(typeof mon.hasNickname==='boolean'){retained++;return;}
   if(mon.hasNickname!==undefined){unknown('invalid-present-flag');return;}
   if(mon.provenance?.language!==undefined&&mon.provenance.language!==2){unknown('foreign-language-not-in-browser-policy');return;}
+  if(!infer){unknown('required-flag-missing-after-admission');return;}
   let canonical:string;try{canonical=canonicalNativeSpeciesName(data,mon.species);}catch(error){if(error instanceof UnsupportedNativeNickname){unknown('missing-original-canonical-name');return;}throw error;}
   const flag=mon.name!==canonical;writes.push({mon,flag});changed.push(Object.freeze({location,index,species:mon.species,hasNickname:flag,basis:flag?'preserve-existing-text':'exact-canonical'}));
  });
  // All ordinary validation/lookup work finishes before the synchronous writes.
  for(const{mon,flag}of writes)mon.hasNickname=flag;
- return Object.freeze({policy:'local-browser-v2-name-preservation',kind:unresolved.length?'partial':'complete',changed:Object.freeze(changed),retained,skippedEggs,unresolved:Object.freeze(unresolved)});
+ if(infer)state.nicknameMetadata={version:1,origin:'migrated-local-v2'};
+ return Object.freeze({policy:'local-browser-v2-name-preservation',kind:unresolved.length?'partial':'complete',admission:infer?'migrated':'already-marked',changed:Object.freeze(changed),retained,skippedEggs,unresolved:Object.freeze(unresolved)});
 }
