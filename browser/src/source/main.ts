@@ -150,8 +150,9 @@ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unkno
 }
 async function executeSourceAction<T>(action:()=>Promise<T>){
   if(!sourceActions)throw Error('Source recovery is not initialized');
+  const triggerState=frameTriggerGate.snapshot();
   return runRecoverableSourceAction(sourceActions,action,{
-    committed:save,retry:()=>frameTriggerGate.retry(),
+    committed:save,retry:()=>frameTriggerGate.restore(triggerState),
     recoveryFailed:async error=>{
       recoveryPrompt=true;keys.clear();console.error(error);
       try{await ui.choose('The area could not be restored.',['Retry loading'],'Your last browser save is unchanged. '+String(error.recoveryError));}finally{recoveryPrompt=false;}

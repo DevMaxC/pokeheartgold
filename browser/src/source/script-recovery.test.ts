@@ -147,7 +147,7 @@ test('automatic frame failures stay paused across steps; explicit retry and chan
   };
   await assert.rejects(poll(),UnsupportedScript);await poll();await poll();assert.equal(attempts,1);
   // Explicit Retry must reopen the gate before an outer warp/entry is replayed.
-  gate.retry();await assert.rejects(poll(),UnsupportedScript);assert.equal(attempts,2);
+  gate.retry(key);await assert.rejects(poll(),UnsupportedScript);assert.equal(attempts,2);
   h.state.x++;await poll();assert.equal(attempts,2);
   gate.visit('61');gate.visit('156');await assert.rejects(poll(),UnsupportedScript);assert.equal(attempts,3);
   assert.equal(h.vm.value('VAR_UNK_40A4',h.map),0);
@@ -164,7 +164,7 @@ test('a nested destination trigger cannot overwrite the failed source trigger lo
   const gate=new SourceTriggerGate();gate.visit('source:13,17');gate.visit('destination:4,5');
   gate.failed('destination:4,5','destination-trigger');gate.failed('source:13,17','source-trigger');
   gate.visit('source:13,17');assert.equal(gate.allows('source-trigger'),false);
-  gate.retry();assert.equal(gate.allows('source-trigger'),true);
+  gate.retry('source-trigger');assert.equal(gate.allows('source-trigger'),true);
 });
 
 
@@ -246,4 +246,22 @@ test('trainer battle and resume failures remain inside their parent quest checkp
     h.state.flags.TRAINER_DEFEATED=true;
   });
   assert.deepEqual(result,{ok:false});assert.equal(prompts,1);const expected={...before,objectEvents:h.objects.save(h.state.map)};assert.deepEqual(h.state,expected);assert.equal(h.writes,1);
+});
+
+
+test('retrying an unrelated NPC action retains a previously paused frame trigger',async()=>{
+  const h=await harness(),gate=new SourceTriggerGate();gate.visit('156');gate.failed('156','paused-frame');
+  const beforeAction=gate.snapshot();let attempts=0,prompts=0;
+  const result=await runRecoverableSourceAction(h.recovery,async()=>{
+    attempts++;h.state.flags.NPC_STARTED=true;if(attempts===1)throw Error('NPC message failed');
+    assert.equal(gate.allows('paused-frame'),false);h.state.flags.NPC_FINISHED=true;
+  },{failed:async()=>{prompts++;return 'retry';},recoveryFailed:async()=>assert.fail('no load failure'),retry:()=>gate.restore(beforeAction),committed:h.save});
+  assert.equal(result.ok,true);assert.equal(prompts,1);assert.equal(attempts,2);assert.equal(gate.allows('paused-frame'),false);assert.equal(h.state.flags.NPC_FINISHED,true);assert.equal(h.writes,1);
+});
+
+test('retrying the failing frame action reopens that frame while preserving other paused scenes',()=>{
+  const gate=new SourceTriggerGate();gate.visit('156');gate.failed('156','earlier-frame');const beforeAction=gate.snapshot();
+  gate.failed('156','current-frame');assert.equal(gate.allows('earlier-frame'),false);assert.equal(gate.allows('current-frame'),false);
+  gate.restore(beforeAction);assert.equal(gate.allows('earlier-frame'),false);assert.equal(gate.allows('current-frame'),true);
+  gate.failed('156','current-frame');gate.retry('current-frame');assert.equal(gate.allows('earlier-frame'),false);assert.equal(gate.allows('current-frame'),true);
 });

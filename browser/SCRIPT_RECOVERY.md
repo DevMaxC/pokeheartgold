@@ -18,7 +18,8 @@ The failed VM is replaced after its outstanding movement tasks have settled.
 Play time remains monotonic, including time spent in failed scenes or load retries.
 
 The error panel identifies an unsupported source command and offers an explicit
-scene retry. Returning to the field leaves that scene uncompleted. Automatic
+scene retry. Returning to the field leaves that scene uncompleted. Retrying an
+unrelated NPC action preserves frame scenes that were already paused. Automatic
 frame polling pauses the failed trigger on the current map; retrying explicitly
 or changing maps clears that pause. A failed first entry can also return to the
 restored field; it does not trap Continue in a deterministic retry loop. It never treats an unsupported command as a

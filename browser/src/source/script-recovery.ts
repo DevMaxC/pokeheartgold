@@ -12,11 +12,13 @@ export function restoreStateInPlace(state:State,snapshot:State){
 /** Failed automatic scenes may be retried explicitly or after changing maps.
  * Idle frame polling must not reopen the same error dialog every frame. */
 export class SourceTriggerGate{
-  private location='';private blocked='';
-  visit(location:string){if(location!==this.location){this.location=location;this.blocked='';}}
-  allows(scene:string){return scene!==this.blocked;}
-  failed(location:string,scene:string){this.location=location;this.blocked=scene;}
-  retry(){this.blocked='';}
+  private location='';private blocked=new Set<string>();
+  visit(location:string){if(location!==this.location){this.location=location;this.blocked.clear();}}
+  allows(scene:string){return !this.blocked.has(scene);}
+  failed(location:string,scene:string){this.visit(location);this.blocked.add(scene);}
+  retry(scene:string){this.blocked.delete(scene);}
+  snapshot(){return{location:this.location,blocked:[...this.blocked]};}
+  restore(snapshot:ReturnType<SourceTriggerGate['snapshot']>){this.location=snapshot.location;this.blocked=new Set(snapshot.blocked);}
 }
 
 export class SourceRecoveryError extends Error{
