@@ -20,3 +20,7 @@ Validation (offline, no browser or Vite build):
 - `python3 browser/scripts/native_shoreline_srt.py`:27translated assets,0changes after correction.
 
 Coverage is finite and source-specific. This restores a static native material matrix; it does not implement native animated tide/texture tracks or claim all-map visual approval. Existing terrain audit67 deliberately rejects KHR texture transforms and must gain explicit offline texture-transform support before a future audit run. Historical source-hashed audit reports remain immutable and do not cover the changed material sampling. No held terrain audit/runtime/World files were edited.
+
+Opus5.5 reviewed frozen source commit06aff52b read-only and found no concrete bug. The full unedited response and scope adjudication are adjacent. The review used the frozen worktree, so two supplemental documents in a separate copied directory were unavailable; it did not independently rehash GLBs or inspect apicula's converter source. Source hashes and all27 corrected asset hashes stayed identical through review. No browser approval is inferred.
+
+The adjacent software diagnostic is repeatable with `python3 browser/reviews/shoreline-native-translation/software-diagnostic.py`. It draws original opaque/masked triangles with nearest embedded PNG sampling; blended sea-line layers and NPCs are omitted. It is explanatory evidence, not a browser capture. The36 existing render-repair/terrace-model regression tests also pass (`related-tests.tap`).

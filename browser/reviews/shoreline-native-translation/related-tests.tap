@@ -1,0 +1,230 @@
+TAP version 13
+# (node:27150) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a missing rear surface becomes a closed prism, with every edge used twice
+ok 1 - a missing rear surface becomes a closed prism, with every edge used twice
+  ---
+  duration_ms: 1.929708
+  type: 'test'
+  ...
+# Subtest: one-sided building and small-prop geometry gets solid rear surfaces
+ok 2 - one-sided building and small-prop geometry gets solid rear surfaces
+  ---
+  duration_ms: 7.599833
+  type: 'test'
+  ...
+# Subtest: fully volumetric props and translucent ground shadows are left intact
+ok 3 - fully volumetric props and translucent ground shadows are left intact
+  ---
+  duration_ms: 1.426625
+  type: 'test'
+  ...
+# Subtest: a disconnected mailbox gets its own local backing rather than the building bounds
+ok 4 - a disconnected mailbox gets its own local backing rather than the building bounds
+  ---
+  duration_ms: 1.399
+  type: 'test'
+  ...
+# Subtest: an original front doorway does not create a transparent hole through the rear
+ok 5 - an original front doorway does not create a transparent hole through the rear
+  ---
+  duration_ms: 133.475791
+  type: 'test'
+  ...
+# Subtest: tilted original tree planes become upright instanced camera-facing artwork
+ok 6 - tilted original tree planes become upright instanced camera-facing artwork
+  ---
+  duration_ms: 22.152583
+  type: 'test'
+  ...
+# Subtest: blended source materials retain their original depth-write setting
+ok 7 - blended source materials retain their original depth-write setting
+  ---
+  duration_ms: 0.334708
+  type: 'test'
+  ...
+# Subtest: recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+ok 8 - recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+  ---
+  duration_ms: 1.537583
+  type: 'test'
+  ...
+# Subtest: a mailbox touching a building at one corner still uses local bounds
+ok 9 - a mailbox touching a building at one corner still uses local bounds
+  ---
+  duration_ms: 0.860333
+  type: 'test'
+  ...
+# Subtest: a source entrance closes a partial rear wall across the mirrored doorway opening
+ok 10 - a source entrance closes a partial rear wall across the mirrored doorway opening
+  ---
+  duration_ms: 11.872666
+  type: 'test'
+  ...
+# Subtest: opposing source entrances keep a real passage and unrelated props receive no new wall
+ok 11 - opposing source entrances keep a real passage and unrelated props receive no new wall
+  ---
+  duration_ms: 3.809
+  type: 'test'
+  ...
+# Subtest: rear closure uses the original world doorway after prop rotation and translation
+ok 12 - rear closure uses the original world doorway after prop rotation and translation
+  ---
+  duration_ms: 1.609375
+  type: 'test'
+  ...
+# Subtest: rear wall cladding reuses source wall UVs while staying opaque
+ok 13 - rear wall cladding reuses source wall UVs while staying opaque
+  ---
+  duration_ms: 2.173875
+  type: 'test'
+  ...
+# Subtest: split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+ok 14 - split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+  ---
+  duration_ms: 0.75
+  type: 'test'
+  ...
+# Subtest: native door direction overrides an ambiguous corner of the building bounds
+ok 15 - native door direction overrides an ambiguous corner of the building bounds
+  ---
+  duration_ms: 1.344833
+  type: 'test'
+  ...
+# Subtest: rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+ok 16 - rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+  ---
+  duration_ms: 1.611792
+  type: 'test'
+  ...
+# Subtest: repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+ok 17 - repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+  ---
+  duration_ms: 3.969833
+  type: 'test'
+  ...
+# Subtest: tilted flower beds become separately rooted crossed clumps with depth
+ok 18 - tilted flower beds become separately rooted crossed clumps with depth
+  ---
+  duration_ms: 1.933458
+  type: 'test'
+  ...
+# Subtest: source fence cards and horizontal atlas runs become solid upright posts and rails
+ok 19 - source fence cards and horizontal atlas runs become solid upright posts and rails
+  ---
+  duration_ms: 0.815333
+  type: 'test'
+  ...
+# Subtest: standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+ok 20 - standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+  ---
+  duration_ms: 0.275792
+  type: 'test'
+  ...
+# Subtest: adjacent leaning rock cards become separate closed boulders with depth in every direction
+ok 21 - adjacent leaning rock cards become separate closed boulders with depth in every direction
+  ---
+  duration_ms: 2.585334
+  type: 'test'
+  ...
+# Subtest: an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+ok 22 - an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+  ---
+  duration_ms: 1.100166
+  type: 'test'
+  ...
+# Subtest: off-centre original trunk art has a matching image offset around its ground pivot
+ok 23 - off-centre original trunk art has a matching image offset around its ground pivot
+  ---
+  duration_ms: 0.333083
+  type: 'test'
+  ...
+# Subtest: open hill and cliff backs receive opaque skirts down to their original base
+ok 24 - open hill and cliff backs receive opaque skirts down to their original base
+  ---
+  duration_ms: 0.626792
+  type: 'test'
+  ...
+# Subtest: raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+ok 25 - raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+  ---
+  duration_ms: 0.903292
+  type: 'test'
+  ...
+# (node:27152) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: deformed original ground agrees with actor height on both terraces and retains shared source geometry
+ok 26 - deformed original ground agrees with actor height on both terraces and retains shared source geometry
+  ---
+  duration_ms: 124.949292
+  type: 'test'
+  ...
+# Subtest: new ledge faces are opaque from both sides and join upper/lower floor edges
+ok 27 - new ledge faces are opaque from both sides and join upper/lower floor edges
+  ---
+  duration_ms: 73.321959
+  type: 'test'
+  ...
+# Subtest: raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+ok 28 - raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+  ---
+  duration_ms: 0.691041
+  type: 'test'
+  ...
+# Subtest: separate solid rocks retain their shapes when rooted on different terrace heights
+ok 29 - separate solid rocks retain their shapes when rooted on different terrace heights
+  ---
+  duration_ms: 69.991625
+  type: 'test'
+  ...
+# Subtest: jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+ok 30 - jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+  ---
+  duration_ms: 75.886917
+  type: 'test'
+  ...
+# Subtest: crossed flowers crossing a ledge translate as one rooted clump
+ok 31 - crossed flowers crossing a ledge translate as one rooted clump
+  ---
+  duration_ms: 82.259541
+  type: 'test'
+  ...
+# Subtest: touching boulders retain distinct authored roots across a ledge
+ok 32 - touching boulders retain distinct authored roots across a ledge
+  ---
+  duration_ms: 67.20675
+  type: 'test'
+  ...
+# Subtest: native water and shoreline artwork stays flat when it overhangs a displaced land tile
+ok 33 - native water and shoreline artwork stays flat when it overhangs a displaced land tile
+  ---
+  duration_ms: 11.109792
+  type: 'test'
+  ...
+# Subtest: exported visual floor profiles cover both sides of every native ledge
+ok 34 - exported visual floor profiles cover both sides of every native ledge
+  ---
+  duration_ms: 12.91825
+  type: 'test'
+  ...
+# Subtest: offset tree crowns and connecting trunks move by the same authored ground height
+ok 35 - offset tree crowns and connecting trunks move by the same authored ground height
+  ---
+  duration_ms: 154.442459
+  type: 'test'
+  ...
+# Subtest: stale terrain work stops before replacing shared source geometry
+ok 36 - stale terrain work stops before replacing shared source geometry
+  ---
+  duration_ms: 87.923791
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1933.9175

@@ -1,0 +1,50 @@
+{
+  "sourceCommit": "06aff52bd77ef130e04e9fc0afd11f2ce36c0d38",
+  "reviewModel": "claude-opus-5-5",
+  "rawResultSHA256": "89491bb328c964dee93bcb42bc010f823b1e45cfdc7b2df0572e52d59041ac01",
+  "result": "No concrete correctness/regression bug found",
+  "sourceStableThroughReview": true,
+  "all27CorrectedAssetHashesStable": true,
+  "sourceHashes": {
+    "browser/scripts/native_shoreline_srt.py": "25609a0217f78de523e202344d57e08a79367bdfe57138cb8e396cebbd1953a4",
+    "browser/scripts/test_native_shoreline_srt.py": "55b68600a039212f27f286f16be8712de93d4d0b413675219d92e877ebd2a7c5",
+    "browser/scripts/import_source.py": "e74861e84c3a146604742cb9ea74e5a6ce67ac67b500d0d34107c9455b21bc92",
+    "browser/src/source/shoreline-native.test.ts": "4b161c4fdbbdfde776983c59a112642fd6c3cc93716a26efcf8b8494d3f255f3",
+    "lib/NitroSystem/src/g3d_cgtool_maya_tex.c": "7b486e5fe7687e799d66efd6fd891d32ff5f51e1b4711291d3aa7e726f56e183",
+    "lib/NitroSystem/src/g3d_sbc.c": "93d2168671ec3d66d162e795415b4f299fce2921ec95a0b80de5724b38baedd3",
+    "browser/src/source/render-repair.ts": "aa95d94ec1a2a514df5929f78be53766104d594812d83713abae02e1a37b95a7",
+    "browser/src/source/shoreline.ts": "7e3b52da0246c1823fea261e96759bbfb4fde7323c59e365f10439019d7848b7",
+    "browser/src/source/terrace-model.ts": "8a7e76d763ea56ad06e2cf486b23f0cf754f8fec17c7b9354ff0363a439ca393",
+    "browser/src/source/world.ts": "a4fefb36e93655552d7340a6dcb931f84809f12719fe98bed130fa9b06392904",
+    "installedThreeGLTFLoader": "67ac5551fdafa6e349bd80c8f8e5e39c136d6b2fb1ad647db9abb21dc86f9e4a"
+  },
+  "scopeCorrection": "Review ran read-only from the frozen worktree cwd, not the copied snapshot cwd. Supplemental patch.txt and asset-documents.json in /tmp were not resolved. Reviewer read actual source/native C/installed loader/tests/receipts but did not independently rehash GLBs, inspect apicula source or run tests/browser. Raw output preserves these limitations.",
+  "nonblocking": [
+    {
+      "item": "Inventory unittest catches ValueError for unsupported future materials",
+      "adjudication": "Current standalone source inventory visits every exported land asset without that catch; all27 current translated surf assets confirmed. Future malformed/unsupported native matrices need explicit test coverage, not claimed supported."
+    },
+    {
+      "item": "Static surf-material coverage only",
+      "adjudication": "Intentional current scope; no other material matrices or animated tracks claimed repaired."
+    },
+    {
+      "item": "CPU PNG/sampler checks are not browser rendering",
+      "adjudication": "Explicit finite source sampling. Loader plugin only replaces offline PNG decoding; actual transform extension/texture clone/material paths exercised. No browser approval claimed."
+    },
+    {
+      "item": "Historical audit67 rejects KHR transforms",
+      "adjudication": "Loud safe rejection; separate follow-up branch is authorized. Old exact material-sampling reports remain immutable."
+    }
+  ],
+  "relatedExistingGeometryTests": {
+    "tests": 36,
+    "passed": 36
+  },
+  "softwareDiagnostic": {
+    "path": "native-software-diagnostic.png",
+    "SHA256": "c8e9059f43a6cb7dba20e6fd3985ae92f64394d2f14c8e141499f8042e77c943",
+    "limits": "Repeatable unlit top-down software raster of source opaque/masked triangles using nearest embedded PNG sampling. Blended sea-line polygons omitted. No NPCs, browser/GPU or continuous visibility approval."
+  },
+  "backingHypothesis": "Withdrawn; no backing or World change in source patch; finite actual pipeline samples found0occlusions."
+}
