@@ -2204,8 +2204,8 @@
     "group": "3D world depth and navigation",
     "feature": "Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Actual Cherrygrove house/Center/Mart geometry rear-ray checks and original-texture before/after render; split wall bands, rotated roots, neighbouring corner doors and real opposing entrances covered. Wider building and terrain audit remains pending."
+    "status": "partial",
+    "verification": "Family-specific exterior redesign is in progress. The inventory records 355 placed major structures, 220 native texture variants and 157 canonical model IDs. Inside-to-outside alpha-aware rays and six-view manual reviews are separate checks; actual door cards, native entrance recesses and multipart building assemblies must be included. Initial geometry checks did not prove visual quality: copied front doors and plain rear patches require measured native cladding repairs. Full frozen-source placement review, final regression checks and merged deployment remain pending."
   },
   {
     "id": "P15-011",

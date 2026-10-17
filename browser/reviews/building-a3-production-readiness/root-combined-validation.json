@@ -1,0 +1,25 @@
+{
+  "testedCommit": "f39239e8d3f29d747ba8a050a04aa5615d8daaee",
+  "tests": {
+    "passed": 429,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": "passed as npm run build prerequisite",
+  "productionBuild": "passed",
+  "artifacts": {
+    "main-RAlu7dpw.js": {
+      "bytes": 943624,
+      "sha256": "780e7251ef6fd169e2b795a18d7886ffb480cbfecdcb8cfdb298d0fbe87e4d40"
+    },
+    "main-CPEjJXAa.css": {
+      "bytes": 10201,
+      "sha256": "3ae02fc4453a5c020923a0cc71c6bf8a5c19b4206071927765a940da585466f1"
+    }
+  },
+  "remaining": [
+    "355-placement/2130-view manual gallery review",
+    "browser streaming latency",
+    "combined held terrain changes"
+  ]
+}
