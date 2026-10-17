@@ -24,9 +24,9 @@ async function resources():Promise<AzaleaGymResources>{
 }
 const immediate:AzaleaTicks=async(count,frame,signal)=>{for(let i=1;i<=count;i++){if(signal.aborted)throw new Error('aborted');frame(i);}};
 function hooks(world:AzaleaGymWorld,station=0){
- const plan=planAzaleaGymRide(world.state!,station),events:any[]=[],player={...plan.boarding.from,y:0},follower={x:player.x,y:0,z:player.z+1};
- const ports:AzaleaGymHooks={waitFollower:async()=>{events.push('waitFollower');},player:()=>player,captureRiders:()=>{const p={...player},f={...follower};return()=>{Object.assign(player,p);Object.assign(follower,f);events.push('restore');};},stepRiders:async(direction,phase)=>{events.push({phase,direction});const dz=direction===0?-1:1;player.z+=dz;follower.z+=dz;},holdPlayer:movement=>{events.push({hold:movement});},placeRiders:frame=>{Object.assign(player,frame.player);Object.assign(follower,frame.follower);events.push({rider:frame});},dockRiders:frame=>{events.push({dock:frame});},cameraOffset:z=>{events.push({camera:z});},trackPlayer:enabled=>{events.push({trackPlayer:enabled});},facing:()=>1,robotSound:playing=>{events.push({robot:playing});},switchSound:async()=>{events.push('switchSound');},commitState:state=>{events.push({commit:state,player:{...player},model:world.spiderModels[plan.spiderIndex]?.position.toArray()});}};
- return{ports,events,plan,player,follower};
+ const plan=planAzaleaGymRide(world.state!,station),events:any[]=[],player={...plan.boarding.from,y:0},follower={x:player.x,y:0,z:player.z+1},owned={held:false,manual:false};
+ const ports:AzaleaGymHooks={waitFollower:async()=>{events.push('waitFollower');},player:()=>player,releaseRiders:()=>{owned.manual=false;events.push('release');},captureRiders:()=>{const p={...player},f={...follower};return()=>{Object.assign(player,p);Object.assign(follower,f);events.push('restore');};},stepRiders:async(direction,phase)=>{events.push({phase,direction});const dz=direction===0?-1:1;player.z+=dz;follower.z+=dz;},holdPlayer:movement=>{owned.held=movement===73;events.push({hold:movement});},placeRiders:frame=>{owned.manual=true;Object.assign(player,frame.player);Object.assign(follower,frame.follower);events.push({rider:frame});},dockRiders:frame=>{owned.manual=false;events.push({dock:frame});},cameraOffset:z=>{events.push({camera:z});},trackPlayer:enabled=>{events.push({trackPlayer:enabled});},facing:()=>1,robotSound:playing=>{events.push({robot:playing});},switchSound:async()=>{events.push('switchSound');},commitState:state=>{events.push({commit:state,player:{...player},model:world.spiderModels[plan.spiderIndex]?.position.toArray()});}};
+ return{ports,events,plan,player,follower,owned};
 }
 
 test('display-rate clock catches up every native tick and cancels without granting another frame',async()=>{
@@ -35,11 +35,21 @@ test('display-rate clock catches up every native tick and cancels without granti
  try{const frames:number[]=[],controller=new AbortController(),pending=animateAzaleaTicks(3,tick=>frames.push(tick),controller.signal);at(16);assert.deepEqual(frames,[]);at(50);assert.deepEqual(frames,[1]);at(100);await pending;assert.deepEqual(frames,[1,2,3]);assert.equal(queue.size,0);const stopped=new AbortController(),cancelled=animateAzaleaTicks(2,()=>{throw Error('stale tick');},stopped.signal);stopped.abort();await assert.rejects(cancelled,{name:'AbortError'});assert.equal(queue.size,0);}finally{Object.defineProperty(globalThis,'performance',previous.performance!);globalThis.requestAnimationFrame=previous.request;globalThis.cancelAnimationFrame=previous.cancel;}
 });
 
+test('sequential source phases retain the fractional tick deadline across display frames',async()=>{
+ const previous={performance:Object.getOwnPropertyDescriptor(globalThis,'performance'),request:globalThis.requestAnimationFrame,cancel:globalThis.cancelAnimationFrame};let next=0,now=0;const queue=new Map<number,FrameRequestCallback>();Object.defineProperty(globalThis,'performance',{configurable:true,value:{now:()=>now}});globalThis.requestAnimationFrame=callback=>{queue.set(++next,callback);return next;};globalThis.cancelAnimationFrame=id=>{queue.delete(id);};
+ const at=(value:number)=>{now=value;const[id,callback]=queue.entries().next().value!;queue.delete(id);callback(now);};
+ try{const frames:string[]=[],controller=new AbortController();const first=animateAzaleaTicks(1,()=>frames.push('first'),controller.signal);at(50);await first;const second=animateAzaleaTicks(1,()=>frames.push('second'),controller.signal);at(70);assert.deepEqual(frames,['first','second'],'second source deadline is 66.67ms, not a restarted 83.33ms');await second;assert.equal(queue.size,0);}finally{Object.defineProperty(globalThis,'performance',previous.performance!);globalThis.requestAnimationFrame=previous.request;globalThis.cancelAnimationFrame=previous.cancel;}
+});
+
 test('actual Azalea room resources spawn four source spiders and reset only native transition entries',async()=>{
  const r=await resources(),scene=new THREE.Scene(),world=new AzaleaGymWorld(scene,async()=>r,immediate);
  await world.enter(map);assert.deepEqual(world.state,initialAzaleaGymState());assert.deepEqual(world.spiderModels.map(m=>m.position.toArray()),[[3.5,0,31],[9.5,0,31],[15.5,0,31],[9.5,0,16]]);assert.equal(scene.children[0].children.length,10);
  const saved={spiders:[4,1,2,7]as[number,number,number,number],switches:3 as const};await world.enter(map,saved,'continue');assert.deepEqual(world.state,saved);assert.notEqual(world.state,saved);await world.enter(map,saved,'connection');assert.deepEqual(world.state,initialAzaleaGymState());
  world.leave();assert.equal(scene.children.length,0);assert.equal(world.active,false);disposeAzaleaGymResources(r);
+});
+
+test('a model with a foreign joint scaling rule rejects before publishing any placed room resources',async()=>{
+ const r=await resources(),scene=new THREE.Scene(),world=new AzaleaGymWorld(scene,async()=>r,immediate);(r.manifest.models[118]as any).scalingRule=1;await assert.rejects(world.enter(map),/scaling\/rest ABI/);assert.equal(scene.children.length,0);assert.equal(world.active,false);assert.equal(r.models.size,5);disposeAzaleaGymResources(r);
 });
 
 test('switches apply original rail zero-scale poses and actual PAT PNG pairs without recoloring source templates',async()=>{
@@ -56,6 +66,16 @@ test('native spider poses retain source geometry/UV/color bytes and use exact no
  const arrays=new Map<THREE.BufferAttribute,string>();template.traverse(object=>{if(object instanceof THREE.Mesh)for(const attribute of Object.values(object.geometry.attributes))arrays.set(attribute as THREE.BufferAttribute,hash(new Uint8Array(attribute.array.buffer,attribute.array.byteOffset,attribute.array.byteLength)));});
  const positions:number[][]=[];for(const frame of [0,7,15,29]){applyAzaleaJointFrame(template,animation,frame);let joint:THREE.Object3D|undefined;template.traverse(object=>{if(object.userData.nativeAzaleaJoint===1)joint=object;});const p=animation.nativeFrames[frame][1],m=joint!.matrix.elements;assert.equal(m[0],p.rotationFx32[0]*p.scaleFx32[0]/16777216);assert.equal(m[1],p.rotationFx32[1]*p.scaleFx32[0]/16777216);positions.push([...m]);}
  assert.notDeepEqual(positions[0],positions[2]);for(const[attribute,value]of arrays)assert.equal(hash(new Uint8Array(attribute.array.buffer,attribute.array.byteOffset,attribute.array.byteLength)),value);assert.throws(()=>applyAzaleaJointFrame(template,animation,30),RangeError);disposeAzaleaGymResources(r);
+});
+
+test('native rest replaces normalized converter TRS and changed skin poses invalidate cached culling bounds',async()=>{
+ const r=await resources(),world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,immediate);await world.enter(map);const spider=world.spiderModels[0],entry=r.manifest.models[118],animation=entry.animations[0];if(animation.kind!=='joint')throw Error();let rootJoint:THREE.Object3D|undefined;spider.traverse(object=>{if(object.userData.nativeAzaleaJoint===0)rootJoint=object;});assert.equal(rootJoint!.matrix.elements[0],3686/4096);assert.equal(rootJoint!.matrix.elements[13],-2);assert.equal(rootJoint!.matrix.elements[14],37273/4096);
+ applyAzaleaJointFrame(spider,animation,0);const meshes:THREE.SkinnedMesh[]=[];spider.traverse(object=>{if(object instanceof THREE.SkinnedMesh){object.computeBoundingSphere();object.computeBoundingBox();meshes.push(object);}});assert.ok(meshes.length>0);applyAzaleaJointFrame(spider,animation,3);for(const mesh of meshes){assert.equal(mesh.boundingSphere,null);assert.equal(mesh.boundingBox,null);mesh.computeBoundingSphere();for(let i=0;i<mesh.geometry.getAttribute('position').count;i++){const position=mesh.getVertexPosition(i,new THREE.Vector3());assert.ok(position.distanceTo(mesh.boundingSphere!.center)<=mesh.boundingSphere!.radius);}}
+ const before=(world as any).tick;world.updateNativeTick();world.init(undefined,'warp');assert.equal((world as any).tick,before+1,'native Init resets saved routes, not the shared animation clock');world.leave();disposeAzaleaGymResources(r);
+});
+
+test('unchanged PAT selection does not invalidate the material every native tick',async()=>{
+ const r=await resources(),world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,immediate);await world.enter(map);const versions=new Map<THREE.Material,number>();for(const p of (world as any).placed)if(p.model===117||p.model===122)p.root.traverse((object:THREE.Object3D)=>{if(object instanceof THREE.Mesh)for(const material of Array.isArray(object.material)?object.material:[object.material])versions.set(material,material.version);});world.updateNativeTick();world.updateNativeTick();for(const[material,version]of versions)assert.equal(material.version,version);world.leave();disposeAzaleaGymResources(r);
 });
 
 test('ride executes source tick positions, awaited boarding/docking/shake and commits only at the last movement endpoint',async()=>{
@@ -76,7 +96,12 @@ test('return ride boards in the opposite direction and a falsely completed board
 });
 
 test('unload aborts pending hosts and prevents stale native tick callbacks from publishing into the next entry',async()=>{
- const r=await resources(),scene=new THREE.Scene();let late:(()=>void)|undefined;const clock:AzaleaTicks=async(n,tick,signal)=>{if(n===209){tick(1);await new Promise<void>(resolve=>{late=()=>{tick(2);resolve();};});}else await immediate(n,tick,signal);};const world=new AzaleaGymWorld(scene,async()=>r,clock);await world.enter(map);const h=hooks(world),pending=world.ride(0,h.ports);for(let i=0;i<10&&!late;i++)await Promise.resolve();assert.ok(late);world.leave();await assert.rejects(pending,{name:'AbortError'});const oldEvents=h.events.length;await world.enter(map);assert.throws(()=>late!(),{name:'AbortError'});assert.equal(h.events.length,oldEvents);assert.deepEqual(world.state,initialAzaleaGymState());assert.ok(h.events.some(e=>e.robot===false));world.leave();disposeAzaleaGymResources(r);
+ const r=await resources(),scene=new THREE.Scene();let late:(()=>void)|undefined;const clock:AzaleaTicks=async(n,tick,signal)=>{if(n===209){tick(1);await new Promise<void>(resolve=>{late=()=>{tick(2);resolve();};});}else await immediate(n,tick,signal);};const world=new AzaleaGymWorld(scene,async()=>r,clock);await world.enter(map);const h=hooks(world),pending=world.ride(0,h.ports);for(let i=0;i<10&&!late;i++)await Promise.resolve();assert.ok(late);world.leave();await assert.rejects(pending,{name:'AbortError'});const oldEvents=h.events.length;await world.enter(map);assert.throws(()=>late!(),{name:'AbortError'});assert.equal(h.events.length,oldEvents);assert.deepEqual(world.state,initialAzaleaGymState());assert.ok(h.events.some(e=>e.robot===false));assert.deepEqual(h.events.filter(e=>e.hold).map(e=>e.hold),[73,74]);assert.equal(h.events.filter(e=>e==='release').length,1);assert.equal(h.events.filter(e=>e==='restore').length,0);assert.deepEqual(h.owned,{held:false,manual:false});world.leave();disposeAzaleaGymResources(r);
+});
+
+test('reentrant host cancellation handles its rejected promise and releases controller-owned rider state once',async()=>{
+ const r=await resources(),world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,immediate);await world.enter(map);const h=hooks(world);h.ports.waitFollower=()=>{world.cancel();return Promise.reject(Error('host cancelled reentrantly'));};await assert.rejects(world.ride(0,h.ports),{name:'AbortError'});await new Promise(resolve=>setImmediate(resolve));assert.equal(h.events.filter(e=>e==='release').length,1);assert.equal(h.events.filter(e=>e==='restore').length,1);
+ const next=hooks(world);next.ports.holdPlayer=movement=>{next.events.push({hold:movement});if(movement===73)world.leave();};await assert.rejects(world.ride(0,next.ports),{name:'AbortError'});assert.deepEqual(next.events.filter(e=>e.hold).map(e=>e.hold),[73,74]);assert.equal(next.events.filter(e=>e==='release').length,1);assert.equal(next.events.filter(e=>e==='restore').length,0);assert.equal(world.active,false);disposeAzaleaGymResources(r);
 });
 
 test('superseded asset load never publishes clones and clone unload does not dispose cached buffers or PAT images',async()=>{

@@ -4,7 +4,7 @@ No route or gameplay source is synthesized here. The supported JNT ABI is
 deliberately bounded to these actual files; unknown curve encodings reject.
 """
 from pathlib import Path
-import argparse, base64, hashlib, json, re, struct, subprocess, tempfile
+import argparse, base64, hashlib, json, math, re, struct, subprocess, tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
 MODELS = {115: [25, 26], 116: [27, 28], 117: [23, 24], 118: [43], 122: [41, 42]}
@@ -79,6 +79,52 @@ def rotation(b, base, pivots, bases, index):
     return out
 
 
+def normalize_fx32(row):
+    """SDK VEC_Normalize's integer DIV/SQRT results and signed final shift.
+
+    The input is the literal FX32 row; this is not float normalization.
+    """
+    length = sum(value * value for value in row)
+    assert length > 0, 'zero native rotation row is unsupported'
+    factor = ((1 << 56) // length) * math.isqrt(length << 2)
+    return [(factor * value + (1 << 44)) >> 45 for value in row]
+
+
+def model_rest(b):
+    """Literal model SRT, bounded to Basic scaling (no Maya/SSC inference)."""
+    base, name = animation_base(b, b'MDL0')
+    scaling_rule = b[base + 21]
+    assert scaling_rule == 0, 'only native Basic joint scaling is supported'
+    identity = [4096, 0, 0, 0, 4096, 0, 0, 0, 4096]
+    poses = []
+    for record, _ in info_block(b, base + 64, 4):
+        cursor = base + 64 + struct.unpack('<I', record)[0]
+        flags, rot00 = struct.unpack_from('<Hh', b, cursor)
+        cursor += 4
+        trans, rot, scale, inverse = [0] * 3, identity[:], [4096] * 3, [4096] * 3
+        if not flags & 1:
+            trans = list(struct.unpack_from('<3i', b, cursor))
+            cursor += 12
+        if not flags & 2:
+            if flags & 8:
+                pivot = (flags >> 4) & 15
+                assert pivot < 9
+                a, c = struct.unpack_from('<2h', b, cursor)
+                cursor += 4
+                rot = [0] * 9
+                rot[pivot] = -4096 if flags & 256 else 4096
+                i, j, k, l = PIVOTS[pivot]
+                rot[i], rot[j], rot[k], rot[l] = a, c, -c if flags & 512 else c, -a if flags & 1024 else a
+            else:
+                rot = [rot00, *struct.unpack_from('<8h', b, cursor)]
+                cursor += 16
+        if not flags & 4:
+            values = struct.unpack_from('<6i', b, cursor)
+            scale, inverse = list(values[:3]), list(values[3:])
+        poses.append({'translationFx32': trans, 'rotationFx32': rot, 'scaleFx32': scale, 'inverseScaleFx32': inverse})
+    return scaling_rule, {'kind': 'joint', 'archive': -1, 'name': name + ':native-rest', 'frameCount': 1, 'nativeFrames': [poses]}
+
+
 def joint_animation(b):
     base, name = animation_base(b, b'JNT0')
     magic, frames, nodes, flags, pivots, bases = struct.unpack_from('<4sHHIII', b, base)
@@ -111,6 +157,10 @@ def joint_animation(b):
                         assert info == frames << 16, 'only native per-frame rotation tracks are supported'
                         index = struct.unpack_from('<H', b, base + data + frame * 2)[0]
                     rot = rotation(b, base, pivots, bases, index)
+                    # getRotData_ direct per-frame path normalizes pivot row2;
+                    # constant getJntSRTAnmResult_ lookups do not do this step.
+                    if not tag & 256 and index & 0x8000:
+                        rot[6:] = normalize_fx32(rot[6:])
                 if not tag & 512:
                     for axis, bit in enumerate([2048, 4096, 8192]):
                         assert tag & bit, 'sampled scales are not used by Azalea'
@@ -129,15 +179,33 @@ def pattern_animation(b):
         return [b[base + offset + i * 16:base + offset + (i + 1) * 16].rstrip(b'\0').decode('ascii') for i in range(count)]
     textures, palettes = names(to, nt), names(po, np)
     tracks = []
-    for data, material in info_block(b, base + 12, 8):
+    records = info_block(b, base + 12, 8)
+    assert len(records) == 1, 'only the actual single-material Azalea PAT is supported'
+    for data, material in records:
         count, _, offset = struct.unpack('<IHH', data)
+        assert count == 1, 'multiple PAT keys need separate per-key image ownership'
         keys = []
         for i in range(count):
             frame, ti, pi = struct.unpack_from('<HBB', b, base + offset + i * 4)
             assert ti < nt and pi < np and frame < frames
+            assert frame == 0, 'only the actual held frame-zero Azalea PAT is supported'
             keys.append({'frame': frame, 'texture': textures[ti], 'palette': palettes[pi]})
         tracks.append({'material': material, 'keys': keys})
     return {'kind': 'pattern', 'name': name, 'frameCount': frames, 'tracks': tracks}
+
+
+def pattern_texture_parameters(b, names):
+    base = struct.unpack_from('<I', b, 16)[0]
+    assert b[base:base + 4] == b'TEX0'
+    dictionary = base + struct.unpack_from('<H', b, base + 14)[0]
+    params = {name: struct.unpack('<II', data)[0] for data, name in info_block(b, dictionary, 8)}
+    result = {}
+    for name in names:
+        value = params[name]
+        current = {'width': 8 << ((value >> 20) & 7), 'height': 8 << ((value >> 23) & 7), 'format': (value >> 26) & 7, 'color0Transparent': bool(value & (1 << 29)), 'samplerFlags': (value >> 16) & 15}
+        assert current == {'width': 32, 'height': 32, 'format': 3, 'color0Transparent': True, 'samplerFlags': 0}, 'unsupported PAT dimensions/alpha/format/sampler'
+        result[name] = current
+    return result
 
 
 def pack_glb(path, joint_count):
@@ -169,13 +237,14 @@ def export(apicula):
     shape_data = (ROOT / 'files/fielddata/build_model/bm_room_matshp.dat').read_bytes()
     texture = member('files/a/0/7/0', 27)
     manifest = {'version': 1, 'map': 180, 'key': 'MAP_AZALEA_GYM', 'matrix': 105, 'area': 29, 'roomKind': 0, 'texture': 27, 'ticksPerSecond': 30, 'apiculaFramesPerSecond': 60, 'converter': {'tool': 'apicula', 'binarySHA256': sha(apicula.read_bytes()), 'playback': 'Original SDK integer-frame tables; converter clips retained for inspection only'}, 'models': {}, 'sources': {}}
-    for path in ['browser/scripts/export_azalea_world.py', 'browser/public/source/maps/180.json', 'src/field/gymmick/azalea.c', 'src/field/area_data.c', 'src/field/map_prop_animation.c', 'src/field/map_prop_render.c', 'lib/include/nnsys/g3d_anm_internal.h', 'lib/asm/nnsys_data.s', 'lib/NitroSystem/src/g3d_anm_bca.c', 'lib/NitroSystem/src/g3d_anm_bca_data.c', 'lib/NitroSystem/src/g3d_anm_btp.c', 'files/a/0/4/2', 'files/a/0/4/3', 'files/fielddata/build_model/bm_room_matshp.dat', 'files/a/1/0/8', 'files/a/1/0/6', 'files/a/1/4/8', 'files/a/0/7/0']:
+    for path in ['browser/scripts/export_azalea_world.py', 'browser/public/source/maps/180.json', 'src/field/gymmick/azalea.c', 'src/field/area_data.c', 'src/field/map_prop_animation.c', 'src/field/map_prop_render.c', 'lib/include/nnsys/g3d_anm_internal.h', 'lib/asm/nnsys_data.s', 'lib/NitroSystem/src/g3d_anm_bca.c', 'lib/NitroSystem/src/g3d_anm_bca_data.c', 'lib/NitroSystem/src/g3d_anm_btp.c', 'lib/NitroSystem/src/g3d_cgtool_basic.c', 'lib/NitroSDK/src/fx/fx_vec_normalize.c', 'lib/include/nnsys/g3d/binres/res_struct.h', 'files/a/0/4/2', 'files/a/0/4/3', 'files/fielddata/build_model/bm_room_matshp.dat', 'files/a/1/0/8', 'files/a/1/0/6', 'files/a/1/4/8', 'files/a/0/7/0']:
         manifest['sources'][path] = sha((ROOT / path).read_bytes())
     with tempfile.TemporaryDirectory() as temporary:
         for model, expected in MODELS.items():
             folder = Path(temporary) / str(model)
             folder.mkdir()
             native = member('files/a/1/4/8', model)
+            scaling_rule, rest = model_rest(native)
             listing = member('files/a/1/0/8', model)
             assert list(struct.unpack_from('<4i', listing, 8)) == expected + [-1] * (4 - len(expected))
             assert struct.unpack_from('<H', shape_data, 4 + model * 4)[0] == 0
@@ -189,6 +258,8 @@ def export(apicula):
                 animation_paths.append(str(path))
                 animation = joint_animation(raw) if raw[:4] == b'BCA0' else pattern_animation(raw)
                 animation.update({'archive': archive_id, 'nativeSHA256': sha(raw)})
+                if animation['kind'] == 'pattern':
+                    animation['nativeTextureParameters'] = pattern_texture_parameters(texture, [key['texture'] for track in animation['tracks'] for key in track['keys']])
                 animations.append(animation)
             subprocess.run([str(apicula), 'convert', '-f=glb', str(folder / 'model.nsbmd'), str(folder / 'texture.nsbtx'), *animation_paths, '-o', str(folder / 'out')], check=True, capture_output=True)
             paths = list((folder / 'out').glob('*.glb'))
@@ -213,7 +284,7 @@ def export(apicula):
                         target = 'azalea-gym/' + str(model) + '-' + str(animation['archive']) + '.png'
                         (output / target).write_bytes(png.read_bytes())
                         key['asset'], key['imageSHA256'] = target, sha(png.read_bytes())
-            manifest['models'][str(model)] = {'asset': asset, 'glbSHA256': sha(packed), 'modelSHA256': sha(native), 'textureSHA256': sha(texture), 'animationListSHA256': sha(listing), 'animationListFlags': list(listing[:4]), 'nativeJointCount': joint_count, 'nativeNodeNames': native_nodes, 'animations': animations}
+            manifest['models'][str(model)] = {'asset': asset, 'glbSHA256': sha(packed), 'modelSHA256': sha(native), 'textureSHA256': sha(texture), 'animationListSHA256': sha(listing), 'animationListFlags': list(listing[:4]), 'nativeJointCount': joint_count, 'nativeNodeNames': native_nodes, 'scalingRule': scaling_rule, 'rest': rest, 'animations': animations}
     (directory / 'resources.json').write_text(json.dumps(manifest, separators=(',', ':')) + '\n')
     return manifest
 

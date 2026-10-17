@@ -1,6 +1,7 @@
 """Independent native ABI/pixel checks; no browser or model appearance claim."""
 import ctypes
 import json
+import math
 from pathlib import Path
 import re
 import struct
@@ -9,7 +10,7 @@ import tempfile
 import unittest
 import zlib
 
-from export_azalea_world import ROOT, MODELS, info_block, joint_animation, member, pattern_animation, sha
+from export_azalea_world import ROOT, MODELS, info_block, joint_animation, member, model_rest, pattern_animation, pattern_texture_parameters, sha
 
 
 def png_rgba(raw):
@@ -83,18 +84,35 @@ class Resources(unittest.TestCase):
     def test_sdk_original_rotation_c_matches_all_native_spider_samples(self):
         # Compile the ORIGINAL pure SDK function unchanged. The only supplied
         # definitions are primitive typedefs and the literal assembly table.
-        c = (ROOT / 'lib/NitroSystem/src/g3d_anm_bca_data.c').read_text()
-        c = c[c.index('BOOL getRotDataByIdx_('):c.rindex('#pragma pop')]
+        source = (ROOT / 'lib/NitroSystem/src/g3d_anm_bca_data.c').read_text()
+        c = source[source.index('BOOL getRotDataByIdx_('):source.rindex('#pragma pop')]
+        direct = source[source.index('#define ROT_ROW2_FROM_CROSS'):source.index('#define MTX_ROW2_FROM_CROSS')]
         asm = (ROOT / 'lib/asm/nnsys_data.s').read_text().split('gJntAnmPivotMtxIndices:', 1)[1].split('.data', 1)[0]
         values = re.findall(r'0x[0-9A-Fa-f]+', asm)
         self.assertEqual(len(values), 36)
-        prefix = '#include <stdint.h>\ntypedef int32_t fx32;typedef int32_t s32;typedef int16_t s16;typedef uint32_t u32;typedef int BOOL;\n#define TRUE 1\n#define FALSE 0\n#define FX32_ONE 4096\nconst unsigned char gJntAnmPivotMtxIndices[9][4]={' + ','.join(values) + '};\n'
+        prefix = '#include <stdint.h>\ntypedef int32_t fx32;typedef int32_t s32;typedef int16_t s16;typedef uint16_t u16;typedef uint8_t u8;typedef uint32_t u32;typedef int BOOL;\n#define TRUE 1\n#define FALSE 0\n#define FX32_ONE 4096\n#define FX32_SHIFT 12\ntypedef struct{fx32 x,y,z;}VecFx32;\ntypedef struct{u8 header[4];u16 numFrame,numNode;u32 flag,ofsRot3,ofsRot5;}G3dResJntAnm;\nvoid(*normalize_callback)(VecFx32*,VecFx32*);\nvoid VEC_Normalize(VecFx32*a,VecFx32*b){normalize_callback(a,b);}\nBOOL getRotDataByIdx_(fx32*,const void*,const void*,u32);\nconst unsigned char gJntAnmPivotMtxIndices[9][4]={' + ','.join(values) + '};\n'
+        header = (ROOT / 'lib/include/nnsys/g3d_anm_mat_internal.h').read_text()
+        prefix += '\n'.join(re.findall(r'^#define G3D_ANM_TRACK_(?:STEP_MASK|STEP_2|LAST_MASK|LAST_SHIFT)\s+.*$', header, re.M)) + '\n'
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder)
-            (path / 'sdk.c').write_text(prefix + c)
+            (path / 'sdk.c').write_text(prefix + direct + c)
             subprocess.run(['cc', '-std=c99', '-O0', '-shared', '-fPIC', str(path / 'sdk.c'), '-o', str(path / 'sdk.dylib')], check=True, capture_output=True)
             library = ctypes.CDLL(str(path / 'sdk.dylib'))
             function = library.getRotDataByIdx_
+            full = library.getRotData_
+            # Original getRotData_ calls original SDK VEC_Normalize. Replay
+            # only that function's hardware DIV/SQRT integers on this CPU;
+            # no floating normalization and no exporter helper is reused.
+            callback_type = ctypes.CFUNCTYPE(None, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32))
+            def normalize(src, dst):
+                xyz = [src[i] for i in range(3)]
+                squared = sum(value * value for value in xyz)
+                quotient = (1 << 56) // squared
+                root = math.isqrt(squared * 4)
+                for i in range(3):
+                    dst[i] = (quotient * root * xyz[i] + (1 << 44)) >> 45
+            callback = callback_type(normalize)
+            ctypes.c_void_p.in_dll(library, 'normalize_callback').value = ctypes.cast(callback, ctypes.c_void_p).value
             raw = member('files/a/1/0/6', 43)
             buffer = ctypes.create_string_buffer(raw)
             base = 68
@@ -113,9 +131,60 @@ class Resources(unittest.TestCase):
                         result[6:] = [(result[1] * result[5] - result[2] * result[4]) >> 12,
                                       (result[2] * result[3] - result[0] * result[5]) >> 12,
                                       (result[0] * result[4] - result[1] * result[3]) >> 12]
-                    self.assertEqual(result, self.manifest['models']['118']['animations'][0]['nativeFrames'][frame][node]['rotationFx32'])
+                    complete = (ctypes.c_int32 * 9)()
+                    data_pair = (ctypes.c_uint32 * 2)(info, data)
+                    full(complete, frame << 12, data_pair, ctypes.byref(buffer, base))
+                    self.assertEqual(list(complete), self.manifest['models']['118']['animations'][0]['nativeFrames'][frame][node]['rotationFx32'])
                     checked += 1
             self.assertEqual(checked, 180)
+            # This nonunit pivot is intentionally not an actual resource.
+            # It makes omitted per-frame row2 normalization observably fail.
+            changed = bytearray(raw)
+            info, data = struct.unpack_from('<II', changed, base + offsets[1] + 16)
+            struct.pack_into('<H', changed, base + data, 0x8000)
+            struct.pack_into('<Hhh', changed, base + pivot_offset, 0, 1000, 2000)
+            buffer = ctypes.create_string_buffer(bytes(changed))
+            complete = (ctypes.c_int32 * 9)()
+            full(complete, 0, (ctypes.c_uint32 * 2)(info, data), ctypes.byref(buffer, base))
+            self.assertNotEqual(list(complete)[6:], [0, 2000, 1000])
+            self.assertEqual(list(complete), joint_animation(changed)['nativeFrames'][0][1]['rotationFx32'])
+
+    def test_native_rest_and_unsupported_scaling_pat_layout_and_sampling_reject(self):
+        for model in MODELS:
+            native = member('files/a/1/4/8', model)
+            rule, rest = model_rest(native)
+            self.assertEqual(rule, 0)
+            self.assertEqual(self.manifest['models'][str(model)]['rest'], rest)
+            changed = bytearray(native)
+            section = struct.unpack_from('<I', native, 16)[0]
+            offset = struct.unpack('<I', info_block(native, section + 8, 4)[0][0])[0]
+            changed[section + offset + 21] = 1
+            with self.assertRaisesRegex(AssertionError, 'Basic'):
+                model_rest(changed)
+        rail = self.manifest['models']['115']['rest']['nativeFrames'][0][2]
+        self.assertEqual(rail['translationFx32'], [0, 0, 0])
+        self.assertEqual(rail['scaleFx32'], [0, 0, 0])
+        spider = self.manifest['models']['118']['rest']['nativeFrames'][0]
+        self.assertEqual(spider[0]['translationFx32'], [0, -8192, 37273])
+        self.assertEqual(spider[0]['scaleFx32'], [3686] * 3)
+        self.assertEqual(spider[1]['translationFx32'], [-45948, -16144, 22556])
+        raw = bytearray(member('files/a/1/0/6', 23))
+        base = 68
+        record = base + 12
+        header = record + 12 + 4 * raw[record + 1]
+        struct.pack_into('<I', raw, header + 4, 2)
+        with self.assertRaisesRegex(AssertionError, 'multiple PAT'):
+            pattern_animation(raw)
+        texture = bytearray(member('files/a/0/7/0', 27))
+        section = struct.unpack_from('<I', texture, 16)[0]
+        dictionary = section + struct.unpack_from('<H', texture, section + 14)[0]
+        records = info_block(texture, dictionary, 8)
+        index = [name for _, name in records].index('g2switch.1')
+        entry = dictionary + 12 + 4 * len(records) + 4 + 8 * index
+        params = struct.unpack_from('<I', texture, entry)[0]
+        struct.pack_into('<I', texture, entry, params ^ (1 << 29))
+        with self.assertRaisesRegex(AssertionError, 'PAT dimensions'):
+            pattern_texture_parameters(texture, ['g2switch.1'])
 
     def test_every_actual_pat_pixel_uses_its_literal_texture_and_palette(self):
         texture = member('files/a/0/7/0', 27)
@@ -132,8 +201,10 @@ class Resources(unittest.TestCase):
             for animation in entry['animations']:
                 native = pattern_animation(member('files/a/1/0/6', animation['archive']))
                 self.assertEqual(native['frameCount'], 2)
+                self.assertEqual(len(animation['tracks']), len(native['tracks']))
                 for track, original in zip(animation['tracks'], native['tracks']):
                     self.assertEqual(track['material'], original['material'])
+                    self.assertEqual(len(track['keys']), len(original['keys']))
                     for key, expected in zip(track['keys'], original['keys']):
                         self.assertEqual({k: key[k] for k in ['frame', 'texture', 'palette']}, expected)
                         params = textures[key['texture']]
