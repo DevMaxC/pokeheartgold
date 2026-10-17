@@ -65,7 +65,8 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
  let enabled=options.enabled,volume=options.volume,context:AudioContext|undefined,gain:GainNode|undefined,unlocked=false,disposed=false,pageActive=true;
  let manifest:Promise<NativeFieldCatalog>|undefined,desired:NativeFieldSelection|null=null,current:{selection:NativeFieldSelection;identity:string;voice:Voice}|null=null;
  let serial=0,generation=0,intent=0,loading:AbortController|undefined,interrupted=false;
- let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:{preferences?:()=>Promise<void>}|undefined;
+ type CueSessionOwner={preferences?:()=>Promise<void>;takeRetainedRestore?:(next:CueSessionOwner)=>{saved:EffectiveMusic;drain:Promise<unknown>}};
+ let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:CueSessionOwner|undefined;
  const fetchBytes=options.fetchBytes??bytes;
  const assertOpen=()=>{if(disposed)throw Error('Native field music player is disposed');};
  const updateGain=()=>{if(gain)gain.gain.value=enabled&&pageActive?volume:0;};
@@ -184,10 +185,10 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
   capture:snapshot,
   /** A non-field native cue (e.g. battle) with an owned interruption. */
   createCueSession(){
-   assertOpen();const owner:{preferences?:()=>Promise<void>}={};let abort=new AbortController();
+   assertOpen();const owner:CueSessionOwner={};let abort=new AbortController();
    let saved:EffectiveMusic|undefined,owned:Voice|undefined,track:NativeFieldTrack|undefined;
    let started=false,starting=false,failed=false,closed=false,restored=false,restoring:Promise<void>|undefined,preparing:Promise<void>|undefined;
-   let child:{controller:AbortController;released:boolean}|undefined,silentParent=false;
+   let child:{controller:AbortController;released:boolean}|undefined,silentParent=false,restoreFailed=false,superseded=false;let restoreAbort:AbortController|undefined;
    const cancelChild=()=>{const previous=child;child=undefined;previous?.controller.abort(reason(abort.signal));};abort.signal.addEventListener('abort',cancelChild,{once:true});
    let detach=()=>{};
    const update=async()=>{
@@ -202,6 +203,36 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
     })();preparing=pending;try{await pending;}finally{if(preparing===pending)preparing=undefined;}
    };
    owner.preferences=update;
+   owner.takeRetainedRestore=next=>{
+    if(cueSession!==owner||!closed||restored||!restoreFailed||!saved)throw Error('No closed failed native restore is retained');
+    // A retry may already be decoding with interrupted=false. Fence it BEFORE
+    // aborting/draining so its late result cannot publish or re-arm ownership.
+    loading?.abort(Error('Retained native restore transferred'));generation++;current?.voice.pause();interrupted=true;
+    const original=saved;superseded=true;restored=true;cueSession=next;
+    restoreAbort?.abort(Error('Retained native restore superseded'));
+    return{saved:original,drain:Promise.allSettled([restoring,preparing].filter((work):work is Promise<void>=>!!work))};
+   };
+   async function startSilent(signal:AbortSignal,takeRetained=false){
+    assertOpen();check(signal);check(lifetime.signal);
+    if(starting||closed||restored||started&&!failed)throw Error('Native silent interruption requires an unused or failed parent');
+    let retired:Promise<unknown>|undefined;
+    if(takeRetained){
+     if(started||saved||child||!cueSession||cueSession===owner||!cueSession.takeRetainedRestore)throw Error('No closed failed native restore is retained');
+     const transfer=cueSession.takeRetainedRestore(owner);saved=transfer.saved;retired=transfer.drain;
+    }
+    if(child||cueSession&&cueSession!==owner||interrupted&&!saved)throw Error('Another native music interruption is active');
+    if(saved&&!interrupted)throw Error('Native silent interruption lost its suspended field owner');
+    const previous=abort,prior=preparing;started=true;starting=true;failed=false;silentParent=true;track=undefined;cueSession=owner;detach();previous.abort(Error('Native cue preparation replaced by owned silence'));owned?.stop();owned=undefined;
+    abort=new AbortController();abort.signal.addEventListener('abort',cancelChild,{once:true});
+    const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));signal.addEventListener('abort',cancel,{once:true});lifetime.signal.addEventListener('abort',destroy,{once:true});detach=()=>{signal.removeEventListener('abort',cancel);lifetime.signal.removeEventListener('abort',destroy);};
+    try{
+     // Suspend captures the ACTUAL paused phase. A retained transfer instead
+     // carries its original snapshot; recapturing a stopped current is wrong.
+     if(!saved){const pausing=field.suspend(snapshot());saved=snapshot();await observe(()=>pausing,[signal,abort.signal,lifetime.signal]);}
+     if(prior)await Promise.allSettled([prior]);if(retired)await retired;check(signal);check(abort.signal);assertOpen();
+     if(!interrupted||cueSession!==owner)throw Error('Native silent interruption lost ownership');starting=false;
+    }catch(error){starting=false;failed=true;detach();abort.abort(error);if(cueSession===owner&&!saved)cueSession=undefined;throw error;}
+   }
    return{
     /** Native post-battle evolution may replace the battle cue without an
      * intervening field resume. The paused parent stays silent across all
@@ -218,22 +249,12 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
      * its already-suspended field phase is never briefly restored. No cue,
      * catalog, Context or voice is invented. Only outer restore resumes field.
      */
-    async startSilent(signal:AbortSignal){
-     assertOpen();check(signal);check(lifetime.signal);
-     if(starting||closed||restored||started&&!failed)throw Error('Native silent interruption requires an unused or failed parent');
-     if(child||cueSession&&cueSession!==owner||interrupted&&!saved)throw Error('Another native music interruption is active');
-     if(saved&&!interrupted)throw Error('Native silent interruption lost its suspended field owner');
-     const previous=abort,prior=preparing;started=true;starting=true;failed=false;silentParent=true;track=undefined;cueSession=owner;detach();previous.abort(Error('Native cue preparation replaced by owned silence'));owned?.stop();owned=undefined;
-     abort=new AbortController();abort.signal.addEventListener('abort',cancelChild,{once:true});
-     const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));signal.addEventListener('abort',cancel,{once:true});lifetime.signal.addEventListener('abort',destroy,{once:true});detach=()=>{signal.removeEventListener('abort',cancel);lifetime.signal.removeEventListener('abort',destroy);};
-     try{
-      // suspend runs synchronously up to its returned Promise. Snapshot after
-      // that boundary records the ACTUAL paused phase, not stale prep time.
-      if(!saved){const pausing=field.suspend(snapshot());saved=snapshot();await observe(()=>pausing,[signal,abort.signal,lifetime.signal]);}
-      if(prior)await Promise.allSettled([prior]);check(signal);check(abort.signal);assertOpen();
-      if(!interrupted||cueSession!==owner)throw Error('Native silent interruption lost ownership');starting=false;
-     }catch(error){starting=false;failed=true;detach();abort.abort(error);if(cueSession===owner&&!saved)cueSession=undefined;throw error;}
-    },
+    startSilent:(signal:AbortSignal)=>startSilent(signal),
+    /** Explicit recovery for a later action after a CLOSED parent's field
+     * restore failed. Active parents never qualify. The original snapshot
+     * and interruption transfer atomically; stale restore retries are drained
+     * and become terminal cleanup, never a later field resume. */
+    startSilentAfterRetainedRestore:(signal:AbortSignal)=>startSilent(signal,true),
     async start(cue:NativeMusicCue,signal:AbortSignal){
      assertOpen();check(signal);if(started||closed)throw Error('Native cue session already started or closed');if(interrupted||cueSession)throw Error('Another native music interruption is active');started=true;starting=true;failed=false;cueSession=owner;
      const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));
@@ -249,7 +270,9 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
     },
     restore(signal?:AbortSignal){
      if(restored)return Promise.resolve();if(restoring)return observe(()=>restoring!,signal?[signal]:[]);closed=true;detach();abort.abort(Error('Native cue session restored'));owned?.stop();
-     const pending=(async()=>{if(signal)check(signal);if(saved)await field.restore(saved,signal);restored=true;if(cueSession===owner)cueSession=undefined;})();restoring=pending;void pending.catch(()=>{if(restoring===pending)restoring=undefined;});return pending;
+     const controller=new AbortController();restoreAbort=controller;const input=AbortSignal.any([controller.signal,lifetime.signal,...signal?[signal]:[]]);
+     const pending=(async()=>{check(input);if(saved)await field.restore(saved,input);restored=true;restoreFailed=false;if(cueSession===owner)cueSession=undefined;})();restoring=pending;
+     void pending.catch(()=>{if(!superseded)restoreFailed=true;if(restoring===pending)restoring=undefined;});return pending;
     },
    };
   },
