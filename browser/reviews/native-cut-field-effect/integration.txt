@@ -1,0 +1,36 @@
+Native Cut field effect leaf: source/asset API, no host integration/playthrough claim.
+
+const resources = await loadNativeCutResources(signal);
+const audio = createNativeCutAudio(resources, {
+  output: () => ({context: alreadyUnlockedGameAudioContext, destination: existingMasterGain}),
+  enabled: () => explicitSoundPreference,
+  onStatus: event => reportAudioStatus(event), // REQUIRED; failed-admission/playback stays visible to QA/user status.
+});
+void audio.failure.catch(reason => reportCutConfigurationFailure(reason)); // REQUIRED observer per owner; separate from onStatus.
+await audio.prepareSE(signal); // Before EVERY source VM dispatch/counter. Technical failure is a reported result.
+const effect = new NativeCutFieldEffect(resources, {
+  scene: world.scene,
+  field: () => ({map: state.map, mapRunning: actualFieldRenderingAndAdmissionState,
+    player: {x: state.x, y: playerBaseTerrainY, z: state.z, facing: state.facing},
+    follower: follower ? {x: followerLogicalTileX, y:followerBaseTerrainY,
+      z:followerLogicalTileZ, facing:followerFacing} : null}),
+  audio,
+});
+
+VM startEffect: (kind, context) => effect.start(kind, context)
+VM cry: async (species, pattern, context) => { await audio.cry(species, pattern, context.signal); }
+Cut audio result objects are explicit; wrap in async void adapter if VM port requires Promise<void>.
+
+kind0 player/kind3 follower; context contains literal originating map/object/signal. Start synchronously clones/attaches native assets and requests prepared SE. No async silently delayed first frame. It does not hide a tree, move actors, mutate State or own camera. Source VM owns tree flags/Wait7/doneVar. Performer getters must use logical tiles and base Y, not interpolated/hopping follower render coordinates. Effect uses floor(tile)+.5 tile ahead, native fixed orientation, scale1/16.
+
+Clock: prefer stepNativeQueue() once per source mainqueue phase AFTER that tick's script VM. Native wrapperpriority0 polls before modelpriority1024. Model updates/rendering gated by actual mapRunning (NOT ui.busy/vm.busy); wrapper polls/releases independently. Queuepasses1..45 animate/hide;46 observes finished;47 deletes/releases/resolves, regardless SE playback. First pass can occur in SAME native main tick as Start dispatch (runNowFALSE), so host must align phases instead of blindly waiting47 later rAFs. update(dt) is alternate30Hz accumulated-time convenience, not native wallclock/VM-rAF alignment proof. Do not use both clocks. Continue ordinary free camera updates; existing camera-owning Egg fieldEffect earlyreturn must not be reused unchanged.
+
+Native Cut ignores PlaySE failure and never waits for SE; WaitCry polls actual playing count, so failed cry admission leaves no voice to wait for. Technical audio fetch/hash/decode/context-suspension/start/playback failure reports failed-admission/failed-playback and permits real visual/script progress. This does NOT fabricate played/ended status. No preparation call, missing/invalid required output/status mechanism, unsupported pattern/species and cancellation still reject explicitly. prepareSE returns prepared/muted/failed-admission. startSE returns owned handle with admission playing/muted/failed-admission; audio owner retains a real voice after normal visual completion. cry resolves ended/muted/failed-admission/failed-playback; successful playback awaits actual ended. Fresh preparation before each dispatch handles mute changes/retry.
+
+Before active action map/recovery teardown: VM.cancel/effect.cancel(reason), which aborts/stops active effect-owned voice and releases instance synchronously before rejecting. Normal effect completion detaches action cancellation and does NOT stop independent SE. Game owner teardown calls audio.dispose then resources.dispose. Audio owns pending voices through their actual ended/watchdog; disposed owner cancels/drains all. Resource instances deep-clone geometry/material/maps/skeletons; templates/siblings unchanged. Bounded abort-observed fetch/hash/decode never publishes a late aborted cache or voice.
+
+Audio creates/resumes NO Context, never suspends/restores BGM. Host provides shared running Context/master output. Sound=false is deliberate muted status. On-demand494 original default PCM8 cry banks, pattern0 only; custom Chatot recordings/other patterns unsupported. Original genericSEQ_PV2 species bank override, key/root60, velocity127, ADSR127, pan64. Gain(120/127)*(100/127) includes source sequence + initial volume as linear presentation mapping, not DS logarithmic mixer/ADSR/timer fidelity. SFX1610 uses pinned DualRip originalbank750/waves; emulated sample render, not hardware capture. No browser/mobile audition/production claim.
+
+Persistent audio.failure retains the first configuration/status-sink fault even after visual completion. A failing status callback rejects an active visual action and prevents new audio admissions. Observe it once per audio owner via the separate error channel; do not await the pending Promise as a success barrier.
+
+Native geometry/UV/skin preserved. Leaves have light0/NORMAL in original model; converter emits KHR_unlit +white vertex colors. Runtime applies literal BMA diffuse once in THREE.SRGBColorSpace as bounded unlit palette mapping, not full DS ambient/specular/global-light recreation. Native positionScale8/inverse1/8 handled by original converter geometry/skin; runtime adds no duplicate correction. Magnification1/light masks/scale are exporter guards and recorded facts.
