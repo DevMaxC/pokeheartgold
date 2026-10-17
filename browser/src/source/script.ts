@@ -25,6 +25,7 @@ export type ScriptHooks={
   encounterMusic?:(trainer:number)=>Promise<void>|void;followerActive?:()=>boolean;
   trainerPath?:(index:number,trainer:EngagedTrainer)=>Promise<void>;trainerStep?:(index:number,trainer:EngagedTrainer)=>Promise<boolean>;
   trainerCandle?:(action:'bind'|'unbind'|'extinguish',useLastInteracted:boolean)=>Promise<void>|void;
+  violetGym?:{init:()=>void|Promise<void>;elevator:()=>Promise<void>};
 };
 export class UnsupportedScript extends Error{
   readonly map:string;readonly command:string;readonly pc:number;
@@ -142,6 +143,7 @@ export class ScriptVM{
         if(cmd==='GetGender'||cmd==='GetPlayerGender'){this.set(a[0],this.state.gender==='boy'?0:1);continue;}
         if(cmd==='GetGameVersion'){this.set(a[0],this.data.constants.GAME_VERSION);continue;}
         if(cmd==='GetWeatherType'){this.set(a[0],this.hooks.weather?.()??mapWeather(map,this.state));continue;}
+        if(cmd==='VioletGymInit'||cmd==='VioletGymElevator'){if(!this.hooks.violetGym)throw new UnsupportedScript(map.code,cmd,pc-1);if(cmd==='VioletGymInit')await this.hooks.violetGym.init();else await this.hooks.violetGym.elevator();continue;}
         if(cmd==='SetWeather'||cmd==='FlashEffect'){if(!this.hooks.weather)throw new UnsupportedScript(map.code,cmd,pc-1);this.hooks.weather(cmd==='FlashEffect'?12:v(a[0]));continue;}
         if(cmd==='FlashAction'||cmd==='DefogAction'){const flag=cmd==='FlashAction'?'FLAG_SYS_FLASH':'FLAG_SYS_DEFOG',action=v(a[0]);if(action===2)this.set(a[1],Number(!!this.state.flags[flag]));else if(action===0||action===1)this.state.flags[flag]=!!action;else throw new UnsupportedScript(map.code,cmd,pc-1);continue;}
         if(cmd==='GivePokedex'){this.state.pokedexEnabled=true;continue;}

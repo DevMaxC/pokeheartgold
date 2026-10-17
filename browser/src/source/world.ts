@@ -17,6 +17,7 @@ import {shorelineUnderlay} from './shoreline.ts';
 import {Terraces,type TerraceData} from './ledges.ts';
 import {terraceModel,terraceWalls,terraceCliffMaterial} from './terrace-model.ts';
 import {terrainPause} from './terrain-work.ts';
+import {VioletGym,VIOLET_GYM,type VioletLiftState} from './gym-violet.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap;furniture?:FurnitureObstacle[]};
 export class OriginalWorld {
@@ -39,6 +40,8 @@ export class OriginalWorld {
   private generation=0;
   private pending:Promise<void>|null=null;private grassTime=0;
   readonly sky:WorldSky;
+  private violetGymInstance:VioletGym|undefined;
+  get violetGym(){return this.violetGymInstance??=new VioletGym(this.scene,path=>this.asset(path));}
   private cameraReady=false;
   private cameraTransition=false;
   private cameraResizePending=false;
@@ -70,7 +73,9 @@ export class OriginalWorld {
           jobs.push((async()=>{let texture=(material as THREE.MeshBasicMaterial).map;if(entry.asset!==`foliage/${context}-${material.name}.png`){if(!this.treeTextures.has(entry.asset))this.treeTextures.set(entry.asset,new THREE.TextureLoader().loadAsync('/source/'+entry.asset).then(t=>{t.flipY=false;t.colorSpace=THREE.SRGBColorSpace;t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;}).catch(error=>{this.treeTextures.delete(entry.asset);throw error;}));texture=await this.treeTextures.get(entry.asset)!;}material.userData.treeInfo={...entry,texture};})());
         }});await Promise.all(jobs);
       }
-      repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
+      // The original dynamic platform includes its complete long lift shaft.
+      // Generic building/furniture inference must not reshape that machinery.
+      if(path!==VIOLET_GYM.asset)repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
   private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
@@ -84,16 +89,17 @@ export class OriginalWorld {
    * before any of them consumes the budget. */
   private async runSceneryWork(generation:number,build:()=>void){if(generation!==this.generation)return false;let pending:Promise<void>|null;while((pending=terrainPause())){await pending;if(generation!==this.generation)return false;}build();return true;}
   get fieldTransitionActive(){return this.cameraTransition;}
-  async enter(id:number,x:number,z:number,weather=0){
+  async enter(id:number,x:number,z:number,weather=0,initialHeight=0,violetLift:VioletLiftState=0){
     const ownsTransition=!this.cameraTransition;
     this.beginFieldTransition();
+    this.violetGym.leave();
     try{
     const map=await this.map(id);
     const matrixChanged=this.activeMatrix!==map.matrix,roomChanged=!matrixChanged&&this.matrix?.headers===null&&this.activeHeader!==id;
     if(matrixChanged||roomChanged){this.generation++;this.streamCenter='';for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){const matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);let terraces:Terraces|null=null;if(map.matrix===0){this.terraceData??=sourceJSON<TerraceData>('terraces/0.json').then(data=>new Terraces(data)).catch(error=>{this.terraceData=null;throw error;});terraces=await this.terraceData;}this.activeMatrix=map.matrix;this.matrix=matrix;this.terraces=terraces;}}
     this.activeHeader=id;
     this.latestStream={matrix:this.activeMatrix,id,x,z};
-    await this.stream(id,x,z);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance,true);this.cameraReady=true;
+    await this.stream(id,x,z);await this.violetGym.enter(map,violetLift);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z,initialHeight)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance,true);this.cameraReady=true;
     this.sky.enter(map,weather);
     return map;
     }finally{if(ownsTransition)this.endFieldTransition();}
@@ -161,12 +167,13 @@ export class OriginalWorld {
   }
   cell(x:number,z:number){return this.cells.get(Math.floor(x/32)+','+Math.floor(z/32));}
   /** Compare native plate levels using the reference position before adding relief. */
-  height(x:number,z:number,currentY=0,fromX=x,fromZ=z){const c=this.cell(x,z),offset=this.terraces?.height(x,z)??0,reference=this.terraces?.height(fromX,fromZ)??0;return c?terrainHeight(c.land,c.cell,x,z,currentY-reference)+offset:currentY;}
+  height(x:number,z:number,currentY=0,fromX=x,fromZ=z){const c=this.cell(x,z),offset=this.terraces?.height(x,z)??0,reference=this.terraces?.height(fromX,fromZ)??0;return c?this.violetGym.height(x,z,currentY,terrainHeight(c.land,c.cell,x,z,currentY-reference)+offset):currentY;}
   permission(x:number,z:number){const c=this.cell(x,z);return c?tilePermission(c.land,x,z):0x8000;}
   terrainWalkable(x:number,z:number){const cell=this.cell(x,z);return !!cell&&cell.map.id!==0&&permissionWalkable(this.permission(x,z));}
   walkable(x:number,z:number,fromX=x,fromZ=z,currentY=0){
     if(!this.terrainWalkable(x,z))return false;
     const fromY=this.height(fromX,fromZ,currentY),toY=this.height(x,z,fromY,fromX,fromZ);
+    if(this.violetGym.blocksStep(fromY,toY))return false;
     for(const loaded of this.cells.values())if(furnitureBlocksStep(loaded.furniture??[],fromX,fromZ,x,z,fromY,toY))return false;
     return true;
   }
