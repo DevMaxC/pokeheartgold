@@ -1,0 +1,7 @@
+{
+  "before": "corrected-native-geometry.json",
+  "after": "camera-corrected-native-geometry.json",
+  "allFourRecordsExactlyEqual": true,
+  "includes": "actual native and candidate Float32 positions/UVs/RGBA/tints/samplers/transforms",
+  "onlyRuntimeDelta": "native material name tree01; no camera, input, UI or geometry change"
+}

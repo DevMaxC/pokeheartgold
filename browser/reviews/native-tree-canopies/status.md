@@ -1,3 +1,11 @@
+# Native tree release source — awaiting parent release
+
+The production/UI reconciliation18814712 was withheld after identifying loose Lake of Rage objects and a revolved antenna feature. The [scoped correction](semantic-correction/README.md) preserves56native loose-object cards and keeps a closed pine with three discrete antenna prongs. Original TEX0 data proves the blue surrounds are opaque source art.
+
+The actual59-turn Opus5.5 review confirms targeting/shape and found one camera defect; its actual35-turn follow-up confirms the native-material-name correction resolves that defect and reports no reachable blockers. Final659combined tests,66focused tests, source-assets9 and TypeScript pass, with current204-asset/native-input guards stable. Browser/GPU/mobile/final aesthetic approval remains unavailable. No build/push/PR was performed for this correction. Root owns the remaining production release.
+
+The following signed-V checkpoint is historical; its generated-sprig target assumption and39-variant cost figures are superseded by the scoped semantic evidence above. Raw review outputs and original snapshots remain unchanged.
+
 # Native tree source candidate
 
 Source commits: `a79fbd54` plus signed-V correction `d7a2397d`. Actual restricted Opus5.5 review found one native orientation blocker; its actual follow-up confirms that blocker is fixed and found no introduced mirror, winding, cache or attachment defect. Raw reviewer outputs and conditional findings remain in this directory. This is source review, not browser/GPU or final aesthetic approval.

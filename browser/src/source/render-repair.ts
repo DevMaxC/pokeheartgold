@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {addTreeVolumes} from './tree-volume.ts';
+import {nativeTreeAntenna,addNativeTreeAntennae} from './tree-antenna.ts';
 import {addTreeFronds,treeFrondContact,type FrondTree} from './tree-fronds.ts';
 import {treeImagePixels,treeSpritePixels,treeSpriteComponents,type TreeShape} from './tree-texture.ts';
 import {solidFurniture} from './furniture.ts';
@@ -309,11 +310,16 @@ function groundTreeMarks(source:Triangle[]){
   }return marks;
 }
 function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:RepairSummary,roots:Set<string>,marks:Map<string,TreeMark[]>):Triangle[]{
- const eligible=source.filter(t=>(t.material.userData.treeInfo||/tree|bush/i.test(t.material.name))&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
+ // Bank8 ki_obj1/2/3 are Lake of Rage loose leaves/broken wood, despite their
+ // editor material names. Their opaque blue lake art and authored leaning
+ // surfaces must remain intact; they have no tree trunk or ground root.
+ const looseLakeObject=(m:THREE.MeshBasicMaterial)=>/^tree_ki(?:2|3)?$/.test(m.name)&&m.userData.treeInfo?.asset===`foliage/8-${m.name}.png`;
+ const eligible=source.filter(t=>!looseLakeObject(t.material)&&(t.material.userData.treeInfo||/tree|bush/i.test(t.material.name))&&!isShadow(t.material)&&normal(t).length()>.001&&Math.abs(normal(t).normalize().y)<.9);if(!eligible.length)return source;
  // Authored multipart 3D trees have nonparallel leaf planes. Preserve the whole
  // assembly rather than turning every trunk/leaf face into a separate tree.
  const first=normal(eligible[0]).normalize();if(!eligible.every(t=>Math.abs(normal(t).normalize().dot(first))>.99&&t.material===eligible[0].material))return source;
  const material=eligible[0].material,info=material.userData.treeInfo as {texture?:THREE.Texture;centers:number[];footU?:number;footV:number;family?:string;topV?:number;asset?:string}|undefined,texture=info?.texture||material.map||undefined,pixels=treeImagePixels(texture?.image);if(!pixels)return source;
+ const antennaProp=/^antena_tree(?:_\d+)?$/i.test(mesh.name)&&material.name==='tree01'&&!info,antenna=antennaProp?nativeTreeAntenna(texture):null;if(antennaProp&&!antenna)return source;
  const inverse=root.matrixWorld.clone().invert(),family=nativeTreeFamily(material),converted=new Set<Triangle>();
  type Part={pair:Triangle[];minU:number;maxU:number;minV:number;maxV:number;uAxis:THREE.Vector3;vAxis:THREE.Vector3;point:(u:number,v:number)=>THREE.Vector3};const parts:Part[]=[];
  const cards=source.filter(t=>t.material===material&&Math.abs(normal(t).normalize().y)<.99);
@@ -357,7 +363,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
    // single selected half-atlas card, its literal U range is the tighter bound.
    const halfWidth=lower?Math.min(.5,(right-left)*rootPart.uAxis.length()/part.uAxis.length()/2):Infinity;
    const region=[Math.max(0,part.minU-partTile,lower?partOffset-halfWidth:left),Math.max(0,part.minV),Math.min(1,part.maxU-partTile,lower?partOffset+halfWidth:right),Math.min(1,part.maxV)]as const;
-   const shape:Partial<TreeShape>=alias||full?{footU:info?.footU??rootSprite.shape.footU,footV:info?.footV??rootSprite.shape.footV,topV:info?.topV}:{region,footU:Math.fround(partOffset)};if(localV.y>0)shape.growth=-1;const sprite=treeSpritePixels(pixels,shape);if(!sprite)continue;
+   const shape:Partial<TreeShape>=alias||full?{footU:info?.footU??rootSprite.shape.footU,footV:info?.footV??rootSprite.shape.footV,topV:info?.topV}:{region,footU:Math.fround(partOffset)};if(antenna)shape.region=[0,antenna.topV,1,1];if(localV.y>0)shape.growth=-1;const sprite=treeSpritePixels(pixels,shape);if(!sprite)continue;
    const stem=part.point(u,alias?(info?.footV??sprite.shape.footV):sprite.shape.footV);if(lower){stem.x=ground.x;stem.z=ground.z;}
    if(ownedMarker){const shift=ownedMarker.clone().sub(ground);stem.add(shift);ground.copy(ownedMarker);}
    const partKey=JSON.stringify(shape),key=family+':'+ground.toArray().map(n=>Math.round(n*100)).join(',')+':'+partKey;if(roots.has(key)){part.pair.forEach(t=>converted.add(t));if(lower)lower.pair.forEach(t=>converted.add(t));continue;}
@@ -369,7 +375,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
    group.keys.push(key);group.pairs.add(part.pair);groups.set(partKey,group);
   }
  }
- for(const group of groups.values())if(group.fronds.length?addTreeFronds(root,group.fronds,texture,group.shape):addTreeVolumes(root,group.trees,texture,group.shape)){group.keys.forEach(key=>roots.add(key));group.pairs.forEach(pair=>pair.forEach(t=>converted.add(t)));summary.billboardTrees+=group.trees.length+group.fronds.length*2;}
+ for(const group of groups.values())if(group.fronds.length?addTreeFronds(root,group.fronds,texture,group.shape):addTreeVolumes(root,group.trees,texture,group.shape)){if(antenna)addNativeTreeAntennae(root,group.trees,antenna);group.keys.forEach(key=>roots.add(key));group.pairs.forEach(pair=>pair.forEach(t=>converted.add(t)));summary.billboardTrees+=group.trees.length+group.fronds.length*2;}
 
  // A pure atlas gap can also belong to complete canonical cards in another
  // primitive. Require BOTH literal UV-derived root points to be owned already;

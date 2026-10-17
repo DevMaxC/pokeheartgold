@@ -1,0 +1,50 @@
+{
+  "rawReview": "opus-semantic-review.json",
+  "rawReviewSHA256": "bcdf7d5f1d0d6aab619b684f26efdbe5177f066f8031728d9bd96ad017a581fe",
+  "reviewSnapshot": "/tmp/hg-native-tree-semantic-review-20261017-172820",
+  "snapshotManifestSHA256": "fd18b0b4cade168647e4ea7ccc766348b5f7e5447d6688b744e06383ce08c667",
+  "actualResult": {
+    "success": true,
+    "turns": 59,
+    "denials": [],
+    "model": "claude-opus-5-5"
+  },
+  "blocker": {
+    "finding": "New antenna was included in field and battle camera triangle collision",
+    "verifiedBefore": "camera-obstacle-before.log returns1 instead0",
+    "fix": "Retain literal native material name tree01, so existing source-tree camera filter also excludes the feature; no camera/UI/input code change",
+    "nativeAfter": "native5-camera-after.log passes field exclusion, throws on accidental antenna raycast, actualWorldBattleView update, and real-wall positivecontrol",
+    "followup": {
+      "result": "Prior camera defect fixed; no concrete reachable blockers found",
+      "raw": "opus-camera-followup.json",
+      "rawSHA256": "4865e4129063afaa50064e9a8f713ff27ffa68dad7ebc997fe3f62ba2fea345b",
+      "turns": 35,
+      "model": "claude-opus-5-5",
+      "denials": [],
+      "scope": "one-line native material name correction; no automatic geometry/browser/GPU/aesthetic approval"
+    }
+  },
+  "evidenceCorrections": {
+    "removedVacuousAssertions": "Replaced unset nativeTreeSourceMaterial and nonnegative count checks with absence of generated canopy roots at all56 native UV-inferred loose-object feet; ordinary Lake trees must remain converted",
+    "before3of4Nuance": "Readiness alone already worked on188; unfamiliar alpha step caused the third failure. No newly introduced readiness-fix claim.",
+    "supersededTest": "Both the entire upward-V generated-sprig test AND atlas sprig-selection assertion are preserved verbatim",
+    "nativePolygonAlpha": "Decoded from native land89 only; no all-five polygon-alpha claim",
+    "wallControlFixture": "First wall control placed the synthetic battle origin inside the analytic pine canopy, which had already raised the camera. The final test positions the same native prop8tiles aside, preserves the actual camera exclusion assertion, makes an antenna raycast throw, and verifies real-wall planning. The earlier failed fixture run is historical, not final validation."
+  },
+  "conditionalUnchanged": [
+    "No current generated upward-V family uses the unchanged negative-growth branch; no coverage claim after semantically superseding its integration test",
+    "Antenna specialization only covers current single downward-V named native card; no mirrored/upward-V/companion/remapped future-asset claim",
+    "Source caches follow existing bounded template ownership; browser/GPU lifetime or aesthetic approval not inferred"
+  ],
+  "geometryByteDelta": "Camera fix only sets native material name; four native software p/UV/RGBA records remain identical",
+  "releaseApproval": false,
+  "finalValidation": {
+    "combined": 659,
+    "focused": 66,
+    "sourceAssetsWithinCombined": 9,
+    "TSCExitCode": 0,
+    "actualNativeAssets": 204,
+    "metadataRoles": 124,
+    "sourceAndNativeInputsStable": true
+  }
+}
