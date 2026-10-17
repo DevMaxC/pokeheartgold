@@ -7,14 +7,14 @@ const clone=<T>(value:T)=>structuredClone(value),flush=()=>new Promise<void>(res
 const hash=(data:ArrayBuffer)=>createHash('sha256').update(Buffer.from(data)).digest('hex');
 function body(value:unknown){const b=Buffer.from(JSON.stringify(value));return b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength)as ArrayBuffer;}
 function deferred<T>(){let resolve!:(value:T)=>void,reject!:(error:unknown)=>void;const promise=new Promise<T>((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};}
-function fixture(){
+function fixture(options:{ioTimeoutMs?:number}={}){
  const files=new Map<string,ArrayBuffer>(),requests:string[]=[],log:string[]=[],sources:any[]=[],contexts:any[]=[];
  const tracks:Record<string,NativeFieldTrack>={};for(const cue of[A,B,SURF]){const formats=(['aac','mp3']as const).map(codec=>{const file=cue.id+'-'+cue.key+(codec==='aac'?'.m4a':'.mp3'),bytes=body({codec,id:cue.id,duration:10,channels:2});files.set('/source/music/'+file,bytes);return{codec,file,bytes:bytes.byteLength,sha256:hash(bytes),decodedSampleRate:48000,decodedFrames:480000,leadingFrames:0};});tracks[cue.id]={...cue,status:'ready',sampleRate:32768,frames:327680,channels:2,loopFrames:[32768,294912],formats};}
  const catalog:NativeFieldCatalog={version:1,maps:{60:{day:A,night:B},61:{day:A,night:A},73:{day:B,night:B}},storyOverrides:[{map:60,flag:'FLAG_FIXTURE_STORY',flagId:123,cue:B}],surf:SURF,surfSuppressionFlag:'FLAG_UNK_99A',surfSuppressionFlagId:0x99A,nightHours:[0,1,2,3,20,21,22,23],tracks};
- const controls:{failAAC?:boolean;resume?:()=>Promise<void>;load?:()=>Promise<NativeFieldCatalog>;fetch?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;badDuration?:boolean}={};
+ const controls:{failAAC?:boolean;resume?:()=>Promise<void>;load?:()=>Promise<NativeFieldCatalog>;fetch?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;decode?:(data:ArrayBuffer)=>Promise<any>;badDuration?:boolean}={};
  class Source{buffer:any;loop=false;loopStart=0;loopEnd=0;offset=0;onended:(()=>void)|null=null;stopped=false;disconnected=false;connect(){}start(_when:number,offset:number){this.offset=offset;log.push('start:'+JSON.stringify(this.buffer));}stop(){this.stopped=true;}disconnect(){this.disconnected=true;}}
- class Context{state='suspended';sampleRate=48000;currentTime=0;destination={};gain={gain:{value:1},connect(){},disconnect(){log.push('gain-disconnect');}};constructor(){contexts.push(this);log.push('context');}resume(){log.push('resume');if(controls.resume)return controls.resume();this.state='running';return Promise.resolve();}createGain(){return this.gain;}createBufferSource(){const source=new Source();sources.push(source);return source;}async decodeAudioData(data:ArrayBuffer){const metadata=JSON.parse(Buffer.from(data).toString());if(controls.failAAC&&metadata.codec==='aac')throw Error('Fixture mobile decoder rejects AAC');return{numberOfChannels:metadata.channels,duration:controls.badDuration?metadata.duration+1:metadata.duration,metadata};}async close(){this.state='closed';log.push('close');}}
- let catalogLoads=0;const player=createNativeFieldMusicPlayer({enabled:true,volume:.5,unlockTimeoutMs:20,createContext:()=>new Context()as any,loadCatalog:async()=>{catalogLoads++;return controls.load?controls.load():catalog;},fetchBytes:async(url,signal)=>{requests.push(url);if(controls.fetch)return controls.fetch(url,signal);const found=files.get(url);if(!found)throw Error('Missing fixture audio '+url);return found.slice(0);}});
+ class Context{state='suspended';sampleRate=48000;currentTime=0;destination={};gain={gain:{value:1},connect(){},disconnect(){log.push('gain-disconnect');}};constructor(){contexts.push(this);log.push('context');}resume(){log.push('resume');if(controls.resume)return controls.resume();this.state='running';return Promise.resolve();}createGain(){return this.gain;}createBufferSource(){const source=new Source();sources.push(source);return source;}async decodeAudioData(data:ArrayBuffer){if(controls.decode)return controls.decode(data);const metadata=JSON.parse(Buffer.from(data).toString());if(controls.failAAC&&metadata.codec==='aac')throw Error('Fixture mobile decoder rejects AAC');return{numberOfChannels:metadata.channels,duration:controls.badDuration?metadata.duration+1:metadata.duration,metadata};}async close(){this.state='closed';log.push('close');}}
+ let catalogLoads=0;const player=createNativeFieldMusicPlayer({enabled:true,volume:.5,unlockTimeoutMs:20,...options,createContext:()=>new Context()as any,loadCatalog:async()=>{catalogLoads++;return controls.load?controls.load():catalog;},fetchBytes:async(url,signal)=>{requests.push(url);if(controls.fetch)return controls.fetch(url,signal);const found=files.get(url);if(!found)throw Error('Missing fixture audio '+url);return found.slice(0);}});
  return{player,catalog,files,requests,log,sources,contexts,controls,get catalogLoads(){return catalogLoads;}};
 }
 test('native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence',()=>{
@@ -111,4 +111,55 @@ test('restore in the suspension microtask cancels start and coherently releases 
 });
 test('same native cue source label changes while interrupted remain current after phase restoration',async()=>{
  const f=fixture();await f.player.unlock();await f.player.playCue(A,'map');const saved=await f.player.field.suspend(f.player.capture());await f.player.playCue(A,'radio');assert.equal((f.player.capture()as any).source,'radio');await f.player.field.restore(saved);assert.equal((f.player.capture()as any).source,'radio');await f.player.dispose();
+});
+test('catalog caller cancellation rejects promptly without poisoning a shared consumer',async()=>{
+ const f=fixture(),pending=deferred<NativeFieldCatalog>(),cancel=new AbortController();f.controls.load=()=>pending.promise;
+ const abandoned=f.player.catalog(cancel.signal),rejected=assert.rejects(abandoned,/leave catalog/),retained=f.player.catalog();cancel.abort(Error('leave catalog'));await rejected;assert.equal(f.catalogLoads,1);
+ pending.resolve(f.catalog);assert.equal(await retained,f.catalog);assert.equal(await f.player.catalog(),f.catalog);assert.equal(f.catalogLoads,1);await f.player.dispose();
+});
+test('catalog deadline evicts a hung shared request and cannot adopt its late result',async()=>{
+ const f=fixture({ioTimeoutMs:15}),old=deferred<NativeFieldCatalog>();f.controls.load=()=>old.promise;await assert.rejects(f.player.catalog(),/catalog timed out/);
+ f.controls.load=undefined;assert.equal(await f.player.catalog(),f.catalog);old.resolve({...f.catalog,tracks:{}});await flush();assert.equal(await f.player.catalog(),f.catalog);assert.equal(f.catalogLoads,2);await f.player.dispose();
+});
+for(const stage of['fetch','digest','decode']as const)test('abort-aware '+stage+' observation rejects without waiting for ignored abort, and late completion is not cached',{timeout:1000},async t=>{
+ const f=fixture(),pending=deferred<any>(),entered=deferred<void>(),cancel=new AbortController();await f.player.unlock();
+ const data=f.files.get('/source/music/'+f.catalog.tracks[A.id].formats![0].file)!,realDigest=crypto.subtle.digest.bind(crypto.subtle);
+ let restore=()=>{};
+ if(stage==='fetch')f.controls.fetch=()=>{entered.resolve();return pending.promise;};
+ if(stage==='decode')f.controls.decode=()=>{entered.resolve();return pending.promise;};
+ if(stage==='digest'){const spy=t.mock.method(crypto.subtle,'digest',()=>{entered.resolve();return pending.promise;});restore=()=>spy.mock.restore();}
+ const loading=f.player.playCue(A,'map',cancel.signal),rejected=assert.rejects(loading,/cancel slow/);await entered.promise;cancel.abort(Error('cancel slow '+stage));await rejected;assert.equal(f.sources.length,0);
+ pending.resolve(stage==='fetch'?data:stage==='digest'?await realDigest('SHA-256',data):{numberOfChannels:2,duration:10,metadata:{id:A.id}});await flush();restore();f.controls.fetch=undefined;f.controls.decode=undefined;
+ await f.player.playCue(A);assert.equal(f.sources.length,1);assert.equal(f.requests.length,2);await f.player.dispose();
+});
+for(const stage of['fetch','decode']as const)test('background '+stage+' deadline aborts the owner without attempting another codec or starting late audio',async()=>{
+ const f=fixture({ioTimeoutMs:15}),pending=deferred<any>();await f.player.unlock();let observed:AbortSignal|undefined;
+ if(stage==='fetch')f.controls.fetch=(_url,signal)=>{observed=signal;return pending.promise;};else f.controls.decode=()=>pending.promise;
+ await assert.rejects(f.player.playCue(A),/preparation timed out/);assert.equal(f.requests.length,1);assert.equal(f.sources.length,0);if(observed)assert.ok(observed.aborted);
+ pending.resolve(stage==='fetch'?f.files.get('/source/music/'+f.catalog.tracks[A.id].formats![0].file)!:{numberOfChannels:2,duration:10});await flush();assert.equal(f.sources.length,0);await f.player.dispose();
+});
+test('a caller deadline during field restore preserves retryable interruption and no late voice',async()=>{
+ const f=fixture(),pending=deferred<ArrayBuffer>(),entered=deferred<void>(),cancel=new AbortController();await f.player.unlock();await f.player.playCue(A);const saved=await f.player.field.suspend(f.player.capture());await f.player.playCue(B);
+ f.controls.fetch=()=>{entered.resolve();return pending.promise;};const restoring=f.player.field.restore(saved,cancel.signal),rejected=assert.rejects(restoring,/restore deadline/);await entered.promise;cancel.abort(Error('restore deadline'));await rejected;assert.equal(f.sources.length,1);assert.equal(f.sources[0].stopped,true);
+ f.controls.fetch=undefined;await f.player.field.restore(saved);assert.deepEqual((f.player.capture()as any).cue,B);pending.resolve(f.files.get('/source/music/'+f.catalog.tracks[B.id].formats![0].file)!);await flush();assert.equal(f.sources.length,2);await f.player.dispose();
+});
+test('cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success',async()=>{
+ const f=fixture(),pending=deferred<ArrayBuffer>(),entered=deferred<void>(),cancel=new AbortController();await f.player.unlock();await f.player.playCue(A);const battle=f.player.createCueSession();await battle.start(B,new AbortController().signal);await f.player.playCue(SURF);
+ f.controls.fetch=()=>{entered.resolve();return pending.promise;};const restoring=battle.restore(cancel.signal),rejected=assert.rejects(restoring,/return deadline/);assert.equal(f.sources[1].stopped,true);await entered.promise;cancel.abort(Error('return deadline'));await rejected;await assert.rejects(f.player.createCueSession().start(B,new AbortController().signal),/interruption/);
+ f.controls.fetch=undefined;await battle.restore();assert.deepEqual((f.player.capture()as any).cue,SURF);pending.resolve(f.files.get('/source/music/'+f.catalog.tracks[SURF.id].formats![0].file)!);await flush();assert.equal(f.sources.length,3);const next=f.player.createCueSession();await next.start(B,new AbortController().signal);await next.restore();await f.player.dispose();
+});
+test('already-aborted restore still tears down the session voice before rejecting, then can retry',async()=>{
+ const f=fixture(),cancel=new AbortController();await f.player.unlock();await f.player.playCue(A);const battle=f.player.createCueSession();await battle.start(B,new AbortController().signal);cancel.abort(Error('already cancelled'));
+ await assert.rejects(battle.restore(cancel.signal),/already cancelled/);assert.equal(f.sources[1].stopped,true);await battle.restore();assert.deepEqual((f.player.capture()as any).cue,A);await f.player.dispose();
+});
+test('aborted session catalog wait and disposed player reject despite a loader ignoring cancellation',async()=>{
+ const f=fixture(),pending=deferred<NativeFieldCatalog>(),cancel=new AbortController();f.controls.load=()=>pending.promise;const battle=f.player.createCueSession(),starting=battle.start(B,cancel.signal),rejected=assert.rejects(starting,/cancel preparation/);cancel.abort(Error('cancel preparation'));await rejected;await battle.restore();
+ const retained=f.player.catalog(),disposed=assert.rejects(retained,/disposed/);await f.player.dispose();await disposed;pending.resolve(f.catalog);await flush();assert.equal(f.sources.length,0);
+});
+test('shared hatch decode observes owner disposal and cannot cache or play a late decoded result',async()=>{
+ const f=fixture(),pending=deferred<any>(),entered=deferred<void>();await f.player.unlock();const data=body({codec:'wave',duration:10,channels:2}),track:SharedHatchTrack={id:1011,key:'SEQ_GS_SHINKA',file:'1011-SEQ_GS_SHINKA.wav',sampleRate:32768,frames:327680,completionFrame:327680,loopFrames:null,wavSHA256:hash(data)};f.files.set('/source/hatching/music/'+track.file,data);f.controls.decode=()=>{entered.resolve();return pending.promise;};const transport=f.player.createHatchTransport(),preparing=transport.prepare(track,new AbortController().signal),rejected=assert.rejects(preparing,/disposed/);await entered.promise;await transport.dispose();await rejected;pending.resolve({numberOfChannels:2,duration:10});await flush();assert.equal(f.sources.length,0);await f.player.dispose();
+});
+test('isUnlocked reports actual Context permission separately from music preparation success',async()=>{
+ const f=fixture();assert.equal(f.player.isUnlocked(),false);await f.player.playCue(A);f.controls.badDuration=true;await assert.rejects(f.player.unlock(),/None of/);assert.equal(f.player.isUnlocked(),true);
+ f.contexts[0].state='suspended';assert.equal(f.player.isUnlocked(),false);f.controls.badDuration=false;await f.player.unlock();assert.equal(f.player.isUnlocked(),true);await f.player.dispose();assert.equal(f.player.isUnlocked(),false);
 });
