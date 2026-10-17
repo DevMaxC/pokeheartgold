@@ -109,8 +109,10 @@ async function installAzaleaField(){
   });
   new AzaleaGymHost(world,state,fieldClock,{actors:()=>fieldActors!.actors(),followerMoving:()=>followerMoving,audio:fieldSound.audio});
 }
-async function installEvolutionField(){
-  if(evolutionHost){evolutionHost.dispose();await evolutionHost.settled();evolutionHost=undefined;}
+async function prepareEvolutionAudio(){
+  // Required source metadata is admitted before title/Oak identity creation.
+  // A technical startup failure must not discard a completed introduction.
+  if(evolutionAudio)return;
   const registry=await fieldSound.preparePlayer(music.lifetimeSignal);
   // Battle completion may arrive from tasks/after-tasks. Constructors register
   // root hooks only after THIS clock drains its genuine task boundaries.
@@ -120,6 +122,11 @@ async function installEvolutionField(){
     anySEPlaying:()=>fieldSound.anySEPlaying(),onAfterTasks:(callback,owner)=>fieldClock.onAfterTasks(callback,owner),
     report:status=>{if(status.stage==='no-voice')console.warn('Original evolution audio admitted no voice',status);},
   });
+}
+async function installEvolutionField(){
+  if(evolutionHost){evolutionHost.dispose();await evolutionHost.settled();evolutionHost=undefined;}
+  await prepareEvolutionAudio();await fieldClock.settled();music.lifetimeSignal.throwIfAborted();
+  if(!evolutionAudio)throw new UnsupportedBattleEvolution('Native evolution audio backend is not admitted');
   evolutionHost=new EvolutionFieldHost({data,native:nativeEvolutionData,fieldMoves:nativeFieldMoveData,messages:evolutionMessages,state:()=>state,
     field:()=>{const actor=player,companion=follower;return{map:state.map,x:actor.group.position.x,y:actor.group.position.y,z:actor.group.position.z,actors:[
       {object:actor.group,current:()=>player===actor},...(companion?[{object:companion.group,current:()=>follower===companion}]:[]),
@@ -715,7 +722,7 @@ async function begin(entryMode:'warp'|'continue'='warp'){
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
-  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);[nativeEvolutionData,evolutionMessages]=await Promise.all([loadNativeEvolutionData(data),sourceJSON<Record<string,string>>('messages/197.json')]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
+  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);[nativeEvolutionData,evolutionMessages]=await Promise.all([loadNativeEvolutionData(data),sourceJSON<Record<string,string>>('messages/197.json')]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();await prepareEvolutionAudio();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
   // Owned steps carry eight native displacement ticks; Paper uses four atlas phases per tile.
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started){openingView?.draw(dt);return;}syncMusic();
     state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){const rider=world.azaleaGym?.riderPosition,movement=fieldActors?.movement('player');if(rider)player.group.position.set(rider.x,rider.y,rider.z);else player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,movement?.direction??state.facing,movement?movement.step/2:(world.azaleaGym?.playerHeld?-1:walking?stepFrame:-1));}

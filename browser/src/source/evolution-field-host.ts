@@ -42,7 +42,7 @@ export class EvolutionFieldHost{
   this.learning=new EvolutionMoveLearning({ui:ports.ui,data:ports.data,messages:ports.messages,textDelay:ports.textDelay,nextFrame:this.nextFrame,audio:()=>{if(!this.currentAudio)throw Error('Evolution learner has no current borrowed audio session');return this.currentAudio;},prepareMenu:ports.prepareMenu,selectSound:signal=>{if(!this.menuOwner)throw Error('Evolution menu has no current owner');ports.menuSE(this.menuOwner,signal);}});
   ports.lifetime.addEventListener('abort',this.rootEnded,{once:true});
   ports.keyboard?.addEventListener('keydown',this.keyDown,{capture:true});ports.keyboard?.addEventListener('keyup',this.keyUp,{capture:true});ports.keyboard?.addEventListener('blur',this.blur);
-  void ports.clock.failure.catch(error=>this.cancel(error));
+  void ports.clock.failure.catch(error=>this.dispose(error));
  }
  get active(){return this.controller!==null;}
  get cameraActive(){return this.active&&this.view.active&&this.ports.world.fieldEffect===this.view&&!this.ports.ui.panelOpen;}

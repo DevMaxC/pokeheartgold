@@ -59,3 +59,8 @@ test('mobile cancel is visible only in the actual window and owned Enter/Space c
   const recovery=f.ui.message('New field dialogue');stale();assert.equal(f.d.key('Enter',{target:button}).defaultPrevented,true,'stale native action no longer bypasses dialogue ownership');await recovery;assert.equal(f.state.party[0].species,155);
  }finally{f.dispose();}
 });
+
+
+test('fatal clock permanently closes host; a later eligible completion rejects before borrowing or waiting',async()=>{
+ const f=fixture();try{const before=structuredClone(f.state);f.clock.onAfterTasks(()=>{throw Error('permanent clock failure');},f.life.signal);await f.tick();assert.throws(()=>f.host.run(f.completion),/disposed/);assert.deepEqual(f.events,[]);assert.deepEqual(f.state,before);assert.equal(f.host.active,false);assert.equal(f.view.active,false);assert.equal(f.ui.busy,false);}finally{f.dispose();}
+});

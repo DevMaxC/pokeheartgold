@@ -1,6 +1,9 @@
 // @ts-nocheck — actual Main binding extraction, with real clock/sound/host/player.
 import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
+import {pathToFileURL} from 'node:url';
+import {sourceJSON} from './types.ts';
+import {loadNativeAzaleaAudio} from './gym-azalea-audio.ts';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {createContext,runInContext} from 'node:vm';
@@ -17,15 +20,15 @@ import {NativeFieldClock} from './native-field-clock.ts';
 import {UI} from './ui.ts';
 import {installUIDOM} from './ui-test-dom.ts';
 import {viewFixture} from './evolution-test-fixtures.ts';
-const url=new URL('./main.ts',import.meta.url),source=await readFile(url,'utf8'),hash=x=>createHash('sha256').update(x).digest('hex'),sha=hash(source),ast=ts.createSourceFile('main.ts',source,ts.ScriptTarget.Latest,true),functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(n=>[n.name.text,n.getText(ast)]));
+const url=process.env.HG_EVOLUTION_ADMISSION_MAIN?pathToFileURL(process.env.HG_EVOLUTION_ADMISSION_MAIN):new URL('./main.ts',import.meta.url),source=await readFile(url,'utf8'),hash=x=>createHash('sha256').update(x).digest('hex'),sha=hash(source),ast=ts.createSourceFile('main.ts',source,ts.ScriptTarget.Latest,true),functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(n=>[n.name.text,n.getText(ast)]));
 after(async()=>assert.equal(hash(await readFile(url,'utf8')),sha));
 globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
 const data=await loadData(),native=await loadNativeEvolutionData(data),fieldMoves=await loadNativeFieldMoveData(),messages=JSON.parse(await readFile(new URL('../../public/source/messages/197.json',import.meta.url),'utf8'));
 const flush=()=>new Promise(r=>setImmediate(r));
-function fixture(){
- const d=installUIDOM(),field=viewFixture(),ui=new UI(),state=newState(data,'Gold','boy',()=>.5);state.map=field.field.map;const errors=[],music=createNativeFieldMusicPlayer({enabled:false,volume:0}),clock=new NativeFieldClock({field:()=>({map:state.map,mapRunning:false}),onError:e=>errors.push(e)}),sound=new AzaleaFieldSound({clock,signal:music.lifetimeSignal,output:()=>music.sharedAudioOutput(),report(){}}),events=[];
+function fixture(options={}){
+ const d=installUIDOM(),field=viewFixture(),ui=new UI(),state=newState(data,'Gold','boy',()=>.5);state.map=field.field.map;const errors=[],music=createNativeFieldMusicPlayer({enabled:false,volume:0}),clock=new NativeFieldClock({field:()=>({map:state.map,mapRunning:false}),onError:e=>errors.push(e)}),sound=new AzaleaFieldSound({clock,signal:music.lifetimeSignal,output:()=>music.sharedAudioOutput(),report(){},...options.sound}),events=[];
  const c={data,nativeEvolutionData:native,nativeFieldMoveData:fieldMoves,evolutionMessages:messages,state,world:Object.assign(field.world,{npcSprites:new Map()}),fieldClock:clock,fieldSound:sound,music,evolutionHost:undefined,evolutionAudio:undefined,battleMusicParent:undefined,battleSoundOwned:false,player:{group:field.actors[0]},follower:null,ui,preferences:{music:false},textDelay:()=>0,pendingMusicRestores:new Set(),MUSIC_WAIT_MS:1500,createEvolutionAudio,UnsupportedBattleEvolution,DOMException,AbortController,setTimeout,clearTimeout,window:new EventTarget(),$:id=>d.ids.get(id),console,Date,
- EvolutionFieldHost:class extends EvolutionFieldHost{constructor(ports){events.push(['host-construction',clock.phase]);super(ports);}}};createContext(c);runInContext(ts.transpileModule(['musicDeadline','installEvolutionField','cancelEvolutionField'].map(name=>{assert.ok(functions.has(name),name);return functions.get(name);}).join('\n'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText,c);
+ EvolutionFieldHost:class extends EvolutionFieldHost{constructor(ports){events.push(['host-construction',clock.phase]);super(ports);}}};createContext(c);runInContext(ts.transpileModule(['musicDeadline','prepareEvolutionAudio','installEvolutionField','cancelEvolutionField'].filter(name=>functions.has(name)).map(name=>{assert.ok(functions.has(name),name);return functions.get(name);}).join('\n'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText,c);
  return{c,d,field,clock,sound,events,errors,async dispose(){c.evolutionHost?.dispose();await c.evolutionHost?.settled();c.evolutionAudio?.dispose();sound.dispose();clock.dispose();await music.dispose();d.restore();}};
 }
 test('actual Main constructs persistent queue/backend only after SAME clock settles, even readiness begins in after-tasks',async()=>{
@@ -41,4 +44,13 @@ test('actual Main backend cannot borrow absent or foreign battle ownership; real
 
 test('actual Main learner ports prepare and dispatch SELECT through SAME root PLAYER4 without another phase or Context',async()=>{
  const f=fixture();try{await f.c.installEvolutionField();const host=f.c.evolutionHost,owner={},signal=f.c.music.lifetimeSignal,ports=host['ports'];await ports.prepareMenu(signal);const registry=await f.sound.preparePlayer4(signal);ports.menuSE(owner,signal);assert.equal(f.sound['menuRegistry'],registry);assert.equal(f.sound.anySEPlaying(),false,'locked borrowed output admits no invented voice');assert.equal(f.clock['afterTasks'].size,3);assert.equal(f.c.music.isUnlocked(),false);ports.cancelMenuOwner(owner);assert.deepEqual(f.errors,[]);}finally{await f.dispose();}
+});
+
+
+test('actual boot admits required audio before title identity; transient metadata failure cannot discard a completed introduction',async()=>{
+ for(const failure of[true,false]){let reads=0;const order=[],f=fixture({sound:{loadMetadata:async signal=>{reads++;order.push('metadata');if(failure)throw Error('metadata unavailable before title');return loadNativeAzaleaAudio(signal);}}});let identities=0,frames=0;
+ try{const c=f.c;Object.assign(c,{loadData:async()=>data,loadNativeFieldMoveData:async()=>fieldMoves,loadNativeEvolutionData:async()=>native,sourceJSON,OriginalWorld:function(){order.push('world');return c.world;},initializeNativeField(){order.push('clock-already-initialized');},InterfacePanels:class{},touch:{},save(){},useBagItem(){},partyMenu(){},displayMapName(){},fieldPhone:{resetForSourceEvent(){}},updatePreferences(){},unlockSound(){},musicStatus(){},retryMusic(){},watchMusic(){},performance:{now:()=>0},requestAnimationFrame(){frames++;},title:async()=>{identities++;order.push('identity');await c.installEvolutionField();}});
+  runInContext(ts.transpileModule(functions.get('boot'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText,c);
+  if(failure){await assert.rejects(c.boot(),/metadata unavailable before title/);assert.equal(identities,0);assert.equal(frames,0);assert.equal(c.evolutionAudio,undefined);assert.equal(c.evolutionHost,undefined);}else{await c.boot();assert.equal(identities,1);assert.equal(frames,1);assert.ok(order.indexOf('metadata')<order.indexOf('identity'));assert.equal(reads,1,'completed intro uses cached metadata; no new network admission');assert.equal(c.music.isUnlocked(),false);assert.equal(f.clock['afterTasks'].size,3);}
+ }finally{await f.dispose();}}
 });
