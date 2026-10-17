@@ -493,10 +493,11 @@ async function withBattleMusic<T>(enemies:Mon[],trainer:number|null,action:()=>P
       musicFailed(error);
       if(error instanceof UnsupportedNativeMusic||music.lifetimeSignal.aborted)throw error;
       // A technical fetch/decode failure still needs a REAL parent owner.
-      // Reuse this handle without restoring its already-suspended field phase.
-      if(!session)throw new UnsupportedBattleEvolution('Native battle sound ownership could not be admitted');
+      // A prior CLOSED failed restore transfers its exact paused snapshot;
+      // active foreign ownership still rejects rather than resuming field audio.
+      const retained=!session;if(!session)session=music.createCueSession();
       const silent=musicDeadline('Silent battle ownership took too long.');
-      try{await session.startSilent(silent.controller.signal);}finally{silent.clear();}
+      try{if(retained)await session.startSilentAfterRetainedRestore(silent.controller.signal);else await session.startSilent(silent.controller.signal);}finally{silent.clear();}
     }
     finally{preparation.clear();}
     battleMusicParent=session;
