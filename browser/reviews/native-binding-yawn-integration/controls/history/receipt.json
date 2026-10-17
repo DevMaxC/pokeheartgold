@@ -1,0 +1,255 @@
+{
+  "sourceCommit": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+  "createdAt": "2026-10-17T19:13:17.778369+00:00",
+  "cases": [
+    {
+      "name": "current32",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "browser/src/source/battle-binding-yawn-native.test.ts",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 0,
+      "observedExit": 0,
+      "expectedDiagnostic": null,
+      "log": "current32.log",
+      "logSha256": "4d27dbc0d4514d3fee2ed1802481c8f431b1f6ef2979618851e6f0bbb462cb3a",
+      "mutatedPath": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "name": "external-enemy-entry-current",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=external entry proof",
+        "browser/src/source/history-entry-external.test.ts"
+      ],
+      "expectedExit": 0,
+      "observedExit": 0,
+      "expectedDiagnostic": null,
+      "log": "external-enemy-entry-current.log",
+      "logSha256": "819bd6f681136a84ee0a2e65de188cbda43de3dcb68bf0d574d113708f3bab4e",
+      "mutatedPath": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "name": "prior729-history-gap",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=history regression",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "prior729-history-gap.log",
+      "logSha256": "d35d6f5d3aec92deb10c51aab293fa8da652ac0c39e939bfb400b9b8e2f9c918",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": null,
+      "after": "exact previous729 runtime"
+    },
+    {
+      "name": "weather-history-ignored",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=history regression: permanent",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "weather-history-ignored.log",
+      "logSha256": "e1723cb6c2795bbdea8e2b554a0c9174ba772479bcb78547eaa7abbf84255916",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "    if(this.unresolvedAbilityWeather)throw Error(`Unsupported native ${scope} prior ability weather`);",
+      "after": ""
+    },
+    {
+      "name": "Attack-history-ignored",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=history regression: native Intimidate",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "Attack-history-ignored.log",
+      "logSha256": "5b25dde5184a3d6e4cba1798e8329cc86e972137c2308e227bb45bf03196b55b",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "attacker&&this.unresolvedAttackEntry.has(attacker)",
+      "after": "false"
+    },
+    {
+      "name": "provider-clears-all-victims",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=history regression: native Intimidate",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "provider-clears-all-victims.log",
+      "logSha256": "ce5ea786f81b32852e9d982323bf7fdfcc078d4b0e0833b89efb483c080ac27c",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "this.unresolvedAttackEntry.delete(mon);",
+      "after": "this.unresolvedAttackEntry.clear();"
+    },
+    {
+      "name": "actor-departure-does-not-reset",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=an affected actor leaving",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "Unsupported native binding prior Intimidate entry",
+      "log": "actor-departure-does-not-reset.log",
+      "logSha256": "8284974fa5175c3b01f4d6d1afd43104f2705f82e574f180691c416b554f16e9",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "this.unresolvedAttackEntry.delete(mon);",
+      "after": ""
+    },
+    {
+      "name": "weather-survives-next-battle",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=history regression: permanent",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "Unsupported native Yawn prior ability weather",
+      "log": "weather-survives-next-battle.log",
+      "logSha256": "70f72b4c78f8139cedfba0a31f5d6cfd98a598942496c117cf02e755786f6a5f",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "this.unresolvedAbilityWeather=false;",
+      "after": ""
+    },
+    {
+      "name": "player-switch-entry-unrecorded",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=history regression: native Intimidate",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "player-switch-entry-unrecorded.log",
+      "logSha256": "a0ce3c6a7fe42ea0e8ec59e90f31e8bad5616d5d548dcdfd64b42c69519da4bd",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "this.playerIndex=index;this.initializeWeight(this.player);this.noteNativeEntry(this.player,this.enemy);",
+      "after": "this.playerIndex=index;this.initializeWeight(this.player);"
+    },
+    {
+      "name": "enemy-sendout-unrecorded",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=external entry proof",
+        "browser/src/source/history-entry-external.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "enemy-sendout-unrecorded.log",
+      "logSha256": "3da3843bd4a91da580afe46d2fb9ace25b67320ceb1e5ef12be458ff9f89366d",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "this.initializeWeight(this.enemy);this.noteNativeEntry(this.enemy,this.player);",
+      "after": "this.initializeWeight(this.enemy);"
+    },
+    {
+      "name": "thaw-before-held-items",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=review regression: an actual PowderSnow",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "thaw-before-held-items.log",
+      "logSha256": "69ce42f33ecb59d50ad44441211cd881e6a7a9b9924b0056460301ae318a0b76",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "    await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);\n    await this.thawAfterHit(attacker,defender,move,total);",
+      "after": "    await this.thawAfterHit(attacker,defender,move,total);\n    await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);"
+    },
+    {
+      "name": "flinch-before-freeze",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=freeze is checked before",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "flinch-before-freeze.log",
+      "logSha256": "33f4089df9f6bc4f0e7bdda6ff0487a4ecff6b1ab640fbd35dd4b01b37196048",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "    if(attacker.status==='FRZ'){if(this.rng()>=.2){await this.say(`${attacker.name} is frozen solid!`);return;}attacker.status='';await this.say(`${attacker.name} thawed out!`);}\n    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}\n",
+      "after": "    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}\n    if(attacker.status==='FRZ'){if(this.rng()>=.2){await this.say(`${attacker.name} is frozen solid!`);return;}attacker.status='';await this.say(`${attacker.name} thawed out!`);}\n"
+    },
+    {
+      "name": "Normalize-thaws-anyway",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=the native thaw callback",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "expectedDiagnostic": "AssertionError",
+      "log": "Normalize-thaws-anyway.log",
+      "logSha256": "0d624896c5ddc7c20e21ddd9d8a4e237b0aa70a63e3cf614ef2578138623fe10",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "const effectiveType=monAbility(this.data,attacker)==='ABILITY_NORMALIZE'?this.data.constants.TYPE_NORMAL:move.type;",
+      "after": "const effectiveType=move.type;"
+    }
+  ],
+  "sourceFilesUnchanged": true,
+  "qualification": "Separate copied-source controls. Current32 and external enemy-sendout boundary pass; exact previous729 fails2 history regressions, ten controlled regressions fail meaningful assertions or specifically expected missing-reset Unsupported errors. External probe is a synthetic controller entry lifecycle with native mons, not a native roster/AI/traversal claim. Missing-resource/syntax/timeouts rejected."
+}

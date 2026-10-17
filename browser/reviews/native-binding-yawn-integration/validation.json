@@ -1,0 +1,57 @@
+{
+  "sourceCommit": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+  "tests": {
+    "command": "node --experimental-transform-types --test --test-timeout=90000 browser/src/source/battle*.test.ts browser/src/source/early-battle-effects.test.ts browser/src/source/azalea-battle-integration.test.ts browser/src/source/fixed-damage-battle.test.ts browser/src/source/gender*.test.ts browser/src/source/trainer-gender.test.ts",
+    "observedExit": 0,
+    "execSession": 63375,
+    "passed": 264,
+    "failed": 0,
+    "log": "affected264-tests.log"
+  },
+  "tsc": {
+    "command": [
+      "browser/node_modules/.bin/tsc",
+      "--noEmit",
+      "-p",
+      "browser/tsconfig.json"
+    ],
+    "startedAt": "2026-10-17T19:05:45.188400+00:00",
+    "finishedAt": "2026-10-17T19:06:07.976620+00:00",
+    "observedExit": 0,
+    "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runtimeBefore": {
+      "browser/src/source/battle.ts": "504b2f1809f9ecaa6b80b8e25a728be8391053a0beb391253ff2f7ff7796a107",
+      "browser/src/source/battle-binding-yawn.ts": "73763f19808e0ce36329bb8d3229e5983c1e2b467282425c55b74fed3f8ad5d9"
+    },
+    "runtimeAfter": {
+      "browser/src/source/battle.ts": "504b2f1809f9ecaa6b80b8e25a728be8391053a0beb391253ff2f7ff7796a107",
+      "browser/src/source/battle-binding-yawn.ts": "73763f19808e0ce36329bb8d3229e5983c1e2b467282425c55b74fed3f8ad5d9"
+    },
+    "sourceStable": true,
+    "qualification": "Actual subprocess returncode; tsconfig excludes test files, which Node executes separately."
+  },
+  "latestTestOnly": {
+    "approvedRuntime": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+    "testOnlyCommit": "6a537b266c0d99b9f51ba74142106ae5a5baf3e7",
+    "checkedAt": "2026-10-17T19:17:29.850502+00:00",
+    "sourceChangesSinceFinalReview": [
+      "browser/src/source/battle-binding-yawn.test.ts"
+    ],
+    "runtimeAndNativeDataUnchanged": true,
+    "freshTargeted": {
+      "tests": 32,
+      "passed": 32,
+      "observedExit": 0,
+      "execSession": 35231,
+      "log": "hg-binding-yawn-final32-explicit-reset-tests.log"
+    },
+    "adjudication": {
+      "conditionalReviewEstimate": "Disproved. RazorLeaf category0 is physical, so uses SlowpokeDefense19, notSpDefense13. ChikoritaAttack25 produces38damage; SlowpokeHP40->2, thenYawnPP10->9 anddrowsy. Existing source40 weather-leak control already fails in secondbattle, demonstrating reset exercise.",
+      "actualTrace": "hg-binding-yawn-reset-exact-witness.log",
+      "traceScript": "hg-binding-yawn-reset-exact-witness.test.ts.txt",
+      "controlledLeak": "hg-binding-yawn-history-controls/weather-survives-next-battle.log",
+      "hardening": "Added explicit YawnPP loss anddrowsy assertions. No runtime change; no false claim that Opusreviewedlaterassertionbytes orreranfull264there."
+    }
+  },
+  "qualification": "Full264 ran at40e398e6. Later test-only assertions have fresh32PASS, byte-identical runtime/native/data; no false full264 rerun atlaterbytes. No full-repository suite, app build, UI/browser/audio/render/traversal/deployment verification. All battle views are silent fakes. Native C oracles are scoped harnesses/local deterministic tapes, not global LCG or native move-AI parity."
+}

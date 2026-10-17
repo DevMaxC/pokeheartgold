@@ -1,0 +1,176 @@
+TAP version 13
+# (node:18502) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original0141 and0018 assembly replays all relevant Yawn ability/status/field branches, including delayed nonignorable gates
+ok 1 - original0141 and0018 assembly replays all relevant Yawn ability/status/field branches, including delayed nonignorable gates
+  ---
+  duration_ms: 2566.363959
+  type: 'test'
+  ...
+# Subtest: original TryYawn and UMC_YAWN C preserve other move flags and count down2→1→sleep; sleep raw modulo and EarlyBird are exact
+ok 2 - original TryYawn and UMC_YAWN C preserve other move flags and count down2→1→sleep; sleep raw modulo and EarlyBird are exact
+  ---
+  duration_ms: 709.7725
+  type: 'test'
+  ...
+# (node:18503) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal native binding controller and Random C replay all u16 durations and complete countdowns
+ok 3 - literal native binding controller and Random C replay all u16 durations and complete countdowns
+  ---
+  duration_ms: 1445.017
+  type: 'test'
+  ...
+# Subtest: actual Daniel Onix11 and SlowpokeWell Grunt Ekans11 bind once after damage, without resetting count on a second hit
+ok 4 - actual Daniel Onix11 and SlowpokeWell Grunt Ekans11 bind once after damage, without resetting count on a second hit
+  ---
+  duration_ms: 607.949334
+  type: 'test'
+  ...
+# Subtest: native hit gates do not draw or bind after a miss, Normal immunity or a knockout
+ok 5 - native hit gates do not draw or bind after a miss, Normal immunity or a knockout
+  ---
+  duration_ms: 302.281375
+  type: 'test'
+  ...
+# Subtest: GripClaw keeps the native draw then forces six; MagicGuard still ticks and the expiration turn does no damage
+ok 6 - GripClaw keeps the native draw then forces six; MagicGuard still ticks and the expiration turn does no damage
+  ---
+  duration_ms: 303.162291
+  type: 'test'
+  ...
+# Subtest: switch and escape use distinct native bypasses; source or target departure releases binding
+ok 7 - switch and escape use distinct native bypasses; source or target departure releases binding
+  ---
+  duration_ms: 302.499958
+  type: 'test'
+  ...
+# Subtest: native Rage mask removes Bind and battle cleanup preserves saved party identity and data
+ok 8 - native Rage mask removes Bind and battle cleanup preserves saved party identity and data
+  ---
+  duration_ms: 151.118458
+  type: 'test'
+  ...
+# Subtest: real end-turn loop ticks Bind and a preceding burn KO releases the source before its slower victim ticks
+ok 9 - real end-turn loop ticks Bind and a preceding burn KO releases the source before its slower victim ticks
+  ---
+  duration_ms: 304.186625
+  type: 'test'
+  ...
+# Subtest: native binding admits no unported adjacent effects and preflights unresolved on-hit/weather/Pressure before PP
+ok 10 - native binding admits no unported adjacent effects and preflights unresolved on-hit/weather/Pressure before PP
+  ---
+  duration_ms: 1.628334
+  type: 'test'
+  ...
+# Subtest: actual Larry Slowpoke11 Yawn has no hit draw, never refreshes, and sleeps at the second real end-turn before Chesto/Lum
+ok 11 - actual Larry Slowpoke11 Yawn has no hit draw, never refreshes, and sleeps at the second real end-turn before Chesto/Lum
+  ---
+  duration_ms: 2.489375
+  type: 'test'
+  ...
+# Subtest: Yawn fails on existing status and sleep-blocking abilities; Soundproof itself does not block drowsiness
+ok 12 - Yawn fails on existing status and sleep-blocking abilities; Soundproof itself does not block drowsiness
+  ---
+  duration_ms: 1.052417
+  type: 'test'
+  ...
+# Subtest: native delayed sleep ignores the vanished caster MoldBreaker and rechecks current status without consuming a draw
+ok 13 - native delayed sleep ignores the vanished caster MoldBreaker and rechecks current status without consuming a draw
+  ---
+  duration_ms: 0.509208
+  type: 'test'
+  ...
+# Subtest: withdrawing Yawn caster retains drowsiness; target leaving or fainting clears it; Rage retains its separate move-effect countdown
+ok 14 - withdrawing Yawn caster retains drowsiness; target leaving or fainting clears it; Rage retains its separate move-effect countdown
+  ---
+  duration_ms: 0.784542
+  type: 'test'
+  ...
+# Subtest: Yawn sleep uses native raw modulo and EarlyBird checks before PP, then permits the wake-up action
+ok 15 - Yawn sleep uses native raw modulo and EarlyBird checks before PP, then permits the wake-up action
+  ---
+  duration_ms: 0.56875
+  type: 'test'
+  ...
+# Subtest: actual native UnionCave Onix6 and SlowpokeWell Slowpoke6 expose the admitted effects without extra side effects
+ok 16 - actual native UnionCave Onix6 and SlowpokeWell Slowpoke6 expose the admitted effects without extra side effects
+  ---
+  duration_ms: 151.359917
+  type: 'test'
+  ...
+# Subtest: Yawn preflights Pressure, unsupported consumption abilities and unresolved weather without spending PP
+ok 17 - Yawn preflights Pressure, unsupported consumption abilities and unresolved weather without spending PP
+  ---
+  duration_ms: 0.971959
+  type: 'test'
+  ...
+# Subtest: native trainer battles resolve via actual actions and clean both new states, without injected victories
+ok 18 - native trainer battles resolve via actual actions and clean both new states, without injected victories
+  ---
+  duration_ms: 606.008666
+  type: 'test'
+  ...
+# Subtest: ordinary bound switch/run rejection consumes no turn; a legal Uturn bypasses binding and targets the replacement correctly
+ok 19 - ordinary bound switch/run rejection consumes no turn; a legal Uturn bypasses binding and targets the replacement correctly
+  ---
+  duration_ms: 451.863375
+  type: 'test'
+  ...
+# Subtest: Unsupported after a real Yawn restores saved data and clears drowsiness and owned binding state
+ok 20 - Unsupported after a real Yawn restores saved data and clears drowsiness and owned binding state
+  ---
+  duration_ms: 0.788917
+  type: 'test'
+  ...
+# Subtest: new binding effects reject unported typed absorption and Yawn rejects BadDreams before any PP or random draw
+ok 21 - new binding effects reject unported typed absorption and Yawn rejects BadDreams before any PP or random draw
+  ---
+  duration_ms: 0.627291
+  type: 'test'
+  ...
+# Subtest: review regression: an actual PowderSnow freeze is thawed by FireSpin after binding and held-status recovery
+ok 22 - review regression: an actual PowderSnow freeze is thawed by FireSpin after binding and held-status recovery
+  ---
+  duration_ms: 903.755
+  type: 'test'
+  ...
+# Subtest: review regression: native sleep decrements or wakes before an actual Bite flinch without spending PP
+ok 23 - review regression: native sleep decrements or wakes before an actual Bite flinch without spending PP
+  ---
+  duration_ms: 302.59025
+  type: 'test'
+  ...
+# Subtest: review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+ok 24 - review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+  ---
+  duration_ms: 0.453417
+  type: 'test'
+  ...
+# Subtest: review regression: Yawn rejects newly sleep-activated unported abilities and a Truant caster before PP
+ok 25 - review regression: Yawn rejects newly sleep-activated unported abilities and a Truant caster before PP
+  ---
+  duration_ms: 0.354625
+  type: 'test'
+  ...
+# Subtest: review regression: delayed Yawn rechecks an incoming BadDreams provider before sleep mutation or draw
+ok 26 - review regression: delayed Yawn rechecks an incoming BadDreams provider before sleep mutation or draw
+  ---
+  duration_ms: 0.176125
+  type: 'test'
+  ...
+# Subtest: binding and Yawn reject unhosted Trace/weather entry, and target Intimidate cannot silently change binding damage
+ok 27 - binding and Yawn reject unhosted Trace/weather entry, and target Intimidate cannot silently change binding damage
+  ---
+  duration_ms: 0.985208
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7173.011375

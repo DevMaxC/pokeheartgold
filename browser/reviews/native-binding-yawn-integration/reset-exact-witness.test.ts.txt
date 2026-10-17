@@ -1,0 +1,37 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {Battle} from './battle.ts';
+import {createMon,loadData,newState} from './data.ts';
+import {originalTrainerParty} from './trainers.ts';
+import {monAbility} from './battle-math.ts';
+import {nativeStatus2,nativeBeforeTurnStatus2} from './battle-volatiles.ts';
+import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
+import type {Mon} from './types.ts';
+import type {UI} from './ui.ts';
+import type {BattleView} from './battle-view.ts';
+globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
+const data=await loadData(),noncrit=32769/65536;
+const mon=(species:number,level=15,odd=false)=>createMon(data,species,level,'Ethan',()=>odd?0x80010001/0x100000000:noncrit);
+const slot=(subject:Mon,key:string)=>{const index=subject.moves.findIndex(move=>move.id===data.constants[key]);assert.ok(index>=0,`${subject.name} must know ${key}`);return index;};
+function legalMove(subject:Mon,key:string,tm?:number){const move=data.moves[data.constants[key]];assert.ok(tm?data.personal[subject.species].tms.includes(tm):data.learnsets[subject.species].some(row=>row.move===move.id&&row.level<=subject.level));subject.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];}
+function fixture(enemies:Mon[],party:Mon[]=[mon(152)],values?:number[]){
+ const elements=new Map<string,{innerHTML:string;hidden:boolean}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}}as unknown as Document;
+ const state=newState(data,'Ethan','boy',()=>noncrit);state.party=party;const messages:string[]=[],events:string[]=[];let draws=0;
+ const view={begin:async()=>events.push('begin'),sync(){},attack:async(side:boolean)=>events.push(`attack:${side}`),hit:async(side:boolean)=>events.push(`hit:${side}`),end:()=>events.push('end')}as unknown as BattleView;
+ const battle=new Battle(data,state,{choose:async()=>4}as unknown as UI,()=>{if(values)assert.ok(draws<values.length,'unexpected gameplay draw');return values?values[draws++]/65536:(draws++,noncrit);},view);Reflect.set(battle,'enemies',enemies);Reflect.set(battle,'trainer',384);Reflect.set(battle,'experienceMask',1);Reflect.set(battle,'say',async(text:string)=>messages.push(text));Reflect.set(battle,'draw',()=>{});
+ for(const active of[party[0],enemies[0]])Reflect.get(battle,'initializeWeight').call(battle,active);
+ return{battle,state,messages,events,get draws(){return draws;}};
+}
+type Fixture=ReturnType<typeof fixture>;
+const call=(f:Fixture,key:string,...args:unknown[])=>Reflect.get(f.battle,key).apply(f.battle,args);
+const act=(f:Fixture,side:boolean,key:string)=>call(f,'attack',side,slot(side?f.battle.player:f.battle.enemy,key));
+const count=(f:Fixture,subject:Mon)=>(call(f,'volatile',subject).status2&nativeStatus2.bind)>>>13;
+async function turns(f:Fixture,n:number,playerMove:string,enemyMove:string){let selected=0;const stop=new Error('observed end-turn phases');Reflect.set(f.battle,'active',true);Reflect.set(f.battle,'chooseEnemyMove',()=>slot(f.battle.enemy,enemyMove));Reflect.set(f.battle,'nextAction',async()=>{if(selected++===n)throw stop;return{kind:'move',slot:slot(f.battle.player,playerMove)};});await assert.rejects(call(f,'loop'),error=>error===stop);}
+
+test('exact reset witness records a surviving physical RazorLeaf target actually using Yawn',async()=>{
+ const provider=mon(449,50),player=mon(152,18),team=await originalTrainerParty(data,384),f=fixture(team,[provider,player]);let selected=0;const stop=new Error('unexpected old reset');Reflect.set(f.battle,'nextAction',async()=>{if(selected++)throw stop;return{kind:'switch',index:1};});Reflect.set(f.battle,'chooseEnemyMove',()=>slot(team[0],'MOVE_BIND'));await assert.rejects(f.battle.start(team,384),/prior ability weather/);f.state.party.reverse();const plain=await originalTrainerParty(data,23),actor=f.state.party[0],target=plain[0],move=data.moves[data.constants.MOVE_RAZOR_LEAF],beforePP=target.moves[slot(target,'MOVE_YAWN')].pp;const rows:unknown[]=[];const say=Reflect.get(f.battle,'say');Reflect.set(f.battle,'say',async(text:string)=>{if(text.includes('used Yawn')||text.includes('drowsy'))rows.push({text,targetHP:f.battle.enemy.hp,yawnPP:f.battle.enemy.moves[slot(f.battle.enemy,'MOVE_YAWN')].pp});return say.call(f.battle,text);});Reflect.set(f.battle,'nextAction',async()=>({kind:'move',slot:slot(f.battle.player,'MOVE_RAZOR_LEAF')}));Reflect.set(f.battle,'chooseEnemyMove',()=>slot(plain[0],'MOVE_YAWN'));const facts={category:move.category,playerAttack:actor.stats.atk,targetDefense:target.stats.def,targetSpDefense:target.stats.spdef,targetMaxHP:target.maxHP};assert.equal(await f.battle.start(plain,23),'won');const afterPP=target.moves[slot(target,'MOVE_YAWN')].pp;assert.ok(afterPP<beforePP);assert.ok(rows.length);console.log(JSON.stringify({facts,beforePP,afterPP,rows}));
+});

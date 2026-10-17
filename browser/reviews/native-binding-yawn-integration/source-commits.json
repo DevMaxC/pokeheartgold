@@ -1,0 +1,32 @@
+{
+  "base": "a6b39dfec70bc02461f9374c9fccfbd42d131b42",
+  "finalRuntime": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+  "finalTestCheckpoint": "6a537b266c0d99b9f51ba74142106ae5a5baf3e7",
+  "commits": [
+    {
+      "commit": "0383557283e2d9a87dc479c5d3d6dea92f367881",
+      "subject": "Implement native binding duration, residuals and departure cleanup"
+    },
+    {
+      "commit": "b6510d66fb7d662fafc3c73b5958306644d41d21",
+      "subject": "Implement native Yawn countdown and delayed sleep callbacks"
+    },
+    {
+      "commit": "428512d7e9a264684274475222ec3de89250c4d3",
+      "subject": "Correct thaw and sleeping-action phases in native binding and Yawn paths"
+    },
+    {
+      "commit": "729ece0f8cd7079c14fb6e83b97ae0f35e70bc80",
+      "subject": "Reject unhosted entry callbacks on new binding and Yawn paths"
+    },
+    {
+      "commit": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+      "subject": "Retain unresolved native entry provenance across provider departure"
+    },
+    {
+      "commit": "6a537b266c0d99b9f51ba74142106ae5a5baf3e7",
+      "subject": "Assert the fresh battle actually exercises Yawn after entry-history reset"
+    }
+  ],
+  "qualification": "Only these5runtime/test implementation commits plus1test-only assertion commit are new to this leaf; accepted Sports/LowKick/weight/gender dependencies are already in base and must not be duplicated."
+}

@@ -1,0 +1,29 @@
+TAP version 13
+# (node:18981) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+not ok 1 - review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+  ---
+  duration_ms: 56.516125
+  type: 'test'
+  location: '/private/tmp/hg-binding-yawn-followup-controls-729ece0f/work/browser/src/source/battle-binding-yawn.test.ts:151:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-binding-yawn-followup-controls-729ece0f/work/browser/src/source/battle-binding-yawn.test.ts:152:416)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1356.881208

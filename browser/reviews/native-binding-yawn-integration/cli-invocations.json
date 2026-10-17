@@ -1,0 +1,38 @@
+{
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--permission-mode",
+    "default",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--output-format",
+    "json"
+  ],
+  "stdin": "corresponding prompt.txt",
+  "reviews": [
+    {
+      "name": "initial",
+      "execSession": 63814,
+      "observedExit": 0
+    },
+    {
+      "name": "followup",
+      "execSession": 31459,
+      "observedExit": 0
+    },
+    {
+      "name": "final",
+      "execSession": 88725,
+      "observedExit": 0
+    }
+  ],
+  "qualification": "Actual read-only CLI invocations. No shell/edit/MCP/browser/audio/spawning tools granted. Raw modelUsage preserves minor Haiku metadata calls alongside primary Opus5.5."
+}

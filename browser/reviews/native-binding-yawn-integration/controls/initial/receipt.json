@@ -1,0 +1,204 @@
+{
+  "sourceCommit": "b6510d66fb7d662fafc3c73b5958306644d41d21",
+  "snapshot": "/tmp/hg-binding-yawn-review-b6510d66",
+  "createdAt": "2026-10-17T18:28:20.405111+00:00",
+  "cases": [
+    {
+      "name": "current21",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "browser/src/source/battle-binding-yawn-native.test.ts",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 0,
+      "observedExit": 0,
+      "log": "current21.log",
+      "logSha256": "9444957b3cf1884a3dd97cf720dc3c4edfdc42cc6aa4a5a9c9248d8d09c6a9ff",
+      "inputMutatedPath": null,
+      "mutationBefore": null,
+      "mutationAfter": null,
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "real-base-bind",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=actual Daniel Onix11",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "real-base-bind.log",
+      "logSha256": "e05e72ca2af7d912f9e56d67f25dd048e740d088980d304316e296a9a3baf349",
+      "inputMutatedPath": "browser/src/source/battle.ts",
+      "mutationBefore": null,
+      "mutationAfter": "real native base 9cc89472009fe465405c7285afd7bc6c83bff1db27061d4b02d0e50491183d4f",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "real-base-yawn",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=actual Larry Slowpoke11",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "real-base-yawn.log",
+      "logSha256": "2eb227dfc27d0fcdc050045ba606f41ce77023c65bafa9e724239b885bb6451e",
+      "inputMutatedPath": "browser/src/source/battle.ts",
+      "mutationBefore": null,
+      "mutationAfter": "real native base 9cc89472009fe465405c7285afd7bc6c83bff1db27061d4b02d0e50491183d4f",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "bind-eighth",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=literal native binding controller",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "bind-eighth.log",
+      "logSha256": "fc5d2f5bd40b8ccfbf2cc5de0309a6470fe44f29c3475fab72c0bcdb959b12d3",
+      "inputMutatedPath": "browser/src/source/battle-binding-yawn.ts",
+      "mutationBefore": "Math.floor(maxHP/16)",
+      "mutationAfter": "Math.floor(maxHP/8)",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "bind-float-bucket",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=literal native binding controller",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "bind-float-bucket.log",
+      "logSha256": "9ecb44931fa369a3ca69c0cc87bd635b90fa4289e1b8ac869df13b242a0289a9",
+      "inputMutatedPath": "browser/src/source/battle-binding-yawn.ts",
+      "mutationBefore": "raw%4+3",
+      "mutationAfter": "Math.floor(raw*4/65536)+3",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "bind-owner-survives",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=switch and escape use distinct native bypasses",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "bind-owner-survives.log",
+      "logSha256": "2a1846fffd723abee7094f2d7ab3399f9f45e1230479d5471b155091304821da",
+      "inputMutatedPath": "browser/src/source/battle.ts",
+      "mutationBefore": "if(this.bindings.get(other)?.source===source){value.status2&=~nativeStatus2.bind;this.bindings.delete(other);}",
+      "mutationAfter": "/* deliberately removed source cleanup */",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "yawn-caster-clears",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=withdrawing Yawn caster",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "yawn-caster-clears.log",
+      "logSha256": "8693d6729d2534c019c934d1b262145d09982b043642d306f066fd71b58fa063",
+      "inputMutatedPath": "browser/src/source/battle.ts",
+      "mutationBefore": "private clearOnLeave(mon:Mon){",
+      "mutationAfter": "private clearOnLeave(mon:Mon){this.yawnTurns.clear();",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "yawn-immediate",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=original TryYawn",
+        "browser/src/source/battle-binding-yawn-native.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "yawn-immediate.log",
+      "logSha256": "34d6e6e85f13c0ef9af1fce0f253f1f7f7e7e4a931455fb6b5165556f81e8737",
+      "inputMutatedPath": "browser/src/source/battle-binding-yawn.ts",
+      "mutationBefore": "sleep:turns===1",
+      "mutationAfter": "sleep:turns===2",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "sleep-normalized",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=original TryYawn",
+        "browser/src/source/battle-binding-yawn-native.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "sleep-normalized.log",
+      "logSha256": "11c3b55e235d3afd39ea939aecd17d89a2562dc42fd9061cd91fa6a5e456d563",
+      "inputMutatedPath": "browser/src/source/battle-binding-yawn.ts",
+      "mutationBefore": "integer(rng(),0,65535,'u16 RNG result')%4+2",
+      "mutationAfter": "Math.floor(integer(rng(),0,65535,'u16 RNG result')*4/65536)+2",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    },
+    {
+      "name": "early-bird-ignored",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=original TryYawn",
+        "browser/src/source/battle-binding-yawn-native.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "early-bird-ignored.log",
+      "logSha256": "845d069606e11ef7e75a4433fb7583eb3a1bdcf2155ba782b6274982ebdac5e2",
+      "inputMutatedPath": "browser/src/source/battle-binding-yawn.ts",
+      "mutationBefore": "turns-(earlyBird?2:1)",
+      "mutationAfter": "turns-1",
+      "qualification": "Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected."
+    }
+  ],
+  "sourceFilesUnchanged": true,
+  "qualification": "Current21 pass; actual historical base fails two newly admitted paths; seven controlled semantic regressions each fail meaningful assertions. No app build/browser/audio/production claim.",
+  "countCorrection": {
+    "earlierReceiptSha256": "c25b7ccc9efd4dbcecc37cf5f709bfd33e6c7c6ca75f53b002faba1f22880d74",
+    "history": "receipt-initial-count-typo.json",
+    "note": "Only narrative count corrected:10 cases=1current+2real-base+7semantic. Raw logs/commands/results unchanged."
+  }
+}

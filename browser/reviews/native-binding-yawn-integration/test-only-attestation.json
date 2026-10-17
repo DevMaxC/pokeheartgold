@@ -1,0 +1,23 @@
+{
+  "approvedRuntime": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+  "testOnlyCommit": "6a537b266c0d99b9f51ba74142106ae5a5baf3e7",
+  "checkedAt": "2026-10-17T19:17:29.850502+00:00",
+  "sourceChangesSinceFinalReview": [
+    "browser/src/source/battle-binding-yawn.test.ts"
+  ],
+  "runtimeAndNativeDataUnchanged": true,
+  "freshTargeted": {
+    "tests": 32,
+    "passed": 32,
+    "observedExit": 0,
+    "execSession": 35231,
+    "log": "hg-binding-yawn-final32-explicit-reset-tests.log"
+  },
+  "adjudication": {
+    "conditionalReviewEstimate": "Disproved. RazorLeaf category0 is physical, so uses SlowpokeDefense19, notSpDefense13. ChikoritaAttack25 produces38damage; SlowpokeHP40->2, thenYawnPP10->9 anddrowsy. Existing source40 weather-leak control already fails in secondbattle, demonstrating reset exercise.",
+    "actualTrace": "hg-binding-yawn-reset-exact-witness.log",
+    "traceScript": "hg-binding-yawn-reset-exact-witness.test.ts.txt",
+    "controlledLeak": "hg-binding-yawn-history-controls/weather-survives-next-battle.log",
+    "hardening": "Added explicit YawnPP loss anddrowsy assertions. No runtime change; no false claim that Opusreviewedlaterassertionbytes orreranfull264there."
+  }
+}

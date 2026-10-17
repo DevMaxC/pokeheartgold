@@ -1,0 +1,66 @@
+TAP version 13
+# (node:41270) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: history regression: native Intimidate Attack context survives its provider leaving before the source Ekans Wrap
+not ok 1 - history regression: native Intimidate Attack context survives its provider leaving before the source Ekans Wrap
+  ---
+  duration_ms: 317.643417
+  type: 'test'
+  location: '/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle-binding-yawn.test.ts:169:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Unsupported native binding prior Intimidate entry/. Input:
+    
+    'Error: old guard missed prior Intimidate'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'old guard missed prior Intimidate'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle-binding-yawn.test.ts:170:309)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle-binding-yawn.test.ts:170:716)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: history regression: permanent ability weather stays unknown after a native provider switches out before Bind or Yawn
+not ok 2 - history regression: permanent ability weather stays unknown after a native provider switches out before Bind or Yawn
+  ---
+  duration_ms: 152.900125
+  type: 'test'
+  location: '/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle-binding-yawn.test.ts:173:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Unsupported native (binding|Yawn) prior ability weather/. Input:
+    
+    'Error: old guard missed permanent ability weather'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'old guard missed permanent ability weather'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle-binding-yawn.test.ts:174:286)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle-binding-yawn.test.ts:174:507)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1727.614

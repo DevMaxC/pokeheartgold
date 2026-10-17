@@ -9,11 +9,12 @@ import {spriteGender,genderSymbol} from './gender.ts';
 import {nativeTrainerReplacement,type TrainerReplacementMon} from './battle-replacement.ts';
 import {planNativeExperience} from './battle-experience.ts';
 import {nativeBattleWeight,UnsupportedBattleWeight} from './battle-weight.ts';
-import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusionDuration,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativePlayerMeanLookBlocks,nativeGhostCurseCost,nativeCurseResidual,nativeReflectStart,nativeReflectTick,type NativeBattlerVolatile} from './battle-volatiles.ts';
+import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
+import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusionDuration,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativeGhostCurseCost,nativeCurseResidual,nativeReflectStart,nativeReflectTick,type NativeBattlerVolatile} from './battle-volatiles.ts';
 
 type Result='won'|'lost'|'caught'|'ran';
 type Action={kind:'move';slot:number}|{kind:'switch';index:number}|{kind:'item';item:string}|{kind:'run'};
-const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,196,201,210,214,228]);
+const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,42,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,187,196,201,210,214,228]);
 // constants/moves.h: SINGLE, RANDOM_OPPONENT, ADJACENT_OPPONENTS, ALL_ADJACENT.
 // Self/side/field targets still exist without a living opposing active mon.
 const singleBattleLiveOpponentTargets=new Set([0,2,4,8]);
@@ -30,6 +31,9 @@ export class Battle{
   private roosting=new Set<Mon>();private raging=new Set<Mon>();private weather:BattleWeather='clear';
   // moveEffectFlags, not status2: Rage's before-turn status2 mask retains them.
   private mudSport=new Set<Mon>();private waterSport=new Set<Mon>();
+  private unresolvedAbilityWeather=false;private unresolvedAttackEntry=new Set<Mon>();private unresolvedAttackEntryWithoutTarget=false;
+  private yawnTurns=new Map<Mon,number>();
+  private bindings=new Map<Mon,{source:0|1;move:number}>();
   private liveWeights=new Map<Mon,number|UnsupportedBattleWeight>();
   private selectedMoveSlots=new Map<Mon,number>();private pendingMoves=new Map<Mon,number>();
   private volatiles=new Map<Mon,NativeBattlerVolatile>();private reflectTurns:[number,number]=[0,0];
@@ -41,7 +45,7 @@ export class Battle{
   private random16(){return Math.floor(this.rng()*0x10000);}
   private rawHeld(mon:Mon){if(!mon.heldItem)return null;const item=this.data.items.find(item=>item.item===mon.heldItem);if(!item)throw Error('Missing native held item '+mon.heldItem);return item;}
   private held(mon:Mon){return monAbility(this.data,mon)==='ABILITY_KLUTZ'?null:this.rawHeld(mon);}
-  private clearBattleVolatiles(){this.volatiles.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.mudSport.clear();this.waterSport.clear();this.liveWeights.clear();this.selectedMoveSlots.clear();this.pendingMoves.clear();}
+  private clearBattleVolatiles(){this.volatiles.clear();this.unresolvedAbilityWeather=false;this.unresolvedAttackEntry.clear();this.unresolvedAttackEntryWithoutTarget=false;this.bindings.clear();this.yawnTurns.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.mudSport.clear();this.waterSport.clear();this.liveWeights.clear();this.selectedMoveSlots.clear();this.pendingMoves.clear();}
   private sportContext(){return{mudSport:[this.player,this.enemy].some(mon=>this.mudSport.has(mon)),waterSport:[this.player,this.enemy].some(mon=>this.waterSport.has(mon))};}
   private initializeWeight(mon:Mon){
     try{
@@ -55,8 +59,8 @@ export class Battle{
   }
   private targetWeight(mon:Mon){const value=this.liveWeights.get(mon);if(value===undefined)throw new UnsupportedBattleWeight('Missing initialized live BattleMon weight');if(value instanceof UnsupportedBattleWeight)throw value;return value;}
   private clearOnLeave(mon:Mon){
-    const source=mon===this.player?0:1;for(const other of[this.player,this.enemy]){const value=this.volatile(other);if(value.meanLookSource===source)value.status2&=~nativeStatus2.meanLook;}
-    this.volatiles.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.mudSport.delete(mon);this.waterSport.delete(mon);this.liveWeights.delete(mon);this.selectedMoveSlots.delete(mon);this.pendingMoves.delete(mon);
+    const source=mon===this.player?0:1;for(const other of[this.player,this.enemy]){const value=this.volatile(other);if(value.meanLookSource===source)value.status2&=~nativeStatus2.meanLook;if(this.bindings.get(other)?.source===source){value.status2&=~nativeStatus2.bind;this.bindings.delete(other);}}
+    this.volatiles.delete(mon);this.unresolvedAttackEntry.delete(mon);this.bindings.delete(mon);this.yawnTurns.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.mudSport.delete(mon);this.waterSport.delete(mon);this.liveWeights.delete(mon);this.selectedMoveSlots.delete(mon);this.pendingMoves.delete(mon);
   }
   private critMultiplier(attacker:Mon,defender:Mon,move:MoveData):1|2|3{
     if(this.noCritical)return 1;const ability=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender),effect=this.held(attacker)?.holdEffect;
@@ -73,7 +77,7 @@ export class Battle{
     if(used){const name=itemName(this.data,mon.heldItem!);mon.heldItem=null;await this.say(`${mon.name} used its ${name}!`);}
   }
   private assertItemScope(attacker:Mon,defender:Mon){
-    const safe=new Set(['HOLD_EFFECT_NONE','HOLD_EFFECT_HP_RESTORE','HOLD_EFFECT_HP_PCT_RESTORE','HOLD_EFFECT_PRZ_RESTORE','HOLD_EFFECT_SLP_RESTORE','HOLD_EFFECT_PSN_RESTORE','HOLD_EFFECT_BRN_RESTORE','HOLD_EFFECT_FRZ_RESTORE','HOLD_EFFECT_CONFUSE_RESTORE','HOLD_EFFECT_STATUS_RESTORE','HOLD_EFFECT_CRITRATE_UP','HOLD_EFFECT_CHANSEY_CRITRATE_UP','HOLD_EFFECT_FARFETCHD_CRITRATE_UP','HOLD_EFFECT_EXTEND_SCREENS','HOLD_EFFECT_SWITCH','HOLD_EFFECT_FLEE','HOLD_EFFECT_EXP_UP','HOLD_EFFECT_EXP_SHARE']);
+    const safe=new Set(['HOLD_EFFECT_NONE','HOLD_EFFECT_EXTEND_TRAPPING','HOLD_EFFECT_HP_RESTORE','HOLD_EFFECT_HP_PCT_RESTORE','HOLD_EFFECT_PRZ_RESTORE','HOLD_EFFECT_SLP_RESTORE','HOLD_EFFECT_PSN_RESTORE','HOLD_EFFECT_BRN_RESTORE','HOLD_EFFECT_FRZ_RESTORE','HOLD_EFFECT_CONFUSE_RESTORE','HOLD_EFFECT_STATUS_RESTORE','HOLD_EFFECT_CRITRATE_UP','HOLD_EFFECT_CHANSEY_CRITRATE_UP','HOLD_EFFECT_FARFETCHD_CRITRATE_UP','HOLD_EFFECT_EXTEND_SCREENS','HOLD_EFFECT_SWITCH','HOLD_EFFECT_FLEE','HOLD_EFFECT_EXP_UP','HOLD_EFFECT_EXP_SHARE']);
     for(const mon of[attacker,defender]){const item=this.held(mon);if(item&&(!safe.has(item.holdEffect)||monAbility(this.data,mon)==='ABILITY_UNBURDEN'))throw Error('Unsupported native volatile held-item hook '+item.holdEffect);}
   }
   private assertDamageScope(attacker:Mon,defender:Mon){
@@ -84,6 +88,22 @@ export class Battle{
     this.assertItemScope(attacker,defender);
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
+    if(move.effect===187&&defender.hp>0){
+      this.assertItemScope(attacker,defender);this.assertYawnSleepScope(defender);
+      if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native Yawn Pressure PP');
+      if(monAbility(this.data,attacker)==='ABILITY_TRUANT')throw Error('Unsupported native Yawn Truant action phase');
+    }
+    if(move.effect===42&&defender.hp>0){
+      this.assertBindingSleepEntryScope('binding',attacker);this.assertDamageScope(attacker,defender);
+      if(monAbility(this.data,defender)==='ABILITY_INTIMIDATE')throw Error('Unsupported native binding target Intimidate entry');
+      if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native binding Pressure PP');
+      const attackAbility=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender);
+      if(attackAbility==='ABILITY_SCRAPPY'||attackAbility!=='ABILITY_MOLD_BREAKER'&&(move.type===this.data.constants.TYPE_FIRE&&targetAbility==='ABILITY_FLASH_FIRE'||move.type===this.data.constants.TYPE_WATER&&targetAbility==='ABILITY_WATER_ABSORB'))throw Error('Unsupported native binding immunity callback');
+      if([attacker,defender].some(mon=>monAbility(this.data,mon)==='ABILITY_POISON_HEAL'&&['PSN','TOX'].includes(mon.status)))throw Error('Unsupported native binding PoisonHeal residual');
+      if(['ABILITY_POISON_POINT','ABILITY_FLAME_BODY','ABILITY_EFFECT_SPORE','ABILITY_CUTE_CHARM','ABILITY_ROUGH_SKIN','ABILITY_COLOR_CHANGE','ABILITY_ANGER_POINT','ABILITY_AFTERMATH'].includes(monAbility(this.data,defender)))throw Error('Unsupported native binding on-hit ability');
+      const suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
+      if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native binding weather phases');
+    }
     if(move.effect===196&&defender.hp>0){
       this.targetWeight(defender);this.assertDamageScope(attacker,defender);
       // Accuracy/extra-PP and entry-stat callbacks are not supplied by weight
@@ -164,7 +184,7 @@ export class Battle{
   }
   private trapped(action:'switch'|'escape'){
     const effect=this.held(this.player)?.holdEffect;
-    return nativePlayerMeanLookBlocks(this.volatile(this.player).status2,action,{shedShell:effect==='HOLD_EFFECT_SWITCH',smokeBall:effect==='HOLD_EFFECT_FLEE',runAway:monAbility(this.data,this.player)==='ABILITY_RUN_AWAY',noExperienceBattle:this.tutorial});
+    return nativeBindingBlocks(this.volatile(this.player).status2,action,{shedShell:effect==='HOLD_EFFECT_SWITCH',smokeBall:effect==='HOLD_EFFECT_FLEE',runAway:monAbility(this.data,this.player)==='ABILITY_RUN_AWAY',noExperienceBattle:this.tutorial});
   }
   private async staticOnHit(attacker:Mon,defender:Mon,move:MoveData){
     // CheckAbilityEffectOnHit: a fainted provider still triggers; the living
@@ -232,7 +252,7 @@ export class Battle{
   private async sendEnemy(index:number){
     if(index<0||index>=this.enemies.length||index===this.enemyIndex||!isUsableBattler(this.enemies[index]))throw Error('Native trainer replacement has no eligible reserve');
     this.restoreOnSwitch(this.enemy);this.clearOnLeave(this.enemy);this.enemyIndex=index;this.enemyStages=freshStages();
-    this.initializeWeight(this.enemy);
+    this.initializeWeight(this.enemy);this.noteNativeEntry(this.enemy,this.player);
     // PokemonSendOut clears this battler's EXP flags even when a previously
     // withdrawn party member returns. Player sendout cannot join a KO target.
     this.experienceMask=1<<this.playerIndex;await this.say(`The opposing Trainer sent out ${this.enemy.name}!`);
@@ -244,7 +264,7 @@ export class Battle{
     // changes never decide healing amounts during a battle.
     this.weather=fieldBattleWeather(options.weather??0);this.clearBattleVolatiles();
     this.active=true;this.enemies=enemies;this.trainer=trainer;this.playerIndex=lead;this.experienceMask=1<<lead;this.enemyIndex=0;this.playerStages=freshStages();this.enemyStages=freshStages();this.turns=0;this.fleeAttempts=0;
-    this.initializeWeight(this.player);this.initializeWeight(this.enemy);
+    this.initializeWeight(this.player);this.initializeWeight(this.enemy);this.noteNativeEntry(this.player,this.enemy);this.noteNativeEntry(this.enemy,this.player);
     this.identified.clear();this.curled.clear();$('battle-screen').hidden=false;$('game-hud').hidden=true;$('touch-pad').hidden=true;
     const before=structuredClone({party:this.state.party,boxes:this.state.boxes,bag:this.state.bag,seen:this.state.seen,caught:this.state.caught});
     let fail:(error:unknown)=>void;const complete=new Promise<Result>((resolve,reject)=>{this.resolve=resolve;fail=reject;});
@@ -337,12 +357,64 @@ export class Battle{
       if(mon.hp>0&&(this.volatile(mon).status2&nativeStatus2.curse)){
         const damage=nativeCurseResidual(mon.maxHP,monAbility(this.data,mon)==='ABILITY_MAGIC_GUARD');if(damage){mon.hp=Math.max(0,mon.hp-damage);await this.say(`${mon.name} is afflicted by the curse!`);await settleFaints();if(!this.active)break;}
       }
+      await this.bindingResidual(mon,playerSide);await settleFaints();if(!this.active)break;
+      await this.yawnResidual(mon);
       await this.heldRecovery(mon);
     }
     if(!this.active)break;
     if(enemyFainted)await this.sendEnemy(this.chooseEnemyReplacement());
     if(playerFainted){const next=await new Promise<Action>(resolve=>{this.actions=resolve;this.partyMenu(true);});this.actions=null;if(next.kind==='switch')await this.switch(next.index);}
   }}
+  private async bindingResidual(mon:Mon,playerSide:boolean){
+    const value=this.volatile(mon),binding=this.bindings.get(mon);
+    const next=nativeBindingTick(value.status2,mon.hp,mon.maxHP,monAbility(this.data,mon)==='ABILITY_MAGIC_GUARD');value.status2=next.status2;
+    if(next.outcome==='none')return;
+    if(!binding)throw Error('Missing native binding owner/move');
+    if(next.outcome==='ended'){this.bindings.delete(mon);await this.say(`${mon.name} was freed from ${moveName(this.data,binding.move)}!`);return;}
+    if(next.damage){mon.hp=Math.max(0,mon.hp-next.damage);await this.view?.hit(playerSide);await this.say(`${mon.name} is hurt by ${moveName(this.data,binding.move)}!`);}
+  }
+  private noteNativeEntry(mon:Mon,other:Mon){
+    if(mon.hp<=0)return;const ability=monAbility(this.data,mon);
+    // Record unresolved entry provenance, never an invented weather/stage.
+    // Native ability weather persists after its provider leaves. An affected
+    // actor's Attack context persists until that actor itself leaves.
+    if(['ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING'].includes(ability))this.unresolvedAbilityWeather=true;
+    if(other.hp>0){const otherAbility=monAbility(this.data,other);
+      if(ability==='ABILITY_INTIMIDATE'||ability==='ABILITY_TRACE'&&otherAbility==='ABILITY_INTIMIDATE')this.unresolvedAttackEntry.add(other);
+      // A still-active, unrepresented Trace may copy the incoming Intimidate.
+      if(ability==='ABILITY_INTIMIDATE'&&otherAbility==='ABILITY_TRACE')this.unresolvedAttackEntry.add(mon);
+    }else if(['ABILITY_INTIMIDATE','ABILITY_TRACE'].includes(ability))this.unresolvedAttackEntryWithoutTarget=true;
+  }
+  private assertBindingSleepEntryScope(scope:'binding'|'Yawn',attacker?:Mon){
+    if(this.unresolvedAbilityWeather)throw Error(`Unsupported native ${scope} prior ability weather`);
+    if(scope==='binding'&&(this.unresolvedAttackEntryWithoutTarget||attacker&&this.unresolvedAttackEntry.has(attacker)))throw Error('Unsupported native binding prior Intimidate entry');
+    // Native Trace may replace a relevant ability; weather entry changes the
+    // underlying field even while CloudNine/AirLock temporarily suppress it.
+    if([this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING'].includes(monAbility(this.data,mon))))throw Error(`Unsupported native ${scope} entry ability`);
+  }
+  private assertYawnSleepScope(mon:Mon){
+    this.assertBindingSleepEntryScope('Yawn');
+    if(['ABILITY_QUICK_FEET','ABILITY_MARVEL_SCALE'].includes(monAbility(this.data,mon)))throw Error('Unsupported native Yawn status ability');
+    if([this.player,this.enemy].some(other=>other.hp>0&&monAbility(this.data,other)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
+    const suppressed=[this.player,this.enemy].some(other=>other.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,other)));
+    if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Yawn weather phases');
+  }
+  private sleepContext(mon:Mon){
+    const suppressed=[this.player,this.enemy].some(other=>other.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,other)));
+    // Uproar remains unadmitted. Do not synthesize it from a learned move.
+    return{ability:monAbility(this.data,mon),status:mon.status,sun:this.weather==='sun'&&!suppressed,uproar:false};
+  }
+  private async yawnResidual(mon:Mon){
+    const tick=nativeYawnTick(this.yawnTurns.get(mon)??0),gate=tick.sleep?nativeYawnSleepGate(this.sleepContext(mon)):null;
+    // The current provider/recipient can differ from the initial cast. Reject
+    // unhosted callbacks before mutating the countdown, status or RNG.
+    if(gate==='sleep')this.assertYawnSleepScope(mon);
+    if(tick.turns)this.yawnTurns.set(mon,tick.turns);else this.yawnTurns.delete(mon);if(!tick.sleep)return;
+    if(gate==='ability'){await this.say(`${mon.name} stayed awake because of its ability!`);return;}
+    if(gate==='already-asleep'){await this.say(`${mon.name} is already asleep!`);return;}
+    if(gate!=='sleep')return;
+    mon.status='SLP';mon.sleepTurns=nativeSleepDuration(()=>this.random16());await this.say(`${mon.name} fell asleep!`);
+  }
   private effectiveSpeed(playerSide:boolean){const mon=playerSide?this.player:this.enemy,stages=playerSide?this.playerStages:this.enemyStages;const speed=Math.floor(mon.stats.speed*stageMultiplier(stages.speed));return mon.status==='PAR'?Math.floor(speed/4):speed;}
   private tryRun(){
     if(this.held(this.player)?.holdEffect==='HOLD_EFFECT_FLEE'||this.tutorial||monAbility(this.data,this.player)==='ABILITY_RUN_AWAY')return true;
@@ -367,16 +439,19 @@ export class Battle{
   private async switch(index:number,recall=true){
     if(!isUsableBattler(this.state.party[index])||index===this.playerIndex)return;
     if(recall)await this.say(`${this.player.name}, that’s enough! Come back!`);this.restoreOnSwitch(this.player);this.clearOnLeave(this.player);
-    this.playerIndex=index;this.initializeWeight(this.player);if(this.enemy.hp>0)this.experienceMask|=1<<index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);
+    this.playerIndex=index;this.initializeWeight(this.player);this.noteNativeEntry(this.player,this.enemy);if(this.enemy.hp>0)this.experienceMask|=1<<index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);
   }
   private async attack(playerSide:boolean,slot:number,selectedMoveId?:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
     if(attacker.hp<=0)return;
     const move=this.selectMove(attacker,slot);
     this.volatile(attacker).previousMove=nativePreviousMove(this.volatile(attacker).previousMove,0,{noMoveSet:false,moveSucceededFlag:false});
-    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
-    if(attacker.status==='SLP'){attacker.sleepTurns--;if(attacker.sleepTurns>0){await this.say(`${attacker.name} is fast asleep.`);return;}attacker.status='';await this.say(`${attacker.name} woke up!`);}
+    // Native sleep state1 permits Snore/SleepTalk instead of blocking them.
+    // Their effects remain unported: never silently consume a sleeping turn.
+    if(attacker.status==='SLP'&&[this.data.constants.MOVE_SNORE,this.data.constants.MOVE_SLEEP_TALK].includes(move.id))throw Error('Unsupported native sleeping action '+move.key);
+    if(attacker.status==='SLP'){attacker.sleepTurns=nativeSleepTick(attacker.sleepTurns,monAbility(this.data,attacker)==='ABILITY_EARLY_BIRD');if(attacker.sleepTurns>0){await this.say(`${attacker.name} is fast asleep.`);return;}attacker.status='';await this.say(`${attacker.name} woke up!`);}
     if(attacker.status==='FRZ'){if(this.rng()>=.2){await this.say(`${attacker.name} is frozen solid!`);return;}attacker.status='';await this.say(`${attacker.name} thawed out!`);}
+    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
     if(await this.checkConfusion(attacker,as,playerSide,move))return;
     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
     // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
@@ -408,6 +483,13 @@ export class Battle{
       if(flags.has(attacker)){await this.say('But it failed!');return;}
       flags.add(attacker);await this.view?.attack(playerSide,move);
       await this.say(move.effect===201?'Electricity’s power was weakened!':'Fire’s power was weakened!');return;
+    }
+    if(move.effect===187){
+      // Substitute/Safeguard producers remain unadmitted. Initial0141 gates
+      // differ deliberately from delayed0018's nonignorable ability checks.
+      const started=nativeYawnStart(this.yawnTurns.get(defender)??0,{...this.sleepContext(defender),moldBreaker:monAbility(this.data,attacker)==='ABILITY_MOLD_BREAKER',substitute:false,safeguard:false});
+      if(started.outcome!=='applied'){await this.say(started.outcome==='ability'?`${defender.name}’s ability made Yawn ineffective!`:started.outcome==='safeguard'?`${defender.name} is protected by Safeguard!`:'But it failed!');return;}
+      this.yawnTurns.set(defender,started.turns);await this.view?.attack(playerSide,move);await this.say(`${attacker.name} made ${defender.name} drowsy!`);return;
     }
     await this.view?.attack(playerSide,move);
     if(move.effect===47){const applied=nativeFocusEnergy(this.volatile(attacker).status2);this.volatile(attacker).status2=applied.status2;await this.say(applied.applied?`${attacker.name} is getting pumped!`:'But it failed!');return;}
@@ -442,6 +524,9 @@ export class Battle{
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));
     if(effectiveness===0)await this.say('immunityAbility'in result&&result.immunityAbility==='Wonder Guard'?`${defender.name} avoided damage by using Wonder Guard!`:monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER'&&monAbility(this.data,defender)==='ABILITY_LEVITATE'&&move.type===this.data.constants.TYPE_GROUND?`${defender.name} makes Ground moves miss by using Levitate!`:'It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
     if(effectiveness===0)break;
+    // AfterDamage runs the indirect binding subscript before Rage and the
+    // contact-ability callback. No duration draw for immunity/KO/rebinding.
+    if(move.effect===42&&defender.hp>0){const value=this.volatile(defender),started=nativeBindingStart(value.status2,()=>this.random16(),this.held(attacker)?.holdEffect==='HOLD_EFFECT_EXTEND_TRAPPING');value.status2=started.status2;if(started.applied){this.bindings.set(defender,{source:playerSide?0:1,move:move.id});await this.say(`${defender.name} was trapped by ${moveName(this.data,move.id)}!`);}}
     let pivoted=false;
     if(total>0){landed++;if(move.effect===228)pivoted=await this.pivot(playerSide,attacker,defender,move);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
     if(move.effect===48||slot<0){attacker.hp=Math.max(0,attacker.hp-Math.max(1,Math.floor((slot<0?attacker.maxHP:total)/4)));await this.say(`${attacker.name} is hit with recoil!`);}
@@ -453,6 +538,7 @@ export class Battle{
     // AfterMoveEffects (controller31) runs before CheckMultiHit (32),
     // so a surviving Sitrus holder can heal between the individual hits.
     await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);
+    await this.thawAfterHit(attacker,defender,move,total);
     if(defender.hp<=0||attacker.hp<=0||effectiveness===0)break;
     }
     if((move.effect===29||move.effect===44)&&landed)await this.say(`Hit ${landed} time${landed===1?'':'s'}!`);
@@ -468,6 +554,12 @@ export class Battle{
       await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);
       await this.healAbility(playerSide?this.player:this.enemy);await this.healAbility(defender);
     }
+  }
+  private async thawAfterHit(attacker:Mon,defender:Mon,move:MoveData,damage:number){
+    // Native AfterMoveEffects state6 follows held-item recovery. A landed
+    // damaging Fire hit thaws a living target without another random draw.
+    const effectiveType=monAbility(this.data,attacker)==='ABILITY_NORMALIZE'?this.data.constants.TYPE_NORMAL:move.type;
+    if(attacker!==defender&&damage>0&&defender.hp>0&&defender.status==='FRZ'&&effectiveType===this.data.constants.TYPE_FIRE){defender.status='';await this.say(`${defender.name} thawed out!`);}
   }
   private async changeStage(mon:Mon,stages:Stages,index:number,amount:number){const key=(['atk','def','speed','spatk','spdef','accuracy','evasion'] as const)[index];const next=Math.max(-6,Math.min(6,stages[key]+amount));if(next===stages[key]){await this.say(`${mon.name}’s ${key} won’t go any ${amount>0?'higher':'lower'}!`);return;}stages[key]=next;await this.say(`${mon.name}’s ${({atk:'Attack',def:'Defense',speed:'Speed',spatk:'Sp. Atk',spdef:'Sp. Def',accuracy:'accuracy',evasion:'evasion'})[key]} ${amount>0?'rose':'fell'}!`);}
   private async inflict(mon:Mon,status:string){if(mon.status){await this.say('But it failed!');return;}const types=this.data.personal[mon.species].types;if((['PSN','TOX'].includes(status)&&types.some(t=>['TYPE_POISON','TYPE_STEEL'].includes(t)))||(status==='BRN'&&types.includes('TYPE_FIRE'))||(status==='FRZ'&&types.includes('TYPE_ICE'))){await this.say('It doesn’t affect the Pokémon…');return;}mon.status=status;if(status==='SLP')mon.sleepTurns=2+Math.floor(this.rng()*4);await this.say(`${mon.name} ${({PSN:'was poisoned!',TOX:'was badly poisoned!',PAR:'is paralyzed! It may be unable to move!',BRN:'was burned!',FRZ:'was frozen solid!',SLP:'fell asleep!'})[status as 'PSN']} `);}

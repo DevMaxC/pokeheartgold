@@ -1,0 +1,39 @@
+{
+  "archiveRoot": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-binding-yawn",
+  "snapshots": [
+    {
+      "review": "initial",
+      "historicalSnapshot": "/tmp/hg-binding-yawn-review-b6510d66",
+      "archivedSnapshot": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-binding-yawn/initial/snapshot",
+      "relativeArchivedSnapshot": "initial/snapshot",
+      "sourceCommit": "b6510d66fb7d662fafc3c73b5958306644d41d21",
+      "sourceCount": 976,
+      "evidenceCount": 4,
+      "manifestSha256": "2e4c93dfbd21f1c5fa8e4cecf5851b06510cf753d2159a768ea97d30b3cdf799",
+      "archiveInputMismatches": 0
+    },
+    {
+      "review": "followup",
+      "historicalSnapshot": "/tmp/hg-binding-yawn-followup-729ece0f",
+      "archivedSnapshot": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-binding-yawn/followup/snapshot",
+      "relativeArchivedSnapshot": "followup/snapshot",
+      "sourceCommit": "729ece0f8cd7079c14fb6e83b97ae0f35e70bc80",
+      "sourceCount": 976,
+      "evidenceCount": 9,
+      "manifestSha256": "956f3ed986fc016991b971d22bef51c3b6e7272cbd7e088c14910a4d01f5001e",
+      "archiveInputMismatches": 0
+    },
+    {
+      "review": "final",
+      "historicalSnapshot": "/tmp/hg-binding-yawn-history-review-40e398e6",
+      "archivedSnapshot": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-binding-yawn/final/snapshot",
+      "relativeArchivedSnapshot": "final/snapshot",
+      "sourceCommit": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+      "sourceCount": 976,
+      "evidenceCount": 11,
+      "manifestSha256": "6b5feeb5da71064a3dc70150b2d1b2f6a95c6f5c32c8178edad604633fafad9a",
+      "archiveInputMismatches": 0
+    }
+  ],
+  "qualification": "Preserved raw manifests keep original machine paths. Relative input paths resolve under each archived snapshot; no raw source/review bytes rewritten."
+}

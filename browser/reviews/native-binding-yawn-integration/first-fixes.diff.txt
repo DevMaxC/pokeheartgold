@@ -1,0 +1,179 @@
+diff --git a/browser/src/source/battle-binding-yawn-native.test.ts b/browser/src/source/battle-binding-yawn-native.test.ts
+index 68a24ced..f3a9698d 100644
+--- a/browser/src/source/battle-binding-yawn-native.test.ts
++++ b/browser/src/source/battle-binding-yawn-native.test.ts
+@@ -14,7 +14,7 @@ async function replay(file:string,context:Context,initialTurns:number,raw=0){
+  const source=await readFile(new URL(`files/battledata/script/subscript/${file}`,root),'utf8'),instructions:{op:string;args:string[]}[]=[],labels=new Map<string,number>();
+  for(const original of source.split('\n')){const line=original.split('//')[0].trim();if(!line||line.startsWith('.'))continue;if(line.endsWith(':')){labels.set(line.slice(0,-1),instructions.length);continue;}const[op,...rest]=line.split(/\s+/);instructions.push({op,args:rest.join(' ').split(',').map(x=>x.trim())});}
+  const vars:Record<string,number>={BSCRIPT_VAR_SIDE_EFFECT_TYPE:value('SIDE_EFFECT_TYPE_MOVE_EFFECT'),BSCRIPT_VAR_FIELD_CONDITION:(context.sun?value('FIELD_CONDITION_SUN_ALL'):0)|(context.uproar?value('FIELD_CONDITION_UPROAR'):0),BSCRIPT_VAR_SIDE_CONDITION_STAT_CHANGE:context.safeguard?value('SIDE_CONDITION_SAFEGUARD'):0,BSCRIPT_VAR_MOVE_STATUS_FLAGS:0,BSCRIPT_VAR_CALC_TEMP:0};
+- let status=context.status==='SLP'?3:context.status?8:0,turns=initialTurns,draws=0,pc=0;const printed:string[]=[];const number=(x:string)=>vars[x]??value(x);const compare=(op:string,left:number,right:number)=>{switch(op){case'OPCODE_EQU':return left===right;case'OPCODE_NEQ':return left!==right;case'OPCODE_FLAG_SET':return!!(left&right);case'OPCODE_FLAG_NOT':return!(left&right);default:throw Error('Unknown native comparison '+op);}};const go=(label:string)=>{const target=labels.get(label);assert.notEqual(target,undefined,`unknown label ${label}`);pc=target!;};
++ let status=context.status==='SLP'?3:context.status?value('STATUS_PARALYSIS'):0,turns=initialTurns,draws=0,pc=0;const printed:string[]=[];const number=(x:string)=>vars[x]??value(x);const compare=(op:string,left:number,right:number)=>{switch(op){case'OPCODE_EQU':return left===right;case'OPCODE_NEQ':return left!==right;case'OPCODE_FLAG_SET':return!!(left&right);case'OPCODE_FLAG_NOT':return!(left&right);default:throw Error('Unknown native comparison '+op);}};const go=(label:string)=>{const target=labels.get(label);assert.notEqual(target,undefined,`unknown label ${label}`);pc=target!;};
+  for(let steps=0;steps<500;steps++){const row=instructions[pc++];assert.ok(row,'unexpected native script end');const a=row.args;
+   switch(row.op){
+    case'End':return{turns,status,draws,printed};
+@@ -41,7 +41,7 @@ test('original0141 and0018 assembly replays all relevant Yawn ability/status/fie
+  const abilities=['ABILITY_NONE','ABILITY_INSOMNIA','ABILITY_VITAL_SPIRIT','ABILITY_LEAF_GUARD','ABILITY_SOUNDPROOF'];
+  // Read once, then keep branch fixtures deterministic and independent of RNG.
+  let fixtures=0;for(const ability of abilities)for(const status of['','SLP','PAR'])for(const sun of[false,true])for(const uproar of[false,true])for(const moldBreaker of[false,true])for(const substitute of[false,true])for(const safeguard of[false,true])for(const turns of[0,1,2]){
+-  const context={ability,status,sun,uproar,moldBreaker,substitute,safeguard};const original=await replay('subscript_0141_Yawn.s',context,turns),actual=nativeYawnStart(turns,context),reason=original.printed.includes('msg_0197_00734')?'ability':original.printed.includes('msg_0197_00545')?'applied':'failed';assert.deepEqual(actual,{turns:original.turns,outcome:reason});assert.equal(original.draws,0);fixtures++;
++  const context={ability,status,sun,uproar,moldBreaker,substitute,safeguard};const original=await replay('subscript_0141_Yawn.s',context,turns),actual=nativeYawnStart(turns,context),reason=original.printed.includes('msg_0197_00734')?'ability':original.printed.includes('msg_0197_00200')?'safeguard':original.printed.includes('msg_0197_00545')?'applied':'failed';assert.deepEqual(actual,{turns:original.turns,outcome:reason});assert.equal(original.draws,0);fixtures++;
+  }
+  assert.equal(fixtures,1440);
+  for(const ability of abilities)for(const status of['','SLP','PAR'])for(const sun of[false,true])for(const uproar of[false,true])for(const moldBreaker of[false,true])for(const substitute of[false,true])for(const safeguard of[false,true]){
+diff --git a/browser/src/source/battle-binding-yawn.test.ts b/browser/src/source/battle-binding-yawn.test.ts
+index 90d4bf5c..62c5e6e1 100644
+--- a/browser/src/source/battle-binding-yawn.test.ts
++++ b/browser/src/source/battle-binding-yawn.test.ts
+@@ -134,3 +134,34 @@ test('new binding effects reject unported typed absorption and Yawn rejects BadD
+  for(const[species,key,targetSpecies,odd]of[[4,'MOVE_FIRE_SPIN',77,true],[90,'MOVE_CLAMP',134,false]]as const){const actor=mon(species,species===4?37:30),target=mon(targetSpecies,30,odd),f=fixture([actor],[target]);legalMove(actor,key);const before=structuredClone({actor,target});await assert.rejects(act(f,false,key),/Unsupported native binding immunity/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);}
+  const actor=(await originalTrainerParty(data,23))[0],target=mon(491,50),f=fixture([actor],[target]),before=structuredClone({actor,target});assert.equal(monAbility(data,target),'ABILITY_BAD_DREAMS');await assert.rejects(act(f,false,'MOVE_YAWN'),/Unsupported native Yawn BadDreams/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);
+ });
++
++test('review regression: an actual PowderSnow freeze is thawed by FireSpin after binding and held-status recovery',async()=>{
++ const freezer=mon(220,10),fire=mon(4,37),target=mon(152,30);legalMove(freezer,'MOVE_POWDER_SNOW');legalMove(fire,'MOVE_FIRE_SPIN');const f=fixture([target],[freezer,fire],[0,32769,32769,0,0,32769,32769,0]);await act(f,true,'MOVE_POWDER_SNOW');assert.equal(target.status,'FRZ');const frozen=structuredClone(target);await call(f,'switch',1);await act(f,true,'MOVE_FIRE_SPIN');assert.ok(target.hp>0);assert.equal(target.status,'');assert.equal(count(f,target),3);assert.equal(f.draws,8,'freeze hit/secondary and binding hit/duration; no random thaw roll');assert.ok(f.messages.some(message=>message.includes('thawed out')));
++ for(const mode of['miss','normal','berry']as const){const victim=structuredClone(frozen),attacker=mode==='normal'?(await originalTrainerParty(data,384))[0]:mon(4,37);if(mode!=='normal')legalMove(attacker,'MOVE_FIRE_SPIN');if(mode==='berry')victim.heldItem='ITEM_ASPEAR_BERRY';const g=fixture([victim],[attacker],mode==='miss'?[65535]:[0,32769,32769,0]);await act(g,true,mode==='normal'?'MOVE_BIND':'MOVE_FIRE_SPIN');assert.equal(victim.status,mode==='berry'?'':'FRZ');assert.equal(g.messages.some(message=>message.includes('thawed out')),false);if(mode==='berry'){assert.equal(victim.heldItem,null);assert.ok(g.messages.some(message=>message.includes('used its')));}}
++ const ember=mon(4,37),victim=structuredClone(frozen);legalMove(ember,'MOVE_EMBER');const g=fixture([victim],[ember],[0,32769,32769,65535]);await act(g,true,'MOVE_EMBER');assert.ok(victim.hp>0);assert.equal(victim.status,'');assert.equal(g.draws,4,'existing Ember secondary check, no extra thaw draw');
++ const finisher=mon(4,37),faint=mon(129,1);legalMove(finisher,'MOVE_FIRE_SPIN');faint.status='FRZ';const h=fixture([faint],[finisher],[0,32769,32769]);await act(h,true,'MOVE_FIRE_SPIN');assert.equal(faint.hp,0);assert.equal(faint.status,'FRZ','native HP gate prevents thaw on a KO');assert.equal(count(h,faint),0);assert.equal(h.messages.some(message=>message.includes('thawed out')),false);
++});
++
++test('review regression: native sleep decrements or wakes before an actual Bite flinch without spending PP',async()=>{
++ // Combined source mons are a legal controller boundary, not a claimed native
++ // trainer roster: LarrySlowpoke casts, Grunt13Ekans replaces it and Bites.
++ for(const counter of[5,1]){const sleep=(await originalTrainerParty(data,23))[0],biter=(await originalTrainerParty(data,13))[1],target=mon(152,18);legalMove(target,'MOVE_GROWL');const f=fixture([sleep,biter],[target],[3,0,32769,32769,0]);await act(f,false,'MOVE_YAWN');await call(f,'yawnResidual',target);await call(f,'yawnResidual',target);for(let i=5;i>counter;i--)await act(f,true,'MOVE_GROWL');assert.equal(target.sleepTurns,counter);await call(f,'sendEnemy',1);await act(f,false,'MOVE_BITE');assert.equal(Reflect.get(f.battle,'flinch'),true);const pp=target.moves[0].pp;await act(f,true,'MOVE_GROWL');assert.equal(target.sleepTurns,counter-1);assert.equal(target.status,counter===1?'':'SLP');assert.equal(target.moves[0].pp,pp);assert.equal(f.draws,5);}
++});
++
++test('review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG',async()=>{
++ for(const key of['MOVE_SNORE','MOVE_SLEEP_TALK']){const actor=(await originalTrainerParty(data,23))[0],target=mon(216,43);legalMove(target,key,key==='MOVE_SLEEP_TALK'?82:undefined);const f=fixture([actor],[target],[3]);assert.equal(monAbility(data,target),'ABILITY_PICKUP');await act(f,false,'MOVE_YAWN');await call(f,'yawnResidual',target);await call(f,'yawnResidual',target);const before=structuredClone(target);await assert.rejects(act(f,true,key),/Unsupported native sleeping action/);assert.deepEqual(target,before);assert.equal(f.draws,1);}
++});
++
++test('review regression: Yawn rejects newly sleep-activated unported abilities and a Truant caster before PP',async()=>{
++ for(const species of[216,350]){const actor=(await originalTrainerParty(data,23))[0],target=mon(species,30,species===216),f=fixture([actor],[target]),before=structuredClone({actor,target});assert.ok(['ABILITY_QUICK_FEET','ABILITY_MARVEL_SCALE'].includes(monAbility(data,target)));await assert.rejects(act(f,false,'MOVE_YAWN'),/Unsupported native Yawn status ability/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);}
++ const actor=mon(287,7);legalMove(actor,'MOVE_YAWN');const target=mon(152,18),f=fixture([actor],[target]),before=structuredClone({actor,target});assert.equal(monAbility(data,actor),'ABILITY_TRUANT');await assert.rejects(act(f,false,'MOVE_YAWN'),/Unsupported native Yawn Truant/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);
++});
++
++test('review regression: delayed Yawn rechecks an incoming BadDreams provider before sleep mutation or draw',async()=>{
++ const actor=(await originalTrainerParty(data,23))[0],darkrai=mon(491,50),target=mon(152,18),f=fixture([actor,darkrai],[target],[0]);await act(f,false,'MOVE_YAWN');await call(f,'sendEnemy',1);await call(f,'yawnResidual',target);assert.equal(Reflect.get(f.battle,'yawnTurns').get(target),1);const before=structuredClone(target);await assert.rejects(call(f,'yawnResidual',target),/Unsupported native Yawn BadDreams/);assert.deepEqual(target,before);assert.equal(f.draws,0);assert.equal(Reflect.get(f.battle,'yawnTurns').get(target),1);
++});
++
++test('binding and Yawn reject unhosted Trace/weather entry, and target Intimidate cannot silently change binding damage',async()=>{
++ for(const species of[280,382,383,449,460])for(const effect of['MOVE_BIND','MOVE_YAWN']){const actor=(await originalTrainerParty(data,effect==='MOVE_BIND'?384:23))[0],target=mon(species,50,species===280),f=fixture([actor],[target]),before=structuredClone({actor,target});assert.ok(['ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING'].includes(monAbility(data,target)));await assert.rejects(act(f,false,effect),/Unsupported native (binding|Yawn) entry ability/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);}
++ const actor=(await originalTrainerParty(data,384))[0],target=mon(130,20),f=fixture([actor],[target]),before=structuredClone({actor,target});assert.equal(monAbility(data,target),'ABILITY_INTIMIDATE');await assert.rejects(act(f,false,'MOVE_BIND'),/Unsupported native binding target Intimidate/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);
++});
+diff --git a/browser/src/source/battle-binding-yawn.ts b/browser/src/source/battle-binding-yawn.ts
+index 99df6cbc..827e4b83 100644
+--- a/browser/src/source/battle-binding-yawn.ts
++++ b/browser/src/source/battle-binding-yawn.ts
+@@ -29,7 +29,9 @@ function sleepAbility(context:NativeSleepContext){return['ABILITY_INSOMNIA','ABI
+ export function nativeYawnStart(turns:number,context:NativeSleepContext&{moldBreaker:boolean;substitute:boolean;safeguard:boolean}){
+   integer(turns,0,2,'Yawn turns');
+   if(!context.moldBreaker&&sleepAbility(context))return{turns,outcome:'ability' as const};
+-  if(context.substitute||context.uproar&&context.ability!=='ABILITY_SOUNDPROOF'||context.status||context.safeguard||turns)return{turns,outcome:'failed' as const};
++  if(context.substitute||context.uproar&&context.ability!=='ABILITY_SOUNDPROOF'||context.status)return{turns,outcome:'failed' as const};
++  if(context.safeguard)return{turns,outcome:'safeguard' as const};
++  if(turns)return{turns,outcome:'failed' as const};
+   return{turns:2,outcome:'applied' as const};
+ }
+ /** UMC_YAWN counts its activation turn, then invokes0018 with statChangeType4.
+diff --git a/browser/src/source/battle.ts b/browser/src/source/battle.ts
+index e165432c..9455c166 100644
+--- a/browser/src/source/battle.ts
++++ b/browser/src/source/battle.ts
+@@ -88,14 +88,13 @@ export class Battle{
+   }
+   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
+     if(move.effect===187&&defender.hp>0){
+-      this.assertItemScope(attacker,defender);
++      this.assertItemScope(attacker,defender);this.assertYawnSleepScope(defender);
+       if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native Yawn Pressure PP');
+-      if([this.player,this.enemy].some(mon=>mon.hp>0&&monAbility(this.data,mon)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
+-      const suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
+-      if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Yawn weather phases');
++      if(monAbility(this.data,attacker)==='ABILITY_TRUANT')throw Error('Unsupported native Yawn Truant action phase');
+     }
+     if(move.effect===42&&defender.hp>0){
+-      this.assertDamageScope(attacker,defender);
++      this.assertBindingSleepEntryScope('binding');this.assertDamageScope(attacker,defender);
++      if(monAbility(this.data,defender)==='ABILITY_INTIMIDATE')throw Error('Unsupported native binding target Intimidate entry');
+       if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native binding Pressure PP');
+       const attackAbility=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender);
+       if(attackAbility==='ABILITY_SCRAPPY'||attackAbility!=='ABILITY_MOLD_BREAKER'&&(move.type===this.data.constants.TYPE_FIRE&&targetAbility==='ABILITY_FLASH_FIRE'||move.type===this.data.constants.TYPE_WATER&&targetAbility==='ABILITY_WATER_ABSORB'))throw Error('Unsupported native binding immunity callback');
+@@ -373,14 +372,29 @@ export class Battle{
+     if(next.outcome==='ended'){this.bindings.delete(mon);await this.say(`${mon.name} was freed from ${moveName(this.data,binding.move)}!`);return;}
+     if(next.damage){mon.hp=Math.max(0,mon.hp-next.damage);await this.view?.hit(playerSide);await this.say(`${mon.name} is hurt by ${moveName(this.data,binding.move)}!`);}
+   }
++  private assertBindingSleepEntryScope(scope:'binding'|'Yawn'){
++    // Native Trace may replace a relevant ability; weather entry changes the
++    // underlying field even while CloudNine/AirLock temporarily suppress it.
++    if([this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING'].includes(monAbility(this.data,mon))))throw Error(`Unsupported native ${scope} entry ability`);
++  }
++  private assertYawnSleepScope(mon:Mon){
++    this.assertBindingSleepEntryScope('Yawn');
++    if(['ABILITY_QUICK_FEET','ABILITY_MARVEL_SCALE'].includes(monAbility(this.data,mon)))throw Error('Unsupported native Yawn status ability');
++    if([this.player,this.enemy].some(other=>other.hp>0&&monAbility(this.data,other)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
++    const suppressed=[this.player,this.enemy].some(other=>other.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,other)));
++    if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Yawn weather phases');
++  }
+   private sleepContext(mon:Mon){
+     const suppressed=[this.player,this.enemy].some(other=>other.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,other)));
+     // Uproar remains unadmitted. Do not synthesize it from a learned move.
+     return{ability:monAbility(this.data,mon),status:mon.status,sun:this.weather==='sun'&&!suppressed,uproar:false};
+   }
+   private async yawnResidual(mon:Mon){
+-    const tick=nativeYawnTick(this.yawnTurns.get(mon)??0);if(tick.turns)this.yawnTurns.set(mon,tick.turns);else this.yawnTurns.delete(mon);if(!tick.sleep)return;
+-    const gate=nativeYawnSleepGate(this.sleepContext(mon));
++    const tick=nativeYawnTick(this.yawnTurns.get(mon)??0),gate=tick.sleep?nativeYawnSleepGate(this.sleepContext(mon)):null;
++    // The current provider/recipient can differ from the initial cast. Reject
++    // unhosted callbacks before mutating the countdown, status or RNG.
++    if(gate==='sleep')this.assertYawnSleepScope(mon);
++    if(tick.turns)this.yawnTurns.set(mon,tick.turns);else this.yawnTurns.delete(mon);if(!tick.sleep)return;
+     if(gate==='ability'){await this.say(`${mon.name} stayed awake because of its ability!`);return;}
+     if(gate==='already-asleep'){await this.say(`${mon.name} is already asleep!`);return;}
+     if(gate!=='sleep')return;
+@@ -417,9 +431,12 @@ export class Battle{
+     if(attacker.hp<=0)return;
+     const move=this.selectMove(attacker,slot);
+     this.volatile(attacker).previousMove=nativePreviousMove(this.volatile(attacker).previousMove,0,{noMoveSet:false,moveSucceededFlag:false});
+-    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
++    // Native sleep state1 permits Snore/SleepTalk instead of blocking them.
++    // Their effects remain unported: never silently consume a sleeping turn.
++    if(attacker.status==='SLP'&&[this.data.constants.MOVE_SNORE,this.data.constants.MOVE_SLEEP_TALK].includes(move.id))throw Error('Unsupported native sleeping action '+move.key);
+     if(attacker.status==='SLP'){attacker.sleepTurns=nativeSleepTick(attacker.sleepTurns,monAbility(this.data,attacker)==='ABILITY_EARLY_BIRD');if(attacker.sleepTurns>0){await this.say(`${attacker.name} is fast asleep.`);return;}attacker.status='';await this.say(`${attacker.name} woke up!`);}
+     if(attacker.status==='FRZ'){if(this.rng()>=.2){await this.say(`${attacker.name} is frozen solid!`);return;}attacker.status='';await this.say(`${attacker.name} thawed out!`);}
++    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
+     if(await this.checkConfusion(attacker,as,playerSide,move))return;
+     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
+     // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
+@@ -456,7 +473,7 @@ export class Battle{
+       // Substitute/Safeguard producers remain unadmitted. Initial0141 gates
+       // differ deliberately from delayed0018's nonignorable ability checks.
+       const started=nativeYawnStart(this.yawnTurns.get(defender)??0,{...this.sleepContext(defender),moldBreaker:monAbility(this.data,attacker)==='ABILITY_MOLD_BREAKER',substitute:false,safeguard:false});
+-      if(started.outcome!=='applied'){await this.say(started.outcome==='ability'?`${defender.name}’s ability made Yawn ineffective!`:'But it failed!');return;}
++      if(started.outcome!=='applied'){await this.say(started.outcome==='ability'?`${defender.name}’s ability made Yawn ineffective!`:started.outcome==='safeguard'?`${defender.name} is protected by Safeguard!`:'But it failed!');return;}
+       this.yawnTurns.set(defender,started.turns);await this.view?.attack(playerSide,move);await this.say(`${attacker.name} made ${defender.name} drowsy!`);return;
+     }
+     await this.view?.attack(playerSide,move);
+@@ -494,13 +511,6 @@ export class Battle{
+     if(effectiveness===0)break;
+     // AfterDamage runs the indirect binding subscript before Rage and the
+     // contact-ability callback. No duration draw for immunity/KO/rebinding.
+-    if(move.effect===187&&defender.hp>0){
+-      this.assertItemScope(attacker,defender);
+-      if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native Yawn Pressure PP');
+-      if([this.player,this.enemy].some(mon=>mon.hp>0&&monAbility(this.data,mon)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
+-      const suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
+-      if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Yawn weather phases');
+-    }
+     if(move.effect===42&&defender.hp>0){const value=this.volatile(defender),started=nativeBindingStart(value.status2,()=>this.random16(),this.held(attacker)?.holdEffect==='HOLD_EFFECT_EXTEND_TRAPPING');value.status2=started.status2;if(started.applied){this.bindings.set(defender,{source:playerSide?0:1,move:move.id});await this.say(`${defender.name} was trapped by ${moveName(this.data,move.id)}!`);}}
+     let pivoted=false;
+     if(total>0){landed++;if(move.effect===228)pivoted=await this.pivot(playerSide,attacker,defender,move);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
+@@ -513,6 +523,10 @@ export class Battle{
+     // AfterMoveEffects (controller31) runs before CheckMultiHit (32),
+     // so a surviving Sitrus holder can heal between the individual hits.
+     await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);
++    // Native AfterMoveEffects state6 follows held-item recovery. A landed
++    // damaging Fire hit thaws a living target without another random draw.
++    const effectiveType=monAbility(this.data,attacker)==='ABILITY_NORMALIZE'?this.data.constants.TYPE_NORMAL:move.type;
++    if(total>0&&defender.hp>0&&defender.status==='FRZ'&&effectiveType===this.data.constants.TYPE_FIRE){defender.status='';await this.say(`${defender.name} thawed out!`);}
+     if(defender.hp<=0||attacker.hp<=0||effectiveness===0)break;
+     }
+     if((move.effect===29||move.effect===44)&&landed)await this.say(`Hit ${landed} time${landed===1?'':'s'}!`);

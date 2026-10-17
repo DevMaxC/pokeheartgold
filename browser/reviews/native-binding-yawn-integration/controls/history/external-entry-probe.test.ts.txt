@@ -1,0 +1,35 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {Battle} from './battle.ts';
+import {createMon,loadData,newState} from './data.ts';
+import {originalTrainerParty} from './trainers.ts';
+import {monAbility} from './battle-math.ts';
+import {nativeStatus2,nativeBeforeTurnStatus2} from './battle-volatiles.ts';
+import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
+import type {Mon} from './types.ts';
+import type {UI} from './ui.ts';
+import type {BattleView} from './battle-view.ts';
+globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
+const data=await loadData(),noncrit=32769/65536;
+const mon=(species:number,level=15,odd=false)=>createMon(data,species,level,'Ethan',()=>odd?0x80010001/0x100000000:noncrit);
+const slot=(subject:Mon,key:string)=>{const index=subject.moves.findIndex(move=>move.id===data.constants[key]);assert.ok(index>=0,`${subject.name} must know ${key}`);return index;};
+function legalMove(subject:Mon,key:string,tm?:number){const move=data.moves[data.constants[key]];assert.ok(tm?data.personal[subject.species].tms.includes(tm):data.learnsets[subject.species].some(row=>row.move===move.id&&row.level<=subject.level));subject.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];}
+function fixture(enemies:Mon[],party:Mon[]=[mon(152)],values?:number[]){
+ const elements=new Map<string,{innerHTML:string;hidden:boolean}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}}as unknown as Document;
+ const state=newState(data,'Ethan','boy',()=>noncrit);state.party=party;const messages:string[]=[],events:string[]=[];let draws=0;
+ const view={begin:async()=>events.push('begin'),sync(){},attack:async(side:boolean)=>events.push(`attack:${side}`),hit:async(side:boolean)=>events.push(`hit:${side}`),end:()=>events.push('end')}as unknown as BattleView;
+ const battle=new Battle(data,state,{choose:async()=>4}as unknown as UI,()=>{if(values)assert.ok(draws<values.length,'unexpected gameplay draw');return values?values[draws++]/65536:(draws++,noncrit);},view);Reflect.set(battle,'enemies',enemies);Reflect.set(battle,'trainer',384);Reflect.set(battle,'experienceMask',1);Reflect.set(battle,'say',async(text:string)=>messages.push(text));Reflect.set(battle,'draw',()=>{});
+ for(const active of[party[0],enemies[0]])Reflect.get(battle,'initializeWeight').call(battle,active);
+ return{battle,state,messages,events,get draws(){return draws;}};
+}
+type Fixture=ReturnType<typeof fixture>;
+const call=(f:Fixture,key:string,...args:unknown[])=>Reflect.get(f.battle,key).apply(f.battle,args);
+const act=(f:Fixture,side:boolean,key:string)=>call(f,'attack',side,slot(side?f.battle.player:f.battle.enemy,key));
+const count=(f:Fixture,subject:Mon)=>(call(f,'volatile',subject).status2&nativeStatus2.bind)>>>13;
+async function turns(f:Fixture,n:number,playerMove:string,enemyMove:string){let selected=0;const stop=new Error('observed end-turn phases');Reflect.set(f.battle,'active',true);Reflect.set(f.battle,'chooseEnemyMove',()=>slot(f.battle.enemy,enemyMove));Reflect.set(f.battle,'nextAction',async()=>{if(selected++===n)throw stop;return{kind:'move',slot:slot(f.battle.player,playerMove)};});await assert.rejects(call(f,'loop'),error=>error===stop);}
+
+test('external entry proof: an enemy weather sendout remains unresolved after its provider leaves',async()=>{const first=(await originalTrainerParty(data,384))[0],weather=mon(382,50),plain=(await originalTrainerParty(data,23))[0],target=mon(152,18),f=fixture([first,weather,plain],[target]);await call(f,'sendEnemy',1);await call(f,'sendEnemy',2);const pp=plain.moves[slot(plain,'MOVE_YAWN')].pp;await assert.rejects(act(f,false,'MOVE_YAWN'),/Unsupported native Yawn prior ability weather/);assert.equal(plain.moves[slot(plain,'MOVE_YAWN')].pp,pp);assert.equal(f.draws,0);});

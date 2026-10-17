@@ -1,0 +1,22 @@
+{
+  "command": [
+    "browser/node_modules/.bin/tsc",
+    "--noEmit",
+    "-p",
+    "browser/tsconfig.json"
+  ],
+  "startedAt": "2026-10-17T19:05:45.188400+00:00",
+  "finishedAt": "2026-10-17T19:06:07.976620+00:00",
+  "observedExit": 0,
+  "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "runtimeBefore": {
+    "browser/src/source/battle.ts": "504b2f1809f9ecaa6b80b8e25a728be8391053a0beb391253ff2f7ff7796a107",
+    "browser/src/source/battle-binding-yawn.ts": "73763f19808e0ce36329bb8d3229e5983c1e2b467282425c55b74fed3f8ad5d9"
+  },
+  "runtimeAfter": {
+    "browser/src/source/battle.ts": "504b2f1809f9ecaa6b80b8e25a728be8391053a0beb391253ff2f7ff7796a107",
+    "browser/src/source/battle-binding-yawn.ts": "73763f19808e0ce36329bb8d3229e5983c1e2b467282425c55b74fed3f8ad5d9"
+  },
+  "sourceStable": true,
+  "qualification": "Actual subprocess returncode; tsconfig excludes test files, which Node executes separately."
+}

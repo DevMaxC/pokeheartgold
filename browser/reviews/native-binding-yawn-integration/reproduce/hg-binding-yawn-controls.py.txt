@@ -1,0 +1,23 @@
+from pathlib import Path
+import json,subprocess,shutil,hashlib,datetime
+source=Path('/tmp/hg-binding-yawn-review-b6510d66');out=Path('/tmp/hg-binding-yawn-controls-b6510d66');out.mkdir(exist_ok=False);copy=out/'work';shutil.copytree(source,copy);(copy/'browser/node_modules').symlink_to('/Users/maxchurch/Documents/pokeheartgold/browser/node_modules')
+engine='browser/src/source/battle.ts';helper='browser/src/source/battle-binding-yawn.ts';original={p:(copy/p).read_text()for p in[engine,helper]}
+old=subprocess.check_output(['git','show','a6b39dfec70bc02461f9374c9fccfbd42d131b42:'+engine],cwd='/Users/maxchurch/Documents/pokeheartgold-binding-yawn',text=True)
+cases=[('current21',None,None,None,'battle-binding-yawn*.test.ts',0,None),('real-base-bind',engine,None,old,'actual Daniel Onix11',1,'Unported original move effect 42'),('real-base-yawn',engine,None,old,'actual Larry Slowpoke11',1,'Unported original move effect 187'),('bind-eighth',helper,'Math.floor(maxHP/16)','Math.floor(maxHP/8)','literal native binding controller',1,'AssertionError'),('bind-float-bucket',helper,'raw%4+3','Math.floor(raw*4/65536)+3','literal native binding controller',1,'AssertionError'),('bind-owner-survives',engine,'if(this.bindings.get(other)?.source===source){value.status2&=~nativeStatus2.bind;this.bindings.delete(other);}','/* deliberately removed source cleanup */','switch and escape use distinct native bypasses',1,'AssertionError'),('yawn-caster-clears',engine,'private clearOnLeave(mon:Mon){','private clearOnLeave(mon:Mon){this.yawnTurns.clear();','withdrawing Yawn caster',1,'AssertionError'),('yawn-immediate',helper,'sleep:turns===1','sleep:turns===2','original TryYawn',1,'AssertionError'),('sleep-normalized',helper,"integer(rng(),0,65535,'u16 RNG result')%4+2","Math.floor(integer(rng(),0,65535,'u16 RNG result')*4/65536)+2",'original TryYawn',1,'AssertionError'),('early-bird-ignored',helper,'turns-(earlyBird?2:1)','turns-1','original TryYawn',1,'AssertionError')]
+rows=[]
+for name,path,before,after,pattern,expected,diagnostic in cases:
+ for p,b in original.items():(copy/p).write_text(b)
+ if path:
+  if before is None:(copy/path).write_text(after)
+  else:
+   content=(copy/path).read_text();assert content.count(before)==1,(name,content.count(before));(copy/path).write_text(content.replace(before,after))
+ args=['node','--experimental-transform-types','--test','--test-timeout=60000']
+ if pattern=='battle-binding-yawn*.test.ts':args.extend(sorted(str(p.relative_to(copy))for p in(copy/'browser/src/source').glob(pattern)))
+ else:args+=['--test-name-pattern='+pattern,'browser/src/source/battle-binding-yawn.test.ts' if name in ['real-base-bind','real-base-yawn','bind-owner-survives','yawn-caster-clears']else'browser/src/source/battle-binding-yawn-native.test.ts' if name in ['yawn-immediate','sleep-normalized','early-bird-ignored']else'browser/src/source/battle-binding-yawn.test.ts']
+ result=subprocess.run(args,cwd=copy,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=70);(out/(name+'.log')).write_text(result.stdout)
+ infrastructure=any(x in result.stdout for x in ['ENOENT','ERR_MODULE_NOT_FOUND','SyntaxError','TypeError','error: use of undeclared','test timed out'])
+ assert not infrastructure,(name,result.stdout[-2000:]);assert result.returncode==expected,(name,result.stdout[-2000:]);assert not diagnostic or diagnostic in result.stdout,(name,result.stdout[-2000:])
+ rows.append({'name':name,'arguments':args,'expectedExit':expected,'observedExit':result.returncode,'log':name+'.log','logSha256':hashlib.sha256(result.stdout.encode()).hexdigest(),'inputMutatedPath':path,'mutationBefore':before,'mutationAfter':after if before is not None else ('real native base '+hashlib.sha256(old.encode()).hexdigest()if path else None),'qualification':'Separate copy; assertions or original unported-effect failures required. Missing-resource/syntax/runtime-infrastructure failures rejected.'})
+ print(name,result.returncode,flush=True)
+for p,b in original.items():(copy/p).write_text(b)
+receipt={'sourceCommit':'b6510d66fb7d662fafc3c73b5958306644d41d21','snapshot':str(source),'createdAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'cases':rows,'sourceFilesUnchanged':all(hashlib.sha256((source/p).read_bytes()).hexdigest()==hashlib.sha256(b.encode()).hexdigest()for p,b in original.items()),'qualification':'Current21 pass; actual historical base fails two newly admitted paths; seven controlled semantic regressions each fail meaningful assertions. No app build/browser/audio/production claim.'};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

@@ -1,0 +1,43 @@
+TAP version 13
+# (node:19020) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original0141 and0018 assembly replays all relevant Yawn ability/status/field branches, including delayed nonignorable gates
+not ok 1 - original0141 and0018 assembly replays all relevant Yawn ability/status/field branches, including delayed nonignorable gates
+  ---
+  duration_ms: 5.156791
+  type: 'test'
+  location: '/private/tmp/hg-binding-yawn-followup-controls-729ece0f/work/browser/src/source/battle-binding-yawn-native.test.ts:40:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+    +   outcome: 'failed',
+    -   outcome: 'safeguard',
+        turns: 0
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    turns: 0
+    outcome: 'safeguard'
+  actual:
+    turns: 0
+    outcome: 'failed'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-binding-yawn-followup-controls-729ece0f/work/browser/src/source/battle-binding-yawn-native.test.ts:44:370)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 552.876667
