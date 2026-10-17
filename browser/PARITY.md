@@ -28,7 +28,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 
 | ID | Requirement | Status | Source |
 | --- | --- | --- | --- |
-| P01-001 | New Game and Continue with independent saved games | Implemented | `src/intro.c` |
+| P01-001 | New Game and Continue with explicit save-replacement rules | Implemented | `src/intro.c` |
 | P01-002 | Original title and introduction sequence | Pending | `src/intro.c` |
 | P01-003 | Professor Oak introduction and Pokémon demonstration | Pending | `src/intro.c` |
 | P01-004 | Boy/girl player selection and matching overworld sprites | Implemented | `src/intro.c` |

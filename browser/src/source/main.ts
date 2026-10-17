@@ -3,6 +3,8 @@ import {loadData,newState,titleCase,speciesName,createMon,giveMon,healParty,item
 import {OriginalWorld} from './world.ts';
 import {mapWeather} from './atmosphere.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
+import {runOpeningSession} from './opening.ts';
+import {OpeningView} from './opening-view.ts';
 import {ScriptVM,UnsupportedScript} from './script.ts';
 import {Battle} from './battle.ts';
 import {WorldBattleView} from './battle-stage.ts';
@@ -15,13 +17,14 @@ import {movementAction} from './movement.ts';
 import {mapBlackoutSpawn} from './spawns.ts';
 import {originalTrainerParty,battleMoneyLoss,trainerPrize} from './trainers.ts';
 import {catchingTutorialState} from './tutorial.ts';
-import type {State,SourceMap,NPC,Mon,GameData} from './types.ts';
+import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
 
 const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-qa':'heartgold-3d-v2';
 const keys=new Set<string>();const ui=new UI();
 const encounterChecks=new EncounterChecks();
 let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data:GameData,objects:FieldObjects;
 let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
+let openingView:OpeningView|null=null;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
 let lastWarp='',lastCoord='',lastError='';
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
@@ -187,12 +190,16 @@ function bagMenu(){const pockets=new Map<string,[string,number][]>();for(const [
 function trainerCard(){ui.panel(`<button class="close-panel" id="close-card" aria-label="Close">×</button><span class="eyebrow">TRAINER CARD</span><h2>${esc(state.name)}</h2><p>Money: ₽${state.money}<br>Pokédex: ${state.caught.length} caught / ${state.seen.length} seen<br>Play time: ${Math.floor(state.playSeconds/3600)}:${String(Math.floor(state.playSeconds/60)%60).padStart(2,'0')}<br>Badges: ${state.badges.length} / 16</p>`);$('close-card').onclick=()=>ui.close();}
 function optionsMenu(){ui.panel('<span class="eyebrow">OPTIONS</span><h2>Game settings</h2><div class="actions"><button id="battle-style">Battle style: '+(state.options.battleStyle==='shift'?'Shift':'Set')+'</button><button id="close-options" class="secondary">Done</button></div>');$('battle-style').onclick=()=>{state.options.battleStyle=state.options.battleStyle==='shift'?'set':'shift';optionsMenu();};$('close-options').onclick=()=>{ui.close();save();};}
 async function title(){
-  const saved=readSave();const choice=await ui.choose('Pokémon HeartGold',saved?['Continue','New Game']:['New Game'],saved?`${saved.name} · ${data.index.maps[saved.map]?.name} · ${saved.badges.length} Badges`:'A grand adventure in the Johto region awaits.');
-  if(saved&&choice===0){state=saved;await begin();return;}
-  if(saved&&await ui.choose('Start a new adventure?',['Keep existing adventure','Start New Game'],'The new adventure will replace this browser’s HeartGold save.')===0){await title();return;}
-  const intro=data.intro.msg_0219;await ui.message(intro.msg_0219_00006||'Welcome to the world of Pokémon!');await ui.message(intro.msg_0219_00034||'This world is widely inhabited by creatures known as Pokémon.');await ui.message(intro.msg_0219_00035||'We humans live alongside Pokémon as friends.');
-  const gender=(await ui.choose('Are you a boy? Or are you a girl?',['Boy','Girl']))===0?'boy':'girl';let name='';while(!name){const candidate=await ui.input('Please tell me your name.',7,gender==='boy'?'Ethan':'Lyra');if(await ui.choose(`Your name is ${candidate}?`,['Yes','No'])===0)name=candidate;}
-  state=newState(data,name,gender);await ui.message((intro.msg_0219_00043||'Your very own tale of grand adventure is about to unfold.').replace(/\{STRVAR_1 3, 0, 0\}/g,name));await begin();
+  const saved=readSave();openingView=new OpeningView(ui);
+  try{
+    const [menu,labels]=await Promise.all([sourceJSON<Record<string,string>>('messages/442.json'),sourceJSON<Record<string,string>>('messages/719.json')]);
+    await openingView.title(world.renderer,labels['0'].replace(/\{[^}]+\}/g,''));
+    // Asset loading and every identity choice operate on a draft. Continue or
+    // a failed/cancelled introduction cannot replace the existing browser save.
+    const detail=saved?`${menu['13']}: ${saved.name} · ${menu['14']}: ${Math.floor(saved.playSeconds/3600)}:${String(Math.floor(saved.playSeconds/60)%60).padStart(2,'0')} · ${menu['16']}: ${saved.badges.length}`+(saved.pokedexEnabled?` · ${menu['15']}: ${saved.caught.length}`:''):'';
+    state=await runOpeningSession(saved,async()=>({messages:data.intro.msg_0219,defaultNames:await sourceJSON<Record<string,string>>('messages/254.json')}),openingView,identity=>newState(data,identity.name,identity.gender),menu,detail);
+  }finally{openingView.dispose();openingView=null;keys.clear();}
+  await begin();
 }
 async function begin(){
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
@@ -201,7 +208,7 @@ async function begin(){
 }
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
-  let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started)return;
+  let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started){openingView?.draw(dt);return;}
     state.playSeconds+=dt;if(player){player.group.position.set(state.x,playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}

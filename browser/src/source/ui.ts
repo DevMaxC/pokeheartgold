@@ -11,12 +11,15 @@ export class UI{
   advance(){this.next?.();}
   panel(html:string){this.panelOpen=true;this.canDismiss=true;$('panel-content').innerHTML=html;$('panel').hidden=false;$('original-world').inert=true;$('game-hud').inert=true;$('touch-pad').inert=true;setTimeout(()=>$('panel-content').querySelector<HTMLElement>('button,input')?.focus(),0);}
   close(){this.panelOpen=false;$('panel').hidden=true;$('original-world').inert=false;$('game-hud').inert=false;$('touch-pad').inert=false;$('original-world').focus();}
-  async message(text:string){
+  async message(text:string,characterDelay=0){
     const pages=text.replace(/\\n/g,'\n').split(/\\[rf]/).map(s=>s.trim()).filter(Boolean);
     this.dialogueOpen=true;$('dialogue').hidden=false;
     for(const page of pages){const colon=page.indexOf(':');const hasSpeaker=colon>0&&colon<25;
-      $('dialogue-speaker').textContent=hasSpeaker?page.slice(0,colon):'';$('dialogue-text').textContent=hasSpeaker?page.slice(colon+1).trim():page;
-      await new Promise<void>(resolve=>{let accepted=false;this.next=()=>{if(accepted)return;accepted=true;this.next=null;resolve();};});
+      const full=hasSpeaker?page.slice(colon+1).trim():page;$('dialogue-speaker').textContent=hasSpeaker?page.slice(0,colon):'';$('dialogue-text').textContent=characterDelay?'':full;
+      await new Promise<void>(resolve=>{let accepted=false,typing=characterDelay>0,timer:ReturnType<typeof setTimeout>|undefined;const chars=Array.from(full);let count=0;
+        const print=()=>{if(!typing)return;$('dialogue-text').textContent=chars.slice(0,++count).join('');if(count<chars.length)timer=setTimeout(print,characterDelay);else typing=false;};
+        this.next=()=>{if(accepted)return;if(typing){typing=false;clearTimeout(timer);$('dialogue-text').textContent=full;return;}accepted=true;this.next=null;resolve();};if(typing)print();
+      });
     }
     this.next=null;this.dialogueOpen=false;$('dialogue').hidden=true;
   }

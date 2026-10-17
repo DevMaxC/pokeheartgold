@@ -2,10 +2,10 @@
   {
     "id": "P01-001",
     "group": "Opening and identity",
-    "feature": "New Game and Continue with independent saved games",
+    "feature": "New Game and Continue with explicit save-replacement rules",
     "source": "src/intro.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Single browser save slot. New Game requires explicit replacement confirmation; Continue and incomplete/failed identity drafts preserve the existing save. Native New Game-with-save disables saving, whereas the browser replaces its slot after character creation; this adaptation and pending rendered checks are recorded in reviews/2026-10-17-opening-sequence.md. No independent save slots or whole-requirement parity claimed."
   },
   {
     "id": "P01-002",
