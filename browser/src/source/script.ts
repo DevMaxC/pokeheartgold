@@ -1,3 +1,4 @@
+import type {NativeNicknameInputCode} from './mon-nickname.ts';
 import {ensureMysteryGiftSave,nextMysteryGift,type MysteryGiftSave} from './mystery-gifts.ts';
 import {isTMHMItem,tmhmMove} from './tmhm.ts';
 import {speciesName,titleCase,healParty,moveName} from './data.ts';
@@ -48,7 +49,7 @@ export type ScriptHooks={
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
   move:(object:string,label:string,map:SourceMap)=>Promise<void>;position:(object:string,x:number,z:number,facing?:number)=>void;
   face:(object:string,facing?:number)=>void;visible:(object:string,value:boolean)=>void;
-  chooseStarter:()=>Promise<void>;nickname:(index:number)=>Promise<void>;refresh:()=>Promise<void>;
+  chooseStarter:()=>Promise<void>;nickname:(index:number)=>Promise<NativeNicknameInputCode>;refresh:()=>Promise<void>;
   battle:(trainer:number,options?:{second:number;canLose:boolean;suppressFollower:boolean})=>Promise<boolean>;warp:(map:number,x:number,z:number,facing?:number)=>Promise<void>;
   coordinates?:(object:string)=>{x:number;z:number};nameRival?:()=>Promise<string>;whiteOut?:()=>Promise<void>;
   catchingTutorial?:()=>Promise<void>;objectName?:(id:number)=>string|undefined;healAnimation?:(count:number)=>Promise<void>;followerVisible?:(visible:boolean)=>void;
@@ -338,7 +339,7 @@ export class ScriptVM{
         if(cmd==='GetStarterChoice'){this.set(a[0],this.state.starter);continue;}
         if(cmd==='SetStarterChoice'){this.state.starter=v(a[0]);continue;}
         if(cmd==='ChooseStarter'){await this.hooks.chooseStarter();continue;}
-        if(cmd==='NicknameInput'){await this.hooks.nickname(v(a[0]));this.set(a[1],0);continue;}
+        if(cmd==='NicknameInput'){const code=await this.hooks.nickname(v(a[0]));if(code!==0&&code!==1)throw new UnsupportedScript(map.code,cmd,pc-1);this.set(a[1],code);continue;}
         if(cmd==='BufferPlayersName'){this.buffers[v(a[0])]=this.state.name;continue;}
         if(cmd==='BufferRivalsName'){this.buffers[v(a[0])]=this.state.rivalName;continue;}
         if(cmd==='BufferFriendsName'){this.buffers[v(a[0])]=this.state.gender==='boy'?'Lyra':'Ethan';continue;}
