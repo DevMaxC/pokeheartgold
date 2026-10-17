@@ -1,0 +1,30 @@
+{
+  "reviewedHead": "ef58368c",
+  "base": "6262bfac42497c01f92143df899d7a274a7207d4",
+  "verdict": "ACCEPT",
+  "findings": [],
+  "models": [
+    "claude-haiku-4-5-20251001",
+    "claude-opus-5-5"
+  ],
+  "actualRequestedModel": "claude-opus-5-5",
+  "durationMs": 137981,
+  "rawSHA256": "8ce5b9ac1852ebf90446f4c94d9c021107afd276a8ba335d51312405a7ccc998",
+  "snapshotManifestSHA256": "48c2124b9da0970f693ed7e54057387583b49ece9dc86d59d7dd5d15c0076675",
+  "snapshotFiles": 390,
+  "snapshotMismatches": [],
+  "currentRuntimeAndTestPinMismatches": [],
+  "sourceMainSHA256": "a3b7ab9cf8fb973daa442bacc4dd405d9dc9baf0bc6ad84ad7c3f7da860217e2",
+  "reviewerExecutedTests": false,
+  "authorValidation": "409/409 affected tests31files; npx tsc --noEmit exit0; exact before-fix production capture regression fails;69 unchanged non-naming Main functions",
+  "acceptedPriorReview": "none; initial ef358 CHANGES_REQUIRED preserved and corrected",
+  "remainingQualifications": [
+    "browser naming trim/required input/native keyboard still partial",
+    "old unsupported legacy name text re-prompts if field naming is invoked",
+    "malformed/foreign admission not claimed",
+    "BugContest255 missing actual subject explicitUnsupported",
+    "nicknameAdmission diagnostic retained",
+    "fresh OT/form/evolution completion separate",
+    "no browser/audio/build/deployment or full-game approval"
+  ]
+}
