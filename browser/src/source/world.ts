@@ -29,6 +29,7 @@ export class OriginalWorld {
   readonly assets=new Map<string,Promise<THREE.Group>>();
   readonly cells=new Map<string,LoadedCell>();
   readonly npcSprites=new Map<string,{group:THREE.Group;sprite:THREE.Mesh;texture:THREE.Texture;info:SpriteInfo;npc:FieldObject;key:string}>();
+  private paperResources=new WeakMap<THREE.Group,{texture:THREE.Texture;geometries:THREE.BufferGeometry[];materials:THREE.Material[]}>();
   private loader=new GLTFLoader();
   private foliage:Promise<Record<string,Record<string,{asset:string;centers:number[];footU?:number;footV:number}>>>|null=null;
   private treeTextures=new Map<string,Promise<THREE.Texture>>();
@@ -199,7 +200,15 @@ export class OriginalWorld {
   paper(key:string,height=2){const info=this.sprites[key];if(!info)throw Error(`Original sprite missing: ${key}`);
     const texture=new THREE.TextureLoader().load('/source/'+info.asset);texture.magFilter=THREE.NearestFilter;texture.minFilter=THREE.NearestFilter;texture.colorSpace=THREE.SRGBColorSpace;texture.repeat.set(1/info.columns,1/info.rows);texture.offset.set(0,1-1/info.rows);
     const sprite=new THREE.Mesh(new THREE.PlaneGeometry(height*info.width/info.height,height),new THREE.MeshBasicMaterial({map:texture,transparent:true,alphaTest:.2,side:THREE.DoubleSide}));sprite.geometry.translate(0,height/2,0);
-    const group=new THREE.Group();group.add(sprite);const shadow=new THREE.Mesh(new THREE.CircleGeometry(.3,16),new THREE.MeshBasicMaterial({color:'#203029',transparent:true,opacity:.18,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.02;group.add(shadow);this.scene.add(group);return{group,sprite,texture,info};
+    const group=new THREE.Group();group.add(sprite);const shadow=new THREE.Mesh(new THREE.CircleGeometry(.3,16),new THREE.MeshBasicMaterial({color:'#203029',transparent:true,opacity:.18,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.02;group.add(shadow);
+    this.paperResources.set(group,{texture,geometries:[sprite.geometry,shadow.geometry],materials:[sprite.material,shadow.material]});this.scene.add(group);return{group,sprite,texture,info};
+  }
+  /** Release only the unique resources captured by paper(), never attached props
+   * or shared source assets. Removing the ownership record makes this idempotent. */
+  removePaper(actor:{group:THREE.Group}){
+    const resources=this.paperResources.get(actor.group);if(!resources)return false;
+    this.paperResources.delete(actor.group);actor.group.removeFromParent();resources.texture.dispose();
+    for(const geometry of resources.geometries)geometry.dispose();for(const material of resources.materials)material.dispose();return true;
   }
   animate(paper:{sprite:THREE.Mesh;texture:THREE.Texture;info:SpriteInfo},facing:number,step:number){
     // Relative facing preserves the original four directions as the camera turns.
@@ -209,10 +218,10 @@ export class OriginalWorld {
     const frame=Math.min(paper.info.frames-1,row*4+(step<0?0:Math.floor(step)%4));
     paper.texture.offset.set(frame%4/paper.info.columns,1-(Math.floor(frame/4)+1)/paper.info.rows);paper.sprite.rotation.y=this.yaw;
   }
-  clearNPCs(){for(const actor of this.npcSprites.values()){this.scene.remove(actor.group);actor.texture.dispose();actor.group.traverse(object=>{if(object instanceof THREE.Mesh){object.geometry.dispose();for(const material of Array.isArray(object.material)?object.material:[object.material])material.dispose();}});}this.npcSprites.clear();}
+  clearNPCs(){for(const actor of this.npcSprites.values())this.removePaper(actor);this.npcSprites.clear();}
   updateNPCs(objects:FieldObject[]){
     for(const npc of objects){const key=npc.resolvedSprite;let actor=this.npcSprites.get(npc.id);
-      if(actor&&actor.key!==key){this.scene.remove(actor.group);actor.texture.dispose();this.npcSprites.delete(npc.id);actor=undefined;}
+      if(actor&&actor.key!==key){this.removePaper(actor);this.npcSprites.delete(npc.id);actor=undefined;}
       if(!actor&&this.sprites[key]){actor={...this.paper(key,key.includes('FOLLOWER')?1.4:2),npc,key};this.npcSprites.set(npc.id,actor);}
       if(!actor)continue;actor.npc=npc;actor.group.visible=npc.visible;actor.group.position.set(npc.x+.5,this.height(npc.x+.5,npc.z+.5,actor.group.position.y||npc.y/16,actor.group.position.x,actor.group.position.z),npc.z+.5);this.animate(actor,npc.facingDirection,npc.step);
     }
