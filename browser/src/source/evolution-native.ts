@@ -58,7 +58,7 @@ export function parseNativeEvolutionData(raw:unknown,data:EvolutionSourceData):N
   if(!row||constants[key]!==species||![0,.125,.25,.5,.75,1,2].includes(row.genderRatio))invalid('Missing original personal entry '+species);
   return row.genderRatio;
  });
- const items:Record<string,Readonly<{id:number;holdEffect:number}>>={};
+ const items:Record<string,Readonly<{id:number;holdEffect:number}>>=Object.create(null);
  for(const row of data.items){
   if(!row||typeof row.item!=='string'||!/^ITEM_\w+$/.test(row.item)||items[row.item]||!validInt(constants[row.item],0,65535)||typeof row.holdEffect!=='string'||!/^HOLD_EFFECT_\w+$/.test(row.holdEffect)||!validInt(constants[row.holdEffect],0,255))invalid('Invalid original held-item effect');
   items[row.item]=Object.freeze({id:constants[row.item],holdEffect:constants[row.holdEffect]});
@@ -134,4 +134,4 @@ export function selectNativeEvolution(data:NativeEvolutionData,party:readonly Na
  return{kind:'ineligible',methodRet,reason:'no-match'};
 }
 
-export function selectNativeLevelEvolution(data:NativeEvolutionData,party:readonly NativeEvolutionPartyMon[]|null,mon:NativeEvolutionMon,environment:NativeEvolutionEnvironment):NativeEvolutionDecision{return selectNativeEvolution(data,party,mon,{kind:'levelup',...environment});}
+export function selectNativeLevelEvolution(data:NativeEvolutionData,party:readonly NativeEvolutionPartyMon[]|null,mon:NativeEvolutionMon,environment:NativeEvolutionEnvironment):NativeEvolutionDecision{return selectNativeEvolution(data,party,mon,{...environment,kind:'levelup'});}

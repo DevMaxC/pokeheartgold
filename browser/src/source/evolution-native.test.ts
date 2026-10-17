@@ -49,6 +49,19 @@ test('Pichu requires actual form and spiky-ear form1 is blocked in every source 
  for(const context of[{kind:'levelup',evolutionLocation:0,night:false},{kind:'trade'},{kind:'item-check',usedItem:0},{kind:'item-use',usedItem:0}]as const)assert.deepEqual(selectNativeEvolution(data,[],{...pichu,form:1},context),{kind:'ineligible',methodRet:null,reason:'spiky-ear-pichu'});
 });
 
+test('malformed inherited held-item keys remain unsupported instead of acting like native ITEM_NONE',()=>{
+ for(const heldItem of['constructor','toString','__proto__']){
+  const result=level({...mon(),heldItem});assert.equal(result.kind,'unsupported',heldItem);if(result.kind==='unsupported')assert.deepEqual(result.requirements,['held-item']);
+ }
+ assert.equal(Object.getPrototypeOf(data.items),null);
+});
+
+test('level-up wrapper owns the native context even when a structurally widened environment carries kind',()=>{
+ const environment={night:false,evolutionLocation:0,kind:'trade'as const};
+ assert.equal(target(selectNativeLevelEvolution(data,[],mon(64),environment)),0,'Kadabra must not trade-evolve through the level-up wrapper');
+ assert.equal(target(selectNativeEvolution(data,[],mon(64),{kind:'trade'})),65,'the actual explicit native trade call still works');
+});
+
 test('RTC uses exact native four-hour late bucket; map location is always EVO_NONE in HGSS and first matching row wins',()=>{
  for(let hour=0;hour<24;hour++)assert.equal(nativeEvolutionNight(hour),hour<4||hour>=20);
  assert.throws(()=>nativeEvolutionNight(24),RangeError);assert.throws(()=>nativeEvolutionNight(NaN),RangeError);
@@ -101,7 +114,7 @@ test('loader is explicit, immutable, validates every method/parameter and propag
 test('differential all real evolution records against seven unchanged original C kernels and original headers',{timeout:120000},()=>{
  const root=fileURLToPath(new URL('../../../',import.meta.url));
  const oracle=JSON.parse(execFileSync('python3',['browser/scripts/test_evolution_native.py','--oracle'],{cwd:root,encoding:'utf8',maxBuffer:32*1024*1024}));
- assert.ok(oracle.cases.length>4000);assert.equal(Object.keys(oracle.functions).length,7);
+ assert.equal(oracle.cases.length,9359);assert.equal(Object.keys(oracle.functions).length,7);
  const observed=new Set<number>();
  for(const entry of oracle.cases){
   const context:NativeEvolutionContext=entry.context.kind==='levelup'?{...entry.context,night:nativeEvolutionNight(entry.hour)}:entry.context;

@@ -50,6 +50,9 @@ Native `BattleSystem_CheckEvolution` owns outcome gating and actual level-up
 party bits. In particular, this predicate adds **no HP guard**. The controller
 must invoke it for the real queued slot using post-battle persistent stats and
 known moves, not temporary battle modifiers or the current active battler.
+The subject Egg flag is deliberately not an added eligibility guard: native
+GetMonEvolution does not test it. Actual battle level-up admission must exclude
+Egg subjects, rather than infer safety from this predicate.
 
 ## Literal native rules and unavailable inputs
 
@@ -88,7 +91,8 @@ cd ..
 python3 browser/scripts/test_evolution_native.py
 ```
 
-11 Node tests include **9,359 differential cases**. All26 nonzero native methods
+13 Node tests include **9,359 differential cases**, with that corpus count pinned.
+All26 nonzero native methods
 are selected, or (method14) observed as the literal no-target output write. The
 oracle extracts seven unchanged original C function bodies: `GetMonEvolution`,
 `MonHasMove`, `Party_HasMon`, the PID/personal gender kernel, `IsNighttime`, its
@@ -103,3 +107,11 @@ Shedinja creation or full campaign. No browser, audio or Vite build is used.
 No all-method presentation or global gameplay parity claim follows from this
 predicate coverage. The separate controller initially admitting ordinary level
 evolution is a narrower integration boundary.
+
+`validation.json` and its logs preserve the initial11-test `ffb402db` snapshot.
+`opus-ffb402db` contains the actual initial ACCEPT plus its two small boundary
+findings. The separate `boundary-hardening` evidence uses the unchanged old
+source: both new controls fail there (11 pass/2 fail) and pass after the two-line
+correction (13 pass). `validation-hardening.json` pins the current predicate,
+tests and compiler receipt. Initial review approval does not transfer to those
+new bytes; the follow-up review is preserved separately.
