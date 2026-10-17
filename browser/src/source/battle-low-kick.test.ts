@@ -62,6 +62,9 @@ test('dynamic LowKick power precedes Technician and uses the initial BattleMon b
  // not a claim that the unported Sketch action is now supported by Battle.
  assert.equal(moveBaseDamage(data,actor,target,move,freshStages(),freshStages(),false,{targetWeight:100}),base(30));assert.equal(moveBaseDamage(data,actor,target,move,freshStages(),freshStages(),false,{targetWeight:501}),base(80));
  const gira=mon(487);gira.form=0;const f=fixture([gira]);assert.equal(call(f,'targetWeight',gira),7500);assert.equal(nativeBattleWeight(data,487,0),7500);assert.equal(nativeWeightBasedPower(call(f,'targetWeight',gira)),120);
+ // Literal state-port probe only: form-changing actions remain unported. The
+ // differing native banks make a per-read recomputation detectably incorrect.
+ gira.form=1;assert.equal(call(f,'targetWeight',gira),7500);assert.equal(nativeBattleWeight(data,487,1),6500);
 });
 
 test('actual Anthony party resolves through legal actions in Route33 rain, including its native NoGuard LowKick',async()=>{
@@ -74,4 +77,29 @@ test('LowKick guards relevant rain hooks, on-hit abilities, Pressure and unresol
 
 test('actual Anthony NoGuard LowKick retains the supported native Static contact phase after damage',async()=>{
  const attacker=(await originalTrainerParty(data,61))[1],target=mon(179,20),f=fixture([attacker],[target],[65535,32769,32769,0]);assert.equal(monAbility(data,target),'ABILITY_STATIC');Reflect.get(f.battle,'enemyStages').accuracy=-6;const hp=target.hp;await act(f,false,'MOVE_LOW_KICK');assert.ok(target.hp<hp);assert.equal(attacker.status,'PAR');assert.equal(f.draws,4,'ordinary accuracy, critical, damage range and contact ability coin');assert.ok(f.messages.some(message=>message.includes('Static paralyzed')));
+});
+
+test('rain replacement uses native damage scoring rather than firstHP fallback, and rejects affected callback contexts',async()=>{
+ // Legal controller snapshots after a KO; this three-mon combination is not
+ // asserted to be Anthony's actual two-mon source roster.
+ const team=await originalTrainerParty(data,61),actor=team[0],status=structuredClone(team[1]),hitter=structuredClone(team[1]);legalMove(status,'MOVE_LEER');legalMove(hitter,'MOVE_KARATE_CHOP');actor.hp=0;const f=fixture([actor,status,hitter]);Reflect.set(f.battle,'weather','rain');assert.equal(call(f,'chooseEnemyReplacement'),2,'first living fallback would choose slot1');
+ const normal=mon(19,11);legalMove(normal,'MOVE_TACKLE');const bad=fixture([structuredClone(actor),normal]);Reflect.set(bad.battle,'weather','rain');assert.throws(()=>call(bad,'chooseEnemyReplacement'),/Unsupported native trainer replacement damage weather/);assert.equal(Reflect.get(bad.battle,'enemyIndex'),0);
+ const swift=fixture([structuredClone(actor),structuredClone(hitter)],[mon(116,20)]);assert.equal(monAbility(data,swift.battle.player),'ABILITY_SWIFT_SWIM');Reflect.set(swift.battle,'weather','rain');assert.throws(()=>call(swift,'chooseEnemyReplacement'),/Unsupported native trainer replacement damage weather/);assert.equal(Reflect.get(swift.battle,'enemyIndex'),0);
+});
+
+test('actual Anthony LowKick in Route33 rain has the same native Fighting damage at Chikorita weight64→20',async()=>{
+ const attacker=(await originalTrainerParty(data,61))[1],target=mon(152),f=fixture([attacker],[target]);Reflect.set(f.battle,'weather','rain');assert.equal(call(f,'targetWeight',target),64);const hp=target.hp;await act(f,false,'MOVE_LOW_KICK');assert.equal(hp-target.hp,physical(attacker,target,20));assert.equal(f.draws,3);
+});
+
+test('unported weather stays guarded, while living CloudNine and AirLock suppress its native LowKick modifiers',async()=>{
+ const original=(await originalTrainerParty(data,61))[1];for(const weather of['hail','sandstorm','sun','fog']){const attacker=structuredClone(original),target=mon(152),f=fixture([attacker],[target]);Reflect.set(f.battle,'weather',weather);const before=structuredClone({attacker,target});await assert.rejects(act(f,false,'MOVE_LOW_KICK'),/Unsupported native LowKick damage weather/);assert.deepEqual({attacker,target},before);assert.equal(f.draws,0);}
+ for(const[species,ability,factor]of[[54,'ABILITY_CLOUD_NINE',1],[384,'ABILITY_AIR_LOCK',.5]]as const){const attacker=structuredClone(original),target=mon(species,20,species===54),f=fixture([attacker],[target]);assert.equal(monAbility(data,target),ability);Reflect.set(f.battle,'weather','hail');const hp=target.hp,power=nativeWeightBasedPower(call(f,'targetWeight',target));await act(f,false,'MOVE_LOW_KICK');assert.equal(hp-target.hp,physical(attacker,target,power,true,factor));assert.equal(f.draws,3);}
+});
+
+test('a natural faint and forced switch make the next LowKick consume the new entrant weight, not the old one',async()=>{
+ const attacker=(await originalTrainerParty(data,61))[1],lead=mon(129,10),reserve=mon(117,20,true);legalMove(reserve,'MOVE_LEER');const f=fixture([attacker],[lead,reserve]);let switchedHP:number|undefined,selections=0;const stop=new Error('observed new-entrant LowKick');Reflect.set(f.battle,'active',true);Reflect.set(f.battle,'chooseEnemyMove',()=>slot(attacker,'MOVE_LOW_KICK'));Reflect.set(f.battle,'partyMenu',(forced:boolean)=>{assert.equal(forced,true);Reflect.get(f.battle,'actions')({kind:'switch',index:1});});Reflect.set(f.battle,'nextAction',async()=>{assert.ok(++selections<25);if(f.battle.player===reserve){if(switchedHP!==undefined)throw stop;switchedHP=reserve.hp;return{kind:'move',slot:slot(reserve,'MOVE_LEER')};}return{kind:'move',slot:slot(lead,'MOVE_SPLASH')};});await assert.rejects(call(f,'loop'),error=>error===stop);assert.equal(lead.hp,0,'native damage, not an injected faint');assert.equal(f.battle.player,reserve);assert.equal(call(f,'targetWeight',reserve),250);assert.equal(switchedHP!-reserve.hp,physical(attacker,reserve,40));assert.notEqual(switchedHP!-reserve.hp,physical(attacker,reserve,20));assert.throws(()=>call(f,'targetWeight',lead),/Missing initialized/);
+});
+
+test('real Uturn party choice initializes the pending LowKick target weight before that opposing action',async()=>{
+ const attacker=(await originalTrainerParty(data,61))[1],pivot=mon(123),reserve=mon(117,20,true);assert.ok(data.personal[123].tms.includes(89));const move=data.moves[data.constants.MOVE_U_TURN];pivot.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];const f=fixture([attacker],[pivot,reserve]),hp=reserve.hp;let selections=0;const stop=new Error('next turn after pivot');Reflect.set(f.battle,'active',true);Reflect.set(f.battle,'chooseEnemyMove',()=>slot(attacker,'MOVE_LOW_KICK'));Reflect.set(f.battle,'partyMenu',(forced:boolean)=>{assert.equal(forced,true);Reflect.get(f.battle,'actions')({kind:'switch',index:1});});Reflect.set(f.battle,'nextAction',async()=>{if(selections++)throw stop;return{kind:'move',slot:slot(pivot,'MOVE_U_TURN')};});await assert.rejects(call(f,'loop'),error=>error===stop);assert.equal(f.battle.player,reserve);assert.ok(attacker.hp>0&&attacker.hp<attacker.maxHP);assert.equal(call(f,'targetWeight',reserve),250);assert.equal(hp-reserve.hp,physical(attacker,reserve,40));assert.throws(()=>call(f,'targetWeight',pivot),/Missing initialized/);
 });
