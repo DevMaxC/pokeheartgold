@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import {WorldEvolutionView,evolutionArtPath,loadEvolutionArt,type EvolutionArt} from './evolution-view.ts';
 import {evolutionScene,viewFixture} from './evolution-test-fixtures.ts';
 import {OriginalWorld} from './world.ts';
+import {createMon,loadData} from './data.ts';
 
 const flush=()=>new Promise<void>(resolve=>setImmediate(resolve));
 async function finish(view:WorldEvolutionView){view.beginReturn();for(let i=0;i<240&&!view.cameraReturned;i++)view.update(1/60);assert.ok(view.cameraReturned);view.complete();}
@@ -41,7 +42,7 @@ test('late art completion cannot revive an aborted view, field transition cancel
 test('external abort and map changes cancel live effects, and unsupported form/shiny identities fail before claiming the field',async()=>{
  const f=viewFixture(),abort=new AbortController();await f.view.begin(evolutionScene(),abort.signal);abort.abort(Error('Source action rollback'));assert.equal(f.view.active,false);assert.equal(f.actors[0].visible,true);assert.equal(f.world.fieldEffect,null);
  const g=viewFixture();await g.view.begin(evolutionScene(),new AbortController().signal);g.field.map++;g.view.update(1/60);assert.equal(g.view.active,false);
- for(const patch of[{form:1},{personality:0,id:0},{species:494},{gender:'invalid'}]){const h=viewFixture(),scene=evolutionScene();Object.assign(scene.before,patch);await assert.rejects(h.view.begin(scene,new AbortController().signal),/not exported|identity/);assert.equal(h.world.fieldEffect,null);assert.deepEqual(h.requests,[]);}
+ for(const patch of[{form:1},{personality:0,id:8,provenance:{otId:0}},{species:494},{gender:'invalid'}]){const h=viewFixture(),scene=evolutionScene();Object.assign(scene.before,patch);await assert.rejects(h.view.begin(scene,new AbortController().signal),/not exported|identity/);assert.equal(h.world.fieldEffect,null);assert.deepEqual(h.requests,[]);}
  const scene=evolutionScene();assert.equal(evolutionArtPath({...scene.before,species:81,gender:'genderless'}),'/source/pokemon/81-male-front.png');assert.equal(evolutionArtPath({...scene.before,gender:'female'}),'/source/pokemon/155-female-front.png');
 });
 
@@ -73,4 +74,22 @@ test('actual World field-effect draw and transition hooks drive/release this vie
  Object.assign(world,{...surface,activeHeader:67,cameraTransition:false,grassTime:0,npcSprites:new Map(),sky:{update(){}},renderer:{render(scene:THREE.Scene,camera:THREE.Camera){assert.equal(scene,world.scene);assert.equal(camera,world.camera);renders++;}},height:()=>3});
  const view=new WorldEvolutionView(world,()=>f.field,{art:async()=>f.oldArt});await view.begin(evolutionScene(),new AbortController().signal);const before=world.camera.position.clone();world.draw(f.field.x,f.field.z,1/60,f.field.y);assert.equal(renders,1);assert.ok(world.camera.position.distanceTo(before)>0);assert.equal(world.fieldMapRunning,false);assert.equal(view.group.parent,world.scene);
  world.beginFieldTransition();assert.equal(view.active,false);assert.equal(world.fieldEffect,null);assert.equal(f.actors[0].visible,true);world.draw(f.field.x,f.field.z,1/60,f.field.y);assert.equal(renders,1);
+});
+
+
+test('legacy createMon random identity never substitutes for native OT when selecting evolution art',async()=>{
+ const previous=globalThis.fetch;globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
+ let mon:ReturnType<typeof createMon>;try{mon=createMon(await loadData(),155,14,'Gold',()=>.5);}finally{globalThis.fetch=previous;}
+ assert.equal(mon.personality,0x80000000);assert.equal(mon.id,0x7fffffff);assert.equal(mon.provenance,undefined);
+ assert.equal(((mon.id>>>16)^(mon.id&65535)^(mon.personality>>>16)^(mon.personality&65535)),0,'before-failure witness: unrelated random identity falsely appears shiny');
+ const original=structuredClone(mon),scene={...evolutionScene(),before:mon,after:{...structuredClone(mon),species:156}};
+ assert.equal(evolutionArtPath(mon),`/source/pokemon/155-${mon.gender}-front.png`);const f=viewFixture();await f.view.begin(scene,new AbortController().signal);assert.deepEqual(f.requests,[`/source/pokemon/155-${mon.gender}-front.png`,`/source/pokemon/156-${mon.gender}-front.png`]);assert.equal(f.actors[0].visible,false);f.view.cancel();assert.equal(f.actors[0].visible,true);assert.deepEqual(mon,original,'art policy never synthesizes provenance or changes gameplay identity');
+ const legacy={...evolutionScene().before,id:0,personality:0};assert.equal(evolutionArtPath(legacy),'/source/pokemon/155-male-front.png');
+});
+
+test('known native provenance controls shiny-art availability independently of browser identity',()=>{
+ const mon=evolutionScene().before,provenance={otId:0,otGender:'boy' as const,language:2,gameVersion:7,metLevel:1,pokeball:4,metLocation:1,metDate:{year:26,month:10,day:17},eggLocation:0,eggDate:{year:0,month:0,day:0},fatefulEncounter:false};
+ const nativeShiny={...mon,id:8,personality:0,provenance};assert.throws(()=>evolutionArtPath(nativeShiny),/shiny evolution artwork is not exported/);
+ const nativeRegular={...nativeShiny,id:0,provenance:{...provenance,otId:8}};assert.equal(evolutionArtPath(nativeRegular),'/source/pokemon/155-male-front.png');
+ for(const otId of[-1,0x100000000,NaN,undefined])assert.throws(()=>evolutionArtPath({...nativeRegular,provenance:{...provenance,otId}} as any),/valid OT identity/);
 });

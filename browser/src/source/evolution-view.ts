@@ -16,9 +16,14 @@ const check=(signal:AbortSignal)=>{if(signal.aborted)throw abortError(signal.rea
 export function evolutionArtPath(mon:EvolutionMonSnapshot){
  if(!Number.isInteger(mon.species)||mon.species<1||mon.species>493||!['male','female','genderless'].includes(mon.gender)||!Number.isInteger(mon.personality)||mon.personality<0||mon.personality>0xffffffff)throw Error('Invalid original evolution artwork identity');
  if((mon.form??0)!==0)throw Error(`Original evolution form artwork is not exported: ${mon.species} form${mon.form}`);
- const ot=mon.provenance?.otId??mon.id;
- if(!Number.isInteger(ot)||ot<0||ot>0xffffffff)throw Error('Original evolution artwork needs a valid OT identity');
- if(((ot>>>16)^(ot&65535)^(mon.personality>>>16)^(mon.personality&65535))<8)throw Error(`Original shiny evolution artwork is not exported: ${mon.species}`);
+ // Only native provenance carries an OT identity. Legacy createMon.id is an
+ // independent browser record key; without provenance retain its established
+ // regular-art policy rather than inventing native shininess or an OT value.
+ if(mon.provenance!==undefined){
+  const ot=mon.provenance?.otId;
+  if(!Number.isInteger(ot)||ot===undefined||ot<0||ot>0xffffffff)throw Error('Original evolution artwork needs a valid OT identity');
+  if(((ot>>>16)^(ot&65535)^(mon.personality>>>16)^(mon.personality&65535))<8)throw Error(`Original shiny evolution artwork is not exported: ${mon.species}`);
+ }
  return `/source/pokemon/${mon.species}-${mon.gender==='female'?'female':'male'}-front.png`;
 }
 
