@@ -1,0 +1,45 @@
+{
+  "reviewedCandidateCommit": "ff540e95f626d1c1a28e0d2b9c95d0ce971f3953",
+  "sourceManifestSha256": "8e790c9c07891703f5c96ce6cd998f4fbfde01c58789c20fcfef87b9a1166c19",
+  "resultSha256": "3cb628c1c1afb2538d0ede809b39809b40ee329872ca140ac09ce9a47310afb7",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2308,
+      "outputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.002413,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 52,
+      "outputTokens": 32995,
+      "cacheReadInputTokens": 1589621,
+      "cacheCreationInputTokens": 105454,
+      "webSearchRequests": 0,
+      "costUSD": 1.5053021999999996,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 23918,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "duration_ms": 367560,
+  "is_error": false,
+  "findingDispositions": {
+    "F1_stale_stage": "v3: explicit --staged; plain command reads only published; failed Python export clears previous stage at entry; staged generation pins exact source inputs/code and validates before/after profile proof. Actual stale foundation, ignored old stage and failed later export fixtures.",
+    "F2_weak_fixtures": "v3: corrupt both old profile tables, actual empty native scene rejects fallback, invalid direction/sector/non-finite displacement fixtures, all current 3-point source witnesses, actual-triangle material/normal/height/slope/coverage/degenerate counterexamples. No automated process-kill/power-loss assertion.",
+    "F3_floor_and_endpoint_proof": "v3: all six samples must equal the flat native collision floor; every edge endpoint and midpoint must have finite drop >0.8. Current minimum0.8359375, field bytes unchanged.",
+    "F4_permission_claim": "README clarifies walkability equality uses the same permission/furniture graph and does not independently establish native parity. Route height tests remain meaningful; NARC/Git qualification e361b01e separate.",
+    "F5_stale_evidence": "Fresh3-point native witnesses replace centre-only proof retained as-v1. Geometry metadata updated with v3 test/time provenance."
+  },
+  "status": "Historical actual review; findings addressed in v3 code/evidence. Approval not transferred; separate final source follow-up required."
+}

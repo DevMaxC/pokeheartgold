@@ -1,0 +1,47 @@
+TAP version 13
+# (node:14963) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the actual Route29 blocked rim remains on the upper terrace instead of sagging between the two cliff ends
+not ok 1 - the actual Route29 blocked rim remains on the upper terrace instead of sagging between the two cliff ends
+  ---
+  duration_ms: 244.256208
+  type: 'test'
+  location: '/private/tmp/hg-hillcorner-baseline-tests/browser/src/source/ledge-corners.test.ts:22:1'
+  failureType: 'testCodeFailure'
+  error: '603.25,396.25: original art must stay on the upper side'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-hillcorner-baseline-tests/browser/src/source/ledge-corners.test.ts:29:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: native Route29 convex corner has continuous opaque faces to both lower floors and one exact shared endpoint
+not ok 2 - native Route29 convex corner has continuous opaque faces to both lower floors and one exact shared endpoint
+  ---
+  duration_ms: 12.1405
+  type: 'test'
+  location: '/private/tmp/hg-hillcorner-baseline-tests/browser/src/source/ledge-corners.test.ts:35:1'
+  failureType: 'testCodeFailure'
+  error: 'closed corner face 56 604,396.125'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-hillcorner-baseline-tests/browser/src/source/ledge-corners.test.ts:39:88)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 901.031667
