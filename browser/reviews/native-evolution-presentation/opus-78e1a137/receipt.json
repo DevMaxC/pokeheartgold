@@ -1,0 +1,48 @@
+{
+  "candidateCommit": "78e1a137f9a6c0a451e2ee4150377f4efc0e502c",
+  "snapshotGraphSHA256": "04a47c0db5800aee8b5ce4a81ec7b9f56324c8353fb5a8411c021dac62f1f904",
+  "snapshotInputs": 5840,
+  "copiedSourceArchiveSHA256": "f315d58a7a550829bcaa3268ae0f32c6f071de3b99b4d36df4f0d1664af0246d",
+  "rawResultSHA256": "4f6ac0c01dafda232aa3f8760df6f5907504a3b75aa3f6848ee548a177d39c5e",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1844,
+      "outputTokens": 22,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001954,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 13912,
+      "cacheReadInputTokens": 377696,
+      "cacheCreationInputTokens": 62406,
+      "webSearchRequests": 0,
+      "costUSD": 0.6658972,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 9955,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "numTurns": 18,
+  "durationMs": 159822,
+  "scope": "Immutable presentation-only78e1a137 source and tests, no controller/predicate/Main/audio backend/GPU/browser/build approval",
+  "status": "ACCEPT for changed presenter bytes/regressions only",
+  "validation": {
+    "Node": "28/28 PASS",
+    "TSC": "exit0",
+    "originalSpriteRGBA": "four exact155/156 matches"
+  },
+  "packagedUTC": "2026-10-17T20:14:26.750128+00:00",
+  "actualVerdict": "ACCEPT (narrow follow-up)"
+}

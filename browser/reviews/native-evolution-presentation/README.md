@@ -4,7 +4,9 @@ Presentation-only leaf from campaign `873de2c1`. It consumes the exact shared
 `battle-evolution-types.ts` contract from inventory commit `2a4da72a` (local
 cherry `1b6ae640`). Predicate, battle queue, Mon/State mutation, move learning,
 post-evolution effects and Main admission belong to their separate owners.
-Review is pending until the immutable source packet is recorded below.
+Final runtime is `78e1a137f9a6c0a451e2ee4150377f4efc0e502c`. The actual
+independent review and its corrective follow-up are recorded below. This is a
+local presentation leaf; Root still owns integration and release.
 
 `createEvolutionPresentation(ports)` returns `BattleEvolutionScenePort`.
 `WorldEvolutionView` occupies the existing `World.fieldEffect` slot, uses
@@ -94,3 +96,29 @@ preparation/restoration, live muted output and cached texture disposal/retry.
 TypeScript and the source pixel comparison are separate checks. No browser,
 GPU screenshot, audible test, production build or deployment has been performed.
 No complete DS rendering/scheduler or full campaign parity is claimed.
+
+## Independent review evidence
+
+* Initial source `8e169520`: actual restricted Opus5.5,33 turns,453s wall time,
+  **CHANGES_REQUIRED**. M1 found a premature colour flash; three Low paths covered
+  falsy printer rejection, stalled frame cancellation and competing audio admission.
+  Its raw result is preserved unchanged in `opus-8e169520/raw-result.json`.
+* Five new regressions all failed against that original runtime. Corrected source
+  `78e1a137` passes28/28 Node tests and TypeScript. Real shader-uniform timelines
+  now hold pictures white until the actual reveal. The original counters and
+  queue ABI are unchanged.
+* Follow-up source `78e1a137`: actual restricted Opus5.5,18 turns,163s wall time,
+  **ACCEPT for the changed presenter bytes and regressions**. No remaining changed
+  defect was confirmed. See `opus-78e1a137/raw-result.json` and `adjudication.json`.
+* Both packets retain full raw JSON/modelUsage, exact prompts/CLI flags, Git/SHA
+  manifests, before/after integrity checks and complete copied input archives.
+  Their5,838/5,840 inputs were unchanged. Small additional Haiku usage reported by
+  the CLI remains visible in both raw results; no purpose is inferred.
+
+The follow-up does not approve future audio/printer/frame/input ports, Main, the
+queue controller or predicates, GPU/browser/audible results, deployment or full
+campaign evolution. Initial source/camera/actor conditions remain qualified.
+Actual Main admission must acquire its scene/input/audio owner before the first
+asynchronous preparation, keep the outer recovery transaction open, and relay
+scene/map/lifetime invalidation to the same candidate signal. The view does not
+claim the World field-effect slot until audio preparation has completed.
