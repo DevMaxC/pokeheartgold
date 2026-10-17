@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+  "logs": [
+    {
+      "originalPath": "/tmp/hg-native-phone-random-main-tests.log",
+      "archivedPath": "/tmp/hg-native-whole-phone-host-c39003b1-owner-logs/hg-native-phone-random-main-tests.log",
+      "sha256": "64df334d4abfbf6184da35cf223b50e6b067fb9505c3135f181ce9354769792d",
+      "bytes": 23004
+    },
+    {
+      "originalPath": "/tmp/hg-native-phone-random-admission-host-tests.log",
+      "archivedPath": "/tmp/hg-native-whole-phone-host-c39003b1-owner-logs/hg-native-phone-random-admission-host-tests.log",
+      "sha256": "b12b0a105c7af2bc124bbfe1604a75f45d369dffc27112de0e19bd3af28348bc",
+      "bytes": 15473
+    },
+    {
+      "originalPath": "/tmp/hg-native-phone-random-main-tsc.log",
+      "archivedPath": "/tmp/hg-native-whole-phone-host-c39003b1-owner-logs/hg-native-phone-random-main-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "qualification": "Owner-run evidence only, read and archived without running tests;77 and55 runs overlap, not additive. EmptyTSC output is paired with owner report, no independent exit attestation."
+}

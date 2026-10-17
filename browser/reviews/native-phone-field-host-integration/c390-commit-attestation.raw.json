@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "attestedAtUTC": "2026-10-17T13:16:55.007930+00:00",
+  "snapshotRoot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot",
+  "sourceCommit": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+  "manifestSHA256": "b9bce5f1694430f2616659e27b07e0ae114917f65c89ba87ff7473a59442aaad",
+  "fileCount": 6841,
+  "committedBlobMismatches": [],
+  "missingCommittedPaths": [],
+  "snapshotMismatches": [],
+  "tests": [
+    {
+      "path": "/tmp/hg-native-phone-random-main-tests.log",
+      "sha256": "64df334d4abfbf6184da35cf223b50e6b067fb9505c3135f181ce9354769792d",
+      "bytes": 23004,
+      "summary": [
+        "# tests 77",
+        "# pass 77",
+        "# fail 0",
+        "# duration_ms 8432.105791"
+      ],
+      "sourceDiagnostics": [
+        "# main SHA256 1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230; extracted bindings SHA256 86be33550c6519a260770f3c15a672b1b1773e0d07fdbaa9b436a11ee61bc121",
+        "# main SHA256 1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230; bindings SHA256 99cc11f319338c76edc3a36acf48cb1bd40bf212d1ce5aa0c9e298cb8b1556ce",
+        "# main SHA256 1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230; actual capture/restore bindings SHA256 99cc11f319338c76edc3a36acf48cb1bd40bf212d1ce5aa0c9e298cb8b1556ce",
+        "# main SHA256 1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230; global/party bindings SHA256 c220eddd2463765c0104182eb73cefd692dfa675a00cf216349ce53b1120a0b9"
+      ],
+      "ownerExecutedOnly": true
+    },
+    {
+      "path": "/tmp/hg-native-phone-random-admission-host-tests.log",
+      "sha256": "b12b0a105c7af2bc124bbfe1604a75f45d369dffc27112de0e19bd3af28348bc",
+      "bytes": 15473,
+      "summary": [
+        "# tests 55",
+        "# pass 55",
+        "# fail 0",
+        "# duration_ms 8492.511959"
+      ],
+      "sourceDiagnostics": [
+        "# main SHA256 1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230; extracted bindings SHA256 86be33550c6519a260770f3c15a672b1b1773e0d07fdbaa9b436a11ee61bc121"
+      ],
+      "ownerExecutedOnly": true
+    },
+    {
+      "path": "/tmp/hg-native-phone-random-main-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "summary": [],
+      "sourceDiagnostics": [],
+      "ownerExecutedOnly": true
+    }
+  ],
+  "qualification": "All captured inputs byte-match committedc39003b1; count is inventory, not individual review coverage. Test logs were read, not rerun. No historical component119 or pendingacf review approval, source-only/render approval or full-suite claim transfers."
+}
