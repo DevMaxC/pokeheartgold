@@ -1,0 +1,30 @@
+{
+  "implementationCommit": "0c2abf7a8fc403d900f0de6e48c6edd1edfd2c44",
+  "currentAndCommittedSHA256": {
+    "browser/src/source/battle.ts": "0413d181de15ab746cec545000300d2012c7b2ecdf81fda33a127b1617a36fbe",
+    "browser/src/source/battle-math.ts": "e25c6f38245869862f149ed08aad0a4a7a3d7942bfe41d6658677aa7fe86103f",
+    "browser/src/source/main.ts": "a36483bb4dac70de331caafe299e329c4dcd5cfe5842ecaa55fceb8a0172977e",
+    "browser/src/source/early-battle-effects.test.ts": "f4134c1fd15c96050a8a1219fee98a61f3209281d2abbf2b07d4a08415417705"
+  },
+  "reviewMetadata": {
+    "Initial review": {
+      "duration_ms": 181102,
+      "modelUsageKeys": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "resultSHA256": "5c16a185cc4d444dd0d47d7dc6ae44f55a4c050d8fb402b5e42d298c0c5167ee"
+    },
+    "Final timing-fix review": {
+      "duration_ms": 79861,
+      "modelUsageKeys": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "resultSHA256": "bfa4ac45fbecb8ede6ba61d2ed924baae9a12f0822b07a6874faf0a79b0455fa"
+    }
+  },
+  "fullTests": 181,
+  "parentProductionBuild": "passed; /tmp/hg-early-battle-effects-build.log",
+  "renderedPlaythroughVerified": false
+}
