@@ -1,0 +1,117 @@
+TAP version 13
+# (node:40256) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual New Game binds opening audio to live preferences and the existing shared output
+ok 1 - actual New Game binds opening audio to live preferences and the existing shared output
+  ---
+  duration_ms: 647.512709
+  type: 'test'
+  ...
+# (node:40257) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: opening requests no audio while muted and never creates or resumes its own Context
+ok 2 - opening requests no audio while muted and never creates or resumes its own Context
+  ---
+  duration_ms: 1.282542
+  type: 'test'
+  ...
+# Subtest: both original opening cries share live master mute, volume and hidden-page gating
+ok 3 - both original opening cries share live master mute, volume and hidden-page gating
+  ---
+  duration_ms: 68.043125
+  type: 'test'
+  ...
+# Subtest: mute during pending decode drops the cry and disposal prevents ignored late I/O from starting audio
+ok 4 - mute during pending decode drops the cry and disposal prevents ignored late I/O from starting audio
+  ---
+  duration_ms: 4.289417
+  type: 'test'
+  ...
+# Subtest: shared player disposal cancels pending opening decode and failed starts release both nodes
+ok 5 - shared player disposal cancels pending opening decode and failed starts release both nodes
+  ---
+  duration_ms: 2.16125
+  type: 'test'
+  ...
+# Subtest: callback-only WebKit decoding waits for a real buffer; mute/unmute during loading uses current master output
+ok 6 - callback-only WebKit decoding waits for a real buffer; mute/unmute during loading uses current master output
+  ---
+  duration_ms: 0.799917
+  type: 'test'
+  ...
+# (node:40257) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# Subtest: HTTP failure and a suspended shared context cannot leave an opening voice connected
+ok 7 - HTTP failure and a suspended shared context cannot leave an opening voice connected
+  ---
+  duration_ms: 1.529625
+  type: 'test'
+  ...
+# Subtest: opening audio times out ignored I/O and cannot start a node from its later response
+ok 8 - opening audio times out ignored I/O and cannot start a node from its later response
+  ---
+  duration_ms: 3.366625
+  type: 'test'
+  ...
+# (node:40258) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Enter preserves the remembered Girl cursor before deferred focus runs, with one actual highlighted option
+ok 9 - Enter preserves the remembered Girl cursor before deferred focus runs, with one actual highlighted option
+  ---
+  duration_ms: 1.2365
+  type: 'test'
+  ...
+# Subtest: arrows, focus and clicks use the same cursor even if focus is subsequently elsewhere
+ok 10 - arrows, focus and clicks use the same cursor even if focus is subsequently elsewhere
+  ---
+  duration_ms: 0.155917
+  type: 'test'
+  ...
+# (node:40259) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual native opening confirms the remembered choice before any deferred focus task
+ok 11 - actual native opening confirms the remembered choice before any deferred focus task
+  ---
+  duration_ms: 424.793083
+  type: 'test'
+  ...
+# Subtest: legacy opening title never consumes keyboard activation of the global mute control
+ok 12 - legacy opening title never consumes keyboard activation of the global mute control
+  ---
+  duration_ms: 96.74925
+  type: 'test'
+  ...
+# Subtest: actual modal capture and native cursor move once per arrow and keep focus selection aligned
+ok 13 - actual modal capture and native cursor move once per arrow and keep focus selection aligned
+  ---
+  duration_ms: 73.368584
+  type: 'test'
+  ...
+# Subtest: native opening retains pointer selection and mandatory Back behavior under modal ownership
+ok 14 - native opening retains pointer selection and mandatory Back behavior under modal ownership
+  ---
+  duration_ms: 9.747417
+  type: 'test'
+  ...
+# Subtest: global audio activation leaves the actual opening choice and remembered cursor pending
+ok 15 - global audio activation leaves the actual opening choice and remembered cursor pending
+  ---
+  duration_ms: 7.734458
+  type: 'test'
+  ...
+# (node:40260) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual OpeningView forwards its audio port, plays original cries and disposes its owner exactly once
+ok 16 - actual OpeningView forwards its audio port, plays original cries and disposes its owner exactly once
+  ---
+  duration_ms: 605.09175
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3551.061

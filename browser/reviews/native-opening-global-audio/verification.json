@@ -1,0 +1,43 @@
+{
+  "runtimeCommit": "2f37f47d5595b7e9198b7b0fce28b96577ef94b9",
+  "sourcePins": {
+    "browser/src/source/main.ts": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+    "browser/src/source/opening-audio.ts": "5768ad5f960540d234d93e004c4960ac3b50965714069f2119cb835b934b1693",
+    "browser/src/source/opening-view.ts": "6cb5db0a0ca5762cd1de02fae1607b6316a9d5e083f4bd88b691fe1f0f1115e0",
+    "browser/src/source/opening-input.ts": "4aa5c21e6acbf3fb3a98d07add3df809430b32abf55b7d3f00df208669320248"
+  },
+  "sourceAndPublicStillMatchCommit": true,
+  "fullTests": 1478,
+  "fullTestExit": 0,
+  "buildExit": 0,
+  "focusedTests": 16,
+  "focusedTypecheckExit": 0,
+  "actualInitialReview": {
+    "turns": 20,
+    "milliseconds": 148582,
+    "manifest": "e4e8dad2a0380f1834e5dd45e13b066f2e85e806be8e983944787cbb7958110b"
+  },
+  "actualFinalReview": {
+    "turns": 16,
+    "milliseconds": 66590,
+    "manifest": "5d8c421adf6ee08dee24df342b1e3ec044b446ee39ca105b46575a57431134d0",
+    "result": "No defects in follow-up patch, any severity"
+  },
+  "ci": [
+    "https://github.com/DevMaxC/pokeheartgold/actions/runs/39061521709",
+    "https://github.com/DevMaxC/pokeheartgold/actions/runs/39061525774"
+  ],
+  "bundles": [
+    {
+      "file": "assets/main-FVj9wYpr.js",
+      "sha256": "f2079505163682c02c98e8bc5ae9b3c85a39c65674c88f403426468b8034ba1a",
+      "bytes": 1226734
+    },
+    {
+      "file": "assets/main-q2yJUujf.css",
+      "sha256": "cd725ac6f572e24e1b822cf7a0cd4bdb36e2bca42e45f014927a5c3a2474eaec",
+      "bytes": 44544
+    }
+  ],
+  "limits": "Cry loading remains asynchronous up to four seconds; no historical mute latch or hardware timing/audibility claim. Mixed-tree1474 run not admitted as exact release evidence. T3 final-preview snapshots failed; functional DOM/network receipt only."
+}
