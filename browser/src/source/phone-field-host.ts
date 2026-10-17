@@ -4,11 +4,14 @@ import {advancePhoneMinutes,advancePhoneRingSeconds,boostPhoneTimer,launchIncomi
 import {planRandomIncomingCall,type PhoneAdmissionRules} from './phone-random.ts';
 
 export type ElmHatchCall=Readonly<{trigger:0;contact:1;scripted:3;script:13;forcePickUp:false}>;
+export type MotherGiftCall=Readonly<{trigger:12;contact:0;scripted:3;script:27;forcePickUp:false}>;
+type SupportedIncomingCall=ElmHatchCall|MotherGiftCall;
 export type PhoneFieldSnapshot=Readonly<{ring:PhoneRingState;rtcAnchor:number;rtcHour:number}>;
 export type PhoneFieldAvailability=
   |{kind:'none'}
   |{kind:'busy'}
   |{kind:'elm';call:ElmHatchCall}
+  |{kind:'mother';call:MotherGiftCall}
   |{kind:'unsupported';call:IncomingPhoneCall};
 type PhoneFieldState=Pick<State,'map'|'phoneTriggers'|'pokegear'|'phoneRecentCallers'|'flags'|'vars'>;
 type SourceActionExecutor=<T>(action:()=>Promise<T>)=>Promise<SourceActionResult<T>>;
@@ -18,7 +21,10 @@ function rtcHour(value:number){if(!Number.isInteger(value)||value<0||value>23)th
 function elmCall(call:IncomingPhoneCall):call is ElmHatchCall{
   return call.scripted===3&&call.trigger===0&&call.contact===1&&call.script===13&&call.forcePickUp===false;
 }
-function sameCall(left:IncomingPhoneCall|null,right:ElmHatchCall){
+function motherCall(call:IncomingPhoneCall):call is MotherGiftCall{
+  return call.scripted===3&&call.trigger===12&&call.contact===0&&call.script===27&&call.forcePickUp===false;
+}
+function sameCall(left:IncomingPhoneCall|null,right:Readonly<{trigger:number;contact:number;scripted:3;script:number;forcePickUp:boolean}>){
   return left!==null&&left.scripted===3&&left.trigger===right.trigger&&left.contact===right.contact&&left.scripted===right.scripted&&left.script===right.script&&left.forcePickUp===right.forcePickUp;
 }
 
@@ -100,7 +106,7 @@ export class FieldPhoneHost{
   }
 
   private availability(call:IncomingPhoneCall):PhoneFieldAvailability{
-    const copy=Object.freeze({...call});return elmCall(copy)?{kind:'elm',call:copy}:{kind:'unsupported',call:copy};
+    const copy=Object.freeze({...call});return elmCall(copy)?{kind:'elm',call:copy}:motherCall(copy)?{kind:'mother',call:copy}:{kind:'unsupported',call:copy};
   }
 
   /** Pin Elm13 before the root captures its outer action. Launch (bit removal)
@@ -109,13 +115,24 @@ export class FieldPhoneHost{
    * no caller reselection. This adapter does not save or compete with rollback.
    * Hold admission until the executor resolves, including its recovery prompt. */
   async answerElm<T>(state:Pick<State,'phoneTriggers'>,execute:SourceActionExecutor,deliver:(call:ElmHatchCall)=>Promise<T>):Promise<SourceActionResult<T>>{
+    return this.answerSupported(state,execute,deliver,elmCall,'Only the native optional Elm hatch call13 can be answered by this adapter');
+  }
+
+  /** Native trigger12 only clears its call bit on launch. Dialogue script27
+   * never awards/pops gifts: the separate source deliveryman owns collection.
+   * As with Elm, State AND this host snapshot belong to the outer executor. */
+  async answerMother<T>(state:Pick<State,'phoneTriggers'>,execute:SourceActionExecutor,deliver:(call:MotherGiftCall)=>Promise<T>):Promise<SourceActionResult<T>>{
+    return this.answerSupported(state,execute,deliver,motherCall,'Only the native optional Mother gift call27 can be answered by this adapter');
+  }
+
+  private async answerSupported<T,Call extends SupportedIncomingCall>(state:Pick<State,'phoneTriggers'>,execute:SourceActionExecutor,deliver:(call:Call)=>Promise<T>,accept:(call:IncomingPhoneCall)=>call is Call,unsupported:string):Promise<SourceActionResult<T>>{
     if(this.answering)throw Error('A field phone answer is already pending');
     const active=this.ring.active;
-    if(!active||!elmCall(active))throw Error('Only the native optional Elm hatch call13 can be answered by this host');
-    const pinned:ElmHatchCall=Object.freeze({...active});
+    if(!active||!accept(active))throw Error(unsupported);
+    const pinned=Object.freeze({...active});
     this.answering=true;
     try{return await execute(async()=>{
-      if(!sameCall(this.ring.active,pinned)||!state.phoneTriggers?.includes(pinned.trigger))throw Error('The pinned Elm hatch call is no longer pending');
+      if(!sameCall(this.ring.active,pinned)||!state.phoneTriggers?.includes(pinned.trigger))throw Error('The pinned incoming call is no longer pending');
       const launch=launchIncomingCall(state,this.ring);this.ring=launch.ring;
       return deliver(pinned);
     });}finally{this.answering=false;}

@@ -110,7 +110,7 @@ test('Buena filtering uses the stored RTC anchor hour through subminute ticks an
 });
 
 test('generic, forced and other Elm calls stay explicit and cannot enter Elm13 delivery or consume pending bits',async()=>{
-  for(const id of[1,2,3,4,5,6,7,8,9,10,11,12]){
+  for(const id of[1,2,3,4,5,6,7,8,9,10,11]){
     const {host,state:value}=ready(state(),[id]);value.pokegear={cards:[],contacts:['PHONE_CONTACT_DAY_C_MAN']};const delivery=poll(host,value,newBark,()=>0);assert.equal(delivery.kind,'unsupported',String(id));
     await assert.rejects(host.answerElm(value,async()=>assert.fail('unsupported cannot start a source answer'),async()=>assert.fail()),/Only the native optional Elm/);assert.deepEqual(value.phoneTriggers,[id]);assert.equal(host.current().kind,'unsupported');
   }

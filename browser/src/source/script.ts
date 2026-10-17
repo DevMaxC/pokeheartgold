@@ -13,6 +13,8 @@ import {kurtApricornQuantity,totalApricornCount,kurtBall,clearKurtApricorn} from
 import {giveTogepiEgg,isOriginalTogepiGift,isUsableBattler,partyMonSpecies,type EggContext} from './eggs.ts';
 import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDefeated,trainerContacts,phoneContactKey,phoneRematchTrainer,type TrainerContact} from './trainer-script-state.ts';
 import {getPartySlotWithMove,monHasMove,loadNativeFieldMoveData,resolveTeachingPersonalIndex} from './field-moves.ts';
+import {peekMomGift,hasMomGift,popMomGift} from './mom-gifts.ts';
+import type {MomGift} from './mom-savings.ts';
 
 export type EngagedTrainer={trainer:number;object:string};
 /** Supplied by the field's sight detector, never inferred by the script VM. */
@@ -73,6 +75,7 @@ export class ScriptVM{
   buffers:Record<number,string>={};
   private battleWon=false;
   private pendingPhone:[number,number,number]|null=null;
+  private momGiftDelivery:{gift:MomGift;given:boolean}|null=null;
   private context:{activeScript:number;map:SourceMap;object:string;phone:TrainerContact|null;approach?:TrainerApproachContext}|null=null;
   private runAbort:AbortController|null=null;private runGeneration=0;private inheritedSignal:AbortSignal|undefined;private standardID:number|null=null;private fieldMoveOrigin:number|null=null;
   /** The host cancels before an external map replacement/recovery. A failed
@@ -91,8 +94,8 @@ export class ScriptVM{
   set(token:string,n:number){this.runAbort?.signal.throwIfAborted();if(this.fieldMoveOrigin!==null&&this.state.map!==this.fieldMoveOrigin)throw Error('Field move was cancelled by a field change');this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
   private async runChild(map:SourceMap,script:string|number,object:string,standardID:number|null=this.standardID,approach?:TrainerApproachContext):Promise<void>{
-    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;
-    try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
+    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;child.momGiftDelivery=this.momGiftDelivery;
+    try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;this.momGiftDelivery=child.momGiftDelivery;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
   }
   private async standard(id:number,object:string){const signal=this.runAbort?.signal;const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;signal?.throwIfAborted();const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);await this.runChild(common,entry,object,id);}
   text(message:string,map:SourceMap){
@@ -110,7 +113,7 @@ export class ScriptVM{
     this.runAbort=controller;parentSignal?.addEventListener('abort',inheritAbort,{once:true});
     const finish=()=>{parentSignal?.removeEventListener('abort',inheritAbort);if(this.runAbort===controller){this.runAbort=null;this.fieldMoveOrigin=null;}this.busy=false;};
     if(parentSignal?.aborted){inheritAbort();finish();controller.signal.throwIfAborted();}
-    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
+    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;this.momGiftDelivery=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
     const scriptID=typeof script==='number'?script:this.value(script,map);if(!allowNested){this.battleWon=false;this.context={activeScript:scriptID,map,object,phone:null,approach};const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}
     if(scriptID>=2000){try{await this.standard(scriptID,object);controller.signal.throwIfAborted();}catch(error){controller.abort(error);throw error;}finally{finish();}return;}
     const entry=scriptID-1;
@@ -325,9 +328,24 @@ export class ScriptVM{
         if(cmd==='BufferPocketName'){const pockets=['Items','Medicine','Poké Balls','TMs & HMs','Berries','Mail','Battle Items','Key Items'];this.buffers[v(a[0])]=pockets[v(a[1])]||'Items';continue;}
         if(cmd==='BufferInteger'||cmd==='BufferNumber'){this.buffers[v(a[0])]=String(v(a[1]));continue;}
         if(cmd==='HasItem'||cmd==='CheckItemSpace'||cmd==='HasSpaceForItem'){const key=this.itemKey(a[0],map);this.set(a[2],cmd==='HasItem'?Number((this.state.bag[key]||0)>=v(a[1])):Number(hasBagSpace(this.data,this.state.bag,key,v(a[1]))));continue;}
+        if(cmd==='MomGiftCheck'){this.set(a[0],Number(hasMomGift(this.state)));continue;}
+        if(cmd==='PeekMomGift'){const gift=peekMomGift(this.state);this.set(a[0],gift.item);this.set(a[1],gift.quantity);if(this.standardID===this.data.constants.std_moms_gift_deliveryman)this.momGiftDelivery={gift,given:false};continue;}
+        if(cmd==='PopMomGift'){
+          if(this.standardID===this.data.constants.std_moms_gift_deliveryman){const head=peekMomGift(this.state),receipt=this.momGiftDelivery;if(!receipt?.given||head.item!==receipt.gift.item||head.quantity!==receipt.gift.quantity)throw Error('Mom gift delivery has no successful matching source item grant');}
+          popMomGift(this.state);this.momGiftDelivery=null;continue;
+        }
         if(cmd==='GoToIfNoItemSpace'||cmd==='GoToIfNoItemSpace2'){const item=v(a[0]),quantity=v(a[1]);this.set('VAR_SPECIAL_x8004',item);this.set('VAR_SPECIAL_x8005',quantity);const result=Number(hasBagSpace(this.data,this.state.bag,this.itemKey(a[0],map),quantity));this.set('VAR_SPECIAL_RESULT',result);compare=result-(cmd==='GoToIfNoItemSpace'?0:1);if(!result)jump(a[2]);continue;}
         if(cmd==='GiveItemNoCheck'){const item=v(a[0]),quantity=v(a[1]);this.set('VAR_SPECIAL_x8004',item);this.set('VAR_SPECIAL_x8005',quantity);await this.standard(this.data.constants.std_give_item_verbose,object);continue;}
-        if(cmd==='AddItem'||cmd==='GiveItem'){const result=addBagItem(this.data,this.state.bag,this.itemKey(a[0],map),v(a[1]));if(a[2])this.set(a[2],Number(result));continue;}
+        if(cmd==='AddItem'||cmd==='GiveItem'){
+          const key=this.itemKey(a[0],map),quantity=v(a[1]),result=addBagItem(this.data,this.state.bag,key,quantity);if(a[2])this.set(a[2],Number(result));
+          // Native std10202 checks space before std2033. Browser presentation
+          // awaits external ports, so fail atomically if that invariant changed
+          // rather than silently Pop an ungranted package. Other grants retain
+          // their original result-variable semantics.
+          const receipt=this.momGiftDelivery;
+          if(this.standardID===this.data.constants.std_give_item_verbose&&receipt&&this.data.constants[key]===receipt.gift.item&&quantity===receipt.gift.quantity){if(!result)throw Error('Mom gift item grant failed after the source capacity check');receipt.given=true;}
+          continue;
+        }
         if(cmd==='TakeItem'||cmd==='RemoveItem'||cmd==='TakeItemNoCheck'){const key=this.itemKey(a[0],map),quantity=v(a[1]);if(cmd==='TakeItemNoCheck'){this.set('VAR_SPECIAL_x8004',v(a[0]));this.set('VAR_SPECIAL_x8005',quantity);}const result=takeBagItem(this.state.bag,key,quantity);if(a[2]||cmd==='TakeItemNoCheck')this.set(a[2]||'VAR_SPECIAL_RESULT',Number(result));continue;}
         if(cmd==='HealParty'){healParty(this.state);continue;}
         if(cmd==='CountMailboxMessages'){this.set(a[0],0);continue;}
