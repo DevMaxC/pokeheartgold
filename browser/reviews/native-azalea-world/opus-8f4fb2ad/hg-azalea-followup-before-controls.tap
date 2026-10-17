@@ -1,0 +1,152 @@
+TAP version 13
+# (node:74003) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: sequential source phases retain the fractional tick deadline across display frames
+not ok 1 - sequential source phases retain the fractional tick deadline across display frames
+  ---
+  duration_ms: 2.213167
+  type: 'test'
+  location: '/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:38:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    second source deadline is 66.67ms, not a restarted 83.33ms
+    + actual - expected
+    
+      [
+        'first',
+    -   'second'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'first'
+    1: 'second'
+  actual:
+    0: 'first'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:41:253)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: actual Azalea room resources spawn four source spiders and reset only native transition entries
+ok 2 - actual Azalea room resources spawn four source spiders and reset only native transition entries
+  ---
+  duration_ms: 91.761334
+  type: 'test'
+  ...
+# Subtest: native rest replaces normalized converter TRS and changed skin poses invalidate cached culling bounds
+not ok 3 - native rest replaces normalized converter TRS and changed skin poses invalidate cached culling bounds
+  ---
+  duration_ms: 214.275834
+  type: 'test'
+  location: '/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:71:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + Sphere {
+    +   center: Vector3 {
+    +     x: -1.260898531405893,
+    +     y: -1.669822422572844,
+    +     z: 14.557098440509375
+    +   },
+    +   isSphere: true,
+    +   radius: 32.001250908443005
+    + }
+    - null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  actual:
+    isSphere: true
+    center:
+      x: -1.260898531405893
+      y: -1.669822422572844
+      z: 14.557098440509375
+    radius: 32.001250908443005
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:73:330)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: unchanged PAT selection does not invalidate the material every native tick
+not ok 4 - unchanged PAT selection does not invalidate the material every native tick
+  ---
+  duration_ms: 15.674584
+  type: 'test'
+  location: '/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:77:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    4 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 4
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:78:533)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: unload aborts pending hosts and prevents stale native tick callbacks from publishing into the next entry
+not ok 5 - unload aborts pending hosts and prevents stale native tick callbacks from publishing into the next entry
+  ---
+  duration_ms: 17.871625
+  type: 'test'
+  location: '/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:98:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        73,
+    -   74
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 73
+    1: 74
+  actual:
+    0: 73
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:99:764)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: reentrant host cancellation handles its rejected promise and releases controller-owned rider state once
+not ok 6 - reentrant host cancellation handles its rejected promise and releases controller-owned rider state once
+  ---
+  duration_ms: 12.0695
+  type: 'test'
+  location: '/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:102:1'
+  failureType: 'unhandledRejection'
+  error: 'host cancelled reentrantly'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Object.h.ports.waitFollower (/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:103:200)
+    AzaleaGymWorld.ride (/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.ts:165:26)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-followup-before-controls/browser/src/source/gym-azalea-world.test.ts:103:266)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 1
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1320.555

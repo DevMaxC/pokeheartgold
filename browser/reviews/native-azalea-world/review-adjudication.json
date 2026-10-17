@@ -8,9 +8,9 @@
   "findings": [
     {
       "id": "M1",
-      "status": "confirmed-corrected-pending-followup-review",
+      "status": "corrected-with-additional-reentrant-boundary-regression",
       "issue": "Unload omitted held73 release and owner-scoped rider override cleanup",
-      "change": "Required releaseRiders port; paired74; no departed-map checkpoint restore; reentrant cleanup guarded"
+      "change": "Required releaseRiders port; paired74; no departed-map checkpoint restore; reentrant cleanup guarded; sourcea93 also checks forward synchronous host boundaries after reentrant unload"
     },
     {
       "id": "M2",
@@ -29,7 +29,7 @@
       "id": "L1",
       "status": "corrected-and-original-C-tested",
       "issue": "Per-frame pivot row2 SDK normalization missing from proof and decoder",
-      "evidence": "Full original getRotData_ C, integer VEC_Normalize hardware replay, all180actual samples plus nonunit pivot control; actual resource frames unchanged"
+      "evidence": "Full original getRotData_ C, integer VEC_Normalize hardware replay, all180actual samples plus nonunit pivot control. Corrects12spider pose rows by oneFX32unit; GLB/PNGbytes stay unchanged."
     },
     {
       "id": "L2",
@@ -53,7 +53,7 @@
       "id": "L5",
       "status": "bounded-and-corrected",
       "issue": "Shared phase Init reset, PAT ownership assumptions and converter rest normalization",
-      "evidence": "Init preserves sharedtick; explicit single-track/single-frame0 key +32x32 I4/color0/clamp guards; literal native rest table"
+      "evidence": "Init preserves sharedtick; bounded single-track/frame0-key/32x32I4/color0 ABI; native material KEEP bits and TEX0 additions are decoded separately, proving REPEAT/REPEAT; literal native rest table"
     },
     {
       "id": "U1",
@@ -79,5 +79,42 @@
     "Actual native sound cue admission/completion and actor/follower movement host pending parent",
     "Browser perspective/manual run, production build/save/recovery unclaimed",
     "No game completeness or all-building visual approval"
+  ],
+  "metadataErrata": [
+    {
+      "priorMetadataCommit": "091092a1",
+      "correction": "The L1 prose claimed actual frames unchanged.12joint-pose rows are corrected by oneFX32unit; all native model/PNGbytes are unchanged. Exact delta is archived. No runtime/test source changed to meet a count."
+    },
+    {
+      "priorMetadataCommit": "091092a1",
+      "correction": "Zero TEX0 repeat/flip additions do not prove clamp. Native MATERIAL bits0x30000 are retained by SDK KEEP_MASK0xc00f0000 and produce REPEAT/REPEAT. Corrected metadata records both."
+    }
+  ],
+  "followupReviews": [
+    {
+      "source": "8f4fb2ad83b146d8d0cf86127ab420403f53fc63",
+      "raw": "opus-8f4fb2ad/opus-result.json",
+      "rawSHA256": "368c1a3333b98ea3263fb6c4755f0ab39aecfa3c6f5ba5e02cf2b24ba18e4d65",
+      "model": "claude-opus-5-5",
+      "durationMs": 779183,
+      "verdict": "Accept isolated leaf; no new high/medium; two concrete low findings",
+      "findings": [
+        {
+          "id": "D1",
+          "status": "corrected-a93-pending-targeted-review",
+          "evidence": "Guard synchronous host ports before and after; exact track/dock/commit/pose reentrant leave regressions and no stale switch sound. Previous8fbaseline spawn passes but two remaining-defect fixtures fail; current43Node pass."
+        },
+        {
+          "id": "D2",
+          "status": "corrected-a93-pending-targeted-review",
+          "evidence": "Literal native material+TEX0 sampling flags match converted GLTF and runtime Three sampler; repeat kept, unsupported clamp mismatch rejects; completed PAT image disposal exactlyonce."
+        }
+      ],
+      "conditionalAdjudication": {
+        "H1": "Literal current SBC streams contain no BB/BBY/NODEMIX/CALLDL/env/projected command. All converted joints match original parents,8544single-joint weight samples validated. Constant POSSCALE8/4balanced and baked into unchanged converter data; no native GPU vertex identity claim.",
+        "H2": "Next review snapshot includes g3d_internal.h KEEP_MASK and g3d_draw.c source dispatch plus assembly tables.",
+        "H3": "Next snapshot includes MapPropAnimListFile struct and full direct LoadOne caller inventory; current fieldmap creation/initialization order documented. No arbitrary multithread/game-state proof claimed."
+      }
+    }
   ]
 }
