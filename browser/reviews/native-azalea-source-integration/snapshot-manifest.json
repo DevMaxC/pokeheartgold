@@ -1,0 +1,291 @@
+{
+  "commit": "312dc288f907fd97ff968f5cc7605aebc2298da8",
+  "base": "f21d56866643e055efde7566afd2106129b841c6",
+  "files": [
+    {
+      "path": "asm/apricorn_box_data.s",
+      "sha256": "5c1ba231cd571883672e3824850a36e93bc2b26781a77272ba1b60afdb574fae",
+      "bytes": 913,
+      "committedBlob": true
+    },
+    {
+      "path": "asm/macros/script.inc",
+      "sha256": "b70d3bdf0a7944bdbe430c66dc4c3b81e43a161e21a2210d28677d8671ce9f20",
+      "bytes": 76305,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/constants.json",
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31",
+      "bytes": 456675,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/index.json",
+      "sha256": "8b1ef89441ecdcb3b55f44c882019753bb5c30cdefe44a69cb2a8e25af1f0f95",
+      "bytes": 99556,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/maps/117.json",
+      "sha256": "d2d89c774bfd7ec1da31e9110f6eac83fd3f2d18317ed0b7a8efb98bb26c0af1",
+      "bytes": 86271,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/maps/164.json",
+      "sha256": "bd779e717d921601c0b52d43ab9ca3f4ab6fc4cbdc22da1167489a7fab8e49a3",
+      "bytes": 14442,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/maps/177.json",
+      "sha256": "cff11d6ec5e32d9f33db9cae7100656d287eaa57121c82420ad6e7553c94417b",
+      "bytes": 8844,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/maps/80.json",
+      "sha256": "3781adc4c63b1ba461bfb2b8b51152b87118871233ce25491e08edac646c6c95",
+      "bytes": 13721,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/scripts/0003.json",
+      "sha256": "43d2a4f8861361d4c3c7d030183161fce19dc5de100275c57dbf5c4b1e41a8d8",
+      "bytes": 51380,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/public/source/scripts/0146.json",
+      "sha256": "653d8fcd0d5fa761769acd43d8957add2cf4f3e9cadf13f9feb54507ee02b180",
+      "bytes": 28361,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/reviews/native-azalea-critical-path.md",
+      "sha256": "9601d1efb4af4df88ed4ae792814381611302397425587a28e6dbc59e629dbdd",
+      "bytes": 4759,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/reviews/native-ilex-coordinate-aliases.json",
+      "sha256": "8603582d86fa3c3362cc5c7ea729b4154f466b59b9ffec985853fa5983012ad8",
+      "bytes": 3737,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/reviews/native-kurt-apricorn-box.json",
+      "sha256": "5b8d125c43fea623bc16037a6574426650b915cf6ab743d9ae11b5c0bcffa393",
+      "bytes": 2215,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/reviews/native-kurt-apricorn-box.md",
+      "sha256": "e3c72a9eda87680dac85e4e4527844a6d2c61591fac1d4c0b38d9752aed21f03",
+      "bytes": 3265,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/reviews/native-script-warp-abi.json",
+      "sha256": "3c59c1dbd22d1b6cfa6da6303d65c89e89302e4557f8844bea8627b5163f534a",
+      "bytes": 29572,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/reviews/native-script-warp-abi.md",
+      "sha256": "e7b168ae6263091bd76e4056136489ca5c4b0798f489b469d4c6f24d6c5d78a4",
+      "bytes": 1755,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/scripts/export_script_variable_aliases.py",
+      "sha256": "ce4453f2a5948c5b6dbbbcbf388fde906a1e749a5dab33b39f79a65842ff56bc",
+      "bytes": 1474,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/scripts/import_source.py",
+      "sha256": "95cb800dbcd2de92f26141e504b21dc9b4c13f36cdd6eab8c93195d14060bf74",
+      "bytes": 16588,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/scripts/script_variable_aliases.py",
+      "sha256": "529d7855e312f9872869150d02d3e19f98aa140a79d01a870ff2bbcad16513d0",
+      "bytes": 868,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/scripts/test_script_variable_aliases.py",
+      "sha256": "c87ef3cbc92b386ef93d4404d5c2c348592650e45a92204e87c4c4c1f0cadf66",
+      "bytes": 3003,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/apricorn-box.test.ts",
+      "sha256": "b39542415dc226a4df6c7ba291b5d8541de4e69c1c9af39db32881aba4b37e51",
+      "bytes": 9624,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/apricorn-box.ts",
+      "sha256": "10e00123d5ffcee3b7fcc694910fed3bc2bb101ab090c331ac63a4da428875bb",
+      "bytes": 3686,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/coordinate-triggers.test.ts",
+      "sha256": "5b5e31350e176cb0a55e69dcec1f01fa26c13b5338694356988054324e8c0bcf",
+      "bytes": 6847,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/coordinate-triggers.ts",
+      "sha256": "4ba625243c63fc2d2ac4def024f4070b44da43d9aeb73354345c39d4f6fab04a",
+      "bytes": 1389,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0",
+      "bytes": 4821,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/movement.ts",
+      "sha256": "2842bc55427aa209c30371570b412ddf06f11136a3a49e1e69e62e92b20387fb",
+      "bytes": 1639,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/objects.ts",
+      "sha256": "85344f29ea49f0ae6769b147b8a2c0eff891362f8d37dac5f6722e6010d65efd",
+      "bytes": 2889,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "bytes": 5940,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/script-warp.test.ts",
+      "sha256": "3fde4015f796e70077d5c828034a00dbe1c9850c89f185e01019c4dd3e847275",
+      "bytes": 4998,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "6dc6ce283571b6f3a97be0a2bc57f9a4a0ee6aae427f6e119e97e841e0302b94",
+      "bytes": 33234,
+      "committedBlob": true
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "74bab3fae4bfd56b517d099031810762fea2edd1443a3ffc968c6ba9fe4538fe",
+      "bytes": 5360,
+      "committedBlob": true
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/event_D36R0101.h",
+      "sha256": "9cfaac8ed846284ea530c0b274013391e261b2902ff70652fd2e436ff166af09",
+      "bytes": 2259,
+      "committedBlob": true
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0060_D26R0102.s",
+      "sha256": "4c3f54cdf949973f8f013f669a0b088dec483493b24638a449afb47a86a4dbe7",
+      "bytes": 3058,
+      "committedBlob": true
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0092_D36R0101.s",
+      "sha256": "a598cfe2a92bd4f02af9cab35c022c9c2ea80beb4b96a97a25615d27da957976",
+      "bytes": 54271,
+      "committedBlob": true
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s",
+      "sha256": "9805b8b82020ac7bc0ea5f686cdd643b09a4a738304b269df9f8f6a7911e6dde",
+      "bytes": 6003,
+      "committedBlob": true
+    },
+    {
+      "path": "include/apricorn_box.h",
+      "sha256": "16b36869057ec2a687ccce6160328ddc5e025d2178ec6ea51a68eade990518b2",
+      "bytes": 1217,
+      "committedBlob": true
+    },
+    {
+      "path": "include/apricorn_internal.h",
+      "sha256": "b86230875bfd215fe9f02d237cb7dee5eb3857e9a81b57a94778b5d9dafa030c",
+      "bytes": 1461,
+      "committedBlob": true
+    },
+    {
+      "path": "include/constants/vars.h",
+      "sha256": "35a4bed10d8596a389af1efb761ea577141ea81f42b092cc2bf4a8ca08363caa",
+      "bytes": 18607,
+      "committedBlob": true
+    },
+    {
+      "path": "include/field_warp_tasks.h",
+      "sha256": "846cb2d5ab654120dc67b93973229950316e9d8856b92cada7b9cc5e0a71ea3e",
+      "bytes": 1462,
+      "committedBlob": true
+    },
+    {
+      "path": "include/map_events_internal.h",
+      "sha256": "0a56955d3ed50c260f40bbe09e4e1f9231000815bce8a125eff0a46467306a39",
+      "bytes": 1080,
+      "committedBlob": true
+    },
+    {
+      "path": "src/apricorn_box.c",
+      "sha256": "6986a2fd5b29f46b4838f1c60d6b29098a9033386e3c701148b9c72aaedf485c",
+      "bytes": 21510,
+      "committedBlob": true
+    },
+    {
+      "path": "src/field/scrcmd_pokemon_misc.c",
+      "sha256": "850fcb6773c043f18b2d082d0eb5c094923b89680ca03caf42485ac7f6864509",
+      "bytes": 48330,
+      "committedBlob": true
+    },
+    {
+      "path": "src/field_interaction.c",
+      "sha256": "d258f3091e02dfee2f6554381f4980908917bc36b11f8e43a9a45969a756fc37",
+      "bytes": 5814,
+      "committedBlob": true
+    },
+    {
+      "path": "src/field_warp_tasks.c",
+      "sha256": "78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea",
+      "bytes": 39555,
+      "committedBlob": true
+    },
+    {
+      "path": "src/scrcmd_apricorn.c",
+      "sha256": "f830a4861cceda0c410f74862c054499f338aac8aa66487e5f136f6f12c9fedb",
+      "bytes": 1430,
+      "committedBlob": true
+    },
+    {
+      "path": "src/scrcmd_c.c",
+      "sha256": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4",
+      "bytes": 181697,
+      "committedBlob": true
+    },
+    {
+      "path": "src/script_manager.c",
+      "sha256": "939c23feda6b7bb554147011ce47defa3b2a39f9ec1a5d587f467aae8925d6aa",
+      "bytes": 24182,
+      "committedBlob": true
+    }
+  ],
+  "diffSha256": "852a1a02e2d85df765ca23f0cc79f80d68bd9a6bfe80ccdcfff3b48e3b29af75",
+  "runtimeHold": "No runtime writes after312dc288",
+  "scope": "native coordinate aliases, source Warp ABI, separate saved Apricorn/Kurt queries; no main binding edits"
+}
