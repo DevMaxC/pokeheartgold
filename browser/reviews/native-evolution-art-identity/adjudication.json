@@ -1,0 +1,30 @@
+{
+  "sourceCommit": "fc18e7fc9ca287f683f2bb10ee1eec468dc8a9b7",
+  "base": "55676511f459fa566ce4d2cc2a97ef718b6cfcdd",
+  "verdict": "ACCEPT exact scoped identity-policy correction",
+  "confirmedFinding": "Mon.id was wrongly substituted for unknown native OT identity, causing actual factory false shiny rejection",
+  "policy": {
+    "nativeProvenancePresent": "validate OT u32; native XOR; known shiny unsupported; malformed explicit",
+    "provenanceAbsent": "legacy browser normal-art compatibility, no native identity inference or State write",
+    "form": "unchanged view base-art compatibility; separate logical metadata admission remains Root-owned"
+  },
+  "validation": {
+    "Node": "30/30PASS",
+    "TSC": "exit0",
+    "Before": "both new regressions FAIL old view"
+  },
+  "review": {
+    "requestedModel": "claude-opus-5-5",
+    "turns": 29,
+    "durationMs": 123621,
+    "copiedInputs": 333,
+    "graphSHA256": "17450ad767dea114cc9174b5911d0ff79500d5775cbdf33300a69eafab2e5bd1",
+    "integrity": "changed/missing/unexpected empty; prompt/manifest unchanged"
+  },
+  "manualCorroboration": "independent-schema-audit-9a610990 not part of frozen Opus input graph",
+  "limits": [
+    "No native identity migration or synthetic OT",
+    "No Main/controller/World/audio/timing changes",
+    "No GPU/browser/audible/build/deploy approval"
+  ]
+}

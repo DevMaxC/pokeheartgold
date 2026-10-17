@@ -1,0 +1,519 @@
+TAP version 13
+# (node:14092) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ordinary Passerby trainer admission does not request the special first-battle critical suppression
+not ok 1 - ordinary Passerby trainer admission does not request the special first-battle critical suppression
+  ---
+  duration_ms: 916.244667
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:97:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + []
+    - [
+    -   {
+    -     options: {
+    -       weather: 7
+    -     },
+    -     trainer: 495
+    -   }
+    - ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0:
+      trainer: 495
+      options:
+        weather: 7
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:101:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+not ok 2 - actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+  ---
+  duration_ms: 298.510584
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:105:2'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    4 !== 5
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 4
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:107:148)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# main SHA256 0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef; extracted bindings SHA256 03f98495d9af24de45930383215b16f7a3f0964734fecbfbad484e57ee8af97f
+# Subtest: blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+ok 3 - blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+  ---
+  duration_ms: 799.93375
+  type: 'test'
+  ...
+# Subtest: actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+not ok 4 - actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+  ---
+  duration_ms: 185.755334
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:117:2'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:124:433)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+not ok 5 - eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+  ---
+  duration_ms: 42.509542
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:137:2'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(c.vm.supported.has('EggHatchAnim'))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:139:49)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+ok 6 - Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+  ---
+  duration_ms: 328.817333
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays the captured movement/date once and awards only the successful hatch
+not ok 7 - explicit Retry replays the captured movement/date once and awards only the successful hatch
+  ---
+  duration_ms: 263.92275
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:158:2'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:162:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+not ok 8 - actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+  ---
+  duration_ms: 249.33675
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:165:2'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual AST pagehide callback aborts Bag input, resets both controllers and saves only an idle stable field
+not ok 9 - actual AST pagehide callback aborts Bag input, resets both controllers and saves only an idle stable field
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:172:2'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual render freezes provisional replacement follower through hatch and post-view source tail
+not ok 10 - actual render freezes provisional replacement follower through hatch and post-view source tail
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:177:2'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual wild admission runs after step commit and completed catch survives failed field resume
+not ok 11 - actual wild admission runs after step commit and completed catch survives failed field resume
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:184:2'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+not ok 12 - actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:191:2'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+not ok 13 - actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:202:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+not ok 14 - actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:209:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+not ok 15 - actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:216:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+not ok 16 - actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:223:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+not ok 17 - actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:228:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+not ok 18 - actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:233:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual native scenes reset only active rings and answer respects trainer/UI admission
+not ok 19 - actual native scenes reset only active rings and answer respects trainer/UI admission
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:242:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual HUD and answer keep unsupported forced callers explicit and unconsumed
+not ok 20 - actual HUD and answer keep unsupported forced callers explicit and unconsumed
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:248:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual due empty admission resets its interval once; a later hatch waits for the next native minute
+not ok 21 - actual due empty admission resets its interval once; a later hatch waits for the next native minute
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:255:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual selected random caller retains its native active interval until the hatch scene resets it
+not ok 22 - actual selected random caller retains its native active interval until the hatch scene resets it
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:260:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+not ok 23 - actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:265:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+not ok 24 - actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:271:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+not ok 25 - ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:285:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+not ok 26 - retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:300:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+not ok 27 - Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:306:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+not ok 28 - actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:319:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# Subtest: actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+not ok 29 - actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+  ---
+  duration_ms: 0
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/egg-field-main.test.ts:329:1'
+  failureType: 'cancelledByParent'
+  error: 'Promise resolution is still pending but the event loop has already resolved'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    process.emit (node:events:519:28)
+  ...
+# (node:14093) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:14093) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+ok 30 - native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+  ---
+  duration_ms: 43.798958
+  type: 'test'
+  ...
+# actual main SHA256 0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef; native field_warp_tasks SHA256 78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea
+# Subtest: actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+ok 31 - actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+  ---
+  duration_ms: 18.792583
+  type: 'test'
+  ...
+# Subtest: actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+ok 32 - actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+  ---
+  duration_ms: 140.110875
+  type: 'test'
+  ...
+# Subtest: actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+ok 33 - actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+  ---
+  duration_ms: 130.756459
+  type: 'test'
+  ...
+# Subtest: actual Continue passes saved Violet height/lift into World entry without the warp initializer
+not ok 34 - actual Continue passes saved Violet height/lift into World entry without the warp initializer
+  ---
+  duration_ms: 4.675
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/field-entry-main.test.ts:96:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+    -   31,
+        1,
+    +   'continue'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 31
+    1: 1
+  actual:
+    0: 1
+    1: 'continue'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/field-entry-main.test.ts:99:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+not ok 35 - actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+  ---
+  duration_ms: 4.525416
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/field-entry-main.test.ts:102:1'
+  failureType: 'testCodeFailure'
+  error: 'installAzaleaField is not defined'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ReferenceError'
+  stack: |-
+    Object.begin (evalmachine.<anonymous>:22:5)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/field-entry-main.test.ts:109:90)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual existing connection call keeps native transition-only entry without a warp spawn reset
+ok 36 - actual existing connection call keeps native transition-only entry without a warp spawn reset
+  ---
+  duration_ms: 3.876167
+  type: 'test'
+  ...
+# (node:14094) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+ok 37 - unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+  ---
+  duration_ms: 596.903334
+  type: 'test'
+  ...
+# Subtest: actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+ok 38 - actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+  ---
+  duration_ms: 253.092708
+  type: 'test'
+  ...
+# Subtest: actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+not ok 39 - actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+  ---
+  duration_ms: 131.341959
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/gym-violet-integration.test.ts:74:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The validation function is expected to return "true". Received false
+    
+    Caught error:
+    
+    ReferenceError: fieldActors is not defined
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/src/source/gym-violet-integration.test.ts:76:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...

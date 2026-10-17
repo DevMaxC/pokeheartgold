@@ -1,0 +1,938 @@
+{
+  "sourceBranch": "feat/native-azalea-main-bindings",
+  "repository": "/Users/maxchurch/Documents/pokeheartgold-azalea-main",
+  "baseline": "9e99dbac",
+  "reviewedRuntime": "7c082d79a02162542823b879d5fc4b65b8d008fe",
+  "metadataHead": "a1725a8f48b893ce0a97ccfe2c9d73d1ef43f6e2",
+  "purpose": "Prepared commit patches only, never merge/reset/checkout whole old branch over current Root. CurrentRootdba was not inspected or approved by this manifest.",
+  "groups": [
+    {
+      "group": "host-world-vm-state",
+      "commitsInDependencyOrder": [
+        {
+          "commit": "b8e4d113eb4eeb97b5cb7b5478ea6c3de08f5fa2",
+          "subject": "Wire native Azalea field controller to source VM and owned actor ports",
+          "changes": [
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/gym-azalea-host.test.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/gym-azalea-host.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/script.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/types.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/world.ts"
+            }
+          ]
+        },
+        {
+          "commit": "efdad1b7747498eb38ef383d5fa5cf60db3703c6",
+          "subject": "Reset Azalea puzzle on actual native Init commands",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-host/README.md"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-host.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-host.ts"
+            }
+          ]
+        },
+        {
+          "commit": "530e23051cf1d8ac66ac1409e7f799a2005748d6",
+          "subject": "Harden Azalea lifecycle and document native scheduling limits",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-host/README.md"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-host.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-host.ts"
+            }
+          ]
+        },
+        {
+          "commit": "cc862d3cfa714cb211bf4a99abd4138be3fdd0d5",
+          "subject": "Preserve accepted Azalea host review and exact integration limits",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-host/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/comment-only-proof.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-3dad8b66/opus-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-3dad8b66/opus-stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-3dad8b66/review-prompt.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-3dad8b66/snapshot-manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-3dad8b66/source-corrections.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-3dad8b66/tests.tap"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-3dad8b66/typecheck.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/init-native-before-harness.mts.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/init-native-before.tap"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/opus-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/opus-stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/review-prompt.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/reviewed-host-source.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/snapshot-manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/tests.tap"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/opus-b4407166/typecheck.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/tests.tap"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/typecheck.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-host/verification.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-host.ts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "original-audio-and-live-idle",
+      "commitsInDependencyOrder": [
+        {
+          "commit": "33d0662357140a2753bdee57b7a7d09c5cc7ca91",
+          "subject": "Export native Azalea sounds and shared PLAYER3 transport",
+          "changes": [
+            {
+              "status": "A",
+              "path": "browser/public/source/azalea-audio/1561-SEQ_SE_DP_KI_GASYAN.wav"
+            },
+            {
+              "status": "A",
+              "path": "browser/public/source/azalea-audio/2171-SEQ_SE_GS_ITOMARU_ROBO.wav"
+            },
+            {
+              "status": "A",
+              "path": "browser/public/source/azalea-audio/resources.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/node-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/python-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/verification.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/scripts/export_azalea_audio.py"
+            },
+            {
+              "status": "A",
+              "path": "browser/scripts/test_azalea_audio_resources.py"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/azalea-audio-data.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/gym-azalea-audio.test.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/gym-azalea-audio.ts"
+            }
+          ]
+        },
+        {
+          "commit": "449a0cc8e7c0e2b333ccdbc7b60518918a3475c7",
+          "subject": "Harden native SE admission retries and ownership after review",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-audio/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/hardening-before-d6a61e5a.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/invalid-incomplete-snapshot/INVALID.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/invalid-incomplete-snapshot/manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/invalid-incomplete-snapshot/opus-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/invalid-incomplete-snapshot/opus-stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/invalid-incomplete-snapshot/review-prompt.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/node-tests-hardening.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/node-tests-timeout-followup.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/opus-d6a61e5a/manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/opus-d6a61e5a/opus-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/opus-d6a61e5a/opus-stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-audio/opus-d6a61e5a/review-prompt.txt"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-audio/verification.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-audio.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-audio.ts"
+            }
+          ]
+        },
+        {
+          "commit": "31cc4f79d6328fcd3bca8143b4fbc6b9452c0c39",
+          "subject": "Poll live native SE player at every Azalea switch wait tick",
+          "changes": [
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/after-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/before-old-host.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/verification.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-host.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-host.ts"
+            }
+          ]
+        },
+        {
+          "commit": "6a8bb9bcb740cee114f7171db71a5be04ed50cca",
+          "subject": "Report unavailable shared audio getter as native no-voice",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-live-idle/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/getter-before-9d3.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/getter-followup-tests.txt"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-live-idle/verification.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-audio.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-audio.ts"
+            }
+          ]
+        },
+        {
+          "commit": "e803cb869c805c473a7cf49423874e5e666324fa",
+          "subject": "Drain failed SE admission ownership and preserve accepted review",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-live-idle/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/final-focused-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-9d3cf1f2/manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-9d3cf1f2/opus-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-9d3cf1f2/opus-stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-9d3cf1f2/review-prompt.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/owner-throw-before-b213.txt"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-live-idle/verification.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-audio.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-azalea-audio.ts"
+            }
+          ]
+        },
+        {
+          "commit": "e14ebf9bc082d5e3628f0afa0b6c0a317ab1f1f8",
+          "subject": "Preserve final accepted Azalea sound and idle-wait reviews",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-audio/README.md"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-live-idle/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-e9d894bc/manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-e9d894bc/opus-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-e9d894bc/opus-stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-live-idle/opus-e9d894bc/review-prompt.txt"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-live-idle/verification.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "root-clock-lifetime-and-cut-compat",
+      "commitsInDependencyOrder": [
+        {
+          "commit": "4cdea81bf74be042d81eb668ceab300dd196ed3a",
+          "subject": "Add owned post-task sound phase and pre-unlock player lifetime",
+          "changes": [
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/azalea-context-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/before-controls.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/before-controls.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/cut-context-incomplete-fixture.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/cut-context-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/focused-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/frozen-azalea-dependency/azalea-audio-data.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/frozen-azalea-dependency/gym-azalea-audio.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/frozen-azalea-dependency/manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/frozen-azalea-dependency/resources.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/sdk-oracle.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/verification.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/scripts/check_native_sound_phase_before.py"
+            },
+            {
+              "status": "A",
+              "path": "browser/scripts/test_native_sound_phase_oracle.py"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/field-music.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/field-music.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/native-field-clock.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/native-sound-phase.test.ts"
+            }
+          ]
+        },
+        {
+          "commit": "82ce6f2da9859d51c8fe3f892079e0c384328993",
+          "subject": "Await global post-task phase before admitting native Cut",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-sound-phase/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/azalea-context-manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/before-api-only-instrumentation.diff"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/cut-after-tasks-before.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/cut-context-manifest.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-sound-phase/cut-context-tests.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/final-focused-tests.txt"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-sound-phase/verification.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/cut-field-host.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/cut-field-host.ts"
+            }
+          ]
+        },
+        {
+          "commit": "30767dbdbfbef9dcbeeff93dc612fd67acde73c4",
+          "subject": "Preserve accepted post-task sound phase review and source provenance",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-sound-phase/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/opus-9230743d/manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/opus-9230743d/opus-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/opus-9230743d/opus-stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/opus-9230743d/review-prompt.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-sound-phase/upstream-git-blob-proof.json"
+            },
+            {
+              "status": "M",
+              "path": "browser/reviews/native-sound-phase/verification.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "owned-main-helpers-and-fixtures",
+      "commitsInDependencyOrder": [
+        {
+          "commit": "1d18976e1a7dba61d771efd90d1b672611dedf00",
+          "subject": "Bind native Azalea riders and shared post-task sound to campaign Main",
+          "changes": [
+            {
+              "status": "A",
+              "path": "browser/src/source/azalea-field-bindings.test.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/azalea-field-bindings.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/azalea-field-sound.test.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/azalea-field-sound.ts"
+            },
+            {
+              "status": "A",
+              "path": "browser/src/source/main-azalea.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/main-interface.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/main-music.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/main-native-interface.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/main.ts"
+            }
+          ]
+        },
+        {
+          "commit": "649fec9313f50034a7848dc7759b612f3f418b18",
+          "subject": "Keep adjacent native host fixtures on the explicit Azalea entry and actor ports",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/src/source/egg-field-main.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/field-entry-main.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/gym-violet-integration.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/main-item-pickup.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/party-field-main.test.ts"
+            }
+          ]
+        },
+        {
+          "commit": "7c082d79a02162542823b879d5fc4b65b8d008fe",
+          "subject": "Map Azalea ticks to Paper frames and pin nested coordinate recovery",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/src/source/azalea-field-sound.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/main-azalea.test.ts"
+            },
+            {
+              "status": "M",
+              "path": "browser/src/source/main.ts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "owned-review-evidence",
+      "commitsInDependencyOrder": [
+        {
+          "commit": "991b4458e8810b5b085c91f33abb885d06e79f3e",
+          "subject": "Preserve immutable Azalea Main review and controlled validation evidence",
+          "changes": [
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-adjacent-hosts-final.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-adjacent-hosts.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-audio-native-oracles-pinned.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-audio-native-oracles.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-cadence-before.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-cadence-first-command-wrongcwd.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-final-tsc.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-fixture-tsc.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-frozen-targets.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-handoff-pending.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-native-sound-oracle.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-output-adjacency.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-render-before.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/archive-receipt.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/archive-verification.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/copied-source-inputs.tar.gz"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/execution.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/integration-scoped.patch"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/integrity-after.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/main-vs-campaign-base.patch"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/raw-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/review-prompt.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/review-runner.py"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/source-manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-1d18976e/world-vs-campaign-base.patch"
+            }
+          ]
+        },
+        {
+          "commit": "a1725a8f48b893ce0a97ccfe2c9d73d1ef43f6e2",
+          "subject": "Seal accepted Azalea Main follow-up and exact integration limits",
+          "changes": [
+            {
+              "status": "M",
+              "path": "browser/reviews/native-azalea-main/README.md"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/adjudication.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-complete-followup-tests.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-fanfare-native-oracle.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-followup-tsc.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/checks/hg-azalea-main-trigger-low-tests.log"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/archive-receipt.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/archive-verification.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/copied-source-inputs.tar.gz"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/execution.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/followup-scoped.patch"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/integrity-after.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/main-vs-initial-review.patch"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/raw-result.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/review-prompt.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/review-runner.py"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/source-manifest.json"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/opus-followup-7c082d79/stderr.txt"
+            },
+            {
+              "status": "A",
+              "path": "browser/reviews/native-azalea-main/packet-checksums.json"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "alreadyInheritedRendererPrecondition": [
+    "1800237a7e313caa16e7e980e6629c9251a53bf6",
+    "3d97603dac71df4ba8dd1a713a0c992398a31e7a",
+    "c738f8a60ff07e60fd89109f2b6e93bc3636a5ec"
+  ],
+  "skipWholeReplacementCommits": {
+    "93e7ccd0": "Add persistent global mute and silence hidden game tabs",
+    "1019a621": "Preserve field keys after mute and sync open sound settings",
+    "49c8d2d5": "Reserve battle camera controls beside the global mute button",
+    "48e14f1a": "Unlock Settings audio after an explicit unmute gesture",
+    "eafd23ff": "Carry reviewed live hatch preferences into the Azalea integration",
+    "1d518e3d": "Preserve native fanfare timer and BGM phase while muted",
+    "aac14d4c": "Record accepted narrow muted-fanfare review and explicit check receipts"
+  },
+  "a172FileHashes": {
+    "browser/src/source/gym-azalea-host.ts": "36e3e33c404b586c18970ea3bcb22c343d975d5418835b174e8ece586e785c6f",
+    "browser/src/source/gym-azalea-audio.ts": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7",
+    "browser/src/source/azalea-audio-data.ts": "1e124adc767c2faddee567a661cc96ecc2a1625f2d1ca7ecbc186c2123580b59",
+    "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
+    "browser/src/source/azalea-field-bindings.ts": "be68324967887d7ab787bbc59de8873c10261d996d21ede5e6e9a39593ded7b3",
+    "browser/src/source/azalea-field-sound.ts": "6f33aecc472cc9f39e89f237f1217d04a1524d1228460f42e89d2900b87f194c",
+    "browser/src/source/main.ts": "43b7654df6631c6f93f5558fe8bfc0503971cd3bec0192ddfefba25a835cd46d",
+    "browser/src/source/world.ts": "3455ea9842202ef121470fc472ce83e04a356c2b22897c6a0631f27de929847e"
+  },
+  "replayBoundaries": [
+    "b8 World additive contract only: azalea owner/leave lifecycle,7th enter-kind,managed-prop skip,actual rider streaming/fullXYZ/cumulativeZ camera; preserve all currentRootterrainSceneryEnabled=false/forest/cornerwalls/newroofs/traversal.",
+    "b8 State adds only azalea union; preserve all newer Statefields. VM adds only threeAzalea commands+typedports; preserve current Root commands/audio/opening/phone/economy.",
+    "4c field-music adds pre-unlock readonly lifetimeSignal; never replace current sharedmaster/output/globalmute/opening/codec. Preserve onAfterTasks and second task boundary.",
+    "1d and7c Main must be replayed additively against currentRoot: stable actors/fullXYZ rider/render step\u00f72,oneglobal clock+sound,installhost beforeenter/VM,restoreActors+continueKind,movingguards; never replace old entire Main.",
+    "Retain newer Root capture/restore actual inhibit/reverse/facing, pausedTriggerGate merges,preferences authoritative mirrors,SourceRecovery/deferredBattleCommit/evolutionqueue/steppriorities/Mom/phone/Repel/Sports and all opening2f bindings.",
+    "If RootRepel PLAYER4 is present, keep optional afterSoundUpdate and run PLAYER3\u2192PLAYER4 inside SAME one global callback,even P3registry absent/mapRunningfalse/zero scopes; Root lifetime only. a172 predates that additive extension.",
+    "Current Root already owns globalmute/hatch/fanfaretimer/opening. Do not replay old production mute or entire hatch adapter commits; verify their required livegetter+15/30 mutedtimer contracts remain.",
+    "649 and1d testfixture ports are historical; preserve testmeaning while adapting currentRoot extra dependencies. Run actualMain extraction tests; do not remove guard coverage.",
+    "All new merged RootMain/World/VM/audio andOpening/sharedmaster interactions require fresh focused/full checks and actual scoped combined review. Historical a172 source-only acceptance does not approve the replay."
+  ]
+}

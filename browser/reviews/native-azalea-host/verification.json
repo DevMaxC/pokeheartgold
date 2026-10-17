@@ -1,0 +1,77 @@
+{
+  "sourceCommit": "3dad8b6611dea414eb15b3e5eb6dcffbae310744",
+  "baseNativeCommit": "e4bfa73ac49dcbf76df2ada9c7ff5f3f73c6b3d8",
+  "dependencies": {
+    "originalRendererRange": "fb864a48^..d823387b",
+    "localRendererCherryHead": "7521c2c7",
+    "genericClockOriginal": "cd08a980",
+    "genericClockLocalCherry": "696a28de"
+  },
+  "files": {
+    "browser/src/source/gym-azalea-host.ts": "7ef053f8dc56f541cc839cf297f95ccb8d89178931bd155a3bd9d9e87d0b3023",
+    "browser/src/source/gym-azalea-host.test.ts": "ec771158ebeb580fc2c61c8f862953b0cfc035e525412e05fdb7ac1b28606233",
+    "browser/src/source/script.ts": "1ad54c389022b8c592be28070f65f92b35bcc8ce258168a5b7a179f31a6a9851",
+    "browser/src/source/types.ts": "4fdca09d6c065480648e09f228f5f88198711342b5a530df7f0be673b2429339",
+    "browser/src/source/world.ts": "7640815e9d0950cbe15b7778f18b6e2d08d3422c576570fdb47fc03facb53465",
+    "browser/src/source/native-field-clock.ts": "7202dc98d46c46b2655c24f441d1b5ace51e687214b2e3a4cf1152def575f962",
+    "browser/src/source/gym-azalea-world.ts": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46"
+  },
+  "checks": {
+    "node": {
+      "passed": 155,
+      "failed": 0,
+      "logSHA256": "53ed3c758d6c8e8bbff3a992dea6bdd91f52efd8b7a422c78448dd1a75505bba"
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build": false,
+    "browser": false,
+    "gpu": false,
+    "production": false
+  },
+  "review": {
+    "initial": {
+      "commit": "b44071660c6c873bf7f74d6dd08cf0ac0f58cec4",
+      "requestedModel": "claude-opus-5-5",
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 699318,
+      "isError": false,
+      "rawSHA256": "35bdc5ac452bacd940ab771b929019628f3cd0f536550c35aa1dd2e4e9e9310f",
+      "verdict": "REVISE minor",
+      "scope": "Source only. No high-severity lifecycle/cancellation defect found; tests not rerun by reviewer."
+    },
+    "currentFollowup": {
+      "commit": "3dad8b6611dea414eb15b3e5eb6dcffbae310744",
+      "status": "ACCEPT source-only",
+      "actualModel": "claude-opus-5-5",
+      "isError": false,
+      "durationMs": 109677,
+      "rawSHA256": "2320fa457feb9c04cd0a2286e21d95d23a683e637dcd8a21328defbfbf532600",
+      "scope": "Narrow correction review. Reviewer did not rerun tests/TSC. Main/audio/full scheduler/GPU integration remains unapproved."
+    }
+  },
+  "corrections": {
+    "initCommand": "acdbab60: native Init always resets; ordinary Continue retains only by bypassing it. Actual-resource negative before log18PASS/1FAIL, current retained test passes. The archived harness had absolute live URLs at execution time; reproduce by checking out b440 and changing its init assertion to native0. Source is separately copied/hash-pinned.",
+    "switchDispatchTiming": "Documented extra prepare/dispatch tick; native start timing not claimed.",
+    "soundPlayerWait": "Required port completion means entire native sequence player idle, even no-voice if another sequence occupies it. Actual audio binding is pending.",
+    "globalScheduling": "Explicit unresolved native SysTask/MapObject step observer/start ordering. Host assumes observing eighth offset on its tick. Scripts-phase completion is tested, absolute DS schedule is not.",
+    "lifecycle": "3dad8b66: safe failed pending-load disposal, quiet stale-entry errors, scope creation before listeners, facing on first native task tick. Added real World draw/streaming consumer tests."
+  },
+  "remaining": [
+    "Main binding is absent: construct shared driver/host before entry, bind VM, explicit seventh entry kind incl recovery Continue, honor full rider vector and owned logical/animation ports.",
+    "Actual native1561/2171 source asset/transport/player metadata binding is absent. Required config/source failures remain explicit; technical no-voice is diagnosed.",
+    "Full DS scheduler timing/startup and exact rendering packet phase equivalence are unported.",
+    "No browser/GPU/manual game route/campaign/trainer battle proof. Existing double battle gaps are outside this leaf.",
+    "No push/PR/deploy by this leaf; root owns combined review/integration."
+  ],
+  "postReviewDelta": {
+    "kind": "comment-only optional clarification + review metadata",
+    "proof": "comment-only-proof.json",
+    "emittedJavaScriptByteIdentical": true,
+    "hostReviewedSHA256": "99b585513e715269a2f78c947f2ec1de5b224d21852484be0d4674ae48fa0cf9",
+    "hostDeliverySHA256": "7ef053f8dc56f541cc839cf297f95ccb8d89178931bd155a3bd9d9e87d0b3023"
+  },
+  "frozenRendererDocNote": "Reviewer optional note about renderer init doc is left unchanged to preserve frozen leaf. Its generic init(saved,kind) convenience utility retains Continue; actual native VM Init is unconditionally reset by host."
+}

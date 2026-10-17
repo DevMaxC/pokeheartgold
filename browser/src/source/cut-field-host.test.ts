@@ -109,3 +109,15 @@ test('real sound native callback observes cry completion before the following by
 test('actual transition reason reaches the owned source VM instead of generic cancellation',async()=>{
  const f=await fixture();try{const rejected=assert.rejects(f.run());await f.reach(()=>f.host.effect.active);f.w.beginFieldTransition();await rejected;assert.equal(f.cancelReasons.length,1);assert.match(String(f.cancelReasons[0]),/Field transition interrupted native field tasks/);}finally{f.dispose();}
 });
+
+test('Cut admission from the global after-tasks phase waits settled and preserves source retry ownership',async()=>{
+ const f=await fixture();try{
+  let pending:Promise<unknown>|null=null,failure:unknown,observed='';const nativeRun=f.host.run.bind(f.host);
+  (f.host as any).run=(...args:any[])=>{observed=f.host.clock.phase;return(nativeRun as any)(...args);};
+  f.host.clock.onAfterTasks(()=>{},f.owner.signal);let remove=()=>{};
+  remove=f.host.clock.onAfterTasks(()=>{remove();pending=f.run();void pending.catch(reason=>{failure=reason;});},f.owner.signal);
+  await f.advance();assert.equal(observed,'after-tasks');if(failure!==undefined)throw failure;assert.ok(pending);
+  await f.reach(()=>f.host.effect.active);await f.advance(48);await pending;assert.equal(f.recovery.busy,false);assert.equal(f.errors.length,0);
+  const retry=f.run();void retry.catch(()=>{});await f.reach(()=>f.host.effect.active);await f.advance(48);await retry;assert.equal(f.recovery.busy,false);
+ }finally{f.dispose();}
+});

@@ -1,0 +1,1 @@
+This first launch used an incorrect cwd and copied only13renderer files. The CLI failed error_during_execution; it read no valid source snapshot and is NOT a review or approval. The complete281file launch and raw result are preserved separately.

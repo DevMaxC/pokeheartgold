@@ -1,0 +1,74 @@
+{
+  "candidateCommit": "1edd3b92957c598f9d5b6faa94248475e8ddc424",
+  "rootBase": "1f83a40156857652ebc0b8ce2329fb2af7e28da7",
+  "status": "ACCEPT scoped source integration",
+  "reviewResult": "No confirmed reachable introduced defect",
+  "reviewerRequestedModel": "claude-opus-5-5",
+  "numTurns": 70,
+  "durationMs": 838375,
+  "manualFindings": [
+    {
+      "reviewItem": "Clock and sound phase, stable actors, source commands, Continue/recovery, input admission, current Root preservation",
+      "classification": "Verified integration contracts",
+      "evidence": [
+        "root-preservation.json",
+        "opus-1edd3b92/current-root-runtime.patch",
+        "opus-1edd3b92/validation/hg-azalea-current-integrated-tests-complete-inputs.log"
+      ],
+      "determination": "No runtime fix required. Scoped fresh review and315 host tests cover actual current Root coexistence; prior a172 is historical only."
+    },
+    {
+      "reviewItem": "Empty station / NULL route slot throw differs from retail C return",
+      "classification": "Withdrawn candidate: normal topology unreachable",
+      "determination": "Reviewer traced walkability of native lands248/249 and station occupancy through source routes. Existing negative guards remain explicit for invalid or hand-edited state; no blanket source exception or gameplay teleport added. Optional full topology route test was suggested, not required to repair a confirmed defect."
+    },
+    {
+      "reviewItem": "Global after-task hook exception kills clock",
+      "classification": "Documented current contract / future consumer requirement",
+      "determination": "Current hook synchronously calls guarded ownedPLAYER3.soundUpdate; root disposal removes hook first. Future callback consumers must not throw. No new actual throwing consumer introduced."
+    },
+    {
+      "reviewItem": "Task phase spans a real MessageChannel boundary",
+      "classification": "Documented scheduler adaptation",
+      "determination": "Existing Azalea entry and Cut admission await settled before scope registration. This is bounded task ordering, not complete DS scheduler identity."
+    },
+    {
+      "reviewItem": "Corrupt saved Azalea puzzle can reach Retry-only failed hydration",
+      "classification": "Malformed manual/corrupt save case, no reachable normal-save defect confirmed",
+      "determination": "Native state produced by current routes is validated. General corrupt-save recovery remains separate, rather than silently inventing puzzle state."
+    },
+    {
+      "reviewItem": "Locked sound preparation re-downloads and hashes WAVs",
+      "classification": "Performance note",
+      "determination": "Bounded native no-voice path remains gameplay-usable and explicit. No additional Context/unlock or fabricated voice introduced."
+    },
+    {
+      "reviewItem": "A few raw review line citations are inaccurate",
+      "classification": "Citation normalization only; raw unchanged",
+      "determination": "For example world.ts has275lines, so raw world.ts:417 is not a literal location. Actual owner-checked camera method is setAzaleaCameraOffset; exact source/GitBlob manifests and scoped patches are authoritative. Manual source checks verified the stated contracts independently of those numeric slips."
+    }
+  ],
+  "limits": [
+    "No browser/GPU/rendered appearance or audible/device approval",
+    "No build, push, merge, deployment or full-campaign parity claim",
+    "Future Repel/PLAYER4/poison/Evolution/genericPlaySE/runtimeCut not assessed by this candidate",
+    "No approval transferred to future Main/World/audio changes"
+  ],
+  "integrity": {
+    "sourceInputs": 10252,
+    "graphSHA256": "205c0f421c91290253515886ab850348b634f839c93cf61ce253816b14bcccd5",
+    "changed": [],
+    "missing": [],
+    "unexpected": [],
+    "promptUnchanged": true,
+    "manifestUnchanged": true
+  },
+  "validation": {
+    "Node": "315/315 PASS",
+    "TSC": "exit0 at frozen1edd",
+    "NativeAudio": "4/4 PASS original SDAT/WAV/renderer/C",
+    "SoundPhase": "literal SDK C oracle PASS",
+    "DiffCheck": "PASS; raw logs retain source whitespace through review-directory attributes"
+  },
+  "adjudicatedUTC": "2026-10-17T20:47:59.140273+00:00"
+}

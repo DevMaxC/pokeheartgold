@@ -1,0 +1,6 @@
+{
+  "status": "2/2 EXPECTED FAIL (old source with API-only observation instrumentation)",
+  "originalSHA256": "7202dc98d46c46b2655c24f441d1b5ace51e687214b2e3a4cf1152def575f962",
+  "instrumentedSHA256": "7cb71faa31934fe712fce28f6db23a7759da15e5a8b590ac7a8ce85ed630c1a7",
+  "limitation": "Instrumented old clock observation API, not a previously shipped API or production patch. Actual old empty-scope early exit/map-boundary abort unchanged. Early-order negative uses real registry in current Node suite."
+}

@@ -1,0 +1,122 @@
+{
+  "runtimeCommit": "7c082d79a02162542823b879d5fc4b65b8d008fe",
+  "baseline": "9e99dbac5af7ca62157a700a70203b39bf7b9320",
+  "source": {
+    "main.ts": {
+      "gitBlob": "97fc6895a1d0a854a2bbe1794ebe97468e727c07",
+      "sha256": "43b7654df6631c6f93f5558fe8bfc0503971cd3bec0192ddfefba25a835cd46d"
+    },
+    "azalea-field-bindings.ts": {
+      "gitBlob": "44d2c164313fda1c18028294fe87f52522f56791",
+      "sha256": "be68324967887d7ab787bbc59de8873c10261d996d21ede5e6e9a39593ded7b3"
+    },
+    "azalea-field-sound.ts": {
+      "gitBlob": "bd548ae58c047ac864b980e6c1d3ea3754636f8e",
+      "sha256": "6f33aecc472cc9f39e89f237f1217d04a1524d1228460f42e89d2900b87f194c"
+    },
+    "world.ts": {
+      "gitBlob": "dc3fbae0b27c9d2dffbb8467c018de9fe38b566b",
+      "sha256": "3455ea9842202ef121470fc472ce83e04a356c2b22897c6a0631f27de929847e"
+    },
+    "script.ts": {
+      "gitBlob": "3fd8109fa9244aca78148c910abb7f06345e94f7",
+      "sha256": "758a1cfe88cf79ebe4a651660beb2988cf613f361047aac049c5d36bcc2a36f4"
+    },
+    "types.ts": {
+      "gitBlob": "58bf1da3b597316418167c55a96b30067275d9c2",
+      "sha256": "e7a17e404b742da8eea8a5b343d4eccea8c7a95dc2112a4c66880fc033c0f866"
+    },
+    "gym-azalea-host.ts": {
+      "gitBlob": "1b830404339f1bb105f182ee92938543a4360363",
+      "sha256": "36e3e33c404b586c18970ea3bcb22c343d975d5418835b174e8ece586e785c6f"
+    },
+    "gym-azalea-audio.ts": {
+      "gitBlob": "2ad637a6ed6906de75a40795c0570b4da0045463",
+      "sha256": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7"
+    },
+    "native-field-clock.ts": {
+      "gitBlob": "34a36839cdae87ae6d2f6d0c14b26dd0bd9ec84a",
+      "sha256": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749"
+    },
+    "field-music.ts": {
+      "gitBlob": "01e525db14e5907b55919424c5db852692437c9b",
+      "sha256": "298f6bec47f94956e1141b2fa3a71c9311b66cd5fb3523090eb14fe74349c62e"
+    },
+    "hatch-host-audio.ts": {
+      "gitBlob": "ea166ea710de9e149cae94f14217e7d4a792df6c",
+      "sha256": "167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396"
+    }
+  },
+  "initialReview": {
+    "commit": "1d18976e1a7dba61d771efd90d1b672611dedf00",
+    "verdict": "PASS with two present Lows, retained historically",
+    "turns": 65,
+    "rawSHA256": "7c4a5e49901120806d5248da813a8257736413027e717a5c751912201ef5978c",
+    "integrity": {
+      "verifiedUTC": "2026-10-17T18:50:46.295317+00:00",
+      "files": 9175,
+      "graphSHA256": "de5868c710e76ca28cb6881e378b8ed8a2071fdfe1b0ac2fc96e9ab907eb2d2d",
+      "changed": [],
+      "unexpected": [],
+      "missing": [],
+      "sourceManifestUnchanged": true,
+      "promptUnchanged": true
+    }
+  },
+  "followupReview": {
+    "commit": "7c082d79a02162542823b879d5fc4b65b8d008fe",
+    "verdict": "PASS: no confirmed present defect in changed bytes",
+    "turns": 42,
+    "rawSHA256": "5dacf443bebc09683d2ed93f8ecc2e5e0e3095eee448cc3247f7e61814dbd39e",
+    "integrity": {
+      "verifiedUTC": "2026-10-17T19:04:54.611887+00:00",
+      "files": 9193,
+      "graphSHA256": "3e558fbcb67cd4f904ae7ffea33b24ad8a67df0ca20d995c679f6ecb01847f92",
+      "changed": [],
+      "unexpected": [],
+      "missing": [],
+      "sourceManifestUnchanged": true,
+      "promptUnchanged": true
+    }
+  },
+  "findings": {
+    "L1": {
+      "status": "fixed",
+      "commit": "7c082d79a02162542823b879d5fc4b65b8d008fe",
+      "change": "Main translates native displacement tick0..7 to Paper phase tick/2 for both actors",
+      "evidence": "actual Main+OriginalWorld.animate Texture offsets fail1d [0,1,2,3,0,1,2,3], pass7c [0,0,1,1,2,2,3,3]",
+      "qualification": "Existing browser atlas convention, not full native billboard/NANR or scheduler parity"
+    },
+    "L2": {
+      "status": "coverage closed; no runtime defect asserted",
+      "evidence": "actual step(0), native lands248/249 +coordinate trigger +VM0869/Host; Return restores pre-step3.5,33.5/follower/puzzle, Retry replays full step+ride; exactly one final save"
+    },
+    "sharedOutputAdjacency": {
+      "status": "withdrawn for accepted current Azalea; no runtime change",
+      "sourceSHA256": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7",
+      "evidence": "prepared2171 then real-style throwing shared output during1561 preempts prior voice and returns technical no-voice before creating replacement"
+    }
+  },
+  "validation": {
+    "node": {
+      "passed": 301,
+      "log": "checks/hg-azalea-main-complete-followup-tests.log"
+    },
+    "tsc": {
+      "exitCode": 0,
+      "log": "checks/hg-azalea-main-followup-tsc.log"
+    },
+    "nativeFanfareC": {
+      "passed": 2,
+      "log": "checks/hg-azalea-main-fanfare-native-oracle.log"
+    }
+  },
+  "scopeLimits": [
+    "No browser, GPU rendered art, mobile, audible output, Vite build or deployment run here",
+    "No full campaign, DS-global scheduler, ARM7 channel/voice pool or native billboard phase parity claim",
+    "Five fixture-only migrations outside initial1d inputs; follow-up explicitly inspected field-entry among them, other four validated by55Node tests",
+    "Root newer shared-output OpeningView constructor and opening-audio leaf are NOT in7c; root must reconcile/review that one-line integration separately before release",
+    "Root must run coherent full suite/build/CI and production merge/deployment validation after integration"
+  ],
+  "localOnly": true
+}

@@ -1,0 +1,66 @@
+TAP version 13
+# (node:25826) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: root hook and metadata registry exist without consulting or unlocking an audio Context
+ok 1 - root hook and metadata registry exist without consulting or unlocking an audio Context
+  ---
+  duration_ms: 129.984167
+  type: 'test'
+  ...
+# Subtest: caller abort abandons only bounded root metadata work and cannot start a late voice
+ok 2 - caller abort abandons only bounded root metadata work and cannot start a late voice
+  ---
+  duration_ms: 12.78975
+  type: 'test'
+  ...
+# Subtest: ignored metadata deadline never publishes late ownership; explicit retry refetches configuration
+ok 3 - ignored metadata deadline never publishes late ownership; explicit retry refetches configuration
+  ---
+  duration_ms: 74.998334
+  type: 'test'
+  ...
+# Subtest: native fade1 sound update runs after tasks even with no map scopes or running field
+ok 4 - native fade1 sound update runs after tasks even with no map scopes or running field
+  ---
+  duration_ms: 24.955583
+  type: 'test'
+  ...
+# Subtest: actual voice end settles PLAYER idle only at the shared post-task sound update
+ok 5 - actual voice end settles PLAYER idle only at the shared post-task sound update
+  ---
+  duration_ms: 4.673417
+  type: 'test'
+  ...
+# Subtest: locked shared output is diagnosed no-voice, while malformed source metadata remains explicit
+ok 6 - locked shared output is diagnosed no-voice, while malformed source metadata remains explicit
+  ---
+  duration_ms: 4.204209
+  type: 'test'
+  ...
+# Subtest: a real-style throwing shared output after preparation still preempts PLAYER3 and admits technical no-voice
+ok 7 - a real-style throwing shared output after preparation still preempts PLAYER3 and admits technical no-voice
+  ---
+  duration_ms: 3.596709
+  type: 'test'
+  ...
+# Subtest: root disposal removes the global callback and rejects pending source admission without unlocking
+ok 8 - root disposal removes the global callback and rejects pending source admission without unlocking
+  ---
+  duration_ms: 1.875292
+  type: 'test'
+  ...
+# Subtest: asynchronous reporting failure aborts its owned audio and cannot orphan a looping voice
+ok 9 - asynchronous reporting failure aborts its owned audio and cannot orphan a looping voice
+  ---
+  duration_ms: 4.161125
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 962.416458

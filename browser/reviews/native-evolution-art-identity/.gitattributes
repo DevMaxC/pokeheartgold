@@ -1,0 +1,4 @@
+# Keep immutable raw review output and before-failure evidence unchanged.
+*.log -whitespace
+*.txt -whitespace
+*.patch -whitespace

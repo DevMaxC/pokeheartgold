@@ -98,18 +98,18 @@ test('actual warp retains all three entry phases and real entry resets while Con
 test('actual Continue passes saved Violet height/lift into World entry without the warp initializer',async()=>{
  const c=await entryFixture(135);c.state.fieldHeight=31;c.state.gymmick={kind:'violet',liftState:1};
  await c.actualEnter(135,c.state.x,c.state.z,true,true,false,false,'continue');
- assert.deepEqual(c.log.find(row=>row[0]==='world-enter').slice(-2),[31,1]);assert.deepEqual(c.state.gymmick,{kind:'violet',liftState:1});assert.equal(c.log.some(row=>row[0]==='script'),false,'Violet only has native OnTransition');
+ assert.deepEqual(c.log.find(row=>row[0]==='world-enter').slice(-3),[31,1,'continue']);assert.deepEqual(c.state.gymmick,{kind:'violet',liftState:1});assert.equal(c.log.some(row=>row[0]==='script'),false,'Violet only has native OnTransition');
 });
 
 test('actual begin forwards explicit entry mode separately from actor restoration and saves only after entry',async()=>{
  for(const mode of['continue','warp']){
-  const state=newState(data,'Case','boy',()=>.5),calls=[],c={migrateLegacyBrowserNicknames,nicknameAdmission:null,console,preferences:{music:false,textSpeed:1},state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
-   Battle:class{},WorldBattleView:class{},captureField(){return{};},restoreField:unexpected,started:false,ready:false,
+  const state=newState(data,'Case','boy',()=>.5),calls=[];let finishInstall,enteredInstall;const entered=new Promise(resolve=>{enteredInstall=resolve;}),install=new Promise(resolve=>{finishInstall=resolve;}),gymPorts={init:unexpected,spinarak:unexpected,switch:unexpected},c={migrateLegacyBrowserNicknames,nicknameAdmission:null,console,preferences:{music:false,textSpeed:1},state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
+   Battle:class{},WorldBattleView:class{},async installAzaleaField(){calls.push(['install-azalea']);assert.equal(c.started,false);enteredInstall();await install;c.world.azaleaGym={scriptPorts:gymPorts};},captureField(){return{};},restoreField:unexpected,started:false,ready:false,
    beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,scriptWarp:unexpected,
    enterMap:async(...args)=>{calls.push(['enter',...args]);assert.equal(c.started,true);},save(){calls.push(['save']);},$:()=>({focus(){calls.push(['focus']);}}),
   };
-  createContext(c);runInContext(compile(admissionSource+beginSource)+';globalThis.actualBegin=begin;',c);await c.actualBegin(mode);
-  assert.deepEqual(calls[0],['enter',state.map,state.x,state.z,true,mode==='continue',false,false,mode]);assert.deepEqual(calls.slice(1),[['save'],['focus']]);assert.equal(c.ready,true);
+  createContext(c);runInContext(compile(admissionSource+beginSource)+';globalThis.actualBegin=begin;',c);const pending=c.actualBegin(mode);await entered;assert.deepEqual(calls,[['install-azalea']]);assert.equal(c.started,false);finishInstall();await pending;assert.equal(c.vm.hooks.azaleaGym,gymPorts);
+  assert.deepEqual(calls[1],['enter',state.map,state.x,state.z,true,mode==='continue',false,false,mode]);assert.deepEqual(calls.slice(2),[['save'],['focus']]);assert.equal(c.ready,true);
  }
 });
 

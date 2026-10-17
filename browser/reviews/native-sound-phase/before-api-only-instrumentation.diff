@@ -1,0 +1,28 @@
+--- original-354223cb
++++ API-observation-only-before-harness
+@@ -25,7 +25,7 @@
+  * emulation of every DS SysTask priority/insertion or hardware timing rule. */
+ export class NativeFieldClock{
+  tick=0;phase:'idle'|'scripts'|'tasks'='idle';readonly failure:Promise<never>;
+- private scopes=new Set<Scope>();private elapsed=0;private pending=false;private work:Promise<void>=Promise.resolve();private generation=0;private disposed=false;private phaseAbort:AbortController|null=null;private attached:{fieldTasks:{frame:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null}|null=null;private rejectFailure!:(reason:unknown)=>void;
++ private afterTasks=new Set<(frame:NativeFieldFrame)=>void>();private scopes=new Set<Scope>();private elapsed=0;private pending=false;private work:Promise<void>=Promise.resolve();private generation=0;private disposed=false;private phaseAbort:AbortController|null=null;private attached:{fieldTasks:{frame:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null}|null=null;private rejectFailure!:(reason:unknown)=>void;
+  constructor(private ports:{field:()=>{map:number;mapRunning:boolean};onError:(reason:unknown)=>void;boundary?:(signal:AbortSignal)=>Promise<void>}){
+   if(typeof ports?.field!=='function'||typeof ports.onError!=='function')throw Error('Native field clock requires actual field and error ports');this.failure=new Promise((_,reject)=>{this.rejectFailure=reject;});void this.failure.catch(()=>{});
+  }
+@@ -36,6 +36,7 @@
+  private field(){const field=this.ports.field();if(!Number.isInteger(field.map)||typeof field.mapRunning!=='boolean')throw Error('Native field clock requires actual map/running state');return field;}
+  private report(reason:unknown){try{this.ports.onError(reason);}catch(error){this.fatal(new AggregateError([reason,error],'Native field error reporting failed'));}}
+  private fatal(reason:unknown){if(this.disposed)return;this.disposed=true;this.cancel(reason);if(this.attached?.fieldTasks===this)this.attached.fieldTasks=null;this.rejectFailure(reason);}
++ onAfterTasks(callback:(frame:NativeFieldFrame)=>void,owner:AbortSignal){this.afterTasks.add(callback);const remove=()=>this.afterTasks.delete(callback);owner.addEventListener('abort',remove,{once:true});return remove;}
+  createScope(map:number,owner:AbortSignal):NativeFieldTaskScope{
+   if(this.disposed)throw Error('Native field clock disposed');check(owner);if(!Number.isInteger(map)||map<0||this.field().map!==map)throw Error('Native field scope belongs to an inactive map');const clock=this,controller=new AbortController();
+   const scope:Scope={map,controller,signal:controller.signal,waits:new Set(),dispatches:new Set(),tasks:new Set(),detach:()=>owner.removeEventListener('abort',abort),cancel:reason=>{
+@@ -63,7 +64,7 @@
+   const generation=this.generation,controller=new AbortController();this.pending=true;this.phaseAbort=controller;this.phase='scripts';
+   const run=async()=>{
+    for(const scope of[...this.scopes]){if(scope.map!==this.field().map){scope.cancel(Error('Native field changed map'));continue;}for(const dispatch of[...scope.dispatches])dispatch.start();for(const wait of[...scope.waits])if(wait.at<=this.tick)wait.resolve();}
+-   await(this.ports.boundary??nativeFieldTaskBoundary)(controller.signal);check(controller.signal);if(this.disposed||generation!==this.generation)return;this.phase='tasks';
++   await(this.ports.boundary??nativeFieldTaskBoundary)(controller.signal);check(controller.signal);if(this.disposed||generation!==this.generation)return;this.phase='tasks';for(const callback of[...this.afterTasks])callback({tick:this.tick,...this.field()});
+    for(const scope of[...this.scopes]){for(const callback of[...scope.tasks]){if(!this.scopes.has(scope))break;if(!scope.tasks.has(callback))continue;const field=this.field();if(scope.map!==field.map){scope.cancel(Error('Native field changed map'));break;}try{const result:unknown=callback({tick:this.tick,...field});if(result&&typeof(result as Promise<unknown>).then==='function'){void Promise.resolve(result).catch(reason=>this.report(reason));throw Error('Native field task callbacks must be synchronous');}}catch(reason){scope.cancel(reason);this.report(reason);break;}}}
+   };
+   this.work=run().catch(reason=>{if(generation===this.generation&&!this.disposed){this.report(reason);this.fatal(reason);}}).finally(()=>{if(this.phaseAbort===controller)this.phaseAbort=null;this.pending=false;this.phase='idle';});

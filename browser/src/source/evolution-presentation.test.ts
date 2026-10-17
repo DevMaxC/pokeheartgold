@@ -88,7 +88,7 @@ test('separate factories reserve the same field before audio preparation without
 });
 
 test('bad flags/form/shiny artwork fail before audio ownership or any gameplay callback',async()=>{
- for(const patch of[{flags:1},{before:{...evolutionScene().before,form:1}},{before:{...evolutionScene().before,id:0,personality:0}}]){const f=fixture(),scene={...evolutionScene(),...patch};await assert.rejects(f.present(scene as any,f.callbacks),/flags3|not exported/);assert.equal(f.opened,0);assert.deepEqual(semantic(f),[]);assert.equal(f.world.fieldEffect,null);}
+ for(const patch of[{flags:1},{before:{...evolutionScene().before,form:1}},{before:{...evolutionScene().before,id:8,personality:0,provenance:{otId:0}}}]){const f=fixture(),scene={...evolutionScene(),...patch};await assert.rejects(f.present(scene as any,f.callbacks),/flags3|not exported/);assert.equal(f.opened,0);assert.deepEqual(semantic(f),[]);assert.equal(f.world.fieldEffect,null);}
 });
 
 test('borrowed audio restoration watchdog aborts stalled cleanup and preserves an explicit technical failure',async()=>{
