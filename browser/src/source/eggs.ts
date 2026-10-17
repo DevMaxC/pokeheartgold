@@ -1,17 +1,15 @@
 import {calculateStats} from './data.ts';
 import {advanceLCRNG,sampleUint32} from './native-rng.ts';
 import {isUsableBattler} from './battle-party.ts';
+import {nativeMonGender} from './gender.ts';
 export {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
+export {nativeMonGender as nativeEggGender} from './gender.ts';
 import type {GameData,Mon,State,MonDate} from './types.ts';
 export type EggContext={random?:()=>number;now?:()=>Date};
 const LANGUAGE_ENGLISH=2; // include/config.h:17; this source checkout is English.
 export const NATIVE_EGG_ICON='/source/eggs/egg-icon.png';
 const uint32=(value:number)=>Number.isInteger(value)&&value>=0&&value<=0xffffffff;
 function nativeDate(now:Date):MonDate{const year=now.getFullYear()-2000;if(!Number.isInteger(year)||year<0||year>99)throw RangeError('Date outside native RTC range');return{year,month:now.getMonth()+1,day:now.getDate()};}
-/** include/constants/pokemon.h GENDER_RATIO(frac), then pokemon.c:2094. */
-export function nativeEggGender(ratio:number,personality:number):Mon['gender']{
- const raw=ratio<=1?Math.floor(ratio*254.75):255;return raw===0?'male':raw===254?'female':raw===255?'genderless':raw>(personality&255)?'female':'male';
-}
 function eggDraft(data:GameData,state:State,trainerId:number,seed:number,now:Date){
  const species=data.constants.SPECIES_TOGEPI,base=data.personal[species];if(!base||!uint32(trainerId)||!uint32(seed))throw Error('Missing native Egg profile or personal data');
  const date=nativeDate(now),draw=()=>{const next=advanceLCRNG(seed);seed=next.seed;return next.value;};
@@ -24,7 +22,7 @@ function eggDraft(data:GameData,state:State,trainerId:number,seed:number,now:Dat
  const name=data.names.species[data.constants.SPECIES_EGG],friendship=Number(base.eggCycles);if(!name||!Number.isInteger(friendship)||friendship<0||friendship>255)throw Error('Missing original Egg name/cycles');
  // Existing browser id is an instance token, not the OT identity. Reusing
  // PID avoids inventing a fifth native draw; ownership uses provenance.otId.
- const mon:Mon={isEgg:true,species,level:1,name,gender:nativeEggGender(base.genderRatio,personality),...stats,hp:stats.maxHP,exp:data.growth[base.growthRate][1],ivs,evs,nature,personality,status:'',sleepTurns:0,moves,friendship,heldItem:null,ot:state.name,id:personality,
+ const mon:Mon={isEgg:true,species,level:1,name,gender:nativeMonGender(base.genderRatio,personality),...stats,hp:stats.maxHP,exp:data.growth[base.growthRate][1],ivs,evs,nature,personality,status:'',sleepTurns:0,moves,friendship,heldItem:null,ot:state.name,id:personality,
   provenance:{otId:trainerId,otGender:state.gender,language:LANGUAGE_ENGLISH,gameVersion:data.constants.GAME_VERSION,metLevel:0,pokeball:data.constants.BALL_POKE,metLocation:0,metDate:{year:0,month:0,day:0},eggLocation:data.constants.METLOC_MR_POKEMON,eggDate:date,fatefulEncounter:false}};
  return{mon,seed};
 }

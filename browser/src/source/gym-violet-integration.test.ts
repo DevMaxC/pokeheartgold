@@ -34,7 +34,7 @@ const json=Buffer.from(encoded),tail=raw.subarray(20+size),packed=Buffer.alloc(2
 raw.copy(packed,0,0,20);packed.writeUInt32LE(packed.length,8);packed.writeUInt32LE(json.length,12);json.copy(packed,20);tail.copy(packed,20+json.length);
 const template=(await new GLTFLoader().parseAsync(packed.buffer.slice(packed.byteOffset,packed.byteOffset+packed.byteLength),'')).scene;
 const prefix='vm=new ScriptVM(data,state,';
-const hookStart=main.indexOf(prefix,main.indexOf('async function begin()'));
+const hookStart=main.indexOf(prefix,main.indexOf('async function begin('));
 const hookEnd=main.indexOf(');\n  sourceActions=',hookStart);
 assert.ok(hookStart>=0&&hookEnd>=0,'actual main hook expression moved');
 const hookExpression=main.slice(hookStart+'vm='.length,hookEnd+1);

@@ -1,0 +1,40 @@
+{
+  "converterCommit": "3d4e91e14045392a49c89e86dab8cb936225588c",
+  "converterTrackedWorktreeCleanAtReceipt": true,
+  "converterBinarySHA256": "02c24effc7bc95ea53299b35e46bba3be0acdbe95c73caaa4d9ff076bbd2c91b",
+  "reviewedRustFiles": {
+    "src/convert/gltf/curve.rs": "5f3c93bd7fb058ededaac087c374ae5c9ba8e86fa97d03addfd4007b5ed0d44a",
+    "src/convert/gltf/gltf.rs": "85f54d4ddd5d7cbe2d4f15695302bf19031c4bfd448508cd89d23b224dad39a5",
+    "src/convert/gltf/mod.rs": "5c85820bcfe042f27ee65b6546d0817d3a448ed1cdd10bdd6182ccd3ec2978f5",
+    "src/convert/gltf/object_trs.rs": "f23c5499d21df325acddab4125ff14669deb65fdf4049a2c7b0af709c32aceba",
+    "src/convert/gltf/primitive.rs": "d6ec26cc9f72896662b8325dc441b84f9237a6b642fd42db2d6b9c1b6eba792f",
+    "src/nitro/model.rs": "c753a04ab4346a1ad11a4e9e73f06d44240289098b7880685000925af7c67a9b",
+    "src/nitro/render_cmds.rs": "5e329d7e69aed9d612a2f8cf63c738f4d3757f879116a48885b662c9bed6e4f9",
+    "src/primitives/mod.rs": "2648fc68dea43983c7b40ba0e2620729701cfd094af8b87c7edf9260d03ea040",
+    "src/skeleton/mod.rs": "35c72d7bd4c346e973a575b7ad4d2302305927a78619f37d5b3cf4004a08fde2"
+  },
+  "actualGLBSHA256": "80103dba9005dd862f039cbcd993b6fadb5dcac816c50be384e19fa3923a3bd1",
+  "decodedGLBJSONSHA256": "76088811afcb1eeeee1bf5dd25b8fa424391d384136e2c6118b1c53bb8b07590",
+  "nativeFacts": {
+    "positionScaleFx32": 32768,
+    "inversePositionScaleFx32": 512,
+    "leafLightMask": 1,
+    "slashBurstLightMask": 0,
+    "magnificationFx32": [
+      4096,
+      4096
+    ]
+  },
+  "verifiedByActualOpusFollowup": [
+    "GPU Normal clears converter color to white; all35 actual COLOR_0 entries white",
+    "Two converter V flips cancel to native t-down normalizedUV",
+    "Vertices J_rest*S8*v_raw with inversebind J_rest^-1 yield runtime J_anim*S8*v_raw; no duplicate scale",
+    "Every material KHR_unlit; literal BMA diffuse replaces the factor once rather than squared tint"
+  ],
+  "limits": [
+    "DS ambient/specular/global-light GPU behavior not recreated",
+    "No browser/GPU image, audio or hardware audition",
+    "Decoded JSON is a readable extraction of the committed GLB, not independent geometry generation"
+  ],
+  "finalDelta": "THREE.SRGBColorSpace correction verified by finalactualOpus5.5review at9a46fed2; no confirmed delta defects."
+}

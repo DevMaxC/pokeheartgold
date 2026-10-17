@@ -1,8 +1,9 @@
 import type {GameData,Mon} from './types.ts';
 import {moveName,titleCase} from './data.ts';
 import {escapeHTML as esc} from './ui.ts';
+import {spriteGender} from './gender.ts';
 
-export function partyPortrait(mon:Mon,eggIcon:string){return mon.isEgg?eggIcon:`/source/pokemon/${mon.species}-${mon.gender}-front.png`;}
+export function partyPortrait(mon:Mon,eggIcon:string){return mon.isEgg?eggIcon:`/source/pokemon/${mon.species}-${spriteGender(mon.gender)}-front.png`;}
 export function partyHUD(mon:Mon,eggIcon:string){
   const label=mon.isEgg?mon.name:`${mon.name} Level ${mon.level}, ${mon.hp} HP`;
   return `<img src="${partyPortrait(mon,eggIcon)}" alt="${esc(label)}">`;
