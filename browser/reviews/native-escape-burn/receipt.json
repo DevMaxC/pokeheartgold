@@ -1,0 +1,104 @@
+{
+  "baseCommit": "c4c627e1622a9ce70843d55110ac7f66c1dfc76f",
+  "branch": "fix/native-escape-and-burn",
+  "scope": "Only ordinary implemented wild escape and existing physical burn integer order. No main/UI/World, Mom savings, rival crit, gender, new move/ability/item mechanics or Unsupported guard changes.",
+  "originReview": {
+    "inputCommit": "f21d56866643e055efde7566afd2106129b841c6",
+    "actualProviderModel": "claude-opus-5-5",
+    "rawSha256": "70b0e3c7b495a302d9603f146d0ca3ddf88989cc84c6b17c7f07e0c99e01fb29",
+    "findingIds": [
+      "P2-1",
+      "P2-2"
+    ],
+    "qualification": "The broad review identified the defects; it does not approve this different patch. Root will run a separate narrow followup."
+  },
+  "nativeProof": [
+    {
+      "source": "src/battle/battle_util.c:2794",
+      "function": "BattleTryRun",
+      "details": "The literal C function declares u8 run, guarantees escape for raw speed>=opponent, otherwise computes chance from old runAttempts, wraps to byte, compares against Random%256 and increments the counter afterward. include/battle/battle.h:424 also declares runAttempts u8. Existing trainer denial remains before this ordinary wild path."
+    },
+    {
+      "source": "src/battle/battle_util.c:5858",
+      "function": "CalcMoveDamage",
+      "details": "The physical branch divides base by50, applies burn division and eventually returns dmg+2 at5946. Existing port added2 before halving. No Guts/screens/weather or other unsupported modifiers added."
+    }
+  ],
+  "oracle": "New test compiles actual extracted native BattleTryRun, native stat-stage table, physical damage branch and ApplyDamageRange with a host C compiler (CC or cc). Other native modifiers are neutral stubs; this is not full NDS battle execution or a second TypeScript transcription.",
+  "fixtures": {
+    "escape": {
+      "slowerFullBattleStartCases": 1536,
+      "attempts": [
+        0,
+        1,
+        4,
+        5,
+        8,
+        255
+      ],
+      "rolls": "all256 byte rolls for each attempt value",
+      "otherCases": "equal/faster legal raw speeds with no RNG; PAR/SLP/FRZ+stage changes; trainer denial; failure enemy turn once; native next-counter byte wrap"
+    },
+    "burn": {
+      "nativeControlCases": 216,
+      "description": "Legal Chikorita Tackle versus Pidgey, levels5/10/20/50, burned/unburned, attack and defense stages, rolls85/91/100; neutral effectiveness/no STAB/threshold ability inactive. Actual attack additionally verifies native HP loss, onePP, attack/hit view callbacks."
+    }
+  },
+  "before": {
+    "baseCommit": "c4c627e1622a9ce70843d55110ac7f66c1dfc76f",
+    "description": "Exact production Git archive for before-runtime, plus unchanged new regression test and symlinked unmodified production publicdata/dependencies. No mutation of active fixed runtime.",
+    "directory": "/tmp/hg-native-escape-burn-production-before",
+    "sha256": {
+      "browser/src/source/battle.ts": "1957f716967008d3380e917f037892b1ddb3f34c3a427fc36a0ae3b0ad44fa90",
+      "browser/src/source/battle-math.ts": "7418bd5497c62487041e5e671d722232ed20008990c1d66ca41bdd30e422883e",
+      "browser/src/source/battle-escape-burn.test.ts": "57362ecf6e2bd4aa73cca78ec3251320456054c5d523e7bece4215ea2fef510a",
+      "src/battle/battle_util.c": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949",
+      "include/battle/battle.h": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972"
+    }
+  },
+  "checks": [
+    {
+      "command": "node --experimental-transform-types --test src/source/battle-escape-burn.test.ts",
+      "runtime": "exact production base Git archive with unchanged final regression test",
+      "result": "1pass,5fail; expected negative"
+    },
+    {
+      "command": "node --experimental-transform-types --test src/source/battle-escape-burn.test.ts",
+      "runtime": "fixed branch",
+      "result": "6pass,0fail"
+    },
+    {
+      "command": "node --experimental-transform-types --test src/source/battle*.test.ts src/source/early-battle-effects.test.ts",
+      "result": "112pass,0fail,0skipped"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "pass"
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    }
+  ],
+  "fileSha256": {
+    "browser/src/source/battle.ts": "463cdc3bf01ef959c582d5b5f1de046b1bb06595c61d91f0d97e33df2108766e",
+    "browser/src/source/battle-math.ts": "7ca568cc1242dd36fb38acc83c40662ab71dd3fce13c6b6b18ad254fdf9ce6db",
+    "browser/src/source/battle-escape-burn.test.ts": "57362ecf6e2bd4aa73cca78ec3251320456054c5d523e7bece4215ea2fef510a",
+    "src/battle/battle_util.c": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949",
+    "include/battle/battle.h": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972"
+  },
+  "runtimeDiffSha256": "0c90ae360101c6dc38c7629eddd8242f8ed3dea399b7bf33673d27f1050e5fac",
+  "logSha256": {
+    "after.log": "33c84d5ffa5355b22f177d0689e554daa3cc6805fa98d9289653a08e533d9b9d",
+    "battle-suite.log": "90b6ab24ac2332b116fb830a493805677d56572ca34c17a39d535565b181be06",
+    "before.json": "77b58a808e2dc2accb623c07bb6fc059aa45fab418a28de68cd000ed3ccaf63f"
+  },
+  "remainingLimits": [
+    "No general native battle-completeness claim. Existing unported mechanics/guards unchanged.",
+    "Host-C fixture validates these literal native arithmetic/control branches; no original ROM, Vite build or browser used.",
+    "Broad review Mom/P3/latent findings are outside this patch.",
+    "New patch-specific Opus review remains pending root integration."
+  ],
+  "rawBeforeStdoutSha256": "c7b1e65f156fa7707eb07fe0ed9d197b526a1781d1f25baa2775f349931e1687",
+  "beforeLogEncoding": "before.json stores exact raw UTF-8 stdout as a JSON string; decoding reproduces the original rawBeforeStdoutSha256 byte-for-byte while keeping diff whitespace clean."
+}

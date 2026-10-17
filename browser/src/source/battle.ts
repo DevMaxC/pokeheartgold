@@ -101,8 +101,7 @@ export class Battle{
     if(action.kind==='run'){
       if(this.trainer!==null){await this.say('No! There’s no running from a Trainer battle!');continue;}
       this.prepareRageTurn(this.player);
-      this.fleeAttempts++;const odds=Math.floor(this.player.stats.speed*128/Math.max(1,this.enemy.stats.speed))+30*this.fleeAttempts;
-      if(this.player.stats.speed>this.enemy.stats.speed||Math.floor(this.rng()*256)<odds){await this.say('Got away safely!');this.finish('ran');break;}await this.say('Can’t escape!');await this.enemyTurn();
+      if(this.tryRun()){await this.say('Got away safely!');this.finish('ran');break;}await this.say('Can’t escape!');await this.enemyTurn();
     }else if(action.kind==='switch'){this.prepareRageTurn(this.player);await this.switch(action.index);await this.enemyTurn();}
     else if(action.kind==='item'){const used=await this.item(action.item);if(!this.active)break;if(used)await this.enemyTurn();else continue;}
     else{
@@ -133,6 +132,13 @@ export class Battle{
 
   }}
   private effectiveSpeed(playerSide:boolean){const mon=playerSide?this.player:this.enemy,stages=playerSide?this.playerStages:this.enemyStages;const speed=Math.floor(mon.stats.speed*stageMultiplier(stages.speed));return mon.status==='PAR'?Math.floor(speed/4):speed;}
+  private tryRun(){
+    // BattleTryRun's ordinary wild path uses raw speed, not Fight speed.
+    // Both its local odds and BattleContext.runAttempts are unsigned bytes.
+    let escaped=true;
+    if(this.player.stats.speed<this.enemy.stats.speed){const odds=(Math.floor(this.player.stats.speed*128/this.enemy.stats.speed)+30*this.fleeAttempts)&255;escaped=Math.floor(this.rng()*256)<odds;}
+    this.fleeAttempts=(this.fleeAttempts+1)&255;return escaped;
+  }
   private selectMove(mon:Mon,slot:number){return slot<0?this.data.moves[165]:this.data.moves[mon.moves[slot].id];}
   private prepareRageTurn(mon:Mon,slot?:number){
     // Native BEFORE_TURN uses status2 &= STATUS2_RAGE, retaining Rage while
