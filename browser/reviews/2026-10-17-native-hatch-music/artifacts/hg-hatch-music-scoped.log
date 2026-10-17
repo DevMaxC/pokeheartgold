@@ -1,0 +1,372 @@
+TAP version 13
+# (node:47274) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+ok 1 - hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+  ---
+  duration_ms: 79.535958
+  type: 'test'
+  ...
+# Subtest: temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+ok 2 - temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+  ---
+  duration_ms: 5.043708
+  type: 'test'
+  ...
+# Subtest: cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+ok 3 - cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+  ---
+  duration_ms: 1.20475
+  type: 'test'
+  ...
+# Subtest: a field change or failed real cry rejects, restores actors and frees owned effects
+ok 4 - a field change or failed real cry rejects, restores actors and frees owned effects
+  ---
+  duration_ms: 5.205083
+  type: 'test'
+  ...
+# Subtest: an external cancellation during the hatch announcement prevents later successful completion on the same map
+ok 5 - an external cancellation during the hatch announcement prevents later successful completion on the same map
+  ---
+  duration_ms: 4.399416
+  type: 'test'
+  ...
+# Subtest: cancellation at the final render frame wins over a resolved animation before its continuation can commit
+ok 6 - cancellation at the final render frame wins over a resolved animation before its continuation can commit
+  ---
+  duration_ms: 4.171292
+  type: 'test'
+  ...
+# Subtest: World field-effect branch renders the same scene and a real field transition cancels it before loading
+ok 7 - World field-effect branch renders the same scene and a real field transition cancels it before loading
+  ---
+  duration_ms: 0.400333
+  type: 'test'
+  ...
+# Subtest: Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+ok 8 - Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+  ---
+  duration_ms: 8.92775
+  type: 'test'
+  ...
+# Subtest: native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+ok 9 - native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+  ---
+  duration_ms: 187.548667
+  type: 'test'
+  ...
+# (node:47275) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: special cycle dates match the executable native table, including January12 rather than its incorrect January1 comment
+ok 10 - special cycle dates match the executable native table, including January12 rather than its incorrect January1 comment
+  ---
+  duration_ms: 118.253958
+  type: 'test'
+  ...
+# Subtest: the shared native u8 counter persists even with no Eggs and uses exact threshold equality across date changes
+ok 11 - the shared native u8 counter persists even with no Eggs and uses exact threshold equality across date changes
+  ---
+  duration_ms: 4.886
+  type: 'test'
+  ...
+# Subtest: party Egg plans are pure and an Egg at ten cycles needs eleven complete cycles before a hatch is scheduled
+ok 12 - party Egg plans are pure and an Egg at ten cycles needs eleven complete cycles before a hatch is scheduled
+  ---
+  duration_ms: 30.579833
+  type: 'test'
+  ...
+# Subtest: fainted FlameBody/MagmaArmor accelerate by two, never stack, and Eggs/corrupt companions do not count
+ok 13 - fainted FlameBody/MagmaArmor accelerate by two, never stack, and Eggs/corrupt companions do not count
+  ---
+  duration_ms: 2.867041
+  type: 'test'
+  ...
+# Subtest: native prefix processing and later first-zero rescan select an earlier newly-ready Egg and leave later Eggs untouched
+ok 14 - native prefix processing and later first-zero rescan select an earlier newly-ready Egg and leave later Eggs untouched
+  ---
+  duration_ms: 0.526167
+  type: 'test'
+  ...
+# Subtest: step planning rejects invalid save/RTC/cycle input without committing a partial prefix
+ok 15 - step planning rejects invalid save/RTC/cycle input without committing a partial prefix
+  ---
+  duration_ms: 0.690875
+  type: 'test'
+  ...
+# Subtest: field hatch rewards occur before the standard intro, while direct EggHatchAnim does not invent the field-only Egg count
+ok 16 - field hatch rewards occur before the standard intro, while direct EggHatchAnim does not invent the field-only Egg count
+  ---
+  duration_ms: 12.257042
+  type: 'test'
+  ...
+# Subtest: hatch recreation preserves native identity/moves/IVs but resets level, EVs, status, item and PPUp capacity before the awaited reveal
+ok 17 - hatch recreation preserves native identity/moves/IVs but resets level, EVs, status, item and PPUp capacity before the awaited reveal
+  ---
+  duration_ms: 1.442959
+  type: 'test'
+  ...
+# Subtest: a delayed message asset load uses the current Egg and RNG instead of overwriting them with a stale hatch draft
+ok 18 - a delayed message asset load uses the current Egg and RNG instead of overwriting them with a stale hatch draft
+  ---
+  duration_ms: 1.527209
+  type: 'test'
+  ...
+# Subtest: native cry and hatch text begin together and announcement awaits cry before fanfare and the nickname prompt
+ok 19 - native cry and hatch text begin together and announcement awaits cry before fanfare and the nickname prompt
+  ---
+  duration_ms: 1.453834
+  type: 'test'
+  ...
+# Subtest: successful original Togepi hatch writes native memo/OT/Dex/Elm flag and pending trigger before nickname then awaits coherent field resume
+ok 20 - successful original Togepi hatch writes native memo/OT/Dex/Elm flag and pending trigger before nickname then awaits coherent field resume
+  ---
+  duration_ms: 1.265834
+  type: 'test'
+  ...
+# Subtest: the native met date is sampled after the reveal/decision and foreign OT transfers previous met data to Egg provenance
+ok 21 - the native met date is sampled after the reveal/decision and foreign OT transfers previous met data to Egg provenance
+  ---
+  duration_ms: 1.167292
+  type: 'test'
+  ...
+# Subtest: native owner comparison includes the OT name, and nonstandard hatch map sections fall back to MysteryZone
+ok 22 - native owner comparison includes the OT name, and nonstandard hatch map sections fall back to MysteryZone
+  ---
+  duration_ms: 1.007375
+  type: 'test'
+  ...
+# Subtest: known species do not get the unique-caught score twice and Elm trigger zero is not duplicated
+ok 23 - known species do not get the unique-caught score twice and Elm trigger zero is not duplicated
+  ---
+  duration_ms: 1.059917
+  type: 'test'
+  ...
+# Subtest: native nickname cancellation/default name preserves the species name and nickname flag comparison
+ok 24 - native nickname cancellation/default name preserves the species name and nickname flag comparison
+  ---
+  duration_ms: 4.91775
+  type: 'test'
+  ...
+# Subtest: every awaited presentation failure restores provisional lifecycle fields and original mon identity
+ok 25 - every awaited presentation failure restores provisional lifecycle fields and original mon identity
+  ---
+  duration_ms: 4.136791
+  type: 'test'
+  ...
+# Subtest: an early announcement failure cannot finish rollback or permit retry while its owned cry task is still running
+ok 26 - an early announcement failure cannot finish rollback or permit retry while its owned cry task is still running
+  ---
+  duration_ms: 131.841292
+  type: 'test'
+  ...
+# Subtest: unresolved native nickname responses roll back instead of silently accepting or committing a partial hatch
+ok 27 - unresolved native nickname responses roll back instead of silently accepting or committing a partial hatch
+  ---
+  duration_ms: 7.818666
+  type: 'test'
+  ...
+# Subtest: a field change during the awaited reveal is cancelled and the outer source checkpoint restores the complete action
+ok 28 - a field change during the awaited reveal is cancelled and the outer source checkpoint restores the complete action
+  ---
+  duration_ms: 2.038917
+  type: 'test'
+  ...
+# Subtest: root source rollback includes the preceding step and field reward; retry commits one hatch and one set of rewards
+ok 29 - root source rollback includes the preceding step and field reward; retry commits one hatch and one set of rewards
+  ---
+  duration_ms: 2.291959
+  type: 'test'
+  ...
+# Subtest: missing presentation/profile/provenance and unsupported form/reward paths never silently turn the Egg into a Pokémon
+ok 30 - missing presentation/profile/provenance and unsupported form/reward paths never silently turn the Egg into a Pokémon
+  ---
+  duration_ms: 2.519083
+  type: 'test'
+  ...
+# Subtest: Ranger Manaphy uses the native PID-local PRandom anti-shiny loop without extra saved LCG draws
+ok 31 - Ranger Manaphy uses the native PID-local PRandom anti-shiny loop without extra saved LCG draws
+  ---
+  duration_ms: 0.826583
+  type: 'test'
+  ...
+# Subtest: Ranger Manaphy rejects an invalid saved PID before a local reroll can disguise it
+ok 32 - Ranger Manaphy rejects an invalid saved PID before a local reroll can disguise it
+  ---
+  duration_ms: 1.053042
+  type: 'test'
+  ...
+# Subtest: field ordering source places hatch eligibility after trainer/coord/warp/forced/poison/Safari and before wild encounters/repel
+ok 33 - field ordering source places hatch eligibility after trainer/coord/warp/forced/poison/Safari and before wild encounters/repel
+  ---
+  duration_ms: 0.885542
+  type: 'test'
+  ...
+# Subtest: the actual standard hatch script still fails explicitly without the root EggHatchAnim integration port
+ok 34 - the actual standard hatch script still fails explicitly without the root EggHatchAnim integration port
+  ---
+  duration_ms: 4.432917
+  type: 'test'
+  ...
+# (node:47276) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native four-draw seed1 fixture preserves unsigned PID, packed IV order, normal stats, Egg cycles/name and Extrasensory
+ok 35 - native four-draw seed1 fixture preserves unsigned PID, packed IV order, normal stats, Egg cycles/name and Extrasensory
+  ---
+  duration_ms: 3.002041
+  type: 'test'
+  ...
+# Subtest: LCG matches native u32 arithmetic, including high seeds, and browser seeds/profile IDs use the entire uint32 range
+ok 36 - LCG matches native u32 arithmetic, including high seeds, and browser seeds/profile IDs use the entire uint32 range
+  ---
+  duration_ms: 0.339708
+  type: 'test'
+  ...
+# Subtest: gender uses the native31 boundary and native genderless/fixed-sex cases
+ok 37 - gender uses the native31 boundary and native genderless/fixed-sex cases
+  ---
+  duration_ms: 0.071792
+  type: 'test'
+  ...
+# Subtest: full party is an exact non-award: no PC fallback, profile mutation, RNG/date calls or saved gift identity
+ok 38 - full party is an exact non-award: no PC fallback, profile mutation, RNG/date calls or saved gift identity
+  ---
+  duration_ms: 0.896209
+  type: 'test'
+  ...
+# Subtest: legacy saves lazily acquire one persisted trainer ID/seed; subsequent gift draws continue the saved LCG without fresh IDs
+ok 39 - legacy saves lazily acquire one persisted trainer ID/seed; subsequent gift draws continue the saved LCG without fresh IDs
+  ---
+  duration_ms: 0.448
+  type: 'test'
+  ...
+# Subtest: native gift identity survives save/restore and evolutions but rejects every original OT/language/game/PID/gender mismatch
+ok 40 - native gift identity survives save/restore and evolutions but rejects every original OT/language/game/PID/gender mismatch
+  ---
+  duration_ms: 0.574583
+  type: 'test'
+  ...
+# Subtest: positive Egg HP cannot make it battle-usable, selectable as follower or visible to native party species queries; Pokédex stays untouched
+ok 41 - positive Egg HP cannot make it battle-usable, selectable as follower or visible to native party species queries; Pokédex stays untouched
+  ---
+  duration_ms: 0.412125
+  type: 'test'
+  ...
+# Subtest: real aide acceptance runs native receipt text/flags and moves party5→6 with a saved unhatched Egg
+ok 42 - real aide acceptance runs native receipt text/flags and moves party5→6 with a saved unhatched Egg
+  ---
+  duration_ms: 7.772042
+  type: 'test'
+  ...
+# Subtest: VM Egg queries preserve native species masking, count and recorded gift identity
+ok 43 - VM Egg queries preserve native species masking, count and recorded gift identity
+  ---
+  duration_ms: 1.417125
+  type: 'test'
+  ...
+# Subtest: a failed original gift scene rolls back acquired Egg, saved PID, lazily initialized profile and LCG before retry
+ok 44 - a failed original gift scene rolls back acquired Egg, saved PID, lazily initialized profile and LCG before retry
+  ---
+  duration_ms: 1.323458
+  type: 'test'
+  ...
+# Subtest: native Egg icon export retains original501 source hash,32x32frame and required C/header provenance
+ok 45 - native Egg icon export retains original501 source hash,32x32frame and required C/header provenance
+  ---
+  duration_ms: 9.147583
+  type: 'test'
+  ...
+# (node:47277) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: two rendered cues resolve independently through native SYMB→INFO→FAT and the exact original bank/wave archive
+ok 46 - two rendered cues resolve independently through native SYMB→INFO→FAT and the exact original bank/wave archive
+  ---
+  duration_ms: 21.914041
+  type: 'test'
+  ...
+# Subtest: optimized Python still refuses an unpinned renderer before importing or rendering any musical data
+ok 47 - optimized Python still refuses an unpinned renderer before importing or rendering any musical data
+  ---
+  duration_ms: 444.229208
+  type: 'test'
+  ...
+# Subtest: default no-track session starts native music, pauses its phase during fanfare and waits for the real completion
+ok 48 - default no-track session starts native music, pauses its phase during fanfare and waits for the real completion
+  ---
+  duration_ms: 1.312542
+  type: 'test'
+  ...
+# Subtest: actual radio/surf override snapshots are captured once, detached and restored rather than inferred from the map
+ok 49 - actual radio/surf override snapshots are captured once, detached and restored rather than inferred from the map
+  ---
+  duration_ms: 0.804666
+  type: 'test'
+  ...
+# Subtest: field restoration uses the phase actually paused after preparation, while preserving the originally captured voice identity
+ok 50 - field restoration uses the phase actually paused after preparation, while preserving the originally captured voice identity
+  ---
+  duration_ms: 0.478708
+  type: 'test'
+  ...
+# Subtest: a changed external field voice is rejected but cleanup restores that actually-paused voice instead of resurrecting the stale capture
+ok 51 - a changed external field voice is rejected but cleanup restores that actually-paused voice instead of resurrecting the stale capture
+  ---
+  duration_ms: 0.575375
+  type: 'test'
+  ...
+# Subtest: aborting an awaited fanfare stops both owned voices and restoration works independently of that aborted signal
+ok 52 - aborting an awaited fanfare stops both owned voices and restoration works independently of that aborted signal
+  ---
+  duration_ms: 1.865375
+  type: 'test'
+  ...
+# Subtest: a restored session never starts a late load and waits for owned work before returning
+ok 53 - a restored session never starts a late load and waits for owned work before returning
+  ---
+  duration_ms: 0.535792
+  type: 'test'
+  ...
+# Subtest: failed field suspension still restores the actual snapshot; failed restoration can retry without replaying media
+ok 54 - failed field suspension still restores the actual snapshot; failed restoration can retry without replaying media
+  ---
+  duration_ms: 0.553333
+  type: 'test'
+  ...
+# Subtest: deliberate mute has no loads, AudioContext, field snapshots or hidden audio substitute
+ok 55 - deliberate mute has no loads, AudioContext, field snapshots or hidden audio substitute
+  ---
+  duration_ms: 0.595083
+  type: 'test'
+  ...
+# Subtest: missing or mismatched enabled audio rejects explicitly, with no silent successful mute
+ok 56 - missing or mismatched enabled audio rejects explicitly, with no silent successful mute
+  ---
+  duration_ms: 0.431333
+  type: 'test'
+  ...
+# Subtest: the real native187 hatch scene decodes exactly one literal newline and all placeholders
+ok 57 - the real native187 hatch scene decodes exactly one literal newline and all placeholders
+  ---
+  duration_ms: 248.2635
+  type: 'test'
+  ...
+# Subtest: WebAudio checks native bytes, preserves measured loop/paused phase, awaits ended and disposes owned nodes/context
+ok 58 - WebAudio checks native bytes, preserves measured loop/paused phase, awaits ended and disposes owned nodes/context
+  ---
+  duration_ms: 11.227916
+  type: 'test'
+  ...
+# Subtest: WebAudio does not hang an aborted autoplay request or fetch/play a late cue afterward
+ok 59 - WebAudio does not hang an aborted autoplay request or fetch/play a late cue afterward
+  ---
+  duration_ms: 0.409125
+  type: 'test'
+  ...
+1..59
+# tests 59
+# suites 0
+# pass 59
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1779.166291
