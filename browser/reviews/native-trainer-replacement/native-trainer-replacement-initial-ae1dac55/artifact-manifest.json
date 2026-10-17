@@ -1,0 +1,1150 @@
+{
+  "scope": "initial review, three accepted test gaps remain for follow-up",
+  "files": [
+    {
+      "path": "agent-adjudication.md",
+      "bytes": 1294,
+      "sha256": "120a8ba39a25eb96c4dd68a2b9f59c9c23a5b54245e9ea2fc20567ef76ad6992"
+    },
+    {
+      "path": "input-manifest.json",
+      "bytes": 50599,
+      "sha256": "2c208e86dfe9a975684f5a00bfa54399c3a8536024b919ad379cc8fa577d792c"
+    },
+    {
+      "path": "integrity-and-provider.json",
+      "bytes": 1296,
+      "sha256": "e5e6f1a57a7d64938c976f09f085bb37d06029e8d9267903e1fdffe4d67cd180"
+    },
+    {
+      "path": "prompt.txt",
+      "bytes": 2447,
+      "sha256": "3ef840fe153ebf3f060916819f0dd1b1bbec966d359bcb6983fceb387bbff88b"
+    },
+    {
+      "path": "result.json",
+      "bytes": 8766,
+      "sha256": "32d63068cb3bb98f14296e7010e0d89ec2f276544871f7760777c5d5b28eecd9"
+    },
+    {
+      "path": "review-metadata.json",
+      "bytes": 861,
+      "sha256": "986740fb7da3a3acc78c5a89f8b76cc2d58c60ba82f70cb1a0ed420919c29b3b"
+    },
+    {
+      "path": "review.md",
+      "bytes": 6578,
+      "sha256": "78fb210bd38f6d78ab05e5e2d57da805fd47a4ac03a998b3d085093d0c09f3d4"
+    },
+    {
+      "path": "snapshot/browser/package.json",
+      "bytes": 462,
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+    },
+    {
+      "path": "snapshot/browser/public/source/azalea-gym-fixtures.json",
+      "bytes": 6052,
+      "sha256": "2255e79f19f475d8a772fb001d56428562288e8feacdfea65beb9773a5639739"
+    },
+    {
+      "path": "snapshot/browser/public/source/constants.json",
+      "bytes": 456675,
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+    },
+    {
+      "path": "snapshot/browser/public/source/encounters.json",
+      "bytes": 294629,
+      "sha256": "7aa85c587bc597a5c7744e73b50fd9fd4b30eeee7497597ac438880d1ece6789"
+    },
+    {
+      "path": "snapshot/browser/public/source/entrance-report.json",
+      "bytes": 50264,
+      "sha256": "2c9a07a92b791f965705248446f3d9d7b45c5e10206c10cad3217c114b083ed6"
+    },
+    {
+      "path": "snapshot/browser/public/source/entrances.json",
+      "bytes": 71347,
+      "sha256": "04495b657c173f1b618b1bbf6bfd0ab7349d1576c83f99f2df8365f02b789d9a"
+    },
+    {
+      "path": "snapshot/browser/public/source/evolutions.json",
+      "bytes": 26220,
+      "sha256": "81bee0b46e4b2e936264c2759a1b8c535388c94f63aab58261f7abd8936237a7"
+    },
+    {
+      "path": "snapshot/browser/public/source/field-moves.json",
+      "bytes": 20448,
+      "sha256": "26ccf11574ea979e0435bc1da0206e614bb0d64a99f530455aaa05a9cd8622aa"
+    },
+    {
+      "path": "snapshot/browser/public/source/foliage.json",
+      "bytes": 19223,
+      "sha256": "86f0eca346766b1a358540039d66995fd8fa86fa4a162f67170c7c3bcae82e73"
+    },
+    {
+      "path": "snapshot/browser/public/source/growth.json",
+      "bytes": 5089,
+      "sha256": "bb55edcd45f93b88cf2f2ea73586a734969ec3ccf20a803a54e2d1d57991f34c"
+    },
+    {
+      "path": "snapshot/browser/public/source/import-report.json",
+      "bytes": 670,
+      "sha256": "fcf700323c421eb0f0fb4eecfc19bfc63924f90c59f7e1bca307cab9a6b6b8c2"
+    },
+    {
+      "path": "snapshot/browser/public/source/index.json",
+      "bytes": 99556,
+      "sha256": "8b1ef89441ecdcb3b55f44c882019753bb5c30cdefe44a69cb2a8e25af1f0f95"
+    },
+    {
+      "path": "snapshot/browser/public/source/initial-state.json",
+      "bytes": 5622,
+      "sha256": "2f7cebdd8dea69d12849c7c58c323e2291805e93503488954c4a9d3f2c70ac64"
+    },
+    {
+      "path": "snapshot/browser/public/source/intro-messages.json",
+      "bytes": 5146,
+      "sha256": "8c0d3283ebf62c6cc1ecf5b68832311f64284197d5b15eccde9d6f4a0559479f"
+    },
+    {
+      "path": "snapshot/browser/public/source/items.json",
+      "bytes": 663829,
+      "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab"
+    },
+    {
+      "path": "snapshot/browser/public/source/learnsets.json",
+      "bytes": 158647,
+      "sha256": "b3364190eb81d410021602c6ee963fd2fc0849448b954ef7fe345b7e35887d00"
+    },
+    {
+      "path": "snapshot/browser/public/source/messages/302.json",
+      "bytes": 8527,
+      "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+    },
+    {
+      "path": "snapshot/browser/public/source/moves.json",
+      "bytes": 72416,
+      "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb"
+    },
+    {
+      "path": "snapshot/browser/public/source/names.json",
+      "bytes": 78183,
+      "sha256": "c14bc3f85810a0b6a66882362d1edfe08f0dc0a99012c2eff5fbfe73694ab922"
+    },
+    {
+      "path": "snapshot/browser/public/source/phone-triggers.json",
+      "bytes": 8425,
+      "sha256": "237abc54bf9241892441e6edef4ee693546e1f6ddd6587f92a9d4868435a4456"
+    },
+    {
+      "path": "snapshot/browser/public/source/phone.json",
+      "bytes": 45965,
+      "sha256": "aa8107accb789d5163b42d8239c8d95d7de6517f90ecb140ab32c5bcc0a0ebb5"
+    },
+    {
+      "path": "snapshot/browser/public/source/pokemon.json",
+      "bytes": 310681,
+      "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d"
+    },
+    {
+      "path": "snapshot/browser/public/source/spawns.json",
+      "bytes": 6117,
+      "sha256": "bbfe4372165ef27d8b2a46e8ce5723a21e1a5cd86594499c5ae27566216f1818"
+    },
+    {
+      "path": "snapshot/browser/public/source/sprites.json",
+      "bytes": 109079,
+      "sha256": "d9f9a472f53b935cdde6e6e6f310001d99d2588aa4b2864c7033d0a2bf522955"
+    },
+    {
+      "path": "snapshot/browser/public/source/tmhm-moves.json",
+      "bytes": 384,
+      "sha256": "7de8c9d519a62cf8c99d86208dd368ad6b6f274f7799e3e7b92701825e290c81"
+    },
+    {
+      "path": "snapshot/browser/public/source/trainer-contacts.json",
+      "bytes": 7335,
+      "sha256": "5259a541f190688cbde0b42da403ba513b8954a21c0f3b4086f861fdcb63ec72"
+    },
+    {
+      "path": "snapshot/browser/public/source/trainer-rules.json",
+      "bytes": 9321,
+      "sha256": "72c69e3b5fac8a4ed7696eeadfc3aee487723be13b586a90f270161221bdcafb"
+    },
+    {
+      "path": "snapshot/browser/public/source/trainers.json",
+      "bytes": 611888,
+      "sha256": "da80e4f5746d0ed0d49caeae63a35f70b96b7b32f5fdc929b006c46cdb94d7e2"
+    },
+    {
+      "path": "snapshot/browser/public/source/type-chart.json",
+      "bytes": 1228,
+      "sha256": "bd67a8c53c54cc682d4008c73dfdfce2551234ec0933a6ae39e0430256895e66"
+    },
+    {
+      "path": "snapshot/browser/scripts/import_source.py",
+      "bytes": 17214,
+      "sha256": "0aa744773f0cf7e2498e2cadb02384e3e666b8bae1e1141676b38d2238556820"
+    },
+    {
+      "path": "snapshot/browser/src/source/apricorn-box.ts",
+      "bytes": 3686,
+      "sha256": "10e00123d5ffcee3b7fcc694910fed3bc2bb101ab090c331ac63a4da428875bb"
+    },
+    {
+      "path": "snapshot/browser/src/source/aquatic-gate-building-shells.ts",
+      "bytes": 7757,
+      "sha256": "95da8f25d92454130155cc0ecea476a00536dedf2ccd9d56aaae1affc1050998"
+    },
+    {
+      "path": "snapshot/browser/src/source/atmosphere.ts",
+      "bytes": 3324,
+      "sha256": "a48dddb097c65f6d50b755d5135faf5968faf1f028bc306c5dd99f37f3ed88ab"
+    },
+    {
+      "path": "snapshot/browser/src/source/azalea-gym-rules.ts",
+      "bytes": 3504,
+      "sha256": "ec3a989daf8865f8b84b4ba098b43ab5286b5bce2196a567f9fa977aefdbf5ff"
+    },
+    {
+      "path": "snapshot/browser/src/source/bag.ts",
+      "bytes": 1576,
+      "sha256": "d70c869d89b08e3b32ef78e1a030838dbe6e1caa7297998526de52e939b17338"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-camera.ts",
+      "bytes": 1887,
+      "sha256": "8630f858a9906e4829100634447949747629a8bdf3f33da638452fc87d5a46bc"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-experience.ts",
+      "bytes": 6106,
+      "sha256": "7814ae132f8d968376d48b29955ace542d09b4cb88145b8bc1b2577054edc794"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-layout.ts",
+      "bytes": 2956,
+      "sha256": "327b54eb2414696dec1311519c51c8e6e9c00a5f9078b247c000385de4d92d1b"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-math.ts",
+      "bytes": 5607,
+      "sha256": "7ca568cc1242dd36fb38acc83c40662ab71dd3fce13c6b6b18ad254fdf9ce6db"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-party.ts",
+      "bytes": 476,
+      "sha256": "e283c422284a434f3e0fcc563d89ec0771220dcf5ddb79d8434c690a4c498775"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-replacement.test.ts",
+      "bytes": 20404,
+      "sha256": "bb2be3078f368019e0f92a2a0a7b67f7702c7435819d738dca3e55c1ee37c694"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-replacement.ts",
+      "bytes": 9538,
+      "sha256": "ae1dac55d8ff14101c41946461026fe7958903fbbc1fef85a0e8f8b33230a15b"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-stage.ts",
+      "bytes": 13360,
+      "sha256": "5271bd1358b79100eda45bba2df840b8e65439f2157ec539f2a2d4967e2f580f"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-view.ts",
+      "bytes": 471,
+      "sha256": "56bbd6e95f04056c58cd18948c18c31aa0baf4fabe55565acbb015904a2a3aa8"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle-volatiles.ts",
+      "bytes": 8371,
+      "sha256": "8fb66a10dc90d09efe1ccda636fe589344218cd531631d3e3a08712026984102"
+    },
+    {
+      "path": "snapshot/browser/src/source/battle.ts",
+      "bytes": 29470,
+      "sha256": "463cdc3bf01ef959c582d5b5f1de046b1bb06595c61d91f0d97e33df2108766e"
+    },
+    {
+      "path": "snapshot/browser/src/source/building-exterior.ts",
+      "bytes": 4965,
+      "sha256": "53bdd6734b108e2ac1f21a5e2e9718cc979a06963ed2e06416a49ae84e8eb024"
+    },
+    {
+      "path": "snapshot/browser/src/source/building-footing.ts",
+      "bytes": 3876,
+      "sha256": "46082354d6f7ab248a1688b4b1e3b358fcc111e8b84aa073e1dce9b12eff8d90"
+    },
+    {
+      "path": "snapshot/browser/src/source/building-gallery.ts",
+      "bytes": 20892,
+      "sha256": "df7898ce940914b5e8b584331fdef9bf1c942f4a661bfc94973b19a01eb352ed"
+    },
+    {
+      "path": "snapshot/browser/src/source/burned-tower-shells.ts",
+      "bytes": 6288,
+      "sha256": "01135aae05bf146d609e34b908311bc85f04d9dd834278233b6bab31351d63e0"
+    },
+    {
+      "path": "snapshot/browser/src/source/camera.ts",
+      "bytes": 1552,
+      "sha256": "3b2f47cc7d2dbc4ac3c67ce78fa7e7aeb5d72772362a308ae4b12fa3d18de84e"
+    },
+    {
+      "path": "snapshot/browser/src/source/canopy-occlusion.ts",
+      "bytes": 2398,
+      "sha256": "1578d8a9daa0745e2d83e24a1f61af1de40212a10c6f30d14f5c74af20a4b486"
+    },
+    {
+      "path": "snapshot/browser/src/source/civic-building-shells.ts",
+      "bytes": 21781,
+      "sha256": "1d7d40acac002d4894e864fbafdcc544d7d084a7e94f6fa5b1d146c5ffee3c8d"
+    },
+    {
+      "path": "snapshot/browser/src/source/coordinate-triggers.ts",
+      "bytes": 1389,
+      "sha256": "4ba625243c63fc2d2ac4def024f4070b44da43d9aeb73354345c39d4f6fab04a"
+    },
+    {
+      "path": "snapshot/browser/src/source/data.ts",
+      "bytes": 4821,
+      "sha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0"
+    },
+    {
+      "path": "snapshot/browser/src/source/decorative-building-shells.ts",
+      "bytes": 26145,
+      "sha256": "2ce91dc85a2709f30b733a0b7677fbcbdbd06ef595f679782abc891ef77595c2"
+    },
+    {
+      "path": "snapshot/browser/src/source/egg-hatch-presentation.ts",
+      "bytes": 3757,
+      "sha256": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f"
+    },
+    {
+      "path": "snapshot/browser/src/source/egg-hatch-view.ts",
+      "bytes": 14962,
+      "sha256": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e"
+    },
+    {
+      "path": "snapshot/browser/src/source/egg-hatching.ts",
+      "bytes": 14190,
+      "sha256": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23"
+    },
+    {
+      "path": "snapshot/browser/src/source/eggs.ts",
+      "bytes": 4883,
+      "sha256": "81c460626b186523efc8aa6aae5ac61572e82c1467471d95c2d524c6de042386"
+    },
+    {
+      "path": "snapshot/browser/src/source/encounter.ts",
+      "bytes": 1214,
+      "sha256": "0f3a4040fb000935ec40b7da231e10e6e0a5a03d84d775e318ec79318ab61ab0"
+    },
+    {
+      "path": "snapshot/browser/src/source/facility-building-shells.ts",
+      "bytes": 12829,
+      "sha256": "064b80764d2952eedc5d41a54157c4f26c0edee3fa879ba072e2e0835a8a8b06"
+    },
+    {
+      "path": "snapshot/browser/src/source/field-moves.ts",
+      "bytes": 11092,
+      "sha256": "724dbe21c4beffdd9a77ee2c3df357ffbf1e894d433192d3318a4c9f2dbfa5c6"
+    },
+    {
+      "path": "snapshot/browser/src/source/field-services.ts",
+      "bytes": 687,
+      "sha256": "b462b4865d52e71504d85b03fbb7fedb97703b2b98887af83ef7b420b5ce17c6"
+    },
+    {
+      "path": "snapshot/browser/src/source/field-sprite-scale.ts",
+      "bytes": 486,
+      "sha256": "58fc958cf514a16808b3515132af4ceb8fc71f3e115e31c8d6b7afa7b95429cb"
+    },
+    {
+      "path": "snapshot/browser/src/source/field-transitions.ts",
+      "bytes": 1525,
+      "sha256": "1320ca3214ad3c1df7ff67ad7fa9a3e79f0ee6ab3f49d96157a9fa57f123eeab"
+    },
+    {
+      "path": "snapshot/browser/src/source/foundations.ts",
+      "bytes": 1475,
+      "sha256": "6505e58b1f31a7047f84407c13fd1a7f940e7aeeaa2a549599627fa2ff3c35f1"
+    },
+    {
+      "path": "snapshot/browser/src/source/frontier-building-shells.ts",
+      "bytes": 18800,
+      "sha256": "97e6d0965a01a614204fc7bd064f2bcbcd183939e7c214e4cf88e917f7b41267"
+    },
+    {
+      "path": "snapshot/browser/src/source/furniture-collision.ts",
+      "bytes": 4245,
+      "sha256": "229e75c36ac495dff147782fb39e38bac5e4975e866c3adf03865af06aee7ef4"
+    },
+    {
+      "path": "snapshot/browser/src/source/furniture.ts",
+      "bytes": 7650,
+      "sha256": "baf4b364137fe2d7ac203a32b2fdc68f8cf3c8c9c4208b399ef71e9374d17b2c"
+    },
+    {
+      "path": "snapshot/browser/src/source/game-stat-rules.ts",
+      "bytes": 1389,
+      "sha256": "81879799f94c62357ff096c2378a1759ed9f0e892d3d3956b0f702cbf718b581"
+    },
+    {
+      "path": "snapshot/browser/src/source/game-stats.ts",
+      "bytes": 1552,
+      "sha256": "d25f75f482681605ca728ee8e09bd31a42da6124965763cb172bca939aced477"
+    },
+    {
+      "path": "snapshot/browser/src/source/gate-building-shells.ts",
+      "bytes": 14369,
+      "sha256": "df6cdbaaf92d5ba56867a1ea9bef4a29ce4fb3c3f898ddab4da2672afc8474f2"
+    },
+    {
+      "path": "snapshot/browser/src/source/grass.ts",
+      "bytes": 3521,
+      "sha256": "f1d46d8592ae9f95afe0b6ca139c09597b17cff71a3b1f565565057a48aba1d6"
+    },
+    {
+      "path": "snapshot/browser/src/source/gym-azalea-plan.ts",
+      "bytes": 7542,
+      "sha256": "35f411f42dc34c22b07f14a14d5cf715a2274d3c4b0758ea65d44e38d4559730"
+    },
+    {
+      "path": "snapshot/browser/src/source/gym-building-shells.ts",
+      "bytes": 11742,
+      "sha256": "6e01f1b5d9ca12f742ed65daa13050b2deb057973309613e70f1c64a8cdaf29f"
+    },
+    {
+      "path": "snapshot/browser/src/source/gym-violet.ts",
+      "bytes": 7324,
+      "sha256": "9cc7ddacbafe03144a1c9b53b81e02cb617e9664e5adfaf49181c865ac86e055"
+    },
+    {
+      "path": "snapshot/browser/src/source/hatch-music.ts",
+      "bytes": 13596,
+      "sha256": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860"
+    },
+    {
+      "path": "snapshot/browser/src/source/house-building-shells.ts",
+      "bytes": 47039,
+      "sha256": "4a5734efd044b9d6be5628dd75ab07f127c10263f26a7b124b66d03d2a953367"
+    },
+    {
+      "path": "snapshot/browser/src/source/industrial-building-shells.ts",
+      "bytes": 13872,
+      "sha256": "5e1ce530bcf05ac762c70f65d378de605c04e2a2535b1eb24ec69396844d44c1"
+    },
+    {
+      "path": "snapshot/browser/src/source/item-pickup.ts",
+      "bytes": 1862,
+      "sha256": "9a0eddb71f99fd80f5608ce63e14cbfaf05e06a0e611712e3d741a9cdd2bf08b"
+    },
+    {
+      "path": "snapshot/browser/src/source/landmark-annex-shells.ts",
+      "bytes": 10068,
+      "sha256": "d6c79086fc843dd734c5d70975313028807ae5773002dfda1ac004b4763d3a81"
+    },
+    {
+      "path": "snapshot/browser/src/source/landmark-building-shells.ts",
+      "bytes": 19649,
+      "sha256": "2a8408983817938faf01e9331bf75708f578e849802bdff6cba2861455cd5e0d"
+    },
+    {
+      "path": "snapshot/browser/src/source/ledges.ts",
+      "bytes": 3075,
+      "sha256": "a3712230b8133173ce0b4692b85f3c132270143275ec928762d061477afeaa8d"
+    },
+    {
+      "path": "snapshot/browser/src/source/main.ts",
+      "bytes": 52086,
+      "sha256": "7da4fe6c3a2dbc464973f540f6ee4c97df2a0484d948da273e63f93f7f8410e6"
+    },
+    {
+      "path": "snapshot/browser/src/source/misc-building-shells.ts",
+      "bytes": 19020,
+      "sha256": "46387f5cdfabb626c8120e8e3e3d6ddb2817dd64d9ff7c39c21551fb4f1700c6"
+    },
+    {
+      "path": "snapshot/browser/src/source/movement.ts",
+      "bytes": 1639,
+      "sha256": "2842bc55427aa209c30371570b412ddf06f11136a3a49e1e69e62e92b20387fb"
+    },
+    {
+      "path": "snapshot/browser/src/source/name-rater-game-building-shells.ts",
+      "bytes": 10329,
+      "sha256": "25ae9f0176d649d8fb5e5323d9f345714fbb2ea78e3445ae32c30790f673cfa9"
+    },
+    {
+      "path": "snapshot/browser/src/source/native-rng.ts",
+      "bytes": 686,
+      "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e"
+    },
+    {
+      "path": "snapshot/browser/src/source/objects.ts",
+      "bytes": 3263,
+      "sha256": "268e80f013e5d2869c987cb3081e848ebbaf9dcb48f2f81e827b2f08cf50baaa"
+    },
+    {
+      "path": "snapshot/browser/src/source/opening-art.ts",
+      "bytes": 2337,
+      "sha256": "a8cdfadb04f292f42ccfc3fce482bd3b0ca5e8f0871e6b509260b56bf70b1c96"
+    },
+    {
+      "path": "snapshot/browser/src/source/opening-input.ts",
+      "bytes": 1489,
+      "sha256": "fa79d48d6c213076c8ab1fd0c3644af833bd775f4c48da156120f46b387bdb05"
+    },
+    {
+      "path": "snapshot/browser/src/source/opening-stage.ts",
+      "bytes": 4550,
+      "sha256": "aab2a990c7f7dfb143c460e007defa96c0dddcc0b24b6b497b5ff4cf685501e4"
+    },
+    {
+      "path": "snapshot/browser/src/source/opening-view.ts",
+      "bytes": 9297,
+      "sha256": "2dbf3a39c080329a2ad843945c152186eda5ce4ff3a06a99900744a2fd53eaca"
+    },
+    {
+      "path": "snapshot/browser/src/source/opening.ts",
+      "bytes": 7497,
+      "sha256": "81e1d48700c5ff9211443f16f337949c3507d0ec057bd9d8c0b6baa3f874e72f"
+    },
+    {
+      "path": "snapshot/browser/src/source/pagoda-building-shells.ts",
+      "bytes": 3097,
+      "sha256": "fd4426f6c85c837c3cf8068d1fc337eb8aa67638941fa55df17a764bef137f99"
+    },
+    {
+      "path": "snapshot/browser/src/source/party-display.ts",
+      "bytes": 2104,
+      "sha256": "9e88f5911bad0937829e0544ae9d7ee5b5d391b25ade666693f07c7ecce06db7"
+    },
+    {
+      "path": "snapshot/browser/src/source/party-order.ts",
+      "bytes": 3213,
+      "sha256": "ba0979064cd72441edc94935d007f6464cbc9640c65de72431d46f365cbaae33"
+    },
+    {
+      "path": "snapshot/browser/src/source/phone-field-host.ts",
+      "bytes": 8065,
+      "sha256": "7e6c4ecb982fbd394bc57a20cacf674001e98e9fac491ebc24d5d45bcacfb1cc"
+    },
+    {
+      "path": "snapshot/browser/src/source/phone-random.ts",
+      "bytes": 4634,
+      "sha256": "6043d3677e91cd9b287e927334b480b93a1ba2538a36825dc6b936616648be5f"
+    },
+    {
+      "path": "snapshot/browser/src/source/phone-scheduler.ts",
+      "bytes": 5494,
+      "sha256": "216e30b3c5a7a8abc0da72686ef0cb6996ffed0606fe0cc2533ef6bf96c957a5"
+    },
+    {
+      "path": "snapshot/browser/src/source/phone.ts",
+      "bytes": 3021,
+      "sha256": "eb8c547560a54ceb860a5c07ab002039fd78e29217ca742cf45a5d79a2c41f4f"
+    },
+    {
+      "path": "snapshot/browser/src/source/pokeathlon-building-shells.ts",
+      "bytes": 19724,
+      "sha256": "5ae748a8e9f2ae412711e1d75eeb727731a942abc6f198a804269ea623892a0c"
+    },
+    {
+      "path": "snapshot/browser/src/source/render-repair.ts",
+      "bytes": 46708,
+      "sha256": "27291115f1fa40b1a26204194fa83ddf30873c3b24715c43faf2b6e0528e2c2e"
+    },
+    {
+      "path": "snapshot/browser/src/source/render-review.ts",
+      "bytes": 2940,
+      "sha256": "52fc380d718110e797b65cb5656fff1ea7e4802e48bd8c5140977fee8dd56477"
+    },
+    {
+      "path": "snapshot/browser/src/source/script-camera.ts",
+      "bytes": 3428,
+      "sha256": "6c3b312c0aefd3eacf0c2c6ce1b97a73914308f87ad3ea2e0fa3cf4424284914"
+    },
+    {
+      "path": "snapshot/browser/src/source/script-recovery.ts",
+      "bytes": 5940,
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+    },
+    {
+      "path": "snapshot/browser/src/source/script.ts",
+      "bytes": 33629,
+      "sha256": "3bc04b2090c9d97125c82145f96f40ec3725a3e2c19660474c1a4453cd39d3d9"
+    },
+    {
+      "path": "snapshot/browser/src/source/shoreline.ts",
+      "bytes": 1754,
+      "sha256": "7e3b52da0246c1823fea261e96759bbfb4fde7323c59e365f10439019d7848b7"
+    },
+    {
+      "path": "snapshot/browser/src/source/shrine-building-shells.ts",
+      "bytes": 8327,
+      "sha256": "1fb2046749d4c2452865ad3bb038660bb8ce5bc7935a8779eb677ed905efc8b3"
+    },
+    {
+      "path": "snapshot/browser/src/source/sky.ts",
+      "bytes": 13772,
+      "sha256": "2243d41a90a16462d9da75b9896adb16131b6cb7e081c43952e7814926c56381"
+    },
+    {
+      "path": "snapshot/browser/src/source/small-building-shells.ts",
+      "bytes": 12245,
+      "sha256": "ea4df3814ebfefaa8afb13f05774fbe38bc440dd15e531ca6c4df120396ee05b"
+    },
+    {
+      "path": "snapshot/browser/src/source/spawns.ts",
+      "bytes": 677,
+      "sha256": "32854207437a0857bca71eb67b66b3b056b424c4c21f5080170c31854a591429"
+    },
+    {
+      "path": "snapshot/browser/src/source/special-building-shells.ts",
+      "bytes": 13575,
+      "sha256": "f0783e7837578d8253ba5937c2aefe886bebb35b551c8714ce156f543814f439"
+    },
+    {
+      "path": "snapshot/browser/src/source/station-building-shells.ts",
+      "bytes": 10220,
+      "sha256": "efcfb6d82a56eb7d780f20161c088c4d4b4e761a762e3b293275313c03ae2452"
+    },
+    {
+      "path": "snapshot/browser/src/source/terrace-model.ts",
+      "bytes": 10192,
+      "sha256": "8517b3fda9e8d8cc7f678b34a4f29f40071de99d040370ca215ae4fde19f3632"
+    },
+    {
+      "path": "snapshot/browser/src/source/terrain-scenery.ts",
+      "bytes": 29380,
+      "sha256": "3fddad2d92f4977d411ea7ebb90b07d53307599c6f1d859d3c73494c5868b2e9"
+    },
+    {
+      "path": "snapshot/browser/src/source/terrain-work.ts",
+      "bytes": 660,
+      "sha256": "7c5f5ca96fbae174a82b8a952c76c71de2ab4312126f8738ca09528dd354a9b2"
+    },
+    {
+      "path": "snapshot/browser/src/source/terrain.ts",
+      "bytes": 1248,
+      "sha256": "7b35543ec261ac04cdfbe45d3ed2f22e4ef3087ed605d195f19d4ca5ff9fc3e1"
+    },
+    {
+      "path": "snapshot/browser/src/source/tmhm.ts",
+      "bytes": 1053,
+      "sha256": "0f15b6eded9369a7de7d835ab99db960a112f876a2f9589f8ae7b43666a39b98"
+    },
+    {
+      "path": "snapshot/browser/src/source/trainer-encounters.ts",
+      "bytes": 9006,
+      "sha256": "7785274b0f0748194fe380d63e5c2c08e15f5ee66b201c214b837eb175730c5e"
+    },
+    {
+      "path": "snapshot/browser/src/source/trainer-script-state.ts",
+      "bytes": 2206,
+      "sha256": "450d7a114b0a9fa9443f33dceac6912b7d28b69beafafe86e4c6685993a2dd36"
+    },
+    {
+      "path": "snapshot/browser/src/source/trainers.ts",
+      "bytes": 2254,
+      "sha256": "7ddd00955d0297edd5b86accef4f113087efe35dbbc926b478a29deb4f2b11c1"
+    },
+    {
+      "path": "snapshot/browser/src/source/tree-texture.ts",
+      "bytes": 1940,
+      "sha256": "056ffba302a63721c81588ba5c22aee95069279f8bd51bfaa2b70f931db31335"
+    },
+    {
+      "path": "snapshot/browser/src/source/tree-volume.ts",
+      "bytes": 4971,
+      "sha256": "5aa6ca7cb48cda6f87d9d21df5a3accc49cf963ca50f2490fe219ee7c0d1e8ab"
+    },
+    {
+      "path": "snapshot/browser/src/source/tutorial.ts",
+      "bytes": 541,
+      "sha256": "2e012a228c82632891c883a31a73a5b97de3646af5efd7c280c31effc422ac53"
+    },
+    {
+      "path": "snapshot/browser/src/source/types.ts",
+      "bytes": 5360,
+      "sha256": "74bab3fae4bfd56b517d099031810762fea2edd1443a3ffc968c6ba9fe4538fe"
+    },
+    {
+      "path": "snapshot/browser/src/source/ui.ts",
+      "bytes": 8759,
+      "sha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8"
+    },
+    {
+      "path": "snapshot/browser/src/source/urban-building-shells.ts",
+      "bytes": 12083,
+      "sha256": "1e54116ecd4244229562c07697f23545c30ab44202585cf34891bbf4ddcd0115"
+    },
+    {
+      "path": "snapshot/browser/src/source/world.ts",
+      "bytes": 25730,
+      "sha256": "39bba7b40582f99ca0e83982e507dad74db1980ee8b9cbdf7cc1990cd0bcdbf6"
+    },
+    {
+      "path": "snapshot/browser/tsconfig.json",
+      "bytes": 249,
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0"
+    },
+    {
+      "path": "snapshot/files/poketool/personal/personal.json",
+      "bytes": 649411,
+      "sha256": "8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"
+    },
+    {
+      "path": "snapshot/files/poketool/trainer/trainers.json",
+      "bytes": 970193,
+      "sha256": "d5b9a843403bd985874b1c67939ccfae3dd53013f27242873c8c7378fd73ddc5"
+    },
+    {
+      "path": "snapshot/include/battle/battle.h",
+      "bytes": 17444,
+      "sha256": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972"
+    },
+    {
+      "path": "snapshot/include/battle/battle_controller.h",
+      "bytes": 9526,
+      "sha256": "78cf600b5de8a4129ac55c843e5649cb044ae65827da8d9535d27143584bcf3f"
+    },
+    {
+      "path": "snapshot/include/battle/battle_system.h",
+      "bytes": 10303,
+      "sha256": "c29fa4c2d0e9ff58ef01ccbc55e94adeac55a110630dd6ee101d50e39e3091b6"
+    },
+    {
+      "path": "snapshot/include/constants/abilities.h",
+      "bytes": 4160,
+      "sha256": "9a88eb104430db81f07a0b33267cd85279bd24df71c61c004bb935dc7470811a"
+    },
+    {
+      "path": "snapshot/include/constants/accessories.h",
+      "bytes": 3832,
+      "sha256": "324441f4d339dc7e2a722d9edc8301e3c829c4a840bcf4c1ecf4ff136885ddc5"
+    },
+    {
+      "path": "snapshot/include/constants/apricorns.h",
+      "bytes": 328,
+      "sha256": "ce37fd9873ddcfa9fad51d08c5c98c83735eba696f45e3309d1a3fcc4e3057ab"
+    },
+    {
+      "path": "snapshot/include/constants/badge.h",
+      "bytes": 515,
+      "sha256": "5f278743bfaf3ad9534ba88c56aca24b0029f713b9495a25c1a52fe2ae794e29"
+    },
+    {
+      "path": "snapshot/include/constants/balls.h",
+      "bytes": 784,
+      "sha256": "71c62b657264b988dc6c3d75e06da26d661ba751ddea6882961ef9cac43c98e7"
+    },
+    {
+      "path": "snapshot/include/constants/battle/trainer_ai.h",
+      "bytes": 2402,
+      "sha256": "117b592ec117e601943182565d83414b243245f06e0a9994f0f16e62ad82a890"
+    },
+    {
+      "path": "snapshot/include/constants/battle.h",
+      "bytes": 27020,
+      "sha256": "5614494e7997a0dd47e3887d41e17ef4712ecf8630a27aaccf69da19a001eff6"
+    },
+    {
+      "path": "snapshot/include/constants/battle_menu.h",
+      "bytes": 3407,
+      "sha256": "2b6a02882b91d45566a01cecf30b7c5149eaf85683e74b70052f8ef6b221e61d"
+    },
+    {
+      "path": "snapshot/include/constants/battle_script.h",
+      "bytes": 4497,
+      "sha256": "bc0ca40abb72d8b7fa58f39ad2a89372c5b44bc3735b2a048a1355811db49d79"
+    },
+    {
+      "path": "snapshot/include/constants/battle_subscript.h",
+      "bytes": 30264,
+      "sha256": "533a95feb38b9035061fb52f1c802c2a4af9847bfb164ea6310d4fd627b95bf3"
+    },
+    {
+      "path": "snapshot/include/constants/box_wallpaper.h",
+      "bytes": 1287,
+      "sha256": "66b6518af346653049a6464569babddc8879d0e533705de09a6826f2c95c95d1"
+    },
+    {
+      "path": "snapshot/include/constants/bugfix.h",
+      "bytes": 632,
+      "sha256": "1efde87dd5e2d0d10a73b404af601abf5c94cb02e15721f2327755436c8a2f59"
+    },
+    {
+      "path": "snapshot/include/constants/buildmodel.h",
+      "bytes": 13307,
+      "sha256": "55c80374c4c55f8ec07f073dbeb2738e788ccdd84747ac0a3a412fa8f9ec9912"
+    },
+    {
+      "path": "snapshot/include/constants/charcode.h",
+      "bytes": 17632,
+      "sha256": "82b62438a985729619e3be22bf2ae0c343449704bb7656f8d6c97b78c46e5fec"
+    },
+    {
+      "path": "snapshot/include/constants/comm_type.h",
+      "bytes": 1667,
+      "sha256": "782af51fc81b516ef25f3efb0c96a100ccc2d02855b67d1cc532f0a995fbb727"
+    },
+    {
+      "path": "snapshot/include/constants/daycare.h",
+      "bytes": 665,
+      "sha256": "dc87041b3e4a24c1a6d715cf3ededc614fda4fae6be33274ec0732f30ebf9e91"
+    },
+    {
+      "path": "snapshot/include/constants/decorations.h",
+      "bytes": 5453,
+      "sha256": "db4c00e9892a1e842b6b6d4453d858b31ecb8b3aa51e7720f468a5568a9ea412"
+    },
+    {
+      "path": "snapshot/include/constants/easy_chat.h",
+      "bytes": 19886,
+      "sha256": "a1b45dc8bdf61a0854cf15ef17d2cd2887eeb64d6b5bc7f3f585cd9be19752ae"
+    },
+    {
+      "path": "snapshot/include/constants/events.h",
+      "bytes": 301,
+      "sha256": "4dd1021dd20d276b54c750a528bea72d0ecc77d66bf9cf2041e601c29d2c900e"
+    },
+    {
+      "path": "snapshot/include/constants/field/field_effect_renderer.h",
+      "bytes": 1012,
+      "sha256": "ecb10c42cee539b96e37820944e1e0bd712d16ba3a8879614ff057020eacad87"
+    },
+    {
+      "path": "snapshot/include/constants/field/map_load.h",
+      "bytes": 361,
+      "sha256": "ddbfe15301b437afaa561816cb508fe4bbc4ec1a10d34b43115cba4c04c70b22"
+    },
+    {
+      "path": "snapshot/include/constants/field_move_response.h",
+      "bytes": 442,
+      "sha256": "90e2398f284a76d0cb322e799a85ea7a4ea72a4a0fee4a54df0640671d61e0f9"
+    },
+    {
+      "path": "snapshot/include/constants/field_poison.h",
+      "bytes": 238,
+      "sha256": "ff56a8324b487157f241c5c21e246f8f4aab452aa04ad5b75dc034e34a30e6e4"
+    },
+    {
+      "path": "snapshot/include/constants/flags.h",
+      "bytes": 122392,
+      "sha256": "50ad2dc9994f5ced75dc6166a76b8bc247b96bb886d4a1c2c866ee35d7df3730"
+    },
+    {
+      "path": "snapshot/include/constants/flypoints.h",
+      "bytes": 1380,
+      "sha256": "972cd988ed7677e446a5be2c4e7469a758092079e4ebd84b7be0ce747903f9f5"
+    },
+    {
+      "path": "snapshot/include/constants/follow_mon_idx.h",
+      "bytes": 23286,
+      "sha256": "0d5960f981cb6e81b2556f17c6afd896cd4875a09319ea35531cd357e9545e7d"
+    },
+    {
+      "path": "snapshot/include/constants/game_stats.h",
+      "bytes": 5582,
+      "sha256": "01474bd1667adb944cc8ab339f75b98923b1b4ba69e8ac4491d42b85e02ab8a6"
+    },
+    {
+      "path": "snapshot/include/constants/geonet_globe.h",
+      "bytes": 33761,
+      "sha256": "a7db2d79537b6ac2aa9fbbddeb1abf720a72d802100eeb3b8b6e1a18456f99f3"
+    },
+    {
+      "path": "snapshot/include/constants/global.h",
+      "bytes": 483,
+      "sha256": "40eefe14cdec8507effe5b624bc035afb6d234ada97eae50f3c88ef8b26c07ee"
+    },
+    {
+      "path": "snapshot/include/constants/global_fieldmap.h",
+      "bytes": 1973,
+      "sha256": "f33984744f2a73af7250e1a8d8e5d1e30748d633d28ace69f5a70b585f9705fe"
+    },
+    {
+      "path": "snapshot/include/constants/gx.h",
+      "bytes": 294,
+      "sha256": "9806b75f2ef568e9542e33b9f310410cbd3e1d4a3ea1d1ad300eef80ae8aee73"
+    },
+    {
+      "path": "snapshot/include/constants/heap.h",
+      "bytes": 3029,
+      "sha256": "a656807d4e304b89064d034139c3b57aea3a31d078cdfa92de26354eee21589e"
+    },
+    {
+      "path": "snapshot/include/constants/hidden_items.h",
+      "bytes": 12278,
+      "sha256": "fe9619dd675233a7cfc91c8bff2f41974d9de023c06cce93dd7451e2a9711c79"
+    },
+    {
+      "path": "snapshot/include/constants/init_script_types.h",
+      "bytes": 1766,
+      "sha256": "0a54d6c18854f2477079da77a793b18bf1a5961b7ac024db7a6fa2e33a700354"
+    },
+    {
+      "path": "snapshot/include/constants/items.h",
+      "bytes": 32040,
+      "sha256": "20576a5dc04bd40cb1d212f1dad2de8e0083cf966e9535e3c10baac36cbd7193"
+    },
+    {
+      "path": "snapshot/include/constants/johto_dex.h",
+      "bytes": 188,
+      "sha256": "23a4711c504f889c90ec75fff48e1c2c2e4b36813f71aa75f25c1094432bfffa"
+    },
+    {
+      "path": "snapshot/include/constants/mail.h",
+      "bytes": 434,
+      "sha256": "8d26672cc351105c5ec8e63b1ae1279d51279d87a2709ffc2600ea5b44d1533f"
+    },
+    {
+      "path": "snapshot/include/constants/map_sections.h",
+      "bytes": 11880,
+      "sha256": "1102c63c2637718fa28aeb57038c78c5d614f6c8cca0018ca1d199a07613431a"
+    },
+    {
+      "path": "snapshot/include/constants/maps.h",
+      "bytes": 41972,
+      "sha256": "9ebf1f2f6110af509b830cc33f271d4b5d257f309212345a6bb4557321634adb"
+    },
+    {
+      "path": "snapshot/include/constants/message_tags.h",
+      "bytes": 3936,
+      "sha256": "68bed61ead7c168bec6cc502bc366ca1f0b8fd6fc8e173bbc54a2c5c3a0dec61"
+    },
+    {
+      "path": "snapshot/include/constants/metatile_behavior.h",
+      "bytes": 6132,
+      "sha256": "daf592a2074c423b5649eba564cc37ea5acd224c5c86658dc1fe6b00160f509d"
+    },
+    {
+      "path": "snapshot/include/constants/mmodel.h",
+      "bytes": 36783,
+      "sha256": "a4a623a5b248fdd1fdd713785a6b1e8658d99614b506fdb3fda143f422eb8cba"
+    },
+    {
+      "path": "snapshot/include/constants/move_effects.h",
+      "bytes": 16081,
+      "sha256": "0d736130d5f6b38243da8ffac7d06e822ec8ccc75a608043c2d04f7a76184357"
+    },
+    {
+      "path": "snapshot/include/constants/movements.h",
+      "bytes": 1214,
+      "sha256": "b2f2b46f2631be9ca2f20c1847dbf5d6e25f00262bddc13e790c6e80470f3aea"
+    },
+    {
+      "path": "snapshot/include/constants/moves.h",
+      "bytes": 17328,
+      "sha256": "72c58ed137cd5737e5c5fb8f43dfe70904f6f09618c75ab7b92b97062444b6d9"
+    },
+    {
+      "path": "snapshot/include/constants/npc_trade.h",
+      "bytes": 682,
+      "sha256": "061d09a3293045cb81188808cf4215fd60971d01bb21c6e0f8ff023c72627d9e"
+    },
+    {
+      "path": "snapshot/include/constants/opcode.h",
+      "bytes": 930,
+      "sha256": "5e34e1d2d3412a5882c3b8b8ebcf3c1f3627f2d5239f2f2ebe3b53f80ff4f0c5"
+    },
+    {
+      "path": "snapshot/include/constants/phone_constants.h",
+      "bytes": 848,
+      "sha256": "97bcd7db0e27ab865212d2f14cc3062a4317370c30a18d9cfb9dad0058842d1b"
+    },
+    {
+      "path": "snapshot/include/constants/phone_contacts.h",
+      "bytes": 2992,
+      "sha256": "55c4474e8ce0e6c107e9937f09bd1add776cdf50d8145f9e5101ddc5e2916cc6"
+    },
+    {
+      "path": "snapshot/include/constants/phone_scripts.h",
+      "bytes": 13971,
+      "sha256": "d5c82d00006492af0de0cae9784fb700dfa2794f45f9e1820144a1c3fdb0fabd"
+    },
+    {
+      "path": "snapshot/include/constants/player_avatar.h",
+      "bytes": 541,
+      "sha256": "3b093923e88d667082824287a86c6d2a454f56de4dc3c2f32b1832c2693e33fe"
+    },
+    {
+      "path": "snapshot/include/constants/pokegear_card.h",
+      "bytes": 193,
+      "sha256": "104fc90f232885f284d6ccb019060b95fad0fa309c9bd29ffd33df7236345fca"
+    },
+    {
+      "path": "snapshot/include/constants/pokemon.h",
+      "bytes": 19409,
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+    },
+    {
+      "path": "snapshot/include/constants/pokewalker_courses.h",
+      "bytes": 1329,
+      "sha256": "917fc6d6f2b53c1f932657abfb816724b9baad875e9953f62e1285c7411549fd"
+    },
+    {
+      "path": "snapshot/include/constants/radio_station.h",
+      "bytes": 714,
+      "sha256": "152b0a67787f0a08ad210e559032df97340a06b90c29c340d9cefd69e1480f38"
+    },
+    {
+      "path": "snapshot/include/constants/ranking.h",
+      "bytes": 1278,
+      "sha256": "826c44c0e5a48fd644738c0efb2ec71584e4b46813adcf45ad2f1d9c0e9ef482"
+    },
+    {
+      "path": "snapshot/include/constants/ribbon.h",
+      "bytes": 3195,
+      "sha256": "b282c9bb3d51de2d02263cf5724207d9dcad060ceb7c586f857c2aada5506bf2"
+    },
+    {
+      "path": "snapshot/include/constants/roamer.h",
+      "bytes": 1774,
+      "sha256": "342bb9a6246f0ed2606fc1c094a2b9688edec3fe67b8a10a90b11a89bd5103f4"
+    },
+    {
+      "path": "snapshot/include/constants/safari.h",
+      "bytes": 2267,
+      "sha256": "475bd34656e7c550ef57e3ce2feb5f0c658ad5e73ef2f06f75c55d6d07fd6de8"
+    },
+    {
+      "path": "snapshot/include/constants/save_arrays.h",
+      "bytes": 2200,
+      "sha256": "18c0b8b38de9a15a6421b32b3ccacf4be572a68ebfba92caf870d1483a9799ff"
+    },
+    {
+      "path": "snapshot/include/constants/scrcmd.h",
+      "bytes": 1870,
+      "sha256": "3416fa2ac7f3a70da02c18f179440d0c07aedf488f9b27b6ce86c52bf9faf086"
+    },
+    {
+      "path": "snapshot/include/constants/sdk_extras.h",
+      "bytes": 589,
+      "sha256": "1d25eee7c158e78f4423caa03bd3949e3d5a93b2f986862af6344bfd7d32b778"
+    },
+    {
+      "path": "snapshot/include/constants/seals.h",
+      "bytes": 2249,
+      "sha256": "66e947816b0ef9299f7462bcb9217f378f03f94018aab57479741653e776847b"
+    },
+    {
+      "path": "snapshot/include/constants/sndseq.h",
+      "bytes": 96776,
+      "sha256": "8d6b246a5eca81b8711a410aa260cf5d87f4c33286955f6d0d0155ef3f28dca1"
+    },
+    {
+      "path": "snapshot/include/constants/spawns.h",
+      "bytes": 1047,
+      "sha256": "f4b92a544d942fd53e315892b6369d4abc017ed89b6494ba9f8c3f7a005d002d"
+    },
+    {
+      "path": "snapshot/include/constants/species.h",
+      "bytes": 16128,
+      "sha256": "a72ce01027d83aabd9ff61dc8f3afbbf43eee30b25c39b6e23ed42c5ac587732"
+    },
+    {
+      "path": "snapshot/include/constants/sprites.h",
+      "bytes": 46475,
+      "sha256": "f794bad6114be6671f03fc3a80ba9d743e8b7106e1f2678c4f7f3514d75b10ed"
+    },
+    {
+      "path": "snapshot/include/constants/start_menu_icons.h",
+      "bytes": 349,
+      "sha256": "d2570894e7fab5a211366de1a84f932b543ef97035bc5499e561b7c70312652d"
+    },
+    {
+      "path": "snapshot/include/constants/std_script.h",
+      "bytes": 33932,
+      "sha256": "e64378af66fa6e2a20d7f326d9a1837459cbc3d5c5c36346c89f870635aa3efb"
+    },
+    {
+      "path": "snapshot/include/constants/trainer_class.h",
+      "bytes": 7296,
+      "sha256": "311fdbde1f643a41a67f887f179bb0b5abfe7e1e212f3d669397ecb033f71622"
+    },
+    {
+      "path": "snapshot/include/constants/trainers.h",
+      "bytes": 37421,
+      "sha256": "bea45b32f35eda484bd2024ff4a4c8536dd6ab9b534c14b94ebd2410f2754d88"
+    },
+    {
+      "path": "snapshot/include/constants/vars.h",
+      "bytes": 18607,
+      "sha256": "35a4bed10d8596a389af1efb761ea577141ea81f42b092cc2bf4a8ca08363caa"
+    },
+    {
+      "path": "snapshot/include/constants/weather.h",
+      "bytes": 748,
+      "sha256": "58ba8fef03d8ff58b49fe25409c966ca15ee184dc0218c26dfa4ed70ea20a539"
+    },
+    {
+      "path": "snapshot/include/pokemon.h",
+      "bytes": 12461,
+      "sha256": "033b476ce5b6a9076e34bc9cb32e3957fa403f458d96a8c727dc81a2676a4fc3"
+    },
+    {
+      "path": "snapshot/include/pokemon_types_def.h",
+      "bytes": 8890,
+      "sha256": "adf14e74756e1a5b63ab939b28b8f62a90ca06640c1b43ff82025979f9ac20c8"
+    },
+    {
+      "path": "snapshot/proof/agent-checks.json",
+      "bytes": 1284,
+      "sha256": "90d4fa898794a3e0ca1739e3ac478f3461524ed54575f6f89c90c8baa717b52b"
+    },
+    {
+      "path": "snapshot/proof/scoped.patch",
+      "bytes": 30729,
+      "sha256": "a731a5877b52c6bb6f254f28e93cbf8d997b70698d2b1c50a5429a03e961b5cc"
+    },
+    {
+      "path": "snapshot/proof/target-tests.log",
+      "bytes": 2596,
+      "sha256": "e74fdcdaa271623fbbcbc2bb7a74b6983209b329a5df468e9b96b3480199e2e0"
+    },
+    {
+      "path": "snapshot/proof/tsc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "snapshot/src/battle/battle_controller_opponent.c",
+      "bytes": 315249,
+      "sha256": "71caa38b61bc70e06a0fc2f1c2357ca19ee634215c8db708f6c06ae92aa85cd8"
+    },
+    {
+      "path": "snapshot/src/battle/battle_controller_player.c",
+      "bytes": 185800,
+      "sha256": "ac75a056728f54624529a6d58a55ca953bb071cb2ffef1fcdecfd64d7c341d0d"
+    },
+    {
+      "path": "snapshot/src/battle/battle_system.c",
+      "bytes": 75182,
+      "sha256": "00bdbdc5d780d7562cfa8f5ab8907d8e2cbc1b2e0d563c7b3e236d88ac96cdc4"
+    },
+    {
+      "path": "snapshot/src/battle/battle_util.c",
+      "bytes": 274735,
+      "sha256": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949"
+    },
+    {
+      "path": "snapshot/src/pokemon.c",
+      "bytes": 159083,
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    },
+    {
+      "path": "snapshot/src/trainer_data.c",
+      "bytes": 20103,
+      "sha256": "2e5232c4989f6f2752087bf46579e8207b90b2e5abf65f04dac72e2b03496803"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
