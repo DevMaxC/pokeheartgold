@@ -88,6 +88,14 @@ async function fixture({counter=4,readyEgg=false,fainted=false}={}){
 function stat(c){return c.state.gameStats?.[data.constants.GAME_STAT_EGGS_HATCHED]??0;}
 function counts(c){return c.log.filter(v=>Array.isArray(v)&&v[0]==='tween');}
 
+test('ordinary Passerby trainer admission does not request the special first-battle critical suppression',async()=>{
+ const ids=Object.keys(data.trainers).map(Number).filter(id=>data.trainers[id].class==='TRAINERCLASS_PASSERBY');assert.ok(ids.length>0);
+ for(const id of ids){const c=await fixture(),requests=[];c.battle.start=async(_enemy,trainer,options)=>{requests.push({trainer,options});return'ran';};
+  await c.startBattle([createMon(data,152,5,'Silver',()=>.5)],id,true);
+  assert.deepEqual(copy(requests),[{trainer:id,options:{weather:7}}]);
+ }
+});
+
  test('actual production functions/hooks are bound and ordinary/ledge completed movement counts once',async t=>{
  t.diagnostic('main SHA256 '+mainHash+'; extracted bindings SHA256 '+sourceHash);
  for(const jumping of[false,true]){const c=await fixture();if(jumping)c.controls.permission=(_x,z)=>Math.floor(z)===11?59:0;await c.step(1);assert.equal(c.state.eggCycleSteps,5);assert.equal(c.state.z,jumping?12.5:11.5);assert.equal(counts(c).length,1);assert.equal(counts(c)[0][1],jumping?.42:.25);assert.equal(counts(c)[0][4],true);assert.equal(c.log.filter(v=>v==='encounter-step').length,1);assert.equal(c.log.filter(v=>v==='wild-admission').length,1);}

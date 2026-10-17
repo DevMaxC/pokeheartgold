@@ -1,4 +1,5 @@
 import {findCoordinateTrigger} from './coordinate-triggers.ts';
+import {findInteractedBackgroundEvent,backgroundFlagSet} from './background-events.ts';
 import './style.css';
 import {loadData,newState,titleCase,speciesName,createMon,giveMon,healParty,itemName,moveName} from './data.ts';
 import {OriginalWorld} from './world.ts';
@@ -340,7 +341,7 @@ async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false)
       fieldPhone.resetForSourceEvent();
       // An explicit battle retry keeps the encounter and restores fresh enemy HP.
       const attempt=structuredClone(opponents);blackedOut=false;keys.clear();encounterChecks.reset();
-      const result=await battle.start(attempt,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY',weather:world.sky.currentWeather});
+      const result=await battle.start(attempt,trainer,{weather:world.sky.currentWeather});
       if(result==='caught'){const mon=attempt[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
       if(result==='lost'){
         if(canLose)healParty(state);
@@ -365,7 +366,7 @@ async function interact(){
   const npc=actorAt(x,z)||((world.permission(x,z)&255)===0x80?actorAt(x+d.x,z+d.z):undefined);
   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
   if(npc){await runScript(npc.npc.scriptId,npc.npc.id);return;}
-  const bg=map.events.bgs.find(b=>(b.x===x&&b.z===z)||(b.x===Math.floor(state.x)&&b.z===Math.floor(state.z)));
+  const bg=findInteractedBackgroundEvent(map,state.x,state.z,state.facing,script=>vm.value(String(script),map),flag=>backgroundFlagSet(state.flags,data.constants,flag),data.constants);
   if(bg)await runScript(bg.scriptId);
 }
 async function step(facing:number){
