@@ -29,7 +29,9 @@ function sleepAbility(context:NativeSleepContext){return['ABILITY_INSOMNIA','ABI
 export function nativeYawnStart(turns:number,context:NativeSleepContext&{moldBreaker:boolean;substitute:boolean;safeguard:boolean}){
   integer(turns,0,2,'Yawn turns');
   if(!context.moldBreaker&&sleepAbility(context))return{turns,outcome:'ability' as const};
-  if(context.substitute||context.uproar&&context.ability!=='ABILITY_SOUNDPROOF'||context.status||context.safeguard||turns)return{turns,outcome:'failed' as const};
+  if(context.substitute||context.uproar&&context.ability!=='ABILITY_SOUNDPROOF'||context.status)return{turns,outcome:'failed' as const};
+  if(context.safeguard)return{turns,outcome:'safeguard' as const};
+  if(turns)return{turns,outcome:'failed' as const};
   return{turns:2,outcome:'applied' as const};
 }
 /** UMC_YAWN counts its activation turn, then invokes0018 with statChangeType4.

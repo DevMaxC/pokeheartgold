@@ -88,11 +88,9 @@ export class Battle{
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
     if(move.effect===187&&defender.hp>0){
-      this.assertItemScope(attacker,defender);
+      this.assertItemScope(attacker,defender);this.assertYawnSleepScope(defender);
       if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native Yawn Pressure PP');
-      if([this.player,this.enemy].some(mon=>mon.hp>0&&monAbility(this.data,mon)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
-      const suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
-      if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Yawn weather phases');
+      if(monAbility(this.data,attacker)==='ABILITY_TRUANT')throw Error('Unsupported native Yawn Truant action phase');
     }
     if(move.effect===42&&defender.hp>0){
       this.assertDamageScope(attacker,defender);
@@ -373,14 +371,23 @@ export class Battle{
     if(next.outcome==='ended'){this.bindings.delete(mon);await this.say(`${mon.name} was freed from ${moveName(this.data,binding.move)}!`);return;}
     if(next.damage){mon.hp=Math.max(0,mon.hp-next.damage);await this.view?.hit(playerSide);await this.say(`${mon.name} is hurt by ${moveName(this.data,binding.move)}!`);}
   }
+  private assertYawnSleepScope(mon:Mon){
+    if(['ABILITY_QUICK_FEET','ABILITY_MARVEL_SCALE'].includes(monAbility(this.data,mon)))throw Error('Unsupported native Yawn status ability');
+    if([this.player,this.enemy].some(other=>other.hp>0&&monAbility(this.data,other)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
+    const suppressed=[this.player,this.enemy].some(other=>other.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,other)));
+    if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Yawn weather phases');
+  }
   private sleepContext(mon:Mon){
     const suppressed=[this.player,this.enemy].some(other=>other.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,other)));
     // Uproar remains unadmitted. Do not synthesize it from a learned move.
     return{ability:monAbility(this.data,mon),status:mon.status,sun:this.weather==='sun'&&!suppressed,uproar:false};
   }
   private async yawnResidual(mon:Mon){
-    const tick=nativeYawnTick(this.yawnTurns.get(mon)??0);if(tick.turns)this.yawnTurns.set(mon,tick.turns);else this.yawnTurns.delete(mon);if(!tick.sleep)return;
-    const gate=nativeYawnSleepGate(this.sleepContext(mon));
+    const tick=nativeYawnTick(this.yawnTurns.get(mon)??0),gate=tick.sleep?nativeYawnSleepGate(this.sleepContext(mon)):null;
+    // The current provider/recipient can differ from the initial cast. Reject
+    // unhosted callbacks before mutating the countdown, status or RNG.
+    if(gate==='sleep')this.assertYawnSleepScope(mon);
+    if(tick.turns)this.yawnTurns.set(mon,tick.turns);else this.yawnTurns.delete(mon);if(!tick.sleep)return;
     if(gate==='ability'){await this.say(`${mon.name} stayed awake because of its ability!`);return;}
     if(gate==='already-asleep'){await this.say(`${mon.name} is already asleep!`);return;}
     if(gate!=='sleep')return;
@@ -417,9 +424,12 @@ export class Battle{
     if(attacker.hp<=0)return;
     const move=this.selectMove(attacker,slot);
     this.volatile(attacker).previousMove=nativePreviousMove(this.volatile(attacker).previousMove,0,{noMoveSet:false,moveSucceededFlag:false});
-    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
+    // Native sleep state1 permits Snore/SleepTalk instead of blocking them.
+    // Their effects remain unported: never silently consume a sleeping turn.
+    if(attacker.status==='SLP'&&[this.data.constants.MOVE_SNORE,this.data.constants.MOVE_SLEEP_TALK].includes(move.id))throw Error('Unsupported native sleeping action '+move.key);
     if(attacker.status==='SLP'){attacker.sleepTurns=nativeSleepTick(attacker.sleepTurns,monAbility(this.data,attacker)==='ABILITY_EARLY_BIRD');if(attacker.sleepTurns>0){await this.say(`${attacker.name} is fast asleep.`);return;}attacker.status='';await this.say(`${attacker.name} woke up!`);}
     if(attacker.status==='FRZ'){if(this.rng()>=.2){await this.say(`${attacker.name} is frozen solid!`);return;}attacker.status='';await this.say(`${attacker.name} thawed out!`);}
+    if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
     if(await this.checkConfusion(attacker,as,playerSide,move))return;
     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
     // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
@@ -456,7 +466,7 @@ export class Battle{
       // Substitute/Safeguard producers remain unadmitted. Initial0141 gates
       // differ deliberately from delayed0018's nonignorable ability checks.
       const started=nativeYawnStart(this.yawnTurns.get(defender)??0,{...this.sleepContext(defender),moldBreaker:monAbility(this.data,attacker)==='ABILITY_MOLD_BREAKER',substitute:false,safeguard:false});
-      if(started.outcome!=='applied'){await this.say(started.outcome==='ability'?`${defender.name}’s ability made Yawn ineffective!`:'But it failed!');return;}
+      if(started.outcome!=='applied'){await this.say(started.outcome==='ability'?`${defender.name}’s ability made Yawn ineffective!`:started.outcome==='safeguard'?`${defender.name} is protected by Safeguard!`:'But it failed!');return;}
       this.yawnTurns.set(defender,started.turns);await this.view?.attack(playerSide,move);await this.say(`${attacker.name} made ${defender.name} drowsy!`);return;
     }
     await this.view?.attack(playerSide,move);
@@ -494,13 +504,6 @@ export class Battle{
     if(effectiveness===0)break;
     // AfterDamage runs the indirect binding subscript before Rage and the
     // contact-ability callback. No duration draw for immunity/KO/rebinding.
-    if(move.effect===187&&defender.hp>0){
-      this.assertItemScope(attacker,defender);
-      if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native Yawn Pressure PP');
-      if([this.player,this.enemy].some(mon=>mon.hp>0&&monAbility(this.data,mon)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
-      const suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
-      if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Yawn weather phases');
-    }
     if(move.effect===42&&defender.hp>0){const value=this.volatile(defender),started=nativeBindingStart(value.status2,()=>this.random16(),this.held(attacker)?.holdEffect==='HOLD_EFFECT_EXTEND_TRAPPING');value.status2=started.status2;if(started.applied){this.bindings.set(defender,{source:playerSide?0:1,move:move.id});await this.say(`${defender.name} was trapped by ${moveName(this.data,move.id)}!`);}}
     let pivoted=false;
     if(total>0){landed++;if(move.effect===228)pivoted=await this.pivot(playerSide,attacker,defender,move);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
@@ -513,6 +516,10 @@ export class Battle{
     // AfterMoveEffects (controller31) runs before CheckMultiHit (32),
     // so a surviving Sitrus holder can heal between the individual hits.
     await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);
+    // Native AfterMoveEffects state6 follows held-item recovery. A landed
+    // damaging Fire hit thaws a living target without another random draw.
+    const effectiveType=monAbility(this.data,attacker)==='ABILITY_NORMALIZE'?this.data.constants.TYPE_NORMAL:move.type;
+    if(total>0&&defender.hp>0&&defender.status==='FRZ'&&effectiveType===this.data.constants.TYPE_FIRE){defender.status='';await this.say(`${defender.name} thawed out!`);}
     if(defender.hp<=0||attacker.hp<=0||effectiveness===0)break;
     }
     if((move.effect===29||move.effect===44)&&landed)await this.say(`Hit ${landed} time${landed===1?'':'s'}!`);
