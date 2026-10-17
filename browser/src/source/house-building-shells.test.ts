@@ -117,3 +117,75 @@ test('every placed house variant preserves vertical facade first hits across a d
  }
  assert.equal(tested,45);t.diagnostic(JSON.stringify({variants:tested,paintedSamples:painted,windowSamples,microLining,microWitnesses,strictMisses:misses.length,misses}));assert.equal(misses.length,0,'Native facade/window first-hit regressions; exact witnesses are in diagnostics');
 });
+
+type NativeRoof={p:THREE.Vector3[];uv:THREE.Vector2[];material:THREE.MeshBasicMaterial;plane:THREE.Plane;id:number};
+function literalRoofs(scene:THREE.Object3D){scene.updateWorldMatrix(true,true);scene.updateMatrixWorld(true);const inverse=scene.matrixWorld.clone().invert(),roofs:NativeRoof[]=[];for(const mesh of meshes(scene)){if(mesh.name.startsWith('3d-'))continue;const g=mesh.geometry,index=g.index,pos=g.getAttribute('position'),uv=g.getAttribute('uv'),materials=Array.isArray(mesh.material)?mesh.material:[mesh.material];for(const group of g.groups.length?g.groups:[{start:0,count:index?.count??pos.count,materialIndex:0}]){const material=materials[group.materialIndex??0]as THREE.MeshBasicMaterial;if(/kage|shadow|h_in|yuki|snow|flower|hana|tree|plant|light|hikari|mado|window/i.test(material.name)||material.opacity<.99)continue;for(let at=group.start;at<group.start+group.count;at+=3){const ids=[0,1,2].map(i=>index?index.getX(at+i):at+i),p=ids.map(i=>mesh.getVertexPosition(i,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld).applyMatrix4(inverse)),n=p[1].clone().sub(p[0]).cross(p[2].clone().sub(p[0])),area=n.length()/2;if(area<1e-10||Math.abs(n.normalize().y)<=.25)continue;roofs.push({p,uv:ids.map(i=>new THREE.Vector2(uv.getX(i),uv.getY(i))),material,plane:new THREE.Plane().setFromCoplanarPoints(p[0],p[1],p[2]),id:roofs.length});}}}return roofs;}
+function baryXZ(f:NativeRoof,x:number,z:number){const[a,b,c]=f.p,den=(b.z-c.z)*(a.x-c.x)+(c.x-b.x)*(a.z-c.z),u=((b.z-c.z)*(x-c.x)+(c.x-b.x)*(z-c.z))/den,v=((c.z-a.z)*(x-c.x)+(a.x-c.x)*(z-c.z))/den,w=1-u-v;return[u,v,w];}
+function roofY(f:NativeRoof,x:number,z:number){return-(f.plane.normal.x*x+f.plane.normal.z*z+f.plane.constant)/f.plane.normal.y;}
+function painted(f:NativeRoof,x:number,z:number){const m=f.material;if(!m.alphaTest&&!m.transparent)return true;const weights=baryXZ(f,x,z),uv=f.uv[0].clone().multiplyScalar(weights[0]).addScaledVector(f.uv[1],weights[1]).addScaledVector(f.uv[2],weights[2]),map=m.map!,image=map.image as{data:Uint8Array;width:number;height:number};map.transformUv(uv);if(map.wrapS===THREE.RepeatWrapping&&uv.x===1)uv.x=0;if(map.wrapT===THREE.RepeatWrapping&&uv.y===1)uv.y=0;const ix=THREE.MathUtils.clamp(Math.floor(uv.x*image.width),0,image.width-1),iy=THREE.MathUtils.clamp(Math.floor(uv.y*image.height),0,image.height-1);return image.data[(iy*image.width+ix)*4+3]/255*m.opacity>=Math.max(.5,m.alphaTest);}
+function envelope(roofs:NativeRoof[],p:THREE.Vector3){const covering=roofs.filter(f=>baryXZ(f,p.x,p.z).every(w=>w>=0)&&painted(f,p.x,p.z));if(!covering.length)return null;return covering.reduce((a,b)=>roofY(a,p.x,p.z)>=roofY(b,p.x,p.z)?a:b);}
+function cutsForEdge(roofs:NativeRoof[],a:THREE.Vector3,b:THREE.Vector3){const cuts=new Map<number,string>([[0,'vertex'],[1,'vertex']]),dx=b.x-a.x,dz=b.z-a.z,cross=(ax:number,az:number,bx:number,bz:number)=>ax*bz-az*bx;
+ for(const f of roofs){for(let i=0;i<3;i++){const c=f.p[i],d=f.p[(i+1)%3],ex=d.x-c.x,ez=d.z-c.z,den=cross(dx,dz,ex,ez);if(Math.abs(den)<1e-12)continue;const t=cross(c.x-a.x,c.z-a.z,ex,ez)/den,u=cross(c.x-a.x,c.z-a.z,dx,dz)/den;if(t>0&&t<1&&u>=0&&u<=1)cuts.set(t,'native-triangle-edge');}
+  if(f.material.alphaTest||f.material.transparent){const wa=baryXZ(f,a.x,a.z),wb=baryXZ(f,b.x,b.z),uva=f.uv[0].clone().multiplyScalar(wa[0]).addScaledVector(f.uv[1],wa[1]).addScaledVector(f.uv[2],wa[2]),uvb=f.uv[0].clone().multiplyScalar(wb[0]).addScaledVector(f.uv[1],wb[1]).addScaledVector(f.uv[2],wb[2]),image=f.material.map!.image as{width:number;height:number};f.material.map!.updateMatrix();uva.applyMatrix3(f.material.map!.matrix);uvb.applyMatrix3(f.material.map!.matrix);for(const[axis,size]of[['x',image.width],['y',image.height]]as const){const delta=uvb[axis]-uva[axis];if(Math.abs(delta)<1e-12)continue;const min=Math.min(uva[axis],uvb[axis])*size,max=Math.max(uva[axis],uvb[axis])*size;assert.ok(max-min<10000,'finite native atlas traversal');for(let i=Math.ceil(min);i<max;i++){const t=(i/size-uva[axis])/delta;if(t>0&&t<1)cuts.set(t,'native-alpha-texel-edge');}}}
+ }
+ for(let i=0;i<roofs.length;i++)for(let j=i+1;j<roofs.length;j++){const f=roofs[i],g=roofs[j],at=roofY(f,a.x,a.z)-roofY(g,a.x,a.z),bt=roofY(f,b.x,b.z)-roofY(g,b.x,b.z),delta=at-bt;if(Math.abs(delta)<1e-12)continue;const t=at/delta;if(t>0&&t<1){const p=a.clone().lerp(b,t);if(baryXZ(f,p.x,p.z).every(w=>w>=0)&&baryXZ(g,p.x,p.z).every(w=>w>=0))cuts.set(t,'native-roof-plane-crossing');}}
+ const ordered=[...cuts].sort((a,b)=>a[0]-b[0]);return ordered.flatMap(([t,reason],i)=>i?[[t,reason],[(ordered[i-1][0]+t)/2,'interval-interior']]:[[t,reason]])as[number,string][];
+}
+
+// The Float32 position buffer can encode a literal roof-edge contact just
+// outside its double-precision intersection. Match that same encoding, not a
+// dilated triangle. The height bound is derived from Float32 rounding alone.
+function float32Step(value:number){return Math.max(2**-149,2**(Math.floor(Math.log2(Math.abs(value)||2**-126))-23));}
+function roofEncodingBound(f:NativeRoof,a:THREE.Vector3,b:THREE.Vector3,t:number){
+ const error=(axis:'x'|'y'|'z')=>((1-t)*float32Step(a[axis])+t*float32Step(b[axis]))/2;
+ const sx=Math.abs(f.plane.normal.x/f.plane.normal.y),sz=Math.abs(f.plane.normal.z/f.plane.normal.y);
+ return error('y')+sx*error('x')+sz*error('z')+Number.EPSILON*64*(Math.abs(f.plane.constant/f.plane.normal.y)+sx*Math.max(Math.abs(a.x),Math.abs(b.x))+sz*Math.max(Math.abs(a.z),Math.abs(b.z))+Math.max(Math.abs(a.y),Math.abs(b.y)));
+}
+function encodedRoofContacts(roofs:NativeRoof[],point:THREE.Vector3){
+ const projected=new THREE.Vector3(point.x,0,point.z);
+ return roofs.flatMap(f=>{
+  const triangle=new THREE.Triangle(...f.p.map(p=>new THREE.Vector3(p.x,0,p.z))as[THREE.Vector3,THREE.Vector3,THREE.Vector3]),q=triangle.closestPointToPoint(projected,new THREE.Vector3());
+  if(Math.fround(q.x)!==Math.fround(point.x)||Math.fround(q.z)!==Math.fround(point.z)||!painted(f,q.x,q.z))return[];
+  return[{f,y:roofY(f,q.x,q.z)}];
+ });
+}
+
+
+test('every upper rear, front and post closure stays within the literal painted native roof envelope',async t=>{
+ const files=(await readdir(root)).filter(f=>/^1-(?:20|102|237|238|153|335)-\d+\.glb$/.test(f)).sort();
+ const failures:unknown[]=[],details:unknown[]=[];let vertices=0,edgeChecks=0,planeCrossings=0,alphaCuts=0,encodedContacts=0;
+ for(const file of files){
+  const scene=await house(file),roofs=literalRoofs(scene),id=Number(file.split('-')[1]);
+  assert.ok(roofs.length>0,file+': native roof triangles');
+  assert.ok(closeHouseBuildingShell(scene,'props/'+file,[]));
+  const roles=id===153||id===335?['house-post-header-closure','house-post-side-closure']:['house-rear-cladding','house-wall-lining',...(id===20?['house-front-interior-closure']:[])];
+  for(const role of roles){
+   const panels=meshes(scene).filter(m=>m.name===role);assert.ok(panels.length,file+': '+role);let roleChecks=0;
+   const check=(point:THREE.Vector3,why:string,a=point,b=point,t=0)=>{
+    const roof=envelope(roofs,point);
+    if(roof&&point.y-roofY(roof,point.x,point.z)<=roofEncodingBound(roof,a,b,t))return;
+    const contact=encodedRoofContacts(roofs,point).find(c=>point.y-c.y<=roofEncodingBound(c.f,a,b,t));
+    if(contact){encodedContacts++;return;}
+    if(failures.length<30)failures.push({file,role,why,point:point.toArray(),nativeRoof:roof?roofY(roof,point.x,point.z):null});
+   };
+   for(const mesh of panels){
+    const p=mesh.geometry.getAttribute('position'),indices=mesh.geometry.index;
+    for(let i=0;i<p.count;i++){vertices++;check(new THREE.Vector3().fromBufferAttribute(p,i),'vertex');}
+    for(let i=0;i<(indices?.count??p.count);i+=3){
+     const points=[0,1,2].map(k=>new THREE.Vector3().fromBufferAttribute(p,indices?indices.getX(i+k):i+k));
+     assert.ok(points.every(p=>p.x===points[0].x)||points.every(p=>p.z===points[0].z),'closure triangles are vertical, so their upper edges bound their interiors');
+     for(let k=0;k<3;k++)for(const[t,why]of cutsForEdge(roofs,points[k],points[(k+1)%3])){
+      edgeChecks++;roleChecks++;if(why==='native-roof-plane-crossing')planeCrossings++;if(why==='native-alpha-texel-edge')alphaCuts++;
+      check(points[k].clone().lerp(points[(k+1)%3],t),why,points[k],points[(k+1)%3],t);
+     }
+    }
+   }
+   details.push({file,role,checks:roleChecks});
+  }
+ }
+ // Triangle edges, plane crossings and actual PNG texel boundaries partition
+ // every wall edge into intervals with one affine native upper envelope.
+ assert.equal(files.length,6);assert.ok(vertices>2000);assert.ok(edgeChecks>100000);assert.ok(planeCrossings>0);assert.ok(alphaCuts>0);
+ t.diagnostic(JSON.stringify({vertices,edgeChecks,planeCrossings,alphaCuts,encodedContacts,details,failures}));
+ assert.equal(failures.length,0,'literal native roof-envelope protrusions; see diagnostics');
+});

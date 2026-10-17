@@ -1,0 +1,347 @@
+{
+  "version": 1,
+  "status": "A3 source-hash-scoped native roof regression; immutable A3 audit and visual approval pending",
+  "baseline": {
+    "commit": "e1bbb254e619a98c006a367416ec16acf66113ce",
+    "houseSHA256": "0923217f8924f2b9561c77aab07bf21061d31f47e8e6bd42e108dd3546ddfdd0"
+  },
+  "candidate": {
+    "commit": null,
+    "houseSHA256": "4a5734efd044b9d6be5628dd75ab07f127c10263f26a7b124b66d03d2a953367",
+    "testSHA256": "50ae7624cef0f61192136674d74657ebf97a8ff5ef1577a57bcce68ff73e2e4f"
+  },
+  "scope": {
+    "changedAssets": [
+      "props/1-102-6.glb",
+      "props/1-237-14.glb"
+    ],
+    "changedInventoryPlacements": 14,
+    "nativeVariantsChecked": [
+      "1-20-0.glb",
+      "1-102-6.glb",
+      "1-237-14.glb",
+      "1-238-14.glb",
+      "1-153-19.glb",
+      "1-335-98.glb"
+    ]
+  },
+  "method": "Actual native GLB/skinned vertices and embedded PNG alpha; all upper rear/front/post closure vertices and triangle edges partitioned at literal native projected triangle boundaries, roof-plane crossings and texture texel boundaries. Highest painted native roof only inside its literal domain. Float32 contact encoding and computed position-quantization height bounds are recorded separately; no roof-domain dilation or physical tolerance.",
+  "before": {
+    "exitCode": 1,
+    "diagnostic": {
+      "vertices": 2199,
+      "edgeChecks": 105781,
+      "planeCrossings": 80,
+      "alphaCuts": 48876,
+      "encodedContacts": 35,
+      "details": [
+        {
+          "file": "1-102-6.glb",
+          "role": "house-rear-cladding",
+          "checks": 1512
+        },
+        {
+          "file": "1-102-6.glb",
+          "role": "house-wall-lining",
+          "checks": 378
+        },
+        {
+          "file": "1-153-19.glb",
+          "role": "house-post-header-closure",
+          "checks": 36
+        },
+        {
+          "file": "1-153-19.glb",
+          "role": "house-post-side-closure",
+          "checks": 36
+        },
+        {
+          "file": "1-20-0.glb",
+          "role": "house-rear-cladding",
+          "checks": 47190
+        },
+        {
+          "file": "1-20-0.glb",
+          "role": "house-wall-lining",
+          "checks": 9698
+        },
+        {
+          "file": "1-20-0.glb",
+          "role": "house-front-interior-closure",
+          "checks": 37861
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-rear-cladding",
+          "checks": 1860
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-wall-lining",
+          "checks": 930
+        },
+        {
+          "file": "1-238-14.glb",
+          "role": "house-rear-cladding",
+          "checks": 3928
+        },
+        {
+          "file": "1-238-14.glb",
+          "role": "house-wall-lining",
+          "checks": 2280
+        },
+        {
+          "file": "1-335-98.glb",
+          "role": "house-post-header-closure",
+          "checks": 36
+        },
+        {
+          "file": "1-335-98.glb",
+          "role": "house-post-side-closure",
+          "checks": 36
+        }
+      ],
+      "failures": [
+        {
+          "file": "1-102-6.glb",
+          "role": "house-rear-cladding",
+          "why": "interval-interior",
+          "point": [
+            -3.9532353474336874,
+            64.27390296616466,
+            -16.989999771118164
+          ],
+          "nativeRoof": 63.273902762697
+        },
+        {
+          "file": "1-102-6.glb",
+          "role": "house-rear-cladding",
+          "why": "interval-interior",
+          "point": [
+            3.1806482845373214,
+            64.87262942985826,
+            -16.989999771118164
+          ],
+          "nativeRoof": 63.87262884625396
+        },
+        {
+          "file": "1-102-6.glb",
+          "role": "house-wall-lining",
+          "why": "interval-interior",
+          "point": [
+            -3.9525911052005736,
+            64.27439321861496,
+            -16.96500015258789
+          ],
+          "nativeRoof": 63.274393494085494
+        },
+        {
+          "file": "1-102-6.glb",
+          "role": "house-wall-lining",
+          "why": "interval-interior",
+          "point": [
+            3.181292526770435,
+            64.87217526086943,
+            -16.96500015258789
+          ],
+          "nativeRoof": 63.87217460514819
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-rear-cladding",
+          "why": "interval-interior",
+          "point": [
+            -20.88666180666391,
+            61.86350979044186,
+            -14.630624771118164
+          ],
+          "nativeRoof": 58.40625
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-rear-cladding",
+          "why": "interval-interior",
+          "point": [
+            20.88666180666391,
+            61.338118533852416,
+            -14.630624771118164
+          ],
+          "nativeRoof": 58.40625
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-rear-cladding",
+          "why": "interval-interior",
+          "point": [
+            20.88666180666391,
+            61.86350979044186,
+            -14.630624771118164
+          ],
+          "nativeRoof": 58.40625
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-rear-cladding",
+          "why": "interval-interior",
+          "point": [
+            20.88666180666391,
+            61.338118533852416,
+            -14.630624771118164
+          ],
+          "nativeRoof": 58.40625
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-wall-lining",
+          "why": "interval-interior",
+          "point": [
+            -20.886844635009766,
+            61.86350631713867,
+            -14.60562515258789
+          ],
+          "nativeRoof": 58.40625
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-wall-lining",
+          "why": "interval-interior",
+          "point": [
+            20.886844635009766,
+            61.86350631713867,
+            -14.60562515258789
+          ],
+          "nativeRoof": 58.40625
+        }
+      ]
+    }
+  },
+  "after": {
+    "exitCode": 0,
+    "houseTestsPassed": 18,
+    "diagnostic": {
+      "vertices": 2199,
+      "edgeChecks": 105773,
+      "planeCrossings": 80,
+      "alphaCuts": 48876,
+      "encodedContacts": 23,
+      "details": [
+        {
+          "file": "1-102-6.glb",
+          "role": "house-rear-cladding",
+          "checks": 1512
+        },
+        {
+          "file": "1-102-6.glb",
+          "role": "house-wall-lining",
+          "checks": 370
+        },
+        {
+          "file": "1-153-19.glb",
+          "role": "house-post-header-closure",
+          "checks": 36
+        },
+        {
+          "file": "1-153-19.glb",
+          "role": "house-post-side-closure",
+          "checks": 36
+        },
+        {
+          "file": "1-20-0.glb",
+          "role": "house-rear-cladding",
+          "checks": 47190
+        },
+        {
+          "file": "1-20-0.glb",
+          "role": "house-wall-lining",
+          "checks": 9698
+        },
+        {
+          "file": "1-20-0.glb",
+          "role": "house-front-interior-closure",
+          "checks": 37861
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-rear-cladding",
+          "checks": 1860
+        },
+        {
+          "file": "1-237-14.glb",
+          "role": "house-wall-lining",
+          "checks": 930
+        },
+        {
+          "file": "1-238-14.glb",
+          "role": "house-rear-cladding",
+          "checks": 3928
+        },
+        {
+          "file": "1-238-14.glb",
+          "role": "house-wall-lining",
+          "checks": 2280
+        },
+        {
+          "file": "1-335-98.glb",
+          "role": "house-post-header-closure",
+          "checks": 36
+        },
+        {
+          "file": "1-335-98.glb",
+          "role": "house-post-side-closure",
+          "checks": 36
+        }
+      ],
+      "failures": []
+    }
+  },
+  "geometryDelta": {
+    "artifact": "browser/reviews/building-house-roof-geometry-delta-A3.json",
+    "sha256": "294eb1b75308fd8491a2de9b33e4a6041839e126f306dcfa76b12a97490998b5",
+    "variantsCompared": 45,
+    "changed": 2,
+    "byteIdentical": 43,
+    "fields": "Generated mesh/material roles and position/UV/normal/color/index bytes"
+  },
+  "A3Checks": {
+    "testsPassed": 331,
+    "testsFailed": 0,
+    "typescript": "PASS",
+    "productionBuild": "PASS",
+    "javascriptArtifact": "main-Bg1ta3at.js",
+    "evidence": "Root-run test/build logs inspected; no build was run by the artifact author."
+  },
+  "rawLogReceipts": {
+    "before": {
+      "path": "/tmp/hg-house-envelope-regression-before.log",
+      "sha256": "a31c61fdd66a20c99f69fc4c6b414a9f3b85bc2cb45872565785170a8d34ec25",
+      "storage": "Local temporary log; parsed results persisted in this receipt"
+    },
+    "after": {
+      "path": "/tmp/hg-house-102237-target-suite.log",
+      "sha256": "c901b84ab2bbaf0b07020776b6a3d0b34403f39ce5b309295c24fad90a6435bc",
+      "storage": "Local temporary log; parsed results persisted in this receipt"
+    },
+    "fullTests": {
+      "path": "/tmp/hg-buildings-A3-tests.log",
+      "sha256": "ba2967c46a541dbd5e4d67e6145219273210bafc8c3fb19a7c2fb89c424df8e4",
+      "storage": "Local temporary log; parsed results persisted in this receipt"
+    },
+    "productionBuild": {
+      "path": "/tmp/hg-buildings-A3-build.log",
+      "sha256": "c183cf72ab02cc0e7d6789fdb593ece93ea1281539015c67d08e843e0779fe2a",
+      "storage": "Local temporary log; parsed results persisted in this receipt"
+    }
+  },
+  "currentProvisionalAudit": {
+    "artifact": "browser/reviews/building-enclosure-audit.json",
+    "sha256": "f3d5fa86c0e1e2ce41426fe2cd6f1c917cc27a1e333359bf368837ef26fe1234",
+    "placements": 355,
+    "codeSnapshotStable": true,
+    "immutableA3Rerun": "pending"
+  },
+  "limitations": [
+    "Finite native roof/enclosure checks do not establish every camera angle or manual visual approval.",
+    "A3 immutable committed-source rerun remains pending.",
+    "All 220 native-variant manual statuses remain pending."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "status": "PASS: completed narrow read-only review found no new confirmed defect; scheduling scope only",
+  "reviewArtifact": "browser/reviews/building-world-budget-opus-result.json",
+  "reviewSHA256": "5cd419299cc2552d5313783fe5ef37a6744fa21d99decfc5858ff6c554ff79a8",
+  "reviewerModel": "claude-opus-5-5",
+  "reviewCompleted": true,
+  "sourceSnapshot": {
+    "world.ts": "f008f2c10dd13fcb162ea394e22beb0e646eb0d0ab165ab4f043cc85f565aec1",
+    "terrain-work.ts": "7c5f5ca96fbae174a82b8a952c76c71de2ab4312126f8738ca09528dd354a9b2",
+    "world-streaming.test.ts": "29d9fb4565a399016a5534f42da11f6abb7aeaa2754c9b1ad8ba70572fd1bcc7"
+  },
+  "currentSourceMatchesSnapshot": true,
+  "hashVerification": "Reviewer explicitly could not compute hashes. Artifact author independently matched all three current files against the copied review manifest.",
+  "adjudication": "The correction rechecks the shared budget and executes the synchronous exterior/footing callback in that same continuation. Confirmed permission-return/shared-wake race is closed. Stale/error/cleanup behavior was inspected; no new confirmed defect was reported.",
+  "schedulingRegression": {
+    "artifact": "browser/reviews/building-world-budget-regression.json",
+    "sha256": "ecedca31678b8859f3d8305538e48816ec8e3d23c0c1a0a47ac438e9f1ab2688",
+    "callbacks": 21,
+    "before": {
+      "turns": 1,
+      "maxVirtualWorkMs": 84
+    },
+    "after": {
+      "turns": 11,
+      "maxVirtualWorkMs": 8
+    }
+  },
+  "limitations": [
+    "This is code and controlled scheduling evidence, not actual browser frame-time approval.",
+    "An indivisible synchronous builder can exceed the budget.",
+    "Reviewer observations about direct-helper test scope, possible future async callback misuse, test isolation, callback-throw test coverage and unchanged synchronous work are retained verbatim in the raw result.",
+    "No native-geometry, visual or full-game-parity approval is inferred."
+  ]
+}
