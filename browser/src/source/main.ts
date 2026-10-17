@@ -14,8 +14,9 @@ import {ledgeDirection,jumpHeight} from './ledges.ts';
 import {stepWarpFacing,pushWarp,fieldEntryScripts,arrivalStep,arrivalFacing} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
 import {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction} from './script-recovery.ts';
+import {furnitureBlocksStep} from './furniture-collision.ts';
 import {movementAction} from './movement.ts';
-import {findTrainerEncounter,fieldTrainerCollision,trainerEventPriority,approachTrainer,type TrainerEncounter} from './trainer-encounters.ts';
+import {findTrainerEncounter,fieldTrainerCollision,trainerEventPriority,approachTrainer,MissingTrainerPartner,TrainerAttemptLatch,type TrainerEncounter} from './trainer-encounters.ts';
 import {mapBlackoutSpawn} from './spawns.ts';
 import {originalTrainerParty,battleMoneyLoss,trainerPrize} from './trainers.ts';
 import {catchingTutorialState} from './tutorial.ts';
@@ -30,11 +31,11 @@ let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elap
 let openingView:OpeningView|null=null;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
 let lastWarp='',lastCoord='',lastError='';
-let fieldPolling=false,lastTrainerAttempt='',lastTrainerLocation='';let activeTrainerEncounter:TrainerEncounter|null=null;
+let fieldPolling=false;const trainerAttempts=new TrainerAttemptLatch();let activeTrainerEncounter:TrainerEncounter|null=null;
 const trainerApproachTasks=new Map<number,Promise<void>>();
 let sourceActions:SourceActionRecovery<ReturnType<typeof captureField>>|undefined,recoveryPrompt=false;
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
-let playerTweenY:number|undefined;let previousStepJump=false;
+let followerPrevious:{x:number;z:number;height:number}|null=null;let playerTweenY:number|undefined;let previousStepJump=false;
 const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
 function save(){if(!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
@@ -46,15 +47,12 @@ function updateHUD(){
 }
 function refreshNPCs(){world.updateNPCs(objects.snapshot());for(const[id,y]of npcTweenY){const actor=world.npcSprites.get(id);if(actor)actor.group.position.y=y;}}
 function showPerson(object:string,value:boolean){objects.show(object,value);refreshNPCs();}
-function trainerCollision(){return fieldTrainerCollision({permission:(x,z)=>world.permission(x,z),height:(...args)=>world.height(...args),walkable:(...args)=>world.walkable(...args),actorHeight:actor=>world.npcSprites.get(actor.id)?.group.position.y??world.height(actor.x+.5,actor.z+.5,actor.y/16),playerHeight:()=>player.group.position.y,occupants:()=>follower?.group.visible&&!followerSuppressed?[{x:follower.group.position.x,z:follower.group.position.z,height:follower.group.position.y}]:[]},state,objects.snapshot());}
+function trainerCollision(){return fieldTrainerCollision({permission:(x,z)=>world.permission(x,z),height:(...args)=>world.height(...args),obstructed:(x,z,fromX,fromZ,fromY)=>{const toY=world.height(x,z,fromY,fromX,fromZ);return[...world.cells.values()].some(cell=>furnitureBlocksStep(cell.furniture??[],fromX,fromZ,x,z,fromY,toY));},actorHeight:actor=>world.npcSprites.get(actor.id)?.group.position.y??world.height(actor.x+.5,actor.z+.5,actor.y/16),playerHeight:()=>player.group.position.y,occupants:()=>follower?.group.visible&&!followerSuppressed?[{x:follower.group.position.x,z:follower.group.position.z,height:follower.group.position.y},...(followerPrevious?[followerPrevious]:[])]:[]},state,objects.snapshot());}
 async function tryTrainerEncounter(){
   if(vm.busy||ui.busy||battle.active||transitioning)return false;
-  const location=`${state.map}:${Math.floor(state.x)},${Math.floor(state.z)}`;if(location!==lastTrainerLocation){lastTrainerAttempt='';lastTrainerLocation=location;}
-  const encounter=findTrainerEncounter(data,state,map,objects.snapshot(),trainerCollision());if(!encounter)return false;
-  const signature=`${state.map}:${Math.floor(state.x)},${Math.floor(state.z)}:${encounter.trainers.map(t=>t.object).join(',')}`;
-  // Failed, unsupported scenes may be left by walking away; never retry them
-  // every animation frame at the same tile. Manual interaction still retries.
-  if(signature===lastTrainerAttempt)return false;lastTrainerAttempt=signature;activeTrainerEncounter=encounter;trainerApproachTasks.clear();
+  trainerAttempts.observe(state);
+  let encounter:TrainerEncounter|null;try{encounter=findTrainerEncounter(data,state,map,objects.snapshot(),trainerCollision());}catch(error){if(!(error instanceof MissingTrainerPartner))throw error;if(!trainerAttempts.admit(state,'missing:'+error.object))return false;await runScript(3739,error.object,false,false,false,undefined,new UnsupportedScript(map.code,'TrainerPartner',-1));return true;}if(!encounter)return false;
+  if(!trainerAttempts.admit(state,encounter.trainers.map(t=>t.object).join(',')))return false;activeTrainerEncounter=encounter;trainerApproachTasks.clear();
   try{await runScript(3739,encounter.trainers[0].object,false,false,false,encounter);}
   finally{await Promise.allSettled(trainerApproachTasks.values());trainerApproachTasks.clear();activeTrainerEncounter=null;}
   return true;
@@ -78,10 +76,11 @@ async function pollFieldInput(){
   try{if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);await step(Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0);}}
   finally{fieldPolling=false;}
 }
-async function tweenNPC(npc:NPC&{step:number},x:number,z:number,seconds:number,jump=false){
+async function tweenNPC(npc:NPC&{step:number;previousX?:number;previousZ?:number;previousY?:number},x:number,z:number,seconds:number,jump=false){
   const from={x:npc.x,z:npc.z},fromY=world.npcSprites.get(npc.id)?.group.position.y??world.height(from.x+.5,from.z+.5),toY=world.height(x+.5,z+.5,fromY,from.x+.5,from.z+.5);
+  npc.previousX=from.x;npc.previousZ=from.z;npc.previousY=fromY;
   try{await tween(seconds,t=>{npc.x=from.x+(x-from.x)*t;npc.z=from.z+(z-from.z)*t;npc.step=t*4;if(jump)npcTweenY.set(npc.id,jumpHeight(fromY,toY,t));refreshNPCs();});}
-  finally{npcTweenY.delete(npc.id);npc.step=-1;refreshNPCs();}
+  finally{npcTweenY.delete(npc.id);npc.previousX=npc.previousZ=npc.previousY=undefined;npc.step=-1;refreshNPCs();}
 }
 async function moveActor(object:string,label:string,source:SourceMap){
   const start=source.scripts.labels[label];if(start===undefined)return;let index=start;
@@ -106,10 +105,11 @@ async function tween(seconds:number,fn:(t:number)=>void){const start=performance
 async function tweenPlayer(x:number,z:number,seconds:number,jump=false){
   const from={x:state.x,z:state.z},followFrom=follower?.group.position.clone();
   const fromY=world.height(from.x,from.z,player.group.position.y),toY=world.height(x,z,fromY,from.x,from.z),followerJump=followFrom&&previousStepJump&&Math.hypot(from.x-followFrom.x,from.z-followFrom.z)>.001;
+  followerPrevious=followFrom?{x:followFrom.x,z:followFrom.z,height:followFrom.y}:null;
   if(followFrom){const dx=from.x-followFrom.x,dz=from.z-followFrom.z;followerMoving=Math.hypot(dx,dz)>.001;if(followerMoving)followerFacing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}
   try{await tween(seconds,t=>{state.x=from.x+(x-from.x)*t;state.z=from.z+(z-from.z)*t;stepFrame=t*4;if(jump)playerTweenY=jumpHeight(fromY,toY,t);
     if(follower&&followFrom){const fx=followFrom.x+(from.x-followFrom.x)*t,fz=followFrom.z+(from.z-followFrom.z)*t;follower.group.position.set(fx,followerJump?jumpHeight(followFrom.y,fromY,t):world.height(fx,fz,follower.group.position.y,follower.group.position.x,follower.group.position.z),fz);followerStep=t*4;}
-  });}finally{playerTweenY=undefined;previousStepJump=jump;stepFrame=-1;followerMoving=false;followerStep=-1;}
+  });}finally{followerPrevious=null;playerTweenY=undefined;previousStepJump=jump;stepFrame=-1;followerMoving=false;followerStep=-1;}
 }
 
 function face(object:string,facing?:number){const actor=objects.get(object);if(!actor)return;if(facing===undefined){const dx=state.x-actor.x-.5,dz=state.z-actor.z-.5;facing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}actor.facingDirection=facing;refreshNPCs();}
@@ -126,7 +126,7 @@ function captureField(){return{actors:map?objects.save(state.map):state.objectEv
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
-  keys.clear();drag=false;transitioning=true;world.beginFieldTransition();ui.loading('Restoring the area…');
+  followerPrevious=null;keys.clear();drag=false;transitioning=true;world.beginFieldTransition();ui.loading('Restoring the area…');
   try{
     Object.assign(world,snapshot.camera);
     // Optional height/lift parameters are also understood by the gym hydration
@@ -163,12 +163,12 @@ async function executeSourceAction<T>(action:()=>Promise<T>){
     },
   });
 }
-async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter){
+async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter,admissionError?:UnsupportedScript){
   if(vm.busy&&!nested)return false;
   const result=await executeSourceAction(async()=>{
     const runner=nested?new ScriptVM(data,state,vm.hooks):vm,wasWalking=walking;
     if(!preserveControls)keys.clear();walking=true;
-    try{try{if(approach){if(approach.eyeType!==0)throw new UnsupportedScript(map.code,'TrainerBattleDouble',-1);await runner.runTrainerApproach(map,approach);}else await runner.run(map,script,object);}finally{if(approach){await Promise.allSettled(trainerApproachTasks.values());trainerApproachTasks.clear();}}updateHUD();}finally{walking=wasWalking;}
+    try{try{if(admissionError)throw admissionError;if(approach){if(approach.eyeType!==0)throw new UnsupportedScript(map.code,'TrainerBattleDouble',-1);await runner.runTrainerApproach(map,approach);}else await runner.run(map,script,object);}finally{if(approach){await Promise.allSettled(trainerApproachTasks.values());trainerApproachTasks.clear();}}updateHUD();}finally{walking=wasWalking;}
     if(!nested&&!vm.busy&&!deferTriggers)await checkFrameTriggers();
   });
   return result.ok;
@@ -225,9 +225,10 @@ async function warp(index:number,facing=state.facing){
 }
 async function checkEvents(enteredDoor=false){
   await executeSourceAction(async()=>{
-  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
-  const x=Math.floor(state.x),z=Math.floor(state.z);const owner=world.owner(state.x,state.z);
+  const owner=world.owner(state.x,state.z);
   if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
+  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
+  const x=Math.floor(state.x),z=Math.floor(state.z);
   const warpIndex=map.events.warps.findIndex(w=>w.x===x&&w.z===z),key=map.id+':'+x+','+z;
   if(key!==lastWarp)lastWarp='';
   const trigger=map.events.coords.find(c=>x>=c.x&&x<c.x+(c.w||1)&&z>=c.z&&z<c.z+(c.h||1)&&vm.value(c.var||'0',map)===c.val);

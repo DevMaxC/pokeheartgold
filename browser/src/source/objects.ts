@@ -1,6 +1,6 @@
 import type {GameData,NPC,State,ObjectEventSave} from './types.ts';
 
-export type FieldObject=NPC&{shown:boolean|undefined;step:number;resolvedSprite:string;visible:boolean;directionLocked:boolean;invisible:boolean};
+export type FieldObject=NPC&{shown:boolean|undefined;step:number;resolvedSprite:string;visible:boolean;directionLocked:boolean;invisible:boolean;previousX?:number;previousZ?:number;previousY?:number};
 
 /** Original object-event state exists independently of its displayed sprite. */
 export class FieldObjects{

@@ -3,13 +3,21 @@ import type {EngagedTrainer,TrainerApproachContext} from './script.ts';
 import {trainerIdForScript,trainerDefeated} from './trainer-script-state.ts';
 
 export const TRAINER_DIRECTIONS=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}]as const;
-export type TrainerActor=NPC&{shown?:boolean;invisible?:boolean};
+export type TrainerActor=NPC&{shown?:boolean;invisible?:boolean;previousX?:number;previousZ?:number;previousY?:number};
 export type SightTrainer=EngagedTrainer&{direction:number;distance:number};
 export type TrainerEncounter=TrainerApproachContext&{trainers:SightTrainer[]};
 export type TrainerCollision=(actor:TrainerActor,x:number,z:number,direction:number)=>number;
 export function actorActive(actor:TrainerActor,state:State){return actor.shown??(actor.eventFlag==='FLAG_NOTHING'||!state.flags[actor.eventFlag]);}
 function sightType(actor:TrainerActor){const type=actor.type??0;return type>=4&&type<=8?1:type;}
-function trainerScript(data:GameData,map:SourceMap,actor:TrainerActor){const script=String(actor.scriptId),match=script.match(/^std_trainer(_2)?\((\w+)\)$/);return match?(data.constants[match[2]]??map.constants[match[2]])-1+(match[1]?5000:3000):Number(actor.scriptId);}
+function trainerScript(data:GameData,map:SourceMap,actor:TrainerActor){const script=String(actor.scriptId),match=script.match(/^std_trainer(_2)?\((\w+)\)$/);return match?(map.constants[match[2]]??data.constants[match[2]])-1+(match[1]?5000:3000):Number(actor.scriptId);}
+export class MissingTrainerPartner extends Error{constructor(readonly object:string){super(`Missing native double-trainer partner for ${object}`);}}
+/** Failure suppression is field runtime state, deliberately outside saves and
+ * rollback. A broken source encounter reports once, then permits walking out. */
+export class TrainerAttemptLatch{
+ private location='';private attempts=new Set<string>();
+ observe(state:Pick<State,'map'|'x'|'z'>){const location=`${state.map}:${Math.floor(state.x)},${Math.floor(state.z)}`;if(location!==this.location){this.location=location;this.attempts.clear();}}
+ admit(state:Pick<State,'map'|'x'|'z'>,key:string){this.observe(state);if(this.attempts.has(key))return false;this.attempts.add(key);return true;}
+}
 /** map_object_behavior.c TrainerSight_FindPlayer/IsPathBlocked. Bit 1 is
  * movement-range only and is ignored; all intermediate tiles must be clear,
  * and the final tile must contain the player (collision bit 4 alone). */
@@ -25,24 +33,26 @@ export function findTrainerEncounter(data:GameData,state:State,map:SourceMap,act
  const candidates=actors.filter(actor=>actorActive(actor,state));
  const find=(exclude?:string)=>{for(const actor of candidates){if(actor.id===exclude)continue;const id=trainerIdForScript(trainerScript(data,map,actor));if(id===null||!data.trainers[id]||trainerDefeated(state,id))continue;const sight=trainerSight(actor,state,collision);if(sight)return{trainer:id,object:actor.id,...sight};}return null;};
  const first=find();if(!first)return null;const doubles=state.party.filter(mon=>!mon.isEgg&&mon.hp>0).length>=2;
- if(data.trainers[first.trainer].double){if(!doubles)return null;const partner=candidates.find(actor=>actor.id!==first.object&&[1,2].includes(sightType(actor))&&trainerIdForScript(trainerScript(data,map,actor))===first.trainer);if(!partner)throw Error(`Missing native double-trainer partner for ${first.object}`);return{eyeType:1,trainers:[first,{...first,object:partner.id}]};}
+ if(data.trainers[first.trainer].double){if(!doubles)return null;const partner=candidates.find(actor=>actor.id!==first.object&&[1,2].includes(sightType(actor))&&trainerIdForScript(trainerScript(data,map,actor))===first.trainer);if(!partner)throw new MissingTrainerPartner(first.object);return{eyeType:1,trainers:[first,{...first,object:partner.id}]};}
  const second=doubles?find(first.object):null;return{eyeType:second?2:0,trainers:second?[first,second]:[first]};
 }
 
 /** Source metatile_behavior.c / map_object_update.c entry/exit tests. */
 export function trainerBehaviorBlocked(from:number,to:number,direction:number){const blocked=[[50,52,53,60,73],[51,54,55,61,73],[49,53,55,74],[48,52,54,74]],opposite=[1,0,3,2];return(to&255)===255||blocked[direction]?.includes(from&255)||blocked[opposite[direction]]?.includes(to&255)||false;}
-export type TrainerTerrain={permission:(x:number,z:number)=>number;height:(x:number,z:number,reference?:number,fromX?:number,fromZ?:number)=>number;walkable:(x:number,z:number,fromX:number,fromZ:number,reference:number)=>boolean;actorHeight?:(actor:TrainerActor)=>number;playerHeight?:()=>number;occupants?:()=>{x:number;z:number;height:number}[]};
+export type TrainerTerrain={permission:(x:number,z:number)=>number;height:(x:number,z:number,reference?:number,fromX?:number,fromZ?:number)=>number;obstructed?:(x:number,z:number,fromX:number,fromZ:number,reference:number)=>boolean;actorHeight?:(actor:TrainerActor)=>number;playerHeight?:()=>number;occupants?:()=>{x:number;z:number;height:number}[]};
 /** Adapt actual permission/plate/furniture queries to native collision bits.
  * Native height collision is >=20 DS units (=1.25 rendered tiles); occupancy
  * compares floor(height/8 DS units), permitting different bridge floors. */
 export function fieldTrainerCollision(terrain:TrainerTerrain,state:State,actors:TrainerActor[]):TrainerCollision{
  const level=(y:number)=>Math.floor(y*2),height=(actor:TrainerActor)=>terrain.actorHeight?.(actor)??terrain.height(actor.x+.5,actor.z+.5,actor.y/16);
  return(actor,x,z,direction)=>{const sx=Math.floor(actor.x)+.5,sz=Math.floor(actor.z)+.5,reference=height(actor),target=terrain.height(x+.5,z+.5,reference,sx,sz);let flags=0;
-  if(!terrain.walkable(x+.5,z+.5,sx,sz,reference)||trainerBehaviorBlocked(terrain.permission(sx,sz),terrain.permission(x+.5,z+.5),direction))flags|=2;
+  // NPC sight uses native collision attributes, never the player's Surf/HM
+  // eligibility gate. Water itself does not add collision bit 2.
+  if(terrain.permission(x+.5,z+.5)&0x8000||terrain.obstructed?.(x+.5,z+.5,sx,sz,reference)||trainerBehaviorBlocked(terrain.permission(sx,sz),terrain.permission(x+.5,z+.5),direction))flags|=2;
   if(Math.abs(target-reference)>=1.25)flags|=10;
   const sameLevel=(y:number)=>Math.abs(level(y)-level(reference))<2;
   if(Math.floor(state.x)===x&&Math.floor(state.z)===z&&sameLevel(terrain.playerHeight?.()??terrain.height(state.x,state.z)))flags|=4;
-  if(actors.some(other=>other.id!==actor.id&&actorActive(other,state)&&Math.floor(other.x)===x&&Math.floor(other.z)===z&&sameLevel(height(other))))flags|=4;
+  if(actors.some(other=>other.id!==actor.id&&actorActive(other,state)&&(Math.floor(other.x)===x&&Math.floor(other.z)===z&&sameLevel(height(other))||other.previousX!==undefined&&other.previousZ!==undefined&&Math.floor(other.previousX)===x&&Math.floor(other.previousZ)===z&&sameLevel(other.previousY??height(other)))))flags|=4;
   if(terrain.occupants?.().some(other=>Math.floor(other.x)===x&&Math.floor(other.z)===z&&sameLevel(other.height)))flags|=4;
   return flags;
  };

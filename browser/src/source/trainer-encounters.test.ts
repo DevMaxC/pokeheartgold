@@ -5,9 +5,9 @@ import {loadData,newState,createMon} from './data.ts';
 import {FieldObjects} from './objects.ts';
 import {ScriptVM,type ScriptHooks} from './script.ts';
 import {sourceJSON,type Land,type SourceMap} from './types.ts';
-import {tilePermission,permissionWalkable,terrainHeight} from './terrain.ts';
+import {tilePermission,terrainHeight} from './terrain.ts';
 import {trainerDefeated,setTrainerDefeated} from './trainer-script-state.ts';
-import {findTrainerEncounter,fieldTrainerCollision,trainerSight,trainerBehaviorBlocked,trainerEventPriority,approachTrainer,TRAINER_DIRECTIONS,type TrainerEncounter,type TrainerTerrain} from './trainer-encounters.ts';
+import {findTrainerEncounter,fieldTrainerCollision,trainerSight,trainerBehaviorBlocked,trainerEventPriority,approachTrainer,TRAINER_DIRECTIONS,TrainerAttemptLatch,MissingTrainerPartner,type TrainerEncounter,type TrainerTerrain} from './trainer-encounters.ts';
 
 globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));}catch{return new Response('',{status:404});}};
 const data=await loadData();
@@ -15,7 +15,7 @@ async function fixture(id=35,key='TRAINER_BUG_CATCHER_WADE',distance=2){
  const map=await sourceJSON<SourceMap>(`maps/${id}.json`),state=newState(data,'Ethan','boy'),objects=new FieldObjects(data,state);state.map=id;objects.load(map.events.objects);const actor=[...objects.objects.values()].find(n=>n.scriptId===`std_trainer(${key})`)!;assert.ok(actor);
  state.party=[createMon(data,155,8,state.name,()=>.5),createMon(data,16,8,state.name,()=>.5)];const d=TRAINER_DIRECTIONS[actor.facingDirection];state.x=actor.x+d.x*distance+.5;state.z=actor.z+d.z*distance+.5;
  const lands=new Map(await Promise.all([...new Set(map.cells.map(c=>c.land))].map(async id=>[id,await sourceJSON<Land>(`lands/${id}.json`)]as const))),cell=(x:number,z:number)=>map.cells.find(c=>c.x===Math.floor(x/32)&&c.z===Math.floor(z/32));
- const terrain:TrainerTerrain={permission:(x,z)=>{const c=cell(x,z);return c?tilePermission(lands.get(c.land)!,x,z):0x8000;},height:(x,z,reference=0)=>{const c=cell(x,z);return c?terrainHeight(lands.get(c.land)!,c,x,z,reference):reference;},walkable:(x,z)=>permissionWalkable(terrain.permission(x,z))};
+ const terrain:TrainerTerrain={permission:(x,z)=>{const c=cell(x,z);return c?tilePermission(lands.get(c.land)!,x,z):0x8000;},height:(x,z,reference=0)=>{const c=cell(x,z);return c?terrainHeight(lands.get(c.land)!,c,x,z,reference):reference;}};
  const collision=fieldTrainerCollision(terrain,state,objects.snapshot());return{map,state,objects,actor,terrain,collision,detect:()=>findTrainerEncounter(data,state,map,objects.snapshot(),collision)};
 }
 test('actual Wade, Sprout Tower and Violet Gym source objects detect only their native unobstructed sight line',async()=>{
@@ -26,6 +26,9 @@ test('native event flags, explicit show/hide, defeat flags and range all affect 
 });
 test('actual twins produce a paired context, never a fabricated single battle, and require two usable Pokémon',async()=>{
  const f=await fixture(180,'TRAINER_TWINS_AMY_AND_MIMI',1),encounter=f.detect();assert.equal(encounter?.eyeType,1);assert.equal(encounter?.trainers.length,2);assert.ok(encounter?.trainers.every(t=>t.trainer===10));assert.notEqual(encounter?.trainers[0].object,encounter?.trainers[1].object);f.state.party.splice(1);assert.equal(f.detect(),null);
+});
+test('a flag-hidden missing partner is an explicit admission error that can be latched without blocking movement forever',async()=>{
+ const f=await fixture(180,'TRAINER_TWINS_AMY_AND_MIMI',1),partner=[...f.objects.objects.values()].find(n=>n.id!==f.actor.id&&String(n.scriptId).includes('TRAINER_TWINS_AMY_AND_MIMI'))!;f.objects.show(partner.id,false);assert.throws(f.detect,MissingTrainerPartner);const latch=new TrainerAttemptLatch();assert.equal(latch.admit(f.state,'missing:'+f.actor.id),true);assert.equal(latch.admit(f.state,'missing:'+f.actor.id),false);f.state.x++;latch.observe(f.state);f.state.x--;assert.equal(latch.admit(f.state,'missing:'+f.actor.id),true,'leaving an encounter-free tile and returning permits a later retry');
 });
 test('independent trainers retain native object order and only combine when doubles are eligible',async()=>{
  const f=await fixture(),sprout=await sourceJSON<SourceMap>('maps/155.json'),second={...sprout.events.objects.find(n=>String(n.scriptId)==='std_trainer(TRAINER_SAGE_NICO)')!,x:f.actor.x+2,z:f.actor.z-2,facingDirection:2,param0:2};
@@ -40,11 +43,18 @@ test('sight ignores roaming-range bit one but requires player occupancy at the c
  const f=await fixture();assert.ok(trainerSight(f.actor,f.state,(a,x,z,d)=>f.collision(a,x,z,d)|1));assert.equal(trainerSight(f.actor,f.state,()=>0),null);assert.equal(trainerSight(f.actor,f.state,()=>4),null,'intermediate actor blocks the line');assert.equal(trainerSight(f.actor,f.state,(a,x,z,d)=>f.collision(a,x,z,d)|2),null);
 });
 test('actual collision adapter rejects terrain, furniture, directional walls and another actor in sight',async()=>{
- const f=await fixture(),original=f.terrain.walkable;f.terrain.walkable=()=>false;assert.equal(f.detect(),null);f.terrain.walkable=original;
+ const f=await fixture();f.terrain.obstructed=()=>true;assert.equal(f.detect(),null);delete f.terrain.obstructed;
  const originalPermission=f.terrain.permission;f.terrain.permission=(x,z)=>Math.floor(z)===f.actor.z-1?51:originalPermission(x,z);assert.equal(f.detect(),null,'north entry into south-blocking native edge');f.terrain.permission=originalPermission;
  const blocker=[...f.objects.objects.values()].find(n=>n.id!==f.actor.id)!;f.objects.position(blocker.id,f.actor.x,f.actor.z-1);f.objects.show(blocker.id,true);assert.equal(f.detect(),null);
  assert.equal(trainerBehaviorBlocked(50,0,0),true);assert.equal(trainerBehaviorBlocked(0,51,0),true);assert.equal(trainerBehaviorBlocked(0,50,0),false);
 });
+test('native trainer sight crosses water without checking player Surf eligibility, but obeys its collision attribute',async()=>{
+ const f=await fixture(),original=f.terrain.permission;for(const behavior of[16,17,19,21]){f.terrain.permission=(x,z)=>Math.floor(z)===f.actor.z-1?behavior:original(x,z);assert.ok(f.detect(),`native water behavior${behavior} with collision clear`);f.terrain.permission=(x,z)=>Math.floor(z)===f.actor.z-1?behavior|0x8000:original(x,z);assert.equal(f.detect(),null,'collision bit15 still blocks');}
+});
+test('a moving object occupies both its current and previous source tile at the matching floor',async()=>{
+ const f=await fixture(),blocker=[...f.objects.objects.values()].find(n=>n.id!==f.actor.id)!;f.objects.position(blocker.id,f.actor.x+1.25,f.actor.z-1);f.objects.show(blocker.id,true);blocker.previousX=f.actor.x;blocker.previousZ=f.actor.z-1;blocker.previousY=f.terrain.height(f.actor.x+.5,f.actor.z+.5,f.actor.y/16);assert.equal(f.detect(),null);blocker.previousY+=2;assert.ok(f.detect(),'a previous tile on another floor does not obstruct');
+});
+test('trainer constants use the same map-first resolution as the source VM',async()=>{const f=await fixture();f.map.constants.TRAINER_BUG_CATCHER_WADE=data.constants.TRAINER_SAGE_NICO;assert.equal(f.detect()?.trainers[0].trainer,data.constants.TRAINER_SAGE_NICO);});
 test('a live following Pokémon occupies the native sight line on its own floor',async()=>{
  const f=await fixture(),height=f.terrain.height(f.actor.x+.5,f.actor.z+.5,f.actor.y/16);f.terrain.occupants=()=>[{x:f.actor.x+.5,z:f.actor.z-.5,height}];assert.equal(f.detect(),null);f.terrain.occupants=()=>[{x:f.actor.x+.5,z:f.actor.z-.5,height:height+2}];assert.ok(f.detect());
 });
