@@ -1,0 +1,687 @@
+{
+  "provider": "Claude Code CLI",
+  "requestedModel": "claude-opus-5-5",
+  "reviewedCommit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+  "isError": false,
+  "verdict": "One LOW EXP eligibility/residual ordering regression; Egg consumer paths otherwise passed",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1593,
+      "outputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001698,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 56,
+      "outputTokens": 18413,
+      "cacheReadInputTokens": 2215120,
+      "cacheCreationInputTokens": 115510,
+      "webSearchRequests": 0,
+      "costUSD": 1.3890580000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 11086,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "durationMs": 232892,
+  "snapshotPath": "/tmp/hg-egg-consumer-review-514a01e",
+  "snapshotManifestSHA256": "879613fd574091ce99d10d86217974c423dea9e8a8c099cef6e7932e77e5ba2d",
+  "snapshot": {
+    "commit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+    "createdUTC": "2026-10-17T11:31:15.614675+00:00",
+    "files": [
+      {
+        "path": "browser/package.json",
+        "bytes": 462,
+        "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+      },
+      {
+        "path": "browser/public/source/eggs/egg-icon.png",
+        "bytes": 370,
+        "sha256": "edce5fb48c1d8318bca44f38099092f641ed0f9deadf44634e8ed57cb75f29cc"
+      },
+      {
+        "path": "browser/public/source/eggs/provenance.json",
+        "bytes": 1684,
+        "sha256": "bccf75a5d136b8217d2f898d8d6afd5ed19e2a433bbf34fa6d89f169a5a8f579"
+      },
+      {
+        "path": "browser/public/source/maps/157.json",
+        "bytes": 11079,
+        "sha256": "c111b7a611763552241165927742b9ee43df6f7c5516ddc877417d849b2c7184"
+      },
+      {
+        "path": "browser/public/source/maps/73.json",
+        "bytes": 30457,
+        "sha256": "4152b2297ac9f3e584c6d2381344ceb1cb9835fb5c36b54ff36e928158fb7829"
+      },
+      {
+        "path": "browser/public/source/messages/302.json",
+        "bytes": 8527,
+        "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+      },
+      {
+        "path": "browser/reviews/2026-10-17-native-togepi-egg.md",
+        "bytes": 7282,
+        "sha256": "e3cba0898ff5dab0e54b1d720c9335d319d43aa44f70d7d1998c658114c9273f"
+      },
+      {
+        "path": "browser/scripts/export_egg_assets.py",
+        "bytes": 1733,
+        "sha256": "bb3968f01a170b61f9c2ded570594c80a3c6aee6f0aa4dc1f362df541de7b342"
+      },
+      {
+        "path": "browser/src/source/aquatic-gate-building-shells.ts",
+        "bytes": 7757,
+        "sha256": "95da8f25d92454130155cc0ecea476a00536dedf2ccd9d56aaae1affc1050998"
+      },
+      {
+        "path": "browser/src/source/atmosphere.ts",
+        "bytes": 3324,
+        "sha256": "a48dddb097c65f6d50b755d5135faf5968faf1f028bc306c5dd99f37f3ed88ab"
+      },
+      {
+        "path": "browser/src/source/bag.ts",
+        "bytes": 1576,
+        "sha256": "d70c869d89b08e3b32ef78e1a030838dbe6e1caa7297998526de52e939b17338"
+      },
+      {
+        "path": "browser/src/source/battle-camera.ts",
+        "bytes": 1887,
+        "sha256": "8630f858a9906e4829100634447949747629a8bdf3f33da638452fc87d5a46bc"
+      },
+      {
+        "path": "browser/src/source/battle-layout.ts",
+        "bytes": 2956,
+        "sha256": "327b54eb2414696dec1311519c51c8e6e9c00a5f9078b247c000385de4d92d1b"
+      },
+      {
+        "path": "browser/src/source/battle-math.ts",
+        "bytes": 5544,
+        "sha256": "7418bd5497c62487041e5e671d722232ed20008990c1d66ca41bdd30e422883e"
+      },
+      {
+        "path": "browser/src/source/battle-stage.ts",
+        "bytes": 13360,
+        "sha256": "5271bd1358b79100eda45bba2df840b8e65439f2157ec539f2a2d4967e2f580f"
+      },
+      {
+        "path": "browser/src/source/battle-view.ts",
+        "bytes": 471,
+        "sha256": "56bbd6e95f04056c58cd18948c18c31aa0baf4fabe55565acbb015904a2a3aa8"
+      },
+      {
+        "path": "browser/src/source/battle.test.ts",
+        "bytes": 3769,
+        "sha256": "86771c40739ec54e715d73c65267b7a1de70a6c3790e0c5ed9a55dc89402e590"
+      },
+      {
+        "path": "browser/src/source/battle.ts",
+        "bytes": 25653,
+        "sha256": "dbad0ecf0d32bba23500f5d9b701ce3dd74f2f1609e13264dd98f9adddad0c3f"
+      },
+      {
+        "path": "browser/src/source/building-exterior.ts",
+        "bytes": 4965,
+        "sha256": "53bdd6734b108e2ac1f21a5e2e9718cc979a06963ed2e06416a49ae84e8eb024"
+      },
+      {
+        "path": "browser/src/source/building-footing.ts",
+        "bytes": 3876,
+        "sha256": "46082354d6f7ab248a1688b4b1e3b358fcc111e8b84aa073e1dce9b12eff8d90"
+      },
+      {
+        "path": "browser/src/source/burned-tower-shells.ts",
+        "bytes": 6288,
+        "sha256": "01135aae05bf146d609e34b908311bc85f04d9dd834278233b6bab31351d63e0"
+      },
+      {
+        "path": "browser/src/source/camera.ts",
+        "bytes": 1552,
+        "sha256": "3b2f47cc7d2dbc4ac3c67ce78fa7e7aeb5d72772362a308ae4b12fa3d18de84e"
+      },
+      {
+        "path": "browser/src/source/canopy-occlusion.ts",
+        "bytes": 2398,
+        "sha256": "1578d8a9daa0745e2d83e24a1f61af1de40212a10c6f30d14f5c74af20a4b486"
+      },
+      {
+        "path": "browser/src/source/civic-building-shells.ts",
+        "bytes": 21781,
+        "sha256": "1d7d40acac002d4894e864fbafdcc544d7d084a7e94f6fa5b1d146c5ffee3c8d"
+      },
+      {
+        "path": "browser/src/source/data.ts",
+        "bytes": 4821,
+        "sha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0"
+      },
+      {
+        "path": "browser/src/source/decorative-building-shells.ts",
+        "bytes": 26145,
+        "sha256": "2ce91dc85a2709f30b733a0b7677fbcbdbd06ef595f679782abc891ef77595c2"
+      },
+      {
+        "path": "browser/src/source/egg-consumers.test.ts",
+        "bytes": 5293,
+        "sha256": "5a14ee6c4fb630ae121c98a7b041a3e0826a58300a14a0ffbc89581bfb67ff7e"
+      },
+      {
+        "path": "browser/src/source/eggs.test.ts",
+        "bytes": 9756,
+        "sha256": "915b9c233d70dfd81ea8ee257614f0584d51713d28f2c75812d589d2bfb040f5"
+      },
+      {
+        "path": "browser/src/source/eggs.ts",
+        "bytes": 4959,
+        "sha256": "bc5278444c1da0163f6de57ce9138c516fc0b16f1e59dd274ee42b726ebeac95"
+      },
+      {
+        "path": "browser/src/source/encounter.ts",
+        "bytes": 1214,
+        "sha256": "0f3a4040fb000935ec40b7da231e10e6e0a5a03d84d775e318ec79318ab61ab0"
+      },
+      {
+        "path": "browser/src/source/facility-building-shells.ts",
+        "bytes": 12829,
+        "sha256": "064b80764d2952eedc5d41a54157c4f26c0edee3fa879ba072e2e0835a8a8b06"
+      },
+      {
+        "path": "browser/src/source/field-services.ts",
+        "bytes": 687,
+        "sha256": "b462b4865d52e71504d85b03fbb7fedb97703b2b98887af83ef7b420b5ce17c6"
+      },
+      {
+        "path": "browser/src/source/field-transitions.ts",
+        "bytes": 1525,
+        "sha256": "1320ca3214ad3c1df7ff67ad7fa9a3e79f0ee6ab3f49d96157a9fa57f123eeab"
+      },
+      {
+        "path": "browser/src/source/first-badge.test.ts",
+        "bytes": 11002,
+        "sha256": "1be8015293320bc19c1aedeab5fce41af39397951b580d13e4146749822e3f94"
+      },
+      {
+        "path": "browser/src/source/frontier-building-shells.ts",
+        "bytes": 18800,
+        "sha256": "97e6d0965a01a614204fc7bd064f2bcbcd183939e7c214e4cf88e917f7b41267"
+      },
+      {
+        "path": "browser/src/source/furniture-collision.ts",
+        "bytes": 4245,
+        "sha256": "229e75c36ac495dff147782fb39e38bac5e4975e866c3adf03865af06aee7ef4"
+      },
+      {
+        "path": "browser/src/source/furniture.ts",
+        "bytes": 7650,
+        "sha256": "baf4b364137fe2d7ac203a32b2fdc68f8cf3c8c9c4208b399ef71e9374d17b2c"
+      },
+      {
+        "path": "browser/src/source/game-stat-rules.ts",
+        "bytes": 1389,
+        "sha256": "81879799f94c62357ff096c2378a1759ed9f0e892d3d3956b0f702cbf718b581"
+      },
+      {
+        "path": "browser/src/source/game-stats.ts",
+        "bytes": 1552,
+        "sha256": "d25f75f482681605ca728ee8e09bd31a42da6124965763cb172bca939aced477"
+      },
+      {
+        "path": "browser/src/source/gate-building-shells.ts",
+        "bytes": 14369,
+        "sha256": "df6cdbaaf92d5ba56867a1ea9bef4a29ce4fb3c3f898ddab4da2672afc8474f2"
+      },
+      {
+        "path": "browser/src/source/grass.ts",
+        "bytes": 3521,
+        "sha256": "f1d46d8592ae9f95afe0b6ca139c09597b17cff71a3b1f565565057a48aba1d6"
+      },
+      {
+        "path": "browser/src/source/gym-building-shells.ts",
+        "bytes": 11742,
+        "sha256": "6e01f1b5d9ca12f742ed65daa13050b2deb057973309613e70f1c64a8cdaf29f"
+      },
+      {
+        "path": "browser/src/source/gym-violet-integration.test.ts",
+        "bytes": 9522,
+        "sha256": "cae4ecf810ed7942a0d91e215c237771b0c24763e89e4d1d4f4a29f24c7493d7"
+      },
+      {
+        "path": "browser/src/source/gym-violet.ts",
+        "bytes": 7324,
+        "sha256": "9cc7ddacbafe03144a1c9b53b81e02cb617e9664e5adfaf49181c865ac86e055"
+      },
+      {
+        "path": "browser/src/source/house-building-shells.ts",
+        "bytes": 47039,
+        "sha256": "4a5734efd044b9d6be5628dd75ab07f127c10263f26a7b124b66d03d2a953367"
+      },
+      {
+        "path": "browser/src/source/industrial-building-shells.ts",
+        "bytes": 13872,
+        "sha256": "5e1ce530bcf05ac762c70f65d378de605c04e2a2535b1eb24ec69396844d44c1"
+      },
+      {
+        "path": "browser/src/source/landmark-annex-shells.ts",
+        "bytes": 10068,
+        "sha256": "d6c79086fc843dd734c5d70975313028807ae5773002dfda1ac004b4763d3a81"
+      },
+      {
+        "path": "browser/src/source/landmark-building-shells.ts",
+        "bytes": 19649,
+        "sha256": "2a8408983817938faf01e9331bf75708f578e849802bdff6cba2861455cd5e0d"
+      },
+      {
+        "path": "browser/src/source/ledges.ts",
+        "bytes": 3075,
+        "sha256": "a3712230b8133173ce0b4692b85f3c132270143275ec928762d061477afeaa8d"
+      },
+      {
+        "path": "browser/src/source/main.ts",
+        "bytes": 43516,
+        "sha256": "3084e43133fb421d7401bd29e21cc3f43be8769b7e7d4389365be5cd45a49a5e"
+      },
+      {
+        "path": "browser/src/source/misc-building-shells.ts",
+        "bytes": 19020,
+        "sha256": "46387f5cdfabb626c8120e8e3e3d6ddb2817dd64d9ff7c39c21551fb4f1700c6"
+      },
+      {
+        "path": "browser/src/source/movement.ts",
+        "bytes": 1639,
+        "sha256": "2842bc55427aa209c30371570b412ddf06f11136a3a49e1e69e62e92b20387fb"
+      },
+      {
+        "path": "browser/src/source/name-rater-game-building-shells.ts",
+        "bytes": 10329,
+        "sha256": "25ae9f0176d649d8fb5e5323d9f345714fbb2ea78e3445ae32c30790f673cfa9"
+      },
+      {
+        "path": "browser/src/source/native-rng.ts",
+        "bytes": 686,
+        "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e"
+      },
+      {
+        "path": "browser/src/source/objects.ts",
+        "bytes": 2889,
+        "sha256": "85344f29ea49f0ae6769b147b8a2c0eff891362f8d37dac5f6722e6010d65efd"
+      },
+      {
+        "path": "browser/src/source/opening-art.ts",
+        "bytes": 2337,
+        "sha256": "a8cdfadb04f292f42ccfc3fce482bd3b0ca5e8f0871e6b509260b56bf70b1c96"
+      },
+      {
+        "path": "browser/src/source/opening-input.ts",
+        "bytes": 1489,
+        "sha256": "fa79d48d6c213076c8ab1fd0c3644af833bd775f4c48da156120f46b387bdb05"
+      },
+      {
+        "path": "browser/src/source/opening-save.test.ts",
+        "bytes": 1903,
+        "sha256": "185bc96ba49692e6742c28cd30393e11e43b551fd54dd83138d950cae6ebf29a"
+      },
+      {
+        "path": "browser/src/source/opening-stage.ts",
+        "bytes": 4550,
+        "sha256": "aab2a990c7f7dfb143c460e007defa96c0dddcc0b24b6b497b5ff4cf685501e4"
+      },
+      {
+        "path": "browser/src/source/opening-view.ts",
+        "bytes": 9297,
+        "sha256": "2dbf3a39c080329a2ad843945c152186eda5ce4ff3a06a99900744a2fd53eaca"
+      },
+      {
+        "path": "browser/src/source/opening.css",
+        "bytes": 4163,
+        "sha256": "dd63aa8e158bbbf62e387d00c7cf1ba0ec8da6b85bc7608c3a44dbddc37c96dc"
+      },
+      {
+        "path": "browser/src/source/opening.ts",
+        "bytes": 7497,
+        "sha256": "81e1d48700c5ff9211443f16f337949c3507d0ec057bd9d8c0b6baa3f874e72f"
+      },
+      {
+        "path": "browser/src/source/pagoda-building-shells.ts",
+        "bytes": 3097,
+        "sha256": "fd4426f6c85c837c3cf8068d1fc337eb8aa67638941fa55df17a764bef137f99"
+      },
+      {
+        "path": "browser/src/source/party-display.test.ts",
+        "bytes": 2098,
+        "sha256": "3ae13a9298f06aa31c61050a1627a0085d4c53f74725ee545704152316b642e4"
+      },
+      {
+        "path": "browser/src/source/party-display.ts",
+        "bytes": 2060,
+        "sha256": "2baed83dc51ce3a6b86a4e842fda46a220535a334286fff90a04da8d7034cc93"
+      },
+      {
+        "path": "browser/src/source/phone.ts",
+        "bytes": 2918,
+        "sha256": "a9b1a287167525512e4a31cf4b1f744c281a22720a15b9edad83d6a08d61c74d"
+      },
+      {
+        "path": "browser/src/source/pokeathlon-building-shells.ts",
+        "bytes": 19724,
+        "sha256": "5ae748a8e9f2ae412711e1d75eeb727731a942abc6f198a804269ea623892a0c"
+      },
+      {
+        "path": "browser/src/source/render-repair.ts",
+        "bytes": 46708,
+        "sha256": "27291115f1fa40b1a26204194fa83ddf30873c3b24715c43faf2b6e0528e2c2e"
+      },
+      {
+        "path": "browser/src/source/script-camera.ts",
+        "bytes": 3428,
+        "sha256": "6c3b312c0aefd3eacf0c2c6ce1b97a73914308f87ad3ea2e0fa3cf4424284914"
+      },
+      {
+        "path": "browser/src/source/script-recovery.test.ts",
+        "bytes": 28393,
+        "sha256": "9cb89b34a297bc75e937a9900faa59f8bc662254be686801c0641f6e5be919e8"
+      },
+      {
+        "path": "browser/src/source/script-recovery.ts",
+        "bytes": 5940,
+        "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+      },
+      {
+        "path": "browser/src/source/script.ts",
+        "bytes": 32293,
+        "sha256": "60a5f01a3fa5d25bcbcea444ed9e147a856e6112cdee2edbe53294a3ad3a1a74"
+      },
+      {
+        "path": "browser/src/source/shoreline.ts",
+        "bytes": 1754,
+        "sha256": "7e3b52da0246c1823fea261e96759bbfb4fde7323c59e365f10439019d7848b7"
+      },
+      {
+        "path": "browser/src/source/shrine-building-shells.ts",
+        "bytes": 8327,
+        "sha256": "1fb2046749d4c2452865ad3bb038660bb8ce5bc7935a8779eb677ed905efc8b3"
+      },
+      {
+        "path": "browser/src/source/sky.ts",
+        "bytes": 13772,
+        "sha256": "2243d41a90a16462d9da75b9896adb16131b6cb7e081c43952e7814926c56381"
+      },
+      {
+        "path": "browser/src/source/small-building-shells.ts",
+        "bytes": 12245,
+        "sha256": "ea4df3814ebfefaa8afb13f05774fbe38bc440dd15e531ca6c4df120396ee05b"
+      },
+      {
+        "path": "browser/src/source/spawns.ts",
+        "bytes": 677,
+        "sha256": "32854207437a0857bca71eb67b66b3b056b424c4c21f5080170c31854a591429"
+      },
+      {
+        "path": "browser/src/source/special-building-shells.ts",
+        "bytes": 13575,
+        "sha256": "f0783e7837578d8253ba5937c2aefe886bebb35b551c8714ce156f543814f439"
+      },
+      {
+        "path": "browser/src/source/station-building-shells.ts",
+        "bytes": 10220,
+        "sha256": "efcfb6d82a56eb7d780f20161c088c4d4b4e761a762e3b293275313c03ae2452"
+      },
+      {
+        "path": "browser/src/source/style.css",
+        "bytes": 10231,
+        "sha256": "2c2a28632e49dd14004a6fae0220e43657907dcf8fbf5e599e4ccd3730e7dd12"
+      },
+      {
+        "path": "browser/src/source/terrace-model.ts",
+        "bytes": 10192,
+        "sha256": "8517b3fda9e8d8cc7f678b34a4f29f40071de99d040370ca215ae4fde19f3632"
+      },
+      {
+        "path": "browser/src/source/terrain-scenery.ts",
+        "bytes": 29380,
+        "sha256": "3fddad2d92f4977d411ea7ebb90b07d53307599c6f1d859d3c73494c5868b2e9"
+      },
+      {
+        "path": "browser/src/source/terrain-work.ts",
+        "bytes": 660,
+        "sha256": "7c5f5ca96fbae174a82b8a952c76c71de2ab4312126f8738ca09528dd354a9b2"
+      },
+      {
+        "path": "browser/src/source/terrain.ts",
+        "bytes": 1248,
+        "sha256": "7b35543ec261ac04cdfbe45d3ed2f22e4ef3087ed605d195f19d4ca5ff9fc3e1"
+      },
+      {
+        "path": "browser/src/source/trainer-encounters.ts",
+        "bytes": 9006,
+        "sha256": "7785274b0f0748194fe380d63e5c2c08e15f5ee66b201c214b837eb175730c5e"
+      },
+      {
+        "path": "browser/src/source/trainer-script-state.ts",
+        "bytes": 2206,
+        "sha256": "450d7a114b0a9fa9443f33dceac6912b7d28b69beafafe86e4c6685993a2dd36"
+      },
+      {
+        "path": "browser/src/source/trainers.ts",
+        "bytes": 2254,
+        "sha256": "7ddd00955d0297edd5b86accef4f113087efe35dbbc926b478a29deb4f2b11c1"
+      },
+      {
+        "path": "browser/src/source/tree-texture.ts",
+        "bytes": 1940,
+        "sha256": "056ffba302a63721c81588ba5c22aee95069279f8bd51bfaa2b70f931db31335"
+      },
+      {
+        "path": "browser/src/source/tree-volume.ts",
+        "bytes": 4971,
+        "sha256": "5aa6ca7cb48cda6f87d9d21df5a3accc49cf963ca50f2490fe219ee7c0d1e8ab"
+      },
+      {
+        "path": "browser/src/source/tutorial.ts",
+        "bytes": 541,
+        "sha256": "2e012a228c82632891c883a31a73a5b97de3646af5efd7c280c31effc422ac53"
+      },
+      {
+        "path": "browser/src/source/types.ts",
+        "bytes": 5108,
+        "sha256": "9fa73b656d2160fb115ddbdbdd200ec2c2d9ef877617065f6be33c210f39c542"
+      },
+      {
+        "path": "browser/src/source/ui.ts",
+        "bytes": 3646,
+        "sha256": "62f5a680840583db9297541075ad4de30140d1d66aa213d95f02e777686ba318"
+      },
+      {
+        "path": "browser/src/source/urban-building-shells.ts",
+        "bytes": 12083,
+        "sha256": "1e54116ecd4244229562c07697f23545c30ab44202585cf34891bbf4ddcd0115"
+      },
+      {
+        "path": "browser/src/source/world.ts",
+        "bytes": 24516,
+        "sha256": "2b0739c79b16a27bad279daccef4bdaf5c33278f25035a43c234c58003dca4c6"
+      },
+      {
+        "path": "browser/tsconfig.json",
+        "bytes": 249,
+        "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0"
+      },
+      {
+        "path": "consumer-integration.patch",
+        "bytes": 37696,
+        "sha256": "25e5b65a0a92f4f985367a9421775c4a3a0446b37cc0e95973616a2d49e464d9"
+      },
+      {
+        "path": "files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s",
+        "bytes": 2597,
+        "sha256": "71ba9c947a1882a28788ebe825221dd1696bd8f71985258399dbb35fec2e1c74"
+      },
+      {
+        "path": "files/poketool/icongra/poke_icon/poke_icon_00000501.png",
+        "bytes": 307,
+        "sha256": "c772fb205fdd9daab5dac934f575cc3f1de19ab3dbf7a727a19092756d54f7ac"
+      },
+      {
+        "path": "files/poketool/personal/personal.json",
+        "bytes": 649411,
+        "sha256": "8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"
+      },
+      {
+        "path": "include/config.h",
+        "bytes": 1175,
+        "sha256": "773f3b3ffaabd2750f040be690dc91c605d1ce58a6686bc85d41e6e1335ad419"
+      },
+      {
+        "path": "include/constants/map_sections.h",
+        "bytes": 11880,
+        "sha256": "1102c63c2637718fa28aeb57038c78c5d614f6c8cca0018ca1d199a07613431a"
+      },
+      {
+        "path": "include/constants/pokemon.h",
+        "bytes": 19409,
+        "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+      },
+      {
+        "path": "src/battle/battle_command.c",
+        "bytes": 318338,
+        "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"
+      },
+      {
+        "path": "src/battle/battle_main.c",
+        "bytes": 64764,
+        "sha256": "9f5e5d3767fcd30d0a928e4aa4ccb35fb3d0ded5392a5e4d1f058b744e6690b6"
+      },
+      {
+        "path": "src/battle/battle_party_menu.c",
+        "bytes": 160425,
+        "sha256": "f7f500238a403fc0eb7f150a3aeff535f8b0ece3b5b52e1774f52a0f36c77544"
+      },
+      {
+        "path": "src/battle/battle_util.c",
+        "bytes": 274735,
+        "sha256": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949"
+      },
+      {
+        "path": "src/field/scrcmd_pokemon_misc.c",
+        "bytes": 48330,
+        "sha256": "850fcb6773c043f18b2d082d0eb5c094923b89680ca03caf42485ac7f6864509"
+      },
+      {
+        "path": "src/field_misc_events.c",
+        "bytes": 16672,
+        "sha256": "66c6b095f98046a903108ec13ff07063540a227a80e8fa4496ee4b215d6b0eec"
+      },
+      {
+        "path": "src/field_misc_util.c",
+        "bytes": 7482,
+        "sha256": "4e7e71bd07eb4665973e648ac0b2cda6174c755991b02fa126488dd47fe34e48"
+      },
+      {
+        "path": "src/follow_mon.c",
+        "bytes": 59591,
+        "sha256": "34b005c9e772c219dd37d23ba8c3cc35d7112ae250f650450fc8969d6f7a6c8e"
+      },
+      {
+        "path": "src/get_egg.c",
+        "bytes": 39978,
+        "sha256": "0908b443c2ea2c94893c4c073bceada92a7f7382011838ce989fcba8daa8cf40"
+      },
+      {
+        "path": "src/math_util.c",
+        "bytes": 4021,
+        "sha256": "ed76da9a0792494d7b22a029d903db402f5c2cec06212870e0337205be747612"
+      },
+      {
+        "path": "src/overlay_36.c",
+        "bytes": 9184,
+        "sha256": "87af06021f54c29794beedbc28d66da080b8665d925f39a2ad1e4770b02e93e9"
+      },
+      {
+        "path": "src/party_menu.c",
+        "bytes": 123046,
+        "sha256": "78389d26ea2402d2d2f3b4b3270424e0596a98999bc484437aeaeb5966b14452"
+      },
+      {
+        "path": "src/pokemon.c",
+        "bytes": 159083,
+        "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+      },
+      {
+        "path": "src/pokemon_icon_idx.c",
+        "bytes": 9146,
+        "sha256": "c394377eded3353079550669f1a809ef8eed8f3bcec6840019920a02a75827ec"
+      },
+      {
+        "path": "src/pokemon_summary.c",
+        "bytes": 17475,
+        "sha256": "fbe03d6a078b5275a5f1f66cf3d84e65ae0a0ac0f1c47d54ebdd883c0e7a09eb"
+      },
+      {
+        "path": "src/pokemon_summary_text.c",
+        "bytes": 37211,
+        "sha256": "a63685250c5722bb47daf231a0be172ac81fced0e6c961aaa880334c52a0c80c"
+      },
+      {
+        "path": "src/scrcmd_party.c",
+        "bytes": 25246,
+        "sha256": "df64cfc7080caa0d4350dcb1aeb0f4790629f7a9c80fc04efc5c11e79312d8cd"
+      },
+      {
+        "path": "src/trainer_memo.c",
+        "bytes": 33202,
+        "sha256": "c68f7f7da5fb3c0ea7df00404a873a29864899a6025c081151d36f05eb050f9c"
+      }
+    ]
+  },
+  "snapshotStableAfterReview": true,
+  "allowedTools": [
+    "Read",
+    "Grep",
+    "Glob"
+  ],
+  "strictMCPConfig": {
+    "mcpServers": {}
+  },
+  "settingSources": "",
+  "sessionPersistence": false,
+  "rawOutputPath": "/tmp/hg-egg-consumer-review-result.json",
+  "rawOutputSHA256": "e34abf38f4efb646da2ce0f1f1d4671b1780b5ccc8181a2c7e787b5f2caedd4b",
+  "stderrPath": "/tmp/hg-egg-consumer-review-stderr.log",
+  "postReviewValidationCommit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+  "postReviewNativeSources": [
+    {
+      "path": "src/battle/battle_controller_player.c",
+      "sha256": "ac75a056728f54624529a6d58a55ca953bb071cb2ffef1fcdecfd64d7c341d0d"
+    },
+    {
+      "path": "src/battle/battle_command.c",
+      "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"
+    },
+    {
+      "path": "src/pokemon.c",
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    },
+    {
+      "path": "files/battledata/script/subscript/subscript_0043_Struggle.s",
+      "sha256": "a25d5a85937d5962f19c467bc975cc18c994eb5c806294b107d673492f3ab511"
+    },
+    {
+      "path": "files/battledata/script/subscript/subscript_0063_Recoil_1_4.s",
+      "sha256": "3c810ec61502d9b55a0e02719e20c2ee1ad6c9e4c97d11a2fe11c6108e2bf396"
+    }
+  ],
+  "runtimeReproduction": "/tmp/hg-egg-consumer-exp-proof.mjs",
+  "runtimeReproductionResults": "/tmp/hg-egg-consumer-exp-proof.json",
+  "sourceEditsByReviewer": false,
+  "notes": "The original 514a01e snapshot remains byte-identical (120 records). Actual Opus5.5 returned one LOW EXP-eligibility ordering regression; it remains unfixed at the reviewed commit. Its native controller ordering caveat was resolved after review by read-only original-source validation, not by silently adding files to the reviewed snapshot. ActionEnd grants EXP at battle_controller_player.c3329, then checks battle outcome at3332; BattleContext_Main161\u2013166 routes an outcome directly to BattleEnd. Only after all actions does ExecuteNextAction795 select field conditions, followed by UpdateMonCondition poison1261. Nonfinal replacement is TurnEnd1667, after residual effects. Task_GetExp6135\u20136165 completes level-up/CalcMonStats and active HP reload before returning. pokemon.c391\u2013405 increases positive HP by the max-HP gain. Native recoil subscripts update HP before the EXP HP gate at battle_command.c6050, so a recoil-fainted participant stays ineligible. Root should correct phase order, not only snapshot eligibility: a final KO skips residuals; a nonfinal level-up changes HP before residual damage.\n\nExact frozen-runtime reproduction /tmp/hg-egg-consumer-exp-proof.mjs uses the copied 514a01e code and fetches every data asset with git show from that exact commit (asset hashes recorded in companion JSON). Poison-final case: ChikoritaLv5 HP1/max20 KO -> won, HP0, exp135 unchanged, EV0; native should grant EXP before battle-end and skip poison. Poison-nonfinal with exp178 (one belowLv6) -> current lost, HP0/no reward/no level-up; native levels and recalculates HP before residual/replacement. Recoil-final with a healthy backup -> HP0/no EXP/EV, as intended. The real gifted Egg remained unchanged in all three examples.\n\nAll Egg-specific review checks passed (initial lead/sendout, switches, all-fainted, tutorial separation, follower hydration/render, persistence/recovery, stat/species/gender/level/move concealment, literal 302 Egg Watch messages and load failure behavior). Hatching and full summary-page parity remain separate. Debug globals retain internal data for diagnostics; a disabled Egg switch button differs from native explanatory feedback but is not a combat eligibility bug. No rendered browser verification was possible. Root reports 537/537 full tests/TypeScript pass at this reviewed commit; child independently reran20 core/consumer/UI tests. Those tests did not originally cover the new residual-order regression.\n"
+}
