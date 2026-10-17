@@ -1,0 +1,7 @@
+# C2 World integration review
+
+Actual read-only Claude Opus5.5 reviewed the immutable Root C2 merge copy (World e72124de, accepted helper1d0c6334). It found no integration defects. Exact C2 World2806f7ee is restored by removing only the import, owned resource-name and three-placement call hunks. The Azalea main/host/world bytes remain exact C2. Raw prompt/result, manifest, diffs, baseline/candidate source text, independent byte proof and all450 immutable file hashes are preserved here or in the durable external snapshot recorded by adjudication.json.
+
+The first full Root run passed1625/1626; its sole failure was the copied old1fWorld test expectation. The corrected test independently pins exact C2 archive2806f7ee and still compares all strippedWorld bytes, keeping all native5298 stream/floor/resource and Azalea guards. The later18-test focused Root run passes. That final log completed after the provider snapshot; it is explicitly post-review evidence with unchanged source/test hashes, not a claim the reviewer read it.
+
+No runtime, test or Root source files were changed for this evidence-only commit. The accepted three shells retain exact982 geometry/art and actualGPU qualifications. Existing fetch-retry LOW, futurezeroheight INFO, finitecamera limitations/314intentionalSurf camera hits, repeated rectangular cladding and bare native tops remain explicit. This review does not approve full terrain safety, broader native parity, landscape polish, a final merged build or deployment. Root owns final build/merge/live artifact verification.

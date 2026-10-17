@@ -1,0 +1,34 @@
+TAP version 13
+# (node:18370) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: campaign5298 old/new OriginalWorld 21,10 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+not ok 1 - campaign5298 old/new OriginalWorld 21,10 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+  ---
+  duration_ms: 777.46225
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-background-cliffs/browser/src/source/native-terrain-world.test.ts:30:42'
+  failureType: 'testCodeFailure'
+  error: 'Failed to parse URL from /source/lands/208.json'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    node:internal/deps/undici/undici:14976:13
+    async sourceJSON (/Users/maxchurch/Documents/pokeheartgold-background-cliffs/browser/src/source/types.ts:25:77)
+    async <anonymous> (/Users/maxchurch/Documents/pokeheartgold-background-cliffs/browser/src/source/world.ts:181:67)
+    async Promise.allSettled (index 0)
+    async OriginalWorld.stream (/Users/maxchurch/Documents/pokeheartgold-background-cliffs/browser/src/source/world.ts:205:5)
+    async OriginalWorld.enter (/Users/maxchurch/Documents/pokeheartgold-background-cliffs/browser/src/source/world.ts:124:5)
+    async worldAt (/Users/maxchurch/Documents/pokeheartgold-background-cliffs/browser/src/source/native-terrain-world.test.ts:23:2)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-background-cliffs/browser/src/source/native-terrain-world.test.ts:31:61)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3287.673333

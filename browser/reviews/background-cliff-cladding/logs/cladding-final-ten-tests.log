@@ -1,0 +1,72 @@
+TAP version 13
+# (node:37521) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: source pins retain the actual flat32-face background and current277bac field
+ok 1 - source pins retain the actual flat32-face background and current277bac field
+  ---
+  duration_ms: 1026.053959
+  type: 'test'
+  ...
+# Subtest: measured native112 soil donor and every new UV stay inside one rim-free native band
+ok 2 - measured native112 soil donor and every new UV stay inside one rim-free native band
+  ---
+  duration_ms: 660.610208
+  type: 'test'
+  ...
+# Subtest: bounded original opaque-geology screenshot rays hit backs; native plateau-top pixel stays identical
+ok 3 - bounded original opaque-geology screenshot rays hit backs; native plateau-top pixel stays identical
+  ---
+  duration_ms: 9940.716333
+  type: 'test'
+  ...
+# Subtest: real Route27 native walking and Surf approaches keep the production orbit clear
+ok 4 - real Route27 native walking and Surf approaches keep the production orbit clear
+  ---
+  duration_ms: 724.199792
+  type: 'test'
+  ...
+# Subtest: third23,11 fingerprint retains actual neighbor floors/portals and records literal camera collisions
+ok 5 - third23,11 fingerprint retains actual neighbor floors/portals and records literal camera collisions
+  ---
+  duration_ms: 775.37575
+  type: 'test'
+  ...
+# Subtest: all native cap edges meet the closed side/underside volume exactly and floors stay native
+ok 6 - all native cap edges meet the closed side/underside volume exactly and floors stay native
+  ---
+  duration_ms: 4113.075542
+  type: 'test'
+  ...
+# Subtest: source identity, altered collision, transform, missing cap and real entry guards decline instead of filling
+ok 7 - source identity, altered collision, transform, missing cap and real entry guards decline instead of filling
+  ---
+  duration_ms: 158.686167
+  type: 'test'
+  ...
+# Subtest: actual production stream defaults on for the three fingerprints; unload/reentry releases only owned resources
+ok 8 - actual production stream defaults on for the three fingerprints; unload/reentry releases only owned resources
+  ---
+  duration_ms: 1186.55325
+  type: 'test'
+  ...
+# Subtest: foreign210 placements do not fetch supporting forest or entrances before declining
+ok 9 - foreign210 placements do not fetch supporting forest or entrances before declining
+  ---
+  duration_ms: 137.825
+  type: 'test'
+  ...
+# Subtest: all unrelated World bytes and the global default-off terrain policy stay unchanged
+ok 10 - all unrelated World bytes and the global default-off terrain policy stay unchanged
+  ---
+  duration_ms: 1.919084
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 21511.818583

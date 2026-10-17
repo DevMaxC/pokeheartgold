@@ -12,6 +12,7 @@ import {sourceTallGrass,updateGrass} from './grass.ts';
 import {WorldSky} from './sky.ts';
 import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
 import {forestFoundation} from './foundations.ts';
+import {backgroundCliffShell} from './background-cliff-shells.ts';
 import {planTerrainSceneryAsync,closeTerrainScenery,terrainSceneryEntrances} from './terrain-scenery.ts';
 import {furnitureObstacles,furnitureBlocksStep,type FurnitureObstacle} from './furniture-collision.ts';
 import {closeBuildingFooting} from './building-footing.ts';
@@ -89,7 +90,7 @@ export class OriginalWorld {
       if(path!==VIOLET_GYM.asset)repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
-  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-joint','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface'||object.name==='source-terrace-joint')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
+  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-background-cliff-shell','source-shoreline-underlay','source-terrace-surface','source-terrace-joint','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface'||object.name==='source-terrace-joint')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
   /** Keep the last rendered view while an asynchronous warp replaces the
    * scene. Incoming player coordinates must never steer the outgoing rig. */
   beginFieldTransition(){this.azaleaGym?.leave();this.fieldTasks?.cancel(Error('Field transition interrupted native field tasks'));this.fieldEffect?.cancel(Error('Field transition interrupted the field presentation'));this.cameraTransition=true;}
@@ -184,6 +185,9 @@ export class OriginalWorld {
             if(!cliff){const context=cell.asset.match(/-(\d+)\.glb$/)![1],path=terraces.data.cliffAssets[context]||terraces.data.cliffAssets['0'];if(path)try{cliff=terraceCliffMaterial(await this.asset(path));}catch(error){console.warn('Original cliff art unavailable; retaining a solid terrace wall',error);}}
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
+        }
+        if(!this.terrainSceneryEnabled&&matrixID===0&&owner===0&&landID===210&&(cell.x===21&&cell.z===10&&cell.altitude===14||cell.x===22&&cell.z===11&&cell.altitude===4||cell.x===23&&cell.z===11&&cell.altitude===6)){
+          const shell=backgroundCliffShell(group,cell,matrix,land,await this.land(208),await doors(),terraces??undefined,await this.asset('land/112-9.glb'));if(shell)group.add(shell);
         }
         // Whole-map terrain closure is opt-in until its independent visibility
         // audit passes. Ordinary campaign worlds use released terrain above.
