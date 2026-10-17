@@ -44,6 +44,32 @@ export class UI{
     }if(stopped)throw reason;}
     finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);hide();}
   }
+  /** Native hatch text finishes on its printer, without a confirm click. The
+   * returned disposer retains ownership of the visible text until the host
+   * opens its next prompt. Abort/replacement also release that ownership. */
+  async printMessage(text:string,characterDelay=0,signal?:AbortSignal):Promise<()=>void>{
+    if(signal?.aborted)throw abortReason(signal);
+    const pages=text.replace(/\\n/g,'\n').split(/\\[rf]/).map(page=>page.trim()).filter(Boolean);
+    if(pages.length>1)throw Error('Automatic native text printing requires one message page');
+    this.dialogueTask?.cancel(replaced());
+    return new Promise((resolve,reject)=>{
+      let stopped=false,printed=false,timer:ReturnType<typeof setTimeout>|undefined;
+      const abort=()=>task.cancel(abortReason(signal!));
+      const task:PendingUI={cancel:reason=>{
+        if(stopped)return;stopped=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);
+        if(this.dialogueTask===task){this.dialogueTask=null;this.next=null;this.dialogueOpen=false;$('dialogue').hidden=true;}
+        if(!printed)reject(reason);
+      }};
+      this.dialogueTask=task;signal?.addEventListener('abort',abort,{once:true});this.dialogueOpen=true;$('dialogue').hidden=false;
+      const page=pages[0]??'',colon=page.indexOf(':'),hasSpeaker=colon>0&&colon<25,full=hasSpeaker?page.slice(colon+1).trim():page;
+      $('dialogue-speaker').textContent=hasSpeaker?page.slice(0,colon):'';$('dialogue-text').textContent='';
+      const finish=()=>{if(stopped||printed||this.dialogueTask!==task)return;printed=true;clearTimeout(timer);this.next=null;resolve(()=>task.cancel(replaced()));};
+      const chars=Array.from(full);let count=0;
+      const print=()=>{if(stopped||printed||this.dialogueTask!==task)return;$('dialogue-text').textContent=chars.slice(0,++count).join('');if(count<chars.length)timer=setTimeout(print,characterDelay);else finish();};
+      this.next=()=>{if(stopped||printed||this.dialogueTask!==task)return;$('dialogue-text').textContent=full;finish();};
+      if(characterDelay>0&&chars.length)print();else{$('dialogue-text').textContent=full;finish();}
+    });
+  }
   private waitPanel<T>(signal:AbortSignal|undefined,bind:(resolve:(value:T)=>void)=>(()=>void)):Promise<T>{
     return new Promise((resolve,reject)=>{
       let settled=false,cleanup=()=>{};

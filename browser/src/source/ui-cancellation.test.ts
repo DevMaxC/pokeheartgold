@@ -106,3 +106,40 @@ test('hatch sibling failure can abort pending text before all owned announcement
     void cry.catch(error=>abort.owner.abort(error));const results=await Promise.allSettled([cry,announce]);assert.ok(results.every(result=>result.status==='rejected'&&result.reason===reason));assert.equal(ui.busy,false);assert.equal(abort.listeners.size,0);assert.equal(c.tasks.size,0);
   }finally{c.restore();d.restore();}
 });
+
+test('native automatic printer completes without a confirm while retaining visible abort-owned hatch text',async()=>{
+  const d=dom(),c=clock(),abort=controller();try{
+    const ui=new UI();let completed=false;const pending=ui.printMessage('Pip',50,abort.signal).then(dispose=>{completed=true;return dispose;});
+    assert.equal(d.ids.get('dialogue-text')!.textContent,'P');await Promise.resolve();assert.equal(completed,false);c.flush();assert.equal(d.ids.get('dialogue-text')!.textContent,'Pi');c.flush();const dispose=await pending;
+    assert.equal(completed,true);assert.equal(c.tasks.size,0);assert.equal(abort.listeners.size,1);assert.equal(d.ids.get('dialogue-text')!.textContent,'Pip');assert.equal(ui.dialogueOpen,true);ui.advance();assert.equal(ui.dialogueOpen,true);
+    dispose();dispose();assert.equal(ui.dialogueOpen,false);assert.equal(d.ids.get('dialogue')!.hidden,true);assert.equal(abort.listeners.size,0);
+  }finally{c.restore();d.restore();}
+});
+
+test('confirm fast-forwards a native automatic printer and no second confirm is required to finish',async()=>{
+  const d=dom(),c=clock();try{
+    const ui=new UI(),text=sourceMessages[0]['0'],pending=ui.printMessage(text,50);ui.advance();const dispose=await pending;
+    assert.equal(d.ids.get('dialogue-text')!.textContent,text);assert.equal(c.tasks.size,0);assert.equal(ui.dialogueOpen,true);dispose();assert.equal(ui.dialogueOpen,false);
+  }finally{c.restore();d.restore();}
+});
+
+test('automatic printer abort rejects before completion and still cleans its retained surface after completion',async()=>{
+  const d=dom(),c=clock();try{
+    const ui=new UI(),early=controller(),failure=Error('cry failed'),pending=ui.printMessage('Hatching',50,early.signal),rejected=assert.rejects(pending,error=>error===failure),stalePrint=[...c.tasks.values()][0];early.owner.abort(failure);await rejected;stalePrint();assert.equal(c.tasks.size,0);assert.equal(early.listeners.size,0);assert.equal(ui.dialogueOpen,false);
+    const late=controller(),dispose=await ui.printMessage('Hatched',0,late.signal);assert.equal(late.listeners.size,1);late.owner.abort(failure);assert.equal(ui.dialogueOpen,false);assert.equal(late.listeners.size,0);dispose();assert.equal(ui.dialogueOpen,false);
+  }finally{c.restore();d.restore();}
+});
+
+test('late automatic-printer dispose, abort and timer cannot clear or write a newer dialogue or panel',async()=>{
+  const d=dom(),c=clock(),abort=controller();try{
+    const ui=new UI(),dispose=await ui.printMessage('Old hatch',0,abort.signal),next=ui.message('New dialogue');dispose();abort.owner.abort();assert.equal(d.ids.get('dialogue-text')!.textContent,'New dialogue');assert.equal(ui.dialogueOpen,true);assert.equal(abort.listeners.size,0);ui.advance();await next;
+    const pending=ui.printMessage('Typing old hatch',50),rejected=assert.rejects(pending,{name:'AbortError'}),stalePrint=[...c.tasks.values()][0],replacement=ui.message('Recovery field');await rejected;stalePrint();assert.equal(d.ids.get('dialogue-text')!.textContent,'Recovery field');ui.advance();await replacement;
+    const release=await ui.printMessage('Hatched',0),prompt=ui.choose('Nickname?',['Yes','No']);release();assert.equal(ui.dialogueOpen,false);assert.equal(ui.panelOpen,true);d.buttons[1].onclick!();assert.equal(await prompt,1);
+  }finally{c.restore();d.restore();}
+});
+
+test('automatic printer rejects pre-aborted or multi-page requests without replacing existing owned text',async()=>{
+  const d=dom(),c=clock(),abort=controller();try{
+    const ui=new UI(),dispose=await ui.printMessage('Current hatch',0);abort.owner.abort();await assert.rejects(ui.printMessage('Stale',0,abort.signal),{name:'AbortError'});await assert.rejects(ui.printMessage('First\\rSecond'),/one message page/);assert.equal(d.ids.get('dialogue-text')!.textContent,'Current hatch');assert.equal(ui.dialogueOpen,true);dispose();
+  }finally{c.restore();d.restore();}
+});
