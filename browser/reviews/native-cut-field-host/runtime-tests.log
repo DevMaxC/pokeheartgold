@@ -1,0 +1,510 @@
+TAP version 13
+# (node:32149) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Cut assets retain twelve source joints, all three45-frame tracks, exact FX32 scales, colors and texel UV matrices
+ok 1 - actual Cut assets retain twelve source joints, all three45-frame tracks, exact FX32 scales, colors and texel UV matrices
+  ---
+  duration_ms: 272.427
+  type: 'test'
+  ...
+# Subtest: posed instances own geometry, skeleton, materials and texture matrices without mutating source or siblings
+ok 2 - posed instances own geometry, skeleton, materials and texture matrices without mutating source or siblings
+  ---
+  duration_ms: 142.39825
+  type: 'test'
+  ...
+# Subtest: native player/follower placement uses each performers logical tile ahead and exact height, never the tree flag or camera
+ok 3 - native player/follower placement uses each performers logical tile ahead and exact height, never the tree flag or camera
+  ---
+  duration_ms: 391.470291
+  type: 'test'
+  ...
+# Subtest: literal priority0 wrapper polls before priority1024 model: hide45, observe46, delete47; no instant success
+ok 4 - literal priority0 wrapper polls before priority1024 model: hide45, observe46, delete47; no instant success
+  ---
+  duration_ms: 7.849833
+  type: 'test'
+  ...
+# Subtest: dt convenience retains integer native frames at30Hz; visual completion does not await independent native SE
+ok 5 - dt convenience retains integer native frames at30Hz; visual completion does not await independent native SE
+  ---
+  duration_ms: 8.126917
+  type: 'test'
+  ...
+# Subtest: abort releases current resources synchronously, drains its Promise, blocks late writes and allows a new owned run
+ok 6 - abort releases current resources synchronously, drains its Promise, blocks late writes and allows a new owned run
+  ---
+  duration_ms: 40.177083
+  type: 'test'
+  ...
+# Subtest: overlapping starts reject without disturbing the active instance; missing followers and map replacement fail explicitly
+ok 7 - overlapping starts reject without disturbing the active instance; missing followers and map replacement fail explicitly
+  ---
+  duration_ms: 13.789667
+  type: 'test'
+  ...
+# Subtest: original SE is prepared before synchronous dispatch, uses host Context and ends on real audio completion
+ok 8 - original SE is prepared before synchronous dispatch, uses host Context and ends on real audio completion
+  ---
+  duration_ms: 160.641208
+  type: 'test'
+  ...
+# Subtest: unprepared enabled sound rejects the field effect before source progress; a prepared retry on the same owner finishes
+ok 9 - unprepared enabled sound rejects the field effect before source progress; a prepared retry on the same owner finishes
+  ---
+  duration_ms: 23.0475
+  type: 'test'
+  ...
+# Subtest: pattern0 cries load only the actual species PCM on demand, preserve mono timing, await ended and reject unsupported patterns/species
+ok 10 - pattern0 cries load only the actual species PCM on demand, preserve mono timing, await ended and reject unsupported patterns/species
+  ---
+  duration_ms: 6.426041
+  type: 'test'
+  ...
+# Subtest: explicit mute requests no Context or audio data, while suspended Context is never silently resumed
+ok 11 - explicit mute requests no Context or audio data, while suspended Context is never silently resumed
+  ---
+  duration_ms: 5.095584
+  type: 'test'
+  ...
+# Subtest: ignored-abort fetch/decode settle promptly without late cache publication or voices, and disposal stops an active cry
+ok 12 - ignored-abort fetch/decode settle promptly without late cache publication or voices, and disposal stops an active cry
+  ---
+  duration_ms: 17.027542
+  type: 'test'
+  ...
+# Subtest: broken audio preparation has a bounded reported admission failure and no fabricated voice
+ok 13 - broken audio preparation has a bounded reported admission failure and no fabricated voice
+  ---
+  duration_ms: 19.787042
+  type: 'test'
+  ...
+# Subtest: source FieldSystem_IsFieldMapRunning gates model updates, while completed wrapper polling/release remains independent
+ok 14 - source FieldSystem_IsFieldMapRunning gates model updates, while completed wrapper polling/release remains independent
+  ---
+  duration_ms: 9.87675
+  type: 'test'
+  ...
+# Subtest: native Cut ignores failed SE admission/completion and WaitCry sees no voice after technical failure, with required status evidence
+ok 15 - native Cut ignores failed SE admission/completion and WaitCry sees no voice after technical failure, with required status evidence
+  ---
+  duration_ms: 292.850125
+  type: 'test'
+  ...
+# Subtest: undefined decode rejection remains a failed admission; muted preparation then enabled dispatch is reported without a pretend sound
+ok 16 - undefined decode rejection remains a failed admission; muted preparation then enabled dispatch is reported without a pretend sound
+  ---
+  duration_ms: 7.332375
+  type: 'test'
+  ...
+# Subtest: malformed audio host and throwing stop cannot leak visual instances or block cancellation cleanup
+ok 17 - malformed audio host and throwing stop cannot leak visual instances or block cancellation cleanup
+  ---
+  duration_ms: 4.310625
+  type: 'test'
+  ...
+# Subtest: native failure policy is pinned to ignored PlaySE return, untested PlayCryEx result and actual playing-count WaitCry
+ok 18 - native failure policy is pinned to ignored PlaySE return, untested PlayCryEx result and actual playing-count WaitCry
+  ---
+  duration_ms: 158.479625
+  type: 'test'
+  ...
+# Subtest: technical source-start/autoplay failures stop owned nodes and report admission failure, without silently fabricating cry or SE
+ok 19 - technical source-start/autoplay failures stop owned nodes and report admission failure, without silently fabricating cry or SE
+  ---
+  duration_ms: 63.617834
+  type: 'test'
+  ...
+# Subtest: throwing status port remains an explicit configuration failure during and after visual completion, observed through owner.failure
+ok 20 - throwing status port remains an explicit configuration failure during and after visual completion, observed through owner.failure
+  ---
+  duration_ms: 16.247709
+  type: 'test'
+  ...
+# Subtest: unsupported texture shape and corrupted cry gain remain explicit required-resource errors
+ok 21 - unsupported texture shape and corrupted cry gain remain explicit required-resource errors
+  ---
+  duration_ms: 7.64
+  type: 'test'
+  ...
+# Subtest: failed scene admission aborts the SE controller before stop and clears assigned run; undefined port throw gets real failure diagnostics
+ok 22 - failed scene admission aborts the SE controller before stop and clears assigned run; undefined port throw gets real failure diagnostics
+  ---
+  duration_ms: 54.307416
+  type: 'test'
+  ...
+# (node:32150) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: World field task hook preserves free camera updates and runs before transition/battle/egg branches
+ok 23 - World field task hook preserves free camera updates and runs before transition/battle/egg branches
+  ---
+  duration_ms: 59.351458
+  type: 'test'
+  ...
+# Subtest: actualVM10000 plus native Cut model hides at dispatch+9, uses same-tick queue start and completes after47 queue passes
+ok 24 - actualVM10000 plus native Cut model hides at dispatch+9, uses same-tick queue start and completes after47 queue passes
+  ---
+  duration_ms: 335.04325
+  type: 'test'
+  ...
+# Subtest: performers use logical follower tile/baseY and explicit visible flag, never an interpolated/hopping render coordinate
+ok 25 - performers use logical follower tile/baseY and explicit visible flag, never an interpolated/hopping render coordinate
+  ---
+  duration_ms: 63.1095
+  type: 'test'
+  ...
+# Subtest: transition cancels owned VM/effect/waits, drains rollback and keeps cached native templates intact
+ok 26 - transition cancels owned VM/effect/waits, drains rollback and keeps cached native templates intact
+  ---
+  duration_ms: 13.341459
+  type: 'test'
+  ...
+# Subtest: missing actor ports never attach or dispatch; UI-busy is not a model-running substitute
+ok 27 - missing actor ports never attach or dispatch; UI-busy is not a model-running substitute
+  ---
+  duration_ms: 5.642084
+  type: 'test'
+  ...
+# Subtest: persistent audio status failure blocks dispatch and is separately observed without creating a private Context
+ok 28 - persistent audio status failure blocks dispatch and is separately observed without creating a private Context
+  ---
+  duration_ms: 5.355709
+  type: 'test'
+  ...
+# Subtest: ordinary transitions and native connected Warp do not cancel unrelated VM when no Cut action is owned
+ok 29 - ordinary transitions and native connected Warp do not cancel unrelated VM when no Cut action is owned
+  ---
+  duration_ms: 214.187042
+  type: 'test'
+  ...
+# Subtest: required source cancellation drains an admitted owned UI wait before recovery returns, with no late flags
+ok 30 - required source cancellation drains an admitted owned UI wait before recovery returns, with no late flags
+  ---
+  duration_ms: 9.966541
+  type: 'test'
+  ...
+# Subtest: local Cut cancellation leaves an independently owned field controller and persistent World clock running
+ok 31 - local Cut cancellation leaves an independently owned field controller and persistent World clock running
+  ---
+  duration_ms: 8.020917
+  type: 'test'
+  ...
+# Subtest: Cut admission from another task-phase continuation cannot leak its action and prevent retry
+ok 32 - Cut admission from another task-phase continuation cannot leak its action and prevent retry
+  ---
+  duration_ms: 35.848292
+  type: 'test'
+  ...
+# Subtest: queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+ok 33 - queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+  ---
+  duration_ms: 256.574125
+  type: 'test'
+  ...
+# Subtest: real sound native callback observes cry completion before the following bytecode tick
+ok 34 - real sound native callback observes cry completion before the following bytecode tick
+  ---
+  duration_ms: 68.010542
+  type: 'test'
+  ...
+# Subtest: actual transition reason reaches the owned source VM instead of generic cancellation
+ok 35 - actual transition reason reaches the owned source VM instead of generic cancellation
+  ---
+  duration_ms: 11.580209
+  type: 'test'
+  ...
+# (node:32151) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual standard10000 matches native dispatch and Wait7 phases before hiding and polling completion
+ok 36 - actual standard10000 matches native dispatch and Wait7 phases before hiding and polling completion
+  ---
+  duration_ms: 155.600584
+  type: 'test'
+  ...
+# Subtest: native no-move/no-badge/Egg/BadEgg/No branches do not request effect ports or remove the source gate
+ok 37 - native no-move/no-badge/Egg/BadEgg/No branches do not request effect ports or remove the source gate
+  ---
+  duration_ms: 19.795542
+  type: 'test'
+  ...
+# Subtest: the first fainted zero-PP Cut user is selected while the follower query independently selects a living non-Egg
+ok 38 - the first fainted zero-PP Cut user is selected while the follower query independently selects a living non-Egg
+  ---
+  duration_ms: 19.587458
+  type: 'test'
+  ...
+# Subtest: the actual active-follower branch swaps, uses native Grass mood/hops and cry, then starts effect3
+ok 39 - the actual active-follower branch swaps, uses native Grass mood/hops and cry, then starts effect3
+  ---
+  duration_ms: 4.101208
+  type: 'test'
+  ...
+# Subtest: actual menu10007 resets follower movement, preserves the literal target and follows the same delayed HidePerson
+ok 40 - actual menu10007 resets follower movement, preserves the literal target and follows the same delayed HidePerson
+  ---
+  duration_ms: 3.174875
+  type: 'test'
+  ...
+# Subtest: missing or non-Promise effect ports remain explicit errors before a cut-in or fabricated completion
+ok 41 - missing or non-Promise effect ports remain explicit errors before a cut-in or fabricated completion
+  ---
+  duration_ms: 5.261541
+  type: 'test'
+  ...
+# Subtest: a failed real effect restores source flags, actor state and a follower swap before returning control
+ok 42 - a failed real effect restores source flags, actor state and a follower swap before returning control
+  ---
+  duration_ms: 8.327375
+  type: 'test'
+  ...
+# Subtest: cancellation drains even an uncooperative effect and blocks its completion write before recovery
+ok 43 - cancellation drains even an uncooperative effect and blocks its completion write before recovery
+  ---
+  duration_ms: 2.361125
+  type: 'test'
+  ...
+# Subtest: an external map replacement cannot write a delayed Cut completion into the destination field
+ok 44 - an external map replacement cannot write a delayed Cut completion into the destination field
+  ---
+  duration_ms: 2.021292
+  type: 'test'
+  ...
+# Subtest: query operands, raw buffer bytes, checksum policy and source form/plate types are exact
+ok 45 - query operands, raw buffer bytes, checksum policy and source form/plate types are exact
+  ---
+  duration_ms: 2.152666
+  type: 'test'
+  ...
+# Subtest: long native effect polling yields without exhausting a synchronous instruction budget
+ok 46 - long native effect polling yields without exhausting a synchronous instruction budget
+  ---
+  duration_ms: 850.311542
+  type: 'test'
+  ...
+# Subtest: a same-instance nested script retains its parent controller, busy ownership and later writes
+ok 47 - a same-instance nested script retains its parent controller, busy ownership and later writes
+  ---
+  duration_ms: 0.668084
+  type: 'test'
+  ...
+# Subtest: Cut-only ports cannot partially execute the actual Rock Smash or Flash standards
+ok 48 - Cut-only ports cannot partially execute the actual Rock Smash or Flash standards
+  ---
+  duration_ms: 2.5385
+  type: 'test'
+  ...
+# Subtest: native TaskManager child completion resumes Cut swap and jump continuations in the same tick
+ok 49 - native TaskManager child completion resumes Cut swap and jump continuations in the same tick
+  ---
+  duration_ms: 3.508208
+  type: 'test'
+  ...
+# (node:32152) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+ok 50 - hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+  ---
+  duration_ms: 240.81475
+  type: 'test'
+  ...
+# Subtest: standard hatch presentation selects the native nonfemale sprite slot without changing a genderless scene identity
+ok 51 - standard hatch presentation selects the native nonfemale sprite slot without changing a genderless scene identity
+  ---
+  duration_ms: 115.991084
+  type: 'test'
+  ...
+# Subtest: native genderless artwork support does not bypass invalid-scene or unexported Manaphy presentation guards
+ok 52 - native genderless artwork support does not bypass invalid-scene or unexported Manaphy presentation guards
+  ---
+  duration_ms: 0.773917
+  type: 'test'
+  ...
+# Subtest: temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+ok 53 - temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+  ---
+  duration_ms: 8.518333
+  type: 'test'
+  ...
+# Subtest: cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+ok 54 - cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+  ---
+  duration_ms: 2.239334
+  type: 'test'
+  ...
+# Subtest: a field change or failed real cry rejects, restores actors and frees owned effects
+ok 55 - a field change or failed real cry rejects, restores actors and frees owned effects
+  ---
+  duration_ms: 7.060917
+  type: 'test'
+  ...
+# Subtest: an external cancellation during the hatch announcement prevents later successful completion on the same map
+ok 56 - an external cancellation during the hatch announcement prevents later successful completion on the same map
+  ---
+  duration_ms: 6.6835
+  type: 'test'
+  ...
+# Subtest: cancellation at the final render frame wins over a resolved animation before its continuation can commit
+ok 57 - cancellation at the final render frame wins over a resolved animation before its continuation can commit
+  ---
+  duration_ms: 5.736458
+  type: 'test'
+  ...
+# Subtest: World field-effect branch renders the same scene and a real field transition cancels it before loading
+ok 58 - World field-effect branch renders the same scene and a real field transition cancels it before loading
+  ---
+  duration_ms: 0.692625
+  type: 'test'
+  ...
+# Subtest: Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+ok 59 - Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+  ---
+  duration_ms: 158.062208
+  type: 'test'
+  ...
+# Subtest: native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+ok 60 - native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+  ---
+  duration_ms: 16.50075
+  type: 'test'
+  ...
+# (node:32153) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+ok 61 - literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+  ---
+  duration_ms: 25.663875
+  type: 'test'
+  ...
+# Subtest: persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+ok 62 - persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+  ---
+  duration_ms: 1.6795
+  type: 'test'
+  ...
+# Subtest: actual task boundary drains runnable source awaits and preserves field running flags for task admission
+ok 63 - actual task boundary drains runnable source awaits and preserves field running flags for task admission
+  ---
+  duration_ms: 15.540208
+  type: 'test'
+  ...
+# Subtest: scope failure cancels only its action; static and other controller queues retain global tick phase
+ok 64 - scope failure cancels only its action; static and other controller queues retain global tick phase
+  ---
+  duration_ms: 1.416667
+  type: 'test'
+  ...
+# Subtest: scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+ok 65 - scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+  ---
+  duration_ms: 1.152
+  type: 'test'
+  ...
+# Subtest: one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+ok 66 - one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+  ---
+  duration_ms: 0.465917
+  type: 'test'
+  ...
+# Subtest: task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+ok 67 - task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+  ---
+  duration_ms: 0.308958
+  type: 'test'
+  ...
+# Subtest: native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+ok 68 - native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+  ---
+  duration_ms: 0.248042
+  type: 'test'
+  ...
+# Subtest: one queue callback changing field admission cannot run stale callbacks from another map scope
+ok 69 - one queue callback changing field admission cannot run stale callbacks from another map scope
+  ---
+  duration_ms: 0.331125
+  type: 'test'
+  ...
+# (node:32154) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Sprout Tower 3F script2 pans virtual241 five north then five south and completes the rival flags
+ok 70 - actual Sprout Tower 3F script2 pans virtual241 five north then five south and completes the rival flags
+  ---
+  duration_ms: 506.682375
+  type: 'test'
+  ...
+# Subtest: camera support remains explicit and a later unsupported scene cleans focus before returning its error
+ok 71 - camera support remains explicit and a later unsupported scene cleans focus before returning its error
+  ---
+  duration_ms: 2.402833
+  type: 'test'
+  ...
+# Subtest: removing or replacing a camera actor cancels outstanding writes without resurrecting old focus
+ok 72 - removing or replacing a camera actor cancels outstanding writes without resurrecting old focus
+  ---
+  duration_ms: 0.447458
+  type: 'test'
+  ...
+# Subtest: world focuses and streams the invisible source actor smoothly while preserving free-camera orbit
+ok 73 - world focuses and streams the invisible source actor smoothly while preserving free-camera orbit
+  ---
+  duration_ms: 1.931167
+  type: 'test'
+  ...
+# Subtest: map entry and changed connected headers clear script focus before loading the next field
+ok 74 - map entry and changed connected headers clear script focus before loading the next field
+  ---
+  duration_ms: 1.215084
+  type: 'test'
+  ...
+# Subtest: production routing uses the live field for a common script bank and preserves its actual movement labels
+ok 75 - production routing uses the live field for a common script bank and preserves its actual movement labels
+  ---
+  duration_ms: 501.835458
+  type: 'test'
+  ...
+# Subtest: a real World.enter during a pending VM241 movement rejects the scene and never restores stale focus
+ok 76 - a real World.enter during a pending VM241 movement rejects the scene and never restores stale focus
+  ---
+  duration_ms: 1.038791
+  type: 'test'
+  ...
+# (node:32155) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a superseded asset download never constructs a field cell
+ok 77 - a superseded asset download never constructs a field cell
+  ---
+  duration_ms: 2.196208
+  type: 'test'
+  ...
+# Subtest: a superseded prop download cannot run a shell builder or dispose shared source buffers
+ok 78 - a superseded prop download cannot run a shell builder or dispose shared source buffers
+  ---
+  duration_ms: 94.365333
+  type: 'test'
+  ...
+# Subtest: a stream superseded while waiting for field work cannot build or publish its prop
+ok 79 - a stream superseded while waiting for field work cannot build or publish its prop
+  ---
+  duration_ms: 84.861167
+  type: 'test'
+  ...
+# Subtest: a current cached stream constructs its exterior and publishes a usable cell
+ok 80 - a current cached stream constructs its exterior and publishes a usable cell
+  ---
+  duration_ms: 5.536792
+  type: 'test'
+  ...
+# Subtest: concurrent cached scenery jobs consume the shared budget before another job can pass it
+ok 81 - concurrent cached scenery jobs consume the shared budget before another job can pass it
+  ---
+  duration_ms: 0.858583
+  type: 'test'
+  ...
+1..81
+# tests 81
+# suites 0
+# pass 81
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4249.596875

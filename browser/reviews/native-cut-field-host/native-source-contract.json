@@ -1,0 +1,110 @@
+{
+  "nativeBase": "0d6ddf9c0cb1bc0bc181abf1ea7e68c25bf4db7b",
+  "dependencyHead": "b81bb25f9c9e41bd10559a50b41701708a73a7de",
+  "frozenCutOriginalCommits": [
+    "4d5431e0",
+    "0d509f9e",
+    "9a46fed2",
+    "b8801e8d"
+  ],
+  "fieldPhase": "overlay/FieldSystem TaskManager before main SysTask queue",
+  "modelQueue": "Cut wrapper priority0 before model1024",
+  "modelFinishedAfterUpdates": 45,
+  "completionAfterQueuePasses": 47,
+  "hideAfterDispatchTicks": 9,
+  "boundedGuarantee": "persistent admitted30Hz script/task controller phases; not generic DS scheduler/hardware/frame fidelity",
+  "sourceFiles": [
+    {
+      "path": "src/main.c",
+      "sha256": "5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc"
+    },
+    {
+      "path": "src/field_system.c",
+      "sha256": "0a95627586f4388c42cc885def5fd8b59d75cd0ef72a14e82971fbea9eca496b"
+    },
+    {
+      "path": "src/task.c",
+      "sha256": "19aec87aa80b10766bda6ff057a28431d75487439f16ce584dc4f59015780f63"
+    },
+    {
+      "path": "src/sys_task.c",
+      "sha256": "9ef0caac3b9c0f869e50e5df5278e4de50f65b0b76813ea4ecd533acc5bc767a"
+    },
+    {
+      "path": "src/field/field_3d_object_task.c",
+      "sha256": "135a8c4abea576abf824f11b114a2204b5122f81b225369e797f9b5dd898d8b1"
+    },
+    {
+      "path": "src/field/field_move_effects.c",
+      "sha256": "42bf11e37e472133e9707f41f71e9e60628629f3e10ed3dc31b5c9129cb2ba7f"
+    },
+    {
+      "path": "src/scrcmd_c.c",
+      "sha256": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4"
+    },
+    {
+      "path": "src/follow_mon.c",
+      "sha256": "34b005c9e772c219dd37d23ba8c3cc35d7112ae250f650450fc8969d6f7a6c8e"
+    },
+    {
+      "path": "src/field/follow_mon_interaction.c",
+      "sha256": "1924e1d417678bd89c35866fc421d0033a53703bef92a250d05b516f95e4ae36"
+    },
+    {
+      "path": "src/field/field_move_cut_in.c",
+      "sha256": "dc8ec55c5597f3342c245326c9c30b58b75b0ee894c3e89899cc968aa50023e0"
+    },
+    {
+      "path": "src/field/map_object_swap_positions.c",
+      "sha256": "fef407b1f23f8888a88a0287ae7585c4524ca49965c44972e2af369832677dcf"
+    },
+    {
+      "path": "src/script.c",
+      "sha256": "5a602396907c4dd0de4b5c2537ab9aab2c8f9f2678e8ccac5f2cc819fa561a31"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "0c2668942b82ced881e1474de3d625e93143e8bc213761c61011a9d35cc20ad3"
+    },
+    {
+      "path": "browser/src/source/cut-field-effect.ts",
+      "sha256": "3f154a2070791241d57aefc57138a6cd301f4905c4794772d6e89c837abed31c"
+    },
+    {
+      "path": "browser/public/source/scripts/0146.json",
+      "sha256": "653d8fcd0d5fa761769acd43d8957add2cf4f3e9cadf13f9feb54507ee02b180"
+    },
+    {
+      "path": "browser/public/source/maps/34.json",
+      "sha256": "fc29f0a115102e456ecdeea2687c45268e363f9cf2ee52e8c26a88e3dc117dd4"
+    },
+    {
+      "path": "browser/public/source/cut/resources.json",
+      "sha256": "f07c5dffaf6dee73c67464c2bd47183b7b8566dca30019387129747479929d18"
+    },
+    {
+      "path": "src/scrcmd_sound.c",
+      "sha256": "21c6721c415231c4a1ab4b831c0086bfe7c4797338152a0a8c6eab7b046e3b5a"
+    }
+  ],
+  "unresolvedRequiredPorts": [
+    "native kind0 Cut-in presentation",
+    "native logical player/follower swap FSM",
+    "native follower hop FSM and synchronous reset",
+    "actual field-parent admission",
+    "VM-scoped UI abort and drain",
+    "shared unlocked AudioContext/master gain accessor; no private audio context"
+  ],
+  "visualApproval": false,
+  "mainAttached": false,
+  "runtimeCommits": {
+    "genericClockWorld": "cd08a980b11e59df24575c5aa1f3676429a63a45",
+    "cutHost": "b873437ad337bb0bb2596bdf2305f9ad90c43027"
+  },
+  "callbackTiming": {
+    "bannerQueueDoneToStartEffect": 2,
+    "cryQueueDoneToStartEffect": 2,
+    "basis": "completion flag -> next native script poll -> subsequent bytecode tick",
+    "taskManagerChildren": "same-tick parent resume, no extra polling tick"
+  }
+}

@@ -1,0 +1,93 @@
+TAP version 13
+# (node:32019) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Cut admission from another task-phase continuation cannot leak its action and prevent retry
+not ok 1 - Cut admission from another task-phase continuation cannot leak its action and prevent retry
+  ---
+  duration_ms: 528.153166
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:96:1'
+  failureType: 'testCodeFailure'
+  error: 'Host fixture did not reach native boundary'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Object.reach (/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:46:126)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:97:242)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+not ok 2 - queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+  ---
+  duration_ms: 27.045625
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:100:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:101:480)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: real sound native callback observes cry completion before the following bytecode tick
+not ok 3 - real sound native callback observes cry completion before the following bytecode tick
+  ---
+  duration_ms: 13.783542
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:104:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:106:434)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual transition reason reaches the owned source VM instead of generic cancellation
+not ok 4 - actual transition reason reaches the owned source VM instead of generic cancellation
+  ---
+  duration_ms: 8.837708
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:109:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Field transition interrupted native field tasks/. Input:
+    
+    'AbortError: Native Cut field action cancelled'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'AbortError: Native Cut field action cancelled'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-field-host/browser/src/source/cut-field-host.test.ts:110:197)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2809.605625
