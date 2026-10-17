@@ -93,7 +93,8 @@ export class Battle{
       if(monAbility(this.data,attacker)==='ABILITY_TRUANT')throw Error('Unsupported native Yawn Truant action phase');
     }
     if(move.effect===42&&defender.hp>0){
-      this.assertDamageScope(attacker,defender);
+      this.assertBindingSleepEntryScope('binding');this.assertDamageScope(attacker,defender);
+      if(monAbility(this.data,defender)==='ABILITY_INTIMIDATE')throw Error('Unsupported native binding target Intimidate entry');
       if(monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native binding Pressure PP');
       const attackAbility=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender);
       if(attackAbility==='ABILITY_SCRAPPY'||attackAbility!=='ABILITY_MOLD_BREAKER'&&(move.type===this.data.constants.TYPE_FIRE&&targetAbility==='ABILITY_FLASH_FIRE'||move.type===this.data.constants.TYPE_WATER&&targetAbility==='ABILITY_WATER_ABSORB'))throw Error('Unsupported native binding immunity callback');
@@ -371,7 +372,13 @@ export class Battle{
     if(next.outcome==='ended'){this.bindings.delete(mon);await this.say(`${mon.name} was freed from ${moveName(this.data,binding.move)}!`);return;}
     if(next.damage){mon.hp=Math.max(0,mon.hp-next.damage);await this.view?.hit(playerSide);await this.say(`${mon.name} is hurt by ${moveName(this.data,binding.move)}!`);}
   }
+  private assertBindingSleepEntryScope(scope:'binding'|'Yawn'){
+    // Native Trace may replace a relevant ability; weather entry changes the
+    // underlying field even while CloudNine/AirLock temporarily suppress it.
+    if([this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING'].includes(monAbility(this.data,mon))))throw Error(`Unsupported native ${scope} entry ability`);
+  }
   private assertYawnSleepScope(mon:Mon){
+    this.assertBindingSleepEntryScope('Yawn');
     if(['ABILITY_QUICK_FEET','ABILITY_MARVEL_SCALE'].includes(monAbility(this.data,mon)))throw Error('Unsupported native Yawn status ability');
     if([this.player,this.enemy].some(other=>other.hp>0&&monAbility(this.data,other)==='ABILITY_BAD_DREAMS'))throw Error('Unsupported native Yawn BadDreams residual');
     const suppressed=[this.player,this.enemy].some(other=>other.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,other)));
