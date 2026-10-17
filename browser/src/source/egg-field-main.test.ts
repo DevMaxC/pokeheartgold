@@ -36,7 +36,7 @@ const data=await loadData(),nativeMap=await sourceJSON('maps/73.json');
 const main=await readFile(root+'/browser/src/source/main.ts','utf8');
 const ast=ts.createSourceFile('main.ts',main,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
 const functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node.getText(ast)]));
-const names=['save','tweenPlayer','captureField','restoreField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','wildEncounter','runFieldEntry','enterMap','pollFieldInput','refreshPhoneIndicator','answerPhone'];
+const names=['save','tweenPlayer','captureField','restoreField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','wildEncounter','runFieldEntry','enterMap','pollFieldInput','refreshPhoneIndicator','answerPhone','fieldRTCObservation','pollPhoneAdmission'];
 for(const name of names)assert.ok(functions.has(name),'actual main function missing: '+name);
 const begin=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='begin');
 let vmInitializer;function visit(node){if(ts.isBinaryExpression(node)&&node.left.getText(ast)==='vm'&&ts.isNewExpression(node.right)&&node.right.expression.getText(ast)==='ScriptVM')vmInitializer=node.right.getText(ast);ts.forEachChild(node,visit);}visit(begin);assert.ok(vmInitializer,'actual begin ScriptVM initializer');
@@ -51,8 +51,8 @@ assert.ok(release.includes('hatchFollowerPendingCommit'),'host must retain hatch
 const renderFollower=[release,...renderStatements.slice(leadIndex,leadIndex+3).map(node=>node.getText(ast))].join('\n');
 assert.match(main,/addEventListener\('pagehide',save\)/,'pagehide uses the same tested save binding');
 const compile=source=>ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
-const renderPhone=renderStatements.filter(node=>ts.isExpressionStatement(node)&&(/^(fieldPhone\.advanceRTC|refreshPhoneIndicator)/).test(node.getText(ast))).map(node=>node.getText(ast)).join('\n');
-assert.match(renderPhone,/Date.now\(\)/,'phone seconds use explicit browser RTC');
+const renderPhone=renderStatements.filter(node=>(ts.isVariableStatement(node)&&node.declarationList.declarations.some(d=>d.name.getText(ast)==='rtc'))||(ts.isExpressionStatement(node)&&(/^(fieldPhone\.advanceRTC|refreshPhoneIndicator)/).test(node.getText(ast)))).map(node=>node.getText(ast)).join('\n');
+assert.match(functions.get('fieldRTCObservation'),/Date.now\(\)/,'phone seconds use one explicit browser RTC observation');
 const boundSource=names.map(name=>functions.get(name)).join('\n')+'\nfunction renderFollowerActual(){'+renderFollower+'}\nfunction renderPhoneActual(){'+renderPhone+'}\n';
 const sourceHash=createHash('sha256').update(boundSource+'\n'+vmInitializer).digest('hex');
 const mainHash=createHash('sha256').update(main).digest('hex');
@@ -75,7 +75,7 @@ async function fixture({counter=4,readyEgg=false,fainted=false}={}){
  const ui={busy:false,loading(){},message:async(text,_wait,signal)=>{log.push(['message',text]);await controls.afterMessage?.(text,signal);return()=>{};},choose:async(title,options,_detail,signal)=>{log.push(['choice',title]);if(title==='The area could not be restored.')throw Error('fixture hydration failed');if(title==='Scene not completed'){await controls.failedPrompt?.();return controls.failedChoices.shift()??1;}return typeof controls.choice==='function'?controls.choice(title,options,signal):controls.choice;},input:async()=>controls.nickname};
  ui.printMessage=ui.message;
  class HatchView{constructor(_world,actors,options){this.actors=actors;this.signal=options.signal;log.push(['hatch-view-cry',options.cry]);}async reveal(scene){log.push('reveal');assert.equal(state.party[1].isEgg,false);await controls.reveal?.(scene,this.signal);}async cry(scene){log.push('cry');log.push(['cry-request',scene.cry]);await controls.cry?.(scene,this.signal);}async finish(){log.push('finish');await controls.finish?.();}cancel(){log.push('cancel');}}
- const phoneButton={hidden:true},fieldPhone=new FieldPhoneHost(phoneRules,controls.rtcSeconds);
+ const phoneButton={hidden:true},fieldPhone=new FieldPhoneHost(phoneRules,controls.rtcSeconds,12);
  const c={state,data,map,objects,fieldPhone,fieldPolling:false,phoneCall,$:id=>{assert.equal(id,'phone-ring');return phoneButton;},world,player,follower,ui,battle:{active:false,start:unexpected},ready:true,started:true,walking:false,transitioning:false,recoveryPrompt:false,hatching:false,hatchFollowerPendingCommit:false,followSpecies:155,followMon:state.party[0],followerSuppressed:false,playerDirectionLocked:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,restoringGym:false,lastWarp:'',lastCoord:'',lastError:'',keys:new Set(),drag:false,npcTweenY:new Map(),trainerApproachTasks:new Map(),frameTriggerGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],Date:class extends FieldDate{static now(){return controls.rtcSeconds*1000;}},Promise,AbortController,structuredClone,console:{error(){},warn:console.warn},SAVE_KEY:'test-native-save',localStorage:{setItem:(_key,text)=>writes.push(JSON.parse(text))},ScriptVM,UnsupportedScript,SourceActionRecovery,runRecoverableSourceAction,runFieldBattleAction,trainerEventPriority,firstFollowerMon,isUsableBattler,advancePartyEggStep,recordEggHatchEvent,presentNativeEggHatch,createNativeHatchMusicSession,WorldEggHatchView:HatchView,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,fieldEntryScripts,movementAction,gymFieldEntry,createMon,giveMon,
   tween:async(seconds,frame)=>{log.push(['tween',seconds,state.x,state.z,c.sourceActions.busy]);frame(.5);await controls.tween?.();frame(1);},encounterChecks:{step(){log.push('encounter-step');},reset(){},roll(){assert.equal(c.sourceActions.busy,false,'wild admission must follow committed step');return true;}},landSlot:()=>0,
   tryTrainerEncounter:async()=>{log.push('trainer');return controls.trainer;},warp:async(...args)=>{log.push(['warp',...args]);await controls.warp?.();},enterMap:unexpected,
@@ -208,7 +208,7 @@ test('actual post-memo hatch failure rolls back the fresh boost with the whole p
 
 test('actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost',async()=>{
  const c=await fixture();await ringElm(c);c.controls.rtcSeconds=1061;c.renderPhoneActual();c.controls.rtcSeconds=1091;c.renderPhoneActual();assert.equal(c.phoneButton.hidden,false);c.controls.rtcSeconds=1092;c.renderPhoneActual();assert.equal(c.phoneButton.hidden,true);assert.deepEqual(c.state.phoneTriggers,[0]);
- const saved=JSON.parse(JSON.stringify(c.state));c.fieldPhone=new FieldPhoneHost(phoneRules,1092);Object.assign(c.state,saved);c.controls.rtcSeconds=1152;c.renderPhoneActual();await c.pollFieldInput();assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,1);assert.equal(c.fieldPhone.current().kind,'none');
+ const saved=JSON.parse(JSON.stringify(c.state));c.fieldPhone=new FieldPhoneHost(phoneRules,1092,12);Object.assign(c.state,saved);c.controls.rtcSeconds=1152;c.renderPhoneActual();await c.pollFieldInput();assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,1);assert.equal(c.fieldPhone.current().kind,'none');
 });
 
 test('actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring',async()=>{
@@ -228,4 +228,23 @@ test('actual native scenes reset only active rings and answer respects trainer/U
 
 test('actual HUD and answer keep unsupported forced callers explicit and unconsumed',async()=>{
  const c=await fixture();c.state.phoneTriggers=[2];c.fieldPhone.triggerQueued(2,true);c.controls.rtcSeconds=1060;c.renderPhoneActual();await c.pollFieldInput();c.refreshPhoneIndicator();assert.equal(c.fieldPhone.current().kind,'unsupported');assert.equal(c.phoneButton.hidden,true);await c.answerPhone();assert.deepEqual(c.state.phoneTriggers,[2]);assert.ok(!c.log.some(row=>Array.isArray(row)&&row[0]==='message'));
+});
+
+function phoneDraws(c,values){const math=Object.create(Math);let draws=0;math.random=()=>{assert.equal(c.sourceActions.busy,true,'due caller admission owns the save gate');assert.ok(draws<values.length,'unexpected caller RNG draw');const value=values[draws++];if(value instanceof Error)throw value;return value;};c.Math=math;return()=>draws;}
+function advanceEmptyPhoneInterval(c){c.controls.rtcSeconds=1060;c.renderPhoneActual();c.controls.rtcSeconds=1600;c.renderPhoneActual();assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,10);}
+
+test('actual due empty admission resets its interval once; a later hatch waits for the next native minute',async()=>{
+ const c=await fixture({counter:254,readyEgg:true});c.state.pokegear={contacts:['PHONE_CONTACT_MOTHER','PHONE_CONTACT_PROF__ELM','PHONE_CONTACT_PROF__OAK'],cards:[]};const draws=phoneDraws(c,[0,0,0]);advanceEmptyPhoneInterval(c);const before=c.writes.length;await c.pollFieldInput();assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,0);assert.equal(c.fieldPhone.current().kind,'none');assert.equal(draws(),2);assert.equal(c.writes.length,before+1);
+ await c.pollFieldInput();assert.equal(draws(),2);assert.equal(c.writes.length,before+1,'idle render polling must not repeatedly save');await c.step(1);assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,9);await c.pollFieldInput();assert.equal(c.fieldPhone.current().kind,'none');c.controls.rtcSeconds=1660;c.renderPhoneActual();await c.pollFieldInput();assert.equal(c.fieldPhone.current().kind,'elm');assert.equal(draws(),3);
+});
+
+test('actual selected random caller retains its native active interval until the hatch scene resets it',async()=>{
+ const c=await fixture({counter:254,readyEgg:true}),joey=phoneRules.randomCallers.find(row=>row.key==='PHONE_CONTACT_JOEY');assert.equal(joey.group,1);c.state.pokegear={contacts:[joey.key],cards:[]};const draws=phoneDraws(c,[0,500/65536,0,0]);advanceEmptyPhoneInterval(c);await c.pollFieldInput();const call=c.fieldPhone.current();assert.equal(call.kind,'unsupported');assert.equal(call.call.scripted,0);assert.equal(call.call.contact,joey.id);assert.equal(draws(),3);await c.pollFieldInput();assert.equal(draws(),3);assert.equal(c.state.phoneRecentCallers,undefined,'unanswered random calls do not add recent history');
+ await c.step(1);assert.equal(c.fieldPhone.current().kind,'none');assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,9);await c.pollFieldInput();assert.equal(c.fieldPhone.current().kind,'none');c.controls.rtcSeconds=1660;c.renderPhoneActual();await c.pollFieldInput();assert.equal(c.fieldPhone.current().kind,'elm');assert.equal(draws(),4);
+});
+
+test('actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws',async()=>{
+ for(const retry of[false,true]){const c=await fixture(),joey=phoneRules.randomCallers.find(row=>row.key==='PHONE_CONTACT_JOEY'),chunk=phoneRules.recentCallerChunks[joey.group];c.state.pokegear={contacts:[joey.key],cards:[]};c.state.phoneRecentCallers=Array(8).fill(255);c.state.phoneRecentCallers[chunk.offset]=joey.id;const before=[...c.state.phoneRecentCallers],draws=phoneDraws(c,retry?[0,500/65536,Error('MT caller selection failed'),0]:[0,500/65536,Error('MT caller selection failed')]);advanceEmptyPhoneInterval(c);c.controls.failedChoices=[retry?0:1];c.controls.failedPrompt=async()=>{assert.deepEqual(c.state.phoneRecentCallers,before);c.save();assert.equal(c.writes.length,0);};await c.pollFieldInput();
+  assert.equal(draws(),retry?4:3,'Retry must reuse the original chance/category draws');assert.equal(c.sourceActions.busy,false);assert.deepEqual(c.state.phoneRecentCallers,retry?Array(8).fill(255):before);assert.deepEqual(c.writes.at(-1).phoneRecentCallers,c.state.phoneRecentCallers);assert.equal(c.fieldPhone.current().kind,retry?'unsupported':'none');
+ }
 });

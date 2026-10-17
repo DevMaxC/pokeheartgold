@@ -30,7 +30,7 @@ import {presentNativeEggHatch} from './egg-hatch-presentation.ts';
 import {WorldEggHatchView} from './egg-hatch-view.ts';
 import {createNativeHatchMusicSession} from './hatch-music.ts';
 import {FieldPhoneHost} from './phone-field-host.ts';
-import type {PhoneTriggerRules} from './phone-scheduler.ts';
+import type {PhoneAdmissionRules} from './phone-random.ts';
 import {phoneCall} from './phone.ts';
 import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
 
@@ -86,10 +86,18 @@ async function beginTrainerPath(index:number,trainer:{trainer:number;object:stri
   trainerApproachTasks.set(index,task);void task.catch(()=>{});
 }
 async function finishTrainerPath(index:number){const task=trainerApproachTasks.get(index);if(!task)throw Error('Native trainer approach task was not started');await task;trainerApproachTasks.delete(index);return true;}
+function fieldRTCObservation(){const seconds=Math.floor(Date.now()/1000);return{seconds,hour:new Date(seconds*1000).getHours()};}
+async function pollPhoneAdmission(){
+  if(!fieldPhone.needsAdmission(state,map))return;
+  // Explicit browser RNG ports preserve the native LC/MT call order. Retry
+  // reuses this admission's draws; this does not emulate the global DS RNG.
+  const lc:number[]=[],mt:number[]=[],clock=fieldPhone.snapshot();
+  await executeSourceAction(async()=>{let li=0,mi=0;fieldPhone.restore(clock);return fieldPhone.poll(state,map,()=>lc[li++]??(lc[li-1]=Math.floor(Math.random()*0x10000)),()=>mt[mi++]??(mt[mi-1]=Math.floor(Math.random()*0x100000000)));});
+}
 async function pollFieldInput(){
   if(fieldPolling||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
   try{if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);if(!await step(Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0))return;}
-    if(!sourceActions?.busy&&!recoveryPrompt&&!transitioning&&!walking&&!vm.busy&&!ui.busy&&!battle.active)fieldPhone.poll(state,map,()=>Math.floor(Math.random()*0x10000));
+    if(!sourceActions?.busy&&!recoveryPrompt&&!transitioning&&!walking&&!vm.busy&&!ui.busy&&!battle.active)await pollPhoneAdmission();
   }
   finally{fieldPolling=false;}
 }
@@ -368,7 +376,7 @@ async function step(facing:number){
     encounterChecks.step();return checkEvents(enteredDoor,eggClock);
   });
   // Commit the completed movement before the independent wild battle action.
-  return outcome.ok&&!!outcome.value&&!await wildEncounter();
+  return outcome.ok&&!!outcome.value&&!(await wildEncounter());
 }
 async function menu(){if(!started||sourceActions?.busy||recoveryPrompt||transitioning||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(!ui.panelOpen&&await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;if(ui.panelOpen){ui.close();return;}
   const entries=[['party','Pokémon',`${state.party.length} in your party`],['bag','Bag','Items and Key Items'],['trainer',state.name,`${state.badges.length} Badges`],['save','Save','Save your adventure'],['options','Options','Game settings'],['close','Close','Return to Johto']];
@@ -418,7 +426,7 @@ async function title(){
   await begin();
 }
 async function begin(){
-  fieldPhone=new FieldPhoneHost(await sourceJSON<PhoneTriggerRules>('phone-triggers.json'),Math.floor(Date.now()/1000));
+  const rtc=fieldRTCObservation();fieldPhone=new FieldPhoneHost(await sourceJSON<PhoneAdmissionRules>('phone-triggers.json'),rtc.seconds,rtc.hour);
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
   vm=new ScriptVM(data,state,{eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,true);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
@@ -426,7 +434,7 @@ async function begin(){
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started){openingView?.draw(dt);return;}
-    state.playSeconds+=dt;fieldPhone.advanceRTC(Math.floor(Date.now()/1000));refreshPhoneIndicator();if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
+    state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
     const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&(followMon!==(lead??null)||followSpecies!==(lead?.species??0))){const position=follower?.group.position.clone()??player.group.position.clone();if(follower)world.removePaper(follower);follower=null;followSpecies=lead?.species??0;followMon=lead??null;const key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';if(lead&&data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(position);}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
