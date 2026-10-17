@@ -1,0 +1,187 @@
+TAP version 13
+# (node:26454) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native transaction retains joystick + camera across completed steps and seamless OnLoad
+ok 1 - native transaction retains joystick + camera across completed steps and seamless OnLoad
+  ---
+  duration_ms: 298.216708
+  type: 'test'
+  ...
+# combined main SHA256 dc1b6a4980e1e4c63d561285765f905ba7cc9723642093a81991633b4d6f16b3
+# Subtest: native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+ok 2 - native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+  ---
+  duration_ms: 822.422416
+  type: 'test'
+  ...
+# Subtest: touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+ok 3 - touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+  ---
+  duration_ms: 457.09725
+  type: 'test'
+  ...
+# Subtest: priority coordinate scene consumes a completed step before Egg/wild/phone admission
+ok 4 - priority coordinate scene consumes a completed step before Egg/wild/phone admission
+  ---
+  duration_ms: 172.468875
+  type: 'test'
+  ...
+# Subtest: Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+ok 5 - Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+  ---
+  duration_ms: 31.204666
+  type: 'test'
+  ...
+# Subtest: failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+ok 6 - failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+  ---
+  duration_ms: 140.608167
+  type: 'test'
+  ...
+# Subtest: nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+ok 7 - nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+  ---
+  duration_ms: 89.87975
+  type: 'test'
+  ...
+# Subtest: loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+ok 8 - loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+  ---
+  duration_ms: 226.912667
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+ok 9 - explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+  ---
+  duration_ms: 142.546625
+  type: 'test'
+  ...
+# Subtest: Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+ok 10 - Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+  ---
+  duration_ms: 63.4065
+  type: 'test'
+  ...
+# Subtest: menu waits for native party child to finish and resets active phone only for the four real child actions
+ok 11 - menu waits for native party child to finish and resets active phone only for the four real child actions
+  ---
+  duration_ms: 169.109541
+  type: 'test'
+  ...
+# Subtest: actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+ok 12 - actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+  ---
+  duration_ms: 19.241666
+  type: 'test'
+  ...
+# Subtest: owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+ok 13 - owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+  ---
+  duration_ms: 29.937667
+  type: 'test'
+  ...
+# Subtest: modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+ok 14 - modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+  ---
+  duration_ms: 399.327334
+  type: 'test'
+  ...
+# Subtest: field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+ok 15 - field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+  ---
+  duration_ms: 3.664167
+  type: 'test'
+  ...
+# Subtest: hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+ok 16 - hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+  ---
+  duration_ms: 118.55625
+  type: 'test'
+  ...
+# Subtest: real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+ok 17 - real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+  ---
+  duration_ms: 438.304833
+  type: 'test'
+  ...
+# Subtest: Bag host keeps native Potion provisional until final acknowledgement, then commits one use
+ok 18 - Bag host keeps native Potion provisional until final acknowledgement, then commits one use
+  ---
+  duration_ms: 250.8495
+  type: 'test'
+  ...
+# Subtest: Bag lifecycle interruption rolls provisional party/bag back; explicit Retry owns a fresh signal and does not double consume
+ok 19 - Bag lifecycle interruption rolls provisional party/bag back; explicit Retry owns a fresh signal and does not double consume
+  ---
+  duration_ms: 221.869708
+  type: 'test'
+  ...
+# Subtest: title Settings and cancelled replacement retain the exact saved adventure and call native Continue once
+ok 20 - title Settings and cancelled replacement retain the exact saved adventure and call native Continue once
+  ---
+  duration_ms: 113.7845
+  type: 'test'
+  ...
+# Subtest: native party Escape cancels only its owned prompt/target, keeps whole records, and removes its abort listener
+ok 21 - native party Escape cancels only its owned prompt/target, keeps whole records, and removes its abort listener
+  ---
+  duration_ms: 294.110584
+  type: 'test'
+  ...
+# Subtest: field music cannot admit a failed-map cue while source hydration is incomplete
+ok 22 - field music cannot admit a failed-map cue while source hydration is incomplete
+  ---
+  duration_ms: 104.938542
+  type: 'test'
+  ...
+# Subtest: ordinary native Cherrygrove PASSERBY battle never requests the prototype noCritical override
+ok 23 - ordinary native Cherrygrove PASSERBY battle never requests the prototype noCritical override
+  ---
+  duration_ms: 225.913792
+  type: 'test'
+  ...
+# Subtest: actual battle host settles Mom against capped wallets and pre-battle message snapshot on win/cap/full-bank/zero/loss
+ok 24 - actual battle host settles Mom against capped wallets and pre-battle message snapshot on win/cap/full-bank/zero/loss
+  ---
+  duration_ms: 832.609833
+  type: 'test'
+  ...
+# Subtest: fresh Mom purchase accelerates even with pending12; reading/zero-event settlement never reboosts
+ok 25 - fresh Mom purchase accelerates even with pending12; reading/zero-event settlement never reboosts
+  ---
+  duration_ms: 281.831541
+  type: 'test'
+  ...
+# Subtest: late Mom host failure Return restores wallet/store/pending/manager; explicit Retry purchases exactly once
+ok 26 - late Mom host failure Return restores wallet/store/pending/manager; explicit Retry purchases exactly once
+  ---
+  duration_ms: 380.059833
+  type: 'test'
+  ...
+# Subtest: actual Mother indicator/answer pins27, rejects unsupported contexts, and rolls back late call failure before Retry
+ok 27 - actual Mother indicator/answer pins27, rejects unsupported contexts, and rolls back late call failure before Retry
+  ---
+  duration_ms: 416.182166
+  type: 'test'
+  ...
+# Subtest: Mom berry admission receives an exact raw16 draw and Retry reuses it without another selection
+ok 28 - Mom berry admission receives an exact raw16 draw and Retry reuses it without another selection
+  ---
+  duration_ms: 226.249375
+  type: 'test'
+  ...
+# Subtest: captured hatch mute cannot be changed by keyboard, touch, HUD or stale menu admission
+ok 29 - captured hatch mute cannot be changed by keyboard, touch, HUD or stale menu admission
+  ---
+  duration_ms: 184.850625
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10600.802333

@@ -1,0 +1,17 @@
+{
+  "recordedAtUtc": "2026-10-17T16:32:22.368288+00:00",
+  "scope": "Read-only snapshot of separately owned main integration, supplied by building_visual_review and independently inspected. Not adapter production changes or a final immutable combined-host approval.",
+  "sourceSha256": {
+    "browser/src/source/main.ts": "dc1b6a4980e1e4c63d561285765f905ba7cc9723642093a81991633b4d6f16b3",
+    "browser/src/source/main-native-interface.test.ts": "d9d26707d818d87711b19e8d31e6154fc737a59941b98ec5dacfc7b50ee7d8aa",
+    "browser/src/source/interface-panels.ts": "240e02867b93e98a9d3e20ab62a2d5024610e7e9b3ffa76bd146a4fc186605f9"
+  },
+  "testResult": {
+    "source": "main owner supplied actual-main AST-bound suite log, independently read; not rerun by adapter owner",
+    "passed": 29,
+    "failed": 0,
+    "positiveControl": "After releasing hatching, ordinary menu admission reaches Settings once. GPU/audio and surrounding dependencies are explicit fixtures, not browser input."
+  },
+  "adjudication": "Final Opus conditional Low is unreachable in this current host: keyboard Escape, touch Menu, HUD and direct stale menu paths all share menu() hatch guard; Settings handlers require current panel ownership; no live external mute/storage listener exists. Sound preferences are written synchronously before asynchronous preference work, so an already-pending preference tail cannot alter enabled during hatch.",
+  "futureCondition": "If a later host exposes live hotmute, external preference changes, or Settings during hatch, reconsider captured enabled versus live player state before saved-playing restoration. This evidence is not proof for arbitrary future hosts."
+}
