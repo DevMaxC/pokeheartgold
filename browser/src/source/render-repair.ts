@@ -23,7 +23,7 @@ function averageColor(material:THREE.MeshBasicMaterial){
   const cached=solidColors.get(material);if(cached)return cached.clone();
   const result=material.color.clone();const image=material.map?.image as CanvasImageSource&{width?:number;height?:number};
   if(image?.width&&image.height){try{const canvas=document.createElement('canvas');canvas.width=32;canvas.height=32;const ctx=canvas.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(image,0,0,32,32);const pixels=ctx.getImageData(0,0,32,32).data;let r=0,g=0,b=0,n=0;for(let i=0;i<pixels.length;i+=4){if(pixels[i+3]<200)continue;r+=pixels[i];g+=pixels[i+1];b+=pixels[i+2];n++;}if(n)result.multiply(new THREE.Color(r/n/255,g/n/255,b/n/255).convertSRGBToLinear());}catch{/* A solid source material color remains a valid fallback. */}}
-  solidColors.set(material,result);return result;
+  solidColors.set(material,result);return result.clone();
 }
 
 function opaqueRockTexture(material:THREE.MeshBasicMaterial):THREE.Texture|null{

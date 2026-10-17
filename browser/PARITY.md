@@ -373,7 +373,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P15-007 | Following Pokémon move continuously along the original one-tile trailing path | Implemented | `browser/src/source/world.ts` |
 | P15-008 | Every world camera angle, terrain boundary and scenery variant receives visual verification | Pending | `browser/src/source/world.ts` |
 | P15-009 | Connected outdoor headers preserve camera pose, held movement and follower continuity without entry overlays | Implemented | `browser/src/source/world.ts` |
-| P15-010 | Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open | Implemented | `browser/src/source/world.ts` |
+| P15-010 | Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open | Partial | `browser/src/source/world.ts` |
 | P15-011 | Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps | Implemented | `browser/src/source/world.ts` |
 | P15-012 | Rock cutouts become separately rooted closed boulders retaining original pixel textures | Implemented | `browser/src/source/world.ts` |
 | P15-013 | Generated textured surfaces provide every enabled vertex attribute and remain free of black backing rectangles | Implemented | `browser/src/source/world.ts` |

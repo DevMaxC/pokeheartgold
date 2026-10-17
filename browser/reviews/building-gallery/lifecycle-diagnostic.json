@@ -1,0 +1,42 @@
+{
+  "method": "Observed through T3 preview evaluate on isolated gallery tab_f; actual renderer info counters. No game tab/save access.",
+  "recordedAt": "2026-10-16T20:43:29.020744+00:00",
+  "sequentialWarmCacheProbe": {
+    "furtherSelections": 80,
+    "before": {
+      "geometries": 213,
+      "textures": 185,
+      "templates": 37,
+      "views": 6
+    },
+    "after": {
+      "geometries": 213,
+      "textures": 185,
+      "templates": 37,
+      "views": 6
+    },
+    "gallerySourceSHA256": "5ff7d660729df89c74ca69d9e4704e6fdad5b28ad33e0d13545ee89b9d985500"
+  },
+  "overlappingRefreshProbe": {
+    "obsoleteRefreshes": 32,
+    "before": {
+      "geometries": 98,
+      "textures": 145,
+      "templates": 17,
+      "views": 6
+    },
+    "after": {
+      "geometries": 98,
+      "textures": 145,
+      "templates": 17,
+      "views": 6
+    },
+    "finalAsset": "props/1-179-88.glb",
+    "gallerySourceSHA256": "a6a5cd6e39b001752bc9d7ef66f05b954a7f1ec34805ab8962aa052ca859692b"
+  },
+  "limitations": [
+    "Counters describe GPU-tracked geometry/texture resources; source templates intentionally stay cached.",
+    "Separate probes used different warm caches and the explicitly recorded working gallery versions; this is not an immutable final release.",
+    "No final immutable renderer or manual visual approval is claimed."
+  ]
+}

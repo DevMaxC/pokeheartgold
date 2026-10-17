@@ -4,7 +4,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone } from 'three/addons/utils/SkeletonUtils.js';
 import { sourceJSON,type SourceMap,type SourceIndex,type Matrix,type Land,type Cell,type SpriteInfo,type NPC } from './types.ts';
 import {tilePermission,permissionWalkable,terrainHeight} from './terrain.ts';
-import {repairOriginalAsset,originalMaterial,closeBuildingBack,type BuildingEntrance} from './render-repair.ts';
+import {repairOriginalAsset,originalMaterial,type BuildingEntrance} from './render-repair.ts';
+import {closeBuildingExterior,ownsBuildingExteriorResources} from './building-exterior.ts';
 import type {FieldObject} from './objects.ts';
 import type {WorldBattleView} from './battle-stage.ts';
 import {sourceTallGrass,updateGrass} from './grass.ts';
@@ -16,6 +17,7 @@ import {closeBuildingFooting} from './building-footing.ts';
 import {shorelineUnderlay} from './shoreline.ts';
 import {Terraces,type TerraceData} from './ledges.ts';
 import {terraceModel,terraceWalls,terraceCliffMaterial} from './terrace-model.ts';
+import {terrainPause} from './terrain-work.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap;furniture?:FurnitureObstacle[]};
 export class OriginalWorld {
@@ -71,12 +73,16 @@ export class OriginalWorld {
       repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
   }
-  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!['source-tall-grass','entrance-rear-wall','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;object.geometry.dispose();if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])m.dispose();});this.scene.remove(c.group);}
+  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
   /** Keep the last rendered view while an asynchronous warp replaces the
    * scene. Incoming player coordinates must never steer the outgoing rig. */
   beginFieldTransition(){this.cameraTransition=true;}
   endFieldTransition(){this.cameraTransition=false;if(this.cameraResizePending){this.cameraResizePending=false;this.resizeRenderer();}}
   private resizeRenderer(){this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);}
+  /** Check the shared budget and build in the same continuation. Returning
+   * permission to an awaiting caller lets concurrent cached jobs all pass
+   * before any of them consumes the budget. */
+  private async runSceneryWork(generation:number,build:()=>void){if(generation!==this.generation)return false;let pending:Promise<void>|null;while((pending=terrainPause())){await pending;if(generation!==this.generation)return false;}build();return true;}
   get fieldTransitionActive(){return this.cameraTransition;}
   async enter(id:number,x:number,z:number,weather=0){
     const ownsTransition=!this.cameraTransition;
@@ -121,6 +127,7 @@ export class OriginalWorld {
         const map=await this.map(owner);const cell=map.cells.find(c=>c.x===xx&&c.z===zz);if(!cell)return;
         if(!this.landCache.has(landID))this.landCache.set(landID,sourceJSON<Land>(`lands/${landID}.json`).catch(error=>{this.landCache.delete(landID);throw error;}));
         const [template,land]=await Promise.all([this.asset(cell.asset),this.landCache.get(landID)!]);
+        if(generation!==this.generation)return;
         const group=new THREE.Group();group.position.set(xx*32+16,cell.altitude*.5,zz*32+16);
         let retained=false;try{
         const model=clone(template);model.scale.setScalar(1/16);group.add(model);const grass=sourceTallGrass(land,cell);if(grass)group.add(grass);
@@ -139,7 +146,7 @@ export class OriginalWorld {
             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
           }
         }
-        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;const p=clone(await this.asset(prop.asset));p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);group.add(p);closeBuildingBack(p,await doors());if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}));for(const result of props)if(result.status==='rejected')throw result.reason;
+        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;if(generation!==this.generation)return;const p=clone(await this.asset(prop.asset));group.add(p);if(generation!==this.generation)return;p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);const entrances=await doors();if(!await this.runSceneryWork(generation,()=>{closeBuildingExterior(p,prop.asset,entrances);if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}))return;}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;
         }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());

@@ -3,6 +3,12 @@ import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {extrudeTriangle,repairOriginalAsset,originalMaterial,closeBuildingBack} from './render-repair.ts';
 
+test('repeated placements keep the same fallback tint without changing the shared colour cache',()=>{
+  const material=new THREE.MeshBasicMaterial({color:new THREE.Color(.8,.6,.4)}),geometry=new THREE.BoxGeometry(4,3,3),colors=new Float32Array(geometry.attributes.position.count*3).fill(.5);geometry.translate(0,1.5,0);geometry.setAttribute('color',new THREE.BufferAttribute(colors,3));
+  const observed:THREE.Color[]=[];for(let i=0;i<3;i++){const root=new THREE.Group();root.add(new THREE.Mesh(geometry,material));assert.ok(closeBuildingBack(root,[{x:0,z:1.5,axis:2,sign:1}])>0);observed.push(((root.getObjectByName('entrance-rear-wall')as THREE.Mesh).material as THREE.MeshBasicMaterial).color.clone());}
+  for(const color of observed)assert.ok(Math.hypot(color.r-.4,color.g-.3,color.b-.2)<1e-12,'vertex tint is applied once to each placement');assert.deepEqual(material.color.toArray(),[.8,.6,.4]);
+});
+
 test('a missing rear surface becomes a closed prism, with every edge used twice',()=>{
   const front=[new THREE.Vector3(-2,0,2),new THREE.Vector3(2,0,2),new THREE.Vector3(0,4,2)];
   const faces=[front,...extrudeTriangle(front,2,-2)];const edges=new Map<string,number>();

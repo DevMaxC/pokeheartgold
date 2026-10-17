@@ -1,0 +1,526 @@
+{
+  "status": "Local clean merge reconciliation; finite structural evidence only; final manual/render approval pending",
+  "production": "c4c627e1622a9ce70843d55110ac7f66c1dfc76f",
+  "buildingMetadata": "a236664a86236c8a720e784d44c0020afb47dc62",
+  "immutableBuildingRuntime": "3d09340dcfc9ca72e1c5eadbc01810e1a98ba330",
+  "localMergeCandidate": "99c1e5a45e6e91f193070ef19cd561ffde927308",
+  "mergeParents": [
+    "c4c627e1622a9ce70843d55110ac7f66c1dfc76f",
+    "a236664a86236c8a720e784d44c0020afb47dc62"
+  ],
+  "conflicts": [],
+  "manualResolutions": [],
+  "sharedChangedPaths": [],
+  "productionChangedPaths": [
+    "browser/public/source/land/129-11.glb",
+    "browser/public/source/land/186-18.glb",
+    "browser/public/source/land/187-18.glb",
+    "browser/public/source/land/188-18.glb",
+    "browser/public/source/land/202-18.glb",
+    "browser/public/source/land/203-18.glb",
+    "browser/public/source/land/204-18.glb",
+    "browser/public/source/land/206-18.glb",
+    "browser/public/source/land/207-18.glb",
+    "browser/public/source/land/297-94.glb",
+    "browser/public/source/land/311-94.glb",
+    "browser/public/source/land/357-93.glb",
+    "browser/public/source/land/4-2.glb",
+    "browser/public/source/land/59-7.glb",
+    "browser/public/source/land/60-7.glb",
+    "browser/public/source/land/62-7.glb",
+    "browser/public/source/land/63-7.glb",
+    "browser/public/source/land/64-7.glb",
+    "browser/public/source/land/65-7.glb",
+    "browser/public/source/land/66-7.glb",
+    "browser/public/source/land/67-7.glb",
+    "browser/public/source/land/670-75.glb",
+    "browser/public/source/land/68-7.glb",
+    "browser/public/source/land/69-7.glb",
+    "browser/public/source/land/79-19.glb",
+    "browser/public/source/land/80-19.glb",
+    "browser/public/source/land/81-19.glb",
+    "browser/reviews/2026-10-17-native-early-battle-effects-opus-5.5.md",
+    "browser/reviews/2026-10-17-rage-before-turn-adjudication.md",
+    "browser/reviews/native-action-end-candidate-1-opus-5.5.json",
+    "browser/reviews/native-action-end-candidate-1-opus-5.5.md",
+    "browser/reviews/native-action-end-candidate-1-opus-5.5.raw.json",
+    "browser/reviews/native-action-end-candidate-2-opus-5.5.json",
+    "browser/reviews/native-action-end-candidate-2-opus-5.5.md",
+    "browser/reviews/native-action-end-candidate-2-opus-5.5.raw.json",
+    "browser/reviews/native-action-end-opus-5.5.json",
+    "browser/reviews/native-action-end-opus-5.5.md",
+    "browser/reviews/native-action-end-opus-5.5.raw.json",
+    "browser/reviews/native-action-end-recoil.md",
+    "browser/reviews/native-battle-accuracy-adjudication.json",
+    "browser/reviews/native-battle-accuracy-opus-result.json",
+    "browser/reviews/native-battle-accuracy-review-manifest.json",
+    "browser/reviews/native-battle-accuracy-scope.md",
+    "browser/reviews/native-battle-experience-adjudication.json",
+    "browser/reviews/native-battle-experience-opus-core-result.json",
+    "browser/reviews/native-battle-experience-opus-followup-result.json",
+    "browser/reviews/native-battle-experience-phase-adjudication.json",
+    "browser/reviews/native-battle-experience-plan-adjudication.json",
+    "browser/reviews/native-battle-experience-plan-opus-result.json",
+    "browser/reviews/native-battle-experience-plan-review-manifest.json",
+    "browser/reviews/native-battle-experience-review-manifest.json",
+    "browser/reviews/native-battle-experience-scope.md",
+    "browser/reviews/native-battle-phase-b30324e-opus-5.5.json",
+    "browser/reviews/native-battle-phase-b30324e-opus-5.5.md",
+    "browser/reviews/native-battle-phase-b30324e-opus-5.5.raw.json",
+    "browser/reviews/native-battle-production-release-8212c5/build.log",
+    "browser/reviews/native-battle-production-release-8212c5/tests.log",
+    "browser/reviews/native-battle-production-release-8212c5/validation.json",
+    "browser/reviews/native-battle-production-release-prep.json",
+    "browser/reviews/native-battle-production-release-prep.md",
+    "browser/reviews/native-early-battle-effects-review-receipt.json",
+    "browser/reviews/native-egg-consumer-514a01e-exp-reproduction.json",
+    "browser/reviews/native-egg-consumer-514a01e-opus-5.5.json",
+    "browser/reviews/native-egg-consumer-514a01e-opus-5.5.md",
+    "browser/reviews/native-no-target-predicate-proof.md",
+    "browser/reviews/native-no-target-predicate-source-manifest.json",
+    "browser/reviews/native-single-battle-residual-source-manifest.json",
+    "browser/reviews/native-single-battle-residual-source-proof.md",
+    "browser/reviews/native-zero-speed-adjudication.json",
+    "browser/reviews/native-zero-speed-b30324e-reproduction.json",
+    "browser/reviews/shoreline-native-translation/README.md",
+    "browser/reviews/shoreline-native-translation/asset-correction.json",
+    "browser/reviews/shoreline-native-translation/byte-invariance.json",
+    "browser/reviews/shoreline-native-translation/native-software-diagnostic.png",
+    "browser/reviews/shoreline-native-translation/node-tests.tap",
+    "browser/reviews/shoreline-native-translation/opus-adjudication.json",
+    "browser/reviews/shoreline-native-translation/opus-review-result.json",
+    "browser/reviews/shoreline-native-translation/python-tests.txt",
+    "browser/reviews/shoreline-native-translation/related-tests.tap",
+    "browser/reviews/shoreline-native-translation/software-diagnostic.py",
+    "browser/reviews/shoreline-native-translation/typecheck.txt",
+    "browser/reviews/shoreline-native-translation/verification.json",
+    "browser/scripts/import_source.py",
+    "browser/scripts/native_shoreline_srt.py",
+    "browser/scripts/test_native_shoreline_srt.py",
+    "browser/src/source/battle-accuracy.test.ts",
+    "browser/src/source/battle-action-end.test.ts",
+    "browser/src/source/battle-experience-integration.test.ts",
+    "browser/src/source/battle-experience-plan.test.ts",
+    "browser/src/source/battle-experience.test.ts",
+    "browser/src/source/battle-experience.ts",
+    "browser/src/source/battle-math.ts",
+    "browser/src/source/battle-party.test.ts",
+    "browser/src/source/battle-party.ts",
+    "browser/src/source/battle-turn-phase.test.ts",
+    "browser/src/source/battle.ts",
+    "browser/src/source/early-battle-effects.test.ts",
+    "browser/src/source/main.ts",
+    "browser/src/source/shoreline-native.test.ts"
+  ],
+  "buildingChangedPaths": [
+    "browser/PARITY.md",
+    "browser/building-gallery.html",
+    "browser/parity/features.json",
+    "browser/public/source/inspection/building-gallery-plan.json",
+    "browser/public/source/inspection/building-visual-inventory.json",
+    "browser/reviews/2026-10-16-building-candidate-status.md",
+    "browser/reviews/2026-10-16-building-exteriors-opus-5.5.md",
+    "browser/reviews/2026-10-16-building-exteriors-opus-followup.md",
+    "browser/reviews/2026-10-16-building-exteriors-opus-second-pass.md",
+    "browser/reviews/building-broadphase-equivalence.json",
+    "browser/reviews/building-category-triage.json",
+    "browser/reviews/building-enclosure-audit-immutable-A3-validation.json",
+    "browser/reviews/building-enclosure-audit-immutable-A3.json",
+    "browser/reviews/building-enclosure-audit-validation.json",
+    "browser/reviews/building-enclosure-audit.json",
+    "browser/reviews/building-enclosure-audit.md",
+    "browser/reviews/building-gallery-plan.json",
+    "browser/reviews/building-gallery/lifecycle-diagnostic.json",
+    "browser/reviews/building-house-numerical-edge-proof-provisional.json",
+    "browser/reviews/building-house-roof-envelope-regression-A3.json",
+    "browser/reviews/building-house-roof-geometry-delta-A3.json",
+    "browser/reviews/building-native-collector-gate-A3-attestation.json",
+    "browser/reviews/building-native-collector-gate-adjudication-2026-10-17-v3.json",
+    "browser/reviews/building-native-collector-gate-probe-2026-10-17-v3.mts",
+    "browser/reviews/building-native-collector-gate-receipt-2026-10-17-v3.json",
+    "browser/reviews/building-native-collector-gate-review-2026-10-17-v3.md",
+    "browser/reviews/building-opus-final-snapshot-manifest.json",
+    "browser/reviews/building-opus-followup-snapshot-manifest.json",
+    "browser/reviews/building-opus-native-adjudication.json",
+    "browser/reviews/building-opus-snapshot-manifest.json",
+    "browser/reviews/building-structural-checkpoint-A3.json",
+    "browser/reviews/building-visual-inventory.json",
+    "browser/reviews/building-visual-inventory.md",
+    "browser/reviews/building-world-budget-opus-adjudication.json",
+    "browser/reviews/building-world-budget-opus-result.json",
+    "browser/reviews/building-world-budget-regression.json",
+    "browser/scripts/audit_building_enclosures.ts",
+    "browser/scripts/audit_building_footings.ts",
+    "browser/scripts/building_gallery_capture_server.ts",
+    "browser/scripts/export_building_gallery.ts",
+    "browser/scripts/validate_building_gallery_capture.ts",
+    "browser/src/source/aquatic-gate-building-shells.test.ts",
+    "browser/src/source/aquatic-gate-building-shells.ts",
+    "browser/src/source/building-exterior.test.ts",
+    "browser/src/source/building-exterior.ts",
+    "browser/src/source/building-footing.test.ts",
+    "browser/src/source/building-footing.ts",
+    "browser/src/source/building-gallery.ts",
+    "browser/src/source/burned-tower-shells.test.ts",
+    "browser/src/source/burned-tower-shells.ts",
+    "browser/src/source/civic-building-shells.test.ts",
+    "browser/src/source/civic-building-shells.ts",
+    "browser/src/source/decorative-building-shells.test.ts",
+    "browser/src/source/decorative-building-shells.ts",
+    "browser/src/source/facility-building-shells.test.ts",
+    "browser/src/source/facility-building-shells.ts",
+    "browser/src/source/frontier-building-shells.test.ts",
+    "browser/src/source/frontier-building-shells.ts",
+    "browser/src/source/gate-building-shells.test.ts",
+    "browser/src/source/gate-building-shells.ts",
+    "browser/src/source/gym-building-shells.test.ts",
+    "browser/src/source/gym-building-shells.ts",
+    "browser/src/source/house-building-shells.test.ts",
+    "browser/src/source/house-building-shells.ts",
+    "browser/src/source/industrial-building-shells.test.ts",
+    "browser/src/source/industrial-building-shells.ts",
+    "browser/src/source/landmark-annex-shells.test.ts",
+    "browser/src/source/landmark-annex-shells.ts",
+    "browser/src/source/landmark-building-shells.test.ts",
+    "browser/src/source/landmark-building-shells.ts",
+    "browser/src/source/misc-building-shells.test.ts",
+    "browser/src/source/misc-building-shells.ts",
+    "browser/src/source/name-rater-game-building-shells.test.ts",
+    "browser/src/source/name-rater-game-building-shells.ts",
+    "browser/src/source/pagoda-building-shells.test.ts",
+    "browser/src/source/pagoda-building-shells.ts",
+    "browser/src/source/pokeathlon-building-shells.test.ts",
+    "browser/src/source/pokeathlon-building-shells.ts",
+    "browser/src/source/render-repair.test.ts",
+    "browser/src/source/render-repair.ts",
+    "browser/src/source/shrine-building-shells.test.ts",
+    "browser/src/source/shrine-building-shells.ts",
+    "browser/src/source/small-building-shells.test.ts",
+    "browser/src/source/small-building-shells.ts",
+    "browser/src/source/special-building-shells.test.ts",
+    "browser/src/source/special-building-shells.ts",
+    "browser/src/source/station-building-shells.test.ts",
+    "browser/src/source/station-building-shells.ts",
+    "browser/src/source/urban-building-shells.test.ts",
+    "browser/src/source/urban-building-shells.ts",
+    "browser/src/source/world-streaming.test.ts",
+    "browser/src/source/world.ts"
+  ],
+  "immutableStructuralInputs": {
+    "count": 585,
+    "allMatch": true,
+    "allCommittedBlobsMatch": true
+  },
+  "structuralScope": {
+    "candidatePlacements": 977,
+    "majorPlacements": 355,
+    "uniqueAssets": 220,
+    "canonicalModels": 157,
+    "matrices": [
+      0,
+      5,
+      8,
+      27,
+      56,
+      67,
+      86,
+      153,
+      178,
+      211,
+      224,
+      230,
+      240,
+      277,
+      281
+    ],
+    "confidentPlacements": 327,
+    "rawUnexpectedEscapePlacements": 34,
+    "rawUnexpectedRays": 1647,
+    "closedBuildingPlacements": 253,
+    "closedBuildingPlacementsWithoutCore": 0,
+    "closedBuildingSampledRays": 2253741,
+    "closedBuildingDiagnosticEdgeWitnesses": 39,
+    "closedBuildingEscapePlacements": 16,
+    "closedBuildingUnexpectedRays": 39,
+    "closedBuildingUnexpectedRaysWithoutDiagnosticWitness": 0,
+    "unclassified": 0,
+    "totalSampledRays": 2796873,
+    "exactNoTriangleRays": 8758,
+    "alphaOnlyMissRays": 144,
+    "nativeRecessAllowances": 4761,
+    "physicalCanopyAllowances": 282,
+    "sourceShrineApertureAllowances": 284,
+    "nativePorchAllowances": 40,
+    "nativeProfiledDoorAllowances": 495,
+    "measuredApertureAllowances": 1158,
+    "eventCorridorAllowances": 15,
+    "repairedPassageAllowances": 220,
+    "diagnosticEdgeWitnesses": 69,
+    "unexpectedDiagnosticEdgeWitnesses": 69,
+    "edgeToleranceHits": 0,
+    "invalidCorePlacements": 28
+  },
+  "classificationSummary": {
+    "enclosed building with entrance": {
+      "placements": 169,
+      "placementsWithoutCore": 0,
+      "sampledRays": 1522182,
+      "strictUnexpectedRays": 29,
+      "unexpectedDiagnosticEdgeWitnesses": 29
+    },
+    "open-air decoration": {
+      "placements": 52,
+      "placementsWithoutCore": 25,
+      "sampledRays": 140919,
+      "strictUnexpectedRays": 1608,
+      "unexpectedDiagnosticEdgeWitnesses": 30
+    },
+    "source gate; passage review required": {
+      "placements": 49,
+      "placementsWithoutCore": 3,
+      "sampledRays": 397398,
+      "strictUnexpectedRays": 0,
+      "unexpectedDiagnosticEdgeWitnesses": 0
+    },
+    "closed decorative building": {
+      "placements": 82,
+      "placementsWithoutCore": 0,
+      "sampledRays": 700743,
+      "strictUnexpectedRays": 1,
+      "unexpectedDiagnosticEdgeWitnesses": 1
+    },
+    "enclosed decorative silo": {
+      "placements": 1,
+      "placementsWithoutCore": 0,
+      "sampledRays": 22149,
+      "strictUnexpectedRays": 9,
+      "unexpectedDiagnosticEdgeWitnesses": 9
+    },
+    "damaged tower; enclosed ground story and authored open upper roof": {
+      "placements": 1,
+      "placementsWithoutCore": 0,
+      "sampledRays": 4815,
+      "strictUnexpectedRays": 0,
+      "unexpectedDiagnosticEdgeWitnesses": 0
+    },
+    "raised enclosed shrine; open below stilts": {
+      "placements": 1,
+      "placementsWithoutCore": 0,
+      "sampledRays": 8667,
+      "strictUnexpectedRays": 0,
+      "unexpectedDiagnosticEdgeWitnesses": 0
+    }
+  },
+  "closedStagesStrictUnexpected": {
+    "original": 340203,
+    "sharedRepair": 52570,
+    "withEntrances": 21863,
+    "candidate": 39
+  },
+  "retainedClosedRawMisses": [
+    {
+      "placement": "0:44,5:0",
+      "asset": "props/1-283-12.glb",
+      "strictMisses": 2,
+      "diagnosticWitnesses": 2,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "y+": 2
+      }
+    },
+    {
+      "placement": "0:8,5:2",
+      "asset": "props/1-113-6.glb",
+      "strictMisses": 9,
+      "diagnosticWitnesses": 9,
+      "outsideDistanceTilesMax": 8.180419800440784e-15,
+      "exits": {
+        "y+": 5,
+        "x-": 1,
+        "x+": 3
+      }
+    },
+    {
+      "placement": "0:40,10:4",
+      "asset": "props/1-218-10.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "x+": 1
+      }
+    },
+    {
+      "placement": "0:37,7:6",
+      "asset": "props/1-241-14.glb",
+      "strictMisses": 3,
+      "diagnosticWitnesses": 3,
+      "outsideDistanceTilesMax": 3.263990640267611e-16,
+      "exits": {
+        "y+": 3
+      }
+    },
+    {
+      "placement": "0:38,7:9",
+      "asset": "props/1-240-14.glb",
+      "strictMisses": 2,
+      "diagnosticWitnesses": 2,
+      "outsideDistanceTilesMax": 8.687169907040104e-17,
+      "exits": {
+        "y+": 2
+      }
+    },
+    {
+      "placement": "0:38,8:3",
+      "asset": "props/1-243-14.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "y+": 1
+      }
+    },
+    {
+      "placement": "0:40,6:10",
+      "asset": "props/1-258-11.glb",
+      "strictMisses": 2,
+      "diagnosticWitnesses": 2,
+      "outsideDistanceTilesMax": 7.28583859910259e-17,
+      "exits": {
+        "x+": 1,
+        "y+": 1
+      }
+    },
+    {
+      "placement": "0:13,14:8",
+      "asset": "props/1-46-3.glb",
+      "strictMisses": 4,
+      "diagnosticWitnesses": 4,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "z+": 4
+      }
+    },
+    {
+      "placement": "0:10,10:3",
+      "asset": "props/1-88-4.glb",
+      "strictMisses": 2,
+      "diagnosticWitnesses": 2,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "y+": 2
+      }
+    },
+    {
+      "placement": "0:10,10:10",
+      "asset": "props/1-86-4.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "x-": 1
+      }
+    },
+    {
+      "placement": "0:9,8:1",
+      "asset": "props/1-110-6.glb",
+      "strictMisses": 7,
+      "diagnosticWitnesses": 7,
+      "outsideDistanceTilesMax": 1.0144791826714813e-14,
+      "exits": {
+        "x+": 7
+      }
+    },
+    {
+      "placement": "0:11,5:2",
+      "asset": "props/1-11-5.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "y+": 1
+      }
+    },
+    {
+      "placement": "0:12,5:5",
+      "asset": "props/1-11-5.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "y+": 1
+      }
+    },
+    {
+      "placement": "0:13,8:6",
+      "asset": "props/1-153-19.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "y+": 1
+      }
+    },
+    {
+      "placement": "211:0,0:2",
+      "asset": "props/1-218-92.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "x+": 1
+      }
+    },
+    {
+      "placement": "277:0,0:0",
+      "asset": "props/1-335-98.glb",
+      "strictMisses": 1,
+      "diagnosticWitnesses": 1,
+      "outsideDistanceTilesMax": 0,
+      "exits": {
+        "y+": 1
+      }
+    }
+  ],
+  "tests": {
+    "historicalA3": {
+      "pass": 331,
+      "fail": 0,
+      "source": "building-house-roof-envelope-regression-A3.json",
+      "noCombinedProductionBuildClaim": true
+    },
+    "combinedTSC": {
+      "status": "PASS",
+      "logPath": "combined-typecheck.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "combinedTargetTests": {
+      "status": "PASS",
+      "logPath": "combined-focused-tests.tap",
+      "sha256": "cbee50d9c58acfbc331c62ece526fa7e05ac184cbca35c36c3d57e71c7ed2624",
+      "summary": [
+        "# tests 39",
+        "# pass 39",
+        "# fail 0",
+        "# skipped 0",
+        "# duration_ms 91191.90625"
+      ]
+    }
+  },
+  "risks": [
+    "All220native-variant final manual statuses remain pending; no final355-placement/2130-view review.",
+    "39strict closed rays remain retained; diagnosticnear-edge witnesses do not establish exactseals.",
+    "Two-sided physical raycasting does not establish outwardmaterial visibility or everycameraangle.",
+    "Nodebuilder timings include indivisible longcalls, with actualbrowser streamingframe latency unverified.",
+    "No full combinedproduction tests/build/browser/deployment was performed by this subagent."
+  ],
+  "recommendation": "Suitable incremental structural release candidate once parent combined-build/CI and focused production verification pass; do not label all buildings visually approved or game parity complete.",
+  "inspectionPerformed": {
+    "type": "Offline source, native-input hash and focused Node reconciliation checks",
+    "browser": false,
+    "build": false,
+    "fullCombinedSuite": false,
+    "manualVisualApproval": false
+  },
+  "externalReviewScope": "Parent reports broader Opus f21 review finished without P0/P1, with shallow rendering/building coverage. This readiness author did not reproduce that review and does not use it as full building visual approval."
+}
