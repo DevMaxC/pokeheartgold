@@ -15,7 +15,8 @@ import {defaultInterfacePreferences,writeInterfacePreferences} from './interface
 import {chooseFieldPartySwitchTarget,swapFieldPartySlots} from './party-order.ts';
 import {useFieldBagItem} from './field-bag-actions.ts';
 import {partyRow,partySummary} from './party-display.ts';
-import {loadData,newState} from './data.ts';
+import {loadData,newState,createMon} from './data.ts';
+import {Battle} from './battle.ts';
 import {ScriptVM,UnsupportedScript} from './script.ts';
 import {FieldObjects} from './objects.ts';
 import {NATIVE_EGG_ICON,giveTogepiEgg} from './eggs.ts';
@@ -293,5 +294,20 @@ test('Bag lifecycle abort in final leaf handback restores acknowledged provision
   const controller=new AbortController(),pending=c.useBagItem('ITEM_POTION',{state:c.state,signal:controller.signal});await flush();clock.flush();
   d.ids.get('panel-content')!.querySelector<any>('[data-bag-choice="party:0"]')!.click();await flush();clock.flush();d.buttons[0].click();await flush();clock.flush();assert.equal(c.state.party[0].hp,20);assert.equal(c.state.bag.ITEM_POTION,1);
   d.buttons[0].click();await flush();clock.flush();assert.match(d.ids.get('panel-content')!.innerHTML,/Scene not completed/);assert.equal(c.state.party[0].hp,10);assert.equal(c.state.bag.ITEM_POTION,2);assert.equal(c.writes.length,0);d.buttons[1].click();await pending;assert.equal(c.writes.length,1);assert.equal(c.writes[0].bag.ITEM_POTION,2);assert.equal(c.writes[0].party[0].hp,10);assert.equal(c.activeBagUse,null);
+ }finally{globalThis.fetch=priorFetch;c.dispose();clock.restore();d.restore();}
+});
+
+// Native battle commands are ordinary buttons, outside UI's owned panels.
+// Exercise their REAL menu/move/back handlers and the actual field gate; the
+// DOM fixture supplies the browser's default button click only when unhandled.
+test('focused real battle Fight/move/Back retain Enter and Space defaults while field HUD and owned UI keep key ownership',async()=>{
+ const d=installUIDOM(),clock=installUIClock(),c=fixture(),priorFetch=globalThis.fetch;globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
+ try{const data=await loadData(),state=newState(data,'Gold','boy',()=>.5);state.party=[createMon(data,155,5,state.name,()=>.5)];c.ui=new UI();c.$=(id:string)=>d.ids.get(id);c.document={...d.document,addEventListener(){}};c.addEventListener=(type:string,handler:any,options:any)=>d.listen(type,handler,!!options?.capture);const fieldActions:string[]=[];c.unlockSound=()=>{};c.interact=async()=>{fieldActions.push('interact');};c.menu=async()=>{fieldActions.push('menu');};c.reportInputError=(error:any)=>{throw error;};
+  const screen=d.document.createElement('section');screen.id='battle-screen';d.document.body.appendChild(screen);const battle:any=new Battle(data,state,c.ui);battle.enemies=[createMon(data,19,3,'',()=>.5)];battle.active=true;c.battle=battle;const actions:any[]=[];battle.actions=(action:any)=>actions.push(action);runInContext(compile(events),c);
+  const activate=(button:any,code:string)=>{assert.ok(button);button.focus();const event=d.key(code);assert.equal(event.defaultPrevented,false,code+' must retain native battle button activation');if(!event.defaultPrevented)button.click();return event;};
+  for(const code of['Enter','Space']){battle.menu();assert.equal(c.ui.busy,false);assert.equal(c.fieldControlsAvailable(),false);activate(screen.querySelector('[data-action="fight"]'),code);assert.ok(screen.querySelector('[data-move="0"]'),'Fight opens actual move menu');activate(screen.querySelector('[data-move="0"]'),code);assert.deepEqual(actions.at(-1),{kind:'move',slot:0});activate(d.ids.get('battle-back'),code);assert.ok(screen.querySelector('[data-action="fight"]'),'Back returns to actual battle command menu');assert.deepEqual(fieldActions,[]);assert.equal(c.keys.size,0);}
+  // A stale focused HUD button is still field-owned once the battle ends.
+  battle.active=false;let hudClicks=0;const hud=d.ids.get('open-menu')!;hud.onclick=()=>{hudClicks++;};hud.focus();const field=d.key('Enter');if(!field.defaultPrevented)hud.click();assert.equal(field.defaultPrevented,true);assert.equal(hudClicks,0);assert.deepEqual(fieldActions,['interact']);c.keys.clear();
+  battle.active=true;for(const code of['Enter','Space']){const owned=c.ui.choose('Required battle choice',['Yes','No']);clock.flush();const event=d.key(code);assert.equal(event.defaultPrevented,true);assert.equal(await owned,0);assert.deepEqual(fieldActions,['interact']);assert.equal(c.keys.size,0);}assert.equal(c.writes.length,0);
  }finally{globalThis.fetch=priorFetch;c.dispose();clock.restore();d.restore();}
 });
