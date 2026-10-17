@@ -51,7 +51,7 @@ async function retryMusicRestores(signal?:AbortSignal){for(const restore of pend
 function musicDeadline(message:string){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(new DOMException(message,'TimeoutError')),MUSIC_WAIT_MS);return{controller,clear:()=>clearTimeout(timer)};}
 function unlockSound(){
   if(music.isUnlocked()){soundUnlocked=true;return;}if(unlockPending)return;soundUnlocked=false;
-  const pending=music.unlock();unlockPending=pending;musicChanged();void pending.then(()=>{soundUnlocked=true;if(!started){clearMusicFailure();return;}musicKey='';syncMusic();}).catch(error=>{soundUnlocked=music.isUnlocked();musicFailed(error);}).finally(()=>{if(unlockPending===pending)unlockPending=null;musicChanged();});
+  const request=musicRequestSerial,pending=music.unlock();unlockPending=pending;musicChanged();void pending.then(()=>{soundUnlocked=true;if(request!==musicRequestSerial)return;if(!started){clearMusicFailure();return;}musicKey='';syncMusic();}).catch(error=>{soundUnlocked=music.isUnlocked();if(soundUnlocked&&request!==musicRequestSerial)return;musicFailed(error);}).finally(()=>{if(unlockPending===pending)unlockPending=null;musicChanged();});
 }
 async function retryMusic(){
   if(battleSoundOwned||musicError&&!musicRetryable)return;

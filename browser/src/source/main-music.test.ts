@@ -104,6 +104,19 @@ test('a resumed Context with a failed initial song remains unlocked without gest
  }finally{await c.dispose();}
 });
 
+test('a first gesture song load replaced by a successful new map does not report an outage or replace that map',async()=>{
+ const c=fixture(),gate=deferred(),entered=deferred();try{
+  await c.music.playMap(c.map,{hour:12,flags:{}});c.f.controls.fetch=async(url:string)=>{if(url.includes('1018-')){entered.resolve();return gate.promise;}return c.f.files.get(url).slice(0);};
+  c.unlockSound();await entered.promise;assert.equal(c.music.isUnlocked(),true);c.state.map=73;c.map=map(73);c.syncMusic();await c.musicRequestPending;await flush();assert.equal(c.soundUnlocked,true);assert.equal(c.musicError,'');assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,0);assert.equal((c.music.capture()as any).cue.id,1019);const requests=c.f.requests.length;gate.resolve(c.f.files.values().next().value);await flush();assert.equal(c.f.requests.length,requests);assert.equal((c.music.capture()as any).cue.id,1019);
+ }finally{gate.resolve(c.f.files.values().next().value);await c.dispose();}
+});
+
+test('a newer map does not hide a genuine Context permission rejection from the first gesture',async()=>{
+ const c=fixture(),permission=deferred();try{
+  await c.music.playMap(c.map,{hour:12,flags:{}});c.f.controls.resume=()=>permission.promise;c.unlockSound();c.state.map=73;c.map=map(73);c.syncMusic();await c.musicRequestPending;permission.reject(Error('Permission remains blocked'));await flush();assert.equal(c.music.isUnlocked(),false);assert.equal(c.soundUnlocked,false);assert.match(c.musicError,/Permission remains blocked/);assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,1);
+ }finally{permission.resolve();await c.dispose();}
+});
+
 test('text/camera preferences do not touch audio, and explicit Retry exposes observable retryability',async()=>{
  const c=fixture();try{await c.prepare();let preferences=0,requests=0;const original=c.music.setPreferences.bind(c.music);c.music.setPreferences=(value:any)=>{preferences++;return original(value);};c.controls.playMap=async()=>{requests++;throw Error('offline');};c.updatePreferencesActual({...c.preferences,textSpeed:2,cameraSensitivity:1.3});await flush();assert.equal(preferences,0);assert.equal(requests,0);assert.equal(c.state.options.textSpeed,2);
   const statuses:any[]=[],unwatch=c.watchMusic(()=>statuses.push({...c.musicStatus()}));c.syncMusic();await c.musicRequestPending;assert.equal(c.musicStatus().canRetry,true);assert.equal(c.musicStatus().pending,false);assert.ok(statuses.some(s=>s.pending));const notices=c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length;await c.retryMusic();assert.equal(requests,2);assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,notices);unwatch();const length=statuses.length;await c.retryMusic();assert.equal(statuses.length,length);
