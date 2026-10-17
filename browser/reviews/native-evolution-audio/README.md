@@ -1,0 +1,40 @@
+# Native Evolution audio backend (unhosted leaf)
+
+This leaf provides original EvolutionScene sound resources and a borrowed backend for the accepted presentation's synchronous `audio.open` / `EvolutionAudioSession` contract. It does not wire Main, World, VM, the evolution queue, learner UI, or actual playback. There has been no browser, application build or audible-audio validation. Main must integrate all prerequisites atomically; this is not a playable-evolution or campaign-completeness claim.
+
+## Source and dependency boundary
+
+Base: production `1f83a40156857652ebc0b8ce2329fb2af7e28da7`. Local prerequisite cherries `cb32e4b4`, `38671851`, `ac6050ba` reproduce accepted native-clock commits `11ecd79d`, `9230743d`, `42bdda93`. Local `126e8cca` duplicates shared evolution types `2a4da72a`. These are explicit dependencies, not new handoff commits. The clock remains byte-identical SHA256 `c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749`.
+
+`frozen-dependencies/gym-azalea-audio.ts` is the exact accepted PLAYER3 implementation (SHA256 `0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7`), plus its tiny manifest pin and original resource metadata. These copies exist only for tests/review, are not application imports, and do not create a second runtime registry. Its type-only host import is erased by Node's TypeScript transform; no fabricated host implementation is substituted. Backend runtime accepts a structural port to Root's existing instance. Current accepted Azalea integration and a separately reviewed later clock extension remain separate dependencies, not approval transferred by this packet.
+
+Native authority: full `src/evolution_scene.c`, `src/sound_playback.c`, `src/sound.c`, native sound constants/INFO/FAT/SSEQ/bank/SWAR, and the sound SDK player/fader context. Native15-count fanfare tails are POLLS after player2 stops, not a half-second wall timer or a baked WAV completion frame. The scene ignores playback-admission booleans: technical missing voices are diagnosed while visual/text timing continues; source/configuration corruption and owned cancellation throw. Muted/locked admissions obtain no Context or decode; the fanfare's pause/15 polls/unpause still occur. Once admitted, a voice runs under the existing master gain: preferences/page visibility do not restart its timeline.
+
+## Root integration contract
+
+1. Reuse the existing gesture-unlocked field music player, master gain, root lifetime, persistent native field clock and ONE `NativeSEPlayer3`. Do not construct a new AudioContext, Audio, registry, RAF or timer-based sound driver. Backend factory is constructed at root initialization, outside task execution, so its single after-task callback is legal.
+2. Keep battle completion and the full evolution queue **inside** `withBattleMusic`'s owned action. A started cue session exposes `borrow({resumeOnRelease:false})`; pass that to `borrowParent`. The child synchronously pauses the private battle cue, suppresses preference and late-decode resurrection, and returns to a still-silent parent. Multiple candidates borrow sequentially. Only the outer battle `finally` restores field music after the queue finishes. Do not restore field BGM between candidates or between combat and evolution.
+3. A battle cue's technical admission-failure fallback is a distinct host case. It must lend an explicit lease from the host's already-owned silence latch; do not invent an active parent or call field.restore in this backend. The normal-session path is tested here; fallback Main wiring remains required.
+4. Pass Root's one player3 and a **live** native any-SE query for players3..6. All five requested SE use PLAYER3 and its native allocation/preemption rules, including no-voice load attempts. Root calls `player3.soundUpdate` ONCE in the existing after-task sound phase. Backend never calls it; its own cry/player0 and ME/player2 completion bookkeeping uses that same phase. Foreign newer PLAYER3 owners are never canceled by old scene cleanup.
+5. `open(scene,liveOutputCallback,signal)` returns synchronously, then `prepare(signal)` verifies source and assets. The callback returns null when admission is muted/locked, otherwise the already-unlocked shared `{context,output,signal}`. Mutable wrapper identity is snapshotted; changing actual context/output/lifetime is unsupported. Never call unlock/resume/close or write the shared gain from this backend. Context suspension closes owned voices into diagnosed no-voice outcomes, so native cry/fanfare polls cannot hang on a suspended device.
+6. Pass `evolutionAudioTextControl(session,glyph)` to the **same** source learner printer/audio owner. Glyph1 polls live any-SE;2 polls fanfare and performs completion/unpause;3 starts1188;4 starts1510;5 starts1184. There is no unconditional success fanfare and no automatic WaitSE at visual particle/SE transitions.
+7. `cancel` synchronously stops/disconnects owned nodes only. `restore(independentSignal)` releases the parent lease and can be retried after failure; retain it using the presentation's required `retainRestore`. Never use an already-aborted scene signal for restoration or detach mutating learner work. Root's actual borrowed lease release is synchronous-owned async, not an arbitrary uncooperative external release service.
+
+## Export and validation
+
+`export_evolution_audio.py` silently renders1184 and SE1510/1528–1531 with pinned DualRip commit `80f878b0ebf100f391028bcef69f7c5743473770`, numpy2.2.6, ndspy4.2.0. It checks supported events (including both original1530 SweepPitch commands), exact SSEQ payloads, original bank700/samples and volumes; no MIDI/replacement music/normalization/fades. It reuses the exact accepted1011/1188 WAVs from `/source/hatching/music/` rather than duplicate them. All soundtrack and exporter/native/renderer hashes are in `resources.json` and the generated runtime manifest pin.
+
+All162 literal `EVO_LEVEL` pairs require294 distinct original cries. Native `PlayCry` supplies numeric bankNo=species; SYMB labels are not an index mapping. E.g. species387 legitimately selects bank387 labelled BANK_PV432. Each cry is verified unlooped PCM8, single native instrument pitch60/envelope127/pan64, and exact original PV SSEQ. WAV conversion retains all sample bytes/rates (signed→unsigned PCM8); the runtime applies original sequence2 gain120/127 once. Rendered music/SE volumes are already baked and are not multiplied again.
+
+Tests use actual exported files, the exact frozen PLAYER3 class, actual shared field music player/native clock, fake WebAudio nodes and compiled unchanged original C fanfare/timer/text-callback functions with explicit sound-device stubs. This proves source polling/order/ownership and byte provenance, not real browser decode, DS hardware timing/DAC, global16-channel allocation, recorded Chatot/special forms or full Evolution support. The C fanfare oracle stubs device calls; it does not emulate original heap/driver hardware. Ordinary form0 admission remains the queue's responsibility; undefined snapshot form is accepted only as that queue/presentation's established ordinary form0 convention.
+
+Run:
+
+```
+node --experimental-transform-types --test browser/src/source/evolution-audio.test.ts
+python3 browser/scripts/test_evolution_audio_controls.py --output /tmp/unique-controls-dir
+/tmp/hg-hatch-music-export-venv/bin/python browser/scripts/export_evolution_audio.py --renderer /tmp/hg-dualrip-native-audio --output /tmp/unique-repro-dir
+browser/node_modules/.bin/tsc --noEmit -p browser/tsconfig.json
+```
+
+Initial exporter attempts had a wrong empty-list WAV-loop argument (fixed to None); the first asset-count test expected one rather than the actual two SweepPitch events; the first negative-control runner observed a missing gain as TypeError before an explicit assertion was added. Raw setup/failure logs are preserved and are not runtime approvals. Final tests/repro/control results and actual immutable Opus findings are recorded separately when complete.
