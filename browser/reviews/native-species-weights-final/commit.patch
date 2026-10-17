@@ -1,0 +1,396 @@
+From 6c9cd11936851a43e7beb377be16ca74c4a83b73 Mon Sep 17 00:00:00 2001
+From: Max Church <maxchurch01@gmail.com>
+Date: Sat, 17 Oct 2026 18:22:27 +0100
+Subject: [PATCH] Export native species weight banks and weight-based power
+ rules
+
+---
+ browser/scripts/export_species_weights.py  | 110 +++++++++++++++++
+ browser/src/source/battle-weight.test.ts   | 136 +++++++++++++++++++++
+ browser/src/source/battle-weight.ts        |  66 ++++++++++
+ browser/src/source/data.ts                 |   3 +-
+ browser/src/source/species-weights-data.ts |   3 +
+ browser/src/source/types.ts                |   3 +-
+ 6 files changed, 319 insertions(+), 2 deletions(-)
+ create mode 100644 browser/scripts/export_species_weights.py
+ create mode 100644 browser/src/source/battle-weight.test.ts
+ create mode 100644 browser/src/source/battle-weight.ts
+ create mode 100644 browser/src/source/species-weights-data.ts
+
+diff --git a/browser/scripts/export_species_weights.py b/browser/scripts/export_species_weights.py
+new file mode 100644
+index 00000000..3d254117
+--- /dev/null
++++ b/browser/scripts/export_species_weights.py
+@@ -0,0 +1,110 @@
++"""Export both original HGSS Pokédex weight banks and the battle weight table.
++
++No public source JSON is rewritten. Run from any directory; --output supports
++reproducibility checks without replacing the checked-in module.
++"""
++from pathlib import Path
++import argparse
++import hashlib
++import json
++import re
++
++ROOT = Path(__file__).resolve().parents[2]
++PATHS = [
++    'files/application/zukanlist/zkn_data/zukan_data.json',
++    'files/application/zukanlist/zkn_data/zukan_data.json.txt',
++    'files/application/zukanlist/zkn_data/zukan_data.mk',
++    'files/poketool/personal/personal.json',
++    'include/constants/species.h',
++    'include/constants/pokemon.h',
++    'src/dex_mon_measures.c',
++    'src/battle/battle_util.c',
++    'src/battle/battle_command.c',
++    'include/battle/battle.h',
++    'asm/overlay_12_battle_command.s',
++    'include/filesystem_files_def.h',
++    'filesystem.mk',
++]
++
++def require(condition, message):
++    if not condition:
++        raise ValueError(message)
++
++def export():
++    texts = {path: (ROOT / path).read_text(encoding='utf-8') for path in PATHS}
++    stats = json.loads(texts[PATHS[0]])['mon_stats']
++    personal = json.loads(texts[PATHS[3]])['baseStats']
++    ids = {name: int(value) for name, value in re.findall(
++        r'^#define\s+(SPECIES_\w+)\s+(\d+)\s*$', texts[PATHS[4]], re.M)}
++    count = ids['SPECIES_ARCEUS']
++    require(count == 493 and len(stats) == count + 1, 'Unexpected native species count')
++    require('MAX_SPECIES        SPECIES_ARCEUS' in texts[PATHS[4]], 'Changed species limit')
++    regular, gira, species = [], [], []
++    for index, row in enumerate(stats):
++        key, weight = row['species'], row['weight']
++        require(ids[key] == index and key == 'SPECIES_' + personal[index]['species'],
++                f'Native species/personal index mismatch at {index}')
++        species.append(key)
++        if type(weight) is int:
++            values = [weight, weight]
++        else:
++            require(key == 'SPECIES_GIRATINA' and isinstance(weight, dict)
++                    and set(weight) == {'altered', 'origin'}, 'Unknown form-dependent weight')
++            values = [weight['altered'], weight['origin']]
++        require(all(type(value) is int and 0 < value <= 0x7fffffff for value in values),
++                f'Invalid native s32 weight at {index}')
++        regular.append(values[0])
++        gira.append(values[1])
++    template = texts[PATHS[1]].split('mon_stats_weight:', 1)[1].split('.size mon_stats_weight', 1)[0]
++    require(re.search(r'#ifdef GIRA\s+\.word {{ mon.weight.origin }}.*?#else\s+\.word {{ mon.weight.altered }}', template, re.S),
++            'Changed original weight-bank template')
++    make = texts[PATHS[2]]
++    require('-DGIRA -DPM_ASM' in make and '$(O2NARC) $*_gira.o $*_gira.narc' in make,
++            'Changed GIRA build selection')
++    source = texts['src/dex_mon_measures.c']
++    setter = source.split('void SetDexBanksByGiratinaForm(int form)', 1)[1].split('NarcId GetPokedexDataNarcID', 1)[0]
++    require(re.search(r'if \(form == GIRATINA_ALTERED\).*?sDataNarcId = NARC_application_zukanlist_zkn_data_zukan_data_gira;.*?else.*?sDataNarcId = NARC_application_zukanlist_zkn_data_zukan_data;', setter, re.S),
++            'Changed native battle weight-bank selection')
++    form = int(re.search(r'GIRATINA_ALTERED\s*=\s*(\d+)', texts[PATHS[5]])[1])
++    util = texts['src/battle/battle_util.c']
++    require('SetDexBanksByGiratinaForm(ctx->battleMons[battlerId].form);' in util
++            and 'ctx->battleMons[battlerId].weight = PokedexData_GetWeight(dexData, ctx->battleMons[battlerId].species);' in util,
++            'Changed live BattleMon weight initialization')
++    asm = texts['asm/overlay_12_battle_command.s'].split('sLowKickDamageTable:', 1)[1].split('.public', 1)[0]
++    table = [[int(a, 0), int(b, 0)] for a, b in re.findall(r'\.short\s+(\w+),\s*(\w+)', asm)]
++    require(table == [[100, 20], [250, 40], [500, 60], [1000, 80], [2000, 100], [65535, 65535]],
++            'Changed native Low Kick table; review its command before exporting')
++    command = texts['src/battle/battle_command.c'].split('BOOL BtlCmd_CalcWeightBasedPower(', 1)[1].split('BOOL BtlCmd_CalcWeatherBallParams(', 1)[0]
++    require('sLowKickDamageTable[cnt][0] >= weight' in command, 'Changed inclusive threshold comparison')
++    fallback = int(re.search(r'else\s*{\s*ctx->movePower = (\d+);', command)[1])
++    require(fallback == 120, 'Changed native fallback power')
++    filesystem = texts['include/filesystem_files_def.h']
++    narc_ids = {key: int(value) for key, value in re.findall(r'^\s*(NARC_\w+)\s*=\s*(\d+),', filesystem, re.M)}
++    file_list = re.findall(r'"([^"]+)"', filesystem.split('char *sNarcFileList[] = {', 1)[1].split('};', 1)[0])
++    objects = re.findall(r'\.type\s+(\w+),\s*@object', texts[PATHS[1]])
++    member = objects.index('mon_stats_weight')
++    require(member == 1, 'Changed original weight object/member ordering')
++    archives = {'member': member}
++    for key, suffix in [('regular', ''), ('gira', '_gira')]:
++        narc_id = narc_ids['NARC_application_zukanlist_zkn_data_zukan_data' + suffix]
++        path = file_list[narc_id]
++        rule = '$(eval $(call arc_strip_name,files/application/zukanlist/zkn_data/zukan_data' + suffix + '.narc,files/' + path + '))'
++        require(rule in texts['filesystem.mk'], 'Changed original NARC-to-filesystem mapping')
++        archives[key] = {'id': narc_id, 'path': path}
++    return {
++        'version': 1, 'unit': 'hectogram', 'maxSpecies': count, 'species': species,
++        'regular': regular, 'gira': gira, 'giraSelectedForm': form, 'archives': archives,
++        'lowKickTable': table, 'lowKickFallback': fallback,
++        'sources': [{'path': path, 'sha256': hashlib.sha256((ROOT / path).read_bytes()).hexdigest()} for path in PATHS],
++    }
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--output', type=Path, default=ROOT / 'browser/src/source/species-weights-data.ts')
++    args = parser.parse_args()
++    data = export()
++    with args.output.open('w', encoding='utf-8', newline='\n') as output:
++        output.write('// Generated by browser/scripts/export_species_weights.py. Do not edit.\n'
++                     '// Original source includes SPECIES_NONE at index 0; it is not a usable species.\n'
++                     'export const NATIVE_SPECIES_WEIGHTS = ' + json.dumps(data, separators=(',', ':')) + ' as const;\n')
++    print(f'Exported both native weight banks for {data["maxSpecies"]} species plus NONE.')
+diff --git a/browser/src/source/battle-weight.test.ts b/browser/src/source/battle-weight.test.ts
+new file mode 100644
+index 00000000..9e66971d
+--- /dev/null
++++ b/browser/src/source/battle-weight.test.ts
+@@ -0,0 +1,136 @@
++import {after,test} from 'node:test';
++import assert from 'node:assert/strict';
++import {readFile,mkdtemp,rm,mkdir} from 'node:fs/promises';
++import {spawnSync} from 'node:child_process';
++import {createHash} from 'node:crypto';
++import {tmpdir} from 'node:os';
++import {join} from 'node:path';
++import {fileURLToPath} from 'node:url';
++import {writeFile} from 'node:fs/promises';
++import {loadData} from './data.ts';
++import {nativeSpeciesWeight,nativeBattleWeight,nativeWeightBasedPower,UnsupportedBattleWeight} from './battle-weight.ts';
++import {NATIVE_SPECIES_WEIGHTS as weights} from './species-weights-data.ts';
++
++const root=new URL('../../../',import.meta.url),requests:string[]=[];
++const source=async(path:string)=>readFile(new URL(path,root),'utf8');
++const digest=(bytes:Uint8Array|string)=>createHash('sha256').update(bytes).digest('hex');
++globalThis.fetch=async input=>{requests.push(String(input));return new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));};
++const data=await loadData(),native=JSON.parse(await source('files/application/zukanlist/zkn_data/zukan_data.json')).mon_stats;
++const dir=await mkdtemp(join(tmpdir(),'hg-native-weight-'));after(()=>rm(dir,{recursive:true,force:true}));
++function run(command:string,args:string[],input?:string){const result=spawnSync(command,args,{encoding:'utf8',input,maxBuffer:4*1024*1024});assert.equal(result.error,undefined);assert.equal(result.status,0,result.stderr);return result.stdout;}
++function functionSource(text:string,signature:string){const start=text.indexOf(signature);assert.ok(start>=0,signature);const brace=text.indexOf('{',start);let depth=1,end=brace+1;for(;depth&&end<text.length;end++){if(text[end]==='{')depth++;else if(text[end]==='}')depth--;}assert.equal(depth,0);return text.slice(start,end);}
++const command=await source('src/battle/battle_command.c'),dex=await source('src/dex_mon_measures.c'),header=await source('include/battle/battle.h'),pokemon=await source('include/constants/pokemon.h');
++const asm=await source('asm/overlay_12_battle_command.s');
++const tableBody=asm.split('sLowKickDamageTable:')[1].split('.public')[0];
++const table=[...tableBody.matchAll(/\.short\s+(\w+),\s*(\w+)/g)].map(row=>[Number(row[1]),Number(row[2])]);
++const regular=native.map((row:{weight:number|{altered:number}})=>typeof row.weight==='number'?row.weight:row.weight.altered);
++const gira=native.map((row:{weight:number|{origin:number}})=>typeof row.weight==='number'?row.weight:row.weight.origin);
++const filesystem=await source('include/filesystem_files_def.h');
++const narcId=(name:string)=>Number(filesystem.match(new RegExp(`^\\s*${name}\\s*=\\s*(\\d+),`,'m'))![1]);
++const regularNarc=narcId('NARC_application_zukanlist_zkn_data_zukan_data'),giraNarc=narcId('NARC_application_zukanlist_zkn_data_zukan_data_gira');
++const member=[...(await source('files/application/zukanlist/zkn_data/zukan_data.json.txt')).matchAll(/\.type\s+(\w+),\s*@object/g)].findIndex(row=>row[1]==='mon_stats_weight');
++const altered=Number(pokemon.match(/GIRATINA_ALTERED\s*=\s*(\d+)/)![1]);
++const prefix=header.slice(header.indexOf('typedef struct BattleMon {'),header.indexOf('    u32 sendOutFlag : 1;'))+'} BattleMon;';
++const copiedLoop=functionSource(command,'BOOL BtlCmd_Transform(').match(/for \(i = 0; i < 40; i\+\+\) \{[\s\S]*?\n    \}/)![0];
++const macros=['MAX_MON_MOVES','NUM_STATS','NUM_BATTLE_STATS'].map(key=>pokemon.match(new RegExp(`^#define ${key} +[^\\n]+`,'m'))![0]).join('\n');
++const c=`#include <stdint.h>
++#include <stddef.h>
++#include <stdio.h>
++#include <string.h>
++#include <assert.h>
++typedef uint8_t u8;typedef int8_t s8;typedef uint16_t u16;typedef uint32_t u32;typedef int32_t s32;typedef int BOOL;typedef int BattleSystem;
++#define FALSE 0
++#define TRUE 1
++#define GF_ASSERT assert
++${macros}
++${prefix}
++typedef struct {BattleMon battleMons[2];int battlerIdTarget;int movePower;int pointer;} BattleContext;
++void BattleScriptIncrementPointer(BattleContext *ctx,int count){ctx->pointer+=count;}
++u16 sLowKickDamageTable[6][2]={${table.map(row=>`{${row.join(',')}}`).join(',')}};
++${functionSource(command,'BOOL BtlCmd_CalcWeightBasedPower(')}
++enum {NARC_application_zukanlist_zkn_data_zukan_data=${regularNarc},NARC_application_zukanlist_zkn_data_zukan_data_gira=${giraNarc},NARC_msg_msg_0812_bin=12,NARC_msg_msg_0813_bin=13,NARC_msg_msg_0814_bin=14,NARC_msg_msg_0815_bin=15,GIRATINA_ALTERED=${altered},HEAP_ID_3=3};
++int sDataNarcId,sWeightMsgBank,sHeightMsgBank;
++s32 regular[494]={${regular.join(',')}},gira[494]={${gira.join(',')}};
++s32 *GfGfxLoader_LoadFromNarc(int narc,int member,int compressed,int heap,int atEnd){assert(narc==${regularNarc}&&member==${member}&&!compressed&&heap==3&&atEnd);return regular;}
++void Heap_Free(void *ptr){assert(ptr==regular);}
++${functionSource(command,'static s32 GetMonWeight(u16 species) {')}
++${functionSource(dex,'void SetDexBanksByGiratinaForm(')}
++struct PokedexData {u32 *weight;};
++${functionSource(dex,'u32 PokedexData_GetWeight(')}
++int main(int argc,char **argv){assert(argc==2);
++ if(argv[1][0]=='p'){int weight;while(scanf("%d",&weight)==1){BattleContext ctx={0};ctx.battleMons[1].weight=weight;ctx.battlerIdTarget=1;BtlCmd_CalcWeightBasedPower(NULL,&ctx);assert(ctx.pointer==1);printf("%d\\n",ctx.movePower);}}
++ else if(argv[1][0]=='b'){int species,form;while(scanf("%d %d",&species,&form)==2){assert(species>=1&&species<=493);SetDexBanksByGiratinaForm(form);struct PokedexData zkn={(u32*)(sDataNarcId==${giraNarc}?gira:regular)};printf("%u %d\\n",PokedexData_GetWeight(&zkn,species),GetMonWeight(species));}}
++ else if(argv[1][0]=='t'){BattleMon a={0},b={0};u32 i;u8 *src=(u8*)&a,*dest=(u8*)&b;b.weight=7500;b.species=487;b.form=1;
++ ${copiedLoop}
++ printf("%zu %zu %d %u %u\\n",offsetof(BattleMon,weight),sizeof(BattleMon),a.weight,a.species,a.form);}
++ return 0;
++}`;
++await writeFile(join(dir,'oracle.c'),c);
++const cc=process.env.CC||'cc',binary=join(dir,'oracle');run(cc,['-std=c99','-Wall','-Wextra','-Wno-unused-parameter','-Werror',join(dir,'oracle.c'),'-o',binary]);
++
++test('all 493 weights plus NONE match original JSON, personal indices and exact source pins',async()=>{
++  assert.equal(weights.species.length,494);assert.equal(native.length,494);assert.equal(weights.maxSpecies,493);assert.equal(weights.unit,'hectogram');assert.match(command,/4096\) \{ \/\/ 409\.6 kg/,'native Heavy Ball weight comment establishes kg*10 units');assert.equal(weights.regular[0],69);assert.equal(weights.species[0],'SPECIES_NONE');
++  assert.equal(data.nativeWeights,weights,'loadData exposes the compiled pinned banks, without another resource version/fetch');assert.ok(!requests.some(path=>/weight/i.test(path)));
++  assert.equal(weights.archives.regular.id,regularNarc);assert.equal(weights.archives.gira.id,giraNarc);assert.equal(weights.archives.member,member);assert.equal(member,1);assert.deepEqual(weights.lowKickTable,table);assert.equal(altered,weights.giraSelectedForm);
++  assert.deepEqual(weights.regular,regular);assert.deepEqual(weights.gira,gira);
++  for(let species=1;species<=493;species++){assert.equal(weights.species[species],native[species].species);assert.equal(nativeSpeciesWeight(data,species),regular[species]);assert.equal(data.constants[native[species].species],species);}
++  assert.deepEqual(weights.regular.flatMap((value,index)=>value===weights.gira[index]?[]:[index]),[487],'the two original banks differ only at Giratina');
++  for(const pin of weights.sources)assert.equal(digest(await readFile(new URL(pin.path,root))),pin.sha256,pin.path);
++  assert.deepEqual(JSON.parse(await source('browser/public/source/pokemon.json')),JSON.parse(await source('files/poketool/personal/personal.json')),'existing imported personal JSON retains all original source values');
++});
++
++test('exporter is deterministic with Python optimization and does not rewrite public source bytes',async()=>{
++  const publicPath=new URL('browser/public/source/pokemon.json',root),before=digest(await readFile(publicPath));
++  const generated=await source('browser/src/source/species-weights-data.ts'),out=join(dir,'export.ts');
++  for(const optimization of[[],['-O']]){run('python3',[...optimization,fileURLToPath(new URL('browser/scripts/export_species_weights.py',root)),'--output',out]);assert.equal(await readFile(out,'utf8'),generated);}
++  assert.equal(digest(await readFile(publicPath)),before);
++});
++
++test('exporter rejects invalid source weights even under Python optimization',async()=>{
++  const copy=join(dir,'invalid-source');
++  for(const path of[...weights.sources.map(pin=>pin.path),'browser/scripts/export_species_weights.py']){const target=join(copy,path);await mkdir(join(target,'..'),{recursive:true});await writeFile(target,await readFile(new URL(path,root)));}
++  const damaged=JSON.parse(await source(weights.sources[0].path));damaged.mon_stats[1].weight=0;await writeFile(join(copy,weights.sources[0].path),JSON.stringify(damaged));
++  const output=join(copy,'weights.ts'),result=spawnSync('python3',['-O',join(copy,'browser/scripts/export_species_weights.py'),'--output',output],{encoding:'utf8'});
++  assert.equal(result.status,1);assert.match(result.stderr,/Invalid native s32 weight at 1/);assert.equal(result.stdout,'');
++});
++
++test('inclusive source thresholds retain actual legal species witnesses and adjacent positive integer boundaries',()=>{
++  for(const[name,weight,power]of[['KAKUNA',100,20],['MAGIKARP',100,20],['SEADRA',250,40],['CROCONAW',250,40],['VENUSAUR',1000,80],['TROPIUS',1000,80],['SCYTHER',560,80]]as const){assert.equal(nativeSpeciesWeight(data,data.constants[`SPECIES_${name}`]),weight);assert.equal(nativeWeightBasedPower(weight),power);}
++  const edges=[[1,20],[99,20],[100,20],[101,40],[249,40],[250,40],[251,60],[499,60],[500,60],[501,80],[999,80],[1000,80],[1001,100],[1999,100],[2000,100],[2001,120],[65535,120],[0x7fffffff,120]];
++  for(const[weight,power]of edges)assert.equal(nativeWeightBasedPower(weight),power);
++  // Only the species rows above are encounter-capable species claims; numeric
++  // boundary probes also cover thresholds having no exactly matching species.
++});
++
++test('compiled literal native weight command agrees for 10000 positive inputs, all species/banks and s32 upper bound',()=>{
++  const inputs=[...Array.from({length:10000},(_,i)=>i+1),...regular.slice(1),...gira.slice(1),65535,65536,0x7fffffff];
++  const output=run(binary,['p'],inputs.join('\n')+'\n').trim().split('\n').map(Number);assert.equal(output.length,inputs.length);
++  inputs.forEach((weight,index)=>assert.equal(nativeWeightBasedPower(weight),output[index],String(weight)));
++});
++
++test('compiled native bank setter/getters preserve every species and the counterintuitive Giratina form choice',()=>{
++  const pairs=Array.from({length:493},(_,index)=>[index+1,0]).concat([[487,1],[487,31],[1,1]]);
++  const output=run(binary,['b'],pairs.map(row=>row.join(' ')).join('\n')+'\n').trim().split('\n').map(line=>line.split(' ').map(Number));
++  pairs.forEach(([species,form],index)=>assert.deepEqual([nativeBattleWeight(data,species,form),nativeSpeciesWeight(data,species)],output[index]));
++  assert.equal(nativeBattleWeight(data,487,0),7500);assert.equal(nativeBattleWeight(data,487,1),6500);assert.equal(nativeSpeciesWeight(data,487),6500);
++  assert.equal(altered,0);assert.equal(Number(pokemon.match(/GIRATINA_ORIGIN\s*=\s*(\d+)/)![1]),1,'native enum value, not a missing browser constant export');
++});
++
++test('literal native Transform prefix includes live weight: future engine must copy, not recompute',async()=>{
++  assert.equal(run(binary,['t']).trim(),'32 40 7500 487 1');
++  const util=await source('src/battle/battle_util.c');assert.ok(util.includes('SetDexBanksByGiratinaForm(ctx->battleMons[battlerId].form);'));assert.ok(util.includes('ctx->battleMons[battlerId].weight = PokedexData_GetWeight(dexData, ctx->battleMons[battlerId].species);'));
++  // The copied weight7500 + form1 deliberately differ from recomputing form1.
++  assert.notEqual(nativeBattleWeight(data,487,1),7500);
++});
++
++test('missing/mixed data, NONE/Egg/extended personal indices and uninitialized live weights fail explicitly',()=>{
++  for(const species of[0,-1,494,495,501,507,1.5,NaN,Infinity])assert.throws(()=>nativeSpeciesWeight(data,species),UnsupportedBattleWeight);
++  for(const weight of[0,-1,1.5,NaN,Infinity,undefined,0x80000000])assert.throws(()=>nativeWeightBasedPower(weight as number),UnsupportedBattleWeight);
++  for(const form of[-1,32,.5,NaN,undefined])assert.throws(()=>nativeBattleWeight(data,487,form as number),UnsupportedBattleWeight);
++  assert.throws(()=>nativeBattleWeight({...data,nativeWeights:undefined},1,0),/Missing or incompatible/);
++  assert.throws(()=>nativeSpeciesWeight({...data,personal:[]},1),/index mismatch/);
++  assert.throws(()=>nativeSpeciesWeight({...data,constants:{...data.constants,SPECIES_BULBASAUR:2}},1),/index mismatch/);
++  assert.throws(()=>nativeSpeciesWeight({...data,nativeWeights:{...weights,regular:weights.regular.slice(1)}},1),/incompatible/);
++  const broken=[...weights.regular];broken[1]=0;assert.throws(()=>nativeSpeciesWeight({...data,nativeWeights:{...weights,regular:broken}},1),/initialized positive/);
++  const before=structuredClone(data.nativeWeights);nativeSpeciesWeight(data,1);nativeBattleWeight(data,487,0);nativeWeightBasedPower(100);assert.deepEqual(data.nativeWeights,before,'helpers do not mutate data or a live battler');
++});
+diff --git a/browser/src/source/battle-weight.ts b/browser/src/source/battle-weight.ts
+new file mode 100644
+index 00000000..e9151d4b
+--- /dev/null
++++ b/browser/src/source/battle-weight.ts
+@@ -0,0 +1,66 @@
++import type {GameData} from './types.ts';
++import {NATIVE_SPECIES_WEIGHTS} from './species-weights-data.ts';
++
++/** Original Pokédex banks, indexed by the NATIONAL species number, not extended personal/form indices. */
++export type NativeWeightData={
++  readonly version:1;readonly unit:'hectogram';readonly maxSpecies:number;
++  readonly species:readonly string[];readonly regular:readonly number[];readonly gira:readonly number[];
++  readonly giraSelectedForm:number;readonly lowKickTable:readonly(readonly[number,number])[];
++  readonly lowKickFallback:number;readonly sources:readonly{readonly path:string;readonly sha256:string}[];
++};
++type WeightData=Pick<GameData,'constants'|'personal'|'nativeWeights'>;
++export class UnsupportedBattleWeight extends Error{
++  constructor(message:string){super(message);this.name='UnsupportedBattleWeight';}
++}
++function bank(data:WeightData,species:number){
++  const weights=data.nativeWeights;
++  if(!weights||weights.version!==1||weights.unit!=='hectogram'||weights.maxSpecies!==493||!Array.isArray(weights.species)||!Array.isArray(weights.regular)||!Array.isArray(weights.gira)||weights.species.length!==494||weights.regular.length!==494||weights.gira.length!==494||weights.giraSelectedForm!==0)
++    throw new UnsupportedBattleWeight('Missing or incompatible original HGSS weight banks');
++  if(!Number.isInteger(species)||species<1||species>weights.maxSpecies)
++    throw new UnsupportedBattleWeight(`Weight requires a national species 1..493, received ${species}`);
++  const key=weights.species[species];
++  if(key!==`SPECIES_${data.personal[species]?.species}`||data.constants[key]!==species)
++    throw new UnsupportedBattleWeight(`Original species/weight data index mismatch at ${species}`);
++  return weights;
++}
++function checkedWeight(weight:number){
++  if(!Number.isInteger(weight)||weight<=0||weight>0x7fffffff)
++    throw new UnsupportedBattleWeight('Weight requires an initialized positive native s32 hectogram value');
++  return weight;
++}
++
++/** battle_command.c:GetMonWeight: the regular NARC bank (also used by Heavy Ball).
++ * Do not use this accessor as a substitute for the live target's BattleMon.weight. */
++export function nativeSpeciesWeight(data:WeightData,species:number){
++  return checkedWeight(bank(data,species).regular[species]);
++}
++
++/** battle_util.c initial BattleMon weight, before live transformations.
++ * This deliberately preserves SetDexBanksByGiratinaForm's literal bank selection:
++ * native form 0 selects the *_gira bank; other form values select the regular bank.
++ * `form` is the original five-bit BattleMon field, NOT a personal-table index.
++ * This does not validate species-specific form legality. The battle host must do so.
++ * Transform copies live weight with the first 40 BattleMon bytes. A future host
++ * supporting Transform must retain that copied value instead of recalculating it.
++ * Native mid-battle Giratina form changes also retain existing weight. Do not
++ * reload weight on form changes. Safari/Pal Park can force the player's initial
++ * BattleMon form to0: pass that actual field, not an unadjusted party form. */
++export function nativeBattleWeight(data:WeightData,species:number,form:number){
++  if(!Number.isInteger(form)||form<0||form>31)
++    throw new UnsupportedBattleWeight('Battle weight requires an explicit native five-bit form (0..31)');
++  const weights=bank(data,species);
++  return checkedWeight((form===weights.giraSelectedForm?weights.gira:weights.regular)[species]);
++}
++
++/** BtlCmd_CalcWeightBasedPower. Call with the CURRENT target's initialized live
++ * weight. Inclusive thresholds are intentional; all values are in hectograms.
++ * No move resolution, target state, form lifecycle or battle-engine support is
++ * implied by this pure helper. Missing/invalid host state stays explicit. */
++export function nativeWeightBasedPower(weight:number){
++  checkedWeight(weight);
++  for(const[limit,power]of NATIVE_SPECIES_WEIGHTS.lowKickTable){
++    if(limit===0xffff)break;
++    if(weight<=limit)return power;
++  }
++  return NATIVE_SPECIES_WEIGHTS.lowKickFallback;
++}
+diff --git a/browser/src/source/data.ts b/browser/src/source/data.ts
+index 390adbe1..9f3d9829 100644
+--- a/browser/src/source/data.ts
++++ b/browser/src/source/data.ts
+@@ -1,3 +1,4 @@
++import {NATIVE_SPECIES_WEIGHTS} from './species-weights-data.ts';
+ import {newMysteryGiftSave} from './mystery-gifts.ts';
+ import {sampleUint32} from './native-rng.ts';
+ import {nativeMonGender} from './gender.ts';
+@@ -8,7 +9,7 @@ export async function loadData():Promise<GameData>{
+     sourceJSON<SourceIndex>('index.json'),sourceJSON<Record<string,number>>('constants.json'),sourceJSON<Record<string,SpriteInfo>>('sprites.json'),sourceJSON<{baseStats:Personal[]}>('pokemon.json'),sourceJSON<MoveData[]>('moves.json'),sourceJSON<GameData['learnsets']>('learnsets.json'),sourceJSON<GameData['growth']>('growth.json'),sourceJSON<{encounters:GameData['encounters']}>('encounters.json'),sourceJSON<{trainers:Trainer[]}>('trainers.json'),sourceJSON<GameData['items']>('items.json'),sourceJSON<number[][]>('type-chart.json'),sourceJSON<GameData['initial']>('initial-state.json'),sourceJSON<GameData['intro']>('intro-messages.json'),
+     sourceJSON<GameData['names']>('names.json'),sourceJSON<Record<string,string>>('messages/302.json'),
+   ]);
+-  return {index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names,eggSummary};
++  return {nativeWeights:NATIVE_SPECIES_WEIGHTS,index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names,eggSummary};
+ }
+ export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{
+   return {version:2,mysteryGifts:newMysteryGiftSave(),trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
+diff --git a/browser/src/source/species-weights-data.ts b/browser/src/source/species-weights-data.ts
+new file mode 100644
+index 00000000..2a78aed9
+--- /dev/null
++++ b/browser/src/source/species-weights-data.ts
+@@ -0,0 +1,3 @@
++// Generated by browser/scripts/export_species_weights.py. Do not edit.
++// Original source includes SPECIES_NONE at index 0; it is not a usable species.
++export const NATIVE_SPECIES_WEIGHTS = {"version":1,"unit":"hectogram","maxSpecies":493,"species":["SPECIES_NONE","SPECIES_BULBASAUR","SPECIES_IVYSAUR","SPECIES_VENUSAUR","SPECIES_CHARMANDER","SPECIES_CHARMELEON","SPECIES_CHARIZARD","SPECIES_SQUIRTLE","SPECIES_WARTORTLE","SPECIES_BLASTOISE","SPECIES_CATERPIE","SPECIES_METAPOD","SPECIES_BUTTERFREE","SPECIES_WEEDLE","SPECIES_KAKUNA","SPECIES_BEEDRILL","SPECIES_PIDGEY","SPECIES_PIDGEOTTO","SPECIES_PIDGEOT","SPECIES_RATTATA","SPECIES_RATICATE","SPECIES_SPEAROW","SPECIES_FEAROW","SPECIES_EKANS","SPECIES_ARBOK","SPECIES_PIKACHU","SPECIES_RAICHU","SPECIES_SANDSHREW","SPECIES_SANDSLASH","SPECIES_NIDORAN_F","SPECIES_NIDORINA","SPECIES_NIDOQUEEN","SPECIES_NIDORAN_M","SPECIES_NIDORINO","SPECIES_NIDOKING","SPECIES_CLEFAIRY","SPECIES_CLEFABLE","SPECIES_VULPIX","SPECIES_NINETALES","SPECIES_JIGGLYPUFF","SPECIES_WIGGLYTUFF","SPECIES_ZUBAT","SPECIES_GOLBAT","SPECIES_ODDISH","SPECIES_GLOOM","SPECIES_VILEPLUME","SPECIES_PARAS","SPECIES_PARASECT","SPECIES_VENONAT","SPECIES_VENOMOTH","SPECIES_DIGLETT","SPECIES_DUGTRIO","SPECIES_MEOWTH","SPECIES_PERSIAN","SPECIES_PSYDUCK","SPECIES_GOLDUCK","SPECIES_MANKEY","SPECIES_PRIMEAPE","SPECIES_GROWLITHE","SPECIES_ARCANINE","SPECIES_POLIWAG","SPECIES_POLIWHIRL","SPECIES_POLIWRATH","SPECIES_ABRA","SPECIES_KADABRA","SPECIES_ALAKAZAM","SPECIES_MACHOP","SPECIES_MACHOKE","SPECIES_MACHAMP","SPECIES_BELLSPROUT","SPECIES_WEEPINBELL","SPECIES_VICTREEBEL","SPECIES_TENTACOOL","SPECIES_TENTACRUEL","SPECIES_GEODUDE","SPECIES_GRAVELER","SPECIES_GOLEM","SPECIES_PONYTA","SPECIES_RAPIDASH","SPECIES_SLOWPOKE","SPECIES_SLOWBRO","SPECIES_MAGNEMITE","SPECIES_MAGNETON","SPECIES_FARFETCHD","SPECIES_DODUO","SPECIES_DODRIO","SPECIES_SEEL","SPECIES_DEWGONG","SPECIES_GRIMER","SPECIES_MUK","SPECIES_SHELLDER","SPECIES_CLOYSTER","SPECIES_GASTLY","SPECIES_HAUNTER","SPECIES_GENGAR","SPECIES_ONIX","SPECIES_DROWZEE","SPECIES_HYPNO","SPECIES_KRABBY","SPECIES_KINGLER","SPECIES_VOLTORB","SPECIES_ELECTRODE","SPECIES_EXEGGCUTE","SPECIES_EXEGGUTOR","SPECIES_CUBONE","SPECIES_MAROWAK","SPECIES_HITMONLEE","SPECIES_HITMONCHAN","SPECIES_LICKITUNG","SPECIES_KOFFING","SPECIES_WEEZING","SPECIES_RHYHORN","SPECIES_RHYDON","SPECIES_CHANSEY","SPECIES_TANGELA","SPECIES_KANGASKHAN","SPECIES_HORSEA","SPECIES_SEADRA","SPECIES_GOLDEEN","SPECIES_SEAKING","SPECIES_STARYU","SPECIES_STARMIE","SPECIES_MR_MIME","SPECIES_SCYTHER","SPECIES_JYNX","SPECIES_ELECTABUZZ","SPECIES_MAGMAR","SPECIES_PINSIR","SPECIES_TAUROS","SPECIES_MAGIKARP","SPECIES_GYARADOS","SPECIES_LAPRAS","SPECIES_DITTO","SPECIES_EEVEE","SPECIES_VAPOREON","SPECIES_JOLTEON","SPECIES_FLAREON","SPECIES_PORYGON","SPECIES_OMANYTE","SPECIES_OMASTAR","SPECIES_KABUTO","SPECIES_KABUTOPS","SPECIES_AERODACTYL","SPECIES_SNORLAX","SPECIES_ARTICUNO","SPECIES_ZAPDOS","SPECIES_MOLTRES","SPECIES_DRATINI","SPECIES_DRAGONAIR","SPECIES_DRAGONITE","SPECIES_MEWTWO","SPECIES_MEW","SPECIES_CHIKORITA","SPECIES_BAYLEEF","SPECIES_MEGANIUM","SPECIES_CYNDAQUIL","SPECIES_QUILAVA","SPECIES_TYPHLOSION","SPECIES_TOTODILE","SPECIES_CROCONAW","SPECIES_FERALIGATR","SPECIES_SENTRET","SPECIES_FURRET","SPECIES_HOOTHOOT","SPECIES_NOCTOWL","SPECIES_LEDYBA","SPECIES_LEDIAN","SPECIES_SPINARAK","SPECIES_ARIADOS","SPECIES_CROBAT","SPECIES_CHINCHOU","SPECIES_LANTURN","SPECIES_PICHU","SPECIES_CLEFFA","SPECIES_IGGLYBUFF","SPECIES_TOGEPI","SPECIES_TOGETIC","SPECIES_NATU","SPECIES_XATU","SPECIES_MAREEP","SPECIES_FLAAFFY","SPECIES_AMPHAROS","SPECIES_BELLOSSOM","SPECIES_MARILL","SPECIES_AZUMARILL","SPECIES_SUDOWOODO","SPECIES_POLITOED","SPECIES_HOPPIP","SPECIES_SKIPLOOM","SPECIES_JUMPLUFF","SPECIES_AIPOM","SPECIES_SUNKERN","SPECIES_SUNFLORA","SPECIES_YANMA","SPECIES_WOOPER","SPECIES_QUAGSIRE","SPECIES_ESPEON","SPECIES_UMBREON","SPECIES_MURKROW","SPECIES_SLOWKING","SPECIES_MISDREAVUS","SPECIES_UNOWN","SPECIES_WOBBUFFET","SPECIES_GIRAFARIG","SPECIES_PINECO","SPECIES_FORRETRESS","SPECIES_DUNSPARCE","SPECIES_GLIGAR","SPECIES_STEELIX","SPECIES_SNUBBULL","SPECIES_GRANBULL","SPECIES_QWILFISH","SPECIES_SCIZOR","SPECIES_SHUCKLE","SPECIES_HERACROSS","SPECIES_SNEASEL","SPECIES_TEDDIURSA","SPECIES_URSARING","SPECIES_SLUGMA","SPECIES_MAGCARGO","SPECIES_SWINUB","SPECIES_PILOSWINE","SPECIES_CORSOLA","SPECIES_REMORAID","SPECIES_OCTILLERY","SPECIES_DELIBIRD","SPECIES_MANTINE","SPECIES_SKARMORY","SPECIES_HOUNDOUR","SPECIES_HOUNDOOM","SPECIES_KINGDRA","SPECIES_PHANPY","SPECIES_DONPHAN","SPECIES_PORYGON2","SPECIES_STANTLER","SPECIES_SMEARGLE","SPECIES_TYROGUE","SPECIES_HITMONTOP","SPECIES_SMOOCHUM","SPECIES_ELEKID","SPECIES_MAGBY","SPECIES_MILTANK","SPECIES_BLISSEY","SPECIES_RAIKOU","SPECIES_ENTEI","SPECIES_SUICUNE","SPECIES_LARVITAR","SPECIES_PUPITAR","SPECIES_TYRANITAR","SPECIES_LUGIA","SPECIES_HO_OH","SPECIES_CELEBI","SPECIES_TREECKO","SPECIES_GROVYLE","SPECIES_SCEPTILE","SPECIES_TORCHIC","SPECIES_COMBUSKEN","SPECIES_BLAZIKEN","SPECIES_MUDKIP","SPECIES_MARSHTOMP","SPECIES_SWAMPERT","SPECIES_POOCHYENA","SPECIES_MIGHTYENA","SPECIES_ZIGZAGOON","SPECIES_LINOONE","SPECIES_WURMPLE","SPECIES_SILCOON","SPECIES_BEAUTIFLY","SPECIES_CASCOON","SPECIES_DUSTOX","SPECIES_LOTAD","SPECIES_LOMBRE","SPECIES_LUDICOLO","SPECIES_SEEDOT","SPECIES_NUZLEAF","SPECIES_SHIFTRY","SPECIES_TAILLOW","SPECIES_SWELLOW","SPECIES_WINGULL","SPECIES_PELIPPER","SPECIES_RALTS","SPECIES_KIRLIA","SPECIES_GARDEVOIR","SPECIES_SURSKIT","SPECIES_MASQUERAIN","SPECIES_SHROOMISH","SPECIES_BRELOOM","SPECIES_SLAKOTH","SPECIES_VIGOROTH","SPECIES_SLAKING","SPECIES_NINCADA","SPECIES_NINJASK","SPECIES_SHEDINJA","SPECIES_WHISMUR","SPECIES_LOUDRED","SPECIES_EXPLOUD","SPECIES_MAKUHITA","SPECIES_HARIYAMA","SPECIES_AZURILL","SPECIES_NOSEPASS","SPECIES_SKITTY","SPECIES_DELCATTY","SPECIES_SABLEYE","SPECIES_MAWILE","SPECIES_ARON","SPECIES_LAIRON","SPECIES_AGGRON","SPECIES_MEDITITE","SPECIES_MEDICHAM","SPECIES_ELECTRIKE","SPECIES_MANECTRIC","SPECIES_PLUSLE","SPECIES_MINUN","SPECIES_VOLBEAT","SPECIES_ILLUMISE","SPECIES_ROSELIA","SPECIES_GULPIN","SPECIES_SWALOT","SPECIES_CARVANHA","SPECIES_SHARPEDO","SPECIES_WAILMER","SPECIES_WAILORD","SPECIES_NUMEL","SPECIES_CAMERUPT","SPECIES_TORKOAL","SPECIES_SPOINK","SPECIES_GRUMPIG","SPECIES_SPINDA","SPECIES_TRAPINCH","SPECIES_VIBRAVA","SPECIES_FLYGON","SPECIES_CACNEA","SPECIES_CACTURNE","SPECIES_SWABLU","SPECIES_ALTARIA","SPECIES_ZANGOOSE","SPECIES_SEVIPER","SPECIES_LUNATONE","SPECIES_SOLROCK","SPECIES_BARBOACH","SPECIES_WHISCASH","SPECIES_CORPHISH","SPECIES_CRAWDAUNT","SPECIES_BALTOY","SPECIES_CLAYDOL","SPECIES_LILEEP","SPECIES_CRADILY","SPECIES_ANORITH","SPECIES_ARMALDO","SPECIES_FEEBAS","SPECIES_MILOTIC","SPECIES_CASTFORM","SPECIES_KECLEON","SPECIES_SHUPPET","SPECIES_BANETTE","SPECIES_DUSKULL","SPECIES_DUSCLOPS","SPECIES_TROPIUS","SPECIES_CHIMECHO","SPECIES_ABSOL","SPECIES_WYNAUT","SPECIES_SNORUNT","SPECIES_GLALIE","SPECIES_SPHEAL","SPECIES_SEALEO","SPECIES_WALREIN","SPECIES_CLAMPERL","SPECIES_HUNTAIL","SPECIES_GOREBYSS","SPECIES_RELICANTH","SPECIES_LUVDISC","SPECIES_BAGON","SPECIES_SHELGON","SPECIES_SALAMENCE","SPECIES_BELDUM","SPECIES_METANG","SPECIES_METAGROSS","SPECIES_REGIROCK","SPECIES_REGICE","SPECIES_REGISTEEL","SPECIES_LATIAS","SPECIES_LATIOS","SPECIES_KYOGRE","SPECIES_GROUDON","SPECIES_RAYQUAZA","SPECIES_JIRACHI","SPECIES_DEOXYS","SPECIES_TURTWIG","SPECIES_GROTLE","SPECIES_TORTERRA","SPECIES_CHIMCHAR","SPECIES_MONFERNO","SPECIES_INFERNAPE","SPECIES_PIPLUP","SPECIES_PRINPLUP","SPECIES_EMPOLEON","SPECIES_STARLY","SPECIES_STARAVIA","SPECIES_STARAPTOR","SPECIES_BIDOOF","SPECIES_BIBAREL","SPECIES_KRICKETOT","SPECIES_KRICKETUNE","SPECIES_SHINX","SPECIES_LUXIO","SPECIES_LUXRAY","SPECIES_BUDEW","SPECIES_ROSERADE","SPECIES_CRANIDOS","SPECIES_RAMPARDOS","SPECIES_SHIELDON","SPECIES_BASTIODON","SPECIES_BURMY","SPECIES_WORMADAM","SPECIES_MOTHIM","SPECIES_COMBEE","SPECIES_VESPIQUEN","SPECIES_PACHIRISU","SPECIES_BUIZEL","SPECIES_FLOATZEL","SPECIES_CHERUBI","SPECIES_CHERRIM","SPECIES_SHELLOS","SPECIES_GASTRODON","SPECIES_AMBIPOM","SPECIES_DRIFLOON","SPECIES_DRIFBLIM","SPECIES_BUNEARY","SPECIES_LOPUNNY","SPECIES_MISMAGIUS","SPECIES_HONCHKROW","SPECIES_GLAMEOW","SPECIES_PURUGLY","SPECIES_CHINGLING","SPECIES_STUNKY","SPECIES_SKUNTANK","SPECIES_BRONZOR","SPECIES_BRONZONG","SPECIES_BONSLY","SPECIES_MIME_JR","SPECIES_HAPPINY","SPECIES_CHATOT","SPECIES_SPIRITOMB","SPECIES_GIBLE","SPECIES_GABITE","SPECIES_GARCHOMP","SPECIES_MUNCHLAX","SPECIES_RIOLU","SPECIES_LUCARIO","SPECIES_HIPPOPOTAS","SPECIES_HIPPOWDON","SPECIES_SKORUPI","SPECIES_DRAPION","SPECIES_CROAGUNK","SPECIES_TOXICROAK","SPECIES_CARNIVINE","SPECIES_FINNEON","SPECIES_LUMINEON","SPECIES_MANTYKE","SPECIES_SNOVER","SPECIES_ABOMASNOW","SPECIES_WEAVILE","SPECIES_MAGNEZONE","SPECIES_LICKILICKY","SPECIES_RHYPERIOR","SPECIES_TANGROWTH","SPECIES_ELECTIVIRE","SPECIES_MAGMORTAR","SPECIES_TOGEKISS","SPECIES_YANMEGA","SPECIES_LEAFEON","SPECIES_GLACEON","SPECIES_GLISCOR","SPECIES_MAMOSWINE","SPECIES_PORYGON_Z","SPECIES_GALLADE","SPECIES_PROBOPASS","SPECIES_DUSKNOIR","SPECIES_FROSLASS","SPECIES_ROTOM","SPECIES_UXIE","SPECIES_MESPRIT","SPECIES_AZELF","SPECIES_DIALGA","SPECIES_PALKIA","SPECIES_HEATRAN","SPECIES_REGIGIGAS","SPECIES_GIRATINA","SPECIES_CRESSELIA","SPECIES_PHIONE","SPECIES_MANAPHY","SPECIES_DARKRAI","SPECIES_SHAYMIN","SPECIES_ARCEUS"],"regular":[69,69,130,1000,85,190,905,90,225,855,29,99,320,32,100,295,18,300,395,35,185,20,380,69,650,60,300,120,295,70,200,600,90,195,620,75,400,99,199,55,120,75,550,54,86,186,54,295,300,125,8,333,42,320,196,766,280,320,190,1550,124,200,540,195,565,480,195,705,1300,40,64,155,455,550,200,1050,3000,300,950,360,785,60,600,150,392,852,900,1200,300,300,40,1325,1,1,405,2100,324,756,65,600,104,666,25,1200,65,450,498,502,655,10,95,1150,1200,346,350,800,80,250,150,390,345,800,545,560,406,300,445,550,884,100,2350,2200,40,65,290,245,250,365,75,350,115,405,590,4600,554,526,600,33,165,2100,1220,40,64,158,1005,79,190,795,95,250,888,60,325,212,408,108,356,85,335,750,120,225,20,30,10,15,32,20,150,78,133,615,58,85,285,380,339,5,10,30,115,18,85,380,85,750,265,270,21,795,10,50,285,415,72,1258,140,648,4000,78,487,39,1180,205,540,280,88,1258,350,550,65,558,50,120,285,160,2200,505,108,350,1520,335,1200,325,712,580,210,480,60,235,214,755,468,1780,1980,1870,720,1520,2020,2160,1990,50,50,216,522,25,195,520,76,280,819,136,370,175,325,36,100,284,115,316,26,325,550,40,280,596,23,198,95,280,66,202,484,17,36,45,392,240,465,1305,55,120,12,163,405,840,864,2538,20,970,110,326,110,115,600,1200,3600,112,315,152,402,42,42,177,177,20,103,800,208,888,1300,3980,240,2200,804,306,715,50,150,153,820,513,774,12,206,403,525,1680,1540,19,236,115,328,215,1080,238,604,125,682,74,1620,8,220,23,125,150,306,1000,10,470,140,168,2565,395,876,1506,525,270,226,234,87,421,1105,1026,952,2025,5500,2300,1750,2050,400,600,3520,9500,2065,11,608,102,970,3100,62,220,550,52,230,845,20,155,249,200,315,22,255,95,305,420,12,145,315,1025,570,1495,34,65,233,55,385,39,295,335,33,93,63,299,203,12,150,55,333,44,273,39,438,6,192,380,605,1870,150,130,244,19,1080,205,560,950,1050,202,540,495,3000,120,615,230,444,270,70,240,650,505,1355,340,1800,1400,2828,1286,1386,680,380,515,255,259,425,2910,340,520,3400,1066,266,3,3,3,3,6830,3360,4300,4200,6500,856,31,14,505,21,3200],"gira":[69,69,130,1000,85,190,905,90,225,855,29,99,320,32,100,295,18,300,395,35,185,20,380,69,650,60,300,120,295,70,200,600,90,195,620,75,400,99,199,55,120,75,550,54,86,186,54,295,300,125,8,333,42,320,196,766,280,320,190,1550,124,200,540,195,565,480,195,705,1300,40,64,155,455,550,200,1050,3000,300,950,360,785,60,600,150,392,852,900,1200,300,300,40,1325,1,1,405,2100,324,756,65,600,104,666,25,1200,65,450,498,502,655,10,95,1150,1200,346,350,800,80,250,150,390,345,800,545,560,406,300,445,550,884,100,2350,2200,40,65,290,245,250,365,75,350,115,405,590,4600,554,526,600,33,165,2100,1220,40,64,158,1005,79,190,795,95,250,888,60,325,212,408,108,356,85,335,750,120,225,20,30,10,15,32,20,150,78,133,615,58,85,285,380,339,5,10,30,115,18,85,380,85,750,265,270,21,795,10,50,285,415,72,1258,140,648,4000,78,487,39,1180,205,540,280,88,1258,350,550,65,558,50,120,285,160,2200,505,108,350,1520,335,1200,325,712,580,210,480,60,235,214,755,468,1780,1980,1870,720,1520,2020,2160,1990,50,50,216,522,25,195,520,76,280,819,136,370,175,325,36,100,284,115,316,26,325,550,40,280,596,23,198,95,280,66,202,484,17,36,45,392,240,465,1305,55,120,12,163,405,840,864,2538,20,970,110,326,110,115,600,1200,3600,112,315,152,402,42,42,177,177,20,103,800,208,888,1300,3980,240,2200,804,306,715,50,150,153,820,513,774,12,206,403,525,1680,1540,19,236,115,328,215,1080,238,604,125,682,74,1620,8,220,23,125,150,306,1000,10,470,140,168,2565,395,876,1506,525,270,226,234,87,421,1105,1026,952,2025,5500,2300,1750,2050,400,600,3520,9500,2065,11,608,102,970,3100,62,220,550,52,230,845,20,155,249,200,315,22,255,95,305,420,12,145,315,1025,570,1495,34,65,233,55,385,39,295,335,33,93,63,299,203,12,150,55,333,44,273,39,438,6,192,380,605,1870,150,130,244,19,1080,205,560,950,1050,202,540,495,3000,120,615,230,444,270,70,240,650,505,1355,340,1800,1400,2828,1286,1386,680,380,515,255,259,425,2910,340,520,3400,1066,266,3,3,3,3,6830,3360,4300,4200,7500,856,31,14,505,21,3200],"giraSelectedForm":0,"archives":{"member":1,"regular":{"id":74,"path":"a/0/7/4"},"gira":{"id":216,"path":"a/2/1/4"}},"lowKickTable":[[100,20],[250,40],[500,60],[1000,80],[2000,100],[65535,65535]],"lowKickFallback":120,"sources":[{"path":"files/application/zukanlist/zkn_data/zukan_data.json","sha256":"c870dd6d4f15830c6e07b3eef69b8934d5d11eb1dac19e9e989b5a24f61826f5"},{"path":"files/application/zukanlist/zkn_data/zukan_data.json.txt","sha256":"350a4ccaa76569d32af31f2a40963a9f6323b8c2bf4827824ae9655787aeccb9"},{"path":"files/application/zukanlist/zkn_data/zukan_data.mk","sha256":"95a4b9f0b6e054f1462486c59ccad8ba92975012acb16f681bbef1dddada0389"},{"path":"files/poketool/personal/personal.json","sha256":"8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"},{"path":"include/constants/species.h","sha256":"a72ce01027d83aabd9ff61dc8f3afbbf43eee30b25c39b6e23ed42c5ac587732"},{"path":"include/constants/pokemon.h","sha256":"64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"},{"path":"src/dex_mon_measures.c","sha256":"bd5dcc14c16e8268e867d108a46151ddbcb0d1f6cb68d615a284e597721cf855"},{"path":"src/battle/battle_util.c","sha256":"8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949"},{"path":"src/battle/battle_command.c","sha256":"f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"},{"path":"include/battle/battle.h","sha256":"9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972"},{"path":"asm/overlay_12_battle_command.s","sha256":"607de6521413ab1f319186b6c4cce09d399107ff1e3db1a09ff34bfab5ec777d"},{"path":"include/filesystem_files_def.h","sha256":"871b6abe3fb53e5ff810bb0b0680f2e305daff9670565e4d3eb9c13aebc3c5cf"},{"path":"filesystem.mk","sha256":"ecaf98935a35a5993cf4a752be66fdbf588f3346c5b816c51c1fc83816a99394"}]} as const;
+diff --git a/browser/src/source/types.ts b/browser/src/source/types.ts
+index 27ddcd41..4c4e5484 100644
+--- a/browser/src/source/types.ts
++++ b/browser/src/source/types.ts
+@@ -1,3 +1,4 @@
++import type {NativeWeightData} from './battle-weight.ts';
+ import type {MysteryGiftSave} from './mystery-gifts.ts';
+ export type Vec = {x:number; z:number};
+ export type Prop = {id:number;position:number[];rotation:number[];scale:number[];asset:string};
+@@ -19,6 +20,6 @@ export type Mon = {isEgg?:boolean;checksumFailed?:boolean;hasNickname?:boolean;f
+ export type ObjectEventSave={map:number;actors:{id:string;x:number;z:number;facing:number;movement?:number;shown?:boolean;invisible:boolean;directionLocked:boolean}[]};
+ export type ApricornBoxSave={apricorns:number[];kurtQuantity:number;kurtApricorn:number};
+ export type State = {version:2;mysteryGifts?:MysteryGiftSave;apricornBox?:ApricornBoxSave;eggCycleSteps?:number;trainerId?:number;nativeEggSeed?:number;togepiGiftIdentity?:{personality:number;gender:Mon['gender']};gameStats?:Record<number,number>;fieldHeight?:number;gymmick?:{kind:'violet';liftState:0|1};avatarState?:number;battleTowerStreaks?:number[];name:string;gender:'boy'|'girl';rivalName:string;map:number;x:number;z:number;facing:number;money:number;flags:Record<string,boolean>;vars:Record<string,number>;party:Mon[];boxes:Mon[];bag:Record<string,number>;badges:number[];seen:number[];caught:number[];starter:number;story:number;lastHeal:{map:number;x:number;z:number};playSeconds:number;objectEvents?:ObjectEventSave;runningShoes?:boolean;pokedexEnabled?:boolean;mysteryGiftEnabled?:boolean;phoneTriggers?:number[];phoneRecentCallers?:number[];trainerPhone?:{seeking:number[];gifts:Record<number,number>};pokegear?:{contacts:string[];cards:number[]};options:{textSpeed:number;battleStyle:'shift'|'set';sound:boolean}};
+-export type GameData = {eggSummary?:Record<string,string>;index:SourceIndex;constants:Record<string,number>;sprites:Record<string,SpriteInfo>;personal:Personal[];moves:MoveData[];learnsets:{level:number;move:number}[][];growth:Record<string,number[]>;encounters:{map:string;land:{rate:number;mons:{level:number|{HEARTGOLD:number};species:Record<string,string|{HEARTGOLD:string}>}[]}}[];trainers:Trainer[];items:Record<string,string>[];typeChart:number[][];initial:{flags:Record<string,boolean>;vars:Record<string,number>};intro:Record<string,Record<string,string|null>>;names:Record<string,Record<number,string>>};
++export type GameData = {nativeWeights?:NativeWeightData;eggSummary?:Record<string,string>;index:SourceIndex;constants:Record<string,number>;sprites:Record<string,SpriteInfo>;personal:Personal[];moves:MoveData[];learnsets:{level:number;move:number}[][];growth:Record<string,number[]>;encounters:{map:string;land:{rate:number;mons:{level:number|{HEARTGOLD:number};species:Record<string,string|{HEARTGOLD:string}>}[]}}[];trainers:Trainer[];items:Record<string,string>[];typeChart:number[][];initial:{flags:Record<string,boolean>;vars:Record<string,number>};intro:Record<string,Record<string,string|null>>;names:Record<string,Record<number,string>>};
+ export type Trainer = {name:string;class:string;party:{species:string;level:number;difficulty:number;moves?:string[];item?:string;genderOverride?:string;abilityOverride?:string}[];items:string[];ai_flags:number;double:number;messages?:{type:string;message:string}[]};
+ export async function sourceJSON<T>(path:string):Promise<T> {const response=await fetch(`/source/${path}`);if(!response.ok)throw Error(`Original data could not load: ${path} (${response.status})`);return response.json();}
+-- 
+2.50.1 (Apple Git-155)
+

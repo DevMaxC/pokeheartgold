@@ -1,0 +1,131 @@
+{
+  "commit": "6c9cd11936851a43e7beb377be16ca74c4a83b73",
+  "base": "405d0c32f1e2ba61bded3813f5c7b2c67452ab60",
+  "worktree": "/Users/maxchurch/Documents/pokeheartgold-native-weights",
+  "status": "",
+  "scope": [
+    "browser/scripts/export_species_weights.py",
+    "browser/src/source/battle-weight.test.ts",
+    "browser/src/source/battle-weight.ts",
+    "browser/src/source/data.ts",
+    "browser/src/source/species-weights-data.ts",
+    "browser/src/source/types.ts"
+  ],
+  "sourceHashes": {
+    "browser/scripts/export_species_weights.py": "33e5c9098c8d58d5a2fdcd9d413ef7c62d29be40f647d693e4db305d1d5cd225",
+    "browser/src/source/battle-weight.test.ts": "9132660b14ac610bd26224a0b1a037a25a0d3e81f3ac11ed594e4c3797baa830",
+    "browser/src/source/battle-weight.ts": "85040d93469f6dc25c21d1b679c314e7cfe5a4c06aefaa78c7b920eef4af2ba1",
+    "browser/src/source/data.ts": "28bc41b2f0f63478863ad6d54ebb62b2cbdd3f003a731e21097e28dff9dc7174",
+    "browser/src/source/species-weights-data.ts": "62a55af2a84085f0c30399675429317f0a670d0410da4782f0dbd6c6ed31bb05",
+    "browser/src/source/types.ts": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378"
+  },
+  "reviews": [
+    {
+      "label": "initial",
+      "manifestSHA256": "b26a36b7bdedd6e766154210f052d70dc74da7aac32050b3d2f7e819441529dc",
+      "rawSHA256": "9fefae244f2e5c6b89d060f847835529c6c2f1dcc7d40d94da4f9784c7f7fe8d",
+      "promptSHA256": "7ff9d81a9fad4579faa3bcf36d8c2a30fb96035cc9d86d348335e47debcc6067",
+      "numTurns": 24,
+      "durationMs": 148725,
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1418,
+          "outputTokens": 20,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001518,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 28,
+          "outputTokens": 11244,
+          "cacheReadInputTokens": 615056,
+          "cacheCreationInputTokens": 60468,
+          "webSearchRequests": 0,
+          "costUSD": 0.6503432,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 6063,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "is_error": false,
+      "permissionDenials": [],
+      "inputCount": 43
+    },
+    {
+      "label": "followup",
+      "manifestSHA256": "1321e8905efbe23c57427c2a2a5e08d8a8ce8d2052d03008a221b3306af31e2a",
+      "rawSHA256": "42aea283dd781944a69d30e0ddf64f0f4d76c135458234375f68c563399b283c",
+      "promptSHA256": "557e723740eb8a29b8e48223b2859fa141001b6a7801c3969485276580522390",
+      "numTurns": 20,
+      "durationMs": 72626,
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1284,
+          "outputTokens": 16,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001364,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 20,
+          "outputTokens": 6355,
+          "cacheReadInputTokens": 310493,
+          "cacheCreationInputTokens": 54157,
+          "webSearchRequests": 0,
+          "costUSD": 0.4600636,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 2343,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "is_error": false,
+      "permissionDenials": [],
+      "inputCount": 53
+    }
+  ],
+  "checks": {
+    "focusedTests": {
+      "command": "node --experimental-transform-types --test browser/src/source/battle-weight.test.ts",
+      "passed": 8,
+      "failed": 0,
+      "exitCodeObserved": 0
+    },
+    "tsc": {
+      "command": "npx tsc --noEmit (cwd browser)",
+      "exitCodeObserved": 0,
+      "log": "final-tsc.log"
+    },
+    "diffCheck": {
+      "command": "git diff --check",
+      "exitCodeObserved": 0
+    }
+  },
+  "createdUTC": "2026-10-17T17:23:38.234464+00:00",
+  "limits": [
+    "Read-only provider review; tests executed by implementing agent, not provider.",
+    "Host C oracles/layout, not a native SDK or generated NARC/.naix binary build.",
+    "No engine, Main, World, UI or existing public JSON changes.",
+    "Actual live target weight, Transform/form lifecycle, initial forced BattleMon form and legal supported forms remain future host responsibilities.",
+    "No browser, Vite build or full-suite/deployment claim."
+  ]
+}
