@@ -143,7 +143,7 @@ async function wildEncounter(){
   await startBattle([createMon(data,species,level,'')]);
 }
 async function whiteOut(){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z);}
-async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const battleMap=state.map;keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
+async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const battleMap=state.map;keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY',weather:world.sky.currentWeather});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
   if(result==='lost'){if(canLose)healParty(state);else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null)await whiteOut();}}
   if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`);}
   if(state.map===battleMap){keys.clear();await runFieldEntry('resume');await checkFrameTriggers();}updateHUD();save();return result==='won';
