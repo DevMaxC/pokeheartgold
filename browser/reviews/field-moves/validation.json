@@ -1,0 +1,58 @@
+{
+  "status": "scoped core complete; host integration pending",
+  "base": "f21d5686",
+  "actualReviewModel": "claude-opus-5-5",
+  "initialReview": {
+    "resultSHA256": "3221b6305be1b4122987b8fbc22b2e89d56b4942c2ccee52ada9c65be542fdbe",
+    "sourceReceiptSHA256": "23d66802d745095d8b0e8a78247362aaad75b360e7101df97c9ccda923c7e893",
+    "limitation": "Reviewer did not locate the receipt during the initial live-held-file review; external harness verified all37 held files matched the copy before/after. Final review used the actual snapshot as CWD."
+  },
+  "finalReview": {
+    "resultSHA256": "c399ef1509a4a0a5283697884ae3091f3c2f49a29c6fa7aad35355aefa64f495",
+    "sourceReceiptSHA256": "c77ce25dad449d9d80b155ed7693fe36e9aad684337daebcf19e0842cff1933a",
+    "sourceFiles": 41,
+    "changedHeldFiles": [],
+    "receiptReadByReviewer": true,
+    "verdict": "all three initial low-severity issues closed; no new concrete defects"
+  },
+  "adjudication": [
+    {
+      "finding": "null cancellation ignored for non-full move sets",
+      "resolution": "Null returns cancelled before all preparation; empty and full cases tested."
+    },
+    {
+      "finding": "caller-provided map section could alter friendship bonus",
+      "resolution": "Removed context argument;540 map sections exported from original map headers and derived by state.map."
+    },
+    {
+      "finding": "standard IDs/bank and TM/HM split used literals",
+      "resolution": "Derived from std_script.h/script_manager.c/native item constants, all authorities hashed."
+    },
+    {
+      "finding": "initial review stated no100\u2013199 tier test",
+      "resolution": "Existing tier150 fixture was already present; retained and explicit Luxury-only regression added."
+    }
+  ],
+  "checks": {
+    "scopedTests": {
+      "command": "node --experimental-transform-types --test src/source/field-moves.test.ts",
+      "passed": 10,
+      "failed": 0
+    },
+    "typescript": {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    "exportRegeneration": "byte-identical temporary export checked by tests",
+    "compatibility": "508 original personal entries and12alternate form entries across100nativeTM/HM mappings",
+    "browserUsed": false,
+    "productionBuildRun": false
+  },
+  "remainingIntegration": [
+    "Bag party/forget/Stop trying? loops and source-action busy/save exclusion",
+    "VM query/opcode adapters with native operand order",
+    "Source Cut cut-in/follower/effect0-or3 lifecycle, doneVar timing and cancellation",
+    "Original field move model/animation/audio exports",
+    "Follower mood shared typing/adapter and field refresh"
+  ]
+}
