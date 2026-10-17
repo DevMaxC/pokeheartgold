@@ -56,6 +56,7 @@ export class OriginalWorld {
   target=new THREE.Vector3();
   loading=false;
   battleStage:WorldBattleView|null=null;
+  fieldEffect:{active:boolean;update:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null=null;
   constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>){
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));this.renderer.setSize(innerWidth,innerHeight);this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;
     this.sky=new WorldSky(this.scene,this.camera);this.scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa2,2));
@@ -83,7 +84,7 @@ export class OriginalWorld {
   private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
   /** Keep the last rendered view while an asynchronous warp replaces the
    * scene. Incoming player coordinates must never steer the outgoing rig. */
-  beginFieldTransition(){this.cameraTransition=true;}
+  beginFieldTransition(){this.fieldEffect?.cancel(Error('Field transition interrupted the field presentation'));this.cameraTransition=true;}
   endFieldTransition(){this.cameraTransition=false;if(this.cameraResizePending){this.cameraResizePending=false;this.resizeRenderer();}}
   private resizeRenderer(){this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);}
   /** Check the shared budget and build in the same continuation. Returning
@@ -119,6 +120,7 @@ export class OriginalWorld {
     }finally{if(ownsTransition)this.endFieldTransition();}
   }
   async connect(id:number,x:number,z:number,weather=0){
+    if(id!==this.activeHeader)this.fieldEffect?.cancel(Error('Connected field changed during the field presentation'));
     if(id!==this.activeHeader)this.clearScriptCameraTarget();
     const map=await this.map(id);if(map.matrix!==this.activeMatrix)throw Error('Connected field headers must share their source matrix');
     if(this.matrix?.headers===null&&this.activeHeader!==id)throw Error('Independent rooms do not share connected header ownership');this.activeHeader=id;
@@ -225,6 +227,7 @@ export class OriginalWorld {
     if(this.cameraTransition)return;
     this.grassTime+=dt;updateGrass(this.grassTime,x,actorY??this.height(x,z),z);
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
+    if(this.fieldEffect?.active){this.fieldEffect.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,actorY??this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
     const focus=this.scriptCameraPosition,height=focus?.y??actorY??this.height(x,z,this.target.y-.9,this.target.x,this.target.z);const target=new THREE.Vector3(focus?.x??x,height+.9,focus?.z??z);this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
     const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance),obstacles=[...this.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));const collisions=ray.intersectObjects(obstacles,false);const first=collisions.find(c=>c.distance>1.2);const d=first?Math.max(2.2,first.distance-.6):this.distance;
