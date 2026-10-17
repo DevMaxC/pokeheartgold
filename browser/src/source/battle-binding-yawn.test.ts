@@ -9,7 +9,7 @@ import {createMon,loadData,newState} from './data.ts';
 import {originalTrainerParty} from './trainers.ts';
 import {monAbility} from './battle-math.ts';
 import {nativeStatus2,nativeBeforeTurnStatus2} from './battle-volatiles.ts';
-import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks} from './battle-binding-yawn.ts';
+import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
 import type {Mon} from './types.ts';
 import type {UI} from './ui.ts';
 import type {BattleView} from './battle-view.ts';
@@ -77,4 +77,60 @@ test('native binding admits no unported adjacent effects and preflights unresolv
  for(const species of[29,243]){const actor=(await originalTrainerParty(data,384))[0],target=mon(species,20),f=fixture([actor],[target]),before=structuredClone({actor,target});await assert.rejects(act(f,false,'MOVE_BIND'),/Unsupported native binding/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);}
  const actor=(await originalTrainerParty(data,384))[0],f=fixture([actor]);Reflect.set(f.battle,'weather','rain');const before=structuredClone(actor);await assert.rejects(act(f,false,'MOVE_BIND'),/Unsupported native binding weather/);assert.deepEqual(actor,before);assert.equal(f.draws,0);
  const engine=await readFile(new URL('./battle.ts',import.meta.url),'utf8'),effects=engine.match(/implementedEffects=new Set\(\[([^\]]*)\]/)![1].split(',').map(Number);for(const id of[129,261,79,127])assert.ok(!effects.includes(id));
+});
+
+test('actual Larry Slowpoke11 Yawn has no hit draw, never refreshes, and sleeps at the second real end-turn before Chesto/Lum',async()=>{
+ const native=(await originalTrainerParty(data,23))[0];assert.deepEqual([native.species,native.level],[79,11]);
+ for(const berry of[null,'ITEM_CHESTO_BERRY','ITEM_LUM_BERRY']){const actor=structuredClone(native),target=mon(152,20),f=fixture([actor],[target],[0,0,2]);target.heldItem=berry;legalMove(target,'MOVE_GROWL');const pp=actor.moves[slot(actor,'MOVE_YAWN')].pp;Reflect.set(f.battle,'active',true);let n=0;const stop=new Error('two actual turns');Reflect.set(f.battle,'nextAction',async()=>{if(n++===2)throw stop;return{kind:'move',slot:slot(target,'MOVE_GROWL')};});Reflect.set(f.battle,'chooseEnemyMove',()=>slot(actor,'MOVE_YAWN'));await assert.rejects(call(f,'loop'),error=>error===stop);assert.equal(actor.moves[slot(actor,'MOVE_YAWN')].pp,pp-2);assert.equal(f.draws,3,'two Growl accuracy draws and one delayed sleep duration');assert.equal(target.status,berry?'':'SLP');assert.equal(target.sleepTurns,berry?0:4);assert.equal(target.heldItem,null);assert.equal(f.messages.filter(m=>m.includes('made')&&m.includes('drowsy')).length,1);assert.equal(f.messages.filter(m=>m.includes('fell asleep')).length,1);assert.equal(f.events.filter(e=>e==='attack:false').length,1);assert.equal(Reflect.get(f.battle,'yawnTurns').size,0);}
+});
+
+test('Yawn fails on existing status and sleep-blocking abilities; Soundproof itself does not block drowsiness',async()=>{
+ for(const[species,status]of[[152,'PAR'],[163,''],[56,''],[293,'']]as const){const actor=(await originalTrainerParty(data,23))[0],target=mon(species,20),f=fixture([actor],[target]);target.status=status;await act(f,false,'MOVE_YAWN');const blocked=species!==293;assert.equal(Reflect.get(f.battle,'yawnTurns').has(target),!blocked);assert.equal(f.draws,0);assert.equal(f.events.filter(e=>e==='attack:false').length,blocked?0:1);}
+});
+
+test('native delayed sleep ignores the vanished caster MoldBreaker and rechecks current status without consuming a draw',async()=>{
+ // Smeargle can legally Sketch Yawn; Sketch itself remains unadmitted. The
+ // selected ability is Pinsir's native MoldBreaker, never an invented override.
+ const actor=mon(127,20,true),target=mon(163,20),move=data.moves[data.constants.MOVE_YAWN],f=fixture([actor],[target]);assert.equal(monAbility(data,actor),'ABILITY_MOLD_BREAKER');
+ // Pure initial gate covers legal MoldBreaker+Yawn via Sketch/SkillSwap state;
+ // live engine probe supplies that source-script boundary deliberately, not a
+ // claim that Pinsir learns Yawn or unported SkillSwap has been implemented.
+ const result=nativeYawnStart(0,{ability:monAbility(data,target),status:'',sun:false,uproar:false,moldBreaker:true,substitute:false,safeguard:false});assert.equal(result.outcome,'applied');Reflect.get(f.battle,'yawnTurns').set(target,result.turns);await call(f,'yawnResidual',target);await call(f,'yawnResidual',target);assert.equal(target.status,'');assert.equal(f.draws,0);assert.ok(f.messages.some(m=>m.includes('stayed awake')));
+ const slow=(await originalTrainerParty(data,23))[0],chikorita=mon(152,20),g=fixture([slow],[chikorita]);await act(g,false,'MOVE_YAWN');chikorita.status='PAR';await call(g,'yawnResidual',chikorita);await call(g,'yawnResidual',chikorita);assert.equal(chikorita.status,'PAR');assert.equal(g.draws,0);assert.equal(Reflect.get(g.battle,'yawnTurns').size,0);
+});
+
+test('withdrawing Yawn caster retains drowsiness; target leaving or fainting clears it; Rage retains its separate move-effect countdown',async()=>{
+ for(const leaving of['source','target','target-faint']as const){const actor=(await originalTrainerParty(data,23))[0],target=mon(152,20),f=fixture([actor,mon(129)],[target,mon(155)],[0]);await act(f,false,'MOVE_YAWN');if(leaving==='source'){await call(f,'sendEnemy',1);assert.equal(Reflect.get(f.battle,'yawnTurns').get(target),2);await call(f,'yawnResidual',target);await call(f,'yawnResidual',target);assert.equal(target.status,'SLP');assert.equal(target.sleepTurns,2);assert.equal(f.draws,1);}else{if(leaving==='target')await call(f,'switch',1);else{target.hp=0;call(f,'clearOnLeave',target);}assert.equal(Reflect.get(f.battle,'yawnTurns').has(target),false);assert.equal(f.draws,0);}}
+ const actor=(await originalTrainerParty(data,23))[0],target=mon(95,15),f=fixture([actor],[target]);await act(f,false,'MOVE_YAWN');Reflect.get(f.battle,'raging').add(target);call(f,'volatile',target).status2|=nativeStatus2.rage;call(f,'prepareRageTurn',target,slot(target,'MOVE_ROCK_THROW'));assert.equal(Reflect.get(f.battle,'yawnTurns').get(target),2);assert.equal(call(f,'volatile',target).status2,nativeStatus2.rage);const before=structuredClone(f.state.party);call(f,'clearBattleVolatiles');assert.equal(Reflect.get(f.battle,'yawnTurns').size,0);assert.deepEqual(f.state.party,before);
+});
+
+test('Yawn sleep uses native raw modulo and EarlyBird checks before PP, then permits the wake-up action',async()=>{
+ for(const[species,early]of[[152,false],[84,true]]as const){const actor=(await originalTrainerParty(data,23))[0],target=mon(species,20,early),f=fixture([actor],[target],[3,0]);legalMove(target,'MOVE_GROWL');assert.equal(monAbility(data,target)==='ABILITY_EARLY_BIRD',early);await act(f,false,'MOVE_YAWN');await call(f,'yawnResidual',target);await call(f,'yawnResidual',target);assert.equal(target.sleepTurns,5);const key=early?'MOVE_GROWL':'MOVE_GROWL',i=slot(target,key),pp=target.moves[i].pp;let attempts=0;while(target.status==='SLP'){await act(f,true,key);attempts++;assert.ok(attempts<=5);}assert.equal(attempts,early?3:5);assert.equal(target.moves[i].pp,pp-1);assert.equal(target.sleepTurns,0);assert.equal(f.draws,2,'one duration draw plus the waking Growl accuracy; no repeated sleep/Yawn draws');}
+});
+
+test('actual native UnionCave Onix6 and SlowpokeWell Slowpoke6 expose the admitted effects without extra side effects',async()=>{
+ for(const[map,species,level,key]of[['D25R0101',95,6,'MOVE_BIND'],['D26R0102',79,6,'MOVE_YAWN']]as const){const source=data.encounters.find(row=>row.map===map);assert.ok(source,`${map} exists`);assert.ok(source.land.mons.some(row=>row.level===level&&JSON.stringify(row.species).includes(species===95?'SPECIES_ONIX':'SPECIES_SLOWPOKE')),`${map}/${species}/${level} native encounter`);const wild=mon(species,level),target=mon(152,20),f=fixture([wild],[target]);Reflect.set(f.battle,'trainer',null);await act(f,false,key);assert.equal(key==='MOVE_BIND'?count(f,target)>0:Reflect.get(f.battle,'yawnTurns').get(target)===2,true);}
+});
+
+test('Yawn preflights Pressure, unsupported consumption abilities and unresolved weather without spending PP',async()=>{
+ for(const species of[243,425]){const actor=(await originalTrainerParty(data,23))[0],target=mon(species,20,species===425),f=fixture([actor],[target]);if(species===425)target.heldItem='ITEM_CHESTO_BERRY';const before=structuredClone({actor,target});await assert.rejects(act(f,false,'MOVE_YAWN'),/Unsupported native (Yawn|volatile held-item)/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);}
+ const actor=(await originalTrainerParty(data,23))[0],f=fixture([actor]);Reflect.set(f.battle,'weather','sun');const before=structuredClone(actor);await assert.rejects(act(f,false,'MOVE_YAWN'),/Unsupported native Yawn weather/);assert.deepEqual(actor,before);assert.equal(f.draws,0);
+});
+
+test('native trainer battles resolve via actual actions and clean both new states, without injected victories',async()=>{
+ for(const[id,key,wait]of[[384,'MOVE_BIND',1],[23,'MOVE_YAWN',2]]as const){const team=await originalTrainerParty(data,id),player=mon(152,18);const growl=data.moves[data.constants.MOVE_GROWL];assert.ok(data.learnsets[152].some(row=>row.move===growl.id&&row.level<=20));const razor=player.moves[slot(player,'MOVE_RAZOR_LEAF')];player.moves=[razor,{id:growl.id,pp:growl.pp,maxPP:growl.pp}];const f=fixture(team,[player]);let n=0;Reflect.set(f.battle,'nextAction',async()=>{assert.ok(++n<30,'native action sequence should terminate');return{kind:'move',slot:slot(f.battle.player,n<=wait?'MOVE_GROWL':'MOVE_RAZOR_LEAF')};});Reflect.set(f.battle,'chooseEnemyMove',()=>slot(f.battle.enemy,key));assert.equal(await f.battle.start(team,id),'won');assert.ok(team.every(subject=>subject.hp===0));assert.ok(f.messages.some(message=>message.includes(key==='MOVE_BIND'?'was trapped':'fell asleep')));for(const state of['bindings','yawnTurns'])assert.equal(Reflect.get(f.battle,state).size,0);assert.ok(f.events.includes('begin')&&f.events.includes('end'));}
+});
+
+test('ordinary bound switch/run rejection consumes no turn; a legal Uturn bypasses binding and targets the replacement correctly',async()=>{
+ const actor=(await originalTrainerParty(data,384))[0],player=mon(129,20),f=fixture([actor],[player,mon(155)]);await act(f,false,'MOVE_BIND');Reflect.set(f.battle,'trainer',null);legalMove(actor,'MOVE_HARDEN');let n=0;const stop=new Error('after one accepted turn');Reflect.set(f.battle,'active',true);Reflect.set(f.battle,'chooseEnemyMove',()=>0);Reflect.set(f.battle,'nextAction',async()=>{n++;if(n===1)return{kind:'switch',index:1};if(n===2)return{kind:'run'};if(n===3)return{kind:'move',slot:slot(player,'MOVE_SPLASH')};throw stop;});await assert.rejects(call(f,'loop'),error=>error===stop);assert.equal(Reflect.get(f.battle,'turns'),1);assert.equal(f.battle.player,player);assert.equal(f.messages.filter(m=>m.includes('used Harden')).length,1);assert.ok(f.messages.some(m=>m.includes('can’t be switched'))&&f.messages.includes('Can’t escape!'));
+ const source=(await originalTrainerParty(data,384))[0],pivot=mon(123,17),reserve=mon(152,20);legalMove(pivot,'MOVE_U_TURN',89);legalMove(source,'MOVE_HARDEN');const g=fixture([source],[pivot,reserve]);source.moves.push({id:data.constants.MOVE_BIND,pp:20,maxPP:20});await act(g,false,'MOVE_BIND');assert.ok(call(g,'trapped','switch'));Reflect.set(g.battle,'partyMenu',(forced:boolean)=>{assert.equal(forced,true);Reflect.get(g.battle,'actions')({kind:'switch',index:1});});let actions=0;Reflect.set(g.battle,'nextAction',async()=>{if(actions++)throw stop;return{kind:'move',slot:0};});Reflect.set(g.battle,'chooseEnemyMove',()=>slot(source,'MOVE_HARDEN'));Reflect.set(g.battle,'active',true);await assert.rejects(call(g,'loop'),error=>error===stop);assert.equal(g.battle.player,reserve);assert.equal(count(g,pivot),0);assert.equal(Reflect.get(g.battle,'bindings').size,0);assert.ok(g.messages.some(m=>m.includes('used U-turn')));
+});
+
+test('Unsupported after a real Yawn restores saved data and clears drowsiness and owned binding state',async()=>{
+ const team=await originalTrainerParty(data,23),player=mon(152,15);legalMove(player,'MOVE_GROWL');assert.ok(data.personal[152].tms.includes(17));const protect=data.moves[data.constants.MOVE_PROTECT];player.moves.push({id:protect.id,pp:protect.pp,maxPP:protect.pp});const f=fixture(team,[player]),before=structuredClone(f.state);let n=0;Reflect.set(f.battle,'nextAction',async()=>({kind:'move',slot:n++?1:0}));Reflect.set(f.battle,'chooseEnemyMove',()=>slot(team[0],'MOVE_YAWN'));await assert.rejects(f.battle.start(team,23),/Unported original move effect/);assert.deepEqual(f.state,before);assert.ok(f.messages.some(message=>message.includes('drowsy')));assert.equal(Reflect.get(f.battle,'yawnTurns').size,0);assert.equal(Reflect.get(f.battle,'bindings').size,0);assert.equal(f.battle.active,false);assert.equal(f.events.at(-1),'end');
+});
+
+test('new binding effects reject unported typed absorption and Yawn rejects BadDreams before any PP or random draw',async()=>{
+ for(const[species,key,targetSpecies,odd]of[[4,'MOVE_FIRE_SPIN',77,true],[90,'MOVE_CLAMP',134,false]]as const){const actor=mon(species,species===4?37:30),target=mon(targetSpecies,30,odd),f=fixture([actor],[target]);legalMove(actor,key);const before=structuredClone({actor,target});await assert.rejects(act(f,false,key),/Unsupported native binding immunity/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);}
+ const actor=(await originalTrainerParty(data,23))[0],target=mon(491,50),f=fixture([actor],[target]),before=structuredClone({actor,target});assert.equal(monAbility(data,target),'ABILITY_BAD_DREAMS');await assert.rejects(act(f,false,'MOVE_YAWN'),/Unsupported native Yawn BadDreams/);assert.deepEqual({actor,target},before);assert.equal(f.draws,0);
 });
