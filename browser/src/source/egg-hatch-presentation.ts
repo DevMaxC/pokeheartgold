@@ -1,4 +1,4 @@
-import {hatchFirstReadyEgg,type EggHatchScene} from './egg-hatching.ts';
+import {hatchFirstReadyEgg,type EggHatchScene,type EggHatchPhoneTrigger} from './egg-hatching.ts';
 import type {GameData,SourceMap,State} from './types.ts';
 
 export type HatchMusicCue=EggHatchScene['audio']['hatchMusic']|EggHatchScene['audio']['fanfare'];
@@ -12,6 +12,7 @@ export type EggHatchHost={
  nickname:(scene:EggHatchScene,signal:AbortSignal)=>Promise<string|null>;
  resumeField:()=>Promise<void>;
  now?:()=>Date;
+ phoneTrigger?:EggHatchPhoneTrigger;
 };
 
 /** One owned presentation joins cry and text, cancels both on any failure and
@@ -25,7 +26,7 @@ export async function presentNativeEggHatch(data:GameData,state:State,map:Source
  const guarded=<T>(action:()=>Promise<T>)=>async()=>{try{if(signal.aborted)throw signal.reason;const value=await action();if(signal.aborted)throw signal.reason;return value;}catch(error){stop(error);throw error;}};
  const restore=async()=>{if(!restored){await host.music.restore();restored=true;}};
  try{
-  return await hatchFirstReadyEgg(data,state,{map,now:host.now},{
+  return await hatchFirstReadyEgg(data,state,{map,now:host.now,phoneTrigger:host.phoneTrigger},{
    reveal:scene=>guarded(async()=>{await host.music.start(scene.audio.hatchMusic,signal);await view.reveal(scene);})(),
    cry:scene=>guarded(()=>view.cry(scene))(),
    announce:(scene,cryComplete)=>guarded(async()=>{

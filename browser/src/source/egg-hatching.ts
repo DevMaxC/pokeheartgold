@@ -69,7 +69,11 @@ export type EggHatchPresentation={
  nickname:(scene:EggHatchScene)=>Promise<string|null>;
  resumeField:(scene:EggHatchScene)=>Promise<void>;
 };
-export type EggHatchContext={map:Pick<SourceMap,'id'|'fields'>;now?:()=>Date};
+/** Fresh native trigger notification, never reconstructed from saved flags.
+ * This port is synchronous. The host's outer source-action field checkpoint
+ * must capture/restore any ephemeral ring/timer changes made by the callback. */
+export type EggHatchPhoneTrigger=(id:number,accelerate:true)=>void;
+export type EggHatchContext={map:Pick<SourceMap,'id'|'fields'>;now?:()=>Date;phoneTrigger?:EggHatchPhoneTrigger};
 function nativeDate(date:Date):MonDate{
  const year=date.getFullYear()-2000;if(!Number.isInteger(year)||year<0||year>99)throw Error('Hatching requires a valid native2000–2099 RTC date');return{year,month:date.getMonth()+1,day:date.getDate()};
 }
@@ -96,7 +100,12 @@ function memoAfterHatch(data:GameData,state:State,mon:Mon,context:EggHatchContex
  if(section>data.constants.METLOC_DAY_CARE_COUPLE)section=data.constants.MAPSEC_MYSTERY_ZONE;
  if(origin.otId!==state.trainerId||origin.otGender!==state.gender||mon.ot!==state.name){origin.eggLocation=origin.metLocation;origin.eggDate={...origin.metDate};}
  origin.metLocation=section;origin.metDate=nativeDate((context.now??(()=>new Date()))());origin.otId=state.trainerId!;origin.otGender=state.gender;mon.ot=state.name;mon.isEgg=false;mon.name=speciesName(data,mon.species);mon.hasNickname=false;
- if(isOriginalTogepiGift(data,state,mon)){state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG=true;state.phoneTriggers??=[];const trigger=data.constants.CALL_TRIGGER_ELM_EGG_HATCHED;if(!state.phoneTriggers.includes(trigger))state.phoneTriggers.push(trigger);}
+ if(isOriginalTogepiGift(data,state,mon)){
+  state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG=true;state.phoneTriggers??=[];const trigger=data.constants.CALL_TRIGGER_ELM_EGG_HATCHED;if(!state.phoneTriggers.includes(trigger))state.phoneTriggers.push(trigger);
+  // hatch_egg_task.c UPDATE_MON_INFO calls TryTriggerElmEggHatchedCall
+  // before Dex/naming/field restore. It boosts even if this flag was set.
+  context.phoneTrigger?.(trigger,true);
+ }
  // UpdatePokedexWithReceivedSpecies adds the unique-registration score only
  // when not already caught; it does not increment GAME_STAT_CAUGHT_MON10.
  if(!state.caught.includes(mon.species))addSpecialGameStat(state,data.constants.SCORE_EVENT_REGISTER_SPECIES_CAUGHT);
