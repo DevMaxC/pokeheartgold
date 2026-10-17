@@ -16,7 +16,7 @@ function harness(playerSpecies=21,enemySpecies=19,rng:()=>number=()=>.5){
   const elements=new Map<string,{innerHTML:string;hidden:boolean;onclick?:()=>void}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}}as unknown as Document;
   const state=newState(data,'Ethan','boy'),player=createMon(data,playerSpecies,20,state.name,()=>.5),enemy=createMon(data,enemySpecies,20,'Opponent',()=>.5);state.party=[player];for(const mon of[player,enemy]){mon.hp=mon.maxHP=200;mon.stats={atk:50,def:50,spatk:50,spdef:50,speed:50};}moves(player,'MOVE_TACKLE');moves(enemy,'MOVE_TACKLE');
   const calls:string[]=[],messages:string[]=[],view:BattleView={location:'Johto',begin:async()=>{calls.push('begin');},sync:()=>{calls.push('sync');},attack:async()=>{calls.push('attack');},hit:async()=>{calls.push('hit');},capture:async()=>{},orbit:()=>{},end:()=>{calls.push('end');}};
-  const battle=new Battle(data,state,{choose:async()=>0}as unknown as UI,rng,view);Reflect.set(battle,'enemies',[enemy]);Reflect.set(battle,'say',async(text:string)=>{messages.push(text);});return{battle,state,player,enemy,calls,messages};
+  const battle=new Battle(data,state,{choose:async()=>0}as unknown as UI,rng,view);Reflect.set(battle,'enemies',[enemy]);Reflect.set(battle,'experienceMask',1);Reflect.set(battle,'say',async(text:string)=>{messages.push(text);});return{battle,state,player,enemy,calls,messages};
 }
 type Harness=ReturnType<typeof harness>;
 async function attack(h:Harness,playerSide=true,slot=0){await Reflect.get(h.battle,'attack').call(h.battle,playerSide,slot);}

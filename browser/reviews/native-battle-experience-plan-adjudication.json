@@ -1,0 +1,37 @@
+{
+  "baseHelperCommit": "f29be61",
+  "actualReviewModel": "claude-opus-5-5",
+  "ancillaryCliRouter": "claude-haiku-4-5-20251001",
+  "snapshot": "/tmp/hg-battle-experience-plan-review-20261017",
+  "allSnapshotHashesVerified": true,
+  "currentProductionAndTestsMatchReviewedBytes": true,
+  "verdict": "No introduced planner correctness or contract issues.",
+  "validation": {
+    "helperAndPlannerTests": 14,
+    "scopedBattleTests": 45,
+    "failures": 0,
+    "typescript": "npx tsc --noEmit passed",
+    "diffCheck": "git diff --check passed",
+    "scopedLogSha256": "76518f6b8f9b4fe17f6f548f12c89b3c7365d5a0e73d263b90bbc5b95b1a807e"
+  },
+  "adjudications": {
+    "selectedFaintedSlotHostNote": "Documentation clarified after review: native SetExperienceEarnFlags checks enemy HP, not selected player HP; newenemy mask must retain selected slot even if fainted, then add forcedreplacement. Planner itself filters HP at award time. Literal source proof battle_util.c1243 and current battle.ts enemy-before-player faint processing.",
+    "zeroParticipants": "Native MSL signed/unsigned zero divisor returns numerator, unused participantpool is not awarded; living unflagged share holders get only native sharedhalf.",
+    "strictInputValidation": "Native item lookup, mask bounds and fullparty ownership/HP/level checks intentionally reject invalid browser context before any mutation.",
+    "resetFixtureLimit": "Planner test consumes different supplied masks; actual runtime reset/add hooks are root integration work, not falsely claimed tested here."
+  },
+  "postReviewDocClarificationOnly": true,
+  "currentScopeDocSha256": "ab88bb59fae0554f68287171fa5054b3bb00b141471e4d26ea903efb0f901476",
+  "integrationGaps": [
+    "Root must wire real per-enemy participation set/bitmask and per-slot application before declaring live behavior complete.",
+    "Parent retains EV/level/stat/learnmove callbacks and cumulative EXPgrowthcap per recipient.",
+    "Explicit player ownership only for current intended own acquisitions; no OTnameguess/trade reconstruction.",
+    "No doubles/multi-partner behavior, evolution or EVmodifier implementation."
+  ],
+  "noEditsTo": [
+    "battle.ts",
+    "main.ts",
+    "world.ts",
+    "types.ts"
+  ]
+}

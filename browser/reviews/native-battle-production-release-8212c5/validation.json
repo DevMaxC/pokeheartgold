@@ -1,0 +1,35 @@
+{
+  "runtimeSourceCommit": "8212c5be87384ec296e3baa1523f7c2dbf667674",
+  "baseProductionCommit": "5b7ac9fb4a8373e164f95d33024ec1135722d082",
+  "validation": {
+    "fullSuite": {
+      "passed": 258,
+      "failed": 0,
+      "cancelled": 0,
+      "logSha256": "f5f5a2b72d84a7cbb2fa5e19de78a5873fc8f9713fd432526f0778fb62f4aeaa"
+    },
+    "build": {
+      "command": "npm run build",
+      "typescriptExitCode": 0,
+      "viteExitCode": 0,
+      "logSha256": "ec947fbac5a38be654785152e26fb662ba253b5a1952a9e814cf17deb6949f85",
+      "javascript": {
+        "path": "/assets/main-CmD7cQrj.js",
+        "bytes": 748486,
+        "sha256": "593e61519855098010f4708a78c875f35cb1bee1d02820ebf3aba2cb653a5b9a"
+      }
+    }
+  },
+  "scope": [
+    "Native single-battle party experience planning and payout floors, per-enemy participation, EXP/level processing before subsequent actions and residual phases.",
+    "Surviving actors retain valid actions after recoil and selected move slots are reread after between-action learning.",
+    "Native bounded no-target predicate, explicit unported charge lifecycle and zero effective speed.",
+    "The sole release graph adaptation to reviewed feaa790 Battle is an import of two byte-identical eligibility predicates from an isolated leaf instead of the unshipped Egg lifecycle."
+  ],
+  "limits": [
+    "No browser/native ROM playthrough; collaborative preview unavailable.",
+    "Complete native battle effects, abilities, items, AI, doubles, Draw, trades/disobedience and global RNG sequence remain outside this patch.",
+    "No changes to field main, rendering, building/terrain repairs, UI, data/types or assets.",
+    "Final merge and deployed serving bytes are not yet verified by this pre-release receipt."
+  ]
+}

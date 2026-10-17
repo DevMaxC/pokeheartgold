@@ -1,0 +1,39 @@
+{
+  "nativeSourceCommit": "2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+  "proofSHA256": "b647cab37e092c71d11c80546947865ed2b62d2a3957c499ef343bef7e26dc88",
+  "files": [
+    {
+      "path": "src/battle/battle_controller_player.c",
+      "sha256": "ac75a056728f54624529a6d58a55ca953bb071cb2ffef1fcdecfd64d7c341d0d"
+    },
+    {
+      "path": "src/battle/battle_util.c",
+      "sha256": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949"
+    },
+    {
+      "path": "include/constants/moves.h",
+      "sha256": "72c58ed137cd5737e5c5fb8f43dfe70904f6f09618c75ab7b92b97062444b6d9"
+    },
+    {
+      "path": "include/constants/move_effects.h",
+      "sha256": "0d736130d5f6b38243da8ffac7d06e822ec8ccc75a608043c2d04f7a76184357"
+    },
+    {
+      "path": "files/battledata/script/subscript/subscript_0281_NoTarget.s",
+      "sha256": "cfabe3d805dd759a41cc15cce0438a40da48c1f93a10c4b65f11ce2b1713781a"
+    },
+    {
+      "path": "browser/public/source/moves.json",
+      "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb"
+    },
+    {
+      "path": "browser/public/source/learnsets.json",
+      "sha256": "b3364190eb81d410021602c6ee963fd2fc0849448b954ef7fe345b7e35887d00"
+    },
+    {
+      "path": "browser/public/source/messages/197.json",
+      "sha256": "3fdfd1e47867f831785e58f419686fa53520c6a96c5442ce67c8ce550463965a"
+    }
+  ],
+  "stateBoundary": "Single battles in modeled browser state; charge/locked-turn lifecycles remain unsupported; no native-ROM/browser claim"
+}
