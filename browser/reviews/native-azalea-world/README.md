@@ -1,0 +1,41 @@
+# Native Azalea Gym renderer and resources
+
+This leaf supplies original resources and an isolated renderer/controller. It does **not** change World, main, ScriptVM, State, collision, UI or audio, and does not make Azalea Gym playable until those host bindings are integrated. No browser, production build or manual visual approval is claimed.
+
+The base is native progression `5c39d05d32b56aa5aeb848d61f4c6e089299b1ce`. Planner dependencies are the source changes from `a1f68482` and its corrected transition lifecycle `12d176cf`; do not reintroduce a1f's obsolete connection retention. Ordinary Continue restores saved stations/switches. Both native connection and warp OnTransition paths reset them.
+
+## Original resource proof
+
+Map180/matrix105/area29 selects room model bank0 and prop texture27. The original room archive is `files/a/1/4/8`; its animation lists are `a/1/0/8`, with animation payloads in `a/1/0/6`. Models115/116 use joint animations25/26 and27/28;117 uses actual texture-pattern animations23/24;122 uses41/42. The dynamically spawned spider is room model118 with animation43. All five original shape-list counts are zero, so their complete original models render. The exporter asserts each native object-name order equals the converter skeleton order before adding stable native joint indices.
+
+The missing `props/0-118-27.glb` is exported. Existing static GLBs stay unchanged; four dedicated model GLBs plus four actual texture/palette PNGs and a source-hashed resource manifest live under `public/source/azalea-gym/`. The converter's geometry, UVs, vertex colors, native images, indices and skin buffers are retained. Pose playback changes joint matrices and clone-owned pattern material bindings rather than rewriting those buffers or recoloring materials.
+
+Apicula writes 60fps animation timelines, normalizes rotations and replaces zero rest scales with2e-6. Those clips remain available for inspection, but playback uses literal SDK integer-frame matrices instead. The native rails include an exactly zero-scale hidden branch. Joint animation43 has30 source frames; the four rail clips each have3. Translation/scale are constant in this actual corpus, and animated rotations are full-rate integer frames. Unsupported sampled/decimated/model-relative encodings reject explicitly. The exported inverse scale values remain recorded. Runtime local matrices use the source fixed-point rotation and scale entries without quaternion normalization; this is not a claim of bit-identical DS GPU fixed-point vertex arithmetic.
+
+The independent Python test compiles the original `getRotDataByIdx_` C function and its literal assembly pivot table: all180 animated spider rotation samples match. Another independent decoder checks every one of4,096 exported switch PNG pixels against the exact original texture and palette selected by PAT0. It also verifies native IDs, source hashes, flags, frame counts, native zero scales and unsupported-ABI rejection. Regeneration of all10 resource files is byte-identical. These checks establish finite source/resource fidelity, not a browser rendering pass.
+
+## Host API
+
+`loadAzaleaGymResources('/source/')` returns shared cache-owned models/images and retains converted inspection clips. Cache that promise with rejection eviction. `disposeAzaleaGymResources(resources)` belongs to the cache owner after all placed controllers are gone. `AzaleaGymWorld.leave()`/`dispose()` release only placed skeletons and clone PAT materials; shared geometry/images/material templates stay reusable. A superseded async load cannot publish clones.
+
+Construct `new AzaleaGymWorld(scene, loadResources, optionalNativeTickDriver)`. Call `enter(map, saved, 'continue'|'connection'|'warp')` during map admission and await it. The returned copied state is what the host saves. The synchronous `init(saved, entryKind)` supports the actual AzaleaGymInit script hook after admission; it rejects during an action. `state` is a defensive copy; `loadedMapId`, `active`, `moving` and `spiderModels` expose current ownership. `cancel()` aborts the current action. `leave()` must run on every field exit, including failed or superseded admission.
+
+While this controller owns MAP_AZALEA_GYM only, skip the normal static placements for `AZALEA_MANAGED_MODELS`115/116/117/122. The controller uses the exact six native placement transforms and spawns all four spiders. Other room prop IDs and every other map retain their normal pipeline. In particular, suppressing those IDs globally would be wrong. Do not run generic building repairs over these native animated models. `updateNativeTick()` advances the static shared source animation phase at30 ordinary field ticks/sec.
+
+`flipSwitch(index, {switchSound, commitState})` changes the source bit and attached rail/PAT poses immediately, commits copied state, then awaits the real source switch sound.0 toggles bit0/models116+117;1 toggles bit1/models115+122. This is not a color swap or player teleport. The sound port owns actual cue admission/completion and must observe its AbortSignal.
+
+`ride(station, hooks)` requires the native boarding tile and an occupied valid route. Required ports:
+
+- `waitFollower(signal)` awaits native follower movement completion.
+- `captureRiders()` captures player/follower render positions, grid/previous coordinates, held movement/animation and any height override; its returned function restores that checkpoint after a same-owner failure.
+- `stepRiders(direction, 'board'|'disembark', signal)` runs an actual original step for both active riders and waits for completion. Source commands12/13 use2native units per tick,8ticks per tile and animation3 (`map_object_movement_commands.c`). The controller checks the player's actual destination; returning a resolved promise without moving cannot start a ride. After disembarking, the host clears the follower's held movement as native case9 does.
+- `holdPlayer(73|74)` sets/clears the player's native flag8. `MapObject_IsBillboardAnimPaused` makes73 freeze the **player's billboard animation**, then74 releases it; do not interpret this as hiding the actor or freezing both riders indiscriminately.
+- `placeRiders(pose)` applies source per-tick player/follower positions and Y0 overrides while the source task directly owns their position. It must not derive their positions from a fresh terrain query during travel.
+- `dockRiders(pose)` commits the final player/follower tile and previous coordinates from the source endpoint and releases the travel position override at the correct boundary. Source state commits at the last movement tick, before this docking tick.
+- `cameraOffset(z)` sets the small cumulative source Z offset for both view position and target, preserving orbit; it is not an additive offset on every call. Seven shake ticks contain four alternating1/16-tile deltas and finish at0. Cancellation also clears the owned offset.
+- `trackPlayer(enabled)` receives the original MapLoadManager tracking changes at segment starts, including the source's negative-X case. This is a streaming-target hint, not a camera-orbit reset.
+- `facing()` supplies source direction0..3 for the shake sign; `robotSound(playing)` starts/stops the original moving-spider cue; `commitState(copy)` publishes a copied puzzle state at the native endpoint.
+
+The source wait phases are5ticks after boarding, source fixed-point movement ticks,1dock tick,7shake ticks,9wait ticks, then awaited disembarking. The first0→4 ride has209 movement ticks; its full duration also depends on the actual follower/actor/audio hosts. The controller never fabricates a fixed total duration. Its default display driver executes every elapsed30Hz source tick, including catch-up ticks, with no implicit60fps clip playback. Injected drivers are still guarded against stale callbacks. Failures restore current-owner state/riders; unloading cleans owned sound/camera/tracking effects without publishing old poses into the next map.
+
+The host must wire these ports to real mechanisms and retain the source action checkpoint. Original SE audio assets, World/VM admission, dynamic actor/collision integration, production save/recovery and actual perspective/manual review remain separate, explicit work. No synthetic effect or silent unsupported pose is supplied here.
