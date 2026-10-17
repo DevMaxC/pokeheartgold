@@ -1,0 +1,5 @@
+# Preserve immutable raw review logs and patch evidence byte-for-byte.
+*.log -whitespace
+*.txt -whitespace
+*.patch -whitespace
+*.tap -whitespace

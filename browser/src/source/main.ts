@@ -286,9 +286,6 @@ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unkno
   state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
-  // Global interface preferences may change while a source action owns State.
-  // Gameplay options remain checkpoint-owned; sound/text use the live host.
-  state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
   abortBagUse();followerPrevious=null;resetFieldInput();transitioning=true;connecting=false;musicKey='';musicRequestSerial++;world.beginFieldTransition();fieldActors?.reset();ui.loading('Restoring the area…');
   try{
     fieldPhone.restore(snapshot.phone);
