@@ -153,6 +153,14 @@ test('a pending Settings music retry releases exact handlers and subscription wi
   }finally{f.restore();}
 });
 
+test('confirming a focused Retry twice cannot activate Settings Back when the request disables the button',async()=>{
+  const f=fixture();let release!:()=>void;try{
+    let status={pending:false,message:'Retry when ready.',canRetry:true},calls=0;
+    Object.assign(f.ports,{musicStatus:()=>status,retryMusic:()=>{calls++;return new Promise<void>(resolve=>{release=resolve;});}});
+    const pending=f.panels.settings();void pending.catch(()=>{});f.clock.flush();f.node('setting-music-retry').focus();f.d.key('Enter');assert.equal(calls,1);assert.equal(f.node('setting-music-retry').disabled,true);f.d.key('Enter');await tick();assert.equal(f.ui.panelOpen,true);assert.equal(f.saves,0);assert.match(f.html(),/Make yourself at home/);status={pending:false,message:'',canRetry:false};release();await tick();assert.equal(f.ui.panelOpen,true);f.d.key('Escape');await pending;
+  }finally{release?.();f.restore();}
+});
+
 test('settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely',async()=>{
   const f=fixture();try{
     const parent=f.panels.menu();let resolved=false;void parent.then(()=>{resolved=true;});

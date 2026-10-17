@@ -165,6 +165,21 @@ test('a stalled blackout restore releases gameplay at the return deadline and la
  }finally{gate.resolve();c.f.controls.fetch=undefined;try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
 });
 
+test('background restores stop at the current battle owner and cannot resume a second retained fallback or clear its error',async()=>{
+ const c=fixture(),gate=deferred(),entered=deferred();let clock:ReturnType<typeof deadlineClock>|undefined,pending:Promise<any>|undefined;
+ try{await c.prepare();clock=deadlineClock(c);
+  // Source-equivalent retained entries: an interrupted cue session plus the
+  // snapshot used by a later silent fallback. Keep the real player/closures;
+  // only their admission into the existing queue is arranged by this fixture.
+  const session=c.music.createCueSession(),signal=new AbortController();await session.start({id:1019,key:'SEQ_GS_C_YOSHINO'},signal.signal);const saved=c.music.capture();signal.abort();c.state.map=73;c.map=map(73);
+  // The destination must require actual uncached I/O rather than the session
+  // track above, so select Surf, whose bytes were not prepared by either cue.
+  c.f.catalog.maps['73']={day:{id:1014,key:'SEQ_GS_NAMINORI'},night:{id:1014,key:'SEQ_GS_NAMINORI'}};
+  c.f.controls.fetch=async(url:string)=>{entered.resolve();await gate.promise;return c.f.files.get(url).slice(0);};c.pendingMusicRestores.add((signal?:AbortSignal)=>session.restore(signal));c.pendingMusicRestores.add((signal?:AbortSignal)=>c.music.field.restore(saved,signal));c.syncMusic();await entered.promise;
+  c.controls.battleGate=deferred();pending=c.startBattle([mon(16)]);await clock.advance(1500);assert.equal(c.battle.active,true);assert.notEqual(c.musicError,'');const count=c.f.sources.length;c.f.controls.fetch=undefined;gate.resolve();await flush();assert.equal(c.f.sources.length,count,'an old background loop must not run its next fallback through a newer battle suspension');assert.notEqual(c.musicError,'','the old map request must not clear the current battle failure');assert.ok(c.pendingMusicRestores.size,'the next restore remains owned until the battle return');c.controls.battleGate.resolve();await pending;assert.equal(c.battleSoundOwned,false);assert.equal((c.music.capture()as any).cue.id,1014);assert.equal(c.pendingMusicRestores.size,0);
+ }finally{gate.resolve();c.controls.battleGate?.resolve();c.f.controls.fetch=undefined;try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
+});
+
 test('failed cue decoding still runs the battle with old field phase paused, then restores it',async()=>{
  const c=fixture();try{await c.prepare();const entered=deferred();c.f.controls.fetch=async()=>{throw Error('audio decoder unavailable');};c.controls.battleGate=deferred();const start=c.battle.start.bind(c.battle);c.battle.start=async(...args:any[])=>{entered.resolve();return start(...args);};const pending=c.startBattle([mon(16)]);await entered.promise;assert.equal(c.battleSoundOwned,true);assert.equal(c.battle.active,true);assert.equal(c.f.sources.length,1);c.f.contexts[0].currentTime=50;assert.equal((c.music.capture()as any).positionSeconds,6);assert.ok(c.log.some((v:any)=>Array.isArray(v)&&v[0]==='suspend'));c.controls.battleGate.resolve();await pending;assert.equal(c.battleSoundOwned,false);assert.equal(c.f.sources.at(-1).offset,6);assert.equal(c.music.capture().kind,'playing');
  }finally{await c.dispose();}

@@ -47,7 +47,7 @@ function watchMusic(listener:()=>void){musicListeners.add(listener);return()=>{m
 function musicFailed(error:unknown){musicError=String(error);musicRetryable=!(error instanceof UnsupportedNativeMusic);musicChanged();if(musicNotice)return;musicNotice=musicError;console.warn(error);if(preferences.music)ui.toast(musicRetryable?'Music is unavailable. You can retry in Settings.':'This original music is unavailable.');}
 function clearMusicFailure(){musicError='';musicNotice='';musicRetryable=true;musicChanged();}
 function musicStatus(){return{pending:!!musicRequestPending||!!unlockPending||musicPreferencePending>0,message:musicError?(musicRetryable?'Music could not load. You can retry.':'This original track is unavailable.'):'',canRetry:!!musicError&&musicRetryable&&!battleSoundOwned};}
-async function retryMusicRestores(signal?:AbortSignal){for(const restore of pendingMusicRestores){if(signal?.aborted)throw signal.reason;await restore(signal);pendingMusicRestores.delete(restore);}}
+async function retryMusicRestores(signal?:AbortSignal){for(const restore of pendingMusicRestores){if(!signal&&battleSoundOwned)return;if(signal?.aborted)throw signal.reason;await restore(signal);pendingMusicRestores.delete(restore);}}
 function musicDeadline(message:string){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(new DOMException(message,'TimeoutError')),MUSIC_WAIT_MS);return{controller,clear:()=>clearTimeout(timer)};}
 function unlockSound(){
   if(music.isUnlocked()){soundUnlocked=true;return;}if(unlockPending)return;soundUnlocked=false;
@@ -64,7 +64,7 @@ async function retryMusic(){
 function syncMusic(){
   if(!started||!map||battle?.active||battleSoundOwned)return;
   const hour=new Date().getHours(),key=JSON.stringify([map.id,hour,state.flags,preferences.music,preferences.volume]);if(key===musicKey)return;musicKey=key;const request=++musicRequestSerial;
-  const pending=music.playMap(map,{hour,flags:state.flags}).then(async()=>{if(request!==musicRequestSerial||key!==musicKey)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey||battleSoundOwned)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
+  const pending=music.playMap(map,{hour,flags:state.flags}).then(async()=>{if(request!==musicRequestSerial||key!==musicKey||battleSoundOwned)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey&&!battleSoundOwned)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey||battleSoundOwned)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
 }
 function textDelay(){return [8,4,1][preferences.textSpeed]*1000/60;}
 const touch=new TouchControls($('touch-pad'),{interact:()=>{unlockSound();void interact().catch(reportInputError);},menu:()=>{unlockSound();void menu().catch(reportInputError);}});
