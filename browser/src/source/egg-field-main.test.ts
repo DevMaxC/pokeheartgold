@@ -20,6 +20,7 @@ const {createNativeHatchMusicSession}=await load('browser/src/source/hatch-music
 const {FieldPhoneHost}=await load('browser/src/source/phone-field-host.ts');
 const {phoneCall}=await load('browser/src/source/phone.ts');
 const {ScriptVM,UnsupportedScript}=await load('browser/src/source/script.ts');
+const {findCoordinateTrigger}=await load('browser/src/source/coordinate-triggers.ts');
 const {FieldObjects}=await load('browser/src/source/objects.ts');
 const {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction,runFieldBattleAction}=await load('browser/src/source/script-recovery.ts');
 const {TrainerAttemptLatch,trainerEventPriority}=await load('browser/src/source/trainer-encounters.ts');
@@ -36,7 +37,7 @@ const data=await loadData(),nativeMap=await sourceJSON('maps/73.json');
 const main=await readFile(root+'/browser/src/source/main.ts','utf8');
 const ast=ts.createSourceFile('main.ts',main,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
 const functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node.getText(ast)]));
-const names=['save','tweenPlayer','captureField','restoreField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','wildEncounter','runFieldEntry','enterMap','pollFieldInput','refreshPhoneIndicator','answerPhone','fieldRTCObservation','pollPhoneAdmission'];
+const names=['save','tweenPlayer','captureField','restoreField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','wildEncounter','runFieldEntry','enterMap','pollFieldInput','refreshPhoneIndicator','answerPhone','fieldRTCObservation','pollPhoneAdmission','scriptWarp'];
 for(const name of names)assert.ok(functions.has(name),'actual main function missing: '+name);
 const begin=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='begin');
 let vmInitializer;function visit(node){if(ts.isBinaryExpression(node)&&node.left.getText(ast)==='vm'&&ts.isNewExpression(node.right)&&node.right.expression.getText(ast)==='ScriptVM')vmInitializer=node.right.getText(ast);ts.forEachChild(node,visit);}visit(begin);assert.ok(vmInitializer,'actual begin ScriptVM initializer');
@@ -76,7 +77,7 @@ async function fixture({counter=4,readyEgg=false,fainted=false}={}){
  ui.printMessage=ui.message;
  class HatchView{constructor(_world,actors,options){this.actors=actors;this.signal=options.signal;log.push(['hatch-view-cry',options.cry]);}async reveal(scene){log.push('reveal');assert.equal(state.party[1].isEgg,false);await controls.reveal?.(scene,this.signal);}async cry(scene){log.push('cry');log.push(['cry-request',scene.cry]);await controls.cry?.(scene,this.signal);}async finish(){log.push('finish');await controls.finish?.();}cancel(){log.push('cancel');}}
  const phoneButton={hidden:true},fieldPhone=new FieldPhoneHost(phoneRules,controls.rtcSeconds,12);
- const c={state,data,map,objects,fieldPhone,fieldPolling:false,phoneCall,$:id=>{assert.equal(id,'phone-ring');return phoneButton;},world,player,follower,ui,battle:{active:false,start:unexpected},ready:true,started:true,walking:false,transitioning:false,recoveryPrompt:false,hatching:false,hatchFollowerPendingCommit:false,followSpecies:155,followMon:state.party[0],followerSuppressed:false,playerDirectionLocked:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,restoringGym:false,lastWarp:'',lastCoord:'',lastError:'',keys:new Set(),drag:false,npcTweenY:new Map(),trainerApproachTasks:new Map(),frameTriggerGate:new SourceTriggerGate(),phoneAdmissionGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],Date:class extends FieldDate{static now(){return controls.rtcSeconds*1000;}},Promise,AbortController,structuredClone,console:{error(){},warn:console.warn},SAVE_KEY:'test-native-save',localStorage:{setItem:(_key,text)=>writes.push(JSON.parse(text))},ScriptVM,UnsupportedScript,SourceActionRecovery,runRecoverableSourceAction,runFieldBattleAction,trainerEventPriority,firstFollowerMon,isUsableBattler,advancePartyEggStep,recordEggHatchEvent,presentNativeEggHatch,createNativeHatchMusicSession,WorldEggHatchView:HatchView,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,fieldEntryScripts,movementAction,gymFieldEntry,createMon,giveMon,
+ const c={state,data,map,objects,fieldPhone,fieldPolling:false,phoneCall,$:id=>{assert.equal(id,'phone-ring');return phoneButton;},world,player,follower,ui,battle:{active:false,start:unexpected},ready:true,started:true,walking:false,transitioning:false,recoveryPrompt:false,hatching:false,hatchFollowerPendingCommit:false,followSpecies:155,followMon:state.party[0],followerSuppressed:false,playerDirectionLocked:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,restoringGym:false,lastWarp:'',lastCoord:'',lastError:'',keys:new Set(),drag:false,npcTweenY:new Map(),trainerApproachTasks:new Map(),frameTriggerGate:new SourceTriggerGate(),phoneAdmissionGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],Date:class extends FieldDate{static now(){return controls.rtcSeconds*1000;}},Promise,AbortController,structuredClone,console:{error(){},warn:console.warn},SAVE_KEY:'test-native-save',localStorage:{setItem:(_key,text)=>writes.push(JSON.parse(text))},findCoordinateTrigger,ScriptVM,UnsupportedScript,SourceActionRecovery,runRecoverableSourceAction,runFieldBattleAction,trainerEventPriority,firstFollowerMon,isUsableBattler,advancePartyEggStep,recordEggHatchEvent,presentNativeEggHatch,createNativeHatchMusicSession,WorldEggHatchView:HatchView,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,fieldEntryScripts,movementAction,gymFieldEntry,createMon,giveMon,
   tween:async(seconds,frame)=>{log.push(['tween',seconds,state.x,state.z,c.sourceActions.busy]);frame(.5);await controls.tween?.();frame(1);},encounterChecks:{step(){log.push('encounter-step');},reset(){},roll(){assert.equal(c.sourceActions.busy,false,'wild admission must follow committed step');return true;}},landSlot:()=>0,
   tryTrainerEncounter:async()=>{log.push('trainer');return controls.trainer;},warp:async(...args)=>{log.push(['warp',...args]);await controls.warp?.();},enterMap:unexpected,
   scriptCameraMovement:()=>null,setScriptCameraTarget:unexpected,SCRIPT_CAMERA_ACTOR:241,beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,mapWeather:()=>7,refreshNPCs(){log.push('refresh');},updateHUD(){},requestAnimationFrame:unexpected};
@@ -295,4 +296,20 @@ test('Return pauses identical failed phone input, while changed input/map re-adm
  c.state.phoneTriggers=[998];await c.pollFieldInput();assert.equal(failures(),3);await c.pollFieldInput();assert.equal(failures(),3);
  Object.assign(c.map,{id:34});c.state.map=34;await c.pollFieldInput();assert.equal(failures(),4);await c.pollFieldInput();assert.equal(failures(),4);
  c.state.phoneTriggers=[];const draws=phoneDraws(c,[0,0]);await c.pollFieldInput();assert.equal(failures(),4);assert.equal(draws(),2);assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,0);
+});
+
+test('actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher',async()=>{
+ const c=await fixture(),ilex=JSON.parse(await readFile(root+'/browser/public/source/maps/117.json','utf8'));
+ const event=ilex.events.coords.find(row=>row.val==='STICKS_ACTIVE');assert.ok(event,'literal original named coordinate event');
+ c.map=ilex;c.state.map=ilex.id;c.state.x=event.x+.5;c.state.z=event.z+.5;c.vm.set(event.var,ilex.constants.STICKS_ACTIVE);
+ const scripts=[];c.runScript=async script=>{scripts.push(script);return true;};c.checkFrameTriggers=async()=>false;
+ await c.checkEvents();assert.deepEqual(scripts,[event.scriptId]);
+ c.lastCoord='';c.vm.set(event.var,ilex.constants.STICKS_ACTIVE+1);scripts.length=0;c.wildEncounter=async()=>false;
+ await c.checkEvents();assert.deepEqual(scripts,[],'a named source literal must not turn the stick event unconditional');
+});
+
+test('actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction',async()=>{
+ const c=await fixture(),entries=[];c.enterMap=async(...args)=>{entries.push({args,facing:c.state.facing});};c.state.facing=3;
+ await c.vm.hooks.warp(117,15,65,0);assert.deepEqual(entries,[{args:[117,15.5,65.5],facing:0}]);
+ c.state.facing=2;await c.vm.hooks.warp(164,4,5);assert.deepEqual(entries[1],{args:[164,4.5,5.5],facing:2});
 });
