@@ -1,0 +1,64 @@
+{
+  "purpose": "Demonstrate each accepted initial-review gap is now independently detected; no live source mutation",
+  "runtimeSha256": "10aba7042db71a4f97c70b358d90abb20f70db05a40f198afe480e2e8deb16c1",
+  "testSha256": "f87e0dfc1ebd169324a451c108ce2ce8f7f7de51cf460d243df2b08a322453f8",
+  "results": [
+    {
+      "mutation": "reset-stage2-score",
+      "kind": "controlled negative source mutation, not historical production bytes",
+      "before": "\n  let maximum=0;picked=6;",
+      "after": "\n  let maximum=0;picked=6;score=0;",
+      "mutantRuntimeSha256": "3b348ec377d36fa9ab2a4ab628d6981c6cfcf2e1e2652798f334cf43120f0d9d",
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "src/source/battle-replacement.test.ts"
+      ],
+      "exitCode": 1,
+      "log": "/tmp/hg-trainer-replacement-mutation-reset-stage2-score.log",
+      "logSha256": "601cb32dfde59b9dccc9e1b0773530ea495d4b0d656d7066f6e618ccb7cdca2b",
+      "failedTests": [
+        "not ok 6 - Stage2 makes separate byte assignments before/after type application and reuses skipped-move score"
+      ]
+    },
+    {
+      "mutation": "drop-move-type-override",
+      "kind": "controlled negative source mutation, not historical production bytes",
+      "before": "evaluator.applyCurrentActorType(move,override,score)",
+      "after": "evaluator.applyCurrentActorType(move,0,score)",
+      "mutantRuntimeSha256": "a00c7f0948645d2d945ac6499e0106f5233f0f9b9e38e12063841bf172cc6781",
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "src/source/battle-replacement.test.ts"
+      ],
+      "exitCode": 1,
+      "log": "/tmp/hg-trainer-replacement-mutation-drop-move-type-override.log",
+      "logSha256": "40a440460a4e77cd5f20106b5734f7cb235cc86ffb9917730a73cb60768c37de",
+      "failedTests": [
+        "not ok 6 - Stage2 makes separate byte assignments before/after type application and reuses skipped-move score"
+      ]
+    },
+    {
+      "mutation": "substitute-gravity-for-charge",
+      "kind": "controlled negative source mutation, not historical production bytes",
+      "before": "(!charge||environment.chargeMoveHit)",
+      "after": "(!charge||environment.gravity)",
+      "mutantRuntimeSha256": "0d88d2e693f109fa574431a979cb063a2902d49e45b004c7033af3b00e5efcfd",
+      "command": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "src/source/battle-replacement.test.ts"
+      ],
+      "exitCode": 1,
+      "log": "/tmp/hg-trainer-replacement-mutation-substitute-gravity-for-charge.log",
+      "logSha256": "9d7d58f1423a2e639cf129198d8a44e1667b890a1e80f0a3b24975765047e9de",
+      "failedTests": [
+        "not ok 4 - actual native flag helpers include candidate ability, target held effect, charge state and source ordering"
+      ]
+    }
+  ]
+}

@@ -58,6 +58,7 @@ export class OriginalWorld {
   target=new THREE.Vector3();
   loading=false;
   battleStage:WorldBattleView|null=null;
+  fieldTasks:{frame:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null=null;
   fieldEffect:{active:boolean;update:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null=null;
   constructor(readonly canvas:HTMLCanvasElement,readonly index:SourceIndex,readonly sprites:Record<string,SpriteInfo>){
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));this.renderer.setSize(innerWidth,innerHeight);this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.NoToneMapping;
@@ -86,7 +87,7 @@ export class OriginalWorld {
   private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
   /** Keep the last rendered view while an asynchronous warp replaces the
    * scene. Incoming player coordinates must never steer the outgoing rig. */
-  beginFieldTransition(){this.fieldEffect?.cancel(Error('Field transition interrupted the field presentation'));this.cameraTransition=true;}
+  beginFieldTransition(){this.fieldTasks?.cancel(Error('Field transition interrupted native field tasks'));this.fieldEffect?.cancel(Error('Field transition interrupted the field presentation'));this.cameraTransition=true;}
   endFieldTransition(){this.cameraTransition=false;if(this.cameraResizePending){this.cameraResizePending=false;this.resizeRenderer();}}
   private resizeRenderer(){this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);}
   /** Check the shared budget and build in the same continuation. Returning
@@ -94,6 +95,8 @@ export class OriginalWorld {
    * before any of them consumes the budget. */
   private async runSceneryWork(generation:number,build:()=>void){if(generation!==this.generation)return false;let pending:Promise<void>|null;while((pending=terrainPause())){await pending;if(generation!==this.generation)return false;}build();return true;}
   get fieldTransitionActive(){return this.cameraTransition;}
+  get fieldMapID(){return this.activeHeader;}
+  get fieldMapRunning(){return this.activeHeader>=0&&!this.cameraTransition&&!this.battleStage?.active&&!this.fieldEffect?.active;}
   get scriptCameraPosition(){return this.scriptCameraTarget?.position??null;}
   createScriptCameraTarget(map:number,x:number,z:number){
     if(map!==this.activeHeader)throw Error('Camera target belongs to an inactive source field');
@@ -122,6 +125,7 @@ export class OriginalWorld {
     }finally{if(ownsTransition)this.endFieldTransition();}
   }
   async connect(id:number,x:number,z:number,weather=0){
+    if(id!==this.activeHeader)this.fieldTasks?.cancel(Error('Connected field changed during native field tasks'));
     if(id!==this.activeHeader)this.fieldEffect?.cancel(Error('Connected field changed during the field presentation'));
     if(id!==this.activeHeader)this.clearScriptCameraTarget();
     const map=await this.map(id);if(map.matrix!==this.activeMatrix)throw Error('Connected field headers must share their source matrix');
@@ -234,6 +238,7 @@ export class OriginalWorld {
     }finally{this.scene.remove(group);for(const b of balls){b.geometry.dispose();(b.material as THREE.Material).dispose();}}
   }
   draw(x:number,z:number,dt:number,actorY?:number){
+    this.fieldTasks?.frame(dt);
     if(this.cameraTransition)return;
     this.grassTime+=dt;updateGrass(this.grassTime,x,actorY??this.height(x,z),z);
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}

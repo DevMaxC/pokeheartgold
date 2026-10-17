@@ -1,0 +1,53 @@
+Native Cut field host + shared field clock integration contract (provisional, not attached to main)
+
+Dependencies: Native 0d6ddf9c0cb1bc0bc181abf1ea7e68c25bf4db7b; reviewed original Cut commits 4d5431e0,0d509f9e,9a46fed2,b8801e8d cherry-picked separately. This leaf changes only World minimal hooks and adds native-field-clock.ts/tests, cut-field-host.ts/tests. No main/VM/UI/music-player changes.
+
+Install once for actual loaded field lifetime:
+  const clock = new NativeFieldClock({
+    field: () => ({map:world.fieldMapID,mapRunning:started && world.fieldMapRunning}),
+    onError: scopedDiagnosticSink
+  });
+  clock.attach(world);
+World.draw synchronously calls frame(dt) before transition/battle/Egg early returns. No extra RAF/timer or camera branch. Main owns actual `started`/field-parent admission; UI.busy or VM.busy do not mean native field-map stopped. World guards transition, battle overlay and camera-owning hatch presentation. Native background streaming `loading` is unrelated.
+
+Clock API:
+  createScope(map, ownerSignal) -> NativeFieldTaskScope
+  scope: map, signal, active, tick, phase, waitFrames(n, signal?), dispatch(asyncWork, signal?), onTick(syncCallback), cancel(reason?)
+  clock: tick, phase, frame(dt), settled(), cancel(reason?), dispose(), failure
+`dispatch` starts during next admitted scripts phase; `waitFrames` releases there. Runnable Promise continuations drain through one REAL MessageChannel task before queue callbacks. External IO/UI still pending does not become source-equivalent native work. Task callbacks are synchronous opaque controller blocks in stable registration order, not a general DS SysTask priority/insertion emulator. New task-phase registrations reject. At most one native tick per draw, no overlapping async phase or catch-up bursts; stalls slow native execution. Persistent phase/tick is not reset for a new Cut/action or map. Actual transition cancels all scopes; owner abort/scope.cancel cancels only that scope. A rejected dispatch alone does NOT drain non-cooperative underlying work; controller must abort and await its owned work before rollback.
+
+Azalea: one map180 scope owns static updates; separate scopes own action ticks. It consumes this driver; no second World slot/clock. host.leave before real map transition may restore original view while old map is present, then World transition synchronously cancels all scopes.
+
+Cut admission (NOT wired until real ports exist):
+  host = new NativeCutFieldHost(world, preloadedOriginalCutResources, {
+    clock, state:()=>currentState, running:()=>actualFieldParentRunning,
+    ownerSignal, actors:{snapshot,cutIn,swap,jump,reset},
+    cancelScript, onError,
+    audio:{output:()=>({context:shared.context,destination:shared.output}),enabled:()=>sound,onStatus}
+  }); host.admit();
+Observe host.failure, clock.failure and audio status through explicit diagnostics. The shared music player supplies the EXISTING unlocked Context/master gain/lifetime; never new Context/resume/BGM ownership. Effect templates/resources remain caller-owned. Host owns effect clones/voices only. Host.dispose does not dispose shared clock or native templates.
+
+Host.run(originMap,actionSignal,()=>actualVM.run(...)) MUST be inside outer SourceActionRecovery. It preflights actual Cut SE before dispatch, owns actor/effect/source completion and drains before rejection/rollback. Root saves only after complete presentation/transaction. Native script HidePerson owns tree visibility/flag; host never removes the tree. Ordinary transitions when no Cut is owned must not cancel an unrelated VM.
+
+Required unresolved actor/UI ports (no substitutes in this leaf):
+- cutIn(slot,context,scope): actual original kind0 native banner SYS-TASK completion (done flag). The host then exposes completion at the next source script poll; reviewed VM supplies its separate bytecode resume tick, so source StartFX is done+2. Do not add another native-script poll inside the actor port. Original resource/presentation must be exported/implemented; immediate or synthetic banner is NOT accepted.
+- swap(mode1|2,context,scope): native player/follower TaskManager FSM, logical map coordinates/baseY, actual movement/turn completion, source parent resumes at child completion.
+- jump(count,context,scope): actual native follower hop state machine (including source first hop for count0); Diglett/Dugtrio skip is source-backed here.
+- reset(context): source synchronous FollowPlayerMovement_Reset.
+- snapshot(): logical player/follower tile, exact ground/baseY, registered actual State party mon, native follower visibleFlag. Do not use rendered/hopping/interpolated coordinates or sprite visibility. FollowMonIsInactiveOrVisible is not plain followerActive.
+- cancelScript(reason): cancel the OWNED VM and signal/cancel only its owned UI message/choice waits, so their Promises drain. Blanket ui.close could clobber another owner and is not accepted. Every async actor adapter honors context.signal and drains its writes/resources before rejecting; it consumes scope phase/waits rather than per-effect timers. Field-map/State replacement cancels and rolls back.
+
+Literal source basis:
+- src/main.c107-110: overlay/FieldSystem TaskManager before main SysTask queue.
+- src/field_system.c123: mapRunning = parent overlay exists AND runningFieldMap, not busy inversion.
+- src/field_system.c184 +src/task.c: TaskManager runs before parent overlay; TRUE child completion resumes parent in same tick.
+- src/sys_task.c: tasks inserted outside queue can run same main frame; this leaf implements admitted controllers, not all generic priority insertion rules.
+- src/field/field_3d_object_task.c: model updates are mapRunning guarded.
+- src/field/field_move_effects.c1092-1117: wrapper priority0 polls model, sets state1 then deletes next queue pass; original model priority1024,45 model updates +observe+delete =47 queue passes. Effect queue starts same dispatch frame when dispatch occurs in scripts phase.
+- reviewed VM393f local Cut native callbacks: StartFX TRUE yield +Wait7 callbacks +resumption tick =HidePerson at dispatch+9, not seven.
+- src/field/follow_mon_interaction.c1457: Diglett/Dugtrio omit hop child; TRUE opcode still yields.
+- src/follow_mon.c1930: signed follower mood saturates[-127,127].
+
+Tests use actual original map34/std10000 VM/FieldObjects/SourceRecovery/GLB and actual OriginalWorld prototype. Actor completion fixture is intentionally a TEST ADAPTER, not native cut-in/swap/hop rendering or live visual approval. No Vite build/browser run; full presentation remains pending real ports/main binding.
+
+Review follow-up: host admission begun in task phase awaits current clock.settled() under owned try/finally before registration, then rechecks map/owner. Scope cancellation forwards its exact reason. Source scrcmd_sound.c122–133 confirms WaitCry uses SetupNativeScript too; host cry completion is exposed at next native poll, so bytecode follows on the subsequent tick. Swap/hop remain same-tick TaskManager child completions and deliberately receive no such extra poll. Four actual source/host regressions failed against initial leaf; all81 current tests pass.

@@ -1,0 +1,100 @@
+TAP version 13
+# (node:6503) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Azalea room resources spawn four source spiders and reset only native transition entries
+ok 1 - actual Azalea room resources spawn four source spiders and reset only native transition entries
+  ---
+  duration_ms: 210.118041
+  type: 'test'
+  ...
+# Subtest: PAT loading preserves the native material REPEAT sampler and rejects a converter clamp mismatch
+not ok 2 - PAT loading preserves the native material REPEAT sampler and rejects a converter clamp mismatch
+  ---
+  duration_ms: 18.480916
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-second-corrections/browser/src/source/gym-azalea-world.test.ts:81:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-second-corrections/browser/src/source/gym-azalea-world.test.ts:86:392)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: reentrant unload inside a source tick never runs later rider, hold or sound ports after cleanup
+not ok 3 - reentrant unload inside a source tick never runs later rider, hold or sound ports after cleanup
+  ---
+  duration_ms: 246.501208
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-second-corrections/browser/src/source/gym-azalea-world.test.ts:115:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    track must not resume forward work after release
+    + actual - expected
+    
+    + [
+    +   {
+    +     rider: {
+    +       fixed: {
+    +         x: 597904,
+    +         z: 1770818
+    +       },
+    +       follower: {
+    +         x: 9.623291015625,
+    +         y: 0,
+    +         z: 28.520538330078125
+    +       },
+    +       model: {
+    +         x: 9.623291015625,
+    +         y: 0,
+    +         z: 27.020538330078125
+    +       },
+    +       player: {
+    +         x: 9.623291015625,
+    +         y: 0,
+    +         z: 27.520538330078125
+    +       }
+    +     }
+    +   }
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0:
+      rider:
+        fixed:
+          x: 597904
+          z: 1770818
+        model:
+          x: 9.623291015625
+          y: 0
+          z: 27.020538330078125
+        player:
+          x: 9.623291015625
+          y: 0
+          z: 27.520538330078125
+        follower:
+          x: 9.623291015625
+          y: 0
+          z: 28.520538330078125
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-second-corrections/browser/src/source/gym-azalea-world.test.ts:119:149)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 1
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1269.252292

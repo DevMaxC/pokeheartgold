@@ -1,0 +1,13 @@
+# Final trainer replacement review adjudication
+
+Commit8cbd4f1d3341dd937f71b63ab10d0f9df7abaed7 on base d0900800545927c135760296ab0ee18df7f0c8f6. Exactly2new files, clean isolated worktree. Runtime SHA10aba7042db71a4f97c70b358d90abb20f70db05a40f198afe480e2e8deb16c1; testf87e0dfc1ebd169324a451c108ce2ce8f7f7de51cf460d243df2b08a322453f8.
+
+Actual claude-opus-5-5 final25turns/133579ms, no provider errors or denials: no confirmed defects/callback mismatches/false coverage, all initialG1/G2/G3 test gaps CLOSED. Independent post-run verification found all230inputs unchanged/no extra files. Reviewer did not execute tests or compute hashes; agent9/9focused tests, TSC and diffchecks passed. Initial39turn324498ms review is separately immutable at ../native-trainer-replacement-initial-ae1dac55 and its accepted gaps are not hidden.
+
+G1 uses Psychic target so no Stage1SE shortcircuit, then asserts actualStage2Tackle tuple; carried80 beats20 on power1/empty slots. G2 logs/deep-compares EVERYnative(move,typeOverride,scoreU8) tuple and exercises a real FirePlate Judgment override. G3 independently crosses gravity andchargeHit (1440flag contexts). Three controlled negative mutations each fail the intended fixture; these are deliberately synthetic, not historical production claims.5832type-score tuples independently compare imported chart against originalC table.
+
+Algorithm/runtime behavior stayed unchanged through review; only comments corrected native singles partner alias and fog-only undefined WeatherBall. ES2022 transpile with comments removed is byte-identical before/after (proof included), qualified as byte evidence only. Native harness singles nowaliases actor/opponent XOR1; optional partner override controller fixtures are explicitly synthetic.
+
+Integration remains independent: both heavy damage calls in the leaf oracle are neutral deterministic ports. Actual currentActorDamage/applyCurrentActorType full native damage, outgoing actor binding, engine sequencing and broader Azalea battle correctness are OUTSIDE this approval. Actual Bugsy species/moves/Technician/Sitrus metadata is checked, but leaf selection outcomes involving damage are explicitly port-dependent. Synthetic type/controller boundary cases are not encounter claims.
+
+Native defaults: preselected slot wins beforeAI; u8 wraps separately before/aftertype and each Stage1score addition; power0evaluates, power1/emptycarry; no PP/RNGin singles; full no-reserve Taskfallback returns party.length. Fallback checksHPonly, so valid nonEgg/nonempty trainer parties are host precondition. Missing dynamic metadata or undefined WeatherBall/no-supported-weather throws explicitly. See integration-contract.md for actual callback/field requirements.

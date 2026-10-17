@@ -1,0 +1,52 @@
+{
+  "baseCommit": "0d6ddf9c0cb1bc0bc181abf1ea7e68c25bf4db7b",
+  "changedFiles": [
+    "browser/src/source/mom-gift-host.test.ts",
+    "browser/src/source/mom-gifts.ts",
+    "browser/src/source/phone-field-host.test.ts",
+    "browser/src/source/phone-field-host.ts",
+    "browser/src/source/phone.ts",
+    "browser/src/source/script.ts"
+  ],
+  "commands": [
+    {
+      "cwd": "browser",
+      "cmd": "node --experimental-transform-types --test src/source/mom-gift-host.test.ts",
+      "exitCode": 0,
+      "tests": 11,
+      "pass": 11
+    },
+    {
+      "cwd": "browser",
+      "cmd": "node --experimental-transform-types --test src/source/mom-gift-host.test.ts src/source/mom-savings.test.ts src/source/phone.test.ts src/source/phone-field-host.test.ts src/source/phone-random.test.ts src/source/phone-scheduler.test.ts src/source/item-pickup.test.ts src/source/cut-script.test.ts src/source/script-cache.test.ts src/source/trainer-scripts.test.ts src/source/script-recovery.test.ts src/source/egg-hatch-phone-trigger.test.ts",
+      "exitCode": 0,
+      "tests": 160,
+      "pass": 160
+    },
+    {
+      "cwd": "browser",
+      "cmd": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "cwd": ".",
+      "cmd": "git diff --cached --check",
+      "exitCode": 0
+    }
+  ],
+  "scope": "No main/World/UI/battle/types edits; previous Mom core unchanged; actual caller/appearance/economy integration remains separate",
+  "coverage": {
+    "actualMappedDeliverymen": 16,
+    "nativeCQueueSizes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "lateFailurePhases": "every awaited delivery message plus child/final refresh",
+    "negativeCapacityControl": "storage getter changes during HasSpace/GiveItem invariant; explicitly not normal source input or historicalproduction"
+  },
+  "remaining": "MartOnTransition std10200/10203 begins unsupportedMysteryGift; no inventedabsence or claimwholeMartentry. Nativefanfareaudio, bankUI, genericMothercustomphone, random/forceddialogue not added."
+}
