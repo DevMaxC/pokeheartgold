@@ -6,21 +6,23 @@
     "12d176cfe18c7733d7eaaaec25b33e3fc6444245"
   ],
   "checks": {
-    "nodeTests": 36,
+    "nodeTests": 41,
     "nodeFailures": 0,
-    "pythonTests": 3,
+    "pythonTests": 4,
     "pythonFailures": 0,
     "sdkOriginalCRotationSamples": 180,
     "nativePATPixels": 4096,
     "typescript": "PASS",
     "deterministicResourceFiles": 10,
-    "resourceRegenerationByteIdentical": true
+    "resourceRegenerationByteIdentical": true,
+    "sdkOriginalCFullPerFramePath": true,
+    "normalizationHardwareResults": "Exact integer DIV/SQRT replay on CPU, original C getRotData_ body"
   },
   "sourceSHA256": {
-    "browser/src/source/gym-azalea-world.ts": "c464cb386e4e9b3cdbde6f6b2b467c38b7b0890b0d16c59e91c95c72847e2e5c",
-    "browser/src/source/gym-azalea-world.test.ts": "7b6b27692b279e285ac39f3e582a1595e20eb275e49c7d902f1da811704cc003",
-    "browser/scripts/export_azalea_world.py": "99c036bfb7b7ca15076df1fd0fc60c2dded85117d5de8270d63eb4ae9e8e430a",
-    "browser/scripts/test_azalea_world_resources.py": "666bed6360f4c0123e7f3485c42381541103b10b4016f06186a7b6b9d4d02e86",
+    "browser/src/source/gym-azalea-world.ts": "5e8c38cb282ad0c92b8394677d6435b14d20c117fafb6c4cc806b80fa212a7fe",
+    "browser/src/source/gym-azalea-world.test.ts": "61f9d55bcd23af94c3f54d1202a974c753ae56c0dbf6e28faccdab8b7f9b631c",
+    "browser/scripts/export_azalea_world.py": "9b2ced38d59c9f48a9760c28ffa8dd39492fe35c48f3dcd21bd97c164f8cb9f0",
+    "browser/scripts/test_azalea_world_resources.py": "5b73e1cfd2c2efb13fe516c3afe39d418d62297ad366845fbf5e46e1429ef463",
     "browser/src/source/gym-azalea-plan.ts": "35f411f42dc34c22b07f14a14d5cf715a2274d3c4b0758ea65d44e38d4559730",
     "browser/src/source/azalea-gym-rules.ts": "ec3a989daf8865f8b84b4ba098b43ab5286b5bce2196a567f9fa977aefdbf5ff",
     "browser/public/source/azalea-gym/117-23.png": "ea5572c0313593b3ac2f685c702c94c5bc9f9e86b3e434f3c8cef5c93b461145",
@@ -31,14 +33,14 @@
     "browser/public/source/azalea-gym/model-116.glb": "2182ebfcffbb14bd0aa1c62471133694adb3086dd60da9d02b42d9ee9587f9f7",
     "browser/public/source/azalea-gym/model-117.glb": "d4dddf9184eb869ed27d7dc967f51a4f35f1a51228893c81625b8b00e595b29d",
     "browser/public/source/azalea-gym/model-122.glb": "b4b7fdc06930d9af0995bc04365d3e3cfa4c397a1040b45ea0d4e6f0e1d12ca9",
-    "browser/public/source/azalea-gym/resources.json": "8cc89e834b0e4a6922699ea634758afd5e6b437aa0c9953a2b14034b8d56d348",
+    "browser/public/source/azalea-gym/resources.json": "fdad812fe8e68f848814a2203249e2fa311809942edb5ff9b4835340905e7d81",
     "browser/public/source/props/0-118-27.glb": "bb223d02b4e5cc699d80cd547c9a68626469577e4753566e8a22c10c6125069b"
   },
   "logs": {
-    "tests.tap": "65ac23dd453a80878e07304bec7ce536202f5be5957264022707d11592ba4c98",
-    "native-resource-tests.txt": "90329f888cbe37a9a9f13a8573c686dff124b5b8eddede52039f5ce3d8e6c7fa",
+    "tests.tap": "aafc94118bdea884b5a6ff8ff51fe927b2825024df82073e5f0b7bc1f3c3246d",
+    "native-resource-tests.txt": "9335dc7def1fcf954dc1a4b585300a37c13fdb243087bc1e11601f7eda46c242",
     "typecheck.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "regeneration.json": "57dd0fd1eb5188333cfa5aaf56562fd4680003405c31203fdcb307c3b987e532"
+    "regeneration.json": "9e70031061a9398fe26ca8a254049f371e7f7356412d4945e7e2f9eefe66c826"
   },
   "limitations": [
     "No existing World/main/ScriptVM/State/collision/audio files changed.",
@@ -47,5 +49,11 @@
     "Literal local SDK matrices do not establish bit-identical DS GPU vertex arithmetic.",
     "Converter model/skin data is retained; actual final perspective appearance remains unreviewed."
   ],
-  "testedSourceCommit": "fb864a48f93e03930f28e42c76554ee407a4127d"
+  "testedSourceCommit": "8f4fb2ad83b146d8d0cf86127ab420403f53fc63",
+  "actualReview": {
+    "originalSource": "fb864a48f93e03930f28e42c76554ee407a4127d",
+    "raw": "opus-fb864a48/opus-result.json",
+    "adjudication": "review-adjudication.json",
+    "followup": "Pending scoped actual Opus review of8f4fb2ad"
+  }
 }

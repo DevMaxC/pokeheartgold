@@ -1,0 +1,83 @@
+{
+  "reviewedSourceCommit": "fb864a48f93e03930f28e42c76554ee407a4127d",
+  "reviewedHelperSHA256": "c464cb386e4e9b3cdbde6f6b2b467c38b7b0890b0d16c59e91c95c72847e2e5c",
+  "rawResult": "opus-fb864a48/opus-result.json",
+  "rawSHA256": "d2c6d3a5bbfe8ab4871dd9b76b25853e16daa456113e3b20188dbe6f5ea6d7e6",
+  "model": "claude-opus-5-5",
+  "scope": "Original leaf source review, not browser, integrated host or later-source approval",
+  "findings": [
+    {
+      "id": "M1",
+      "status": "confirmed-corrected-pending-followup-review",
+      "issue": "Unload omitted held73 release and owner-scoped rider override cleanup",
+      "change": "Required releaseRiders port; paired74; no departed-map checkpoint restore; reentrant cleanup guarded"
+    },
+    {
+      "id": "M2",
+      "status": "literal-source-cleared-for-current-data-and-guarded",
+      "issue": "Potential Maya/SSC parent-scale omission",
+      "evidence": "All five actual native MDL scalingRule bytes are0 Basic; g3d_cgtool_basic.c ignores inverseScale/ScaleEx. Exporter and placed renderer reject other rules. Texture texMtxMode0 is unrelated."
+    },
+    {
+      "id": "M3",
+      "status": "catastrophic-collapse-hypothesis-not-established",
+      "issue": "Converter zero-rest inverse bind amplification",
+      "evidence": "Actual rail115 joint2 rest translation=[0,0,0], not animated hidden translation. Private identity-bind reference changes only six scale/reciprocal words; 440 visible-state vertex comparisons, no vertex collapse; maximum1.8707454749809314e-6 native units ordinary Float32 error retained explicitly. Not exact DS GPU vertex equality.",
+      "artifact": "opus-fb864a48/zero-bind-vertex-comparison.json"
+    },
+    {
+      "id": "L1",
+      "status": "corrected-and-original-C-tested",
+      "issue": "Per-frame pivot row2 SDK normalization missing from proof and decoder",
+      "evidence": "Full original getRotData_ C, integer VEC_Normalize hardware replay, all180actual samples plus nonunit pivot control; actual resource frames unchanged"
+    },
+    {
+      "id": "L2",
+      "status": "confirmed-corrected",
+      "issue": "Already-aborted wrapper omitted host rejection handler",
+      "evidence": "Handler installed before aborted check; reentrant cancel/rejected-host fixture"
+    },
+    {
+      "id": "L3",
+      "status": "corrected",
+      "issue": "PAT material invalidated on unchanged texture each tick",
+      "evidence": "Map identity comparison; actual clone material version remains unchanged across source ticks"
+    },
+    {
+      "id": "L4",
+      "status": "corrected",
+      "issue": "Internal phase epochs discarded fractional display-frame remainder",
+      "evidence": "Per-action AbortSignal deadline cursor; two-phase50ms/70ms virtual RAF control"
+    },
+    {
+      "id": "L5",
+      "status": "bounded-and-corrected",
+      "issue": "Shared phase Init reset, PAT ownership assumptions and converter rest normalization",
+      "evidence": "Init preserves sharedtick; explicit single-track/single-frame0 key +32x32 I4/color0/clamp guards; literal native rest table"
+    },
+    {
+      "id": "U1",
+      "status": "mechanism-corrected-no-rendered-visibility-claim",
+      "issue": "Cached skinned culling sphere can lag current pose",
+      "evidence": "Actual native frame0-to3 bounding invalidation/recomputation fixture. Old diagnostic264outside vertex samples,max0.00022443466895794018native units; no camera witness claimed."
+    },
+    {
+      "id": "U2",
+      "status": "source-adjudicated-current-native-instance-order",
+      "issue": "Animation uses source spiderIdx as dynamic prop index",
+      "evidence": "fieldmap.c creates a fresh FieldSystem dynamic MapPropManager, separate from per-map static managers; GymmickInit_Azalea loads four118spiders first via first-inactive slot. Carts0..3 match those dynamic slots. Static six native placements remain separate."
+    },
+    {
+      "id": "U3",
+      "status": "explicit-render-phase-scope",
+      "issue": "DS render packet vs main task frame phase",
+      "evidence": "Native field overlay advances animations/builds render before main queue ride task; this leaf publishes post-source-task position/pose per tick. It does not emulate a prior-frame DS GPU command packet. Actual host30Hz scheduling/manual viewing pending."
+    }
+  ],
+  "remaining": [
+    "Existing World/main/ScriptVM/State/collision/audio ports not integrated by this leaf",
+    "Actual native sound cue admission/completion and actor/follower movement host pending parent",
+    "Browser perspective/manual run, production build/save/recovery unclaimed",
+    "No game completeness or all-building visual approval"
+  ]
+}

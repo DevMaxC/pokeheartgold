@@ -1,0 +1,12 @@
+import * as THREE from '/Users/maxchurch/Documents/pokeheartgold/browser/node_modules/three/build/three.module.js';
+import {GLTFLoader} from '/Users/maxchurch/Documents/pokeheartgold/browser/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import {readFile,writeFile} from 'node:fs/promises';
+import {applyAzaleaJointFrame} from '/Users/maxchurch/Documents/pokeheartgold-azalea-world/browser/src/source/gym-azalea-world.ts';
+const base='/Users/maxchurch/Documents/pokeheartgold-azalea-world/browser/public/source/',manifest=JSON.parse(await readFile(base+'azalea-gym/resources.json','utf8')),rows=[];
+for(const id of [115,116,118]){
+ const entry=manifest.models[id],raw=await readFile(base+entry.asset),size=raw.readUInt32LE(12),doc=JSON.parse(raw.subarray(20,20+size).toString());delete doc.images;delete doc.textures;delete doc.samplers;for(const m of doc.materials??[])delete m.pbrMetallicRoughness?.baseColorTexture;let text=JSON.stringify(doc);text+=' '.repeat((-Buffer.byteLength(text))&3);const json=Buffer.from(text),tail=raw.subarray(20+size),b=Buffer.alloc(20+json.length+tail.length);raw.copy(b,0,0,20);b.writeUInt32LE(b.length,8);b.writeUInt32LE(json.length,12);json.copy(b,20);tail.copy(b,20+json.length);const scene=(await new GLTFLoader().parseAsync(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength),'')).scene;
+ const meshes=[];scene.traverse(o=>{if(o instanceof THREE.SkinnedMesh)meshes.push(o);});applyAzaleaJointFrame(scene,entry.animations[0],0);for(const m of meshes)m.computeBoundingSphere();
+ let maxOutside=0,count=0,witness=null;for(const animation of entry.animations)for(let frame=0;frame<animation.frameCount;frame++){applyAzaleaJointFrame(scene,animation,frame);for(const mesh of meshes){const position=mesh.geometry.getAttribute('position');for(let i=0;i<position.count;i++){const p=mesh.getVertexPosition(i,new THREE.Vector3()),outside=p.distanceTo(mesh.boundingSphere.center)-mesh.boundingSphere.radius;if(outside>1e-9){count++;if(outside>maxOutside){maxOutside=outside;witness={model:id,animation:animation.archive,frame,mesh:mesh.name,vertex:i,point:p.toArray(),cachedSphere:{center:mesh.boundingSphere.center.toArray(),radius:mesh.boundingSphere.radius},frustumCulled:mesh.frustumCulled};}}}}}
+ rows.push({model:id,verticesOutsideCachedSphere:count,maxOutsideNativeUnits:maxOutside,witness});
+}
+await writeFile('/tmp/hg-azalea-skinned-bounds.json',JSON.stringify(rows,null,2)+'\n');process.stdout.write(JSON.stringify(rows,null,2)+'\n');
