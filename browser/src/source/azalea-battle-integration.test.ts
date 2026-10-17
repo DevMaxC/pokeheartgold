@@ -43,7 +43,7 @@ test('actual Bugsy FocusEnergy uses raw critical stage and native Technician Qui
  const armor=fieldMon(347),blocked=rawTape(4);Reflect.set(f.battle,'rng',blocked.rng);assert.equal(monAbility(data,armor),'ABILITY_BATTLE_ARMOR');assert.equal(invoke(f,'critMultiplier',team[0],armor,move),1);assert.equal(blocked.calls,1);
 });
 test('actual Rival Spite records misses, drains four capped PP, and can exhaust a selected move',async()=>{
- const team=await originalTrainerParty(data,1),player=fieldMon(158),f=fixture(team,[player],()=>.9999),slot=sourceMove(player,'MOVE_WATER_GUN');await invoke(f,'attack',true,slot);assert.equal(volatile(f,player).previousMove,data.constants.MOVE_WATER_GUN);
+ const team=await originalTrainerParty(data,1),player=fieldMon(158),f=fixture(team,[player],()=>.9999),slot=sourceMove(player,'MOVE_SCARY_FACE');await invoke(f,'attack',true,slot);assert.ok(f.messages.some(text=>text.includes('missed')),'natural ScaryFace accuracy90 really misses at99; WaterGun100 did not');assert.equal(volatile(f,player).previousMove,data.constants.MOVE_SCARY_FACE);
  Reflect.set(f.battle,'rng',()=>noncrit);const before=player.moves[slot].pp;await action(f,false,'MOVE_SPITE');assert.equal(player.moves[slot].pp,before-4);assert.equal(volatile(f,team[0]).previousMove,data.constants.MOVE_SPITE);
  player.moves[slot].pp=2;await action(f,false,'MOVE_SPITE');assert.equal(player.moves[slot].pp,0);const hp=team[0].hp;await invoke(f,'attack',true,slot);assert.equal(team[0].hp,hp);assert.equal(player.moves[slot].pp,0);assert.equal(volatile(f,player).previousMove,0);
  player.status='SLP';player.sleepTurns=2;await invoke(f,'attack',true,slot);assert.equal(volatile(f,player).previousMove,0);assert.ok(f.messages.some(text=>text.includes('no PP')));
