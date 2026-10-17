@@ -27,7 +27,7 @@ export class Battle{
   private experienceMask=0;private fleeAttempts=0;private turns=0;private flinch=false;private messageText='';
   private identified=new Set<Mon>();private curled=new Set<Mon>();
   private roosting=new Set<Mon>();private raging=new Set<Mon>();private weather:BattleWeather='clear';
-  private selectedMoveSlots=new Map<Mon,number>();
+  private selectedMoveSlots=new Map<Mon,number>();private pendingMoves=new Map<Mon,number>();
   private volatiles=new Map<Mon,NativeBattlerVolatile>();private reflectTurns:[number,number]=[0,0];
   private tutorial=false;private noCritical=false;
   readonly data:GameData;readonly state:State;readonly ui:UI;readonly rng:()=>number;readonly view?:BattleView;
@@ -37,10 +37,10 @@ export class Battle{
   private random16(){return Math.floor(this.rng()*0x10000);}
   private rawHeld(mon:Mon){if(!mon.heldItem)return null;const item=this.data.items.find(item=>item.item===mon.heldItem);if(!item)throw Error('Missing native held item '+mon.heldItem);return item;}
   private held(mon:Mon){return monAbility(this.data,mon)==='ABILITY_KLUTZ'?null:this.rawHeld(mon);}
-  private clearBattleVolatiles(){this.volatiles.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.selectedMoveSlots.clear();}
+  private clearBattleVolatiles(){this.volatiles.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.selectedMoveSlots.clear();this.pendingMoves.clear();}
   private clearOnLeave(mon:Mon){
     const source=mon===this.player?0:1;for(const other of[this.player,this.enemy]){const value=this.volatile(other);if(value.meanLookSource===source)value.status2&=~nativeStatus2.meanLook;}
-    this.volatiles.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.selectedMoveSlots.delete(mon);
+    this.volatiles.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.selectedMoveSlots.delete(mon);this.pendingMoves.delete(mon);
   }
   private critMultiplier(attacker:Mon,defender:Mon,move:MoveData):1|2|3{
     if(this.noCritical)return 1;const ability=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender),effect=this.held(attacker)?.holdEffect;
@@ -64,7 +64,7 @@ export class Battle{
     // These callbacks need the complete native damage modifier pipeline. Do
     // not silently apply only the new screen/crit/self-hit part to that path.
     const attackAbility=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender);
-    if(['ABILITY_HUGE_POWER','ABILITY_PURE_POWER','ABILITY_SLOW_START','ABILITY_SIMPLE','ABILITY_UNAWARE','ABILITY_RIVALRY','ABILITY_SOLAR_POWER','ABILITY_FLOWER_GIFT','ABILITY_FLASH_FIRE','ABILITY_NORMALIZE','ABILITY_ADAPTABILITY','ABILITY_TINTED_LENS','ABILITY_RECKLESS','ABILITY_IRON_FIST'].includes(attackAbility)||['ABILITY_MARVEL_SCALE','ABILITY_THICK_FAT','ABILITY_HEATPROOF','ABILITY_DRY_SKIN','ABILITY_FILTER','ABILITY_SOLID_ROCK','ABILITY_SIMPLE','ABILITY_UNAWARE'].includes(targetAbility))throw Error('Unsupported native volatile damage ability');
+    if(['ABILITY_HUGE_POWER','ABILITY_PURE_POWER','ABILITY_SLOW_START','ABILITY_SIMPLE','ABILITY_UNAWARE','ABILITY_RIVALRY','ABILITY_SOLAR_POWER','ABILITY_FLOWER_GIFT','ABILITY_FLASH_FIRE','ABILITY_NORMALIZE','ABILITY_ADAPTABILITY','ABILITY_TINTED_LENS','ABILITY_RECKLESS','ABILITY_IRON_FIST'].includes(attackAbility)||['ABILITY_MARVEL_SCALE','ABILITY_THICK_FAT','ABILITY_HEATPROOF','ABILITY_DRY_SKIN','ABILITY_FILTER','ABILITY_SOLID_ROCK','ABILITY_SIMPLE','ABILITY_UNAWARE','ABILITY_WONDER_GUARD'].includes(targetAbility))throw Error('Unsupported native volatile damage ability');
     this.assertItemScope(attacker,defender);
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
@@ -87,8 +87,14 @@ export class Battle{
     if(abilities.includes(monAbility(this.data,defender)))throw Error('Unsupported native U-turn on-hit ability');
     for(const mon of[attacker,defender])if(['ABILITY_UNBURDEN','ABILITY_PRESSURE'].includes(monAbility(this.data,mon)))throw Error('Unsupported native U-turn ability/item lifecycle');
     const reserves=playerSide?this.state.party:this.enemies;for(const mon of reserves)if(isUsableBattler(mon))this.assertItemScope(mon,mon);for(const mon of reserves)if(isUsableBattler(mon)&&['ABILITY_INTIMIDATE','ABILITY_DOWNLOAD','ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING','ABILITY_ANTICIPATION','ABILITY_FOREWARN','ABILITY_FRISK'].includes(monAbility(this.data,mon)))throw Error('Unsupported native U-turn entry ability');
-    const foe=playerSide?this.enemy:this.player;
-    if(foe.moves.some(slot=>slot.pp>0&&slot.id===this.data.constants.MOVE_PURSUIT))throw Error('Unsupported native U-turn Pursuit phase');
+    const foe=playerSide?this.enemy:this.player,foes=playerSide?this.enemies:this.state.party;
+    // TryPursuit reads the still-unresolved selected action, not the party's
+    // learned moves. Sleeping/frozen, already-used or no-PP actions cannot
+    // intercept. A failed pivot/guaranteed opposing blackout skips0175 too.
+    if(this.pendingMoves.get(foe)===this.data.constants.MOVE_PURSUIT&&foe.hp>0&&!['SLP','FRZ'].includes(foe.status)&&foe.moves.some(slot=>slot.pp>0&&slot.id===this.data.constants.MOVE_PURSUIT)&&reserves.some(mon=>mon!==attacker&&isUsableBattler(mon))){
+      const lowerBound=moveDamage(this.data,attacker,foe,move,playerSide?this.playerStages:this.enemyStages,playerSide?this.enemyStages:this.playerStages,85,false,this.identified.has(foe),{roosting:this.roosting.has(foe),reflect:!!this.reflectTurns[playerSide?1:0]}).damage;
+      if(foes.filter(isUsableBattler).length!==1||lowerBound<foe.hp)throw Error('Unsupported native U-turn Pursuit phase');
+    }
   }
   private async checkConfusion(mon:Mon,stages:Stages,playerSide:boolean,selected:MoveData){
     const value=this.volatile(mon);if(!(value.status2&nativeStatus2.confusion))return false;
@@ -234,7 +240,7 @@ export class Battle{
     this.bagMenu();highlight('[data-item="ITEM_POKE_BALL"]');await pause();return{kind:'item',item:'ITEM_POKE_BALL'};
   }
   private async loop(){while(this.active){
-    this.roosting.clear(); // Native turnData.roostFlag lasts only this turn.
+    this.roosting.clear();this.pendingMoves.clear(); // Native turnData lasts only this turn.
     const action=await this.nextAction();this.actions=null;
     if(action.kind==='switch'&&(!isUsableBattler(this.state.party[action.index])||action.index===this.playerIndex))continue;
     if(action.kind==='switch'&&this.trapped('switch')){await this.say(`${this.player.name} can’t be switched out!`);continue;}
@@ -247,6 +253,7 @@ export class Battle{
     const moveAction=async(playerSide:boolean,actor:Mon,slot:number,selectedMoveId:number)=>{
       // A pivot replacement never inherits the outgoing actor's selected turn.
       // The other actor still targets the current opposing battler on execution.
+      this.pendingMoves.delete(actor);
       if(!this.active||(playerSide?this.player:this.enemy)!==actor||actor.hp<=0)return;
       await this.attack(playerSide,slot,selectedMoveId);await settleFaints();
     };
@@ -257,6 +264,7 @@ export class Battle{
     else if(action.kind==='item'){const used=await this.item(action.item);if(!this.active)break;if(used)await this.enemyTurn();else continue;}
     else{
       const player=this.player,enemy=this.enemy,playerMove=this.selectMove(player,action.slot),enemySlot=this.chooseEnemyMove(),enemyMove=this.selectMove(enemy,enemySlot);
+      this.pendingMoves.set(player,playerMove.id);this.pendingMoves.set(enemy,enemyMove.id);
       this.prepareRageTurn(player,action.slot);this.prepareRageTurn(enemy,enemySlot);
       const ps=this.effectiveSpeed(true),es=this.effectiveSpeed(false);
       const first=playerMove.priority>enemyMove.priority||(playerMove.priority===enemyMove.priority&&(ps>es||(ps===es&&this.rng()<.5)));

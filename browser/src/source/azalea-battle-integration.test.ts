@@ -73,7 +73,7 @@ test('player U-turn awaits native party choice, clears trapping and adds a livin
  const hp=team[0].hp;await invoke(f,'attack',true,0);continued=true;assert.ok(requested);assert.equal(f.battle.player,reserve);assert.ok(team[0].hp<hp);assert.equal(volatile(f,reserve).status2,0);assert.equal(Reflect.get(f.battle,'experienceMask'),3);assert.equal(pivot.moves[0].pp,move.pp-1);
 });
 test('U-turn rejects unported contact/Pursuit/item hooks before PP or HP mutation',async()=>{
- for(const mode of['poisonpoint','pursuit','lifeorb']as const){const team=await originalTrainerParty(data,21),target=fieldMon(mode==='poisonpoint'?29:mode==='pursuit'?198:155),f=fixture(team,[target]);if(mode==='poisonpoint')target.personality=(target.personality&~1)>>>0;if(mode==='lifeorb')team[0].heldItem='ITEM_LIFE_ORB';const before=structuredClone({team,target});await assert.rejects(action(f,false,'MOVE_U_TURN'),/Unsupported native/);assert.deepEqual({team,target},before,mode);}
+ for(const mode of['poisonpoint','pursuit','lifeorb']as const){const team=await originalTrainerParty(data,21),target=fieldMon(mode==='poisonpoint'?29:mode==='pursuit'?198:155),f=fixture(team,[target]);if(mode==='poisonpoint')target.personality=(target.personality&~1)>>>0;if(mode==='lifeorb')team[0].heldItem='ITEM_LIFE_ORB';if(mode==='pursuit')Reflect.get(f.battle,'pendingMoves').set(target,data.constants.MOVE_PURSUIT);const before=structuredClone({team,target});await assert.rejects(action(f,false,'MOVE_U_TURN'),/Unsupported native/);assert.deepEqual({team,target},before,mode);}
 });
 test('real Bugsy roster is defeated by legal actions without injected victory or linear party assumptions',async()=>{
  const team=await originalTrainerParty(data,21),player=fieldMon(155),f=fixture(team,[player]);f.state.bag.ITEM_POTION=8;let actions=0;Reflect.set(f.battle,'nextAction',async()=>{assert.ok(++actions<80);if(f.battle.player.hp<=Math.floor(f.battle.player.maxHP/2)&&f.state.bag.ITEM_POTION)return{kind:'item',item:'ITEM_POTION'};return{kind:'move',slot:sourceMove(f.battle.player,'MOVE_EMBER')};});
@@ -198,4 +198,16 @@ test('native NaturalCure clears U-turn Static before awaited party choice withou
 test('native Static is not suppressed by attacker MoldBreaker, while active sunlight LeafGuard prevents its status after the coin',async()=>{
  const pinsir=fieldMon(127,1);pinsir.personality=(pinsir.personality|1)>>>0;assert.equal(monAbility(data,pinsir),'ABILITY_MOLD_BREAKER');const moldTape=rawTape(0,1,0,0),mold=fixture([fieldMon(179,18)],[pinsir],moldTape.rng);await action(mold,true,'MOVE_VICE_GRIP');assert.equal(pinsir.status,'PAR');assert.equal(moldTape.calls,4);
  for(const weather of['sun','clear']){const leafeon=fieldMon(470,1);assert.equal(monAbility(data,leafeon),'ABILITY_LEAF_GUARD');const tape=rawTape(0,1,0,0),f=fixture([fieldMon(179,18)],[leafeon],tape.rng);Reflect.set(f.battle,'weather',weather);await action(f,true,'MOVE_TACKLE');assert.equal(tape.calls,4);assert.equal(leafeon.status,weather==='sun'?'':'PAR');}
+});
+
+test('a real Rattata knowing Pursuit but selecting FocusEnergy does not block Bugsy U-turn',async()=>{
+ const team=await originalTrainerParty(data,21),rat=fieldMon(19,18),f=fixture(team,[rat]);assert.ok(rat.moves.some(slot=>slot.id===data.constants.MOVE_PURSUIT));assert.ok(team[0].stats.speed>rat.stats.speed);await oneTurn(f,sourceMove(rat,'MOVE_FOCUS_ENERGY'),sourceMove(team[0],'MOVE_U_TURN'));assert.ok(rat.hp>0);assert.notEqual(f.battle.enemy,team[0]);assert.ok(volatile(f,rat).status2&bit.focusEnergy);
+});
+test('an actually selected unresolved Pursuit rejects the unsupported interception before U-turn PP or HP mutation',async()=>{
+ const team=await originalTrainerParty(data,21),rat=fieldMon(19,18),f=fixture(team,[rat]);const before=structuredClone({team,rat});Reflect.set(f.battle,'active',true);Reflect.set(f.battle,'chooseEnemyMove',()=>sourceMove(team[0],'MOVE_U_TURN'));Reflect.set(f.battle,'nextAction',async()=>({kind:'move',slot:sourceMove(rat,'MOVE_PURSUIT')}));await assert.rejects(invoke(f,'loop'),/Unsupported native U-turn Pursuit phase/);assert.deepEqual({team,rat},before);
+});
+test('Pursuit on a reserve is irrelevant; no-reserve or guaranteed-blackout pivots do not require interception',async()=>{
+ const team=await originalTrainerParty(data,21),rat=fieldMon(19,18),player=fieldMon(152),f=fixture(team,[player,rat]);await oneTurn(f,sourceMove(player,'MOVE_REFLECT'),sourceMove(team[0],'MOVE_U_TURN'));assert.notEqual(f.battle.enemy,team[0]);
+ const solo=await originalTrainerParty(data,21),target=fieldMon(19,18),g=fixture([solo[0]],[target]);Reflect.get(g.battle,'pendingMoves').set(target,data.constants.MOVE_PURSUIT);await action(g,false,'MOVE_U_TURN');assert.equal(g.battle.enemy,solo[0]);
+ const small=fieldMon(19,13),scyther=fieldMon(123,60),move=data.moves[data.constants.MOVE_U_TURN];assert.ok(data.personal[123].tms.includes(89));scyther.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];const h=fixture([small],[scyther,fieldMon()]);Reflect.get(h.battle,'pendingMoves').set(small,data.constants.MOVE_PURSUIT);await invoke(h,'attack',true,0);assert.equal(small.hp,0);assert.equal(h.battle.player,scyther);
 });
