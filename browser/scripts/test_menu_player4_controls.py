@@ -7,6 +7,7 @@ with tempfile.TemporaryDirectory(prefix='hg-root-menu-player4-controls-') as tem
  copy=Path(temporary);src=copy/'browser/src/source';src.mkdir(parents=True)
  for item in (root/'browser/src/source').glob('*.ts'):shutil.copy2(item,src/item.name)
  (copy/'browser/public').symlink_to(root/'browser/public',target_is_directory=True)
+ (copy/'browser/reviews').symlink_to(root/'browser/reviews',target_is_directory=True)
  paths=['azalea-field-sound.ts','repel-audio.ts'];original={name:(src/name).read_text() for name in paths}
  cases=[
  ('before-root-P4-API','azalea-field-sound.ts',None,None,'one Root P4 and one existing hook',subprocess.check_output(['git','show','c2a026be:browser/src/source/azalea-field-sound.ts'],cwd=root,text=True)),
@@ -16,6 +17,8 @@ with tempfile.TemporaryDirectory(prefix='hg-root-menu-player4-controls-') as tem
  ('duplicate-menu-decode','repel-audio.ts','if(prepared.has(id)&&prepared.get(id)===null)return;','if(false)return;','concurrent menu preparation',None),
  ('SELECT-ignores-native-mute','repel-audio.ts','if(id===1500&&options.selectMuted)return', 'if(false)return','native SELECT-only mute',None),
  ('menu-report-kills-Root','azalea-field-sound.ts','this.menuError=error;transport.dispose();','this.fail(error);','menu diagnostics failure remains local',None),
+ ('menu-ignores-action-lifetime','azalea-field-sound.ts','play(1500,owner,this.owner(signal),options)','play(1500,owner,this.owner(this.ports.signal),options)','menu dispatch needs prior actual preparation',None),
+ ('old-menu-owner-disposes-newer-transport','azalea-field-sound.ts','cancelMenuOwner(owner:object){this.menuTransport?.cancelOwner(owner);}','cancelMenuOwner(owner:object){this.menuTransport?.dispose();}','cleanup from one menu owner',None),
  ('partial-P4-constructor-leaks-listener','azalea-field-sound.ts','}catch(error){registry.dispose();throw error;}','}catch(error){throw error;}','partial menu constructor failure',None),
  ]
  records=[]
