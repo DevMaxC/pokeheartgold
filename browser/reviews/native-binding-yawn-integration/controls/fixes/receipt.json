@@ -1,0 +1,188 @@
+{
+  "sourceCommit": "729ece0f8cd7079c14fb6e83b97ae0f35e70bc80",
+  "createdAt": "2026-10-17T18:49:38.779788+00:00",
+  "cases": [
+    {
+      "name": "current27",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "browser/src/source/battle-binding-yawn-native.test.ts",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 0,
+      "observedExit": 0,
+      "log": "current27.log",
+      "logSha256": "74ef526ca35fe9544e12858da6ca44657c40dd4a850ac2f0f6efceaa87ed42cf",
+      "mutatedPath": null,
+      "before": null,
+      "after": null
+    },
+    {
+      "name": "before-entry-guards",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=binding and Yawn reject unhosted",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "before-entry-guards.log",
+      "logSha256": "0610727c18425e980b22d0ecc4c9df6e965dc856e3f01282487341631f8e684b",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": null,
+      "after": "exact historical428512d7 engine"
+    },
+    {
+      "name": "thaw-before-items",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=review regression: an actual PowderSnow",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "thaw-before-items.log",
+      "logSha256": "95c98629b1dae55307a10eb1007da17bb081c239d4276f14177a361de3f89f7d",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "    await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);\n    // Native AfterMoveEffects state6 follows held-item recovery. A landed\n    // damaging Fire hit thaws a living target without another random draw.\n    const effectiveType=monAbility(this.data,attacker)==='ABILITY_NORMALIZE'?this.data.constants.TYPE_NORMAL:move.type;\n    if(total>0&&defender.hp>0&&defender.status==='FRZ'&&effectiveType===this.data.constants.TYPE_FIRE){defender.status='';await this.say(`${defender.name} thawed out!`);}\n",
+      "after": "    // Native AfterMoveEffects state6 follows held-item recovery. A landed\n    // damaging Fire hit thaws a living target without another random draw.\n    const effectiveType=monAbility(this.data,attacker)==='ABILITY_NORMALIZE'?this.data.constants.TYPE_NORMAL:move.type;\n    if(total>0&&defender.hp>0&&defender.status==='FRZ'&&effectiveType===this.data.constants.TYPE_FIRE){defender.status='';await this.say(`${defender.name} thawed out!`);}\n    await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);\n"
+    },
+    {
+      "name": "thaw-after-KO",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=review regression: an actual PowderSnow",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "thaw-after-KO.log",
+      "logSha256": "0efd51f1f70dbfb0a09f3199a04c66944b80f41a572855747c3ee45ac9b9fe71",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "if(total>0&&defender.hp>0&&defender.status==='FRZ'",
+      "after": "if(total>0&&defender.status==='FRZ'"
+    },
+    {
+      "name": "sleep-flinch-backward",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=review regression: native sleep",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "sleep-flinch-backward.log",
+      "logSha256": "36270e1f7099758ed6f404bf1e4fb591da69bce91464b2f64139e721d372d898",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": null,
+      "after": "flinch moved before sleep"
+    },
+    {
+      "name": "sleep-actions-silent",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=review regression: sleeping Snore",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "sleep-actions-silent.log",
+      "logSha256": "2d6b90f273895d62188b25bdb154ac4969e44ba00fb3ae7fe70a0cabf8a39f7f",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "    if(attacker.status==='SLP'&&[this.data.constants.MOVE_SNORE,this.data.constants.MOVE_SLEEP_TALK].includes(move.id))throw Error('Unsupported native sleeping action '+move.key);\n",
+      "after": ""
+    },
+    {
+      "name": "expiry-not-rechecked",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=review regression: delayed Yawn",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "expiry-not-rechecked.log",
+      "logSha256": "ddd4f5bda1e54e6812623f9a4c54233a83954bb3ef07ba1248d89ce838fb1b19",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "    if(gate==='sleep')this.assertYawnSleepScope(mon);",
+      "after": ""
+    },
+    {
+      "name": "Trace-not-guarded",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=binding and Yawn reject unhosted",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "Trace-not-guarded.log",
+      "logSha256": "0426a5e58c7b34b80b17764b10961283eabbe265ae4e47106b82c69609cd2f33",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "['ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING']",
+      "after": "['ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING']"
+    },
+    {
+      "name": "QuickFeet-not-guarded",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=review regression: Yawn rejects newly",
+        "browser/src/source/battle-binding-yawn.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "QuickFeet-not-guarded.log",
+      "logSha256": "a83bb73ac40dd93353974229d6ae64a74d02ca8badb1e7218a88e5e7f254105c",
+      "mutatedPath": "browser/src/source/battle.ts",
+      "before": "['ABILITY_QUICK_FEET','ABILITY_MARVEL_SCALE']",
+      "after": "['ABILITY_MARVEL_SCALE']"
+    },
+    {
+      "name": "Safeguard-mislabeled",
+      "arguments": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "--test-timeout=60000",
+        "--test-name-pattern=original0141",
+        "browser/src/source/battle-binding-yawn-native.test.ts"
+      ],
+      "expectedExit": 1,
+      "observedExit": 1,
+      "log": "Safeguard-mislabeled.log",
+      "logSha256": "031467ae37090498bb5cca93858d258de89725c185cbddfdb446faca2d68f5c9",
+      "mutatedPath": "browser/src/source/battle-binding-yawn.ts",
+      "before": "if(context.safeguard)return{turns,outcome:'safeguard' as const};",
+      "after": "if(context.safeguard)return{turns,outcome:'failed' as const};"
+    }
+  ],
+  "sourceFilesUnchanged": true,
+  "qualification": "Separate copies only. Current27 pass, exact pre-entry-guard source fails, eight deliberate semantic regressions fail meaningful assertions. Resource/syntax errors rejected; no builds/browser/audio/global parity claim."
+}

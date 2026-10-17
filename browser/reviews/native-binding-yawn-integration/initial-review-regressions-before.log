@@ -1,0 +1,107 @@
+TAP version 13
+# (node:14658) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: review regression: an actual PowderSnow freeze is thawed by FireSpin after binding and held-status recovery
+not ok 1 - review regression: an actual PowderSnow freeze is thawed by FireSpin after binding and held-status recovery
+  ---
+  duration_ms: 306.9695
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:138:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'FRZ' !== ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: 'FRZ'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:139:406)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: review regression: native sleep decrements or wakes before an actual Bite flinch without spending PP
+not ok 2 - review regression: native sleep decrements or wakes before an actual Bite flinch without spending PP
+  ---
+  duration_ms: 155.902958
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:143:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    5 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 5
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:146:614)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+not ok 3 - review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+  ---
+  duration_ms: 1.11025
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:149:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:150:416)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: review regression: Yawn rejects newly sleep-activated unported abilities and a Truant caster before PP
+not ok 4 - review regression: Yawn rejects newly sleep-activated unported abilities and a Truant caster before PP
+  ---
+  duration_ms: 1.307875
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:153:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:154:281)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: review regression: delayed Yawn rechecks an incoming BadDreams provider before sleep mutation or draw
+not ok 5 - review regression: delayed Yawn rechecks an incoming BadDreams provider before sleep mutation or draw
+  ---
+  duration_ms: 0.620042
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:158:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-binding-yawn/browser/src/source/battle-binding-yawn.test.ts:159:328)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 0
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1958.744708

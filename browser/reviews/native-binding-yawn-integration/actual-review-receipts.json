@@ -1,0 +1,125 @@
+[
+  {
+    "review": "initial",
+    "sourceCommit": "b6510d66fb7d662fafc3c73b5958306644d41d21",
+    "requestedModel": "claude-opus-5-5",
+    "actualModelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 2394,
+        "outputTokens": 26,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.0025239999999999998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      },
+      "claude-opus-5-5": {
+        "inputTokens": 76,
+        "outputTokens": 48876,
+        "cacheReadInputTokens": 4476260,
+        "cacheCreationInputTokens": 173715,
+        "webSearchRequests": 0,
+        "costUSD": 2.7416510000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 37533,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "numTurns": 55,
+    "durationMs": 604095,
+    "isError": false,
+    "permissionDenials": [],
+    "result": "initial/raw-opus-result.json",
+    "qualification": "Actual read-only CLI review. Minor Haiku metadata usage is preserved verbatim. Tests are supplied agent evidence, not reviewer execution."
+  },
+  {
+    "review": "followup",
+    "sourceCommit": "729ece0f8cd7079c14fb6e83b97ae0f35e70bc80",
+    "requestedModel": "claude-opus-5-5",
+    "actualModelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 2228,
+        "outputTokens": 19,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.002323,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      },
+      "claude-opus-5-5": {
+        "inputTokens": 56,
+        "outputTokens": 32793,
+        "cacheReadInputTokens": 1994312,
+        "cacheCreationInputTokens": 122655,
+        "webSearchRequests": 0,
+        "costUSD": 1.6682214,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 24585,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "numTurns": 38,
+    "durationMs": 416010,
+    "isError": false,
+    "permissionDenials": [],
+    "result": "followup/raw-opus-result.json",
+    "qualification": "Actual read-only CLI review. Minor Haiku metadata usage is preserved verbatim. Tests are supplied agent evidence, not reviewer execution."
+  },
+  {
+    "review": "final",
+    "sourceCommit": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+    "requestedModel": "claude-opus-5-5",
+    "actualModelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 2425,
+        "outputTokens": 25,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.00255,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      },
+      "claude-opus-5-5": {
+        "inputTokens": 46,
+        "outputTokens": 23517,
+        "cacheReadInputTokens": 1084619,
+        "cacheCreationInputTokens": 70112,
+        "webSearchRequests": 0,
+        "costUSD": 1.0380078000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 17616,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "numTurns": 28,
+    "durationMs": 274469,
+    "isError": false,
+    "permissionDenials": [],
+    "result": "final/raw-opus-result.json",
+    "qualification": "Actual read-only CLI review. Minor Haiku metadata usage is preserved verbatim. Tests are supplied agent evidence, not reviewer execution."
+  }
+]

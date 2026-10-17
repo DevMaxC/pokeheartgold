@@ -1,0 +1,15 @@
+{
+  "runtimeCommit": "b6510d66fb7d662fafc3c73b5958306644d41d21",
+  "runtimeSha256": "fcb78887c27d66d21fa9fd78652dea83529d668967496310649b139523e06297",
+  "currentRegressionTestSha256": "c4468a3ebd9aea7e9f48c63f35c50da9d158f250ef2913c613038ffe57f2ac8b",
+  "arguments": [
+    "node",
+    "--experimental-transform-types",
+    "--test",
+    "--test-name-pattern=binding and Yawn reject unhosted",
+    "browser/src/source/battle-binding-yawn.test.ts"
+  ],
+  "observedExit": 1,
+  "logSha256": "a62887d7e0f1c5b61bd62cf96f1133665f43321b6780a5264f1e97fa2cda6c1b",
+  "qualification": "Exact actual initial-reviewed runtime/native/data, with current selected entry-admission regression. Missing rejection is a meaningful assertion, not infrastructure. No app build/browser/audio."
+}

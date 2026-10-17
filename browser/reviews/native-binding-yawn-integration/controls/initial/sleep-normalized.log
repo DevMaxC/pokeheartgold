@@ -1,0 +1,34 @@
+TAP version 13
+# (node:6614) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original TryYawn and UMC_YAWN C preserve other move flags and count down2→1→sleep; sleep raw modulo and EarlyBird are exact
+not ok 1 - original TryYawn and UMC_YAWN C preserve other move flags and count down2→1→sleep; sleep raw modulo and EarlyBird are exact
+  ---
+  duration_ms: 1462.168541
+  type: 'test'
+  location: '/private/tmp/hg-binding-yawn-controls-b6510d66/work/browser/src/source/battle-binding-yawn-native.test.ts:52:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    2 !== 3
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 3
+  actual: 2
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-binding-yawn-controls-b6510d66/work/browser/src/source/battle-binding-yawn-native.test.ts:60:39)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1573.984291

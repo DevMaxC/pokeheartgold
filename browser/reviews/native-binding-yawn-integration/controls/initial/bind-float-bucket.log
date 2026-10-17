@@ -1,0 +1,36 @@
+TAP version 13
+# (node:6568) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal native binding controller and Random C replay all u16 durations and complete countdowns
+not ok 1 - literal native binding controller and Random C replay all u16 durations and complete countdowns
+  ---
+  duration_ms: 299.914334
+  type: 'test'
+  location: '/private/tmp/hg-binding-yawn-controls-b6510d66/work/browser/src/source/battle-binding-yawn.test.ts:35:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 3587022277
+    - 1641323973
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1641323973
+  actual: 3587022277
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-binding-yawn-controls-b6510d66/work/browser/src/source/battle-binding-yawn.test.ts:42:358)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1244.152917

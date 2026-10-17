@@ -1,0 +1,28 @@
+{
+  "sourceCommit": "b6510d66fb7d662fafc3c73b5958306644d41d21",
+  "createdAt": "2026-10-17T18:33:30.193969+00:00",
+  "sourceHashes": {
+    "browser/src/source/battle.ts": "fcb78887c27d66d21fa9fd78652dea83529d668967496310649b139523e06297",
+    "browser/src/source/battle-binding-yawn.ts": "b05914c6f98068cb8934e73730c44c33cf678e5728d5a5d86b9719b4055d8316",
+    "src/battle/battle_controller_player.c": "ac75a056728f54624529a6d58a55ca953bb071cb2ffef1fcdecfd64d7c341d0d",
+    "src/battle/battle_util.c": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949",
+    "files/battledata/script/subscript/subscript_0014_FlinchMon.s": "cd88f647f84e5ed423692f6707bb17270f4bcaf69d18996249ee611aa89d5f52"
+  },
+  "findings": [
+    {
+      "id": "sleep-before-flinch",
+      "qualification": "Inherited host phase gap exposed by newly admitted Yawn, confirmed read-only copied actual-Battle probe. Combined roster of actual trainer23Slowpoke and trainer13Ekans is synthetic; moves/native mon metadata are original. No mandatory campaign claim.",
+      "expected": "Sleepcounter5 decrements4 before flinch, no PP spent. Native controller CheckAttackerStatus case1Sleep precedes case5Flinch; subscript0014 has no sleeping guard.",
+      "actual": "Actual Yawn\u2192two timer updates\u2192source withdrawal\u2192actual Bite\u2192selected sleepingGrowl leaves sleepcounter5 because host returnsFlinchfirst.",
+      "probe": "/tmp/hg-binding-yawn-controls-b6510d66/work/browser/src/source/binding-yawn-sleep-flinch-probe.test.ts",
+      "log": "/tmp/hg-yawn-sleep-flinch-current-probe.log",
+      "logSha256": "139f308e320df1bb0695eb9a1bc23be1531b079e54d934672b595d376e09d189"
+    },
+    {
+      "id": "new-status-callback-guards",
+      "qualification": "Source-confirmed unhosted callbacks; planned fail-explicit guard rather than fake behavior. No new source writes while actual immutable Opus review runs.",
+      "source": "QuickFeet util1056 status&0xff speed\u00d71.5; MarvelScale util5709 status defense\u00d71.5; BadDreams can enter after initial Yawn cast.",
+      "planned": "Pre-PP guard initial sleep-activated ability contexts; recheck current active callbacks/weather before delayed sleep. Preserve source scopePartial."
+    }
+  ]
+}

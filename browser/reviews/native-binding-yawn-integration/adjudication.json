@@ -1,0 +1,29 @@
+{
+  "finalSource": "40e398e6adbae11e41cd781ea19295d9f664b7c3",
+  "initialFindings": {
+    "fire-thaw": "closed428512d7; after held recovery, alive positive Fire damage, no extraRNG, miss/nonFire/KO/Aspear/Ember controls",
+    "sleep-freeze-before-flinch": "closed428512d7; actualBite sleep5->4 or1->0 beforeflinch, noPP; later added actualPowderSnow/Frozen/Bite representativeRNG phase controls",
+    "sleeping-Snore-SleepTalk": "closed428512d7; explicit Unsupported before sleep/PP/RNG; remains unadmitted"
+  },
+  "followupLowFinding": "closed40e398e6 by unresolved native entry provenance, not invented stage/weather. Provider departure retains affected Attack context and global unknown weather; actor departure clears its own Attack context; battle start/end/error clear all. Trace/no-opponent cases conservatively fail closed. Final actual review result remains authoritative within its scope.",
+  "testGaps": "Safeguard outcome distinguished, PAR uses nativeSTATUS_PARALYSIS, Normalize tested at post-hit callback only, exactb651 entry-oldfail supplied; initial/followup raw reviews preserved.",
+  "partial": [
+    "Unhosted entry abilities and immunity decisions are not implemented by guard histories. A benign/nativeimmune context can remain Unsupported.",
+    "Only new Bind/Yawn query new history; accepted Sports/LowKick behavior remains frozen and their old general entry limitations receive no transferred approval.",
+    "MagmaStorm nativeHeatran FlashFire modifier remains unhosted; effect42 family admission does not make every source user playable.",
+    "Old normalized accuracy/freeze/range and critical scheduling/globalLCG, uniformenemychoiceAI, broaderweather/abilities/items/forms/Transform/doubles/BatonPass and other unported effects remain Partial.",
+    "OriginalGrunt13Wrap move-phase and guard-history proofs do not certify its whole unhostedIntimidate entry/player-damage lifecycle.",
+    "Survey is a historical46trainer/149wild inventory with allowlist annotation only; no new crawler or unavoidable-walking proof."
+  ],
+  "finalConditionalTestComment": "Disproved by exact existing source40 action trace: RazorLeaf PHYSICALcategory0 uses Defense19, notSpDefense13; Attack25 deals38 leaving2HP, actualYawnPP10->9/drowsy. Existing leaked-weather mutation fails in the secondbattle. Later explicit PP/drowsy assertions harden clarity; no runtime change or false claim Opusreadlaterassertions.",
+  "reviewQualifications": [
+    "Initial empty TSC output was not independent exit proof; later actual subprocess returncode receipts record exit0 with stable before/after runtime hashes.",
+    "Historical initial control receipt had narrative count8 instead of7semantic mutations; corrected metadata preserves earlier receipt/hash and unchanged raw logs.",
+    "Prepared428snapshot was never reviewed and is excluded from all review approval."
+  ],
+  "finalReviewStatus": {
+    "runtime": "No new source/runtime error; provenance gap closed.",
+    "conditionalTestComment": "Disproved by actual existing-source trace and weather-leak control; later explicit assertions strengthen the test only.",
+    "noNewRuntimeAfterReview": true
+  }
+}

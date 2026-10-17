@@ -1,0 +1,30 @@
+TAP version 13
+# (node:41318) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: history regression: permanent ability weather stays unknown after a native provider switches out before Bind or Yawn
+not ok 1 - history regression: permanent ability weather stays unknown after a native provider switches out before Bind or Yawn
+  ---
+  duration_ms: 266.268583
+  type: 'test'
+  location: '/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle-binding-yawn.test.ts:173:1'
+  failureType: 'testCodeFailure'
+  error: 'Unsupported native Yawn prior ability weather'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Battle.assertBindingSleepEntryScope (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle.ts:389:44)
+    Battle.assertYawnSleepScope (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle.ts:396:10)
+    Battle.assertActionScope (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle.ts:92:52)
+    Battle.attack (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle.ts:464:10)
+    async moveAction (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle.ts:330:7)
+    async Battle.loop (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle.ts:343:73)
+    async <anonymous> (/private/tmp/hg-binding-yawn-history-controls/work/browser/src/source/battle.ts:276:5)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1278.875708
