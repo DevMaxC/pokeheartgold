@@ -143,6 +143,10 @@ write(Path('trainers.json'),json.loads((ROOT/'files/poketool/trainer/trainers.js
 write(Path('encounters.json'),json.loads((ROOT/'files/fielddata/encountdata/gs_enc_data.json').read_text()))
 write(Path('evolutions.json'),json.loads((ROOT/'files/poketool/personal/evo.json').read_text()))
 write(Path('items.json'),list(csv.DictReader((ROOT/'files/itemtool/itemdata/item_data.csv').open())))
+tmhm_source=re.search(r'static const u16 sTMHMMoves\[\] = \{(.*?)\n\};',(ROOT/'src/item.c').read_text(),re.S).group(1)
+tmhm_moves=[CONSTS[key] for key in re.findall(r'^\s*(MOVE_\w+)\s*,',tmhm_source,re.M)]
+if len(tmhm_moves)!=CONSTS['ITEM_HM08']-CONSTS['ITEM_TM01']+1:raise ValueError('Original TM/HM table does not cover TM01 through HM08')
+write(Path('tmhm-moves.json'),tmhm_moves)
 write(Path('growth.json'),{row[0].replace('GROWTH_',''):[int(x) for x in row[1:]] for row in csv.reader((ROOT/'files/poketool/personal/growtbl.csv').open()) if row[0].startswith('GROWTH_')})
 move_records=[]
 for id,b in enumerate(narc('files/poketool/waza/waza_tbl.narc')):

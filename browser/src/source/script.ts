@@ -1,4 +1,5 @@
-import {speciesName,titleCase,healParty} from './data.ts';
+import {isTMHMItem,tmhmMove} from './tmhm.ts';
+import {speciesName,titleCase,healParty,moveName} from './data.ts';
 import type {GameData,SourceMap,State} from './types.ts';
 import {sourceJSON} from './types.ts';
 import {hasBagSpace,addBagItem,takeBagItem} from './bag.ts';
@@ -87,7 +88,7 @@ export class ScriptVM{
     const conditions:Record<string,()=>boolean>={Eq:()=>compare===0,Ne:()=>compare!==0,Lt:()=>compare<0,Gt:()=>compare>0,Le:()=>compare<=0,Ge:()=>compare>=0};
     const v=(s:string)=>this.value(s,map);
     const originMap=this.context?.map??map;
-    const actor=(token:string)=>v(token)===SCRIPT_CAMERA_PERSON?SCRIPT_CAMERA_ACTOR:token.startsWith('obj_')?token:this.hooks.objectName?.(v(token))??originMap.events?.objects.find(n=>(originMap.constants[n.id]??this.data.constants[n.id])===v(token))?.id??token;
+    const actor=(token:string)=>v(token)===SCRIPT_CAMERA_PERSON?SCRIPT_CAMERA_ACTOR:token.startsWith('obj_')?token:originMap.events?.objects.find(n=>(originMap.constants[n.id]??this.data.constants[n.id])===v(token))?.id??this.hooks.objectName?.(v(token))??token;
     const activeTrainer=()=>{const script=this.context?.activeScript??scriptID,id=trainerIdForScript(script);if(id===null&&script!==TRAINER_APPROACH_SCRIPT)throw new UnsupportedScript(map.code,this.instruction?.command??'GetTrainerNum',pc-1);return id??740;};
     const engaged=(index:number)=>{const trainer=this.context?.approach?.trainers[index];if(!trainer)throw new UnsupportedScript(map.code,this.instruction?.command??'GetEyeTrainerNum',pc-1);return trainer;};
     try{
@@ -221,6 +222,8 @@ export class ScriptVM{
         if(cmd==='BufferMonSpeciesName'||cmd==='BufferPartyMonNick'||cmd==='BufferPartyMonSpeciesNameIndef'){const m=this.state.party[v(a[1])];this.buffers[v(a[0])]=m?(cmd==='BufferPartyMonNick'?m.name:cmd==='BufferPartyMonSpeciesNameIndef'?this.data.names.speciesIndefinite[m.species]:speciesName(this.data,m.species)):'';continue;}
         if(cmd==='BufferSpeciesName'){this.buffers[v(a[0])]=speciesName(this.data,v(a[1]));continue;}
         if(cmd==='BufferItemName'||cmd==='BufferItemNamePlural'||cmd==='BufferItemNameIndef'){const id=this.data.constants[this.itemKey(a[1],map)];this.buffers[v(a[0])]=this.data.names[cmd==='BufferItemNamePlural'?'itemsPlural':cmd==='BufferItemNameIndef'?'itemsIndefinite':'items'][id]||'';continue;}
+        if(cmd==='BufferTMHMMoveName'){const slot=Number(a[0]);if(!Number.isInteger(slot)||slot<0||slot>255)throw Error('Invalid native message buffer byte');this.buffers[slot]=moveName(this.data,await tmhmMove(this.data,v(a[1])));continue;}
+        if(cmd==='ItemIsTMOrHM'){this.set(a[1],Number(isTMHMItem(this.data,v(a[0]))));continue;}
         if(cmd==='GetItemPocket'){const item=this.data.items.find(item=>item.item===this.itemKey(a[0],map));this.set(a[1],this.data.constants[item?.fieldPocket||'POCKET_ITEMS']||0);continue;}
         if(cmd==='BufferPocketName'){const pockets=['Items','Medicine','Poké Balls','TMs & HMs','Berries','Mail','Battle Items','Key Items'];this.buffers[v(a[0])]=pockets[v(a[1])]||'Items';continue;}
         if(cmd==='BufferInteger'||cmd==='BufferNumber'){this.buffers[v(a[0])]=String(v(a[1]));continue;}

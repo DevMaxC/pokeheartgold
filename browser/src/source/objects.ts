@@ -15,7 +15,12 @@ export class FieldObjects{
   position(id:string,x:number,z:number,facing?:number){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);npc.x=x;npc.z=z;if(facing!==undefined)npc.facingDirection=facing;}
   movement(id:string,next?:number){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);if(next!==undefined){npc.movement=next;if(next>=14&&next<=17)npc.facingDirection=next-14;}return npc.movement;}
   facing(id:string){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);return npc.facingDirection;}
-  show(id:string,visible:boolean){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);npc.shown=visible;}
+  show(id:string,visible:boolean){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);
+    // HidePerson -> MapObject_Delete sets the original event flag. Keep it
+    // authoritative so re-entry and State+actor rollback recompute visibility.
+    // ShowPerson's broader legacy behavior is unchanged; it never clears flags.
+    if(!visible&&npc.eventFlag!=='FLAG_NOTHING'&&npc.eventFlag!=='0'){this.state.flags[npc.eventFlag]=true;npc.shown=undefined;}else npc.shown=visible;
+  }
   snapshot(){return [...this.objects.values()].map(npc=>{
     let sprite=npc.spriteId;const variable=sprite.match(/^SPRITE_VAR_(\d+)$/);
     if(variable){const key='VAR_OBJ_'+(Number(variable[1])-1),id=this.data.constants[key],value=(id===undefined?undefined:this.state.vars['#'+id])??this.state.vars[key];sprite=this.spriteNames.get(value)||sprite;}
