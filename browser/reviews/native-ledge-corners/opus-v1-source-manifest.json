@@ -1,0 +1,211 @@
+{
+  "baseCommit": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+  "createdUTC": "2026-10-17T13:47:06.198501+00:00",
+  "files": [
+    {
+      "path": "browser/scripts/export_terraces.py",
+      "sha256": "084fe40c83750cb6bf30738079d5e17cf26eae8dc9cc06ee3fc9afa8bc9c2a74",
+      "bytes": 15522
+    },
+    {
+      "path": "browser/scripts/ledge_corner_topology.py",
+      "sha256": "c2bf3619e76ff1c34465a5b9bdcdd7be7eac4987482b4a39af94e002c51eab89",
+      "bytes": 1623
+    },
+    {
+      "path": "browser/scripts/test_ledge_corner_topology.py",
+      "sha256": "1531a9474415f44c33757508bdc5ed1665a40e1e691dbe45bb50615c5f89ade7",
+      "bytes": 2900
+    },
+    {
+      "path": "browser/scripts/export_ledge_profiles.ts",
+      "sha256": "f8a63bfef0c42758612e9c5b154ea9db512cb3e552c4e2923ac8226cb0a4292c",
+      "bytes": 6945
+    },
+    {
+      "path": "browser/src/source/ledges.ts",
+      "sha256": "126b80dfa767b2e7b20e0d14b731a63b374ad661a67cd8a8ebaf94dc08d94966",
+      "bytes": 3187
+    },
+    {
+      "path": "browser/src/source/terrace-model.ts",
+      "sha256": "06c3d2d29fabdd66742b9492d2d064195d2e60cdd682f47a04f65f634d133e81",
+      "bytes": 10357
+    },
+    {
+      "path": "browser/src/source/terrain.ts",
+      "sha256": "7b35543ec261ac04cdfbe45d3ed2f22e4ef3087ed605d195f19d4ca5ff9fc3e1",
+      "bytes": 1248
+    },
+    {
+      "path": "browser/src/source/terrain-work.ts",
+      "sha256": "7c5f5ca96fbae174a82b8a952c76c71de2ab4312126f8738ca09528dd354a9b2",
+      "bytes": 660
+    },
+    {
+      "path": "browser/src/source/render-repair.ts",
+      "sha256": "aa95d94ec1a2a514df5929f78be53766104d594812d83713abae02e1a37b95a7",
+      "bytes": 46700
+    },
+    {
+      "path": "browser/src/source/tree-volume.ts",
+      "sha256": "5aa6ca7cb48cda6f87d9d21df5a3accc49cf963ca50f2490fe219ee7c0d1e8ab",
+      "bytes": 4971
+    },
+    {
+      "path": "browser/src/source/world.ts",
+      "sha256": "a4fefb36e93655552d7340a6dcb931f84809f12719fe98bed130fa9b06392904",
+      "bytes": 20620
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "397ad68bf0244d7413072a7019ecdba2c1229e554ac1a9acb91fb41ea004a956",
+      "bytes": 4380
+    },
+    {
+      "path": "browser/src/source/ledges.test.ts",
+      "sha256": "b5bd7def248fa9deb0d3cdd69afda064d3978833d6202dbce5a47f939645b19a",
+      "bytes": 4423
+    },
+    {
+      "path": "browser/src/source/terrace-model.test.ts",
+      "sha256": "372c6fb6d4e2e0a8dd695008847dd7ea7b74be5ba4de74e80f914506e6c188b7",
+      "bytes": 11274
+    },
+    {
+      "path": "browser/src/source/ledge-corners.test.ts",
+      "sha256": "0458ae775f1d5dd2bb8dc786a3b00e6892302ce7be4da33320e720f22c32f752",
+      "bytes": 9329
+    },
+    {
+      "path": "browser/src/source/foundations.ts",
+      "sha256": "6505e58b1f31a7047f84407c13fd1a7f940e7aeeaa2a549599627fa2ff3c35f1",
+      "bytes": 1475
+    },
+    {
+      "path": "browser/src/source/building-footing.ts",
+      "sha256": "e5afe47a932db5518a6625bf7789ff27629d98b1fc8092962a5562b6b6b12074",
+      "bytes": 3847
+    },
+    {
+      "path": "browser/package.json",
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251",
+      "bytes": 462
+    },
+    {
+      "path": "browser/tsconfig.json",
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0",
+      "bytes": 249
+    },
+    {
+      "path": "browser/public/source/terraces/0.json",
+      "sha256": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+      "bytes": 6926426
+    },
+    {
+      "path": "browser/public/source/terraces/foundations-0.json",
+      "sha256": "88050964f349244713ae525fa0b603d8086029d5c5d689d6e8017ab01addf1d6",
+      "bytes": 44357
+    },
+    {
+      "path": "browser/public/source/matrices/0.json",
+      "sha256": "1a2e88994928d0480136e04a2783401e6da6b85203b8f8eaa2deac2a70a53b69",
+      "bytes": 7271
+    },
+    {
+      "path": "browser/public/source/lands/1.json",
+      "sha256": "952c9a3df9318699e718a35909ad99ff0fdf75aed481afb9e7c6d7c5437ffc8a",
+      "bytes": 5208
+    },
+    {
+      "path": "browser/public/source/land/1-2.glb",
+      "sha256": "307db69da454bbe4b9849464b64de11452f67844c0f97d0a4398d1dfaa3a2fea",
+      "bytes": 84892
+    },
+    {
+      "path": "include/constants/metatile_behavior.h",
+      "sha256": "daf592a2074c423b5649eba564cc37ea5acd224c5c86658dc1fe6b00160f509d",
+      "bytes": 6132
+    },
+    {
+      "path": "src/player_avatar_movement.c",
+      "sha256": "bcf8b64b9c089bf881c7a73f3e5c06359634b2b8907bdb26755beb6cc7ac38c1",
+      "bytes": 48982
+    },
+    {
+      "path": "src/metatile_behavior.c",
+      "sha256": "9ea1d4f7ddd6a0308d745a782fbaf2564f35bb97889506279b1066be909b66c0",
+      "bytes": 21145
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/final-profiles.log",
+      "sha256": "e10c3dbba6263ea434ac166a0954f7717071e5b8e943fa54670e9085d7928d0b",
+      "bytes": 305
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/repeat-export.log",
+      "sha256": "29defd6a56a48b3d41f67f2c9426d5f1730c1a078b7a222470323b8dfbf5750d",
+      "bytes": 168
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/repeat-profiles.log",
+      "sha256": "8e714bc76554c640959630d48bfe25e4111716ffb78b9ba8a91fd40f6c223598",
+      "bytes": 305
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/final-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/allpeak.png",
+      "sha256": "ea783296383c7efeeb9b76e455cd798524f654a8821be436baa82b4ffe75e6bf",
+      "bytes": 1821
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/geometry-proof.json",
+      "sha256": "00c8db6b2f890a1d9e3d7e66be3fabfd1330ba4245e18d47172535f892705af1",
+      "bytes": 2001
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/final-topology-tests.log",
+      "sha256": "83166b089fbcb82fac63f22522fa6ae99bb5e46368cd35d756277fd463dd6346",
+      "bytes": 105
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/baseline-regressions.log",
+      "sha256": "f8946606d6d35a411ea02dddeb5f2bc02d863bf3825e763d961f06e082b7e3ee",
+      "bytes": 1976
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/route29-before.json",
+      "sha256": "269f7e54d0da3d307d9e9cc4b67ad32053edb60b9857dc873dba9fca6d7ac1f8",
+      "bytes": 168124
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/final-targeted-tests.log",
+      "sha256": "b5367841776025f16a4b537baf273bb2583ca7c1393ff93442706b7c86fb2122",
+      "bytes": 7402
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/allpeak_p.png",
+      "sha256": "95100290d383d5c6449909cf3165d7084add66d49db1bf8fde71621e8c11682d",
+      "bytes": 562
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/route29-candidate.json",
+      "sha256": "95b399e4b68b68c340503cd784e914ba0f573725dde75e4e1918f94e3b4ae712",
+      "bytes": 153397
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/native-corner-geometry-comparison.png",
+      "sha256": "88bf62d072dba4805108dcd78e1fd7fc79912a98c1df31aa1cdb41be5ca162e9",
+      "bytes": 54611
+    },
+    {
+      "path": "browser/reviews/native-ledge-corners/native-corner-art-proof.json",
+      "sha256": "be57e84124220967ef194df383aa3f70d5abf450bef7a727eea94654e648f79c",
+      "bytes": 26773
+    }
+  ]
+}

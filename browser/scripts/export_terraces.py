@@ -11,6 +11,7 @@ import numpy as np
 from scipy.ndimage import distance_transform_cdt
 from scipy.sparse import coo_matrix
 from scipy.sparse.linalg import spsolve
+from ledge_corner_topology import ledge_corners
 
 ROOT = Path(__file__).resolve().parents[1] / 'public/source'
 DIRECTIONS = {56: (1, 0), 57: (-1, 0), 58: (0, -1), 59: (0, 1)}
@@ -96,6 +97,22 @@ def export(matrix_id):
         join(upper, lower, 1.05-drop)
         seams.add(tuple(sorted(((int(x), int(z)), (int(lx), int(lz))))))
         jumps.append([int(x), int(z), int(permissions[z, x] & 255)])
+    def permission(x, z):
+        return int(permissions[z, x]) if 0 <= x < width and 0 <= z < height and valid[z, x] else None
+
+    source_corners = ledge_corners(jumps, permission)
+    corner_edges = []
+    for x, z, horizontal, vertical in source_corners:
+        dx, dz = DIRECTIONS[horizontal][0], DIRECTIONS[vertical][1]
+        # The two authored runs already share this same upper diagonal. Their
+        # blocked art corner must belong to that upper sector too; averaging it
+        # with the lower floor caused the old diagonal sag and missing walls.
+        ax, az = x-dx, z-dz
+        join(int(ids[z, x]), int(ids[az, ax]), native[az, ax]-native[z, x])
+        for behavior in [horizontal, vertical]:
+            ex, ez = DIRECTIONS[behavior]
+            seams.add(tuple(sorted(((x, z), (x+ex, z+ez)))))
+            corner_edges.append([x, z, behavior])
     # Rigid source architecture needs a flat presentation offset beneath it.
     # Tie nearby centres, then flatten their shared half-tile support nodes below.
     foundation_path = ROOT / f'terraces/foundations-{matrix_id}.json'
@@ -252,18 +269,27 @@ def export(matrix_id):
         asset = json.loads(blob[20:20+length])
         if any(material.get('name') == 'cliff01' for material in asset.get('materials', [])):
             cliff_assets[context] = 'land/'+path.name
-    output = {'version':2,'scale':SCALE,'cells':cells,'ledges':jumps,'cliffAssets':cliff_assets,'foundations':{building['key']:building['anchor'] for building in foundations}}
-    folder = ROOT / 'terraces'; folder.mkdir(exist_ok=True)
-    target = folder/f'{matrix_id}.json'
-    if target.exists():
-        previous = json.loads(target.read_text())
+    output = {'version':2,'scale':SCALE,'cells':cells,'ledges':jumps,'cornerEdges':corner_edges,'cliffAssets':cliff_assets,'foundations':{building['key']:building['anchor'] for building in foundations}}
+    published = ROOT / 'terraces' / f'{matrix_id}.json'
+    if published.exists():
+        previous = json.loads(published.read_text())
         # Native profiles depend on source geometry, not solved displacement.
         if previous.get('ledges') == jumps and previous.get('nativeEdges'):
             output['nativeEdges'] = previous['nativeEdges']
+        # Corner walls require a fresh source-art/floor proof after every field
+        # generation. Do not carry that proof across a changed native export.
     if len(output.get('nativeEdges',{})) != len(jumps):
         print('Run export_ledge_profiles.ts to add the required original visible-floor profiles')
+    # Keep the last complete public field until the native-art/floor proof
+    # succeeds. An interrupted or rejected profile export cannot replace it.
+    folder = ROOT.parent.parent / '.generated' / 'terraces'
+    folder.mkdir(parents=True, exist_ok=True)
+    target = folder/f'{matrix_id}.json'
     target.write_text(json.dumps(output,separators=(',',':'))+'\n')
-    print(f'Matrix {matrix_id}: {len(jumps)} raised ledges, {len(cells)} height cells, range {points.min():.3f}..{points.max():.3f}')
+    if len(output.get('nativeCornerEdges', {})) != len(corner_edges):
+        print('Run export_ledge_profiles.ts to verify native corner art and add corner profiles')
+    print(f'Matrix {matrix_id}: {len(jumps)} raised ledges, {len(source_corners)} source corners, {len(cells)} height cells, range {points.min():.3f}..{points.max():.3f}')
+    print(f'Staged {target}; publish only after export_ledge_profiles.ts {matrix_id} succeeds')
 
 
 if __name__ == '__main__':

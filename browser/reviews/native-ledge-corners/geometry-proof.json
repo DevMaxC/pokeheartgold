@@ -1,0 +1,55 @@
+{
+  "baseCommit": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+  "createdUTC": "2026-10-17T13:47:06.198501+00:00",
+  "oldDataSHA256": "2088d879949bc6adacf2f1235c20bd76eac70991df6c94c43d8bae211e121132",
+  "candidateDataSHA256": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+  "nativeJumpRows": 1453,
+  "cornerTiles": 48,
+  "extraFaceEdges": 96,
+  "extraWallTriangles": 384,
+  "changedHeightCells": 198,
+  "totalHeightCells": 279,
+  "maxPresentationOffsetDelta": 1.30859375,
+  "unchangedFieldMetadata": {
+    "version": true,
+    "scale": true,
+    "ledges": true,
+    "cliffAssets": true,
+    "foundations": true,
+    "nativeEdges": true
+  },
+  "reproducibleByteForByteData": true,
+  "nativeArtProfileSamples": 9294,
+  "nativeFloorFallbacks": 0,
+  "targetedTests": {
+    "nodePass": 26,
+    "pythonPass": 7,
+    "tscExit": 0
+  },
+  "baselineRegressionFailures": 2,
+  "geometryOnlyCapture": {
+    "source": "actual land/1-2.glb, cell18,12",
+    "nativeRawRimTriangles": 46,
+    "beforeDeformedRimTriangles": 550,
+    "candidateDeformedRimTriangles": 504,
+    "beforeCellWallTriangles": 140,
+    "candidateCellWallTriangles": 156,
+    "qualification": "Raw source/deformed coordinates. PNG omits textures, alpha, lighting and browser; not rendered approval."
+  },
+  "scope": "Presentation field seam topology and two walls per proven blocked native rim corner. Native movement/permissions/XZ/assets/UVs/map altitude/prop records stay unchanged. Smooth solved displacement legitimately changes globally; retest later combined terrain changes.",
+  "remainingLimits": [
+    "Screenshot coordinates are unconfirmed; two native Route29 corners reproduce its structural symptom.",
+    "No Vite build or browser verification.",
+    "No rendered alpha/texturing approval from the offline geometry figure.",
+    "Native vertical stair-face subdivision/chord defects are separately owned; not fixed here.",
+    "Existing native decorative rim overlay above the base floor is preserved."
+  ],
+  "publicationValidation": {
+    "stagedExport": "v2-export.log",
+    "freshProfilePromotion": "v2-profiles.log",
+    "publishedSha256": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+    "unchangedAfterStage": true,
+    "byteIdenticalAfterFreshProof": true,
+    "nativeFallbackSamples": 0
+  }
+}

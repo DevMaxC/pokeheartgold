@@ -58,9 +58,10 @@ export async function terraceModel(root:THREE.Group,terraces:Terraces,isCurrent:
 /** Opaque, two-sided native-textured cliff faces between the split ground edges. */
 export function terraceWalls(terraces:Terraces,cell:Cell,land:Land,material:THREE.MeshBasicMaterial){
  const positions:number[]=[],uvs:number[]=[];
- for(const[x,z,b]of terraces.data.ledges){
+ const edges=terraces.data.ledges.map(edge=>({edge,profile:terraces.data.nativeEdges?.[edge[0]+','+edge[1]]}));
+ for(const edge of terraces.data.cornerEdges??[]){if(Math.floor(edge[0]/32)!==cell.x||Math.floor(edge[1]/32)!==cell.z)continue;const profile=terraces.data.nativeCornerEdges?.[edge.join(',')];if(!profile||profile.length!==6||!profile.every(Number.isFinite))throw Error('Missing native ledge corner profile '+edge.join(','));edges.push({edge,profile});}
+ for(const{edge:[x,z,b],profile}of edges){
   if(Math.floor(x/32)!==cell.x||Math.floor(z/32)!==cell.z)continue;
-  const profile=terraces.data.nativeEdges?.[x+','+z];
   const[dx,dz]=({56:[1,0],57:[-1,0],58:[0,-1],59:[0,1]} as Record<number,number[]>)[b],upper=terraces.points(x,z),lower=terraces.points(x+dx,z+dz);
   const edge:{points:number[][];upper:number[];lower:number[]}=dx===1?{points:[[x+1,z],[x+1,z+.5],[x+1,z+1]],upper:[2,5,8],lower:[0,3,6]}:dx===-1?{points:[[x,z+1],[x,z+.5],[x,z]],upper:[6,3,0],lower:[8,5,2]}:dz===1?{points:[[x+1,z+1],[x+.5,z+1],[x,z+1]],upper:[8,7,6],lower:[2,1,0]}:{points:[[x,z],[x+.5,z],[x+1,z]],upper:[0,1,2],lower:[6,7,8]};
   for(let part=0;part<2;part++){
