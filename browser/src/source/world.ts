@@ -18,6 +18,7 @@ import {Terraces,type TerraceData} from './ledges.ts';
 import {terraceModel,terraceWalls,terraceCliffMaterial} from './terrace-model.ts';
 import {terrainPause} from './terrain-work.ts';
 import {VioletGym,VIOLET_GYM,type VioletLiftState} from './gym-violet.ts';
+import {ScriptCameraTarget,type ScriptCameraTween} from './script-camera.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap;furniture?:FurnitureObstacle[]};
 export class OriginalWorld {
@@ -50,6 +51,7 @@ export class OriginalWorld {
   private entrances:Promise<Record<number,BuildingEntrance[]>>|null=null;
   private streamCenter='';private streamRequest=false;private nextStreamAttempt=0;
   private latestStream:{matrix:number;id:number;x:number;z:number}|null=null;
+  private scriptCameraTarget=new ScriptCameraTarget((x,z,y,fromX,fromZ)=>this.height(x,z,y,fromX,fromZ));
   yaw=0;pitch=.4;distance=13;
   target=new THREE.Vector3();
   loading=false;
@@ -89,7 +91,19 @@ export class OriginalWorld {
    * before any of them consumes the budget. */
   private async runSceneryWork(generation:number,build:()=>void){if(generation!==this.generation)return false;let pending:Promise<void>|null;while((pending=terrainPause())){await pending;if(generation!==this.generation)return false;}build();return true;}
   get fieldTransitionActive(){return this.cameraTransition;}
+  get scriptCameraPosition(){return this.scriptCameraTarget?.position??null;}
+  createScriptCameraTarget(map:number,x:number,z:number){
+    if(map!==this.activeHeader)throw Error('Camera target belongs to an inactive source field');
+    this.scriptCameraTarget??=new ScriptCameraTarget((x,z,y,fromX,fromZ)=>this.height(x,z,y,fromX,fromZ));
+    this.scriptCameraTarget.create(map,x,z);const point=this.scriptCameraTarget.position!;this.updateStreaming(map,point.x,point.z);
+  }
+  clearScriptCameraTarget(){this.scriptCameraTarget?.clear();}
+  moveScriptCameraTarget(map:SourceMap,label:string,tween:ScriptCameraTween){
+    if(this.scriptCameraPosition?.map!==this.activeHeader)throw Error('Missing original camera movement object 241');
+    return this.scriptCameraTarget.move(map,label,tween);
+  }
   async enter(id:number,x:number,z:number,weather=0,initialHeight=0,violetLift:VioletLiftState=0){
+    this.clearScriptCameraTarget();
     const ownsTransition=!this.cameraTransition;
     this.beginFieldTransition();
     this.violetGym.leave();
@@ -105,6 +119,7 @@ export class OriginalWorld {
     }finally{if(ownsTransition)this.endFieldTransition();}
   }
   async connect(id:number,x:number,z:number,weather=0){
+    if(id!==this.activeHeader)this.clearScriptCameraTarget();
     const map=await this.map(id);if(map.matrix!==this.activeMatrix)throw Error('Connected field headers must share their source matrix');
     if(this.matrix?.headers===null&&this.activeHeader!==id)throw Error('Independent rooms do not share connected header ownership');this.activeHeader=id;
     if(!this.cell(x,z))await this.stream(id,x,z);else this.updateStreaming(id,x,z);this.sky.enter(map,weather);return map;
@@ -112,6 +127,7 @@ export class OriginalWorld {
   /** Coalesce field prefetch requests without putting distant asset downloads
    * in the player's movement lock. A loaded adjacent header is already safe. */
   updateStreaming(id:number,x:number,z:number){
+    const focus=this.scriptCameraPosition;if(focus?.map===id){x=focus.x;z=focus.z;}
     this.latestStream={matrix:this.activeMatrix,id,x,z};const key=this.activeMatrix+':'+Math.floor(x/32)+','+Math.floor(z/32);
     if(this.streamRequest||this.loading||key===this.streamCenter||performance.now()<this.nextStreamAttempt)return;
     this.streamCenter=key;this.streamRequest=true;
@@ -209,7 +225,7 @@ export class OriginalWorld {
     if(this.cameraTransition)return;
     this.grassTime+=dt;updateGrass(this.grassTime,x,actorY??this.height(x,z),z);
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
-    const height=actorY??this.height(x,z,this.target.y-.9,this.target.x,this.target.z);const target=new THREE.Vector3(x,height+.9,z);this.target.lerp(target,1-Math.exp(-dt*9));
+    const focus=this.scriptCameraPosition,height=focus?.y??actorY??this.height(x,z,this.target.y-.9,this.target.x,this.target.z);const target=new THREE.Vector3(focus?.x??x,height+.9,focus?.z??z);this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
     const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance),obstacles=[...this.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));const collisions=ray.intersectObjects(obstacles,false);const first=collisions.find(c=>c.distance>1.2);const d=first?Math.max(2.2,first.distance-.6):this.distance;
     const desired=this.target.clone().addScaledVector(orbit,d);this.camera.position.lerp(desired,1-Math.exp(-dt*12));this.camera.lookAt(this.target);

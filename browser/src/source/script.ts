@@ -11,6 +11,7 @@ import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDef
 export type EngagedTrainer={trainer:number;object:string};
 /** Supplied by the field's sight detector, never inferred by the script VM. */
 export type TrainerApproachContext={eyeType:0|1|2;trainers:EngagedTrainer[]};
+import {SCRIPT_CAMERA_PERSON,SCRIPT_CAMERA_ACTOR} from './script-camera.ts';
 
 export type ScriptHooks={
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
@@ -26,6 +27,7 @@ export type ScriptHooks={
   trainerPath?:(index:number,trainer:EngagedTrainer)=>Promise<void>;trainerStep?:(index:number,trainer:EngagedTrainer)=>Promise<boolean>;
   trainerCandle?:(action:'bind'|'unbind'|'extinguish',useLastInteracted:boolean)=>Promise<void>|void;
   violetGym?:{init:()=>void|Promise<void>;elevator:()=>Promise<void>};
+  cameraTarget?:(target:{map:SourceMap;x:number;z:number}|null)=>void;
 };
 export class UnsupportedScript extends Error{
   readonly map:string;readonly command:string;readonly pc:number;
@@ -67,7 +69,7 @@ export class ScriptVM{
   async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false,approach?:TrainerApproachContext){
     if(this.busy&&!allowNested)return;
     if(script===0)return;
-    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='';const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
+    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
     const scriptID=typeof script==='number'?script:this.value(script,map);if(!allowNested){this.battleWon=false;this.context={activeScript:scriptID,map,object,phone:null,approach};const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}
     if(scriptID>=2000){try{await this.standard(scriptID,object);}finally{this.busy=false;}return;}
     const entry=scriptID-1;
@@ -78,7 +80,7 @@ export class ScriptVM{
     const conditions:Record<string,()=>boolean>={Eq:()=>compare===0,Ne:()=>compare!==0,Lt:()=>compare<0,Gt:()=>compare>0,Le:()=>compare<=0,Ge:()=>compare>=0};
     const v=(s:string)=>this.value(s,map);
     const originMap=this.context?.map??map;
-    const actor=(token:string)=>token.startsWith('obj_')?token:this.hooks.objectName?.(v(token))??originMap.events?.objects.find(n=>(originMap.constants[n.id]??this.data.constants[n.id])===v(token))?.id??token;
+    const actor=(token:string)=>v(token)===SCRIPT_CAMERA_PERSON?SCRIPT_CAMERA_ACTOR:token.startsWith('obj_')?token:this.hooks.objectName?.(v(token))??originMap.events?.objects.find(n=>(originMap.constants[n.id]??this.data.constants[n.id])===v(token))?.id??token;
     const activeTrainer=()=>{const script=this.context?.activeScript??scriptID,id=trainerIdForScript(script);if(id===null&&script!==TRAINER_APPROACH_SCRIPT)throw new UnsupportedScript(map.code,this.instruction?.command??'GetTrainerNum',pc-1);return id??740;};
     const engaged=(index:number)=>{const trainer=this.context?.approach?.trainers[index];if(!trainer)throw new UnsupportedScript(map.code,this.instruction?.command??'GetEyeTrainerNum',pc-1);return trainer;};
     try{
@@ -131,6 +133,10 @@ export class ScriptVM{
         if(cmd==='MsgBoxExtern'||cmd==='NonNPCMsgExtern'){const bank=await sourceJSON<Record<string,string>>(`messages/${v(a[0])}.json`),raw=bank[v(a[1])];if(raw===undefined)throw Error(`Missing source message ${v(a[0])}:${v(a[1])}`);lastMessage=this.text(raw,map);await this.hooks.message(lastMessage);continue;}
         if(cmd==='GetMenuChoice'||cmd==='YesNoBox'){this.set(a[0],await this.hooks.choice(lastMessage.split(/\\[rf]/).filter(Boolean).at(-1)));continue;}
         if(cmd==='Wait'){await new Promise(resolve=>setTimeout(resolve,Math.min(1000,v(a[0])*1000/60)));continue;}
+        if(cmd==='CreateCameraTarget'||cmd==='RemoveCameraTarget'){
+          if(!this.hooks.cameraTarget)throw new UnsupportedScript(map.code,cmd,pc-1);
+          this.hooks.cameraTarget(cmd==='CreateCameraTarget'?{map,x:v(a[0]),z:v(a[1])}:null);ownsCameraTarget=cmd==='CreateCameraTarget';continue;
+        }
         if(cmd==='ApplyMovement'){pendingMoves.push(this.hooks.move(actor(a[0]),a[1],map).catch(error=>{movementFailure.failed=true;movementFailure.error=error;}));continue;}
         if(cmd==='WaitMovement'){await Promise.all(pendingMoves);pendingMoves=[];if(movementFailure.failed)throw movementFailure.error;continue;}
         if(cmd==='MovePersonFacing'){this.hooks.position(actor(a[0]),v(a[1]),v(a[3]),v(a[4]));continue;}
@@ -217,6 +223,6 @@ export class ScriptVM{
       }
       await Promise.all(pendingMoves);if(movementFailure.failed)throw movementFailure.error;await this.hooks.refresh();
     }catch(error){if(error instanceof UnsupportedScript)this.lastUnsupported={map:error.map,command:error.command,pc:error.pc};throw error;}
-    finally{await Promise.allSettled(pendingMoves);this.busy=false;}
+    finally{try{if(ownsCameraTarget)this.hooks.cameraTarget?.(null);}finally{await Promise.allSettled(pendingMoves);this.busy=false;}}
   }
 }
