@@ -69,6 +69,10 @@ export class Battle{
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
     if([47,49,65,100,106,109,228].includes(move.effect))this.assertItemScope(attacker,defender);
+    if(defender.hp>0&&move.category!==2&&(move.flags&1)&&monAbility(this.data,defender)==='ABILITY_STATIC'){
+      this.assertItemScope(attacker,defender);
+      if(!attacker.status&&monAbility(this.data,attacker)==='ABILITY_SYNCHRONIZE')throw Error('Unsupported native Static Synchronize phase');
+    }
     if(move.category!==2&&(move.effect===228||this.reflectTurns[playerSide?1:0]||(this.volatile(attacker).status2&nativeStatus2.focusEnergy))){
       this.assertDamageScope(attacker,defender);
     }
@@ -79,7 +83,7 @@ export class Battle{
     if(!playerSide&&this.enemies.some((mon,index)=>index!==this.enemyIndex&&isUsableBattler(mon)))this.chooseEnemyReplacement();
     // 0175 explicitly runs these hooks before withdrawing. None may be
     // deferred until after changing active identity or partially applying HP.
-    const abilities=['ABILITY_STATIC','ABILITY_POISON_POINT','ABILITY_FLAME_BODY','ABILITY_EFFECT_SPORE','ABILITY_CUTE_CHARM','ABILITY_ROUGH_SKIN','ABILITY_COLOR_CHANGE','ABILITY_ANGER_POINT','ABILITY_AFTERMATH'];
+    const abilities=['ABILITY_POISON_POINT','ABILITY_FLAME_BODY','ABILITY_EFFECT_SPORE','ABILITY_CUTE_CHARM','ABILITY_ROUGH_SKIN','ABILITY_COLOR_CHANGE','ABILITY_ANGER_POINT','ABILITY_AFTERMATH'];
     if(abilities.includes(monAbility(this.data,defender)))throw Error('Unsupported native U-turn on-hit ability');
     for(const mon of[attacker,defender])if(['ABILITY_UNBURDEN','ABILITY_PRESSURE'].includes(monAbility(this.data,mon)))throw Error('Unsupported native U-turn ability/item lifecycle');
     const reserves=playerSide?this.state.party:this.enemies;for(const mon of reserves)if(isUsableBattler(mon))this.assertItemScope(mon,mon);for(const mon of reserves)if(isUsableBattler(mon)&&['ABILITY_INTIMIDATE','ABILITY_DOWNLOAD','ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING','ABILITY_ANTICIPATION','ABILITY_FOREWARN','ABILITY_FRISK'].includes(monAbility(this.data,mon)))throw Error('Unsupported native U-turn entry ability');
@@ -113,9 +117,21 @@ export class Battle{
     const effect=this.held(this.player)?.holdEffect;
     return nativePlayerMeanLookBlocks(this.volatile(this.player).status2,action,{shedShell:effect==='HOLD_EFFECT_SWITCH',smokeBall:effect==='HOLD_EFFECT_FLEE',runAway:monAbility(this.data,this.player)==='ABILITY_RUN_AWAY',noExperienceBattle:this.tutorial});
   }
-  private async pivot(playerSide:boolean,attacker:Mon){
+  private async staticOnHit(attacker:Mon,defender:Mon,move:MoveData){
+    // CheckAbilityEffectOnHit: a fainted provider still triggers; the living
+    // recipient, status/contact/damage predicates precede the native coin.
+    if(attacker.hp<=0||attacker.status||!(move.flags&1)||monAbility(this.data,defender)!=='ABILITY_STATIC'||this.random16()%10>=3)return;
+    const ability=monAbility(this.data,attacker),suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
+    // Ability side effects bypass Substitute/Safeguard and type immunity in
+    // this generation. Limber/active LeafGuard are checked after the coin.
+    if(ability==='ABILITY_LIMBER'||ability==='ABILITY_LEAF_GUARD'&&this.weather==='sun'&&!suppressed)return;
+    attacker.status='PAR';await this.say(`${defender.name}’s Static paralyzed ${attacker.name}!`);
+  }
+  private async pivot(playerSide:boolean,attacker:Mon,defender:Mon,move:MoveData){
     const opposing=playerSide?this.enemies:this.state.party,reserves=playerSide?this.state.party:this.enemies,index=playerSide?this.playerIndex:this.enemyIndex;
-    if(!opposing.some(isUsableBattler)||!reserves.some((mon,i)=>i!==index&&isUsableBattler(mon))||attacker.hp<=0)return;
+    if(!opposing.some(isUsableBattler)||!reserves.some((mon,i)=>i!==index&&isUsableBattler(mon))||attacker.hp<=0)return false;
+    // 0175 triggers on-hit abilities before status-on-switch and party choice.
+    await this.staticOnHit(attacker,defender,move);
     // Unsupported hooks were rejected before PP/damage. The supported native
     // branch now reaches recall -> status-on-switch -> party -> sendout.
     await this.say(`${attacker.name} went back to its Trainer!`);this.restoreOnSwitch(attacker);
@@ -126,7 +142,7 @@ export class Battle{
     }else await this.sendEnemy(this.chooseEnemyReplacement());
     // No entry hazards are currently admissible. Status/ability/item entry
     // callbacks in the supported scope run before the pending opposing move.
-    await this.healAbility(playerSide?this.player:this.enemy);
+    await this.healAbility(playerSide?this.player:this.enemy);return true;
   }
   private chooseEnemyReplacement(){
     const actor=this.enemy,target=this.player;
@@ -356,12 +372,14 @@ export class Battle{
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));
     if(effectiveness===0)await this.say('It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
     if(effectiveness===0)break;
-    if(total>0){landed++;if(move.effect===228)await this.pivot(playerSide,attacker);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
+    let pivoted=false;
+    if(total>0){landed++;if(move.effect===228)pivoted=await this.pivot(playerSide,attacker,defender,move);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
     if(move.effect===48||slot<0){attacker.hp=Math.max(0,attacker.hp-Math.max(1,Math.floor((slot<0?attacker.maxHP:total)/4)));await this.say(`${attacker.name} is hit with recoil!`);}
     if(move.effect===3){attacker.hp=Math.min(attacker.maxHP,attacker.hp+Math.max(1,Math.floor(total/2)));await this.say(`${defender.name} had its energy drained!`);}
     if(defender.hp>0&&move.effect>=68&&move.effect<=74&&this.rng()*100<move.effectChance)await this.changeStage(defender,ds,move.effect-68,-1);
     if(defender.hp>0&&[2,4,5,6].includes(move.effect)&&this.rng()*100<move.effectChance)await this.inflict(defender,move.effect===2?'PSN':move.effect===4?'BRN':move.effect===5?'FRZ':'PAR');
     if(move.effect===31&&this.rng()*100<move.effectChance)this.flinch=true;
+    if(total>0&&!pivoted)await this.staticOnHit(attacker,defender,move);
     // AfterMoveEffects (controller31) runs before CheckMultiHit (32),
     // so a surviving Sitrus holder can heal between the individual hits.
     await this.heldRecovery(playerSide?this.player:this.enemy);await this.heldRecovery(defender);
