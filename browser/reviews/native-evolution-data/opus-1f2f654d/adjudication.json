@@ -56,7 +56,7 @@
   },
   "scope": "Data/predicate/loader only, no queue/scene/Main/Battle/World/audio integration approval",
   "integration": [
-    "Cherry-pick ffb402db then d3bfb166 then1f2f654d then this review-only commit",
+    "Cherry-pick the complete leaf range after base873de2c1 through finalmetadata HEAD; runtime commitsffb402db andd3bfb166, all later commits are immutable review/evidence packaging.",
     "Load existing evolutions.json with loadNativeEvolutionData(GameData); do not fabricate unavailable beauty or Pichu form",
     "Use explicit RTC night and HGSS nativeMapEvolutionMethod(mapId)=0; preserve unsupported decisions",
     "Battle controller owns real levelUp flags/outcomes/legal Egg-subject exclusion, persistent transition, presentation and effects; it may admit only its reviewed subset of eligible methods"
@@ -65,5 +65,13 @@
     "Actual initial review compares full native mapping; follow-up only independently rechecks two source boundary changes and new tests",
     "Reviewer did not execute tests or hash files; agent independently executed recorded checks and verified snapshot bytes",
     "No browser/audio/build/DS storage/hardware/full-campaign parity proof"
-  ]
+  ],
+  "reviewInputPatch": {
+    "path": "changes.patch.gz",
+    "encoding": "gzip",
+    "uncompressedSHA256": "cfd03c660fd96e3d26292b4521307c8472c64bafbde5182ad432594e1d0a0e51",
+    "gzipSHA256": "771d6e3f0c581d4c627bbd66dbbf6abfde90a6c86a35d911cb516d9ec78ff7bd",
+    "rawBytesPreserved": true,
+    "reproduction": "Decompress to changes.patch beside the private review snapshot before rerunning the preserved prompt."
+  }
 }
