@@ -27,6 +27,18 @@ function fixture(){
   return{map,state,objects,messages,warps,vm,find};
 }
 
+async function catchFirst(f:ReturnType<typeof fixture>){
+  f.state.x=25.5;f.state.z=66.5;const trigger=f.find();assert.ok(trigger);assert.equal(trigger.scriptId,'_EV_scr_seq_D36R0101_farfetchd1_sticks1 + 1');await f.vm.run(f.map,trigger.scriptId);
+  f.state.x=25.5;f.state.z=61.5;f.state.facing=1;const id='obj_D36R0101_tsure_poke_static_farfetchd',bird=f.map.events.objects.find(event=>event.id===id)!;await f.vm.run(f.map,bird.scriptId,id);
+}
+async function catchSecond(f:ReturnType<typeof fixture>){
+  const id='obj_D36R0101_tsure_poke_static_farfetchd_2',bird=f.map.events.objects.find(event=>event.id===id)!;
+  // Actual initial top-left interaction sends the bird to its source top-right.
+  f.state.x=41.5;f.state.z=55.5;f.state.facing=0;await f.vm.run(f.map,bird.scriptId,id);assert.deepEqual([f.objects.get(id)!.x,f.objects.get(id)!.z],[49,54]);
+  f.state.x=52.5;f.state.z=53.5;const trigger=f.find();assert.ok(trigger);assert.equal(trigger.scriptId,'_EV_scr_seq_D36R0101_farfetchd2_sticks2 + 1');await f.vm.run(f.map,trigger.scriptId);assert.equal(f.vm.value('VAR_TEMP_x4003',f.map),1);
+  f.state.x=48.5;f.state.z=54.5;f.state.facing=3;await f.vm.run(f.map,bird.scriptId,id);
+}
+
 test('all six actual Ilex stick triggers resolve native STICKS_ACTIVE rather than number/string equality',()=>{
   const f=fixture(),sticks=f.map.events.coords.filter(event=>event.val==='STICKS_ACTIVE');assert.equal(sticks.length,6);assert.equal(f.map.constants.STICKS_ACTIVE,1);assert.equal(f.map.constants.STICKS_INACTIVE,2);
   for(const event of sticks){
@@ -63,4 +75,16 @@ test('actual Ilex stick script changes the blind spot and first-Farfetchd catch 
   f.state.x=25.5;f.state.z=61.5;f.state.facing=1;await f.vm.run(f.map,bird.scriptId,bird.id);
   assert.equal(f.vm.lastUnsupported,null);assert.equal(f.state.flags.FLAG_FOUND_FIRST_FARFETCHD,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_LOST,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_FOUND,false);assert.equal(f.objects.get(bird.id)!.shown,false);assert.equal(f.state.flags.FLAG_FOUND_SECOND_FARFETCHD,undefined);assert.equal(f.state.flags.FLAG_GOT_HM01,undefined);
   assert.deepEqual(f.warps,[{map:117,x:15,z:65,facing:data.constants.DIR_NORTH}]);assert.deepEqual([f.state.map,f.state.x,f.state.z,f.state.facing],[117,15.5,65.5,0]);
+});
+
+for(const order of['first-second','second-first']as const)test(`both actual Ilex capture branches grant HM01 in ${order} order without pretending to teach or use Cut`,async()=>{
+  const f=fixture();await f.vm.run(f.map,f.map.initScripts.OnTransition);for(const capture of order==='first-second'?[catchFirst,catchSecond]:[catchSecond,catchFirst])await capture(f);
+  assert.equal(f.vm.lastUnsupported,null);for(const flag of['FLAG_FOUND_FIRST_FARFETCHD','FLAG_FOUND_SECOND_FARFETCHD','FLAG_HIDE_FARFETCHD_1_LOST','FLAG_HIDE_FARFETCHD_2_LOST','FLAG_HIDE_FARFETCHD_1_FOUND','FLAG_HIDE_FARFETCHD_2_FOUND','FLAG_HIDE_ILEX_CUT_MASTER','FLAG_HIDE_ILEX_APPRENTICE','FLAG_GOT_HM01'])assert.equal(f.state.flags[flag],true,flag);
+  assert.equal(f.state.bag.ITEM_HM01,1);assert.deepEqual(f.warps.map(w=>[w.map,w.x,w.z,w.facing]),[[117,15,65,0],[117,15,65,0]]);assert.equal(f.state.flags.FLAG_MAPTEMP_010,undefined,'native Cut tree is not removed by HM acquisition');assert.deepEqual(f.state.party,[],'the source gift does not invent a learner');
+});
+
+test('actual full-HM-stack catch preserves both catches and master retry grants once after space exists',async()=>{
+  const f=fixture();f.state.bag.ITEM_HM01=data.constants.BAG_TMHM_QUANTITY_MAX;await f.vm.run(f.map,f.map.initScripts.OnTransition);await catchFirst(f);await catchSecond(f);
+  assert.equal(f.state.flags.FLAG_FOUND_FIRST_FARFETCHD,true);assert.equal(f.state.flags.FLAG_FOUND_SECOND_FARFETCHD,true);assert.equal(f.state.flags.FLAG_GOT_HM01,undefined);assert.equal(f.state.flags.FLAG_HIDE_ILEX_CUT_MASTER,false);assert.equal(f.state.bag.ITEM_HM01,99);assert.ok(f.messages.some(text=>text.includes('Bag is full')));
+  f.state.bag.ITEM_HM01--;const master=f.map.events.objects.find(event=>event.id==='obj_D36R0101_gsfighter')!;await f.vm.run(f.map,master.scriptId,master.id);assert.equal(f.state.flags.FLAG_GOT_HM01,true);assert.equal(f.state.bag.ITEM_HM01,99);await f.vm.run(f.map,master.scriptId,master.id);assert.equal(f.state.bag.ITEM_HM01,99);assert.equal(f.state.flags.FLAG_MAPTEMP_010,undefined);
 });
