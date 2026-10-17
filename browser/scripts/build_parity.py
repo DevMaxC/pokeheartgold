@@ -243,6 +243,150 @@ PROGRESSION_AUDIT={'P01-002': ('partial',
              'actual-main fixtures. A consuming connection frame event precedes Egg/wild processing exactly once '
              '(egg-field-main.test.ts). All special/menu transitions and natural rendered playthrough remain '
              'pending.')}
+
+# Later metadata reconciliation supersedes only these scoped current rows.
+# Keep PROGRESSION_AUDIT and its 536758a note as immutable historical evidence.
+CURRENT_NATIVE_CHECKPOINT='e945ef040a190b546e0d0e776621c8af319a60e3'
+CURRENT_NATIVE_AUDIT={'P06-014': ('partial',
+             'Current native e945ef04 has FieldPhoneHost RTC/admission, Elm/Mom incoming-ring display '
+             'and answer bindings, source registration/rematch state, connection-preserved rings and '
+             'failed-admission Return suppression. phone-field-host/main-native-interface fixtures and '
+             'reviews/native-phone-field-host-integration/ qualify b3463c8b and later Main wiring. '
+             'Generic random/forced/Safari dialogue, ring audio, saved native RTC/global RNG and a '
+             'natural hatch-to-call campaign remain incomplete; the536758a no-host statement is '
+             'historical.'),
+ 'P11-003': ('partial',
+             'Native Main 6f486487 connects Summary/Switch/Cancel, whole-Mon reorder/save, Egg/fainted '
+             'handling and follower identity; the Bag now teaches source-compatible TM/HM moves with '
+             'replacement/consumption safeguards. General party field-move execution, all '
+             'summary/native party contexts and natural campaign use remain incomplete. '
+             'party-field-main/main-native-interface/field-bag-actions fixtures are offline integration '
+             'evidence, not full-game or browser parity.'),
+ 'P11-004': ('partial',
+             'The owned Bag exposes original pockets, Use and party/move targets; supported '
+             'HP/status/PP medicine and TM/HM teaching await confirmation/final acknowledgement inside '
+             'SourceActionRecovery. Eggs, no-effect/capacity, stale selection, abort and Retry/Return '
+             'have actual Main/UI fixtures. Unsupported item effects, general Key Item/field use and '
+             'all native Bag contexts remain explicit gaps; see field-bag-actions.test.ts and '
+             'native-interface-reconciliation-final/.'),
+ 'P11-006': ('partial',
+             'Current Main integrates RTC-driven FieldPhoneHost, Elm/Mom ring indicator/answer, due '
+             'admission, source reset ordering, connection retention and transactional failure/retry. '
+             'Pokégear acquisition/contacts and selected native calls exist. General random/forced '
+             'callers, full phone UI, map/radio/cards, ring/no-signal presentation, native saved RTC '
+             'and Safari delivery remain incomplete. Historical 536758a lacked the later host; current '
+             'evidence is reviews/native-phone-field-host-integration/ and '
+             'native-interface-reconciliation-final/.'),
+ 'P11-012': ('partial',
+             'Modern Settings exposes persisted sound/volume/text speed, Shift/Set, touch layout/hand '
+             'and camera sensitivity. Production mute 45ef2147 serves reviewed 84864cb7: global '
+             'Mute/Unmute, same-origin storage, hidden-page master gain and live Settings. Native Main '
+             '6f486487 mirrors current sound/text after rollback; hatch 167d7165 reads live preferences '
+             'and retains the muted fanfare timer. Battle-scene control/full native settings parity and '
+             'current candidate browser/device verification remain pending; scoped receipts are '
+             'global-audio-controls/, native-hatch-live-preferences/ and native-muted-fanfare-timer/.'),
+ 'P11-013': ('partial',
+             'Current native Main binds WASD/arrows, confirm/cancel, camera orbit and trusted gesture '
+             'ownership; CameraInput supports pointer/trackpad drag/zoom. Actual Main/UI tests preserve '
+             'Battle Enter/Space activation, modal locks and movement after global-audio-button focus. '
+             'Gamepad/controller coverage, all source contexts and device/browser parity are not '
+             'established; native-interface-reconciliation-final/ keeps its original input hashes and '
+             'limited natural opening check.'),
+ 'P11-014': ('partial',
+             'TouchControls provides joystick/D-pad, run, interact/menu, left/right placement and '
+             'cancellation/reset; native Main gates it with current source-action, transition, battle, '
+             'hatch and UI ownership. Modern prompts provide touch buttons and field Bag/party targets. '
+             'touch-controls/main-native-interface/UI fixtures cover scoped behavior; complete '
+             'mobile/device, full campaign and all battle/menu touch routes remain unverified.'),
+ 'P11-015': ('partial',
+             'Owned UI implements focus/restore, native text-speed paging, confirmation/cancel and '
+             'stale-handler cleanup, with field locks through scripts/hatches/recovery. Global mute '
+             'remains independently focusable without accepting mandatory choices; Enter/Space and '
+             'battle-button defaults have source-bound regressions. Full screen-reader/device '
+             'accessibility, every modal and current whole-campaign rendering remain unverified; see '
+             'ui-framework/main-native-interface and scoped global-audio-controls evidence.'),
+ 'P11-016': ('partial',
+             'SourceActionRecovery checkpoints State/actors/phone/camera/Violet height and blocks '
+             'provisional saves; Retry/Return hydrates without replaying entry scripts. Current global '
+             'sound/text survive rollback. Music fetch/unlock/restore is bounded, reports no-voice '
+             'technical failures and retains owned retries without overriding newer battle/map intent; '
+             'invalid source/config/cancellation remain explicit. Actual native bindings and scoped '
+             'Opus packets cover these paths, not every campaign asset/error or rendered recovery.'),
+ 'P12-001': ('partial',
+             'A shared native field/Battle/hatch player is integrated in current Main. Source catalog '
+             'covers 540 map day/night headers and 13 ordered story overrides, selecting 103 native IDs '
+             '(102 musical renders plus silence), delivered as 168 unique AAC/M4A or MP3 files. '
+             'Source/codec/cache/player proofs are in native-field-music/. Radio, additional '
+             'script/bicycle callers, Surf gameplay and all-map/audio-device audibility remain '
+             'incomplete; source tables and imported files are not campaign verification.'),
+ 'P12-002': ('partial',
+             'Main passes actual map/hour/flags to the source day/night/story selector, owns '
+             'gesture/mute/visibility and restores actual voice identity/phase through battles/hatches '
+             'while newer map intent wins. The selector has original Surf priority/suppression, but '
+             'Main does not implement Surf mechanics/radio ownership or every script override. Native '
+             'RTC penalties, all-map transitions and Safari/mobile listening remain unverified; see '
+             'field-music/main-music fixtures and native-field-music/.'),
+ 'P12-003': ('partial',
+             'Native battle-music selection and owned playback now use the original 32 trainer-class, '
+             '11 legendary-species and 45 parameter tables with native map/region rules, rather than '
+             'only hatch 1011/1188. Source/asset/player and actual Main battle ownership fixtures '
+             'exist. Victory/encounter jingles, all special callers/modes, double/multi combat and '
+             'natural complete battle/campaign audio verification remain incomplete. Emulated lossy '
+             'delivery is not DS hardware/DAC fidelity.'),
+ 'P12-005': ('partial',
+             'Original opening/hatch cries and native hatch 1011/1188 use shared owned output; live '
+             'mute suppresses admission without cancelling admitted completion, and the later '
+             'muted-fanfare leaf preserves its unconditional 15/30s timer/BGM pause. '
+             'Menu/dialogue/movement/item/general field SFX and broad sound arbitration remain '
+             'unimplemented in this native Main. Isolated Cut/Azalea sound leaves are not live campaign '
+             'bindings here; see native-muted-fanfare-timer/ and native-field-music/ for exact scoped '
+             'limits.'),
+ 'P15-004': ('partial',
+             'Native campaign policy 8a5cf5c9 defaults draft terrain-scenery closure OFF in ordinary '
+             'worlds and restores the released forest foundation; audit worlds must explicitly opt in. '
+             'Historical New Bark 1008 surface/108 opening rays and camera witnesses belong to earlier '
+             'pinned candidates, not current all-map approval. Full 792-context strict audit, remaining '
+             'support/encoded-edge diagnostics, caves/bridges and changed-source arbitrary-angle checks '
+             'remain incomplete; see native-campaign-terrain-policy/ and '
+             'terrain-visibility-methodology.md.'),
+ 'P15-008': ('pending',
+             'No exhaustive current camera/scenery pass exists. Building A3 has a '
+             '355-placement/220-variant/157-ID finite inventory, but final manual approval of all 355 '
+             'placements from six views remains pending; later roof-art source/candidate captures cover '
+             'only their three placements. Draft terrain 792-context checks are unfinished and disabled '
+             'by default in ordinary native worlds. Natural current-campaign QA has reached only the '
+             'earlier native Cyndaquil opening milestone, not all maps or the current integrated '
+             'renderer.'),
+ 'P15-010': ('partial',
+             'Family-specific native-cladding/exterior fixes replace copied rear doors and retain '
+             'source fronts/real passages. Immutable A3 covers 355 placements/220 variants/157 IDs with '
+             '2,796,873 finite rays and retains 39 strict misses across 16 placements plus separately '
+             'recorded nearby edge witnesses; those are not exact continuous seals or tolerance passes. '
+             'Later model 4/217/118 roof-art repairs have separate native proofs/scoped images. Final '
+             'full-placement manual review and current renderer/campaign checks remain pending; see '
+             'building-a3-production-readiness/ and native-building-roof-art/.'),
+ 'P15-011': ('partial',
+             'Source directional 56/57/58/59 ledge jumps, continuous actor/follower arcs and matrix 0 '
+             'synthetic relief at 1,453 source ledges are implemented. Native geometry, half-tile '
+             'terrain sampling and selected shared-edge/corner regressions have scoped evidence, while '
+             'water remains flat and rigid props retain shape. Other matrices, every '
+             'ledge/corner/bridge interaction and natural full-campaign visual/progression checks '
+             'remain incomplete; historical Route 29 checks do not approve all current views.'),
+ 'P15-014': ('partial',
+             'Released native shore translation restores original MAT texture transforms on 27 affected '
+             'GLB variants with importer/material ownership and original PNG/UV/source-byte proofs. '
+             'Existing sand/shallow backing remains bounded by native behaviours, not a global sand '
+             'raise or deep-water fill. Focused original island/shore source sampling and scoped review '
+             'do not establish every coast/foam/corner/camera; see shoreline-native-translation/ and '
+             'shoreline-native.test.ts.'),
+ 'P15-015': ('partial',
+             'Current ordinary native World restores the released owner 0 forest foundation and keeps '
+             'draft boundary/top closure opt-in, with actual streaming/disposal regressions at policy '
+             '8a5cf5c9. Earlier New Bark raised-sheet candidate proofs remain historical; they do not '
+             'prove all raised native platforms are opaque. Full 792-context support/portal/alpha '
+             'audit, remaining Route 44 diagnostics and final changed-source views remain incomplete; '
+             'see native-campaign-terrain-policy/.')}
+
 features=[]
 for gi,(group,(source,items)) in enumerate(GROUPS.items(),1):
  for i,title in enumerate(items,1): features.append({'id':f'P{gi:02}-{i:03}','group':group,'feature':title,'source':source,'status':'pending','verification':None})
@@ -269,11 +413,12 @@ for name,rows,key in [('features',features,'id'),('maps',maps,'map')]:
     for field,value in prior[row[key]].items():
      if field not in (key,'feature','source','group','fields'):row[field]=value
 feature_by_id={row['id']:row for row in features}
-for feature_id,(status,evidence) in PROGRESSION_AUDIT.items():
- if feature_id not in feature_by_id:raise ValueError(f'Unknown audited feature {feature_id}')
- if status not in ('pending','partial','implemented'):raise ValueError('This reconciliation cannot promote parity to Verified')
- feature_by_id[feature_id].update(status=status,verification=evidence)
-source_revision='d7886a5'
+for audit in (PROGRESSION_AUDIT,CURRENT_NATIVE_AUDIT):
+ for feature_id,(status,evidence) in audit.items():
+  if feature_id not in feature_by_id:raise ValueError(f'Unknown audited feature {feature_id}')
+  if status not in ('pending','partial','implemented'):raise ValueError('This reconciliation cannot promote parity to Verified')
+  feature_by_id[feature_id].update(status=status,verification=evidence)
+source_revision=CURRENT_NATIVE_CHECKPOINT
 command_rows=[{'command':x,'status':'pending'} for x in sorted(commands)]
 prior_commands={row['command']:row for row in json.loads((OUT/'script-commands.json').read_text())} if (OUT/'script-commands.json').exists() else {}
 command_rows=[{**row,**prior_commands.get(row['command'],{})} for row in command_rows]
@@ -287,12 +432,21 @@ lines=['# HeartGold 3D parity ledger','',f'Source baseline: `{source_revision}`.
 '- End-to-end completion requires a fresh save through Red and the listed postgame/special systems, with inventory, party and flags surviving save/reload. Imported content and isolated menus do not satisfy this.',
 '- Connectivity/hardware-dependent systems must be implemented and tested against an explicit browser equivalent; unavailable original services must stay marked unsupported until that equivalent is agreed and working.',
 '- Production changes must be committed, merged into the fork default branch, deployed from that commit, and checked on the live site.','',
-'## Native progression checkpoint','',
+'## Historical native progression checkpoint','',
 f'Ledger reconciliation: `{PROGRESSION_CHECKPOINT}`. Native opening branches, single-trainer sight/approach, Violet lift/rewards, the real Togepi Egg gift/hatch/audio and field party switching are implemented in scoped source paths. Their offline fixtures and historical review receipts do not establish a fresh-save campaign or browser playthrough.',
 '',
 'P03-001 stays Pending for the complete Sprout Tower sequence. P03-002/P03-003 are Implemented with explicit limits; no requirement is promoted to Verified here. Breeding/inheritance, broader puzzles, full battle/audio coverage and incoming phone field delivery at this checkpoint remain incomplete.',
 '',
 'See [the reconciliation evidence and boundaries](reviews/2026-10-17-parity-reconciliation.md) and `parity/features.json` for each updated requirement. Historical branch notes retain their original scope; later fixes are qualified in the reconciliation rather than retroactively approved.',
+'',
+'## Current native campaign reconciliation','',
+f'Current source checkpoint: `{CURRENT_NATIVE_CHECKPOINT}`. Later authoritative overrides supersede only the listed current feature rows; the 536758a note above remains historical. Native Main SHA256 `6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee` integrates modern owned interfaces, Elm/Mom field phone, map/battle music and live hatch preferences; hatch SHA256 `167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396` includes the muted-fanfare timer correction.',
+'',
+'The catalog contains 103 native cue IDs (102 musical renders plus silence) and 168 unique delivery files for 540 map day/night headers, with 13 story overrides. Those source/corpus proofs do not establish radio, Surf mechanics, general SFX, doubles, all-map or full-campaign parity. Current audited broad requirements stay Partial/Pending; no row is promoted to Verified.',
+'',
+'Production mute 45ef2147 is serving separately with 675 production checks; those checks are not the combined native suite. At this reconciliation cutoff, native full-suite/build/release validation is still underway and native PR26 is not declared deployed. Actual natural native QA reached the earlier Cyndaquil/five-Potions opening milestone only. Historical reviews, source fixtures, three-placement building images and draft terrain audits retain their original limits.',
+'',
+'See [current evidence, exact commits and unchanged-inventory checks](reviews/2026-10-17-native-campaign-parity-reconciliation.md).',
 '',
 '## Implementation sequence','',
 '1. Import original matrices, landscape/prop meshes, permissions, headers, event tables, messages, Pokémon/moves/items/trainers and script instruction lists. Validate IDs and cross-references.',

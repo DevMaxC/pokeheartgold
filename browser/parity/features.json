@@ -996,8 +996,8 @@
     "group": "NPCs and scripts",
     "feature": "NPC phone registration and call outcomes",
     "source": "src/scrcmd.c",
-    "status": "pending",
-    "verification": "Shared trainer registration/refusal/gift/rematch state and native Elm incoming-script/trigger scheduler core have source fixtures (trainer-scripts.test.ts, phone*.test.ts). At536758a main has no incoming-ring/answer/RTC field host; random callers, broader callers, forced-call contexts and ring audio remain incomplete. Historical core review notes are not field-delivery approval."
+    "status": "partial",
+    "verification": "Current native e945ef04 has FieldPhoneHost RTC/admission, Elm/Mom incoming-ring display and answer bindings, source registration/rematch state, connection-preserved rings and failed-admission Return suppression. phone-field-host/main-native-interface fixtures and reviews/native-phone-field-host-integration/ qualify b3463c8b and later Main wiring. Generic random/forced/Safari dialogue, ring audio, saved native RTC/global RNG and a natural hatch-to-call campaign remain incomplete; the536758a no-host statement is historical."
   },
   {
     "id": "P06-015",
@@ -1764,16 +1764,16 @@
     "group": "Interface, saves and settings",
     "feature": "Party menu, summary, reorder and field moves",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": "Field party menu/summary/reorder is connected in536758a, including owned Escape/Cancel, saved whole-record swap, target focus, follower refresh and native partner-room exception (party-field-main.test.ts). Field moves and complete native party contexts remain missing; the combined requirement stays Pending."
+    "status": "partial",
+    "verification": "Native Main 6f486487 connects Summary/Switch/Cancel, whole-Mon reorder/save, Egg/fainted handling and follower identity; the Bag now teaches source-compatible TM/HM moves with replacement/consumption safeguards. General party field-move execution, all summary/native party contexts and natural campaign use remain incomplete. party-field-main/main-native-interface/field-bag-actions fixtures are offline integration evidence, not full-game or browser parity."
   },
   {
     "id": "P11-004",
     "group": "Interface, saves and settings",
     "feature": "Bag menu item selection and target selection",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "The owned Bag exposes original pockets, Use and party/move targets; supported HP/status/PP medicine and TM/HM teaching await confirmation/final acknowledgement inside SourceActionRecovery. Eggs, no-effect/capacity, stale selection, abort and Retry/Return have actual Main/UI fixtures. Unsupported item effects, general Key Item/field use and all native Bag contexts remain explicit gaps; see field-bag-actions.test.ts and native-interface-reconciliation-final/."
   },
   {
     "id": "P11-005",
@@ -1788,8 +1788,8 @@
     "group": "Interface, saves and settings",
     "feature": "Pok\u00e9gear phone, map, radio and cards",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": "Native scripted phone calls and triggered Elm selection/state core exist, but main536758a has no field incoming-ring/answer host or complete Pokegear UI. Map/radio/cards, random-caller fallback and full phone delivery remain incomplete. Do not infer field support from phone-scheduler fixtures."
+    "status": "partial",
+    "verification": "Current Main integrates RTC-driven FieldPhoneHost, Elm/Mom ring indicator/answer, due admission, source reset ordering, connection retention and transactional failure/retry. Pok\u00e9gear acquisition/contacts and selected native calls exist. General random/forced callers, full phone UI, map/radio/cards, ring/no-signal presentation, native saved RTC and Safari delivery remain incomplete. Historical 536758a lacked the later host; current evidence is reviews/native-phone-field-host-integration/ and native-interface-reconciliation-final/."
   },
   {
     "id": "P11-007",
@@ -1836,64 +1836,64 @@
     "group": "Interface, saves and settings",
     "feature": "Text speed, battle scene, battle style and sound settings",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": "Native opening typewriter and Shift/Set option exist; saved sound:false explicitly mutes hatch cues/cry and sound:true uses the original native assets. The current options panel exposes battle style only. Complete sound/text-speed/scene controls and native settings parity remain pending; audio module tests are not option-UI verification."
+    "status": "partial",
+    "verification": "Modern Settings exposes persisted sound/volume/text speed, Shift/Set, touch layout/hand and camera sensitivity. Production mute 45ef2147 serves reviewed 84864cb7: global Mute/Unmute, same-origin storage, hidden-page master gain and live Settings. Native Main 6f486487 mirrors current sound/text after rollback; hatch 167d7165 reads live preferences and retains the muted fanfare timer. Battle-scene control/full native settings parity and current candidate browser/device verification remain pending; scoped receipts are global-audio-controls/, native-hatch-live-preferences/ and native-muted-fanfare-timer/."
   },
   {
     "id": "P11-013",
     "group": "Interface, saves and settings",
     "feature": "Keyboard and controller bindings",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Current native Main binds WASD/arrows, confirm/cancel, camera orbit and trusted gesture ownership; CameraInput supports pointer/trackpad drag/zoom. Actual Main/UI tests preserve Battle Enter/Space activation, modal locks and movement after global-audio-button focus. Gamepad/controller coverage, all source contexts and device/browser parity are not established; native-interface-reconciliation-final/ keeps its original input hashes and limited natural opening check."
   },
   {
     "id": "P11-014",
     "group": "Interface, saves and settings",
     "feature": "Touch equivalents for movement, confirm, cancel and menus",
     "source": "src/save.c",
-    "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "status": "partial",
+    "verification": "TouchControls provides joystick/D-pad, run, interact/menu, left/right placement and cancellation/reset; native Main gates it with current source-action, transition, battle, hatch and UI ownership. Modern prompts provide touch buttons and field Bag/party targets. touch-controls/main-native-interface/UI fixtures cover scoped behavior; complete mobile/device, full campaign and all battle/menu touch routes remain unverified."
   },
   {
     "id": "P11-015",
     "group": "Interface, saves and settings",
     "feature": "Accessible focus, dialogue paging and modal input locking",
     "source": "src/save.c",
-    "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "status": "partial",
+    "verification": "Owned UI implements focus/restore, native text-speed paging, confirmation/cancel and stale-handler cleanup, with field locks through scripts/hatches/recovery. Global mute remains independently focusable without accepting mandatory choices; Enter/Space and battle-button defaults have source-bound regressions. Full screen-reader/device accessibility, every modal and current whole-campaign rendering remain unverified; see ui-framework/main-native-interface and scoped global-audio-controls evidence."
   },
   {
     "id": "P11-016",
     "group": "Interface, saves and settings",
     "feature": "Loading, asset failures and recoverable errors",
     "source": "src/save.c",
-    "status": "implemented",
-    "verification": "Source-action recovery checkpoints State, field actors, camera/lift state and gates saves/input through awaited script/hatch work. Actual main fixtures cover failed field hydration, abort/drain, Retry/Return and provisional follower suppression. General error UX across the campaign and rendered checks remain pending; see native-hatch-host-final-adjudication.json."
+    "status": "partial",
+    "verification": "SourceActionRecovery checkpoints State/actors/phone/camera/Violet height and blocks provisional saves; Retry/Return hydrates without replaying entry scripts. Current global sound/text survive rollback. Music fetch/unlock/restore is bounded, reports no-voice technical failures and retains owned retries without overriding newer battle/map intent; invalid source/config/cancellation remain explicit. Actual native bindings and scoped Opus packets cover these paths, not every campaign asset/error or rendered recovery."
   },
   {
     "id": "P12-001",
     "group": "Audio and presentation",
     "feature": "Original route, town, interior and dungeon music selection",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": "No global route/town/interior/dungeon BGM player exists at536758a. Native1011 hatch music and1188 fanfare have a dedicated owned session; its actual preexisting field snapshot is no track. An injected future field-port contract is not implemented map-music selection."
+    "status": "partial",
+    "verification": "A shared native field/Battle/hatch player is integrated in current Main. Source catalog covers 540 map day/night headers and 13 ordered story overrides, selecting 103 native IDs (102 musical renders plus silence), delivered as 168 unique AAC/M4A or MP3 files. Source/codec/cache/player proofs are in native-field-music/. Radio, additional script/bicycle callers, Surf gameplay and all-map/audio-device audibility remain incomplete; source tables and imported files are not campaign verification."
   },
   {
     "id": "P12-002",
     "group": "Audio and presentation",
     "feature": "Time-of-day music variants and transitions",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": "General day/night BGM selection and field transitions remain unimplemented. Hatch-session restoration can preserve an injected actual voice identity/phase, but current main supplies no global field/radio/Surf music player."
+    "status": "partial",
+    "verification": "Main passes actual map/hour/flags to the source day/night/story selector, owns gesture/mute/visibility and restores actual voice identity/phase through battles/hatches while newer map intent wins. The selector has original Surf priority/suppression, but Main does not implement Surf mechanics/radio ownership or every script override. Native RTC penalties, all-map transitions and Safari/mobile listening remain unverified; see field-music/main-music fixtures and native-field-music/."
   },
   {
     "id": "P12-003",
     "group": "Audio and presentation",
     "feature": "Battle music, rival/gym/legendary themes and victory jingles",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": "Original battle/rival/Gym/legendary themes and victory jingles remain incomplete. The separately exported1011 hatch music and1188 hatch fanfare do not fulfill battle-music coverage; see reviews/2026-10-17-native-hatch-music/README.md."
+    "status": "partial",
+    "verification": "Native battle-music selection and owned playback now use the original 32 trainer-class, 11 legendary-species and 45 parameter tables with native map/region rules, rather than only hatch 1011/1188. Source/asset/player and actual Main battle ownership fixtures exist. Victory/encounter jingles, all special callers/modes, double/multi combat and natural complete battle/campaign audio verification remain incomplete. Emulated lossy delivery is not DS hardware/DAC fidelity."
   },
   {
     "id": "P12-004",
@@ -1908,8 +1908,8 @@
     "group": "Audio and presentation",
     "feature": "Menu, dialogue, movement, item and field sound effects",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": "Original hatch music1011 and fanfare1188 are source-SSEQ/native-bank renders with owned awaited playback, deliberate mute and abort cleanup. Menu/dialogue/movement/item/general field sound effects remain unimplemented; emulator output is not DS hardware/DAC fidelity or whole-music parity."
+    "status": "partial",
+    "verification": "Original opening/hatch cries and native hatch 1011/1188 use shared owned output; live mute suppresses admission without cancelling admitted completion, and the later muted-fanfare leaf preserves its unconditional 15/30s timer/BGM pause. Menu/dialogue/movement/item/general field SFX and broad sound arbitration remain unimplemented in this native Main. Isolated Cut/Azalea sound leaves are not live campaign bindings here; see native-muted-fanfare-timer/ and native-field-music/ for exact scoped limits."
   },
   {
     "id": "P12-006",
@@ -2157,7 +2157,7 @@
     "feature": "Hill and cliff backs are opaque from newly accessible camera angles",
     "source": "browser/src/source/world.ts",
     "status": "partial",
-    "verification": "Placed-land boundary repair uses native opaque geometry, collision floors, terrain offsets and exact entrance/open-passage guards. Current focused New Bark checks cover1008surface rays, two reachable camera witnesses and108opening rays; they do not establish all-map coverage. Full792-context audit, unresolved Route44 terrain, final changed-source rendering and production release remain pending."
+    "verification": "Native campaign policy 8a5cf5c9 defaults draft terrain-scenery closure OFF in ordinary worlds and restores the released forest foundation; audit worlds must explicitly opt in. Historical New Bark 1008 surface/108 opening rays and camera witnesses belong to earlier pinned candidates, not current all-map approval. Full 792-context strict audit, remaining support/encoded-edge diagnostics, caves/bridges and changed-source arbitrary-angle checks remain incomplete; see native-campaign-terrain-policy/ and terrain-visibility-methodology.md."
   },
   {
     "id": "P15-005",
@@ -2189,7 +2189,7 @@
     "feature": "Every world camera angle, terrain boundary and scenery variant receives visual verification",
     "source": "browser/src/source/world.ts",
     "status": "pending",
-    "verification": "Repeated lightmap (_re_lm1) tree art now resolves to the original complete individual image; matching ground-mark families retain per-tree roots. Shared source geometry and repeated/lightmap tree fixtures pass. Complete camera/variant audit remains pending."
+    "verification": "No exhaustive current camera/scenery pass exists. Building A3 has a 355-placement/220-variant/157-ID finite inventory, but final manual approval of all 355 placements from six views remains pending; later roof-art source/candidate captures cover only their three placements. Draft terrain 792-context checks are unfinished and disabled by default in ordinary native worlds. Natural current-campaign QA has reached only the earlier native Cyndaquil opening milestone, not all maps or the current integrated renderer."
   },
   {
     "id": "P15-009",
@@ -2205,15 +2205,15 @@
     "feature": "Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open",
     "source": "browser/src/source/world.ts",
     "status": "partial",
-    "verification": "Family-specific exterior redesign is in progress. The inventory records 355 placed major structures, 220 native texture variants and 157 canonical model IDs. Inside-to-outside alpha-aware rays and six-view manual reviews are separate checks; actual door cards, native entrance recesses and multipart building assemblies must be included. Initial geometry checks did not prove visual quality: copied front doors and plain rear patches require measured native cladding repairs. Full frozen-source placement review, final regression checks and merged deployment remain pending."
+    "verification": "Family-specific native-cladding/exterior fixes replace copied rear doors and retain source fronts/real passages. Immutable A3 covers 355 placements/220 variants/157 IDs with 2,796,873 finite rays and retains 39 strict misses across 16 placements plus separately recorded nearby edge witnesses; those are not exact continuous seals or tolerance passes. Later model 4/217/118 roof-art repairs have separate native proofs/scoped images. Final full-placement manual review and current renderer/campaign checks remain pending; see building-a3-production-readiness/ and native-building-roof-art/."
   },
   {
     "id": "P15-011",
     "group": "3D world depth and navigation",
     "feature": "Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Native 56/57/58/59 directional two-tile jumps and continuous player/follower/scripted jump arcs. Matrix 0 adds source-anchored synthetic relief at 1,453 ledges, with opaque original-textured faces, smooth intact edges and flat water. Source terrain, actors, grass and individually rooted trees share the same half-tile height sampling; props/rocks retain rigid shapes. All ledge midpoint drops, water tiles and intact cell edges have fixtures; actual Route 29 jump, reverse blocking and follower arc checked in isolated browser storage. Other matrices and broader scenery/progression visual checks remain pending."
+    "status": "partial",
+    "verification": "Source directional 56/57/58/59 ledge jumps, continuous actor/follower arcs and matrix 0 synthetic relief at 1,453 source ledges are implemented. Native geometry, half-tile terrain sampling and selected shared-edge/corner regressions have scoped evidence, while water remains flat and rigid props retain shape. Other matrices, every ledge/corner/bridge interaction and natural full-campaign visual/progression checks remain incomplete; historical Route 29 checks do not approve all current views."
   },
   {
     "id": "P15-012",
@@ -2236,8 +2236,8 @@
     "group": "3D world depth and navigation",
     "feature": "Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Native behaviours 33/23 select backing below the original beach surface; blocked tiles and deep water remain excluded. Actual Cherrygrove shoreline model rendered from close side and elevated views."
+    "status": "partial",
+    "verification": "Released native shore translation restores original MAT texture transforms on 27 affected GLB variants with importer/material ownership and original PNG/UV/source-byte proofs. Existing sand/shallow backing remains bounded by native behaviours, not a global sand raise or deep-water fill. Focused original island/shore source sampling and scoped review do not establish every coast/foam/corner/camera; see shoreline-native-translation/ and shoreline-native.test.ts."
   },
   {
     "id": "P15-015",
@@ -2245,7 +2245,7 @@
     "feature": "Raised background forests and authored forest platforms have opaque terrain sides",
     "source": "browser/src/source/world.ts",
     "status": "partial",
-    "verification": "Placed-land boundary repair uses native opaque geometry, collision floors, terrain offsets and exact entrance/open-passage guards. Current focused New Bark checks cover1008surface rays, two reachable camera witnesses and108opening rays; they do not establish all-map coverage. Full792-context audit, unresolved Route44 terrain, final changed-source rendering and production release remain pending."
+    "verification": "Current ordinary native World restores the released owner 0 forest foundation and keeps draft boundary/top closure opt-in, with actual streaming/disposal regressions at policy 8a5cf5c9. Earlier New Bark raised-sheet candidate proofs remain historical; they do not prove all raised native platforms are opaque. Full 792-context support/portal/alpha audit, remaining Route 44 diagnostics and final changed-source views remain incomplete; see native-campaign-terrain-policy/."
   },
   {
     "id": "P15-016",
