@@ -2,6 +2,11 @@ import {EVOLUTION_AUDIO_MANIFEST_SHA256} from './evolution-audio-data.ts';
 import type {BattleEvolutionScene} from './battle-evolution-types.ts';
 import type {NativeCueChildLease} from './field-music.ts';
 
+export const EVOLUTION_AUDIO_PREPARATION_BUDGET_MS=3000;
+export const EVOLUTION_AUDIO_PRESENTATION_WATCHDOG_MS=4000;
+/** Literal SDK table120→−5→channel register121/div0. Mono pan/DAC remain adapters. */
+export const EVOLUTION_CRY_PLAYER_REGISTER_GAIN=121/128;
+
 export class UnsupportedEvolutionAudio extends Error{constructor(message:string){super(message);this.name='UnsupportedEvolutionAudio';}}
 export type EvolutionAudioOutput={readonly context:AudioContext;readonly output:AudioNode;readonly signal:AbortSignal};
 export type EvolutionAudioSession={prepare:(signal:AbortSignal)=>Promise<void>;bgm:(id:1011)=>void;stopBGM:(id:1011)=>void;cry:(species:number,form:number)=>void;cryPlaying:()=>boolean;se:(id:1510|1528|1529|1530|1531)=>void;anySEPlaying:()=>boolean;fanfare:(id:1184|1188)=>void;fanfarePlaying:()=>boolean;cancel:(reason?:unknown)=>void;restore:(signal:AbortSignal)=>Promise<void>};
@@ -37,10 +42,11 @@ export function evolutionAudioTextControl(audio:Pick<EvolutionAudioSession,'anyS
  * and unpause remain. Ordinary form0 EVO_LEVEL, not a DS hardware mixer. */
 export function createEvolutionAudio(ports:EvolutionAudioPorts){
  if(!ports?.lifetime||!ports.player3?.signal||!ports.player3.resources?.playerSequences||typeof ports.borrowParent!=='function'||typeof ports.player3.play!=='function'||typeof ports.player3.cancelOwner!=='function'||typeof ports.player3.isPlaying!=='function'||typeof ports.anySEPlaying!=='function'||typeof ports.onAfterTasks!=='function'||typeof ports.report!=='function')throw new UnsupportedEvolutionAudio('Evolution needs parent lease, shared PLAYER3/output, global sound phase and reporting');
- const limit=ports.ioTimeoutMs??4000;if(!Number.isInteger(limit)||limit<1||limit>120000)throw new UnsupportedEvolutionAudio('Invalid evolution audio deadline');check(ports.lifetime);check(ports.player3.signal);
+ const limit=ports.ioTimeoutMs??EVOLUTION_AUDIO_PREPARATION_BUDGET_MS;if(!Number.isInteger(limit)||limit<1||limit>EVOLUTION_AUDIO_PREPARATION_BUDGET_MS)throw new UnsupportedEvolutionAudio('Invalid evolution audio deadline');check(ports.lifetime);check(ports.player3.signal);
  const lifetime=new AbortController(),sessions=new Set<{cancel:(reason?:unknown)=>void;update:()=>void}>();let active:object|null=null,disposed=false;
  const rootEnd=()=>dispose(why(ports.lifetime)),playerEnd=()=>dispose(why(ports.player3.signal));ports.lifetime.addEventListener('abort',rootEnd,{once:true});ports.player3.signal.addEventListener('abort',playerEnd,{once:true});
- const remove=ports.onAfterTasks(()=>{for(const s of sessions)s.update();},lifetime.signal);
+ let remove:()=>void=()=>{};
+ try{remove=ports.onAfterTasks(()=>{for(const s of sessions)s.update();},lifetime.signal);}catch(error){dispose(error);throw error;}
  function dispose(reason:unknown=Error('Evolution audio backend disposed')){if(disposed)return;disposed=true;for(const s of[...sessions])s.cancel(reason);lifetime.abort(reason);remove();ports.lifetime.removeEventListener('abort',rootEnd);ports.player3.signal.removeEventListener('abort',playerEnd);}
  function open(scene:BattleEvolutionScene,output:()=>EvolutionAudioOutput|null,signal:AbortSignal):EvolutionAudioSession{
   check(signal);check(lifetime.signal);if(disposed||active)throw new UnsupportedEvolutionAudio('Evolution audio already owns an active child');
@@ -57,18 +63,21 @@ export function createEvolutionAudio(ports:EvolutionAudioPorts){
    if(!borrowed){borrowed=next;const end=()=>cancel(why(next.signal)),state=()=>{if(next.context.state==='running')return;for(const v of[...voices])v.stop();background=undefined;foreground=undefined;cry=undefined;ports.player3.cancelOwner(seOwner);status(1011,'no-voice','Shared Context became '+next.context.state,true);};next.signal.addEventListener('abort',end,{once:true});next.context.addEventListener('statechange',state);detach=()=>{next.signal.removeEventListener('abort',end);next.context.removeEventListener('statechange',state);};}
    if(next.context.state!=='running')throw Error('Shared evolution Context is not running');return next;
   }
-  async function bounded<T>(work:(s:AbortSignal)=>Promise<T>,external:AbortSignal){const timeout=new AbortController(),input=AbortSignal.any([external,combined,timeout.signal]),timer=setTimeout(()=>timeout.abort(Error('Original evolution audio preparation timed out')),limit);try{return await observe(()=>work(input),input);}finally{clearTimeout(timer);}}
   function validate(value:Resources){
    if(value?.version!==1||value.sourceSHA256!==SDAT||!value.pairs?.some(p=>p.before===scene.before.species&&p.after===scene.after.species&&p.param===scene.param))throw new UnsupportedEvolutionAudio('Wrong original evolution source/pair');
    for(const id of SE){const a=value.tracks[id],m=ports.player3.resources.playerSequences[id];if(!a||!m||a.player!==3||(['id','key','player','playerPriority','channelPriority','bank','volume']as const).some(k=>a[k]!==m[k]))throw new UnsupportedEvolutionAudio('Evolution must use actual shared PLAYER3 metadata: '+id);}
    for(const asset of[...Object.values(value.tracks),value.cries[scene.before.species],value.cries[scene.after.species]])if(!asset||!/^\/source\/(?:evolution-audio|hatching\/music)\/[\w.-]+\.wav$/.test(asset.url)||!Number.isInteger(asset.frames)||asset.frames<1||!Number.isInteger(asset.sampleRate)||asset.sampleRate<1||!/^\w{64}$/.test(asset.wavSHA256))throw new UnsupportedEvolutionAudio('Missing exact evolution audio asset');
   }
   async function prepare(external:AbortSignal){guard();check(external);if(prepared)return;if(preparing)return observe(()=>preparing!,external);
-   const pending=(async()=>{const encoded=await bounded(s=>(ports.fetchBytes??read)('/source/evolution-audio/resources.json',s),external);await checksum(encoded,EVOLUTION_AUDIO_MANIFEST_SHA256,combined);guard();resources=JSON.parse(new TextDecoder().decode(encoded))as Resources;validate(resources);
+   // One TOTAL budget, registered before presentation's larger watchdog. A
+   // manifest/configuration failure is fatal. Once source is authenticated,
+   // slow individual voices diagnose no-voice without aborting evolution.
+   const deadline=new AbortController(),input=AbortSignal.any([external,combined,deadline.signal]),timer=setTimeout(()=>deadline.abort(Error('Original evolution audio preparation timed out')),limit);
+   const pending=(async()=>{const encoded=await observe(()=>(ports.fetchBytes??read)('/source/evolution-audio/resources.json',input),input);await checksum(encoded,EVOLUTION_AUDIO_MANIFEST_SHA256,input);guard();resources=JSON.parse(new TextDecoder().decode(encoded))as Resources;validate(resources);
     let out:EvolutionAudioOutput|null;try{out=takeOutput();}catch(e){if(e instanceof UnsupportedEvolutionAudio)throw e;status(1011,'no-voice',detail(e));prepared=true;return;}if(!out){prepared=true;return;}
     const assets=[...Object.values(resources.tracks),resources.cries[scene.before.species],resources.cries[scene.after.species]];
-    await Promise.all(assets.map(async asset=>{try{const buffer=await bounded(async input=>{const bytes=await observe(()=>(ports.fetchBytes??read)(asset.url,input),input);await checksum(bytes,asset.wavSHA256,input);const decoded=await observe(()=>out!.context.decodeAudioData(bytes),input);check(input);guard();check(out!.signal);if(decoded.numberOfChannels!==asset.channels||Math.abs(decoded.duration-asset.frames/asset.sampleRate)>1/asset.sampleRate+1/out!.context.sampleRate)throw new UnsupportedEvolutionAudio('Original evolution decoded timing changed');return decoded;},external);guard();buffers.set(asset.url,buffer);status(asset.id,'prepared');}catch(e){check(external);guard();if(e instanceof UnsupportedEvolutionAudio)throw e;status(asset.id,'no-voice',detail(e));}}));guard();prepared=true;
-   })();preparing=pending;try{await pending;}catch(error){cancel(error);throw error;}finally{if(preparing===pending)preparing=undefined;}
+    await Promise.all(assets.map(async asset=>{try{const bytes=await observe(()=>(ports.fetchBytes??read)(asset.url,input),input);await checksum(bytes,asset.wavSHA256,input);const buffer=await observe(()=>out!.context.decodeAudioData(bytes),input);check(input);guard();check(out!.signal);if(buffer.numberOfChannels!==asset.channels||Math.abs(buffer.duration-asset.frames/asset.sampleRate)>1/asset.sampleRate+1/out!.context.sampleRate)throw new UnsupportedEvolutionAudio('Original evolution decoded timing changed');buffers.set(asset.url,buffer);status(asset.id,'prepared');}catch(e){check(external);guard();if(e instanceof UnsupportedEvolutionAudio)throw e;status(asset.id,'no-voice',detail(e));}}));guard();prepared=true;
+   })();preparing=pending;try{await pending;}catch(error){cancel(error);throw error;}finally{clearTimeout(timer);if(preparing===pending)preparing=undefined;}
   }
   function voice(asset:Asset,volume=1):Voice{
    guard();const out=takeOutput();if(!out)throw Error('Original evolution audio deliberately muted or locked');const buffer=buffers.get(asset.url);if(!buffer)throw Error('No prepared original evolution voice');
@@ -83,12 +92,12 @@ export function createEvolutionAudio(ports:EvolutionAudioPorts){
   function ready(){guard();if(!prepared||!resources)throw new UnsupportedEvolutionAudio('Evolution audio must prepare before source commands');}
   function start(asset:Asset,volume=1){try{const v=voice(asset,volume);status(asset.id,'started');return v;}catch(e){guard();if(e instanceof UnsupportedEvolutionAudio)throw e;status(asset.id,'no-voice',detail(e));return undefined;}}
   function cancel(reason:unknown=Error('Evolution child ended')){if(cancelled)return;cancelled=true;owner.abort(reason);for(const v of[...voices])v.stop();background=undefined;foreground=undefined;cry=undefined;ports.player3.cancelOwner(seOwner);detach();buffers.clear();sessions.delete(tracker);}
-  const tracker={cancel,update(){if(cancelled)return;for(const v of[background,foreground,cry])if(v?.finished){v.stop();if(v===background)background=undefined;if(v===foreground)foreground=undefined;if(v===cry)cry=undefined;status(v.id,'ended');}}};sessions.add(tracker);
+  const tracker={cancel,update(){if(cancelled)return;for(const v of[background,foreground,cry])if(v?.finished){v.stop();if(v===background)background=undefined;if(v===foreground)foreground=undefined;if(v===cry)cry=undefined;status(v.id,'ended',undefined,true);}}};sessions.add(tracker);
   const abort=()=>cancel(why(combined));combined.addEventListener('abort',abort,{once:true});
   const api:EvolutionAudioSession={prepare,
    bgm(id){ready();if(id!==1011)throw new UnsupportedEvolutionAudio('Wrong evolution BGM');background?.stop();background=start(resources!.tracks[id]);},
    stopBGM(id){ready();if(id!==1011)throw new UnsupportedEvolutionAudio('Wrong evolution BGM stop');background?.stop();background=undefined;},
-   cry(species,form){ready();if(form!==0||species!==scene.before.species&&species!==scene.after.species)throw new UnsupportedEvolutionAudio('Unsupported evolution cry');cry?.stop();cry=start(resources!.cries[species],120/127);},cryPlaying(){ready();return!!cry;},
+   cry(species,form){ready();if(form!==0||species!==scene.before.species&&species!==scene.after.species)throw new UnsupportedEvolutionAudio('Unsupported evolution cry');cry?.stop();cry=start(resources!.cries[species],EVOLUTION_CRY_PLAYER_REGISTER_GAIN);},cryPlaying(){ready();return!!cry;},
    se(id){ready();if(!SE.includes(id))throw new UnsupportedEvolutionAudio('Wrong evolution SE');let unsupported:UnsupportedEvolutionAudio|undefined;const outcome=ports.player3.play(id,seOwner,()=>{try{return voice(resources!.tracks[id]);}catch(error){if(error instanceof UnsupportedEvolutionAudio)unsupported=error;throw error;}});if(unsupported)throw unsupported;if(outcome.kind==='voice')status(id,'started');else status(id,'no-voice',outcome.detail);},
    anySEPlaying(){ready();const v=ports.anySEPlaying();if(typeof v!=='boolean')throw new UnsupportedEvolutionAudio('Missing live native any-SE query');return v;},
    fanfare(id){ready();if(id!==1184&&id!==1188)throw new UnsupportedEvolutionAudio('Wrong evolution fanfare');fanfareTimer=15;fanfarePending=true;background?.pause();foreground?.stop();foreground=start(resources!.tracks[id]);},

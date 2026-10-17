@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "producerSHA256": "4e53550357d84e612af6e675b7f99153c4bcb35f7c5ef2bb6b15fb80a47f4a4a",
+  "producerSHA256": "7fdc9a409e2f9c211135674986bad0f4257e0e8f42cbae4d1aee1468f18703b7",
   "sourceHashes": {
     "src/evolution_scene.c": "e16a57e130b7367a4ecc8b13c1d954dc208d97e50e5991275ce27f838aefab33",
     "src/sound_playback.c": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
@@ -8,7 +8,10 @@
     "src/main.c": "5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc",
     "include/constants/species.h": "a72ce01027d83aabd9ff61dc8f3afbbf43eee30b25c39b6e23ed42c5ac587732",
     "include/constants/sndseq.h": "8d6b246a5eca81b8711a410aa260cf5d87f4c33286955f6d0d0155ef3f28dca1",
-    "files/poketool/personal/evo.json": "5d6cd7d450b19062b70afd496d3703f18ccadd6244d49fc3597eae3ae9cd18c1"
+    "files/poketool/personal/evo.json": "5d6cd7d450b19062b70afd496d3703f18ccadd6244d49fc3597eae3ae9cd18c1",
+    "lib/NitroSDK/src/snd/SND_util.c": "b142609012d500c246fe189b1361ea1661380391563d040592696c65c6a3af8d",
+    "lib/asm/nitro_sdk_data.s": "5677a289072e2d843d96b1707a892efb0b78c0ea079585db9a996fd2193df9c7",
+    "tools/nitro-section-renames/nitro_link_order.json": "8887fdba13d49423f01f0ab8ab9910f825be670a865ce6ebb8b88902d8163ee8"
   },
   "source": "files/data/sound/gs_sound_data.sdat",
   "sourceSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
@@ -848,7 +851,7 @@
       "dualrip/export.py": "66f70c0b18e6db203ca6374f4964e71cf05210f744fec455f92c0f29d263558e"
     }
   },
-  "policy": "Exact native INFO/SSEQ/bank/SWAR. Rendered sequence volumes baked once. Raw cry signed PCM8 -> unsigned WAV;120/127 PV gain applied by shared runtime. No MIDI, replacement music, normalization or fades.",
+  "policy": "Exact native INFO/SSEQ/bank/SWAR. Rendered sequence volumes baked once. Raw cry signed PCM8 -> unsigned WAV; exact SDK player120 register contribution121/128 applied once by shared runtime (mono pan/rate/mixer remain qualified adapters). No MIDI, replacement music, normalization or fades.",
   "limitations": [
     "Offline sequence/sample emulation is not DS hardware/DAC or global16-channel mixer capture.",
     "Ordinary form0 EVO_LEVEL scene pairs only; no recorded Chatot, chorus, special-form or general evolution coverage.",
@@ -870,6 +873,14 @@
       "size": 44,
       "sha256": "f80e0d8e04826f7bb925d6b3ee8d44d340b208d3e6011c41b785b96cc80afcc2"
     }
+  },
+  "cryPlayerGain": {
+    "sequenceVolume": 120,
+    "decibels": -5,
+    "channelVolumeRegister": 121,
+    "channelVolumeDivider": 0,
+    "linearRegisterGain": 0.9453125,
+    "qualification": "Original player-volume register contribution only. Browser mono routing/pan, nominal SWAV-rate playback and the full DS mixer/DAC are not hardware-equivalent."
   },
   "tracks": {
     "1011": {
