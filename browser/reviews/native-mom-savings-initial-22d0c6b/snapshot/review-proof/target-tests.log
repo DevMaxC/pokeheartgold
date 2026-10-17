@@ -1,0 +1,66 @@
+TAP version 13
+# (node:34305) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle settlement matches literal native C across capped prize, loss/zero, balance and queue boundaries
+ok 1 - battle settlement matches literal native C across capped prize, loss/zero, balance and queue boundaries
+  ---
+  duration_ms: 311.889084
+  type: 'test'
+  ...
+# Subtest: all17 source berry choices use one raw16-bit modulo draw, including16/17/65535 and multi-tier gains
+ok 2 - all17 source berry choices use one raw16-bit modulo draw, including16/17/65535 and multi-tier gains
+  ---
+  duration_ms: 5.981916
+  type: 'test'
+  ...
+# Subtest: normal gifts retain source ordering/costs and capacity; a zero-gain battle still purchases without a berry draw
+ok 3 - normal gifts retain source ordering/costs and capacity; a zero-gain battle still purchases without a berry draw
+  ---
+  duration_ms: 3.178792
+  type: 'test'
+  ...
+# Subtest: full-bank display is captured separately; purchases can free space but never retroactively enlarge this deposit
+ok 4 - full-bank display is captured separately; purchases can free space but never retroactively enlarge this deposit
+  ---
+  duration_ms: 6.778833
+  type: 'test'
+  ...
+# Subtest: native zero/partial initialization, toggle and JSON reload preserve funds/gift identity without inferred fresh events
+ok 5 - native zero/partial initialization, toggle and JSON reload preserve funds/gift identity without inferred fresh events
+  ---
+  duration_ms: 0.356333
+  type: 'test'
+  ...
+# Subtest: the existing actual Mother phone choice toggles only saving policy, retaining purchased gifts, funds and pending calls
+ok 6 - the existing actual Mother phone choice toggles only saving policy, retaining purchased gifts, funds and pending calls
+  ---
+  duration_ms: 6.284208
+  type: 'test'
+  ...
+# Subtest: a fresh purchase reports phone12 even if its bit is already set, and returned/read objects cannot mutate saved gifts
+ok 7 - a fresh purchase reports phone12 even if its bit is already set, and returned/read objects cannot mutate saved gifts
+  ---
+  duration_ms: 0.25275
+  type: 'test'
+  ...
+# Subtest: invalid/missing RNG, malformed stored data and missing source items fail before ANY state write
+ok 8 - invalid/missing RNG, malformed stored data and missing source items fail before ANY state write
+  ---
+  duration_ms: 7.328875
+  type: 'test'
+  ...
+# Subtest: the actual outer source checkpoint restores funds/gifts/phone manager after a later host failure; Retry commits once
+ok 9 - the actual outer source checkpoint restores funds/gifts/phone manager after a later host failure; Retry commits once
+  ---
+  duration_ms: 1.754792
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1294.882

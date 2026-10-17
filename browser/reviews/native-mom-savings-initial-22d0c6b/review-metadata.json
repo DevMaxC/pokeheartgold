@@ -1,0 +1,31 @@
+{
+  "baseCommit": "5c39d05d32b56aa5aeb848d61f4c6e089299b1ce",
+  "snapshotRoot": "/tmp/hg-opus-mom-savings-review/snapshot",
+  "manifestSha256": "d93c32ed769d1ed0b18e24995c6bd2cd23085bb80ac14cee615500228cbc4309",
+  "promptSha256": "e93788fd92557b3d0202f6c4756a422d78a3c80fa4320d1d61ec6da4d9d50399",
+  "startedAtUTC": "2026-10-17T15:02:49.210715+00:00",
+  "requestedModel": "claude-opus-5-5",
+  "tools": [
+    "Read",
+    "Grep",
+    "Glob"
+  ],
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--setting-sources",
+    "",
+    "--no-session-persistence",
+    "--output-format",
+    "json"
+  ]
+}
