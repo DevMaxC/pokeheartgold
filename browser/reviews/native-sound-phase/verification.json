@@ -1,19 +1,22 @@
 {
-  "status": "phase checkpoint; Cut compatibility follow-up and actual review pending",
+  "status": "clock + separately scoped Cut compatibility source frozen; actual review pending",
   "base": "354223cb",
   "files": {
     "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
     "browser/src/source/field-music.ts": "fa4a24e8c3fd71a11e130898c2d35853f3b385c24117f8cfa5e8ef64b889d978",
     "browser/src/source/native-sound-phase.test.ts": "fa0f4df7ec62c0eed9dd25e43c70d9283752660437c2a3683185c47da757f80a",
-    "browser/src/source/field-music.test.ts": "fac5dbe5a8f1b9e94be404f4f99faa734edba68bafb3108010e20fe977fe2768"
+    "browser/src/source/field-music.test.ts": "fac5dbe5a8f1b9e94be404f4f99faa734edba68bafb3108010e20fe977fe2768",
+    "browser/src/source/cut-field-host.ts": "271f1c1f0ea06a09ff6716a77d5c76647f3341f712f6262bf91645c08c76c0db",
+    "browser/src/source/cut-field-host.test.ts": "08452161827ebf117be3191767d5b06c96dfc6ceac3b04aa5ee9f20038fc5e62"
   },
   "tests": {
-    "focusedNode": "65 PASS",
+    "focusedNode": "79 PASS (65 clock/music/sound-phase +14 Cut)",
     "TSC": "PASS",
     "originalSDKC": "PASS",
     "oldAPIObservedControls": "2 expected FAIL",
     "privateAzaleaWithGlobalHook": "28 PASS +TSC",
-    "privateCutWithGlobalHook": "pending completed-fixture rerun"
+    "privateCutWithGlobalHook": "13 PASS; earlier missing-C fixture failure preserved",
+    "CutAfterTasksOldControl": "1 expected FAIL, new source PASS"
   },
   "scope": "offline admitted30Hz field ticks; no Main/World/actor/accepted704 edits or global60Hz/hardware claim"
 }
