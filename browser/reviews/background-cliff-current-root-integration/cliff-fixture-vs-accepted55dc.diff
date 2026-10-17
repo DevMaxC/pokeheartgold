@@ -1,0 +1,11 @@
+--- /Users/maxchurch/Documents/pokeheartgold-review-artifacts/background-cliffs-root-integration-opus-e72124de/snapshot/accepted-55dc/browser/src/source/background-cliff-shells.test.ts	2026-10-17 23:29:44
++++ /Users/maxchurch/Documents/pokeheartgold-review-artifacts/background-cliffs-root-integration-opus-e72124de/snapshot/browser/src/source/background-cliff-shells.test.ts	2026-10-17 23:31:14
+@@ -160,6 +160,7 @@
+ });
+ 
+ test('all unrelated World bytes and the global default-off terrain policy stay unchanged',async()=>{
+- const current=await readFile(new URL('world.ts',import.meta.url),'utf8'),before=await readFile(new URL('../../reviews/background-cliff-shells/source/world-before-1f83.ts.txt',import.meta.url),'utf8');
++ const current=await readFile(new URL('world.ts',import.meta.url),'utf8'),before=await readFile(new URL('../../reviews/background-cliff-current-root/source/world-before-c2.ts.txt',import.meta.url),'utf8');
++ assert.equal(createHash('sha256').update(before).digest('hex'),'2806f7ee08e1cc23be481d6d6fcd42fb2148e4cc5bfc7f9605752bea26f9894c','exact independently released C2 Azalea World baseline');
+  assert.equal(withoutBackgroundCliffIntegration(current),before);assert.ok(current.includes('readonly terrainSceneryEnabled=false'));
+ });
