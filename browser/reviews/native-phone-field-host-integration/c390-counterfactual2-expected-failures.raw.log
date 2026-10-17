@@ -1,0 +1,94 @@
+TAP version 13
+# (node:99848) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+not ok 1 - actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+  ---
+  duration_ms: 943.36075
+  type: 'test'
+  location: '/private/tmp/hg-native-phone-host-before-controls/browser/src/source/egg-field-main.test.ts:252:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    elm
+    + actual - expected
+    
+      {
+        ring: {
+    +     active: null,
+    +     activeSince: null,
+    +     elapsedMinutes: 0,
+    -     active: {
+    -       contact: 1,
+    -       forcePickUp: false,
+    -       script: 13,
+    -       scripted: 3,
+    -       trigger: 0
+    -     },
+    -     activeSince: 1061,
+    -     elapsedMinutes: 10,
+          minuteAdvanceSeen: true
+        },
+        rtcAnchor: 1060,
+        rtcHour: 12
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    ring:
+      elapsedMinutes: 10
+      minuteAdvanceSeen: true
+      active:
+        trigger: 0
+        contact: 1
+        scripted: 3
+        script: 13
+        forcePickUp: false
+      activeSince: 1061
+    rtcAnchor: 1060
+    rtcHour: 12
+  actual:
+    ring:
+      elapsedMinutes: 0
+      minuteAdvanceSeen: true
+      active: ~
+      activeSince: ~
+    rtcAnchor: 1060
+    rtcHour: 12
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-native-phone-host-before-controls/browser/src/source/egg-field-main.test.ts:262:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+not ok 2 - Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+  ---
+  duration_ms: 330.239709
+  type: 'test'
+  location: '/private/tmp/hg-native-phone-host-before-controls/browser/src/source/egg-field-main.test.ts:287:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    ordinary polling must not reopen the same failure
+    
+    4 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 4
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-native-phone-host-before-controls/browser/src/source/egg-field-main.test.ts:291:54)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5472.390167

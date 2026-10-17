@@ -1,0 +1,53 @@
+{
+  "sourceCommit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+  "status": "draft integration checkpoint; no release or visual approval",
+  "checks": {
+    "fullTests": {
+      "pass": 537,
+      "fail": 0,
+      "skipped": 0
+    },
+    "focusedEggGiftConsumerUIAndGymTests": 35,
+    "typescript": "pass",
+    "productionBuild": "pass"
+  },
+  "sourceSha256": {
+    "main.ts": "3084e43133fb421d7401bd29e21cc3f43be8769b7e7d4389365be5cd45a49a5e",
+    "battle.ts": "dbad0ecf0d32bba23500f5d9b701ce3dd74f2f1609e13264dd98f9adddad0c3f",
+    "data.ts": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0",
+    "types.ts": "9fa73b656d2160fb115ddbdbdd200ec2c2d9ef877617065f6be33c210f39c542",
+    "eggs.ts": "bc5278444c1da0163f6de57ce9138c516fc0b16f1e59dd274ee42b726ebeac95",
+    "party-display.ts": "2baed83dc51ce3a6b86a4e842fda46a220535a334286fff90a04da8d7034cc93",
+    "egg-consumers.test.ts": "5a14ee6c4fb630ae121c98a7b041a3e0826a58300a14a0ffbc89581bfb67ff7e",
+    "party-display.test.ts": "3ae13a9298f06aa31c61050a1627a0085d4c53f74725ee545704152316b642e4",
+    "gym-violet-integration.test.ts": "cae4ecf810ed7942a0d91e215c237771b0c24763e89e4d1d4f4a29f24c7493d7"
+  },
+  "buildArtifacts": {
+    "assets/main-DkIveGCR.js": {
+      "bytes": 1018828,
+      "sha256": "acb65c74176c3efa788ddbef6f931f6bdccc79fa31ff0c3b4d5a06cdf79b9a51"
+    },
+    "assets/main-BSf6ee-7.css": {
+      "bytes": 14348,
+      "sha256": "9684cdc25d4d0cf8f83ccf2040695e44940ee548d367867686ba9e7137752424"
+    }
+  },
+  "evidenceLogHashes": {
+    "/tmp/hg-native-progression-egg-consumer-full-tests.log": "ba9794186ab674cbc57d389db8324054991571424e9ce7fe2765482ae860cca2",
+    "/tmp/hg-egg-consumer-integration-tests.log": "9a2579d6a60c0a09abc653b06b3c747b347b2e4e4fd33d640d0634489cd5aac2",
+    "/tmp/hg-native-progression-egg-consumer-build.log": "953ecf9edc46f72300fad24c9d6eb44029d5e895751c90b7153c2b10fc2decf7"
+  },
+  "review": {
+    "combinedGameplayCore": "8b33642 Opus review preserved; LOW Return-gate defect corrected in4b720345",
+    "nativeEggCore": "actual Opus5.5 reviewed, integrated as8f1649b",
+    "consumerIntegration": "manual native-source review passes; actual narrow Opus5.5 review running against copied514a01e"
+  },
+  "outstanding": [
+    "Native hatching and 3D effect/cry host are being implemented",
+    "Terrain T2 corrections and full792 audit remain outstanding",
+    "Final building/world/intro/progression visual checks remain pending disconnected preview",
+    "Broader game parity remains incomplete"
+  ],
+  "buildingStructuralEvidence": "immutable3d09340 audit is separate; not proof of current combined World source or visual rendering",
+  "completeGameParity": false
+}

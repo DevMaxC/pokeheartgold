@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-17T11:53:08.680293+00:00",
+  "baseCommit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+  "status": "Scoped implementation, source validation and offline review complete; root integration and actual browser QA pending.",
+  "sourceFiles": {
+    "browser/src/source/egg-hatch-view.ts": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+    "browser/src/source/egg-hatch-view.test.ts": "37256d2e6a3dd720ad0c54902afdb95f8075882b1035afb10a366593f23c40ef",
+    "browser/src/source/world.ts": "d6251b4ca72cd6e6a84c71dbf6e47d53cdac59558611f58afe5dcf80f936028c",
+    "browser/scripts/export_hatch_audio.py": "71ff431090a6cf30546dc52619671d578745df2a9d0ec8875e6f9ae9ca56bf04",
+    "browser/public/source/hatching/audio.json": "758009e4299dd0ee1ea3427a9cabb87e4101a927ac1cd2179c85b5bfac11b214",
+    "browser/public/source/hatching/cry-175.wav": "dac18e8e3d950a7952eb2294210c969ef0dad0155f60b14452026f7d39339ecd"
+  },
+  "nativeArt": {
+    "browser/public/source/eggs/egg-icon.png": "edce5fb48c1d8318bca44f38099092f641ed0f9deadf44634e8ed57cb75f29cc",
+    "browser/public/source/pokemon/175-male-front.png": "29a02d9ba5e77ab870e0364d34fb7507742205faa708cc809acb0b319749d728",
+    "browser/public/source/pokemon/175-female-front.png": "29a02d9ba5e77ab870e0364d34fb7507742205faa708cc809acb0b319749d728"
+  },
+  "validation": {
+    "fullOfflineTests": 546,
+    "fullOfflineFailures": 0,
+    "command": "node --experimental-transform-types --test --test-reporter=spec src/world.test.ts src/source/*.test.ts",
+    "logSHA256": "c889f04c7a77eec826d1eb6e55e1a52aa5b648cb35aefb97ff139af73ed56153",
+    "productionTypecheck": "tsc --noEmit passed",
+    "sourceAudioReproduction": "export_hatch_audio.py --output=<temporary directory> produced byte-identical audio.json and cry-175.wav",
+    "audioPrerequisite": "ndspy 4.2.0 used for the same WAVE_ARC PCM8 extraction as the opening exporter",
+    "nativeCry": {
+      "source": "files/data/sound/gs_sound_data.sdat",
+      "sourceSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+      "conversion": "Native mono signed PCM8 -> unsigned PCM8 WAV; original rate and all sample bytes retained.",
+      "cries": {
+        "175": {
+          "file": "cry-175.wav",
+          "archive": "WAVE_ARC_PV175",
+          "wave": 0,
+          "sampleRate": 10512,
+          "frames": 5380,
+          "durationSeconds": 0.5117960426179604,
+          "sourceSWAROffset": 3537472,
+          "sourcePCMOffset": 3537548,
+          "signedPCMSourceSHA256": "62cf4110fa208505221b087df57c40afc67a47b83fd2413894e58525161562cf",
+          "wavSHA256": "dac18e8e3d950a7952eb2294210c969ef0dad0155f60b14452026f7d39339ecd"
+        }
+      }
+    },
+    "independentSDATProof": {
+      "status": "Independent standard-library SDAT SYMB->INFO->FAT->SWAR wave0 validation passed",
+      "sourceSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+      "symbolTablePart": 3,
+      "symbolIndex": 175,
+      "symbol": "WAVE_ARC_PV175",
+      "infoRecordOffset": 95028,
+      "fileID": 1966,
+      "fatRecordOffset": 129336,
+      "sourceSWAROffset": 3537472,
+      "sourcePCMOffset": 3537548,
+      "nativeHeader": {
+        "waveType": 0,
+        "loop": 0,
+        "sampleRate": 10512,
+        "timer": 1594,
+        "loopOffsetWords": 0,
+        "lengthWords": 1345
+      },
+      "frames": 5380,
+      "durationSeconds": 0.5117960426179604
+    }
+  },
+  "reviews": [
+    {
+      "version": 1,
+      "model": "claude-opus-5-5",
+      "responseSHA256": "e87fa55005a3a21303a6c2c4b28fd8d733476faa327c4b65f36723a7d92e080d",
+      "result": "I found one confirmed bug: `finish()` can still succeed after `cancel()`. It requires a narrow timing window, which I explain below. Beyond that I found nothing I could confirm in lifecycle, errors, resource disposal, camera handling, cached textures, audio or typed helper compatibility.\n\n### Finding: `finish()` can resolve successfully after `cancel()`\n\n**Where:** `browser/src/source/egg-hatch-view.ts:139`, together with `:129` and `:142`.\n\n```ts\ntry{await this.animate(.4,t=>{...});this.cleanup(false);}catch(error){this.cancel(error);throw error;}\n```\n\n`update()` resolves the final motion at `:129` (`this.motion=null;motion.resolve();`). From then on, `cancel()` has nothing left to reject:\n- `motion` is already `null`.\n- `finish` isn't in `pending`, because it doesn't go through `awaiting()`.\n\nIf `cancel(reason)` runs after that resolve but before `finish`'s continuation, this happens:\n1. `cancel()` sets `failure`, aborts, and calls `cleanup(true)`, which restores the camera snapshot.\n2. The queued continuation then runs `cleanup(false)` a second time, with no `guard()` or `failure` check.\n3. `finish()` resolves normally.\n\nSo the root's resume step would commit the hatch even though the view was cancelled. That breaks the requirement that a later finish cannot commit after a cancel. `awaiting()` (`:79`) re-runs `guard()` after its await, but `animate()` callers don't.\n\n**When it can happen:** a cancel landing in the same microtask checkpoint as the final `update()`. For example, the external `ports.signal` aborting from a root promise chain that settles in that tick, or any synchronous `cancel()` right after the frame that reaches t=1. The current `main.ts:358` frame loop calls nothing after `world.draw` that cancels, so it's narrow. But it's deterministic: call `update()` past the last frame, then call `cancel()` synchronously, and `finish()` still resolves.\n\n**Same gap in `reveal()`:** lines `:117` and `:119` dereference `this.egg!` / `this.pokemon!` after an `await this.animate(...)` without a guard. A cancel in the same window throws a `TypeError` instead of the cancellation reason. It still rejects, so nothing commits, but the stored reason is lost.\n\n**Fix:** call `this.guard()` straight after each `await this.animate(...)` in both `finish()` and `reveal()`. Equivalently, have `animate()` go through `awaiting()`. A regression test would drive `update()` to t=1 and then call `cancel()` before awaiting `finish()`.\n\n### Checked with no confirmed bug\n- **Detached scene clones:** the cry identity check works on field values, not object identity.\n- **Lifecycle:** rejection when another field effect or battle is active, and late artwork after a cancel.\n- **External signal:** listener added and removed correctly.\n- **Field transitions:** `World.beginFieldTransition`/`connect` cancel the effect.\n- **Disposal:** temporary geometry and materials (including shared spark resources) are disposed once; cached textures are never disposed.\n- **Camera:** free-orbit yaw and pitch are kept, the script camera focus is preserved, and the exact camera state is restored on cancel.\n- **Hidden actors:** they are re-hidden before each render. `main.ts:354` resets follower visibility before `world.draw` \u2192 `update` \u2192 render.\n- **Cry adapter:** abort, timeout, ended and cleanup paths.\n- **Audio export:** the SWAV header offsets (type at \u221212, rate at \u221210) and the manifest's duration equality.\n- **Types:** `EggHatchScene` is assignable to `EggHatchVisualScene`, and `Mon.gender` includes `'genderless'`, which is explicitly rejected.\n\nOne thing I couldn't check: `browser/public/source/eggs/egg-icon.png` and `browser/public/source/pokemon/` aren't in this snapshot. The same paths are used by existing code (`eggs.ts:6`, `battle.ts:44`), so they're probably just excluded from the snapshot rather than missing, and I haven't counted that as a finding."
+    },
+    {
+      "version": 2,
+      "model": "claude-opus-5-5",
+      "responseSHA256": "97b7a11800875ea0bfb09cfa8aeaa4cfa3fbb15b0f48777b3955b2f19dd4d0d2",
+      "result": "I have no confirmed findings. The fix for the previous race is correct, and I found no remaining concrete bugs in lifecycle, cancellation, resources, camera or audio.\n\nI only read files and didn't run the tests, so I haven't seen the 9-test pass or the final full-suite rerun myself. The plan-mode workflow wanted a plan file and an `ExitPlanMode` call, but you asked for a read-only review with no subagents, so I just read and reported.\n\n**The fix** (`browser/src/source/egg-hatch-view.ts`)\n- A `this.guard()` call now follows every `await this.animate(...)`: in `reveal()` at lines 116, 118 and 121, and in `finish()` at line 142.\n- When `cancel()` lands between `update()` resolving the final motion (`:132`) and the continuation running, `guard()` sees `active === false` or the aborted signal and throws. It throws the stored cancellation error, because `controller.abort(error)` keeps that error as the reason.\n- `finish()`'s catch then calls `cancel(error)`. That does nothing the second time because the view is already inactive, and the error is re-thrown. So `cleanup(false)` can't run after a cancel, and a cancelled hatch can't be committed.\n- In `reveal()`, a cancel now surfaces with its real reason instead of a `TypeError` from a nulled `this.egg!` or `this.pokemon!`.\n- The regression test (`egg-hatch-view.test.ts:58-60`) is deterministic. `finish()` sets the 0.4 s motion synchronously, `update(.4)` drives it to t=1 and resolves it, and `cancel()` runs before the continuation. Without the new guard, `finish()` would succeed and `assert.rejects` would fail. So the test really checks the fix.\n\n**Re-checked, no confirmed bug**\n- **Async paths:** `awaiting()` already re-guards after its race, so the art load and the cry were never affected. A `finish()` that overlaps with `reveal()` hits the overlap check in `animate()` and cancels instead of corrupting state.\n- **World hook:**\n  - The field-effect branch in `world.draw` (`world.ts:230`) calls `update` before `render`.\n  - Field transitions cancel the effect in `beginFieldTransition` (`:87`) and in `connect` when the header changes (`:123`).\n  - The camera is restored only while `fieldEffect === this`, before `enter` re-runs the camera entry.\n- **Actors:** `main.ts:354` resets follower visibility before `world.draw`, and `update()` hides the live `hideActors` list again before each render. Replacement followers stay hidden (tested at `:39`).\n- **Resources:** temporary geometries and materials are collected into sets, so the shared spark geometry and material are disposed once. Cached textures are only disposed when their own load fails.\n- **Audio:** the cry adapter cleans up on abort, timeout, ended and error. Other species and forms are rejected explicitly.\n- **Assets:** the snapshot now includes `egg-icon.png`, both Togepi (#175) front PNGs, `cry-175.wav` and `audio.json`, which closes the gap from the previous review.\n- **Root helper:** the cry and announcement run concurrently and both settle before the memo, the nickname or `resumeField`. A failure at any step rolls back the mon and the state keys.\n\nOne thing to keep in mind: nothing in this snapshot connects `WorldEggHatchView` to the root presentation, which is expected while the root ports are pending. If the root fails partway, for example the announcement rejects, the root's catch doesn't cancel the view. Whoever writes that wiring has to cancel it, through `ports.signal` or an explicit `cancel()`. That code doesn't exist yet, so it isn't a confirmed bug here."
+    }
+  ],
+  "integrationContract": [
+    "WorldEggHatchView.reveal(scene) leaves the live-field Pok\u00e9mon visible through hatch messages and naming.",
+    "WorldEggHatchView.cry(scene) resolves on actual native cry completion; detached scene clones are supported.",
+    "Root resumeField awaits finish(), which smoothly returns field focus and releases temporary resources.",
+    "Root error/recovery/map-load paths call cancel(reason), synchronously restoring actors/camera and rejecting pending work. finish still rejects after cancellation during the announcement or final render boundary.",
+    "Use a live field getter {map,x,y,z,hideActors} containing the current player/follower meshes; replacement actors are re-hidden immediately before every field render.",
+    "The view never writes Mon, State, flags, score, Dex, OT, memo, inventory or save data.",
+    "The root helper owns concurrent cry/announcement, music cues, dialog/input, transaction rollback and step/wild-event priority."
+  ],
+  "limitations": [
+    "No production build or browser rendering/capture was run, as instructed.",
+    "Only native Togepi175 cry is exported. Other cries/forms and unexported Manaphy Egg artwork reject explicitly.",
+    "Native reveal BGM1011 and fanfare1188 remain separate root audio capabilities; there is no soundtrack fidelity claim. A deliberate muted user setting may skip playback.",
+    "Finite offline tests and source review do not constitute visual approval."
+  ]
+}

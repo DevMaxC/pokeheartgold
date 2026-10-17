@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "reviewedAtUTC": "2026-10-17T12:55:28.270870+00:00",
+  "reviewer": "Codex independent source read",
+  "snapshotRoot": "/tmp/hg-native-party-integration-snapshot-62d966d-20261017",
+  "exactSourceCommit": "536758a553891a934e5cbfca29473b3cbe77a647",
+  "manifestSHA256": "f83750bcb210671cb56e64a707296cff58713b9c953076820053abd8ab98480f",
+  "snapshotAttestation": "/tmp/hg-native-party-main-snapshot-commit-attestation.json",
+  "implementationFindings": [],
+  "observations": [
+    "Owned Escape listener runs after the global handler, which returns without stopPropagation while UI.choose canDismiss is false. Abort reason identity distinguishes intentional cancellation from replacement/recovery.",
+    "SourceActionRecovery gates reentrancy and save until the chosen target and HUD refresh complete; cancellation returns the original party reference and all callbacks/listeners are cleaned.",
+    "Battle Tower partner exclusion equals the literal native map predicate in frontier_field_support.c. Native Elm reward queries first living member, so ordinary field order enables the source script without alternate quest gating.",
+    "Follower reference+species tracking handles distinct same-species slots and no lead. Current allocator creates unique texture/geometry/material resources; removePaper releases captured owned resources only and is idempotent, retaining source/shared attachments.",
+    "Recovery rebuilds state records and restores follower tracking consistently. Pending hatch guard still delays follower change until source checkpoint releases."
+  ],
+  "testEvidence": {
+    "ownerReportedOnly": true,
+    "log": "/tmp/hg-native-party-main-tests.log",
+    "sha256": "b9c298c6a2e03caa921479217e9419dc510bb283ac8abd1bc447ee590141ed7b",
+    "count": 36,
+    "pass": 36,
+    "fail": 0,
+    "diagnosticMainSHA256": "bb0c47db15de9112bd354eebbfe4a73e3b4f85822431696202995a5d90fe8cad",
+    "scope": "Existing log read, not independently executed; main diagnostic SHA matches snapshot. No unrelated historical approvals, full suite, build or browser verification transferred."
+  },
+  "sourceFiles": [
+    {
+      "path": "browser/src/source/main.ts",
+      "bytes": 48195,
+      "sha256": "bb0c47db15de9112bd354eebbfe4a73e3b4f85822431696202995a5d90fe8cad"
+    },
+    {
+      "path": "browser/src/source/party-order.ts",
+      "bytes": 3213,
+      "sha256": "ba0979064cd72441edc94935d007f6464cbc9640c65de72431d46f365cbaae33"
+    },
+    {
+      "path": "browser/src/source/party-display.ts",
+      "bytes": 2104,
+      "sha256": "9e88f5911bad0937829e0544ae9d7ee5b5d391b25ade666693f07c7ecce06db7"
+    },
+    {
+      "path": "browser/src/source/party-field-main.test.ts",
+      "bytes": 11543,
+      "sha256": "4f2213d519ed2e80b702c295297e1507a50be7b6c55d9aab083eb67d780aa3e3"
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "bytes": 8759,
+      "sha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "bytes": 5940,
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+    },
+    {
+      "path": "browser/src/source/world.ts",
+      "bytes": 25635,
+      "sha256": "403e9435c76809b43b7c952875d203899e95c057a3d62250e8f63091cd34fc8d"
+    },
+    {
+      "path": "browser/src/source/paper-lifecycle.test.ts",
+      "bytes": 6814,
+      "sha256": "863649a1c9b85065ecbfe774bb382a393e8aabeda8e39d4a1bf29e95a56a1715"
+    },
+    {
+      "path": "browser/src/source/eggs.ts",
+      "bytes": 4959,
+      "sha256": "bc5278444c1da0163f6de57ce9138c516fc0b16f1e59dd274ee42b726ebeac95"
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "bytes": 13659,
+      "sha256": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "bytes": 32591,
+      "sha256": "c28999d1b3361170a6030095ed2cda621b6fd33256d180635f68cd730154b82a"
+    },
+    {
+      "path": "src/party.c",
+      "bytes": 4257,
+      "sha256": "db230106eb6b9d1e030a8bfd50719b4764e26196a3b360dc7ff2598880cbbd15"
+    },
+    {
+      "path": "src/party_menu.c",
+      "bytes": 123046,
+      "sha256": "78389d26ea2402d2d2f3b4b3270424e0596a98999bc484437aeaeb5966b14452"
+    },
+    {
+      "path": "src/party_menu_list_items.c",
+      "bytes": 44141,
+      "sha256": "f052075b8703b4224d6c31d3c8d01eb426a95876bdd1d66023da62712fa4425d"
+    },
+    {
+      "path": "src/frontier_field_support.c",
+      "bytes": 15725,
+      "sha256": "70877d2e340d3ba1bec0996bc31cab57645b0fdd5da4b808fe70bfabcfb4960a"
+    },
+    {
+      "path": "src/follow_mon.c",
+      "bytes": 59591,
+      "sha256": "34b005c9e772c219dd37d23ba8c3cc35d7112ae250f650450fc8969d6f7a6c8e"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s",
+      "bytes": 26208,
+      "sha256": "419adbe8343e180c15995c07d14e75f80486c3eb613c0d97b578da337853dbf1"
+    }
+  ]
+}

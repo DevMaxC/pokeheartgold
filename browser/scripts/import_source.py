@@ -10,6 +10,8 @@ from ndspy.narc import NARC
 from ndspy.texture import NSBTX,renderTextureDataAsImage
 from ndspy.color import prepareLUTs,pack
 from PIL import Image
+from native_shoreline_srt import tag_glb
+from script_variable_aliases import variable_aliases,canonicalize_variable_aliases
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'browser/public/source';OUT.mkdir(parents=True,exist_ok=True)
 APICULA=ROOT/'.local-tools/apicula/target/release/apicula'
 CACHE=ROOT/'.local-tools/source-import';CACHE.mkdir(exist_ok=True)
@@ -69,6 +71,7 @@ for m in re.finditer(r'\[(MAP_\w+)\]\s*=\s*\{(.*?)\}',mapheaders,re.S):
    if line.endswith(':'):label=line[:-1];labels[label]=len(instructions);continue
    tokens=line.split(None,1);args=[x.strip() for x in tokens[1].split(',')] if len(tokens)>1 else []
    instructions.append([tokens[0],args])
+  instructions=canonicalize_variable_aliases(instructions,variable_aliases(script_path.read_text()))
  msgcode=fields['msgBank'].replace('NARC_msg_msg_','').replace('_bin','')
  msgpath=next((ROOT/'files/msgdata/msg').glob('msg_'+msgcode+'.gmm'),None)
  messages={}
@@ -122,6 +125,7 @@ for threshold,bank,messagebank in re.findall(r'\{\s*(\w+),\s*NARC_scr_seq_scr_se
   if line=='ScrDefEnd':continue
   if line.endswith(':'):labels[line[:-1]]=len(instructions);continue
   parts=line.split(None,1);instructions.append([parts[0],[x.strip() for x in parts[1].split(',')] if len(parts)>1 else []])
+ instructions=canonicalize_variable_aliases(instructions,variable_aliases(scriptpath.read_text()))
  msgpath=next((ROOT/'files/msgdata/msg').glob('msg_'+messagebank+'*.gmm'));messages={row.attrib['id']:row.find("language[@name='English']").text or '' for row in ET.parse(msgpath).getroot().findall('row') if row.find("language[@name='English']") is not None}
  header=re.search(r'#include \"(fielddata/script/scr_seq/[^\"]+)\"',scriptpath.read_text());local=constants(Path('files')/header.group(1)) if header else {}
  write(Path(f'scripts/{bank}.json'),{'id':-int(bank),'code':'COMMON_'+bank,'scripts':{'labels':labels,'entries':entries,'instructions':instructions},'messages':messages,'constants':local})
@@ -139,6 +143,10 @@ write(Path('trainers.json'),json.loads((ROOT/'files/poketool/trainer/trainers.js
 write(Path('encounters.json'),json.loads((ROOT/'files/fielddata/encountdata/gs_enc_data.json').read_text()))
 write(Path('evolutions.json'),json.loads((ROOT/'files/poketool/personal/evo.json').read_text()))
 write(Path('items.json'),list(csv.DictReader((ROOT/'files/itemtool/itemdata/item_data.csv').open())))
+tmhm_source=re.search(r'static const u16 sTMHMMoves\[\] = \{(.*?)\n\};',(ROOT/'src/item.c').read_text(),re.S).group(1)
+tmhm_moves=[CONSTS[key] for key in re.findall(r'^\s*(MOVE_\w+)\s*,',tmhm_source,re.M)]
+if len(tmhm_moves)!=CONSTS['ITEM_HM08']-CONSTS['ITEM_TM01']+1:raise ValueError('Original TM/HM table does not cover TM01 through HM08')
+write(Path('tmhm-moves.json'),tmhm_moves)
 write(Path('growth.json'),{row[0].replace('GROWTH_',''):[int(x) for x in row[1:]] for row in csv.reader((ROOT/'files/poketool/personal/growtbl.csv').open()) if row[0].startswith('GROWTH_')})
 move_records=[]
 for id,b in enumerate(narc('files/poketool/waza/waza_tbl.narc')):
@@ -184,14 +192,18 @@ def pack_glb(path):
 
 def convert(name,model,texture):
  target=OUT/name
- if target.exists():return
+ if target.exists():
+  if name.startswith('land/'):
+   before=target.read_bytes();after=tag_glb(before,model)
+   if after!=before:target.write_bytes(after)
+  return
  target.parent.mkdir(exist_ok=True)
  with tempfile.TemporaryDirectory(dir=CACHE) as folder:
   folder=Path(folder);(folder/'model.nsbmd').write_bytes(model);(folder/'texture.nsbtx').write_bytes(texture)
   result=subprocess.run([str(APICULA),'convert','-f=glb',str(folder/'model.nsbmd'),str(folder/'texture.nsbtx'),'-o',str(folder/'out')],capture_output=True,text=True)
   glbs=list((folder/'out').glob('*.glb'))
   if result.returncode or len(glbs)!=1:raise RuntimeError(f'{name}: {result.stderr[-500:]} {result.stdout[-500:]}')
-  target.write_bytes(pack_glb(glbs[0]))
+  data=pack_glb(glbs[0]);target.write_bytes(tag_glb(data,model) if name.startswith('land/') else data)
 
 if '--data-only' not in sys.argv:
  for i,(model,texid) in enumerate(land_jobs):

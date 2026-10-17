@@ -1,0 +1,19 @@
+{
+  "historicalMainSha256": "94cb450d6253b00837b6ea2e2e0a672d62c984f879ce0ed868c717680ac0287c",
+  "finding": "A connected-map entry ran a frame trigger before checkEvents, lost its consumed result and could then advance the Egg counter or admit a wild encounter.",
+  "fix": "Defer entry frame triggers at this connection call; the existing frame-before-trainer event priority consumes the completed step. Correct the comment to place Repel after daycare.",
+  "regression": "Execute actual enterMap/runFieldEntry/ScriptVM with a condition-clearing OnFrame script after owner connection. Normal-counter and hatch-ready cases consume once, preserve Egg counter, suppress trainer/hatch/wild; old six-argument negative control fails5vs4.",
+  "checks": {
+    "actualMainAndHatchHostTests": 19,
+    "passed": 19,
+    "failed": 0,
+    "tsc": "passed",
+    "priorFullCheckpoint": "628tests/TSC/build passed391e26b before this narrow followup. No new full-suite/build claim."
+  },
+  "sources": {
+    "browser/src/source/main.ts": "55379388e1fa5b004df3fbfe3db102ffb19ecf241c498c0ccbc2fb228355af4b",
+    "browser/src/source/egg-field-main.test.ts": "834ed3b3037ff94cc0c9f61b7baba204f86dd556f0c361527f9d9b6ca2bc2454"
+  },
+  "review": "Original actual Opus5.5 review is preserved separately. This fix and later enabled-audio integration require separate source-scoped followup; no approval transferred.",
+  "browser": "Pending native preview reconnection; no render/playthrough claim."
+}

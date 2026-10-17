@@ -1,0 +1,126 @@
+{
+  "inputCommit": "f21d56866643e055efde7566afd2106129b841c6",
+  "assessmentKind": "Independent read-only static source adjudication of provider final findings; no tests, builds, browser or runtime execution performed for this review.",
+  "provider": "Actual claude-opus-5-5, is_error=false,186 turns,1,557,900ms,0 permission denials. Tiny Haiku CLI routing usage retained separately in raw result.",
+  "sourceIntegrity": "All23,965 tracked files verified against original per-file SHA256 manifest; no changed/missing files, detached HEAD unchanged, git status clean.",
+  "findings": [
+    {
+      "id": "P2-1",
+      "status": "confirmed-static",
+      "browser": [
+        "browser/src/source/battle.ts:104",
+        "browser/src/source/battle.ts:105"
+      ],
+      "native": [
+        "src/battle/battle_util.c:2794",
+        "src/battle/battle_util.c:2812",
+        "src/battle/battle_util.c:2825"
+      ],
+      "proof": "BattleTryRun declares u8 run; raw speed >= opponent guarantees success; slower branch computes old runAttempts, truncates to u8, compares run>random%256, increments attempts afterward. Browser increments before, uses > speed and unbounded numeric odds. Equal legal raw speed is a direct witness; no unsupported ability required.",
+      "fixBoundary": "Preserve raw-speed comparison and supported status handling; do not replace it with stage/paralysis effectiveSpeed or add unimplemented ability/item mechanics."
+    },
+    {
+      "id": "P2-2",
+      "status": "confirmed-static",
+      "browser": [
+        "browser/src/source/battle-math.ts:38",
+        "browser/src/source/battle-math.ts:39"
+      ],
+      "native": [
+        "src/battle/battle_util.c:5858",
+        "src/battle/battle_util.c:5861",
+        "src/battle/battle_util.c:5946"
+      ],
+      "proof": "Native physical base divides by50, applies burn division, then returns dmg+2; browser adds2 before burn halving. Neutral physical burned attacker is sufficient.",
+      "fixBoundary": "Only correct existing burn integer order; do not silently add Guts/screens/weather/other currently unported modifiers."
+    },
+    {
+      "id": "P2-3",
+      "status": "confirmed-static-implemented-choice-with-pending-system",
+      "browser": [
+        "browser/src/source/phone.ts:13",
+        "browser/src/source/main.ts:348"
+      ],
+      "native": [
+        "src/battle/battle_setup.c:394",
+        "src/battle/battle_setup.c:398",
+        "src/battle/battle_setup.c:410"
+      ],
+      "proof": "Mom choice saves FLAG_SYS_MOMS_SAVINGS but trainer reward always adds full prize and State has no savings balance. Native deposits one quarter of actual positive wallet gain, with savings cap and gift trigger. Parity ledger P10-019 explicitly Pending, but current implemented choice silently has no promised economic effect.",
+      "fixBoundary": "Separate economy feature from battle-math patch; any later implementation must respect capped actual wallet delta, not blindly quarter nominal prize."
+    },
+    {
+      "id": "P3-1",
+      "status": "confirmed-static",
+      "browser": [
+        "browser/src/source/main.ts:342"
+      ],
+      "native": [
+        "src/battle/battle_command.c:1213",
+        "src/encounter.c:633",
+        "files/fielddata/script/scr_seq/scr_seq_0850_T21.s:551",
+        "files/fielddata/script/scr_seq/scr_seq_0850_T21.s:557",
+        "files/fielddata/script/scr_seq/scr_seq_0850_T21.s:561"
+      ],
+      "proof": "Only SetupAndStartFirstBattle sets BATTLE_SPECIAL_FIRST_RIVAL in source search. Cherrygrove rival uses regular TrainerBattle; browser disables crits based on PASSERBY class."
+    },
+    {
+      "id": "P3-2",
+      "status": "confirmed-static",
+      "browser": [
+        "browser/src/source/main.ts:367"
+      ],
+      "native": [
+        "src/field_interaction.c:92",
+        "src/field_interaction.c:120",
+        "files/fielddata/eventdata/zone_event/131_T22GYM0101.json"
+      ],
+      "proof": "Browser matches faced or current tile without dir/hidden flag filtering. Native faces-only plus direction compatibility. Actual VioletGym backgrounds12,26 and18,26 have dir0.",
+      "citationCorrection": "131_T22GYM0101 is native event filename; actual exported browser map is135, MAP_VIOLET_GYM, not maps/131.json."
+    },
+    {
+      "id": "P3-3",
+      "status": "confirmed-static",
+      "browser": [
+        "browser/src/source/data.ts:33",
+        "browser/src/source/eggs.ts:12"
+      ],
+      "native": [
+        "src/pokemon.c:2094",
+        "include/constants/pokemon.h:356",
+        "include/constants/pokemon.h:364"
+      ],
+      "proof": "Ordinary createMon compares PIDlowbyte < floatRatio*256. Native raw ratio is floor(ratio*254.75), with0/254/255 fixed-gender cases. Native female1/8 boundary31 is male but browser makes female; ratio2 genderless becomes female. Egg helper already has correct algorithm.",
+      "fixBoundary": "No fix in current battle patch. If shared helper later extracted, avoid creating data.ts->eggs.ts->data.ts import cycle."
+    },
+    {
+      "id": "P3-4",
+      "status": "confirmed-static-low-impact",
+      "browser": [
+        "browser/src/source/main.ts:442",
+        "browser/src/source/main.ts:265",
+        "browser/src/source/field-transitions.ts:21"
+      ],
+      "native": [
+        "src/field_warp_tasks.c:434",
+        "src/field/fieldmap.c:189",
+        "src/field/fieldmap.c:213",
+        "files/fielddata/script/scr_seq/scr_seq_0225_R29.s:19",
+        "files/fielddata/script/scr_seq/scr_seq_0842_T20.s:35"
+      ],
+      "proof": "Continue calls enterMap with runEntry/restoreObjects true, so executes warp OnTransition+OnLoad+OnResume and map-entry state updates; ordinary native Continue restores objects without InitMapOnEnter and later runs OnLoad/OnResume."
+    }
+  ],
+  "additionalStaticCheck": {
+    "providerItem": "Struggle categorized confirmed but latent in raw report",
+    "assessment": "Native BattleSystem_ApplyTypeEffectiveness returns damage immediately for MOVE_STRUGGLE (battle_util.c2240); browser selectMove(slot<0) uses move165 then generic moveDamage adds Normal STAB/type. All-PP exhaustion is a legal reachable state. Raw report retained unmodified; no new severity or tested fixture claimed. Separate followup required."
+  },
+  "scopeLimits": [
+    "Broad provider pass deeply inspected field host/VM/recovery, battle/EXP/trainer, Egg/phone, world/camera, UI/data/opening and native paths listed in raw coverage. It did not inspect every available file deeply.",
+    "Provider explicitly left allbuilding-shells/terrain-rendering/materials/furniture/sky/grass/ledges mostly shallow, and did not review tests. It is not an independent geometric enclosure/visual audit.",
+    "No dynamic tests/builds/browser/performance measurements during this review. Unconfirmed camera cost/type-rounding/trainer-ball concerns remain unconfirmed.",
+    "Explicit unsupported feature guards remain completeness limits, not automatically implemented-path corruption.",
+    "Exactf21d568 only; no approval transfer to later UI/item/backend/shoreline/T2/audio changes. No release approval."
+  ],
+  "runtimeChanges": "None. Root separately authorized a subsequent isolated patch for P2-1 and P2-2 only; that patch is outside this reviewed snapshot."
+}

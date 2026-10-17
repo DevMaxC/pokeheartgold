@@ -1,0 +1,57 @@
+{
+  "commit": "2c0f760bfb485ddb6512a07deef70f3b533d8f42",
+  "snapshot": "/tmp/hg-native-ui-cancellation-2c0f760-opus-snapshot",
+  "files": {
+    "browser/src/source/ui.ts": {
+      "bytes": 6608,
+      "sha256": "01d4232d12098f2daa5ec01342de1feb3bc184a6313dde8cfcc504991656bb42"
+    },
+    "browser/src/source/ui-cancellation.test.ts": {
+      "bytes": 10320,
+      "sha256": "d129a32cef305cc48016e81d60c0132841d269cc5a6ce4c153370b7f0c96cd2c"
+    },
+    "browser/src/source/opening-ui.test.ts": {
+      "bytes": 2786,
+      "sha256": "bbda0f6d336e13158fc3fd1d3a84c768a7c21eb7fa721947b592f3172d9dfb70"
+    },
+    "browser/src/source/opening-view.ts": {
+      "bytes": 9297,
+      "sha256": "2dbf3a39c080329a2ad843945c152186eda5ce4ff3a06a99900744a2fd53eaca"
+    },
+    "browser/src/source/main.ts": {
+      "bytes": 43516,
+      "sha256": "3084e43133fb421d7401bd29e21cc3f43be8769b7e7d4389365be5cd45a49a5e"
+    },
+    "browser/src/source/battle.ts": {
+      "bytes": 25653,
+      "sha256": "dbad0ecf0d32bba23500f5d9b701ce3dd74f2f1609e13264dd98f9adddad0c3f"
+    },
+    "browser/src/source/script.ts": {
+      "bytes": 32293,
+      "sha256": "60a5f01a3fa5d25bcbcea444ed9e147a856e6112cdee2edbe53294a3ad3a1a74"
+    },
+    "browser/src/source/types.ts": {
+      "bytes": 5108,
+      "sha256": "9fa73b656d2160fb115ddbdbdd200ec2c2d9ef877617065f6be33c210f39c542"
+    },
+    "browser/package.json": {
+      "bytes": 462,
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+    },
+    "browser/tsconfig.json": {
+      "bytes": 249,
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0"
+    },
+    "browser/public/source/messages/187.json": {
+      "bytes": 175,
+      "sha256": "d2ec3f1357db3d614baa8c19d775c332c152026d19205c2cff031af61a7cf6df"
+    },
+    "browser/public/source/messages/302.json": {
+      "bytes": 8527,
+      "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+    }
+  },
+  "fileCount": 12,
+  "graphSha256": "9802c799c43f68d8690d26b9ce558f0c90f0011e05a260c13a6783dd7910176c",
+  "scope": "Read-only UI cancellation compatibility review only. Main and VM files are historical usage context from this committed source, not review of later root integration."
+}

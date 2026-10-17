@@ -1,0 +1,102 @@
+diff --git a/browser/reviews/native-azalea-gym-plan.md b/browser/reviews/native-azalea-gym-plan.md
+index 229752d3..c21b98c9 100644
+--- a/browser/reviews/native-azalea-gym-plan.md
++++ b/browser/reviews/native-azalea-gym-plan.md
+@@ -4,7 +4,7 @@ This is an isolated pure data/state/planning layer. It makes no VM, main, World,
+ 
+ `export_azalea_gym.py` imports all eight authored C polylines, twelve logical station positions and48 station/switch slots from `src/field/gymmick/azalea.c`.36 slots are usable;12 are genuinely empty and must not receive an invented route. Initial saved spider positions are[0,1,2,7], switches0 (`gymmick_init.c`). Switch0 toggles bit0 and source track models116/117; switch1 toggles bit1 and115/122. The initial trace undercounted the polylines as seven;8→11 is the eighth and is exported/tested.
+ 
+-`initialAzaleaGymState`, `azaleaGymEntryState`, `flipAzaleaGymSwitch` and `planAzaleaGymRide` do not mutate their input. Continue and connection hydration copy retained stations/switches; a real warp returns native initial state. Invalid/duplicate station records reject. A ride requires an actual owned spider at the requested station and an existing slot. Reverse stations3/4/5/9/10/11 reverse the source polyline and assign player Z offset1/follower0; forward assigns player0/follower1. `completeAzaleaGymRide` rejects stale switch/station snapshots and commits only the relevant spider destination. Native does this at the final movement endpoint, before docking/shake/disembark; a parent action checkpoint must restore it if later presentation fails.
++`initialAzaleaGymState`, `azaleaGymEntryState`, `flipAzaleaGymSwitch` and `planAzaleaGymRide` do not mutate their input. Ordinary Continue copies retained stations/switches. Both connection and real-warp entries run the actual Azalea OnTransition script (`0642` binds `_016`, whose first command is `AzaleaGymInit`) and return native initial state. Connections are not naturally available in this indoor map; they still follow the native lifecycle. Invalid/duplicate station records reject. A ride requires an actual owned spider at the requested station and an existing slot. Reverse stations3/4/5/9/10/11 reverse the source polyline and assign player Z offset1/follower0; forward assigns player0/follower1. `completeAzaleaGymRide` rejects stale switch/station snapshots and commits only the relevant spider destination. Native does this at the final movement endpoint, before docking/shake/disembark; a parent action checkpoint must restore it if later presentation fails.
+ 
+ The SDK fixed-point functions are present in this repository. The planner ports `VEC_Normalize`'s integer division, integer square root and signed rounding with BigInt, followed by the source2-native-unit step. Case5's independent X/Z overshoot checks freeze an overshooting component until both axes can snap to the endpoint. This retains native diagonal tick counts rather than using an idealized Euclidean tween. Separate Python SDK replay produces all sixteen directed-polyline fixtures; all36 usable plans match their segment velocities, ticks and sampled fixed-point poses. First cart0→4 takes209 movement ticks at30 ordinary field ticks/sec, with segment ticks16/48/16/49/24/48/8; the reverse also takes209.
+ 
+@@ -14,4 +14,6 @@ Authored postincrement waits are five ticks for `counter++ >= 4` and nine for`>=
+ 
+ Native asset handoff: area29 selects room model kind0/prop texture27; model118 is in the area prop list and its shape-count0 means the complete model renders. Original room-model118 SHA256 is`1fd210c4a0d9e4caa595fbed02c221a5bec323fb771d488061a4e55303417aac`; texture27 is`e4d514826c3823ee7654105840477f8d3c520033152211cd605d0936f462a9ac`. `props/0-118-27.glb` does not yet exist in this checkout. The pure rules identify that future original asset; they do not fetch a substitute or claim rendering is finished. Track models115/116/117/122 need their original animation states, not color changes.
+ 
+-29 targeted planner/Violet tests and TypeScript pass. Tests compare all48 slots/eight arrays to native C, replay all36 valid routes and12 null cases, forward/reverse/rider/arrival offsets, both switch bits, Continue/warp state, invalid/stale input and nonmutating partial frames. Source SHA256s accompany the generated rules. Regeneration is byte-identical. No build/browser/full campaign validation was run, and the earlier312 Opus review does not transfer to this new planner. Total parity remains partial.
++The initial planner/Violet count was misstated here as29; the retained log is authoritative. The corrected follow-up run includes27 planner/Violet tests and TypeScript. Tests compare all48 slots/eight arrays to native C, replay all36 valid routes and12 null cases, forward/reverse/rider/arrival offsets, both switch bits, Continue/warp state, invalid/stale input and nonmutating partial frames. Source SHA256s accompany the generated rules. Regeneration is byte-identical. No build/browser/full campaign validation was run, and the earlier312 Opus review does not transfer to this new planner. Total parity remains partial.
++
++Actual Opus5.5 review of a1f68482 found that earlier connection retention was wrong. This follow-up corrects it, verifies the exact native header binding, and adds every directed diagonal’s tick48/49 and segment-boundary witnesses. The original review remains historical; its initial snapshot omitted the header and inferred the correct binding.
+diff --git a/browser/scripts/export_azalea_gym.py b/browser/scripts/export_azalea_gym.py
+index bd153a6f..98291153 100644
+--- a/browser/scripts/export_azalea_gym.py
++++ b/browser/scripts/export_azalea_gym.py
+@@ -37,6 +37,8 @@ def native_data():
+     assert 'VEC_MultAdd(FX32_CONST(2)' in source
+     refs = ['src/field/gymmick/azalea.c', 'src/gymmick_init.c', 'include/gymmick.h',
+             'src/save_gymmick.c', 'src/field_warp_tasks.c', 'src/main.c',
++            'files/fielddata/script/scr_seq/scr_seq_0642_T23GYM0102_hdr.s',
++            'files/fielddata/script/scr_seq/scr_seq_0869_T23GYM0102.s',
+             'lib/NitroSDK/src/fx/fx_vec_normalize.c', 'lib/NitroSDK/src/fx/fx_vec_mult_add.c']
+     return {'model': 118, 'asset': 'props/0-118-27.glb', 'nativeUnitsPerTile': 16, 'fixedOne': 4096,
+             'movementUnitsPerTick': 2, 'ticksPerSecond': 30,
+diff --git a/browser/src/source/azalea-gym-rules.ts b/browser/src/source/azalea-gym-rules.ts
+index 0f02707a..d5c9cd81 100644
+--- a/browser/src/source/azalea-gym-rules.ts
++++ b/browser/src/source/azalea-gym-rules.ts
+@@ -1,2 +1,2 @@
+ // Generated from the original C/SDK by browser/scripts/export_azalea_gym.py.
+-export const NATIVE_AZALEA_GYM={"model":118,"asset":"props/0-118-27.glb","nativeUnitsPerTile":16,"fixedOne":4096,"movementUnitsPerTick":2,"ticksPerSecond":30,"initial":{"spiders":[0,1,2,7],"switches":0},"stations":[[3,31],[9,31],[15,31],[3,24],[9,24],[15,24],[3,16],[9,16],[15,16],[3,9],[9,9],[15,9]],"routes":{"1to5":[[3,31],[3,29],[9,29],[9,27],[15,28],[15,25],[9,25],[9,24]],"2to6":[[9,31],[9,29],[3,29],[3,27],[9,26],[9,25],[15,25],[15,24]],"3to4":[[15,31],[15,28],[9,27],[9,26],[3,27],[3,24]],"7to10":[[3,16],[3,12],[9,13],[9,10],[3,10],[3,9]],"7to11":[[3,16],[3,12],[9,13],[9,9]],"8to10":[[9,16],[9,14],[15,14],[15,11],[9,12],[9,10],[3,10],[3,9]],"8to12":[[9,16],[9,14],[15,14],[15,9]],"8to11":[[9,16],[9,14],[15,14],[15,11],[9,12],[9,9]]},"slots":[[{"route":"1to5","destination":4},{"route":"1to5","destination":4},{"route":"1to5","destination":4},{"route":"1to5","destination":4}],[{"route":"2to6","destination":5},{"route":"2to6","destination":5},{"route":"2to6","destination":5},{"route":"2to6","destination":5}],[{"route":"3to4","destination":3},{"route":"3to4","destination":3},{"route":"3to4","destination":3},{"route":"3to4","destination":3}],[{"route":"3to4","destination":2},{"route":"3to4","destination":2},{"route":"3to4","destination":2},{"route":"3to4","destination":2}],[{"route":"1to5","destination":0},{"route":"1to5","destination":0},{"route":"1to5","destination":0},{"route":"1to5","destination":0}],[{"route":"2to6","destination":1},{"route":"2to6","destination":1},{"route":"2to6","destination":1},{"route":"2to6","destination":1}],[null,{"route":"7to10","destination":9},null,{"route":"7to11","destination":10}],[{"route":"8to10","destination":9},{"route":"8to12","destination":11},{"route":"8to11","destination":10},{"route":"8to12","destination":11}],[null,null,null,null],[{"route":"8to10","destination":7},{"route":"7to10","destination":6},null,null],[null,null,{"route":"8to11","destination":7},{"route":"7to11","destination":6}],[null,{"route":"8to12","destination":7},null,{"route":"8to12","destination":7}]],"reverseStations":[3,4,5,9,10,11],"phases":{"afterBoardWaitTicks":5,"dockTicks":1,"shakeTicks":7,"beforeDisembarkWaitTicks":9,"shakeOffsetTicks":[1,3,5,7],"shakeNativeUnits":1},"sources":[{"path":"src/field/gymmick/azalea.c","sha256":"85394e2b3cdf72c667220e11a051c7e2af3168c3c8dba696b94579e46025e83e"},{"path":"src/gymmick_init.c","sha256":"b57b7db020c3fb7dfc9783c1ebe45fc53180ffa37eee5d1947d5974dbc0c4ec1"},{"path":"include/gymmick.h","sha256":"08c0f0cb6fcfea0322fbd0c5e9f552af7a0e12074b6a092fbe9b49927a5d8ddf"},{"path":"src/save_gymmick.c","sha256":"52f83c6519b9b03835d3684fab0e7cf27c4634840f8ffe4402354bbbfc2a8b09"},{"path":"src/field_warp_tasks.c","sha256":"78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea"},{"path":"src/main.c","sha256":"5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc"},{"path":"lib/NitroSDK/src/fx/fx_vec_normalize.c","sha256":"d6926b6c71bcbcd7dc36f1c59aa9e534c07b4c33aa8605750015fc791aa05a1a"},{"path":"lib/NitroSDK/src/fx/fx_vec_mult_add.c","sha256":"3d350a0396d2bdb56ad771393cd6db3b3143c9854cfebd9ebed8677b2fecc26c"}]} as const;
++export const NATIVE_AZALEA_GYM={"model":118,"asset":"props/0-118-27.glb","nativeUnitsPerTile":16,"fixedOne":4096,"movementUnitsPerTick":2,"ticksPerSecond":30,"initial":{"spiders":[0,1,2,7],"switches":0},"stations":[[3,31],[9,31],[15,31],[3,24],[9,24],[15,24],[3,16],[9,16],[15,16],[3,9],[9,9],[15,9]],"routes":{"1to5":[[3,31],[3,29],[9,29],[9,27],[15,28],[15,25],[9,25],[9,24]],"2to6":[[9,31],[9,29],[3,29],[3,27],[9,26],[9,25],[15,25],[15,24]],"3to4":[[15,31],[15,28],[9,27],[9,26],[3,27],[3,24]],"7to10":[[3,16],[3,12],[9,13],[9,10],[3,10],[3,9]],"7to11":[[3,16],[3,12],[9,13],[9,9]],"8to10":[[9,16],[9,14],[15,14],[15,11],[9,12],[9,10],[3,10],[3,9]],"8to12":[[9,16],[9,14],[15,14],[15,9]],"8to11":[[9,16],[9,14],[15,14],[15,11],[9,12],[9,9]]},"slots":[[{"route":"1to5","destination":4},{"route":"1to5","destination":4},{"route":"1to5","destination":4},{"route":"1to5","destination":4}],[{"route":"2to6","destination":5},{"route":"2to6","destination":5},{"route":"2to6","destination":5},{"route":"2to6","destination":5}],[{"route":"3to4","destination":3},{"route":"3to4","destination":3},{"route":"3to4","destination":3},{"route":"3to4","destination":3}],[{"route":"3to4","destination":2},{"route":"3to4","destination":2},{"route":"3to4","destination":2},{"route":"3to4","destination":2}],[{"route":"1to5","destination":0},{"route":"1to5","destination":0},{"route":"1to5","destination":0},{"route":"1to5","destination":0}],[{"route":"2to6","destination":1},{"route":"2to6","destination":1},{"route":"2to6","destination":1},{"route":"2to6","destination":1}],[null,{"route":"7to10","destination":9},null,{"route":"7to11","destination":10}],[{"route":"8to10","destination":9},{"route":"8to12","destination":11},{"route":"8to11","destination":10},{"route":"8to12","destination":11}],[null,null,null,null],[{"route":"8to10","destination":7},{"route":"7to10","destination":6},null,null],[null,null,{"route":"8to11","destination":7},{"route":"7to11","destination":6}],[null,{"route":"8to12","destination":7},null,{"route":"8to12","destination":7}]],"reverseStations":[3,4,5,9,10,11],"phases":{"afterBoardWaitTicks":5,"dockTicks":1,"shakeTicks":7,"beforeDisembarkWaitTicks":9,"shakeOffsetTicks":[1,3,5,7],"shakeNativeUnits":1},"sources":[{"path":"src/field/gymmick/azalea.c","sha256":"85394e2b3cdf72c667220e11a051c7e2af3168c3c8dba696b94579e46025e83e"},{"path":"src/gymmick_init.c","sha256":"b57b7db020c3fb7dfc9783c1ebe45fc53180ffa37eee5d1947d5974dbc0c4ec1"},{"path":"include/gymmick.h","sha256":"08c0f0cb6fcfea0322fbd0c5e9f552af7a0e12074b6a092fbe9b49927a5d8ddf"},{"path":"src/save_gymmick.c","sha256":"52f83c6519b9b03835d3684fab0e7cf27c4634840f8ffe4402354bbbfc2a8b09"},{"path":"src/field_warp_tasks.c","sha256":"78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea"},{"path":"src/main.c","sha256":"5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc"},{"path":"files/fielddata/script/scr_seq/scr_seq_0642_T23GYM0102_hdr.s","sha256":"83a582f2306c3c83ac9d71715fe8de6437950910eb706ef1dbf140edeced50a6"},{"path":"files/fielddata/script/scr_seq/scr_seq_0869_T23GYM0102.s","sha256":"3abe8694f61aa90bec4119b227f38e33ad7a977ca6c107fb3b75628c2d5fa254"},{"path":"lib/NitroSDK/src/fx/fx_vec_normalize.c","sha256":"d6926b6c71bcbcd7dc36f1c59aa9e534c07b4c33aa8605750015fc791aa05a1a"},{"path":"lib/NitroSDK/src/fx/fx_vec_mult_add.c","sha256":"3d350a0396d2bdb56ad771393cd6db3b3143c9854cfebd9ebed8677b2fecc26c"}]} as const;
+diff --git a/browser/src/source/gym-azalea-plan.test.ts b/browser/src/source/gym-azalea-plan.test.ts
+index 0ea9c926..833374fa 100644
+--- a/browser/src/source/gym-azalea-plan.test.ts
++++ b/browser/src/source/gym-azalea-plan.test.ts
+@@ -52,9 +52,14 @@ test('switches toggle their native bits and select the actual upper routes witho
+   const two=flipAzaleaGymSwitch(initial,1);assert.equal(two.switches,2);assert.equal(planAzaleaGymRide(two,7).destination,10);const three=flipAzaleaGymSwitch(two,0);assert.equal(three.switches,3);assert.equal(planAzaleaGymRide(three,7).destination,11);assert.deepEqual(three.spiders,initial.spiders);assert.deepEqual(flipAzaleaGymSwitch(three,1),one);assert.throws(()=>flipAzaleaGymSwitch(initial,2),RangeError);
+ });
+ 
+-test('Continue and connections retain all4 saved stations while real warps initialize source state without mutating input',()=>{
++test('Continue retains saved stations, while native OnTransition reinitializes both connection and warp entries',async()=>{
+   const moved=completeAzaleaGymRide(initialAzaleaGymState(),planAzaleaGymRide(initialAzaleaGymState(),0)),saved=flipAzaleaGymSwitch(moved,1),snapshot=structuredClone(saved);
+-  for(const kind of['continue','connection']as const){const result=azaleaGymEntryState(JSON.parse(JSON.stringify(saved)),kind);assert.deepEqual(result,saved);assert.notEqual(result,saved);assert.notEqual(result.spiders,saved.spiders);}
++  const result=azaleaGymEntryState(saved,'continue');assert.deepEqual(result,saved);assert.notEqual(result,saved);assert.notEqual(result.spiders,saved.spiders);
++  assert.deepEqual(azaleaGymEntryState(saved,'connection'),initialAzaleaGymState());
++  const header=await readFile(new URL('files/fielddata/script/scr_seq/scr_seq_0642_T23GYM0102_hdr.s',root),'utf8'),script=await readFile(new URL('files/fielddata/script/scr_seq/scr_seq_0869_T23GYM0102.s',root),'utf8'),entry=await readFile(new URL('src/field_warp_tasks.c',root),'utf8');
++  assert.match(header,/InitScriptEntry_OnTransition _EV_scr_seq_T23GYM0102_016 \+ 1/);assert.match(script,/scr_seq_T23GYM0102_016:\s+AzaleaGymInit/);
++  const onEnter=entry.slice(entry.indexOf('void FieldSystem_InitMapOnEnter('),entry.indexOf('static void FieldSystem_CreatePlayerAndMapObjects(',entry.indexOf('void FieldSystem_InitMapOnEnter(')));assert.match(onEnter,/if \(isConnection\)/);assert.match(onEnter,/TryStartMapScriptByType\(fieldSystem, INIT_SCRIPT_ON_TRANSITION\);/);
++  const continuation=entry.slice(entry.indexOf('if (CheckFlag966(varsFlags))'),entry.indexOf('FieldSystem_RandomizeRoamers(fieldSystem);',entry.indexOf('if (CheckFlag966(varsFlags))')));assert.match(continuation,/} else \{[\s\S]*FieldSystem_RestorePlayerAndMapObjects\(fieldSystem\);/);
+   assert.deepEqual(azaleaGymEntryState(saved,'warp'),initialAzaleaGymState());assert.deepEqual(saved,snapshot);assert.deepEqual(azaleaGymEntryState(undefined,'continue'),initialAzaleaGymState());
+   for(const invalid of[{spiders:[0,1,2,2],switches:0},{spiders:[0,1,2,12],switches:0},{spiders:Array(4),switches:0},{spiders:[0,1,2,7],switches:4}])assert.throws(()=>azaleaGymEntryState(invalid as AzaleaGymState,'continue'),RangeError);
+ });
+@@ -67,3 +72,21 @@ test('stale switch/station plans and invalid ticks fail before commit; partial r
+ test('authored docking waits retain native postincrement ticks and camera offsets return to zero without an orbit reset',()=>{
+   assert.equal(rules.phases.afterBoardWaitTicks,5);assert.equal(rules.phases.beforeDisembarkWaitTicks,9);assert.equal(rules.phases.dockTicks,1);assert.equal(rules.phases.shakeTicks,7);assert.deepEqual(azaleaGymShakeOffsets(1),[1/16,1/16,0,0,1/16,1/16,0]);for(const facing of[0,2,3])assert.deepEqual(azaleaGymShakeOffsets(facing),[-1/16,-1/16,0,0,-1/16,-1/16,0]);assert.throws(()=>azaleaGymShakeOffsets(4),RangeError);
+ });
++
++// Exact segment boundaries are additional witnesses, independent of the sparse
++// generated sample list. Every authored diagonal overshoots both axes on tick49.
++test('every native directed diagonal reaches tick48 without freezing and snaps both axes together on49',()=>{
++  let diagonals=0;
++  for(let station=0;station<12;station++)for(let switches=0;switches<4;switches++){
++    if(!rules.slots[station][switches])continue;const plan=planAzaleaGymRide(occupied(station,switches),station);let elapsed=0;
++    for(const segment of plan.segments){
++      const scale=16*4096,from={x:segment.from.x*scale,z:segment.from.z*scale},to={x:segment.to.x*scale,z:segment.to.z*scale};assert.deepEqual(azaleaGymRideFrame(plan,elapsed).fixed,from);
++      if(segment.velocity.x&&segment.velocity.z){
++        assert.equal(segment.ticks,49);for(const axis of['x','z']as const){const direction=Math.sign(to[axis]-from[axis]);assert.ok((from[axis]+48*segment.velocity[axis]-to[axis])*direction<0);assert.ok((from[axis]+49*segment.velocity[axis]-to[axis])*direction>0);}
++        assert.deepEqual(azaleaGymRideFrame(plan,elapsed+48).fixed,{x:from.x+48*segment.velocity.x,z:from.z+48*segment.velocity.z});diagonals++;
++      }
++      elapsed+=segment.ticks;assert.deepEqual(azaleaGymRideFrame(plan,elapsed).fixed,to);
++    }
++  }
++  assert.ok(diagonals>0);
++});
+diff --git a/browser/src/source/gym-azalea-plan.ts b/browser/src/source/gym-azalea-plan.ts
+index 79a9df56..f38d9109 100644
+--- a/browser/src/source/gym-azalea-plan.ts
++++ b/browser/src/source/gym-azalea-plan.ts
+@@ -12,9 +12,9 @@ function validate(state:AzaleaGymState){
+   return state;
+ }
+ function copy(state:AzaleaGymState):AzaleaGymState{validate(state);return{spiders:[...state.spiders],switches:state.switches};}
+-/** A real warp clears native gymmick data before InitAzaleaGym. Continue and
+- * ordinary connections retain it; this helper does not reset another gym. */
+-export function azaleaGymEntryState(saved:AzaleaGymState|undefined,kind:'continue'|'connection'|'warp'):AzaleaGymState{return kind==='warp'||saved===undefined?initialAzaleaGymState():copy(saved);}
++/** The Azalea OnTransition script runs InitAzaleaGym on connections and warps.
++ * An ordinary Continue bypasses that script and retains this gym's saved state. */
++export function azaleaGymEntryState(saved:AzaleaGymState|undefined,kind:'continue'|'connection'|'warp'):AzaleaGymState{return kind!=='continue'||saved===undefined?initialAzaleaGymState():copy(saved);}
+ export function flipAzaleaGymSwitch(state:AzaleaGymState,index:number):AzaleaGymState{validate(state);if(!validIndex(index,2))throw RangeError('Invalid original Azalea switch');return{spiders:[...state.spiders],switches:(state.switches^(1<<index))as 0|1|2|3};}
+ 
+ function squareRoot(value:bigint){if(value<0n)throw RangeError('Negative fixed-point length');if(value<2n)return value;let root=value,next=(root+1n)>>1n;while(next<root){root=next;next=(root+value/root)>>1n;}return root;}

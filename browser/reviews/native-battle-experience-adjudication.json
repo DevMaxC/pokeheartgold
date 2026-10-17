@@ -1,0 +1,29 @@
+{
+  "base": "5b7ac9fb4a8373e164f95d33024ec1135722d082",
+  "actualReviewModel": "claude-opus-5-5",
+  "ancillaryCliRouter": "claude-haiku-4-5-20251001",
+  "snapshot": "/tmp/hg-battle-experience-review-20261017-v4",
+  "snapshotHashesVerified": true,
+  "currentSourceMatchesReviewedBytes": true,
+  "verdict": "Core arithmetic clean; follow-up held-effect guard and documentation clean.",
+  "adjudications": {
+    "priorLivingSwitchOut": "Documented counterexample and exact limited one-participant conditions; real participant planner is next separate scope.",
+    "partyAtomicity": "All rewards must be calculated before any recipient mutation. No-award helper path is not full-context preflight.",
+    "heldEffect": "Reject ITEM_* keys with strict native effect-format guard; host supplies exported item holdEffect.",
+    "ownership": "Explicit player-owned intended acquisitions only for current legacy path; no OT name guessing.",
+    "zeroLivingParticipant": "Explicitly unsupported by this initial helper contract; later party planner will source-verify zero-participant share-only handling."
+  },
+  "validation": {
+    "helperTests": 7,
+    "scopedBattleTests": 38,
+    "failures": 0,
+    "typescript": "npx tsc --noEmit passed",
+    "diffCheck": "git diff --check passed",
+    "scopedLogSha256": "2b4866c9ff446a073b6efc4e7733b2a158bcb7eb2d825d2cabc6fb839835f1ba"
+  },
+  "limits": [
+    "No battle/main/world/types changes; parent integrates helper.",
+    "No browser/build.",
+    "No claim of complete switching, partywide ExpShare, trades, EV or levelup flow."
+  ]
+}

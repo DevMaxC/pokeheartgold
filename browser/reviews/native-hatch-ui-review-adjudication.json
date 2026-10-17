@@ -1,0 +1,68 @@
+{
+  "reviews": [
+    {
+      "reviewedCommit": "2c0f760bfb485ddb6512a07deef70f3b533d8f42",
+      "scope": "Read-only UI cancellation compatibility review only. Main and VM files are historical usage context from this committed source, not review of later root integration.",
+      "rawResult": "native-hatch-ui-cancellation-2c0f760-opus-result.json",
+      "rawSha256": "1a859a9ca209c1844db86d57cb14a36f0a0a0243d3f431c594f392930e45894c",
+      "manifest": "native-hatch-ui-cancellation-2c0f760-manifest.json",
+      "graphSha256": "9802c799c43f68d8690d26b9ce558f0c90f0011e05a260c13a6783dd7910176c",
+      "postReviewFilesVerifiedAgainstManifestAndGit": 12,
+      "verdict": "PASS; no concrete patch blocker",
+      "modelUsage": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "turns": 20,
+      "durationMs": 170240,
+      "tools": [
+        "Read",
+        "Grep",
+        "Glob"
+      ],
+      "strictMcpServers": {},
+      "permissionDenials": []
+    },
+    {
+      "reviewedCommit": "4fb650c3c05f6bd8b65bd366a1afc4f6ac855fae",
+      "scope": "Read-only automatic-printer delta review. Existing main/VM usage is historical context; no review of root hatch integration.",
+      "rawResult": "native-hatch-ui-printer-4fb650c-opus-result.json",
+      "rawSha256": "1ea1671ea8e9291fd519e1bfb7dedabd7818908221817f31a41881c854e92adc",
+      "manifest": "native-hatch-ui-printer-4fb650c-manifest.json",
+      "graphSha256": "3060959ac476bc121cf2d434945e019fe25839b2adba34b52eb4829dbec7bbf8",
+      "postReviewFilesVerifiedAgainstManifestAndGit": 14,
+      "verdict": "PASS; no concrete patch blocker",
+      "modelUsage": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "turns": 11,
+      "durationMs": 79210,
+      "tools": [
+        "Read",
+        "Grep",
+        "Glob"
+      ],
+      "strictMcpServers": {},
+      "permissionDenials": []
+    }
+  ],
+  "manualAdjudication": "Both actual restricted Claude Opus5.5 reviews completed successfully. Owner guards, cancellation reason propagation and new printer native no-confirm lifecycle match source inspection. Root integration must observe printer rejection immediately, abort/drain sibling media/UI, and dispose retained text before the next prompt and in finally. Rejection is failure, not silent acceptance/cancellation. No additional concrete UI patch defect was found.",
+  "newNativePrinterReference": "src/hatch_egg_app.c:647\u2013685; cry+printer start together, cry then fanfare then printer completion before nickname question. The UI supports requested confirm fast-forward, which is an approximation of native printer speed-up.",
+  "testOnlyDelta": "f1e40ca replaced regex-derived expected text with exact187/302 fixture strings; existing runtime methods are unchanged by this test-only commit. Printer4fb650c adds a new method without changing existing message/choose/input methods.",
+  "validation": {
+    "focusedCommand": "node --experimental-transform-types --test src/source/ui-cancellation.test.ts src/source/opening-ui.test.ts",
+    "focusedPassed": 17,
+    "focusedFailed": 0,
+    "productionTypecheck": "./node_modules/.bin/tsc --noEmit: PASS (test files excluded by existing tsconfig; their runtime logic executed by Node)",
+    "diffCheck": "git diff --check: PASS"
+  },
+  "knownLimits": [
+    "Reviewers ran source-only Read/Grep/Glob, no commands/tests/browser. Test/TSC results were executed independently by the implementation agent.",
+    "Opening custom manual panel/name flows remain sequential and do not expose cancellation signals.",
+    "printMessage is a single native-page printer. Empty content retains an empty owned box until disposed; root passes original nonempty hatch text.",
+    "Missing-DOM lookup failure is outside the current fixed required DOM contract; no browser behavior was visually verified.",
+    "Later root hatch/main/music/VM integration is not included in these immutable source scopes.",
+    "No browser playthrough, build, deployment or full-game parity approval is claimed."
+  ]
+}

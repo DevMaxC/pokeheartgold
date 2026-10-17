@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "completedAtUTC": "2026-10-17T13:19:04.530881+00:00",
+  "reviewer": "Codex bounded independent source read",
+  "sourceCommit": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+  "snapshotManifestSHA256": "b9bce5f1694430f2616659e27b07e0ae114917f65c89ba87ff7473a59442aaad",
+  "sourceFiles": [
+    {
+      "path": "browser/src/source/main.ts",
+      "bytes": 51073,
+      "sha256": "1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230"
+    },
+    {
+      "path": "browser/src/source/phone-field-host.ts",
+      "bytes": 8065,
+      "sha256": "7e6c4ecb982fbd394bc57a20cacf674001e98e9fac491ebc24d5d45bcacfb1cc"
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.ts",
+      "bytes": 5494,
+      "sha256": "216e30b3c5a7a8abc0da72686ef0cb6996ffed0606fe0cc2533ef6bf96c957a5"
+    },
+    {
+      "path": "browser/src/source/phone-random.ts",
+      "bytes": 4634,
+      "sha256": "6043d3677e91cd9b287e927334b480b93a1ba2538a36825dc6b936616648be5f"
+    },
+    {
+      "path": "browser/src/source/phone.ts",
+      "bytes": 3021,
+      "sha256": "eb8c547560a54ceb860a5c07ab002039fd78e29217ca742cf45a5d79a2c41f4f"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "bytes": 5940,
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "bytes": 14190,
+      "sha256": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23"
+    },
+    {
+      "path": "browser/src/source/egg-hatch-presentation.ts",
+      "bytes": 3757,
+      "sha256": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f"
+    },
+    {
+      "path": "browser/src/source/egg-field-main.test.ts",
+      "bytes": 38512,
+      "sha256": "f028c47b941ee4c7ac50647a093060af157bd93bd3a337331720e621f6fdbedb"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "bytes": 5234,
+      "sha256": "116a461bfce1569a4bd694741a394a0be6334b9c1b2487a27eb7e1f6f64edc3b"
+    },
+    {
+      "path": "src/gear_phone_ring_manager.c",
+      "bytes": 12399,
+      "sha256": "1aa8a19b06f291709d178beb1fbc7ed0cf92777514d17924f93676984391ad66"
+    },
+    {
+      "path": "src/field/overlay_2_gear_phone.c",
+      "bytes": 11067,
+      "sha256": "0806e2ed5435facabf685bc7b9a088cffded68f64e23f421cfe92bb40dc54f25"
+    },
+    {
+      "path": "src/field/field_control.c",
+      "bytes": 47347,
+      "sha256": "cfcefc46d5995417bf9af4a66cb5eb0ed6d57da2ac823fe6a3d1a6749ff79127"
+    },
+    {
+      "path": "src/field_system.c",
+      "bytes": 10991,
+      "sha256": "0a95627586f4388c42cc885def5fd8b59d75cd0ef72a14e82971fbea9eca496b"
+    },
+    {
+      "path": "src/field_time_events.c",
+      "bytes": 8357,
+      "sha256": "cfe62b3f93f8000214b274808e11e619d880405185f0986f668d99ebcb260a58"
+    },
+    {
+      "path": "browser/public/source/phone-triggers.json",
+      "bytes": 8425,
+      "sha256": "237abc54bf9241892441e6edef4ee693546e1f6ddd6587f92a9d4868435a4456"
+    }
+  ],
+  "confirmedCurrentImplementationFindings": [],
+  "checkedInteractions": [
+    "Due history mutation is inside executeSourceAction; needsAdmission/current are read-only, and no non-due autosave/RNG poll occurs.",
+    "LC/MT per-admission tapes and ephemeral snapshot are closure-owned outside the retry callback; retries reset indices and replay cached successful draws while reattempting only failed/unfilled draw.",
+    "Main successful normal-step result carries consumed frame/trainer/coordinate/warp/Egg/wild outcomes to phone priority; blocked movement remains eligible as native idle input. Forced/poison/Safari handlers remain explicitly unported, not newly claimed as implemented.",
+    "Active-only source resets match native ResetIfActive; fresh inactive9-minute interval survives ordinary scenes, whereas active rings are removed without consuming saved pending bits.",
+    "One Date.now observation supplies consistent seconds/hour; host advances from last whole-minute RTC anchor and native source processes ring seconds before minute advance.",
+    "Fresh hatch hook is called after trigger bit is set, not during Continue. Root captureField/restoreField includes host clock/ring beside State checkpoint.",
+    "Answer lock is not restored from field snapshot, remaining held across awaited UI/Retry/Return. Launch consumes only pinned Elm trigger and resets ring within the same checkpoint; root save and indicator hide while source busy."
+  ],
+  "qualifications": [
+    "Separate component acf Opus review is pending under its owner; no approval transferred from initial119 or acf.",
+    "77 and55 owner tests are overlapping source-qualified runs; reviewer did not rerun tests.",
+    "No generic random dialogue, forced delivery, Safari generation, globalDSRNG, savedSysInfoRTC or penalty completeness claim.",
+    "No browser/build/fullsuite/realtime/render verification or new source/index edits.",
+    "This source-only review is ofc39003b1, not later production merge bytes."
+  ]
+}

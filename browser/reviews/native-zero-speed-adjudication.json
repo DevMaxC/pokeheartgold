@@ -1,0 +1,28 @@
+{
+  "reviewedHistoricalSource": "b30324e8b66fabf0747449be81568c814cfb69cd",
+  "confirmedFinding": "The added effectiveSpeed clamp incorrectly raised native integer0 to1 after stage and paralysis divisions, fabricating a speed tie with a genuinely faster speed1 foe.",
+  "sourceProof": "CheckSortSpeed battle_util.c:1029-1030,1058-1059,1117-1118 has no minimum1 clamp.",
+  "change": "Remove only the minimum1 clamp; retain the two native integer truncations.",
+  "regression": "Actual Battle.start with valid level1 Geodude speed5/PAR and Rattata speed6, bothstage-6 andHP1, RNG.25: oldwon; correctedlost with opponentTacklefirst, effective speeds0and1.",
+  "checks": {
+    "before": "New public-battle test failed on old outcome won vs requiredlost.",
+    "after": {
+      "battleFocusedTests": 71,
+      "passed": 71,
+      "failed": 0,
+      "skipped": 0,
+      "tsc": "passed"
+    },
+    "wholeHostCheckpoint": "391e26b had628fulltests/TSC/buildpass before this targeteddelta. No629full-run or rebuiltartifact isclaimed.",
+    "review": "Actualb303Opusreviewstillrunning on immutablecopy; newnarrowfix followuprequested, not approvedyet."
+  },
+  "sources": {
+    "browser/src/source/battle.ts": "e22f51f30748a7fd956dfd4a20fb71271c1e9fa6796cce31bc54f7c0cf32f49f",
+    "browser/src/source/battle-turn-phase.test.ts": "d85deb669fc0bfd03b006e953fd131a3754ab77bcdb9d0ad1452a155e0c39956",
+    "src/battle/battle_util.c": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949"
+  },
+  "limits": [
+    "Other unported speed modifiers/abilities/items/TrickRoom/doubles and fullglobalbattleRNGparity remain outside this correction.",
+    "No browser rendering/playthrough claim."
+  ]
+}

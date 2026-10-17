@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "scope": "Historical native field party integration only; no phone or later main approval",
+  "reviewedCommit": "536758a553891a934e5cbfca29473b3cbe77a647",
+  "priorBaseCommit": "62d966d5a1cb59bbb05342b293bed4162a39dece",
+  "publicationBaseCommit": "e8626f25e0cd8350b13f197ae3f46695ab4759f2",
+  "mainSHA256": "bb0c47db15de9112bd354eebbfe4a73e3b4f85822431696202995a5d90fe8cad",
+  "snapshot": {
+    "manifest": "snapshot-manifest.raw.json",
+    "inventoriedAndHashedFiles": 6833,
+    "committedBlobAttestation": "snapshot-commit-attestation.raw.json",
+    "allCommittedInputsMatched": true,
+    "allInputsIndividuallyReviewed": false,
+    "sourceFilesDuplicatedInThisMetadataArchive": false,
+    "reconstruction": "Read each files[].path from git536758a553891a934e5cbfca29473b3cbe77a647 and validate its SHA256 against the full manifest. Native GLB/large art/audio were not snapshotted."
+  },
+  "adjudication": {
+    "confirmedIntroducedDefects": 0,
+    "initialReview": "opus-initial.raw.json",
+    "committedDiffFollowup": "opus-followup.raw.json",
+    "noDiffLimitationResolved": true,
+    "historicalCoverageGapsRetained": [
+      "party main test mocks restoreField; actual failed-swap follower hydration not directly exercised",
+      "permanent updateHUD throw in after-swap failure test would also fail real recovery; actual restore fixture should use a one-shot failure",
+      "owned Escape test does not dispatch through the real global key handler plus UI instance"
+    ],
+    "noApprovalTransfer": [
+      "Later phone/main changes",
+      "Unrelated historical tests or reviews",
+      "Full suite",
+      "Build",
+      "Real DOM",
+      "GPU or rendered appearance",
+      "Deployment"
+    ]
+  },
+  "testSourceQualifications": {
+    "log": "owner-targeted-tests.raw.log",
+    "reportedBy": "Parent implementation owner",
+    "testCount": 36,
+    "pass": 36,
+    "fail": 0,
+    "actualMainDiagnosticsMatchReviewedMain": true,
+    "independentlyRerunByReviewer": false,
+    "typeScript": "Owner reported passing before a test-only file; no separate command receipt archived here",
+    "noFullSuiteBuildBrowserExecutedForThisReview": true
+  },
+  "portableMappingRule": "Raw files deliberately retain historical absolute/tmp paths. Resolve artifact references through artifacts[].originalPath \u2192 artifacts[].path in this directory; current repository contents are not substituted for reviewed inputs.",
+  "artifacts": [
+    {
+      "path": "snapshot-manifest.raw.json",
+      "originalPath": "/tmp/hg-native-party-integration-snapshot-62d966d-20261017/snapshot-manifest.json",
+      "sha256": "f83750bcb210671cb56e64a707296cff58713b9c953076820053abd8ab98480f",
+      "bytes": 1179361,
+      "preservedBytes": true
+    },
+    {
+      "path": "snapshot-commit-attestation.raw.json",
+      "originalPath": "/tmp/hg-native-party-main-snapshot-commit-attestation.json",
+      "sha256": "6e7633c1b20022ec62755ac73a9cb744c73c8c5c19a5935d9688cb8ad723a7d7",
+      "bytes": 867,
+      "preservedBytes": true
+    },
+    {
+      "path": "opus-initial.raw.json",
+      "originalPath": "/tmp/hg-native-party-main-opus-review.json",
+      "sha256": "9eb1f051c6226dbc319bbe2c0e5a00327391fef1886807708e229cf346bf2a23",
+      "bytes": 8803,
+      "preservedBytes": true
+    },
+    {
+      "path": "opus-followup.raw.json",
+      "originalPath": "/tmp/hg-native-party-main-opus-review-followup.json",
+      "sha256": "b9b077dbd6289f8d60c64df2940128703bf55967f07c6ed111f3a3f80eebad53",
+      "bytes": 6379,
+      "preservedBytes": true
+    },
+    {
+      "path": "independent-source-review.raw.json",
+      "originalPath": "/tmp/hg-native-party-main-independent-source-review.json",
+      "sha256": "160d89c324c89ba2ee7db64bd836649041c1dc05a5abafc553241c624b706c36",
+      "bytes": 4946,
+      "preservedBytes": true
+    },
+    {
+      "path": "review-receipt.raw.json",
+      "originalPath": "/tmp/hg-native-party-main-review-receipt.json",
+      "sha256": "b81d1cbd91b93f0ad57195310dbccb1906a0b6f24f9104ec76a4b4e2dc25ed68",
+      "bytes": 3072,
+      "preservedBytes": true
+    },
+    {
+      "path": "62d966d-to-536758a.diff",
+      "originalPath": "/tmp/hg-native-party-main-review-delta-62d966d-536758a/party-integration-committed.diff",
+      "sha256": "d144350aec11bcd93b58971dccdc385aa5676e44e1852de078a4634a3c3a711c",
+      "bytes": 55176,
+      "preservedBytes": true
+    },
+    {
+      "path": "committed-diff-provenance.raw.json",
+      "originalPath": "/tmp/hg-native-party-main-review-delta-62d966d-536758a/provenance.json",
+      "sha256": "2eef9a9233b585c9a0ef4ba18e80ac67b115405db9ca50b94a7757dbc60c7403",
+      "bytes": 468,
+      "preservedBytes": true
+    },
+    {
+      "path": "owner-targeted-tests.raw.log",
+      "originalPath": "/tmp/hg-native-party-main-tests.log",
+      "sha256": "b9c298c6a2e03caa921479217e9419dc510bb283ac8abd1bc447ee590141ed7b",
+      "bytes": 11154,
+      "preservedBytes": true
+    },
+    {
+      "path": "opus-initial-prompt.raw.txt",
+      "originalPath": "/tmp/hg-native-party-main-opus-prompt.txt",
+      "sha256": "75d4b676dc550713e5606d7d897dcc9560a2aa110ddbf93882a2f8166e666ea6",
+      "bytes": 3701,
+      "preservedBytes": true
+    },
+    {
+      "path": "opus-followup-prompt.raw.txt",
+      "originalPath": "/tmp/hg-native-party-main-opus-followup-prompt.txt",
+      "sha256": "47d5ffd44736f463bd4cc4e90a365c4882b145c4f4b90c071ccaaff2616e158a",
+      "bytes": 1487,
+      "preservedBytes": true
+    }
+  ],
+  "notDuplicatedHistoricalReferences": [
+    {
+      "originalPath": "/tmp/hg-native-party-main-review-delta-62d966d-536758a/main-before-62d966d.ts",
+      "reconstructFromGit": "62d966d5a1cb59bbb05342b293bed4162a39dece:browser/src/source/main.ts",
+      "reason": "Metadata archive does not duplicate baseline runtime source."
+    },
+    {
+      "originalPath": "/tmp/hg-native-party-integration-snapshot-62d966d-20261017/party-integration.diff",
+      "bytes": 0,
+      "reason": "Original working-tree diff empty after commit; superseded for review comparison by62d966d-to-536758a.diff, retaining the raw review history."
+    }
+  ],
+  "rawDiffWhitespaceQualification": {
+    "path": "62d966d-to-536758a.diff",
+    "rawBytesUnchanged": true,
+    "expectedWhitespaceCheckWarnings": 8,
+    "reason": "Raw diff preserves blank context lines and an existing source trailing-space line. Other metadata passes whitespace checks; this raw evidence is validated by SHA256."
+  }
+}

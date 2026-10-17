@@ -1,0 +1,27 @@
+{
+  "sourceCommit": "eca6778b24388dbef79661cb14c21c4b7a9cab18",
+  "mainSha256": "7febb2f8f0b143ee8855b2c1041c49e18f62ef2f2c836c904a0058c639164f72",
+  "checks": {
+    "fullSuite": {
+      "command": "npm test",
+      "passed": 752,
+      "failed": 0,
+      "cancelled": 0,
+      "log": "tests.log",
+      "sha256": "6b676a84e8f12549c7b1ad07652b97372fa6e71f36122c517bd696f8d7869f90"
+    },
+    "productionTypeScript": {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "log": "tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "limits": [
+    "No build or browser playthrough at this checkpoint.",
+    "Incoming phone host119c50c has an independently confirmed unresolved empty-random-fallback cadence defect; next selector revision remains in progress. Passing tests do not close that finding.",
+    "Party536 source review does not approve later phone edits; strengthened actual recovery/global UI fixtures are pending integration.",
+    "Building and terrain closure candidates remain separate drafts with visual checks and strict source-domain classifications outstanding.",
+    "Full game parity is not complete."
+  ]
+}

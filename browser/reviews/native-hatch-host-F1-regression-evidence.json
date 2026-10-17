@@ -1,0 +1,19 @@
+{
+  "testOnlyCommit": "4ea3880",
+  "fixedMainSha256": "55379388e1fa5b004df3fbfe3db102ffb19ecf241c498c0ccbc2fb228355af4b",
+  "extractedFixedBindingSha256": "9708d47e86b716cf504ef4e3f7a72b5c72163678a777bc4ad962c68d9c5bb6d5",
+  "testSourceSha256": "834ed3b3037ff94cc0c9f61b7baba204f86dd556f0c361527f9d9b6ca2bc2454",
+  "positive": {
+    "pass": 10,
+    "fail": 0,
+    "logSha256": "b9072ab387c0b02772d284a1b736f7d6853f39d8cde6cbd1078d895ca89e1091"
+  },
+  "negativeControl": {
+    "change": "Remove only seventh deferTriggers=true argument from owner-map enterMap call",
+    "result": "Expected actual-binding assertion failure",
+    "expectedEggCounter": 4,
+    "actualEggCounter": 5,
+    "logSha256": "139bda8ffbfcccc095edb4c534e23525bc22bb52b9e3653c2f0e4141d11a23c1"
+  },
+  "qualification": "Auditor-run logs independently read; no test execution by this review agent. Later audio binding changes are outside these hashes."
+}

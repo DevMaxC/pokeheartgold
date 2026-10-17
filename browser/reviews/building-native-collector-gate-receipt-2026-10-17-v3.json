@@ -1,0 +1,192 @@
+{
+  "generatedAt": "2026-10-17T03:51:45.720473+00:00",
+  "headAtReceipt": "e1bbb254e619a98c006a367416ec16acf66113ce",
+  "candidateStage": "A3 provisional source checkpoint; exact immutable candidate commit remains unknown until parent commits",
+  "rendererCandidateCommit": null,
+  "status": "Current working source inputs stable. Final committed-byte attestation and actual visual capture remain pending.",
+  "report": "browser/reviews/building-native-collector-gate-adjudication-2026-10-17-v3.json",
+  "reportSHA256": "c1192d2a01360a8b5bea96a2ffd461d797b875ce26ab2820e61578e2f291ea62",
+  "probe": "browser/reviews/building-native-collector-gate-probe-2026-10-17-v3.mts",
+  "probeSHA256": "5e527faf5b22e04d0d3993631bc847085645b775e532be2e45be3201fce08ad3",
+  "counts": {
+    "nativeHashMismatches": 0,
+    "assets": 220,
+    "errors": 0,
+    "assetsWithHiddenOrInstanced": 1,
+    "assetsWithCollectorReads": 1,
+    "assetsWithVisibleOutputChanged": 0,
+    "gates": 34,
+    "north": 15
+  },
+  "sourceInputsStable": true,
+  "sourceInputsHashed": 65,
+  "sourceHashes": {
+    "src/source/world.ts": "f008f2c10dd13fcb162ea394e22beb0e646eb0d0ab165ab4f043cc85f565aec1",
+    "src/source/house-building-shells.ts": "4a5734efd044b9d6be5628dd75ab07f127c10263f26a7b124b66d03d2a953367",
+    "src/source/gate-building-shells.ts": "df6cdbaaf92d5ba56867a1ea9bef4a29ce4fb3c3f898ddab4da2672afc8474f2",
+    "public/source/entrances.json": "04495b657c173f1b618b1bbf6bfd0ab7349d1576c83f99f2df8365f02b789d9a",
+    "reviews/building-visual-inventory.json": "5d4068d12e7bd0fd453adca26f7a75fa7cb2a909646830b6573f4e5acf4e9415"
+  },
+  "rendererFiles": 27,
+  "rendererGraphSHA256": "e446073010b377178d0334fba18ced0ed02e65b150616ac11266e91956d2f54f",
+  "inventorySHA256": "5d4068d12e7bd0fd453adca26f7a75fa7cb2a909646830b6573f4e5acf4e9415",
+  "planSHA256": "94ab91043d5e9bb3d657443c9b3903075c5f087d688bbd0290c095d23734df79",
+  "auditProvisionalSHA256": "f3d5fa86c0e1e2ce41426fe2cd6f1c917cc27a1e333359bf368837ef26fe1234",
+  "coverage": {
+    "assetContexts": 220,
+    "modelIds": 157,
+    "placements": 355,
+    "plannedPages": 60,
+    "plannedViews": 2130,
+    "allVisualStatuses": "pending"
+  },
+  "A2comparison": {
+    "priorReport": "browser/reviews/building-native-collector-gate-adjudication-2026-10-16-v2.json",
+    "priorReportSHA256": "f4a7fd7de1c0fed3f13627af0aaabfef8c90ac1ff030fe154f7c080575bd3ada",
+    "visibleOutputSignatureChanged": [
+      {
+        "asset": "props/1-102-6.glb",
+        "modelId": 102,
+        "placement": "0:5,10:1"
+      },
+      {
+        "asset": "props/1-237-14.glb",
+        "modelId": 237,
+        "placement": "0:37,7:11"
+      }
+    ],
+    "visibleOutputSignatureUnchangedAssetContexts": 218,
+    "historicalArtifactsUnmodified": true
+  },
+  "actualNorthKeys": [
+    "0:11,10:0",
+    "0:11,14:0",
+    "0:13,8:9",
+    "0:16,4:0",
+    "0:16,5:5",
+    "0:19,12:0",
+    "0:32,4:0",
+    "0:32,5:0",
+    "0:32,6:2",
+    "0:32,8:3",
+    "0:37,14:0",
+    "0:40,6:2",
+    "0:40,8:0",
+    "240:0,1:0",
+    "86:1,2:0"
+  ],
+  "worldParentNorthKeys": [
+    "0:11,10:0",
+    "0:11,14:0",
+    "0:13,8:9",
+    "0:16,4:0",
+    "0:16,5:5",
+    "0:19,12:0",
+    "0:32,4:0",
+    "0:32,5:0",
+    "0:32,6:2",
+    "0:32,8:3",
+    "0:37,14:0",
+    "0:40,6:2",
+    "0:40,8:0",
+    "240:0,1:0",
+    "86:1,2:0"
+  ],
+  "acceptedNorthLocalBounds": {
+    "min": [
+      -8,
+      0,
+      -104
+    ],
+    "max": [
+      8,
+      0,
+      -80
+    ]
+  },
+  "literalMinus104Events": [
+    {
+      "index": 93,
+      "world": [
+        626.5,
+        380.5
+      ],
+      "local": [
+        -8,
+        0,
+        -104
+      ],
+      "localDirection": [
+        0,
+        0,
+        -1
+      ],
+      "placement": "0:19,12:0"
+    },
+    {
+      "index": 94,
+      "world": [
+        627.5,
+        380.5
+      ],
+      "local": [
+        8,
+        0,
+        -104
+      ],
+      "localDirection": [
+        0,
+        0,
+        -1
+      ],
+      "placement": "0:19,12:0"
+    },
+    {
+      "index": 85,
+      "world": [
+        524.5,
+        156.5
+      ],
+      "local": [
+        -8,
+        0,
+        -104
+      ],
+      "localDirection": [
+        0,
+        0,
+        -1
+      ],
+      "placement": "0:16,5:5"
+    },
+    {
+      "index": 86,
+      "world": [
+        525.5,
+        156.5
+      ],
+      "local": [
+        8,
+        0,
+        -104
+      ],
+      "localDirection": [
+        0,
+        0,
+        -1
+      ],
+      "placement": "0:16,5:5"
+    }
+  ],
+  "worldParentMatrixMaxDelta": 0,
+  "worldParentOutputMismatches": 0,
+  "observedInstancedAssetContexts": 0,
+  "manualApprovalClaim": false,
+  "actualBrowserRenderingPerformed": false,
+  "limitations": [
+    "This compares local geometry/material/texture output signatures; it does not approve building silhouettes, enclosure quality or appearance.",
+    "No actual native InstancedMesh occurred in the220 contexts; filtering proof does not empirically cover future instanced assets.",
+    "World cell-parent transforms are reconstructed exactly; streaming and callback scheduling are covered by separate parent tests.",
+    "No browser retries or alternate drivers were used after the external T3 host disconnected."
+  ]
+}

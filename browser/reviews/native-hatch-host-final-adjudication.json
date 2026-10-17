@@ -1,0 +1,130 @@
+{
+  "reviewedCommit": "624ba1493d233aadee276895d5a4ea02f74af363",
+  "snapshot": "/tmp/hg-hatch-host-final-review-624ba14",
+  "all240InputsReverified": true,
+  "actualReviewModel": "claude-opus-5-5",
+  "ancillaryCliRouter": "claude-haiku-4-5-20251001",
+  "providerIsError": false,
+  "providerTurns": 32,
+  "providerDurationMs": 153193,
+  "verdict": "No new confirmed root-reachable issue in the sealed624ba14 hatch host graph. F1/F2 closed; enabled/muted per-invocation audio factory ownership and actual main bindings accepted.",
+  "closureEvidence": {
+    "F1": "Seventh deferTriggers argument preserves consuming frame-script priority before daycare/wild; real enterMap fixture checks exactly once and no Eggcounter/hatch/wild. Negative control gives5 instead of4.",
+    "F2": "Comment now matches native daycare before Repel.",
+    "audioFactory": "Fresh session per Retry and secondEgg, boolean sound captured per invocation, original native cry selected only when enabled, both original cues prepared before playback, explicit muted no-AudioContext path.",
+    "ownedAsyncTasks": "Cry/printer overlap and fanfare->printer->YesNo sequence retain abort+drain before lifecycle/global rollback. Save/input/follower outer-commit guards unchanged."
+  },
+  "tests": {
+    "executionByThisAgentOrProvider": false,
+    "parentReportedAt624ba14": {
+      "targetedPass": 55,
+      "typescript": "pass"
+    },
+    "auditorLogs": "Original F1 fixed10/10, negative-control expectedfailure, audio-aware10/10 logs included in immutable packet; latest c048 prepare assertions supplied by committed actual binding test.",
+    "componentOwnerReportedFinalLeaf": {
+      "affectedPass": 59,
+      "typescript": "pass"
+    }
+  },
+  "informationalSoundSaveQuestion": {
+    "confirmedRegression": false,
+    "proof": "All5 repository historical data.ts version2 creators, earliest432a1cfa included, write sound:false. No supported producer omitting options.sound was found. Arbitrarily malformed/imported saves are not treated as a new defect.",
+    "proofArtifact": "native-hatch-host-sound-save-history-proof.json"
+  },
+  "laterComponentQualification": {
+    "reviewedMusicSha256": "f5d07a88c34cf13b60b685a7a3c56b552f38591551e9202d57deffb10462c531",
+    "finalMusicSha256": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860",
+    "independentFinalLeafCommit": "71598bfa9925900133352f62464353d61fb1456b",
+    "independentActualOpusResult": "native-hatch-host-final-component-opus-result.json",
+    "proof": "AST-normalized text outside snapshot.kind===playing future-field branch is identical. Current root has no field port and captures none. Changed branch has separate actual5.5 clean verdict, not automatic transfer.",
+    "exporter": "Final leaf adds native raw-event payload equality guard; rendered WAVs/manifest unchanged per owner."
+  },
+  "scopeLimits": [
+    "No browser/build/live audio listening by this agent or provider.",
+    "General field/radio/surf playback and DS DAC bit-exact fidelity are not claimed.",
+    "Whole later phone/party ScriptVM semantics are outside this sealed review; identical awaited EggHatchAnim command alone is not a whole-VM approval.",
+    "Any future main/factory or source hash changes require their own impact qualification."
+  ],
+  "captureTimeUTC": "2026-10-17T12:38:44.981125+00:00",
+  "worktreeHeadAtArtifactCapture": "64adbc5c3f5f6159e027f919ef181139b4ab238a",
+  "currentCriticalDeltas": [
+    {
+      "path": "browser/src/source/main.ts",
+      "reviewedSha256": "0acddf79996e4f998fbc80b2fca6145e54a967324e55706b916955acae3935c7",
+      "currentSha256": "0acddf79996e4f998fbc80b2fca6145e54a967324e55706b916955acae3935c7",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "reviewedSha256": "fa6a547e776f91dc5921b5c1f97f9ac78ab1d94db874efe210c2e74e8b3142e0",
+      "currentSha256": "c28999d1b3361170a6030095ed2cda621b6fd33256d180635f68cd730154b82a",
+      "changed": true
+    },
+    {
+      "path": "browser/src/source/egg-hatch-presentation.ts",
+      "reviewedSha256": "d21b35dc2af31e062755ff567af45a7eca522c8f970cae7618e2d1becb12269d",
+      "currentSha256": "d21b35dc2af31e062755ff567af45a7eca522c8f970cae7618e2d1becb12269d",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-field-main.test.ts",
+      "reviewedSha256": "c048e769cc7f73da73e794ff58da4524e1ccedd99daec2fb13f11b55e1a32504",
+      "currentSha256": "c048e769cc7f73da73e794ff58da4524e1ccedd99daec2fb13f11b55e1a32504",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-hatch-integration.test.ts",
+      "reviewedSha256": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+      "currentSha256": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "reviewedSha256": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905",
+      "currentSha256": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-hatch-view.ts",
+      "reviewedSha256": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+      "currentSha256": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "reviewedSha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+      "currentSha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "reviewedSha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "currentSha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/hatch-music.ts",
+      "reviewedSha256": "f5d07a88c34cf13b60b685a7a3c56b552f38591551e9202d57deffb10462c531",
+      "currentSha256": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860",
+      "changed": true
+    },
+    {
+      "path": "browser/src/source/hatch-music.test.ts",
+      "reviewedSha256": "cf1211a8074556e7abea70dd3f94b6bb4cf6aa131e076ed2978477c48c971939",
+      "currentSha256": "53577f4c20e7c974bb695c890c5dabc7f4943a29bac3dbbdbb99bf80f0781631",
+      "changed": true
+    }
+  ],
+  "artifactsCreatedByThisAgent": [
+    "native-hatch-host-final-opus-result.json",
+    "native-hatch-host-final-review-manifest.json",
+    "native-hatch-host-final-snapshot-receipt.json",
+    "native-hatch-host-F1-regression-evidence.json",
+    "native-hatch-host-sound-save-history-proof.json",
+    "native-hatch-host-final-leaf-qualification.json",
+    "native-hatch-host-final-function-qualification.json",
+    "native-hatch-host-final-component-opus-result.json",
+    "native-hatch-host-final-adjudication.json"
+  ],
+  "sourceEditsByThisAgent": false
+}

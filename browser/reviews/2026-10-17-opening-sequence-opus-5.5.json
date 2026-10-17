@@ -1,0 +1,198 @@
+{
+  "provider": "Claude Code CLI",
+  "requestedModel": "claude-opus-5-5",
+  "isError": false,
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1396,
+      "outputTokens": 14,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001466,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 82,
+      "outputTokens": 32370,
+      "cacheReadInputTokens": 2789348,
+      "cacheCreationInputTokens": 408697,
+      "webSearchRequests": 0,
+      "costUSD": 3.249082599999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 21180,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "snapshotSHA256": "dada0517ce32bb1031f77dbd7ee66ae6042b8d05384915984448353b64dd0320",
+  "snapshot": {
+    "base": "081c5ec",
+    "files": [
+      {
+        "path": "browser/public/source/intro-messages.json",
+        "sha256": "8c0d3283ebf62c6cc1ecf5b68832311f64284197d5b15eccde9d6f4a0559479f"
+      },
+      {
+        "path": "browser/public/source/messages/17.json",
+        "sha256": "dd19297eac83cb0480f9622f1e2b13faa7cba72e539da71e41edc0c625157e1e"
+      },
+      {
+        "path": "browser/public/source/messages/254.json",
+        "sha256": "11f95253eaabfe7c5310655420509ba5ea23e97a8f4fbececb4132f8227a7b51"
+      },
+      {
+        "path": "browser/public/source/messages/442.json",
+        "sha256": "397b16ab223fac9a145f22eb7e0649c5d6e73f4ce4bf336815cb9432c211ca28"
+      },
+      {
+        "path": "browser/public/source/messages/719.json",
+        "sha256": "e6cdab1a49301c76a8fd811bf653a42a21d63f6d71502b47c73a1e6b233808c2"
+      },
+      {
+        "path": "browser/public/source/opening/assets.json",
+        "sha256": "90f752272547d69eaeaf0d0c1faaa0d81e3fe6f672a9cbf4caa7891e4694626b"
+      },
+      {
+        "path": "browser/reviews/2026-10-17-opening-sequence.md",
+        "sha256": "c510cf22f68c64fe679ccf32610ecade5c9a10eea51b9804e6f12b7e44258424"
+      },
+      {
+        "path": "browser/scripts/export_opening_assets.py",
+        "sha256": "299e67b05ae9bf9a71b1bd5f23343979e9ea8803e4dc5d4f48a789618a7b4d19"
+      },
+      {
+        "path": "browser/src/source/data.ts",
+        "sha256": "6a8b4993a2c56ef092022e20452cf38f4e62d55daa4541501528b62a91599540"
+      },
+      {
+        "path": "browser/src/source/field-services.ts",
+        "sha256": "b462b4865d52e71504d85b03fbb7fedb97703b2b98887af83ef7b420b5ce17c6"
+      },
+      {
+        "path": "browser/src/source/main.ts",
+        "sha256": "d19e560e42ba585f7076179409eace437e49ab0f05c3bc87aaee9c4b1491fd9a"
+      },
+      {
+        "path": "browser/src/source/opening-art.test.ts",
+        "sha256": "8281bf305c5af398b4af13bba15dd42bdbbdc8e69d4af310ba315946392efd18"
+      },
+      {
+        "path": "browser/src/source/opening-art.ts",
+        "sha256": "96621994bd291e069f4facfe23efcd56e5616b08fc37293b40fce39ba2c9caba"
+      },
+      {
+        "path": "browser/src/source/opening-assets.test.ts",
+        "sha256": "7346e2e748d7f3337f1afdbe5fec542e42fc0b56159204ab638ad208a3a47e70"
+      },
+      {
+        "path": "browser/src/source/opening-stage.ts",
+        "sha256": "33f9395ceaa5ed666e4f00b95c552576eae84afc4882b93c7b61ed4a8c789f4e"
+      },
+      {
+        "path": "browser/src/source/opening-ui.test.ts",
+        "sha256": "017c2c7459a41a25e5ec9a9759c8f43268819c08e2736db694571579b2b551d7"
+      },
+      {
+        "path": "browser/src/source/opening-view.ts",
+        "sha256": "c0e9c69c64df5e3fafda088a7a59ad0994cc42bcee67ad10ba4b49ecd805e7c8"
+      },
+      {
+        "path": "browser/src/source/opening.css",
+        "sha256": "1498c38db8a3f9c4b2d77f1005c2c0796e2d9b575923b75862f3e8145e719f9b"
+      },
+      {
+        "path": "browser/src/source/opening.test.ts",
+        "sha256": "18445d21857aceac433384aefba4514160c020569deaae183dfcfb167e10f3ab"
+      },
+      {
+        "path": "browser/src/source/opening.ts",
+        "sha256": "89a296e910c9308b588cb6dae98885b9083a3413d8d30ee9dfec1de66c4dfdb0"
+      },
+      {
+        "path": "browser/src/source/types.ts",
+        "sha256": "397ad68bf0244d7413072a7019ecdba2c1229e554ac1a9acb91fb41ea004a956"
+      },
+      {
+        "path": "browser/src/source/ui.ts",
+        "sha256": "390489edffd2eb9e35dee716995fdb44d36a4a947919bb62779d8afa692e7b1a"
+      },
+      {
+        "path": "browser/src/source/world.ts",
+        "sha256": "a4fefb36e93655552d7340a6dcb931f84809f12719fe98bed130fa9b06392904"
+      },
+      {
+        "path": "charmap.txt",
+        "sha256": "58861d34f40623fd2a9b29c10a79ee2ec872182285a288381759a3b251412ded"
+      },
+      {
+        "path": "include/constants/global.h",
+        "sha256": "40eefe14cdec8507effe5b624bc035afb6d234ada97eae50f3c88ef8b26c07ee"
+      },
+      {
+        "path": "src/application/main_menu/main_menu.c",
+        "sha256": "55d0aaaeabc0fad36e6bcd4b599aaf0b940125171fabc3b8ee8fc76a22322575"
+      },
+      {
+        "path": "src/field_warp_tasks.c",
+        "sha256": "78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea"
+      },
+      {
+        "path": "src/intro_movie.c",
+        "sha256": "baa76b25b39c49d541a9a6058174102a85c4f4fe99e1ae3954d3482c075947f6"
+      },
+      {
+        "path": "src/location_backup.c",
+        "sha256": "0c38736ef75381ffb199480bbc7fa9e6c06367874b4fc832de050e7bb53c0255"
+      },
+      {
+        "path": "src/main.c",
+        "sha256": "5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc"
+      },
+      {
+        "path": "src/naming_screen.c",
+        "sha256": "b696ec482028ffee4f439e9802c7e5cf32aa97ba3571647dfa8fd55148f3c65c"
+      },
+      {
+        "path": "src/oaks_speech.c",
+        "sha256": "6e7be8ddc5c125d0b0af61b3044451e5fac88003264563a6f6b96e92529c37ab"
+      },
+      {
+        "path": "src/oaks_speech_obj.c",
+        "sha256": "4c770e90a3e9088553693ecb225d5c6b1829a08cd30bc0558d656db63fa83d29"
+      },
+      {
+        "path": "src/options.c",
+        "sha256": "0612b17ab43e8ec43cb640e675e81992ac79b35eb042a39c97c5dcb5f99c60d1"
+      },
+      {
+        "path": "src/overlay_36.c",
+        "sha256": "87af06021f54c29794beedbc28d66da080b8665d925f39a2ad1e4770b02e93e9"
+      },
+      {
+        "path": "src/title_screen.c",
+        "sha256": "138232b1af55084d54408888bf53dcf49dce1316584cf214d06826099781b650"
+      }
+    ]
+  },
+  "permissions": {
+    "tools": [
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "strictMcpConfig": true,
+    "mcpServers": {},
+    "settingSources": [],
+    "sessionPersistence": false
+  },
+  "scope": "read-only copied source review, no runtime or visual verification",
+  "subsequentFixes": "See disposition in companion Markdown; original reviewed snapshot predates6b6af53 native palette/tutorial correction."
+}

@@ -6,12 +6,20 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 
 ## Completion standard
 
-- Pending: missing or not audited. Implemented: behavior exists but original-game equivalence is not established. Verified: a repeatable source-backed fixture or gameplay check confirms the behavior. Unsupported: an identified gap; never silently skip it.
+- Pending: missing or not audited. Partial: an implemented subset leaves identified requirement gaps. Implemented: behavior exists but original-game equivalence is not established. Verified: a repeatable source-backed fixture or gameplay check confirms the behavior. Unsupported: an identified gap; never silently skip it.
 - Map parity requires original mesh, textures, tile permissions, elevations, prop transforms, warps, NPC/event coordinates, and story conditions. A recreated town shape is insufficient.
 - Battle parity requires the original turn rules, damage/status/move/item/ability behaviors, trainer teams/AI, and progression consequences. A catch-only screen is insufficient.
 - End-to-end completion requires a fresh save through Red and the listed postgame/special systems, with inventory, party and flags surviving save/reload. Imported content and isolated menus do not satisfy this.
 - Connectivity/hardware-dependent systems must be implemented and tested against an explicit browser equivalent; unavailable original services must stay marked unsupported until that equivalent is agreed and working.
 - Production changes must be committed, merged into the fork default branch, deployed from that commit, and checked on the live site.
+
+## Native progression checkpoint
+
+Ledger reconciliation: `536758a553891a934e5cbfca29473b3cbe77a647`. Native opening branches, single-trainer sight/approach, Violet lift/rewards, the real Togepi Egg gift/hatch/audio and field party switching are implemented in scoped source paths. Their offline fixtures and historical review receipts do not establish a fresh-save campaign or browser playthrough.
+
+P03-001 stays Pending for the complete Sprout Tower sequence. P03-002/P03-003 are Implemented with explicit limits; no requirement is promoted to Verified here. Breeding/inheritance, broader puzzles, full battle/audio coverage and incoming phone field delivery at this checkpoint remain incomplete.
+
+See [the reconciliation evidence and boundaries](reviews/2026-10-17-parity-reconciliation.md) and `parity/features.json` for each updated requirement. Historical branch notes retain their original scope; later fixes are qualified in the reconciliation rather than retroactively approved.
 
 ## Implementation sequence
 
@@ -28,9 +36,9 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 
 | ID | Requirement | Status | Source |
 | --- | --- | --- | --- |
-| P01-001 | New Game and Continue with independent saved games | Implemented | `src/intro.c` |
-| P01-002 | Original title and introduction sequence | Pending | `src/intro.c` |
-| P01-003 | Professor Oak introduction and Pokémon demonstration | Pending | `src/intro.c` |
+| P01-001 | New Game and Continue with explicit save-replacement rules | Implemented | `src/intro.c` |
+| P01-002 | Original title and introduction sequence | Partial | `src/intro.c` |
+| P01-003 | Professor Oak introduction and Pokémon demonstration | Implemented | `src/intro.c` |
 | P01-004 | Boy/girl player selection and matching overworld sprites | Implemented | `src/intro.c` |
 | P01-005 | Character naming, length limits, confirmation and name substitutions | Implemented | `src/intro.c` |
 | P01-006 | Original starting bedroom, spawn position and facing | Verified | `src/intro.c` |
@@ -70,8 +78,8 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | ID | Requirement | Status | Source |
 | --- | --- | --- | --- |
 | P03-001 | Sprout Tower trainers, elder, rival and rewards | Pending | `files/fielddata/script/scr_seq` |
-| P03-002 | Violet Gym puzzle, trainers and Falkner badge/TM | Pending | `files/fielddata/script/scr_seq` |
-| P03-003 | Elm aide Egg delivery and Togepi hatching progression | Pending | `files/fielddata/script/scr_seq` |
+| P03-002 | Violet Gym puzzle, trainers and Falkner badge/TM | Implemented | `files/fielddata/script/scr_seq` |
+| P03-003 | Elm aide Egg delivery and Togepi hatching progression | Implemented | `files/fielddata/script/scr_seq` |
 | P03-004 | Ruins of Alph puzzles, Unown and chambers | Pending | `files/fielddata/script/scr_seq` |
 | P03-005 | Union Cave and Route 32/33 progression | Pending | `files/fielddata/script/scr_seq` |
 | P03-006 | Azalea Team Rocket occupation, Kurt and Slowpoke Well | Pending | `files/fielddata/script/scr_seq` |
@@ -170,7 +178,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P06-004 | Dialogue pages, confirmations and choice menus | Implemented | `src/scrcmd.c` |
 | P06-005 | Facing and distance requirements for interaction | Implemented | `src/scrcmd.c` |
 | P06-006 | NPC walking routes, movement locks and cutscenes | Implemented | `src/scrcmd.c` |
-| P06-007 | Trainer vision, approach, battle and defeat persistence | Pending | `src/scrcmd.c` |
+| P06-007 | Trainer vision, approach, battle and defeat persistence | Implemented | `src/scrcmd.c` |
 | P06-008 | Coordinate trigger conditions, priority and one-shot behavior | Implemented | `src/scrcmd.c` |
 | P06-009 | Map entry and load scripts | Implemented | `src/scrcmd.c` |
 | P06-010 | Persistent script flags and variables | Implemented | `src/scrcmd.c` |
@@ -178,7 +186,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P06-012 | Inventory/party checks in scripts | Implemented | `src/scrcmd.c` |
 | P06-013 | Event item, Pokémon and money grants | Pending | `src/scrcmd.c` |
 | P06-014 | NPC phone registration and call outcomes | Pending | `src/scrcmd.c` |
-| P06-015 | Multi-character cutscene timing and camera events | Pending | `src/scrcmd.c` |
+| P06-015 | Multi-character cutscene timing and camera events | Partial | `src/scrcmd.c` |
 | P06-016 | Daily, weekly and conditional NPC presence | Pending | `src/scrcmd.c` |
 | P06-017 | Every script command implementation tracked against source | Pending | `src/scrcmd.c` |
 
@@ -194,7 +202,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P07-006 | Levels, experience curves and experience totals | Implemented | `src/pokemon.c` |
 | P07-007 | Gender ratios, friendship and obedience | Pending | `src/pokemon.c` |
 | P07-008 | Six-member party limit and party order | Implemented | `src/pokemon.c` |
-| P07-009 | Pokémon summary with stats, moves, ability, nature and ownership | Pending | `src/pokemon.c` |
+| P07-009 | Pokémon summary with stats, moves, ability, nature and ownership | Partial | `src/pokemon.c` |
 | P07-010 | Four move slots, current PP and PP Ups | Implemented | `src/pokemon.c` |
 | P07-011 | Level-up learnsets and move replacement choice | Implemented | `src/pokemon.c` |
 | P07-012 | Held items, giving, taking and effects | Pending | `src/pokemon.c` |

@@ -1,0 +1,61 @@
+{
+  "historicalReviewedCommit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+  "historicalFinding": {
+    "severity": "low",
+    "confirmed": true,
+    "issue": "The Egg-safe living-recipient check exposed the existing residual-before-EXP phase order: a winner at HP1 could lose its earned EXP or level-up survival before poison."
+  },
+  "implementedDelta": [
+    "Per-enemy party participation masks and native single-battle Exp. Share/Lucky Egg/trainer pool planner integration.",
+    "EXP and level-up stat/HP changes precede end-turn poison/burn; final action KO checks battle end before residual.",
+    "Residual order uses fresh integer stage/paralysis effective speed and its own low-bit tie, retained through the pass; each residual faint is adjudicated before the next.",
+    "Actual Battle.start fixtures cover switching/share/divisor reset/level100/cumulative cap and last-KO/level-up/recoil/residual-order cases."
+  ],
+  "sourceFiles": [
+    {
+      "path": "browser/src/source/battle.ts",
+      "sha256": "3ce0fc45cd974403e388f6ee98172736cfa119ded19a791c74e07d15e855df05"
+    },
+    {
+      "path": "browser/src/source/battle-experience.ts",
+      "sha256": "7814ae132f8d968376d48b29955ace542d09b4cb88145b8bc1b2577054edc794"
+    },
+    {
+      "path": "browser/src/source/battle-experience-integration.test.ts",
+      "sha256": "ab3d1fa95b5b69916e7a60724cbfba2731edc6e63145d741d744c1b0c2631f82"
+    },
+    {
+      "path": "browser/src/source/battle-turn-phase.test.ts",
+      "sha256": "42c0a1eef4dcca4750d51b1d49e13a15e7f02bff860e9a27d1f0473d6d8e41cd"
+    },
+    {
+      "path": "browser/src/source/early-battle-effects.test.ts",
+      "sha256": "e1160a2c1e8e4efb5a6b48d817a93e70b3c6d0f44dfba0d8d7acae0250cf315c"
+    }
+  ],
+  "targetedChecks": {
+    "tests": 61,
+    "passed": 61,
+    "tsc": "passed",
+    "fullSuite": {
+      "tests": 561,
+      "passed": 561,
+      "failed": 0,
+      "skipped": 0
+    },
+    "productionBuild": {
+      "tsc": "passed",
+      "vite": "passed",
+      "asset": "main-DhWF4GBC.js",
+      "bytes": 1021968,
+      "sha256": "2c0904f0f0084d447977b46c8f5fa315818de2659a67ba6396115b154405639a"
+    }
+  },
+  "reviewStatus": "The historical Opus review remains a finding on514a01e. A separate review of this exact integrated delta is pending; no approval is transferred.",
+  "limitations": [
+    "No rendered-browser verification while automation host is disconnected.",
+    "No full DS-global battle RNG draw-order parity.",
+    "Speed abilities, held speed/EV modifiers, Trick Room, doubles, real trade acquisitions and simultaneous-last-KO draw policy remain unported or inherited and are not approved by these tests.",
+    "The new native Egg hatch lifecycle/view is not integrated by this checkpoint."
+  ]
+}

@@ -1,0 +1,240 @@
+TAP version 13
+# (node:71490) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+ok 1 - actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+  ---
+  duration_ms: 729.444125
+  type: 'test'
+  ...
+# main SHA256 bb0c47db15de9112bd354eebbfe4a73e3b4f85822431696202995a5d90fe8cad; extracted bindings SHA256 e6ba7cadf84f8a4ae83cc2dfed37172d4636d698c48c01b5f6d66d64960d053a
+# Subtest: blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+ok 2 - blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+  ---
+  duration_ms: 642.415459
+  type: 'test'
+  ...
+# Subtest: actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+ok 3 - actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+  ---
+  duration_ms: 894.016375
+  type: 'test'
+  ...
+# Subtest: eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+ok 4 - eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+  ---
+  duration_ms: 323.415791
+  type: 'test'
+  ...
+# Subtest: Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+ok 5 - Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+  ---
+  duration_ms: 112.508
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays the captured movement/date once and awards only the successful hatch
+ok 6 - explicit Retry replays the captured movement/date once and awards only the successful hatch
+  ---
+  duration_ms: 197.037834
+  type: 'test'
+  ...
+# Subtest: actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+ok 7 - actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+  ---
+  duration_ms: 449.770625
+  type: 'test'
+  ...
+# Subtest: actual render freezes provisional replacement follower through hatch and post-view source tail
+ok 8 - actual render freezes provisional replacement follower through hatch and post-view source tail
+  ---
+  duration_ms: 26.149375
+  type: 'test'
+  ...
+# Subtest: actual wild admission runs after step commit and completed catch survives failed field resume
+ok 9 - actual wild admission runs after step commit and completed catch survives failed field resume
+  ---
+  duration_ms: 146.459375
+  type: 'test'
+  ...
+# Subtest: actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+ok 10 - actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+  ---
+  duration_ms: 240.800041
+  type: 'test'
+  ...
+# (node:71491) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+ok 11 - unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+  ---
+  duration_ms: 383.665334
+  type: 'test'
+  ...
+# Subtest: actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+ok 12 - actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+  ---
+  duration_ms: 259.48275
+  type: 'test'
+  ...
+# Subtest: actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+ok 13 - actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+  ---
+  duration_ms: 134.705333
+  type: 'test'
+  ...
+# (node:71514) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: paper removal releases its five resources once while sibling and attached shared assets survive
+ok 14 - paper removal releases its five resources once while sibling and attached shared assets survive
+  ---
+  duration_ms: 85.895334
+  type: 'test'
+  ...
+# Subtest: paper removal ignores unregistered groups and actors owned by another World
+ok 15 - paper removal ignores unregistered groups and actors owned by another World
+  ---
+  duration_ms: 1.202541
+  type: 'test'
+  ...
+# Subtest: clearNPCs uses owned cleanup and leaves a separately allocated follower alive
+ok 16 - clearNPCs uses owned cleanup and leaves a separately allocated follower alive
+  ---
+  duration_ms: 1.051625
+  type: 'test'
+  ...
+# Subtest: NPC sprite changes dispose texture, plane and shadow, preserve siblings and allow rebuilding
+ok 17 - NPC sprite changes dispose texture, plane and shadow, preserve siblings and allow rebuilding
+  ---
+  duration_ms: 1.500584
+  type: 'test'
+  ...
+# (node:71515) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an unhatched Egg keeps its original icon and conceals species, level, health, gender, stats and moves in all party views
+ok 18 - an unhatched Egg keeps its original icon and conceals species, level, health, gender, stats and moves in all party views
+  ---
+  duration_ms: 2.044167
+  type: 'test'
+  ...
+# Subtest: native Egg Watch thresholds select literal exported messages without advancing the saved hatch cycles
+ok 19 - native Egg Watch thresholds select literal exported messages without advancing the saved hatch cycles
+  ---
+  duration_ms: 0.183083
+  type: 'test'
+  ...
+# Subtest: a hatched Pokémon retains normal party health, level, typing, ownership and move presentation
+ok 20 - a hatched Pokémon retains normal party health, level, typing, ownership and move presentation
+  ---
+  duration_ms: 0.380708
+  type: 'test'
+  ...
+# (node:71516) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual party panel opens options and returns cursor to the selected target or summary slot
+ok 21 - actual party panel opens options and returns cursor to the selected target or summary slot
+  ---
+  duration_ms: 7.36525
+  type: 'test'
+  ...
+# main SHA256 bb0c47db15de9112bd354eebbfe4a73e3b4f85822431696202995a5d90fe8cad; bindings SHA256 8701103226310bbfb1cd80bd4baf7a2f29791d0f1098f7212b8cbd271c5f789c
+# Subtest: real gift/hatch then actual field switch persists whole records, refreshes follower and enables native Elm reward
+ok 22 - real gift/hatch then actual field switch persists whole records, refreshes follower and enables native Elm reward
+  ---
+  duration_ms: 20.873166
+  type: 'test'
+  ...
+# Subtest: Cancel, source slot and owned Escape preserve party; pending selection gates actual save and removes its listener
+ok 23 - Cancel, source slot and owned Escape preserve party; pending selection gates actual save and removes its listener
+  ---
+  duration_ms: 149.191083
+  type: 'test'
+  ...
+# Subtest: external UI replacement and post-swap failure recover instead of being mistaken for owned cancel
+ok 24 - external UI replacement and post-swap failure recover instead of being mistaken for owned cancel
+  ---
+  duration_ms: 3.341
+  type: 'test'
+  ...
+# Subtest: actual native partner-room exception omits Switch; other rooms retain it, including Eggs
+ok 25 - actual native partner-room exception omits Switch; other rooms retain it, including Eggs
+  ---
+  duration_ms: 2.072375
+  type: 'test'
+  ...
+# Subtest: actual follower render distinguishes same-species identities, preserves position and removes an absent lead once
+ok 26 - actual follower render distinguishes same-species identities, preserves position and removes an absent lead once
+  ---
+  duration_ms: 0.666708
+  type: 'test'
+  ...
+# (node:71517) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all36 six-slot selections exchange only the two entire Mon records and preserve every nested/extra field
+ok 27 - all36 six-slot selections exchange only the two entire Mon records and preserve every nested/extra field
+  ---
+  duration_ms: 30.688666
+  type: 'test'
+  ...
+# Subtest: Egg-first and fainted-first are legal field orders while native battler/follower consumers still skip them
+ok 28 - Egg-first and fainted-first are legal field orders while native battler/follower consumers still skip them
+  ---
+  duration_ms: 0.972334
+  type: 'test'
+  ...
+# Subtest: cancel and selecting the source slot retain the original party array, including a one-mon or Egg-only party
+ok 29 - cancel and selecting the source slot retain the original party array, including a one-mon or Egg-only party
+  ---
+  duration_ms: 0.563291
+  type: 'test'
+  ...
+# Subtest: out-of-range/fractional slots and noncontiguous/overfull parties are rejected without a partial swap
+ok 30 - out-of-range/fractional slots and noncontiguous/overfull parties are rejected without a partial swap
+  ---
+  duration_ms: 1.116
+  type: 'test'
+  ...
+# Subtest: gift Egg can move to the lead, hatch there with its original identity, then enable the actual Elm reward script
+ok 31 - gift Egg can move to the lead, hatch there with its original identity, then enable the actual Elm reward script
+  ---
+  duration_ms: 259.726
+  type: 'test'
+  ...
+# Subtest: field chooser keeps all occupied slots selectable and conceals Egg species/HP like native party panels
+ok 32 - field chooser keeps all occupied slots selectable and conceals Egg species/HP like native party panels
+  ---
+  duration_ms: 2.606583
+  type: 'test'
+  ...
+# Subtest: invalid chooser inputs reject before opening any UI
+ok 33 - invalid chooser inputs reject before opening any UI
+  ---
+  duration_ms: 4.565375
+  type: 'test'
+  ...
+# Subtest: chooser Cancel/source selections and rejected/replaced UI leave order and records untouched
+ok 34 - chooser Cancel/source selections and rejected/replaced UI leave order and records untouched
+  ---
+  duration_ms: 0.821417
+  type: 'test'
+  ...
+# Subtest: chooser rejects stale indices when the party is changed or replaced during the awaited UI
+ok 35 - chooser rejects stale indices when the party is changed or replaced during the awaited UI
+  ---
+  duration_ms: 2.511125
+  type: 'test'
+  ...
+# Subtest: unresolved choices or aborts never become a valid target or mutate the party
+ok 36 - unresolved choices or aborts never become a valid target or mutate the party
+  ---
+  duration_ms: 2.3485
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7439.755958

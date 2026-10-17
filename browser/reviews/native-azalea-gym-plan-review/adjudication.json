@@ -1,0 +1,118 @@
+{
+  "scope": "pure Azalea topology/state/fixedpoint planner only; no playable gym/controller/VM/World integration",
+  "initialReview": {
+    "commit": "a1f68482bc90407ede22243a062ad085a248c4ff",
+    "session": "3dc80868-07d8-4c8c-b1d8-544b6a880f3e",
+    "success": true,
+    "model": "claude-opus-5-5",
+    "turns": 24,
+    "durationMs": 227543,
+    "finding": "Low L1: connection entry retained state despite native OnTransition reset"
+  },
+  "fixReview": {
+    "commit": "12d176cfe18c7733d7eaaaec25b33e3fc6444245",
+    "success": true,
+    "model": "claude-opus-5-5",
+    "turns": 7,
+    "durationMs": 43309,
+    "adjudication": "L1 resolved, no new concrete issue; independently verified native0642 header,0869first command, unconditional OnTransition C and ordinary Continue"
+  },
+  "tests": {
+    "affectedPassed": 27,
+    "typeScriptExit": 0,
+    "notRun": [
+      "build",
+      "browser",
+      "full game suite",
+      "natural Gym/battle traversal"
+    ]
+  },
+  "qualifications": [
+    "Initial review correctly said header binding was inferred, not read. Follow-up prompt mistakenly claimed it implied reading the header; raw prompt and reviewer correction are preserved.",
+    "Follow-up reviewed all18 listed files; event header/macro and TryStartMapScriptByType implementation remain outside that external snapshot. Native0642 binding is now directly included and source-text regression verified.",
+    "Regex source checks and same-code diagonal boundary witnesses supplement independent Python SDK velocities/ticks; they do not substitute for host integration.",
+    "Ordinary Continue retains state; UnionRoom special Continue branch calls map enter and must be classified warp by host.",
+    "Old document count29 was incorrect; retained corrected test log proves27.",
+    "Ilex both-bird fixture commit85041030 is outside gym review, separately12test pass.",
+    "No native model/animation export, field rider integration, VM command port, natural campaign victory or parity completion claimed."
+  ],
+  "attestations": [
+    {
+      "commit": "a1f68482bc90407ede22243a062ad085a248c4ff",
+      "files": 17,
+      "manifestSha256": "19496232c394c714b9bb4076f25d0d32f5195e0858f159b319405a0a23c73694",
+      "committedBlobAndSnapshotMismatches": []
+    },
+    {
+      "commit": "12d176cfe18c7733d7eaaaec25b33e3fc6444245",
+      "files": 18,
+      "manifestSha256": "43644c40048d434e39054dc719491b878785c8af8a0a292e8760e810dca51613",
+      "committedBlobAndSnapshotMismatches": []
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact": "opus-review.json",
+      "originalPath": "/tmp/hg-native-azalea-plan-opus-review.json",
+      "sha256": "f3da0460b5f95e7764a91e4731204fadf8f95212e4a39d2331850852551cd7c3",
+      "bytes": 7930,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "opus-followup.json",
+      "originalPath": "/tmp/hg-native-azalea-plan-opus-followup.json",
+      "sha256": "9b26550a3dd05ef3e5ef8a84d3288ef78f98cce257785d6cd892fc9f32727727",
+      "bytes": 6019,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "review-prompt.txt",
+      "originalPath": "/tmp/hg-native-azalea-plan-opus-prompt.txt",
+      "sha256": "1fb761181c655d37c8d8c392e3c52b0b47e91395c5cbcb91e03b6f243601371d",
+      "bytes": 2073,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "followup-prompt.txt",
+      "originalPath": "/tmp/hg-native-azalea-plan-opus-followup-prompt.txt",
+      "sha256": "445b051c82f99ed010098967a51572e45a48321844aced494dd5cefcc0443b3f",
+      "bytes": 845,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "initial-manifest.json",
+      "originalPath": "/tmp/hg-native-azalea-plan-a1f68482-review/manifest.json",
+      "sha256": "19496232c394c714b9bb4076f25d0d32f5195e0858f159b319405a0a23c73694",
+      "bytes": 3600,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "fix-manifest.json",
+      "originalPath": "/tmp/hg-native-azalea-plan-fixed-review/manifest.json",
+      "sha256": "43644c40048d434e39054dc719491b878785c8af8a0a292e8760e810dca51613",
+      "bytes": 3781,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "fix.diff",
+      "originalPath": "/tmp/hg-native-azalea-plan-fixed-review/fix.diff",
+      "sha256": "f935300f3b5ad8394afcdb2da3555545f1055158b6cf1e460e6e86da605b3112",
+      "bytes": 20009,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "affected-tests.log",
+      "originalPath": "/tmp/hg-native-azalea-plan-fixed-tests.log",
+      "sha256": "ad1afe01ed3175b55439c0486394c6e6831211de4aaf517aeda9055faf14e5d7",
+      "bytes": 7435,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "tsc.log",
+      "originalPath": "/tmp/hg-native-azalea-plan-fixed-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "rawUnchanged": true
+    }
+  ]
+}
