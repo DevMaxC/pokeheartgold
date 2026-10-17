@@ -4,7 +4,7 @@ import {catchShakes,fieldBattleWeather,freshStages,monAbility,moveDamage,multiHi
 import {UI,$,escapeHTML as esc} from './ui.ts';
 import {takeBagItem,isCaptureBall} from './bag.ts';
 import type {BattleView} from './battle-view.ts';
-import {isUsableBattler,firstUsableBattlerIndex} from './eggs.ts';
+import {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
 import {planNativeExperience} from './battle-experience.ts';
 
 type Result='won'|'lost'|'caught'|'ran';

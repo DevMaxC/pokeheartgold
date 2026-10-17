@@ -1,5 +1,7 @@
 import {calculateStats} from './data.ts';
 import {advanceLCRNG,sampleUint32} from './native-rng.ts';
+import {isUsableBattler} from './battle-party.ts';
+export {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
 import type {GameData,Mon,State,MonDate} from './types.ts';
 export type EggContext={random?:()=>number;now?:()=>Date};
 const LANGUAGE_ENGLISH=2; // include/config.h:17; this source checkout is English.
@@ -39,8 +41,6 @@ export function isOriginalTogepiGift(data:GameData,state:State,mon:Mon|undefined
  if(!mon||state.trainerId===undefined||!state.togepiGiftIdentity||!mon.provenance)return false;
  const origin=mon.provenance,identity=state.togepiGiftIdentity;return[data.constants.SPECIES_TOGEPI,data.constants.SPECIES_TOGETIC,data.constants.SPECIES_TOGEKISS].includes(mon.species)&&origin.otId===state.trainerId&&origin.otGender===state.gender&&origin.language===LANGUAGE_ENGLISH&&origin.gameVersion===data.constants.GAME_VERSION&&identity.personality===mon.personality&&identity.gender===mon.gender;
 }
-export function isUsableBattler(mon:Mon|undefined):mon is Mon{return!!mon&&!mon.isEgg&&mon.hp>0;}
-export function firstUsableBattlerIndex(party:readonly Mon[]){return party.findIndex(isUsableBattler);}
 /** follow_mon.c:1518: a fainted non-Egg can follow if no live mon remains. */
 export function firstFollowerMon(party:readonly Mon[]){return party.find(isUsableBattler)??party.find(mon=>!mon.isEgg);}
 export function partyMonSpecies(mon:Mon|undefined){return mon&&!mon.isEgg?mon.species:0;}

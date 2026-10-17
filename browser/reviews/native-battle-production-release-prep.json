@@ -1,0 +1,293 @@
+{
+  "scope": "Production-base battle EXP, phase, zero-speed and action-end release preparation only",
+  "baseCommit": "5b7ac9fb4a8373e164f95d33024ec1135722d082",
+  "branch": "fix/native-battle-xp-release",
+  "sourceCommits": [
+    {
+      "original": "f6791bcc29e10b34f9f6a1fa5c1b65b7b4050f58",
+      "release": "18fab57b6542ad549c845aed7e0b7ab5fcfdda9c"
+    },
+    {
+      "original": "713de862443ee6e494523fd9946c707d93e4ad08",
+      "release": "66436bed5859867146cfefc96deb315a870eb209"
+    },
+    {
+      "original": "b30324e8b66fabf0747449be81568c814cfb69cd",
+      "release": "15cc2b5bd1f9112218c4ea687dff3da74f60b3d4"
+    },
+    {
+      "original": "2e85fc26f5af3addaf2ccb5a6e121837b4823b7a",
+      "release": "de0cdec8d4fedfa58affe04ff04065abcd989216"
+    },
+    {
+      "original": "feaa790737d3a665a5633b1037a4cb19cdb5a70a",
+      "release": "65158d1f6dfe8911be373c7ae7e8499e53580ad5"
+    }
+  ],
+  "equivalence": {
+    "battleAfterOnlyEligibilityImportNormalization": true,
+    "experienceHelperByteIdenticalTo713de86": true,
+    "leafPredicateBodiesByteIdenticalToFeaa790EggsModule": true
+  },
+  "adaptations": [
+    "Extract two exact battle eligibility predicates into battle-party.ts; no Egg acquisition/hatching/profile/RNG dependency.",
+    "Use production three-argument newState API in new test fixtures.",
+    "Replace source gift acquisition fixture with explicitly marked optional legacy isEgg record; do not claim gift flow.",
+    "Retain reviewed Battle party selection/switch guards, including omission of Egg combat details within that battle menu; no standalone UI integration."
+  ],
+  "validation": {
+    "targeted": {
+      "command": "node --experimental-transform-types --test src/source/battle*.test.ts src/source/early-battle-effects.test.ts",
+      "cwd": "browser",
+      "exitCode": 0,
+      "checks": 106,
+      "pass": 106,
+      "fail": 0,
+      "topLevel": 84,
+      "sourceOwnedSubcases": 22,
+      "logSHA256": "c7614228cc49c9295eca3d6cf98be040d3ab9fa8c72ece9ec6de1677494fef0d"
+    },
+    "typescript": {
+      "command": "npx tsc --noEmit",
+      "cwd": "browser",
+      "exitCode": 0,
+      "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "whitespace": {
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  },
+  "files": [
+    {
+      "path": "browser/src/source/battle.ts",
+      "sha256": "1957f716967008d3380e917f037892b1ddb3f34c3a427fc36a0ae3b0ad44fa90"
+    },
+    {
+      "path": "browser/src/source/battle-party.ts",
+      "sha256": "e283c422284a434f3e0fcc563d89ec0771220dcf5ddb79d8434c690a4c498775"
+    },
+    {
+      "path": "browser/src/source/battle-experience.ts",
+      "sha256": "7814ae132f8d968376d48b29955ace542d09b4cb88145b8bc1b2577054edc794"
+    },
+    {
+      "path": "browser/src/source/battle-action-end.test.ts",
+      "sha256": "cb45b44c86a24d7fe4e773f418c05bc0382909090ffa0e180cf964148ea070e0"
+    },
+    {
+      "path": "browser/src/source/battle-party.test.ts",
+      "sha256": "1d7daab0eb9b76fe752bc06d0f298c0b8e93d7d58724863534c1699800028fdd"
+    },
+    {
+      "path": "browser/src/source/battle-experience-integration.test.ts",
+      "sha256": "24aaf2379a15c0dad4e191ec4a6e3dd1ee206b1d1edf172b50e523b8a2d066a7"
+    },
+    {
+      "path": "browser/src/source/battle-experience-plan.test.ts",
+      "sha256": "01a3a592dd9f7b2bc2621e90f8d717dad7c9bb568c281ddd9640871c000106fc"
+    },
+    {
+      "path": "browser/src/source/battle-experience.test.ts",
+      "sha256": "59c6314d8747cad5813c688b70d4c454572484fbe1e35d08b1cddb3363b0635e"
+    },
+    {
+      "path": "browser/src/source/battle-turn-phase.test.ts",
+      "sha256": "6999e414a9a03a1f38562d2252942f2d3034f8d66b23fc625dbf086d6a4151b0"
+    },
+    {
+      "path": "browser/src/source/early-battle-effects.test.ts",
+      "sha256": "e1160a2c1e8e4efb5a6b48d817a93e70b3c6d0f44dfba0d8d7acae0250cf315c"
+    }
+  ],
+  "historicalNativeReviewFilesUnmodified": [
+    {
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.json",
+      "sha256": "b72377e93ede2c70d1151596ecf5cfef3d6f9967492f0b401ea5125ddb8e0097"
+    },
+    {
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.md",
+      "sha256": "d34b3b6e1ad949503f0556f583ad3eebb1d42c72299face66ec97346ab6665ae"
+    },
+    {
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.raw.json",
+      "sha256": "be4751586bcd23ec98453e5f7d9f583dc9dc1de1a776e14a2f75fb389eb4cc82"
+    },
+    {
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.json",
+      "sha256": "ae454c855a7083cd2a0ef279eb310c4144512cc26f1bedf1dd2a2735ab9c4541"
+    },
+    {
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.md",
+      "sha256": "c18a76a766e6357794a4cb6edb1944f0b701924c9004be78fa25bcc46ab7b5b3"
+    },
+    {
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.raw.json",
+      "sha256": "3b7fc15bd80c45b4b57c3ad445782f3e1c6fc1f74990b776b231d4bc6600a5a1"
+    },
+    {
+      "path": "browser/reviews/native-action-end-opus-5.5.json",
+      "sha256": "9b370ea10836ddf927e9ac9de8fec5b057cb54c40509c92f83d62ebcfad344ff"
+    },
+    {
+      "path": "browser/reviews/native-action-end-opus-5.5.md",
+      "sha256": "65d631260d8f380490e872f66173d58156fb1792b2893f087c711d41a04ddc61"
+    },
+    {
+      "path": "browser/reviews/native-action-end-opus-5.5.raw.json",
+      "sha256": "0c4f95830515204f926245f26705046e7d5686ace452582d3eb61008e8c031f4"
+    },
+    {
+      "path": "browser/reviews/native-action-end-recoil.md",
+      "sha256": "9eb18f152a1ff2c3ba1f04ce0a9c840e8425fee0dac7e97ec9cf71ea8875cbda"
+    },
+    {
+      "path": "browser/reviews/native-battle-accuracy-adjudication.json",
+      "sha256": "a7d12887427ce9ca3f04c058efcfd3bf132514a6e37ea07baedcd11493311249"
+    },
+    {
+      "path": "browser/reviews/native-battle-accuracy-opus-result.json",
+      "sha256": "cfc482781e0835e2ef7576742469c59eaab82284a9c3036a3139be5b51528fd6"
+    },
+    {
+      "path": "browser/reviews/native-battle-accuracy-review-manifest.json",
+      "sha256": "b5ee43c381252d10cf78075e84bf47be870dbca062d0d75a4492e5d8fca84bad"
+    },
+    {
+      "path": "browser/reviews/native-battle-accuracy-scope.md",
+      "sha256": "4eafb369418c50514ef1935e57b4bc0b8cfa76b83487fa76c5bbd1ef210b1b93"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-adjudication.json",
+      "sha256": "859086e3428545322eee224b5940cc086c2f59c4866e88060288c4efeed4c891"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-opus-core-result.json",
+      "sha256": "cd450f160492a8d2f3e4c83448c594df62b2ddf1a433bd0904bd4fb80f028559"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-opus-followup-result.json",
+      "sha256": "88871b4729bc4420ceb45ae036ddea1d79fd952740482865b2974d6d106a58d6"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-phase-adjudication.json",
+      "sha256": "b48d6ffadb92ec773a9d2cff6567e88c71972f46bcd4b4760215bae64b4afd27"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-plan-adjudication.json",
+      "sha256": "e8def5699043ddec8afb03d798e6b8b895d28cf9cc5a7318d6403f209c2b893c"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-plan-opus-result.json",
+      "sha256": "f5dc8e535c3b0d48051d602ed2d1a532a592dce675be56a8ad9ceff15fca737d"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-plan-review-manifest.json",
+      "sha256": "f989c753c49b038a1c112ec02c19dd4c3f506e6bd9df650658d443f2f621b113"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-review-manifest.json",
+      "sha256": "90c910b77a1e614d800e8e16f209b99d11a971db2121442320eb0e5b5edf79d7"
+    },
+    {
+      "path": "browser/reviews/native-battle-experience-scope.md",
+      "sha256": "ab88bb59fae0554f68287171fa5054b3bb00b141471e4d26ea903efb0f901476"
+    },
+    {
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.json",
+      "sha256": "1ad685725f8dc5ba1df3b18cc95042363d0d148443f10983cc55a90bf93b68e6"
+    },
+    {
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.md",
+      "sha256": "80893ab62432026e8673676d410239d4b11235780908c20260d2c181a3c040f3"
+    },
+    {
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.raw.json",
+      "sha256": "e7a7d7e8c052a1c92fddc7666245107b1e508ba1256b2168881b96bcdae9183a"
+    },
+    {
+      "path": "browser/reviews/native-early-battle-effects-review-receipt.json",
+      "sha256": "fc832d250edbb747b4f5b041fd04eb957e1ca6658c2fcb62b87636d8ee6eb3cd"
+    },
+    {
+      "path": "browser/reviews/native-egg-consumer-514a01e-exp-reproduction.json",
+      "sha256": "d191b0d93cfb72b2e9c59adc66fea47187b44830599ddf5407511151b12ff317"
+    },
+    {
+      "path": "browser/reviews/native-egg-consumer-514a01e-opus-5.5.json",
+      "sha256": "78ad6e570477a65108b67f7c4b008ee3daa20edb34c68c00dfa791965c3424bf"
+    },
+    {
+      "path": "browser/reviews/native-egg-consumer-514a01e-opus-5.5.md",
+      "sha256": "30c18af532d78c59969437355d6924815eae5b5b1453f07d83e235eb87dc0944"
+    },
+    {
+      "path": "browser/reviews/native-no-target-predicate-proof.md",
+      "sha256": "b647cab37e092c71d11c80546947865ed2b62d2a3957c499ef343bef7e26dc88"
+    },
+    {
+      "path": "browser/reviews/native-no-target-predicate-source-manifest.json",
+      "sha256": "005bf6c3fb74c225e22bc44878962190504149f27dfdfaf9ed9a90d194b8e5db"
+    },
+    {
+      "path": "browser/reviews/native-single-battle-residual-source-manifest.json",
+      "sha256": "75eb53cdc8784563d1de700660f50d4f47d81151e790dfc89280095674dd70f9"
+    },
+    {
+      "path": "browser/reviews/native-single-battle-residual-source-proof.md",
+      "sha256": "63241f7f550cc61c01583d994cded5947440fb55187bc9e66801cc03c20de46b"
+    },
+    {
+      "path": "browser/reviews/native-zero-speed-adjudication.json",
+      "sha256": "4e51b72598559bc3636ba4c21245e899277e29e8876771964c884a1d392505bc"
+    },
+    {
+      "path": "browser/reviews/native-zero-speed-b30324e-reproduction.json",
+      "sha256": "42977f757184fad3de8052eeffa5f428f3af707db2108dd7c2f79acbebbb2ca0"
+    }
+  ],
+  "reviewQualification": "Original actual Opus 5.5 review scopes and hashes remain historical. No new provider approval is asserted for this production-base dependency adaptation. Parent owns release review, full suite/build and any publication.",
+  "historicalFindings": [
+    {
+      "snapshot": "514a01e",
+      "finding": "EXP after residual damage incorrectly omitted recipients and allowed poison before level-up",
+      "closedBy": "b30324e native phase/party planner integration"
+    },
+    {
+      "snapshot": "b30324e",
+      "finding": "F1 native speed zero was clamped to one",
+      "closedBy": "2e85fc2 public Battle regression"
+    },
+    {
+      "snapshot": "b30324e",
+      "finding": "F2 living second actor skipped after other actor recoil-fainted",
+      "closedBy": "feaa790 per-action faint/EXP/outcome boundary"
+    },
+    {
+      "snapshot": "first action-end candidate",
+      "finding": "N1 unsupported effects blocked native no-target completion",
+      "closedBy": "feaa790 final supported single-battle target predicate"
+    },
+    {
+      "snapshot": "second action-end candidate",
+      "finding": "N2 charge predicates were bypassed too broadly on no-target",
+      "closedBy": "feaa790 complete source-owned charge table and explicit unsupported lifecycle"
+    }
+  ],
+  "notDone": [
+    "Vite build",
+    "Full repository test suite",
+    "Rendered browser verification",
+    "PR creation",
+    "Push/merge/deployment"
+  ],
+  "gaps": [
+    "No full AI/move coverage",
+    "No simultaneous last-KO Draw parity",
+    "No native global RNG draw-sequence parity",
+    "No charge/lock/hide/recharge engine",
+    "No doubles/Trick Room or unported ability/item modifiers",
+    "No trades/disobedience or provenance-based ownership inference",
+    "No Egg acquisition/hatching/field/UI feature delivery"
+  ]
+}
