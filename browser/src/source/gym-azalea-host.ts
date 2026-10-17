@@ -27,7 +27,8 @@ export type AzaleaGymAudio={
   * and reports diagnosed technical no-voice without inventing playback.
   * Even a failed voice must wait if another sequence occupies that player.
   * Native PlaySE ignores admission failure; its WaitSE then finishes
-  * on the next task poll. Source/config absence belongs to prepare's error. */
+  * on the next task poll at which that native player is idle.
+  * Source/config absence belongs to prepare's error. */
  switch1561:(signal:AbortSignal)=>Promise<AzaleaSEOutcome>;
  robot2171:(owner:object)=>AzaleaSEOutcome;stop2171:(owner:object,fade:1)=>void;
 };

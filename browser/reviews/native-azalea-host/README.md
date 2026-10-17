@@ -33,3 +33,7 @@ Camera shake offsets both camera and look-at by the same cumulative Z delta; it 
 7. Preserve source-action recovery snapshots of State, actor logical/tween/animation ownership and orbit. Recovery drains the VM port before rehydrating the field. Unload calls `host.leave` before changing field ownership; World.beginFieldTransition does this before shared task cancellation.
 
 Actual Main/audio bindings, visual/interactive checks and production integration are outside this leaf and require fresh review of those exact bytes. Existing renderer/clock reviews do not transfer automatically.
+
+## Review checkpoint
+
+Source runtime `3dad8b6611dea414eb15b3e5eb6dcffbae310744` passed155 affected Node tests and TypeScript. Actual Opus5.5 first returned a minor revise on `b4407166`, then accepted the immutable correction snapshot `3dad8b66` in a narrow source-only follow-up. Full raw outputs, prompts, manifests and original logs are preserved under `opus-b4407166/` and `opus-3dad8b66/`; the reviewer did not rerun tests. `verification.json` records the corrections and remaining gates. The only later host-source change clarifies that WaitSE finishes at the next poll **at which the native player is idle**. `comment-only-proof.json` verifies byte-identical emitted JavaScript with TypeScript5.9/removeComments. Frozen renderer and shared clock source hashes are unchanged. No review approval transfers to future Main, audio or production bytes.
