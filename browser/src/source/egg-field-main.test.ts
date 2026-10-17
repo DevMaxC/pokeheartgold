@@ -72,11 +72,11 @@ async function fixture({counter=4,readyEgg=false,fainted=false}={}){
  const player={group:new THREE.Group()},follower={group:new THREE.Group()};player.group.position.set(state.x,3,state.z);follower.group.position.set(state.x,3,state.z+1);
  const log=[],writes=[],controls={blocked:false,behavior:0,permission:undefined,tween:undefined,reveal:undefined,cry:undefined,finish:undefined,choice:1,nickname:'Pip',failedChoices:[1],trainer:false,warp:undefined,afterMessage:undefined,rtcSeconds:1000};
  const world={scene:new THREE.Scene(),npcSprites:new Map(),yaw:1.2,pitch:.5,distance:17,sky:{currentWeather:7},violetGym:{riderHeight:null},height:()=>3,permission:(x,z)=>controls.permission?.(x,z)??controls.behavior,walkable:()=>!controls.blocked,terrainWalkable:()=>!controls.blocked,owner:()=>state.map,beginFieldTransition(){log.push('transition-begin');},endFieldTransition(){log.push('transition-end');},clearScriptCameraTarget(){log.push('clear-camera');},map:async()=>map,enter:async(_id,x,z,weather,height)=>{log.push(['restore',x,z,weather,height]);return map;},clearNPCs(){},removePaper:actor=>{actor.group.removeFromParent();log.push('remove-paper');return true;},paper:key=>{log.push(['paper',key]);return{group:new THREE.Group()};},animate(){}};
- const ui={busy:false,loading(){},message:async(text,_wait,signal)=>{log.push(['message',text]);await controls.afterMessage?.(text,signal);return()=>{};},choose:async(title,options,_detail,signal)=>{log.push(['choice',title]);if(title==='The area could not be restored.')throw Error('fixture hydration failed');if(title==='Scene not completed'){await controls.failedPrompt?.();return controls.failedChoices.shift()??1;}return typeof controls.choice==='function'?controls.choice(title,options,signal):controls.choice;},input:async()=>controls.nickname};
+ const ui={busy:false,loading(){},message:async(text,_wait,signal)=>{log.push(['message',text]);await controls.afterMessage?.(text,signal);return()=>{};},choose:async(title,options,_detail,signal)=>{log.push(['choice',title]);if(title==='The area could not be restored.')throw Error('fixture hydration failed');if(title==='This area could not load.')throw Error('fixture map load failed');if(title==='Scene not completed'){await controls.failedPrompt?.();return controls.failedChoices.shift()??1;}return typeof controls.choice==='function'?controls.choice(title,options,signal):controls.choice;},input:async()=>controls.nickname};
  ui.printMessage=ui.message;
  class HatchView{constructor(_world,actors,options){this.actors=actors;this.signal=options.signal;log.push(['hatch-view-cry',options.cry]);}async reveal(scene){log.push('reveal');assert.equal(state.party[1].isEgg,false);await controls.reveal?.(scene,this.signal);}async cry(scene){log.push('cry');log.push(['cry-request',scene.cry]);await controls.cry?.(scene,this.signal);}async finish(){log.push('finish');await controls.finish?.();}cancel(){log.push('cancel');}}
  const phoneButton={hidden:true},fieldPhone=new FieldPhoneHost(phoneRules,controls.rtcSeconds,12);
- const c={state,data,map,objects,fieldPhone,fieldPolling:false,phoneCall,$:id=>{assert.equal(id,'phone-ring');return phoneButton;},world,player,follower,ui,battle:{active:false,start:unexpected},ready:true,started:true,walking:false,transitioning:false,recoveryPrompt:false,hatching:false,hatchFollowerPendingCommit:false,followSpecies:155,followMon:state.party[0],followerSuppressed:false,playerDirectionLocked:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,restoringGym:false,lastWarp:'',lastCoord:'',lastError:'',keys:new Set(),drag:false,npcTweenY:new Map(),trainerApproachTasks:new Map(),frameTriggerGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],Date:class extends FieldDate{static now(){return controls.rtcSeconds*1000;}},Promise,AbortController,structuredClone,console:{error(){},warn:console.warn},SAVE_KEY:'test-native-save',localStorage:{setItem:(_key,text)=>writes.push(JSON.parse(text))},ScriptVM,UnsupportedScript,SourceActionRecovery,runRecoverableSourceAction,runFieldBattleAction,trainerEventPriority,firstFollowerMon,isUsableBattler,advancePartyEggStep,recordEggHatchEvent,presentNativeEggHatch,createNativeHatchMusicSession,WorldEggHatchView:HatchView,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,fieldEntryScripts,movementAction,gymFieldEntry,createMon,giveMon,
+ const c={state,data,map,objects,fieldPhone,fieldPolling:false,phoneCall,$:id=>{assert.equal(id,'phone-ring');return phoneButton;},world,player,follower,ui,battle:{active:false,start:unexpected},ready:true,started:true,walking:false,transitioning:false,recoveryPrompt:false,hatching:false,hatchFollowerPendingCommit:false,followSpecies:155,followMon:state.party[0],followerSuppressed:false,playerDirectionLocked:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,restoringGym:false,lastWarp:'',lastCoord:'',lastError:'',keys:new Set(),drag:false,npcTweenY:new Map(),trainerApproachTasks:new Map(),frameTriggerGate:new SourceTriggerGate(),phoneAdmissionGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],Date:class extends FieldDate{static now(){return controls.rtcSeconds*1000;}},Promise,AbortController,structuredClone,console:{error(){},warn:console.warn},SAVE_KEY:'test-native-save',localStorage:{setItem:(_key,text)=>writes.push(JSON.parse(text))},ScriptVM,UnsupportedScript,SourceActionRecovery,runRecoverableSourceAction,runFieldBattleAction,trainerEventPriority,firstFollowerMon,isUsableBattler,advancePartyEggStep,recordEggHatchEvent,presentNativeEggHatch,createNativeHatchMusicSession,WorldEggHatchView:HatchView,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,fieldEntryScripts,movementAction,gymFieldEntry,createMon,giveMon,
   tween:async(seconds,frame)=>{log.push(['tween',seconds,state.x,state.z,c.sourceActions.busy]);frame(.5);await controls.tween?.();frame(1);},encounterChecks:{step(){log.push('encounter-step');},reset(){},roll(){assert.equal(c.sourceActions.busy,false,'wild admission must follow committed step');return true;}},landSlot:()=>0,
   tryTrainerEncounter:async()=>{log.push('trainer');return controls.trainer;},warp:async(...args)=>{log.push(['warp',...args]);await controls.warp?.();},enterMap:unexpected,
   scriptCameraMovement:()=>null,setScriptCameraTarget:unexpected,SCRIPT_CAMERA_ACTOR:241,beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,mapWeather:()=>7,refreshNPCs(){log.push('refresh');},updateHUD(){},requestAnimationFrame:unexpected};
@@ -247,4 +247,52 @@ test('actual due rotation clearing rolls back on caller selection failure and Re
  for(const retry of[false,true]){const c=await fixture(),joey=phoneRules.randomCallers.find(row=>row.key==='PHONE_CONTACT_JOEY'),chunk=phoneRules.recentCallerChunks[joey.group];c.state.pokegear={contacts:[joey.key],cards:[]};c.state.phoneRecentCallers=Array(8).fill(255);c.state.phoneRecentCallers[chunk.offset]=joey.id;const before=[...c.state.phoneRecentCallers],draws=phoneDraws(c,retry?[0,500/65536,Error('MT caller selection failed'),0]:[0,500/65536,Error('MT caller selection failed')]);advanceEmptyPhoneInterval(c);c.controls.failedChoices=[retry?0:1];c.controls.failedPrompt=async()=>{assert.deepEqual(c.state.phoneRecentCallers,before);c.save();assert.equal(c.writes.length,0);};await c.pollFieldInput();
   assert.equal(draws(),retry?4:3,'Retry must reuse the original chance/category draws');assert.equal(c.sourceActions.busy,false);assert.deepEqual(c.state.phoneRecentCallers,retry?Array(8).fill(255):before);assert.deepEqual(c.writes.at(-1).phoneRecentCallers,c.state.phoneRecentCallers);assert.equal(c.fieldPhone.current().kind,retry?'unsupported':'none');
  }
+});
+
+test('actual New Bark to Route29 connection and native OnTransition retain Elm and random rings',async()=>{
+ for(const kind of['elm','random']){
+  const c=await fixture(),origin=await sourceJSON('maps/60.json'),destination=await sourceJSON('maps/33.json');
+  c.map=structuredClone(origin);c.state.map=60;c.state.x=671.5;c.state.z=390.5;c.objects.load(c.map.events.objects);
+  if(kind==='elm'){c.state.phoneTriggers=[0];c.fieldPhone.triggerQueued(0,true);c.fieldPhone.advanceRTC(1060,12);}
+  else{c.state.pokegear={contacts:['PHONE_CONTACT_JOEY'],cards:[]};c.fieldPhone.advanceRTC(1060,12);c.fieldPhone.advanceRTC(1600,12);}
+  const admitted=c.fieldPhone.poll(c.state,c.map,()=>500,()=>0);assert.equal(admitted.kind,kind==='elm'?'elm':'unsupported');
+  c.fieldPhone.advanceRTC(kind==='elm'?1061:1601,12);const clock=c.fieldPhone.snapshot(),pending=copy(c.state.phoneTriggers??[]);
+  c.world.owner=()=>33;c.world.map=async id=>id===33?destination:origin;c.world.connect=async()=>destination;
+  await c.checkEvents();assert.equal(c.state.map,33);assert.equal(c.state.flags.FLAG_UNK_207,true,'actual Route29 OnTransition ran');
+  assert.deepEqual(c.fieldPhone.snapshot(),clock,kind);assert.deepEqual(copy(c.state.phoneTriggers??[]),pending);assert.equal(c.vm.lastUnsupported,null);
+ }
+});
+
+test('ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them',async()=>{
+ for(const event of['warp','npc','frame','trainer','failed-scene']){
+  const c=await fixture();await ringElm(c);const before=c.fieldPhone.snapshot();
+  if(event==='warp'){c.mapBlackoutSpawn=async()=>null;c.world.map=async()=>c.map;c.world.enter=async()=>c.map;await c.enterMap(c.state.map,c.state.x,c.state.z,false);}
+  else{
+   c.map.scripts={labels:{scene:0},entries:['scene'],instructions:event==='failed-scene'?[['UnportedPhoneScene',[]],['End',[]]]:[['End',[]]]};
+   if(event==='frame'){c.map.scripts.instructions=[['SetVar',['VAR_SPECIAL_RESULT','1']],['End',[]]];c.map.initTriggers=[{var:'VAR_SPECIAL_RESULT',value:0,script:'scene'}];await c.checkFrameTriggers();}
+   else if(event==='trainer'){c.vm.runTrainerApproach=async()=>{assert.equal(c.fieldPhone.current().kind,'none','actual main trainer branch resets before approach');};await c.runScript('scene','fixture_actor',false,false,true,{eyeType:0});}
+   else await c.runScript('scene','fixture_actor',false,false,true);
+  }
+  const failed=event==='failed-scene';assert.equal(c.fieldPhone.current().kind,failed?'elm':'none',event);
+  if(failed)assert.deepEqual(c.fieldPhone.snapshot(),before);assert.deepEqual(c.state.phoneTriggers,[0]);
+ }
+});
+
+test('retained Elm ring on a no-reception map launches/consumes without fabricated dialogue',async()=>{
+ const c=await fixture();await ringElm(c);c.map.fields.incomingCalls='FALSE';const count=c.log.filter(row=>Array.isArray(row)&&row[0]==='message').length;
+ await c.answerPhone();assert.deepEqual(c.state.phoneTriggers,[]);assert.equal(c.fieldPhone.current().kind,'none');
+ assert.equal(c.log.filter(row=>Array.isArray(row)&&row[0]==='message').length,count);assert.deepEqual(c.writes.at(-1).phoneTriggers,[]);
+});
+
+test('Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer',async()=>{
+ const c=await fixture();c.state.phoneTriggers=[999];advanceEmptyPhoneInterval(c);const before=c.fieldPhone.snapshot();
+ const failures=()=>c.log.filter(row=>Array.isArray(row)&&row[0]==='choice'&&row[1]==='Scene not completed').length;
+ await c.pollFieldInput();assert.equal(failures(),1);assert.deepEqual(c.state.phoneTriggers,[999]);assert.deepEqual(c.fieldPhone.snapshot(),before);
+ for(let i=0;i<3;i++)await c.pollFieldInput();assert.equal(failures(),1,'ordinary polling must not reopen the same failure');
+ // The ephemeral pause participates in another source action's rollback.
+ await c.executeSourceAction(async()=>{c.phoneAdmissionGate.visit('temporary');throw Error('unrelated scene failure');});assert.equal(failures(),2);
+ await c.pollFieldInput();assert.equal(failures(),2);
+ c.state.phoneTriggers=[998];await c.pollFieldInput();assert.equal(failures(),3);await c.pollFieldInput();assert.equal(failures(),3);
+ Object.assign(c.map,{id:34});c.state.map=34;await c.pollFieldInput();assert.equal(failures(),4);await c.pollFieldInput();assert.equal(failures(),4);
+ c.state.phoneTriggers=[];const draws=phoneDraws(c,[0,0]);await c.pollFieldInput();assert.equal(failures(),4);assert.equal(draws(),2);assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,0);
 });

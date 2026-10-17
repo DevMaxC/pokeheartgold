@@ -38,6 +38,7 @@ const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-q
 const keys=new Set<string>();const ui=new UI();
 const encounterChecks=new EncounterChecks();
 const frameTriggerGate=new SourceTriggerGate();
+const phoneAdmissionGate=new SourceTriggerGate();
 let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data:GameData,objects:FieldObjects;
 let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
 let openingView:OpeningView|null=null;
@@ -88,11 +89,17 @@ async function beginTrainerPath(index:number,trainer:{trainer:number;object:stri
 async function finishTrainerPath(index:number){const task=trainerApproachTasks.get(index);if(!task)throw Error('Native trainer approach task was not started');await task;trainerApproachTasks.delete(index);return true;}
 function fieldRTCObservation(){const seconds=Math.floor(Date.now()/1000);return{seconds,hour:new Date(seconds*1000).getHours()};}
 async function pollPhoneAdmission(){
+  const input=JSON.stringify([state.map,state.phoneTriggers??[],state.phoneRecentCallers??null,state.pokegear?.contacts??[]]);
+  phoneAdmissionGate.visit(input);
+  if(!phoneAdmissionGate.allows('due'))return;
   if(!fieldPhone.needsAdmission(state,map))return;
   // Explicit browser RNG ports preserve the native LC/MT call order. Retry
   // reuses this admission's draws; this does not emulate the global DS RNG.
   const lc:number[]=[],mt:number[]=[],clock=fieldPhone.snapshot();
-  await executeSourceAction(async()=>{let li=0,mi=0;fieldPhone.restore(clock);return fieldPhone.poll(state,map,()=>lc[li++]??(lc[li-1]=Math.floor(Math.random()*0x10000)),()=>mt[mi++]??(mt[mi-1]=Math.floor(Math.random()*0x100000000)));});
+  const result=await executeSourceAction(async()=>{let li=0,mi=0;fieldPhone.restore(clock);return fieldPhone.poll(state,map,()=>lc[li++]??(lc[li-1]=Math.floor(Math.random()*0x10000)),()=>mt[mi++]??(mt[mi-1]=Math.floor(Math.random()*0x100000000)));});
+  // Return pauses this failed input. Explicit Retry remains inside the same
+  // taped action; a changed map/party-phone input admits a new attempt.
+  if(!result.ok)phoneAdmissionGate.failed(input,'due');
 }
 async function pollFieldInput(){
   if(fieldPolling||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
@@ -107,7 +114,9 @@ async function answerPhone(){
   if(blocked()||fieldPhone.current().kind!=='elm')return;
   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter)||blocked()||fieldPhone.current().kind!=='elm')return;
   keys.clear();drag=false;
-  await fieldPhone.answerElm(state,executeSourceAction,call=>phoneCall(data,state,call.contact,call.scripted,call.script,text=>ui.message(vm.text(text,map)),text=>ui.choose('',['Yes','No'],text)));
+  // Native launch consumes/reset the incoming call before PhoneCall_InitContext
+  // declines a map without reception. A connection may retain a ringing call.
+  await fieldPhone.answerElm(state,executeSourceAction,call=>map.fields.incomingCalls==='TRUE'?phoneCall(data,state,call.contact,call.scripted,call.script,text=>ui.message(vm.text(text,map)),text=>ui.choose('',['Yes','No'],text)):Promise.resolve());
   refreshPhoneIndicator();
 }
 async function tweenNPC(npc:NPC&{step:number;previousX?:number;previousZ?:number;previousY?:number},x:number,z:number,seconds:number,jump=false){
@@ -173,13 +182,14 @@ async function hatchEgg(){
   });}finally{hatching=false;}
 }
 // Live actors are newer than state.objectEvents until the next durable save.
-function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,phone:fieldPhone.snapshot(),playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
+function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,phone:fieldPhone.snapshot(),phoneAdmission:phoneAdmissionGate.snapshot(),playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
   followerPrevious=null;keys.clear();drag=false;transitioning=true;world.beginFieldTransition();ui.loading('Restoring the area…');
   try{
     fieldPhone.restore(snapshot.phone);
+    phoneAdmissionGate.restore(snapshot.phoneAdmission);
     Object.assign(world,snapshot.camera);
     // Optional height/lift parameters are also understood by the gym hydration
     // port. Older field worlds accept this compatible superset and ignore them.
@@ -227,10 +237,10 @@ async function executeSourceAction<T>(action:()=>Promise<T>){
     },
   });
 }
-async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter,admissionError?:UnsupportedScript){
+async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter,admissionError?:UnsupportedScript,resetPhone=true){
   if(vm.busy&&!nested)return false;
   const result=await executeSourceAction(async()=>{
-    fieldPhone.resetForSourceEvent();
+    if(resetPhone)fieldPhone.resetForSourceEvent();
     const runner=nested?new ScriptVM(data,state,vm.hooks):vm,wasWalking=walking;
     if(!preserveControls)keys.clear();walking=true;
     try{try{if(admissionError)throw admissionError;if(approach){if(approach.eyeType!==0)throw new UnsupportedScript(map.code,'TrainerBattleDouble',-1);await runner.runTrainerApproach(map,approach);}else await runner.run(map,script,object);}finally{if(approach){await Promise.allSettled(trainerApproachTasks.values());trainerApproachTasks.clear();}}updateHUD();}finally{walking=wasWalking;}
@@ -238,10 +248,10 @@ async function runScript(script:string|number,object='obj_player',nested=false,p
   });
   return result.ok;
 }
-async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=false){await executeSourceAction(async()=>{for(const event of fieldEntryScripts(kind))if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,preserveControls,true);});}
+async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=false){await executeSourceAction(async()=>{for(const event of fieldEntryScripts(kind))if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,preserveControls,true,undefined,undefined,false);});}
 async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false){
   await executeSourceAction(async()=>{
-  fieldPhone.resetForSourceEvent();
+  if(!connection)fieldPhone.resetForSourceEvent();
   world.clearScriptCameraTarget();
   encounterChecks.reset();
   const {initialHeight,violetLift}=gymFieldEntry(state,restoreObjects,connection),previousRestore=restoringGym;restoringGym=restoreObjects;
