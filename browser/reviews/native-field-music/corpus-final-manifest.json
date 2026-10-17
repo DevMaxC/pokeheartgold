@@ -1,0 +1,198 @@
+{
+  "sourceCommit": "f3e629c6b73aa2135c9fc503db7b354756d705ae",
+  "sourceFiles": {
+    "browser/scripts/export_field_music.py": "aaf04a882966a71a5dec14d343b8c21cdbe9dfdecbd8993187051ddee9143d87",
+    "browser/scripts/encode_field_music.py": "de4c21fcfae6b49abe90181a645e01da656ec7c5afa778abcb855bfda95379a3",
+    "browser/scripts/field_music_sequence.py": "da3836432222841e788a302b9824870898ab7321b850ac9744a21e465c3f1c52",
+    "browser/scripts/test_field_music_cache.py": "5d322ce644490c70195ca739f773528c39f24792998f99c417afbea4a40a7799",
+    "browser/scripts/test_field_music_sequence.py": "20365b8b023b0aa3c6d133d84f4f3789f769f6df653a8d5bde57aad99bf63e60",
+    "browser/src/source/field-music-assets.test.ts": "62a5140ecad37369a520bdda869d9a552ad8ceb26860458a1b62cae85cfc71ba"
+  },
+  "runtimeCatalogSHA256": "c40ea8a2298c62c208b88e97f549caca4cb7c15723431c2ab4ecd0790e218294",
+  "runtimeCatalogBytes": 207234,
+  "corpusProofSHA256": "1c4f5fe15260159f1eabbd77b0ad18845aa726d7013e29a3954cf9713bf4414d",
+  "cueCounts": {
+    "nativeIds": 103,
+    "music": 102,
+    "silence": 1,
+    "unsupported": 0
+  },
+  "delivery": {
+    "primary": "aac",
+    "fallback": "mp3",
+    "onDemand": true,
+    "uniqueFiles": 168,
+    "duplicateCueFilesSuppressed": 36,
+    "totalBytes": 304475068
+  },
+  "reviewResults": {
+    "export-01": {
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1174,
+          "outputTokens": 13,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.0012389999999999999,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 34,
+          "outputTokens": 22056,
+          "cacheReadInputTokens": 1030460,
+          "cacheCreationInputTokens": 100263,
+          "webSearchRequests": 0,
+          "costUSD": 1.1486629999999998,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 16777,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permissionDenials": [],
+      "isError": false,
+      "rawSHA256": "36adee59437ccb38434163b9233dfbd9797aaca4a5cf2ca041b473ca050d4ba8"
+    },
+    "export-02": {
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1355,
+          "outputTokens": 20,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.0014550000000000001,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 48,
+          "outputTokens": 36525,
+          "cacheReadInputTokens": 1354068,
+          "cacheCreationInputTokens": 104279,
+          "webSearchRequests": 0,
+          "costUSD": 1.5229006000000003,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 29088,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permissionDenials": [],
+      "isError": false,
+      "rawSHA256": "965fccd73c270387c25ac843cd7de79d6532a3809b08e55c042c6c0d8cca450f"
+    },
+    "export-03": {
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1343,
+          "outputTokens": 17,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001428,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 22,
+          "outputTokens": 6484,
+          "cacheReadInputTokens": 278818,
+          "cacheCreationInputTokens": 43384,
+          "webSearchRequests": 0,
+          "costUSD": 0.40245159999999996,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 3043,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permissionDenials": [],
+      "isError": false,
+      "rawSHA256": "65b707a4ded7629e6d8874d444a0acdb9c29a9bd5312129d70dd61f3ad425866"
+    }
+  },
+  "validation": {
+    "nodeTargeted": {
+      "tests": 41,
+      "passed": 41,
+      "failed": 0
+    },
+    "nodeAssetsAfterAdditionalSourceHashes": {
+      "tests": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "pythonSequenceProof": {
+      "tests": 8,
+      "passed": 8
+    },
+    "pythonCacheAndGateProof": {
+      "tests": 8,
+      "passed": 8
+    },
+    "productionTypeScript": {
+      "command": "browser/node_modules/.bin/tsc --noEmit -p browser/tsconfig.json",
+      "exitCode": 0
+    },
+    "browserAudioAudition": "not performed",
+    "viteBuild": "not performed",
+    "fullCampaignParity": "not asserted"
+  },
+  "initialCacheRecipeEvidence": {
+    "initialNativeExporterSnapshotSHA256": "83e26d017fd372e4779d4d995cbcbe8e6dabd4a96373df4ffa697dfb9868f963",
+    "nativeRenderRecipeSHA256": "e17cb8889e5aa0111de016ac0b7d66cb1939e7cdc3b5f927d8946178fd3410d7",
+    "codecRecipeSHA256": "c1480038c80c28e94fc9165f7d7c335c1303316b3751ab15ec52d9659f728a97",
+    "perTrackOriginalWrapperHashes": "Missing initial wrapper hashes remain null; compatible exact recipes plus original inputs and stronger source/loop/codec receipts revalidated, not relabeled as fresh producer.",
+    "initialCodecProducerVersion": "Unknown per adopted receipt; ffmpeg:null, adoptedUnderFFmpeg records8.0.1 validation. Two genuinely fresh corrected codec receipts retain their actual producer hashes/version."
+  },
+  "adjudication": [
+    {
+      "review": "export-01",
+      "finding": "Empty-stack Return fallthrough missing; late/voiced nonloop track unproven; cache signatures too broad",
+      "resolution": "v3 literal CFG includes FD continuation, track-specific flows gate all note/rest tracks, known render and codec recipes/input/loop/trim/tool cache guards are explicit. Negative regressions plus all103 actual source proofs pass."
+    },
+    {
+      "review": "export-02",
+      "finding": "Window may contain later track first pass",
+      "resolution": "Require every looping track lastStart<=windowStart; all102 actual cues pass unchanged. Exact counterexample now negative fixture. This is sequence-pass alignment, not hardware DSP/oscillator/envelope periodicity."
+    },
+    {
+      "review": "export-02",
+      "finding": "Legacy codec producer ffmpeg attribution, stale silence, weak input/folder gates",
+      "resolution": "Unknown producer version remains null; adoptedUnderFFmpeg separate. Silence status must agree with fresh counts; encoder requires current source/loop receipts; asset fixtures check source/codec/loop gates and only referenced compressed files."
+    },
+    {
+      "review": "export-03",
+      "finding": "No remaining correctness blockers in reviewed fixes",
+      "resolution": "Actual read-only Opus5.5 final review; reviewer spot-checked records and did not execute tests, decode audio, verify every record manually or audition. Independent executing fixtures cover all103 actual mappings/dependencies/media and loop proofs."
+    }
+  ],
+  "limitations": [
+    "Pinned original sequence/sample-bank emulation, not bit-exact DS hardware/shared-channel DAC/DSP output.",
+    "AAC/MP3 delivery is lossy. AAC retained final padding and alignment/frame receipts are explicit, not universal gapless browser proof.",
+    "Independent same-machine NewBark native+codec reproduction passed; all-cue cross-platform byte identity not asserted.",
+    "No browser/Safari/mobile hearing or autoplay interaction check was performed in this leaf.",
+    "Additional radio/script/bicycle/victory/encounter/SFX cues remain outside this catalog; missing IDs reject explicitly."
+  ]
+}

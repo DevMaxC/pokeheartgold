@@ -1,0 +1,80 @@
+{
+  "reviewedCommit": "b1ad9303279a075ec8adc7f3e026f23afb777870",
+  "verdict": "PASS: narrow source closure",
+  "independentReviewer": "Actual Claude CLI2.1.280, claude-opus-5-5/high, Read/Grep/Glob only; no MCP/hooks/persistence/browser/agents",
+  "actualResult": {
+    "is_error": false,
+    "num_turns": 24,
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1913,
+        "outputTokens": 22,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.002023,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      },
+      "claude-opus-5-5": {
+        "inputTokens": 42,
+        "outputTokens": 29420,
+        "cacheReadInputTokens": 944212,
+        "cacheCreationInputTokens": 88763,
+        "webSearchRequests": 0,
+        "costUSD": 1.2212254,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 23475,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permissionDenials": [],
+    "spawnedAgents": 0,
+    "exitCode": 0,
+    "wallSeconds": 359.73150024999995,
+    "rawResultSHA256": "29d35f091f68d7069a06dbc658877e66245722098aecb599c722608937dae68a"
+  },
+  "integrity": {
+    "verifiedUTC": "2026-10-17T15:38:50.034488+00:00",
+    "fileCount": 13524,
+    "graphSHA256": "a8003ef012391a34d5c95aa47e2fe04b61c8467d14a1d93c4e301df9daf92694",
+    "changed": [],
+    "unexpected": [],
+    "missing": [],
+    "sourceManifestUnchanged": true,
+    "promptUnchanged": true
+  },
+  "findings": [
+    {
+      "id": "U1",
+      "decision": "resolved",
+      "evidence": "validation/U1-N2r-positive.log and validation/U1-N2r-boundaries.log",
+      "reason": "Current locked map request did not own a playback outcome; failed current unlock song is reported directly without re-download. Newer completed playback/error owns its report. Actual permission rejection remains visible. Exactly2 original format attempts until explicit current73 Retry; ordinary gestures add no request."
+    },
+    {
+      "id": "N2r",
+      "decision": "resolved",
+      "evidence": "validation/U1-N2r-boundaries.log",
+      "reason": "Disabled Retry moves to neutral owned status. Enter/Space/F are consumed only on the opt-in owned neutral target; musictrue/request1/panelopen/save0 remain invariant. Explicit Tab/arrow/Escape and mandatory source-choice behavior retained."
+    },
+    {
+      "id": "N1",
+      "decision": "unchanged after prior actualPASS on5e4f5552",
+      "reason": "No-signal background loops stop before each further entry during a newer battle; current battle failure cannot be cleared by older sync completion."
+    }
+  ],
+  "nonblockingLimitations": [
+    "Neutral-status Tab explicitly focuses headerBack (ShiftTabDone); activation after explicit navigation is intentional.",
+    "Existing optional-music cancellation during a battle starting in an unlock load may briefly show outage; field return clears it. This was inherited and is not a new blocking correctness finding.",
+    "No browser/keyboard-default or Space-keyup execution, screen-reader, mobile, GPU, codec/fidelity or audio-listening verification.",
+    "No full native source-game parity, audio export/catalog completeness, broad terrain/building or production deployment approval."
+  ],
+  "sourceUnchangedAfterReview": true
+}

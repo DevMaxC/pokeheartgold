@@ -1,0 +1,26 @@
+{
+  "reviewedCommit": "5e4f5552ddaab3c3214be9cff3d114e5e17f28aa",
+  "priorFinding": "N1 PASS in actual review",
+  "findings": [
+    {
+      "id": "U1",
+      "severity": "Low",
+      "decision": "confirmed and fixedb1ad9303",
+      "evidence": "validation/U1-N2r-negative.log.gz",
+      "observed": "Both settled and deliberately pending newer locked map responses hide real current-song failure after delayed successful Context resume. New outcome bookkeeping distinguishes permission-only locked response from actual playback/error. Failure is reported directly, no extra fetch until explicit Retry; newer playback/error owns its result.",
+      "tests": "Both real-player response timings require musicError/nonempty, canRetrytrue, exactly2format attempts, one toast, no ordinary-gesture fetch, explicit current73 Retry recovery."
+    },
+    {
+      "id": "N2r",
+      "severity": "Low",
+      "decision": "confirmed and fixedb1ad9303",
+      "evidence": "validation/U1-N2r-negative.log.gz",
+      "observed": "Second confirm after moving Retry focus to Music toggles preferencefalse. New neutral owned status opt-in consumes Enter/Space/F, retains musictrue/request1/panelopen/save0. Explicit Tab/arrow and Escape remain available; mandatory source choices untouched."
+    }
+  ],
+  "status": "Final closure actual Opus5.5 running onb1ad9303",
+  "limitations": [
+    "Source/synthetic AudioContext and actual UI harness only; no browser/device/default-action/audio audition.",
+    "No source-game parity, export/catalog completeness, broad terrain approval or production verification."
+  ]
+}

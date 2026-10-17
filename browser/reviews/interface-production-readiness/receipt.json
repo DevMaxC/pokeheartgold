@@ -1,0 +1,38 @@
+{
+  "testedSourceCommit": "e0b85d2e",
+  "reviewedFinalUISource": "b1ad9303279a075ec8adc7f3e026f23afb777870",
+  "allReviewedUIFilesMatchExactHashes": {
+    "main.ts": "3642e3ed94adfc3d318c8cec66e6c21971c6cd8125240a9c59a4f16303deddef",
+    "ui.ts": "71542a27b03ca746ff766b16ffca0193910c291a84a9238ca83647eae3715ada",
+    "interface-panels.ts": "e2de13ff98e685dfce2553d9fef9ad69fdb07e2bf53c6a7793cf4062a09f90e4"
+  },
+  "checks": {
+    "nodePassed": 640,
+    "nodeFailed": 0,
+    "nodeSkipped": 0,
+    "typecheck": "pass as production build prerequisite",
+    "build": "pass"
+  },
+  "originalAudio": {
+    "cueIds": 103,
+    "uniqueMediaFiles": 168,
+    "mediaBytes": 304475068,
+    "everyMediaMatchesCatalogBytesAndSHA256": true
+  },
+  "builtArtifacts": {
+    "main-D6NKrbvA.js": {
+      "bytes": 993125,
+      "sha256": "e75e925fe540f19509a7d086bbdd8b4970fbf57f8cf04c6b8387544a191834f5"
+    },
+    "main-CzLmTtrC.css": {
+      "bytes": 39368,
+      "sha256": "5f2363aaf72df8081abb96e39e3b5c70349a3d4f9f3c17949394abaa5665fbbb"
+    }
+  },
+  "preservedProduction": "669c8fd6790a5fc10feed4047180a69758a90530",
+  "pending": [
+    "native browser/mobile visual interaction and actual audible play while preview disconnected",
+    "full native-progression branch/campaign parity",
+    "tree replacement release"
+  ]
+}

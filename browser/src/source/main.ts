@@ -16,19 +16,71 @@ import {mapBlackoutSpawn} from './spawns.ts';
 import {originalTrainerParty,battleMoneyLoss,trainerPrize} from './trainers.ts';
 import {catchingTutorialState} from './tutorial.ts';
 import type {State,SourceMap,NPC,Mon,GameData} from './types.ts';
+import {TouchControls} from './touch-controls.ts';
+import {CameraInput} from './camera-input.ts';
+import {fieldInput,fieldInputFacing} from './field-input.ts';
+import {readInterfacePreferences,writeInterfacePreferences} from './interface-preferences.ts';
+import {InterfacePanels} from './interface-panels.ts';
+import {isItemBallObject,runItemBallPickup} from './item-pickup.ts';
+import {createNativeFieldMusicPlayer,UnsupportedNativeMusic,type EffectiveMusic} from './field-music.ts';
+import {nativeBattleMusic} from './battle-music.ts';
 
 const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-qa':'heartgold-3d-v2';
 const keys=new Set<string>();const ui=new UI();
 const encounterChecks=new EncounterChecks();
 let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data:GameData,objects:FieldObjects;
-let ready=false,transitioning=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
+let ready=false,transitioning=false,connecting=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
 let lastWarp='',lastCoord='',lastError='';
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
 let playerTweenY:number|undefined;let previousStepJump=false;
 const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
-function save(){if(!started||transitioning||vm?.busy||battle?.active||walking)return;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
+let preferenceStorage:Storage|null=null;try{preferenceStorage=localStorage;}catch{/* Private browsing still has working controls. */}
+let preferences=readInterfacePreferences(preferenceStorage),panels:InterfacePanels;
+const music=createNativeFieldMusicPlayer({enabled:preferences.music,volume:preferences.volume});
+let musicKey='',musicError='',musicNotice='',musicRetryable=true,pickupRecoveryBlocked=false,soundUnlocked=false;let unlockPending:Promise<void>|null=null;let battleSoundOwned=false;let musicRequestPending:Promise<void>|null=null;let musicRequestSerial=0,musicSettledRequest=0,musicSettledLocked=false,musicPreferencePending=0;const pendingMusicRestores=new Set<(signal?:AbortSignal)=>Promise<void>>(),musicListeners=new Set<()=>void>();
+const MUSIC_WAIT_MS=1500;
+function reportInputError(error:unknown){if(error instanceof DOMException&&error.name==='AbortError')return;console.error(error);lastError=String(error);ui.toast('That action could not finish. Please try again.');}
+function musicChanged(){for(const listener of musicListeners)try{listener();}catch(error){console.warn(error);}}
+function watchMusic(listener:()=>void){musicListeners.add(listener);return()=>{musicListeners.delete(listener);};}
+function musicFailed(error:unknown){musicError=String(error);musicRetryable=!(error instanceof UnsupportedNativeMusic);musicChanged();if(musicNotice)return;musicNotice=musicError;console.warn(error);if(preferences.music)ui.toast(musicRetryable?'Music is unavailable. You can retry in Settings.':'This original music is unavailable.');}
+function clearMusicFailure(){musicError='';musicNotice='';musicRetryable=true;musicChanged();}
+function musicStatus(){return{pending:!!musicRequestPending||!!unlockPending||musicPreferencePending>0,message:musicError?(musicRetryable?'Music could not load. You can retry.':'This original track is unavailable.'):'',canRetry:!!musicError&&musicRetryable&&!battleSoundOwned};}
+async function retryMusicRestores(signal?:AbortSignal){for(const restore of pendingMusicRestores){if(!signal&&battleSoundOwned)return;if(signal?.aborted)throw signal.reason;await restore(signal);pendingMusicRestores.delete(restore);}}
+function musicDeadline(message:string){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(new DOMException(message,'TimeoutError')),MUSIC_WAIT_MS);return{controller,clear:()=>clearTimeout(timer)};}
+// A locked map request has not handled playback. The unlock may have performed
+// that current song's first load; report it without downloading the song again.
+function finishMusicUnlock(request:number,failure?:{error:unknown}){
+  if(!started||!map){if(failure)musicFailed(failure.error);else clearMusicFailure();return;}
+  const current=musicRequestSerial,finish=()=>{if(current!==musicRequestSerial)return;if(request!==current&&(musicSettledRequest!==current||!musicSettledLocked))return;if(failure)musicFailed(failure.error);else{musicKey='';syncMusic();}};
+  if(request!==current&&musicRequestPending)void musicRequestPending.then(finish);else finish();
+}
+function unlockSound(){
+  if(music.isUnlocked()){soundUnlocked=true;return;}if(unlockPending)return;soundUnlocked=false;
+  const request=musicRequestSerial,pending=music.unlock();unlockPending=pending;musicChanged();void pending.then(()=>{soundUnlocked=true;finishMusicUnlock(request);}).catch(error=>{soundUnlocked=music.isUnlocked();if(soundUnlocked)finishMusicUnlock(request,{error});else musicFailed(error);}).finally(()=>{if(unlockPending===pending)unlockPending=null;musicChanged();});
+}
+async function retryMusic(){
+  if(battleSoundOwned||musicError&&!musicRetryable)return;
+  if(musicRequestPending||musicPreferencePending>0){await musicRequestPending;return;}
+  if(!music.isUnlocked()){unlockSound();try{await unlockPending;}catch{return;}}
+  if(!music.isUnlocked())return;if(!started||!map){clearMusicFailure();return;}
+  if(musicRequestPending){await musicRequestPending;return;}
+  musicKey='';syncMusic();await musicRequestPending;
+}
+function syncMusic(){
+  if(!started||!map||battle?.active||battleSoundOwned)return;
+  const hour=new Date().getHours(),key=JSON.stringify([map.id,hour,state.flags,preferences.music,preferences.volume]);if(key===musicKey)return;musicKey=key;const request=++musicRequestSerial;
+  const pending=music.playMap(map,{hour,flags:state.flags}).then(async result=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=result.status==='locked';if(musicSettledLocked||battleSoundOwned)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey&&!battleSoundOwned)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=false;if(battleSoundOwned)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
+}
+function textDelay(){return [8,4,1][preferences.textSpeed]*1000/60;}
+const touch=new TouchControls($('touch-pad'),{interact:()=>{unlockSound();void interact().catch(reportInputError);},menu:()=>{unlockSound();void menu().catch(reportInputError);}});
+const camera=new CameraInput($('original-world'),{allowed:()=>!!world&&started&&ready&&(!transitioning||connecting)&&!pickupRecoveryBlocked&&!battleSoundOwned&&!vm?.busy&&!ui.busy&&!battle?.active&&!world.fieldTransitionActive,read:()=>({yaw:world.yaw,pitch:world.pitch,distance:world.distance}),write:orbit=>{world.yaw=orbit.yaw;world.pitch=orbit.pitch;world.distance=orbit.distance;},sensitivity:()=>preferences.cameraSensitivity});
+function resetFieldInput(){keys.clear();touch.reset();camera.reset();}
+function syncInputContext(){const field=started&&ready&&(!transitioning||connecting)&&!pickupRecoveryBlocked&&!battleSoundOwned&&!vm?.busy&&!ui.busy&&!battle?.active&&!world?.fieldTransitionActive;touch.setContext({movement:field,run:field&&!!state?.runningShoes,interact:ui.dialogueOpen||field&&!walking,menu:field&&!walking});camera.sync();$('game').dataset.gameState=!started?'title':battle?.active?'battle':'field';}
+function running(){return !!state.runningShoes&&fieldInput(keys,touch.read()).run;}
+
+function save(){if(!started||transitioning||vm?.busy||battle?.active||walking||pickupRecoveryBlocked||battleSoundOwned)return false;try{state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));return true;}catch{console.warn('Local save is unavailable');return false;}}
 function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag?s:null;}catch{return null;}}
 function displayMapName(m:SourceMap){const names:Record<string,string>={T20:'New Bark Town',T20R0202:'Your room',T20R0201:'Home',T20R0101:'Professor Elm’s Lab',T20R0102:'Elm’s home',T21:'Cherrygrove City',T22:'Violet City'};if(names[m.code])return names[m.code];return m.key.replace('MAP_','').split('_').map(word=>/^\d+$/.test(word)?word:word[0]+word.slice(1).toLowerCase()).join(' ');}
 function updateHUD(){
@@ -69,8 +121,7 @@ async function tweenPlayer(x:number,z:number,seconds:number,jump=false){
 function face(object:string,facing?:number){const actor=objects.get(object);if(!actor)return;if(facing===undefined){const dx=state.x-actor.x-.5,dz=state.z-actor.z-.5;facing=Math.abs(dx)>Math.abs(dz)?dx>0?3:2:dz>0?1:0;}actor.facingDirection=facing;refreshNPCs();}
 function setPosition(object:string,x:number,z:number,facing?:number){if(object==='obj_player'){state.x=x+.5;state.z=z+.5;if(facing!==undefined)state.facing=facing;return;}objects.position(object,x,z,facing);refreshNPCs();}
 async function chooseStarter(){
-  let chosen=0;while(!chosen){ui.panel('<span class="eyebrow">PROFESSOR ELM’S LAB</span><h2>Choose a Pokémon.</h2><p>Touch a Poké Ball to see what Pokémon is inside.</p><div class="select-row">'+[152,155,158].map(id=>`<button data-starter-id="${id}"><img src="/source/pokemon/${id}-male-front.png" alt="${speciesName(data,id)}">${speciesName(data,id)}<small class="tag">${titleCase(data.personal[id].types[0])}</small></button>`).join('')+'</div>');
-    ui.canDismiss=false;const id=await new Promise<number>(resolve=>document.querySelectorAll<HTMLButtonElement>('[data-starter-id]').forEach(b=>b.onclick=()=>resolve(Number(b.dataset.starterId))));ui.close();
+  let chosen=0;while(!chosen){const id=await ui.customPanel<number>('<span class="eyebrow">PROFESSOR ELM’S LAB</span><h2>Choose a Pokémon.</h2><p>Choose a Poké Ball to see what Pokémon is inside.</p><div class="select-row">'+[152,155,158].map(id=>`<button data-starter-id="${id}"><img src="/source/pokemon/${id}-male-front.png" alt="${speciesName(data,id)}">${speciesName(data,id)}<small class="tag">${titleCase(data.personal[id].types[0])}</small></button>`).join('')+'</div>',(resolve,current)=>{const buttons=Array.from($('panel-content').querySelectorAll<HTMLButtonElement>('[data-starter-id]'));for(const button of buttons)button.onclick=()=>{if(current())resolve(Number(button.dataset.starterId));};return()=>{for(const button of buttons)button.onclick=null;};});
     if(await ui.choose(`You’ll take ${speciesName(data,id)}, the ${titleCase(data.personal[id].types[0])}-type Pokémon?`,['Yes','No'])===0)chosen=id;
   }
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
@@ -78,8 +129,16 @@ async function chooseStarter(){
 async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false){
   if(vm.busy&&!nested)return;
   const runner=nested?new ScriptVM(data,state,vm.hooks):vm;
-  if(!preserveControls)keys.clear();walking=true;
-  try{await runner.run(map,script,object);updateHUD();}
+  if(!preserveControls)resetFieldInput();walking=true;
+  try{
+    if(isItemBallObject(map,object)){
+      for(;;){
+        pickupRecoveryBlocked=true;
+        try{await runItemBallPickup(state,objects,async()=>{await runner.run(map,script,object);updateHUD();},async()=>{refreshNPCs();updateHUD();});pickupRecoveryBlocked=false;lastError='';break;}
+        catch(error){lastError=String(error);console.error(error);const refreshFailed=error instanceof AggregateError&&error.message==='Item pickup failed and its actors could not be refreshed';pickupRecoveryBlocked=refreshFailed;const choices=refreshFailed?['Retry']:['Retry','Return'];const answer=await ui.choose('The item could not be collected.',choices,'The pickup has been restored. Retry to collect it.',undefined,refreshFailed?{}:{cancelIndex:1});if(answer===1)break;}
+      }
+    }else{await runner.run(map,script,object);updateHUD();}
+  }
   catch(error){lastError=String(error);console.error(error);if(error instanceof UnsupportedScript)await ui.message('This scene is still being restored. Your progress has been kept.');else await ui.message('The scene could not finish. Your progress has been kept.');}
   finally{walking=false;save();}
   if(!nested&&!vm.busy&&!deferTriggers)await checkFrameTriggers();
@@ -89,7 +148,7 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
   encounterChecks.reset();
   playerDirectionLocked=false;
   const loadingText='Entering '+(data.index.maps[id]?.name||'Johto')+'…';
-  transitioning=true;if(!connection){world.beginFieldTransition();drag=false;previousStepJump=false;keys.clear();ui.loading(loadingText);}state.map=id;state.x=x;state.z=z;
+  transitioning=true;connecting=connection;if(!connection){world.beginFieldTransition();resetFieldInput();previousStepJump=false;ui.loading(loadingText);}state.map=id;state.x=x;state.z=z;
   try{
     let retried=false;
     for(;;){
@@ -104,12 +163,12 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
     }
     if(!connection)world.endFieldTransition();
     if(runEntry)await runFieldEntry(connection?'connection':'warp',connection);
-  }finally{transitioning=false;if(!connection){world.endFieldTransition();ui.loading(null);}}
+  }finally{transitioning=false;connecting=false;if(!connection){world.endFieldTransition();ui.loading(null);}}
   if(!deferTriggers)await checkFrameTriggers();
 }
-async function checkFrameTriggers(){if(vm.busy||ui.busy||battle.active)return false;const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;await runScript(trigger.script);return true;}
+async function checkFrameTriggers(){if(pickupRecoveryBlocked||battleSoundOwned||vm.busy||ui.busy||battle.active)return false;const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;await runScript(trigger.script);return true;}
 async function warp(index:number,facing=state.facing){
-  transitioning=true;keys.clear();
+  transitioning=true;resetFieldInput();
   try{
   const from=map.events.warps[index],id=data.index.mapIds[from.header];if(id===undefined)throw Error(`Missing original warp destination ${from.header}`);
   const destination=await world.map(id),target=destination.events.warps[from.anchor];if(!target)throw Error(`Missing original warp anchor ${from.header}:${from.anchor}`);
@@ -136,21 +195,38 @@ async function checkEvents(enteredDoor=false){
 async function wildEncounter(){
   if(!state.party.some(m=>m.hp>0))return;
   const behavior=world.permission(state.x,state.z)&255;if(![2,3,8].includes(behavior))return;
-  const bank=map.fields.wildEncounterBank?.replace('ENCDATA_',''),encounter=data.encounters.find(e=>e.map===bank);if(!encounter?.land.rate||!encounterChecks.roll(encounter.land.rate,state.facing,!!state.runningShoes&&keys.has('ShiftLeft'),behavior===3))return;
+  const bank=map.fields.wildEncounterBank?.replace('ENCDATA_',''),encounter=data.encounters.find(e=>e.map===bank);if(!encounter?.land.rate||!encounterChecks.roll(encounter.land.rate,state.facing,running(),behavior===3))return;
   const slot=landSlot();
   const row=encounter.land.mons[slot];if(!row)return;const hour=new Date().getHours(),time=hour>=4&&hour<10?'morn':hour>=10&&hour<20?'day':'nite';let key=row.species[time];if(typeof key!=='string')key=key.HEARTGOLD;
   const species=data.constants[key],level=typeof row.level==='number'?row.level:row.level.HEARTGOLD;if(!species)return;
   await startBattle([createMon(data,species,level,'')]);
 }
 async function whiteOut(){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z);}
-async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const battleMap=state.map;keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY',weather:world.sky.currentWeather});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
-  if(result==='lost'){if(canLose)healParty(state);else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null)await whiteOut();}}
+async function withBattleMusic<T>(enemies:Mon[],trainer:number|null,action:()=>Promise<T>,battleType=trainer===null?0:1){
+  battleSoundOwned=true;const preparation=musicDeadline('Music preparation took too long.');let session:ReturnType<typeof music.createCueSession>|undefined,fallback:EffectiveMusic|undefined;
+  try{
+    try{await retryMusicRestores(preparation.controller.signal);session=music.createCueSession();const {cue}=nativeBattleMusic(await music.catalog(preparation.controller.signal),{battleType,mapId:state.map,trainerClass:trainer===null?undefined:data.constants[data.trainers[trainer].class],leadSpecies:enemies.find(mon=>mon.hp>0)?.species,flags:state.flags});await session.start(cue,preparation.controller.signal);}
+    catch(error){musicFailed(error);try{fallback=await music.field.suspend(music.capture());}catch(suspendError){musicFailed(suspendError);}}
+    finally{preparation.clear();}
+    return await action();
+  }finally{
+    preparation.clear();preparation.controller.abort(new DOMException('Battle music completed','AbortError'));
+    // Keep failed restore ownership for explicit Settings retry or a new map;
+    // selecting the current map first prevents reviving an old blackout cue.
+    if(session||fallback){const restore=async(signal?:AbortSignal)=>{if(session)await session.restore(signal);if(fallback)await music.field.restore(fallback,signal);};pendingMusicRestores.add(restore);}
+    const returning=musicDeadline('Music restoration took too long.');
+    try{let selected=false;try{await music.playMap(map,{hour:new Date().getHours(),flags:state.flags},returning.controller.signal);selected=true;}catch(error){musicFailed(error);}
+      if(selected)try{await retryMusicRestores(returning.controller.signal);}catch(error){musicFailed(error);}
+    }finally{returning.clear();returning.controller.abort(new DOMException('Music return work completed','AbortError'));battleSoundOwned=false;musicKey='';syncMusic();}
+  }
+}
+async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const battleMap=state.map;resetFieldInput();encounterChecks.reset();const result=await withBattleMusic(enemies,trainer,async()=>{const outcome=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY',weather:world.sky.currentWeather});if(outcome==='lost'){if(canLose)healParty(state);else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null)await whiteOut();}}return outcome;});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
   if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`);}
-  if(state.map===battleMap){keys.clear();await runFieldEntry('resume');await checkFrameTriggers();}updateHUD();save();return result==='won';
+  if(state.map===battleMap){resetFieldInput();await runFieldEntry('resume');}await checkFrameTriggers();updateHUD();save();return result==='won';
 }
 async function trainerBattle(id:number,options?:{second:number;canLose:boolean;suppressFollower:boolean}){const trainer=data.trainers[id];if(!trainer)throw Error(`Missing trainer ${id}`);if(options?.second||trainer.double)throw Error('Original double/multi battles are still being ported');return startBattle(await originalTrainerParty(data,id),id,options?.canLose);}
 async function interact(){
-  if(ui.dialogueOpen){ui.advance();return;}if(!started||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
+  if(ui.dialogueOpen){ui.advance();return;}if(!started||walking||transitioning||pickupRecoveryBlocked||battleSoundOwned||vm.busy||ui.panelOpen||battle.active)return;
   const d=deltas[state.facing],x=Math.floor(state.x)+d.x,z=Math.floor(state.z)+d.z;
   const actorAt=(xx:number,zz:number)=>[...world.npcSprites.values()].find(n=>n.group.visible&&Math.floor(n.group.position.x)===xx&&Math.floor(n.group.position.z)===zz);
   const npc=actorAt(x,z)||((world.permission(x,z)&255)===0x80?actorAt(x+d.x,z+d.z):undefined);
@@ -159,7 +235,7 @@ async function interact(){
   if(bg)await runScript(bg.scriptId);
 }
 async function step(facing:number){
-  if(walking||transitioning||vm.busy||ui.busy||battle.active)return;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
+  if(walking||transitioning||pickupRecoveryBlocked||battleSoundOwned||vm.busy||ui.busy||battle.active)return;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
   const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z)),standing=world.permission(state.x,state.z),ladder=[60,61].includes(standing&255);
   if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.terrainWalkable(x,z))){await warp(exit,facing);save();return;}
@@ -169,52 +245,46 @@ async function step(facing:number){
   const enteredDoor=doorwayEntry(world.permission(x,z),nativeWarp,facing);
   if((!world.walkable(x,z,state.x,state.z,player.group.position.y)&&!enteredDoor)||occupied)return;
   walking=true;
-  try{await tweenPlayer(x,z,keys.has('ShiftLeft')&&state.runningShoes? .14:.25);}
+  try{await tweenPlayer(x,z,running()? .14:.25);}
   finally{walking=false;}
   encounterChecks.step();await checkEvents(enteredDoor);
 }
-function menu(){if(!started||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(ui.panelOpen){ui.close();return;}
-  const entries=[['party','Pokémon',`${state.party.length} in your party`],['bag','Bag','Items and Key Items'],['trainer',state.name,`${state.badges.length} Badges`],['save','Save','Save your adventure'],['options','Options','Game settings'],['close','Close','Return to Johto']];
-  const unlocks:Record<string,string>={bag:'FLAG_GOT_BAG',trainer:'FLAG_GOT_TRAINER_CARD',save:'FLAG_GOT_SAVE_BUTTON',options:'FLAG_GOT_OPTIONS_BUTTON'};
-  ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Menu</h2><div class="menu-list">${entries.filter(([key])=>key==='party'?state.party.length:!unlocks[key]||state.flags[unlocks[key]]).map(([key,label,detail])=>`<button data-menu="${key}">${esc(label)}<small>${esc(detail)}</small></button>`).join('')}</div>`);
-  document.querySelectorAll<HTMLButtonElement>('[data-menu]').forEach(b=>b.onclick=async()=>{const key=b.dataset.menu;ui.close();if(key==='party')partyMenu();if(key==='bag')bagMenu();if(key==='trainer')trainerCard();if(key==='save'){save();await ui.message(`${state.name} saved the game!`);}if(key==='options')optionsMenu();});
-}
-function partyMenu(){ui.panel(`<button class="close-panel" id="close-party" aria-label="Close">×</button><span class="eyebrow">POKÉMON</span><h2>Your party</h2>${state.party.map((mon,i)=>`<div class="list-row"><img src="/source/pokemon/${mon.species}-${mon.gender}-front.png" alt=""><div><b>${esc(mon.name)}</b><p>Lv.${mon.level} · ${mon.hp}/${mon.maxHP} HP ${mon.status}</p><span class="hp-bar"><i style="width:${mon.hp/mon.maxHP*100}%"></i></span></div><button data-summary="${i}">Summary</button></div>`).join('')}`);$('close-party').onclick=()=>ui.close();document.querySelectorAll<HTMLButtonElement>('[data-summary]').forEach(b=>b.onclick=()=>summary(Number(b.dataset.summary)));}
-function summary(index:number){const m=state.party[index],base=data.personal[m.species];ui.panel(`<button class="close-panel" id="summary-back" aria-label="Back">×</button><span class="eyebrow">POKÉMON SUMMARY</span><h2>${esc(m.name)} <small>Lv.${m.level}</small></h2><img class="intro-portrait" src="/source/pokemon/${m.species}-${m.gender}-front.png" alt="${esc(m.name)}"><p>${base.types.filter((t,i,a)=>a.indexOf(t)===i).map(titleCase).join(' / ')} · OT ${esc(m.ot)}<br>HP ${m.hp}/${m.maxHP} · Attack ${m.stats.atk} · Defense ${m.stats.def}<br>Sp. Atk ${m.stats.spatk} · Sp. Def ${m.stats.spdef} · Speed ${m.stats.speed}</p>${m.moves.map(slot=>`<div class="move-row"><span>${moveName(data,slot.id)}</span><span>PP ${slot.pp}/${slot.maxPP}</span></div>`).join('')}`);$('summary-back').onclick=partyMenu;}
-function bagMenu(){const pockets=new Map<string,[string,number][]>();for(const [key,count]of Object.entries(state.bag)){if(count<=0)continue;const item=data.items.find(i=>i.item===key),pocket=titleCase((item?.fieldPocket||'POCKET_KEY_ITEMS').replace('POCKET_',''));if(!pockets.has(pocket))pockets.set(pocket,[]);pockets.get(pocket)!.push([key,count]);}
-  ui.panel(`<button class="close-panel" id="close-bag" aria-label="Close">×</button><span class="eyebrow">BAG</span><h2>Your belongings</h2>${[...pockets].map(([pocket,items])=>`<h3>${pocket}</h3>${items.map(([key,count])=>`<div class="list-row"><b>${esc(itemName(data,key))}</b><span style="margin-left:auto">× ${count}</span></div>`).join('')}`).join('')||'<p>Your Bag is empty.</p>'}`);$('close-bag').onclick=()=>ui.close();
-}
-function trainerCard(){ui.panel(`<button class="close-panel" id="close-card" aria-label="Close">×</button><span class="eyebrow">TRAINER CARD</span><h2>${esc(state.name)}</h2><p>Money: ₽${state.money}<br>Pokédex: ${state.caught.length} caught / ${state.seen.length} seen<br>Play time: ${Math.floor(state.playSeconds/3600)}:${String(Math.floor(state.playSeconds/60)%60).padStart(2,'0')}<br>Badges: ${state.badges.length} / 16</p>`);$('close-card').onclick=()=>ui.close();}
-function optionsMenu(){ui.panel('<span class="eyebrow">OPTIONS</span><h2>Game settings</h2><div class="actions"><button id="battle-style">Battle style: '+(state.options.battleStyle==='shift'?'Shift':'Set')+'</button><button id="close-options" class="secondary">Done</button></div>');$('battle-style').onclick=()=>{state.options.battleStyle=state.options.battleStyle==='shift'?'set':'shift';optionsMenu();};$('close-options').onclick=()=>{ui.close();save();};}
+async function menu(){if(!started||!ready||pickupRecoveryBlocked||battleSoundOwned||vm.busy||walking||transitioning||battle.active||ui.busy)return;resetFieldInput();await panels.menu();resetFieldInput();}
 async function title(){
-  const saved=readSave();const choice=await ui.choose('Pokémon HeartGold',saved?['Continue','New Game']:['New Game'],saved?`${saved.name} · ${data.index.maps[saved.map]?.name} · ${saved.badges.length} Badges`:'A grand adventure in the Johto region awaits.');
-  if(saved&&choice===0){state=saved;await begin();return;}
-  if(saved&&await ui.choose('Start a new adventure?',['Keep existing adventure','Start New Game'],'The new adventure will replace this browser’s HeartGold save.')===0){await title();return;}
+  for(;;){
+    const saved=readSave(),profile=saved?{name:saved.name,location:data.index.maps[saved.map]?.name??'Johto',badges:saved.badges.length,playSeconds:saved.playSeconds,party:saved.party}:null;
+    const choice=await ui.startScreen(profile,undefined,unlockSound);
+    if(choice==='settings'){await panels.settings();continue;}
+    if(choice==='continue'&&saved){state=saved;await begin();return;}
+    if(saved&&await ui.choose('Start a new adventure?',['Keep existing adventure','Start New Game'],'The new adventure will replace this browser’s HeartGold save.',undefined,{cancelIndex:0})===0)continue;
+    break;
+  }
   const intro=data.intro.msg_0219;await ui.message(intro.msg_0219_00006||'Welcome to the world of Pokémon!');await ui.message(intro.msg_0219_00034||'This world is widely inhabited by creatures known as Pokémon.');await ui.message(intro.msg_0219_00035||'We humans live alongside Pokémon as friends.');
   const gender=(await ui.choose('Are you a boy? Or are you a girl?',['Boy','Girl']))===0?'boy':'girl';let name='';while(!name){const candidate=await ui.input('Please tell me your name.',7,gender==='boy'?'Ethan':'Lyra');if(await ui.choose(`Your name is ${candidate}?`,['Yes','No'])===0)name=candidate;}
   state=newState(data,name,gender);await ui.message((intro.msg_0219_00043||'Your very own tale of grand adventure is about to unfold.').replace(/\{STRVAR_1 3, 0, 0\}/g,name));await begin();
 }
 async function begin(){
+  state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
-  vm=new ScriptVM(data,state,{weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
+  vm=new ScriptVM(data,state,{weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text,textDelay());},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{resetFieldInput();const demo=catchingTutorialState(data,state),demoBattle=new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));await withBattleMusic([demo.enemy],null,()=>demoBattle.start([demo.enemy],null,{tutorial:true}),1<<10);resetFieldInput();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
   started=true;await enterMap(state.map,state.x,state.z,true,true);ready=true;save();$('original-world').focus();
 }
 async function boot(){
-  data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
-  let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started)return;
+  data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,preferences:()=>preferences,updatePreferences:value=>{const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=writeInterfacePreferences(preferenceStorage,value);if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();},touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
+  let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started)return;syncMusic();
     state.playSeconds+=dt;if(player){player.group.position.set(state.x,playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
-    if(!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;}
+    if(!pickupRecoveryBlocked&&!battleSoundOwned&&!ui.busy&&!vm.busy&&!battle.active&&!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4*preferences.cameraSensitivity;if(keys.has('KeyE'))world.yaw-=dt*1.4*preferences.cameraSensitivity;}
     if(ready&&!transitioning)world.updateStreaming(state.map,state.x,state.z);
-    if(ready&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active){const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);const facing=Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0;void step(facing).catch(error=>{console.error(error);lastError=String(error);});}}
+    if(ready&&!walking&&!transitioning&&!pickupRecoveryBlocked&&!battleSoundOwned&&!vm.busy&&!ui.busy&&!battle.active){const facing=fieldInputFacing(fieldInput(keys,touch.read()),world.yaw);if(facing!==null)void step(facing).catch(reportInputError);}
     world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
-    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
+    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,music:{effective:music.capture(),error:musicError},pickupRecoveryBlocked,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();
 }
-addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;if(e.code==='Escape'){if(ui.dialogueOpen)return;if(ui.panelOpen){if(ui.canDismiss)ui.close();return;}menu();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat&&!ui.dialogueOpen)void interact();});
-addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',()=>keys.clear());addEventListener('pagehide',save);
-$('open-menu').onclick=menu;
-let drag=false,lastPointer={x:0,y:0};const canvas=$<HTMLCanvasElement>('original-world');canvas.addEventListener('pointerdown',e=>{if(ui.busy||!started||world.fieldTransitionActive)return;drag=true;lastPointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(!drag||world.fieldTransitionActive)return;world.yaw-=(e.clientX-lastPointer.x)*.006;world.pitch=Math.max(.18,Math.min(.95,world.pitch+(e.clientY-lastPointer.y)*.003));lastPointer={x:e.clientX,y:e.clientY};});for(const event of ['pointerup','pointercancel'])canvas.addEventListener(event,()=>drag=false);canvas.addEventListener('wheel',e=>{e.preventDefault();if(world&&!world.fieldTransitionActive)world.distance=Math.max(5,Math.min(28,world.distance+e.deltaY*.01));},{passive:false});
-document.querySelectorAll<HTMLButtonElement>('[data-control]').forEach(button=>{button.addEventListener('pointerdown',e=>{e.preventDefault();if(button.dataset.control==='KeyF'){void interact();return;}keys.add(button.dataset.control!);button.setPointerCapture(e.pointerId);});for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,()=>keys.delete(button.dataset.control!));});
+addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(!e.repeat)unlockSound();if(ui.busy)return;if(e.code==='Escape'){e.preventDefault();if(!e.repeat)void menu().catch(reportInputError);return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(e.code))e.preventDefault();if(!started||pickupRecoveryBlocked||battleSoundOwned||transitioning&&!connecting||vm?.busy||battle?.active)return;keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat)void interact().catch(reportInputError);});
+addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',resetFieldInput);addEventListener('pagehide',()=>{resetFieldInput();save();});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){resetFieldInput();soundUnlocked=false;}});
+$('open-menu').onclick=()=>{unlockSound();void menu().catch(reportInputError);};
+$('original-world').addEventListener('pointerdown',unlockSound,{passive:true});
 boot().catch(error=>{console.error(error);ui.loading(null);ui.panel('<h2>Johto could not load.</h2><p>The world needs WebGL 2 and its original data files. Reload to try again.</p><button id="retry" class="game-button">Retry</button>');$('retry').onclick=()=>location.reload();});

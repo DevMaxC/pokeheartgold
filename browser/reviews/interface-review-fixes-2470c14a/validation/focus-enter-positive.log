@@ -1,0 +1,26 @@
+TAP version 13
+# (node:22268) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+ok 1 - owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+  ---
+  duration_ms: 96.058792
+  type: 'test'
+  ...
+# (node:22269) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: field Enter prevents the restored HUD button default from reopening a menu after it closes
+ok 2 - field Enter prevents the restored HUD button default from reopening a menu after it closes
+  ---
+  duration_ms: 100.157791
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2729.425208

@@ -1,0 +1,77 @@
+{
+  "candidateCommit": "0eee799ff225d61a4f10a6e938db2de3fc18c093",
+  "baselineCommit": "c4c627e1622a9ce70843d55110ac7f66c1dfc76f",
+  "status": "four source-validated findings; no fixes included in this review",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "Medium",
+      "status": "validated-source",
+      "title": "Persistent music errors are retried and toasted on ordinary/repeated field gestures",
+      "evidence": [
+        "browser/src/source/main.ts:45",
+        "browser/src/source/main.ts:49",
+        "browser/src/source/main.ts:258",
+        "browser/src/source/main.ts:262"
+      ],
+      "reason": "soundUnlocked branch retries whenever musicError or pending restore exists after prior request settles; all noneditable keydowns including repeat call it, and each current request failure unconditionally toasts. Offline/unsupported cue remains a reachable error even after future asset export. Uncommitted-catalog absence itself is not treated as approval or an extra source finding.",
+      "meaningfulRegression": "Persistent playMap rejection through actual key handler, including repeat; bound retries and toast repetition while preserving explicit Settings recovery."
+    },
+    {
+      "id": "F2",
+      "severity": "Medium",
+      "status": "validated-source",
+      "title": "Unbounded audio I/O is awaited while battleSoundOwned locks the field",
+      "evidence": [
+        "browser/src/source/main.ts:181",
+        "browser/src/source/main.ts:183",
+        "browser/src/source/main.ts:191",
+        "browser/src/source/main.ts:192",
+        "browser/src/source/field-music.ts:31",
+        "browser/src/source/field-music.ts:166"
+      ],
+      "reason": "No preparation or restore bound exists; catalog/session fetch/decode and prior pending restores are awaited before gameplay, and new-map restore decode is awaited before owner release. Abort is reached only after action exits, so a stalled pre-action fetch has no caller that can abort it. Existing field locks work as designed but therefore become unbounded.",
+      "meaningfulRegression": "Never-settling catalog/fetch/decode port under a fake clock must reach silent battle and release postbattle field ownership within a source-host bound; late completions must not start stale cues."
+    },
+    {
+      "id": "F3",
+      "severity": "Low",
+      "status": "validated-source-and-baseline",
+      "title": "Initial menu focus selects heading Back instead of a useful action",
+      "evidence": [
+        "browser/src/source/ui.ts:39",
+        "browser/src/source/ui.ts:57",
+        "browser/src/source/interface-panels.ts:8",
+        "browser/src/source/interface-panels.ts:14",
+        "production-c4/browser/src/source/ui.ts:12"
+      ],
+      "reason": "Every new panel autofocuses its first enabled control; rich menu heading Back precedes content. Confirm immediately selects Back. Baseline first button was the first actual menu entry.",
+      "meaningfulRegression": "Actual menu + UI class, flush owned focus timer then confirm; initial action should be an appropriate menu tile or selected pocket, not accidental Back."
+    },
+    {
+      "id": "F4",
+      "severity": "Low",
+      "status": "validated-source; native browser default activation not executed",
+      "title": "Returning focus to HUD Menu combines with unprevented field Enter to reopen it",
+      "evidence": [
+        "browser/src/source/ui.ts:31",
+        "browser/src/source/ui.ts:36",
+        "browser/src/source/main.ts:258",
+        "browser/src/source/main.ts:261",
+        "production-c4/browser/src/source/ui.ts:13"
+      ],
+      "reason": "Closing a HUD-opened menu restores the connected HUD button, whereas baseline focused the canvas. Enter invokes interact without preventDefault and retains the button default activation; if interaction consumes no scene, HUD onclick can open the menu again. Browser/device execution is not claimed.",
+      "meaningfulRegression": "Open/close from actual HUD opener, then field Enter; prevent duplicate default activation or restore field canvas focus."
+    }
+  ],
+  "notPromotedToFindings": [
+    "Touch-only WebAudio resume after backgrounding needs actual mobile-device verification.",
+    "Long asynchronous OnTransition source entry may reset held border controls through vm.busy; sampled town scripts are synchronous and this remains an unverified coverage gap.",
+    "Retry-only pickup refresh-failure prompt abort intentionally fails closed; no reachable replacing caller found."
+  ],
+  "followupScopeNotes": [
+    "Parent reported eight existing main-item-pickup extracted-host tests needed battleSoundOwned:false after the new guard. This later fixture-only correction is outside immutable0eee bytes; parent reports runtime unchanged.",
+    "Primary reviewer had read-only Read/Grep/Glob tools; no commands, builds, browser/GPU/audible evaluation, MCP or subagents.",
+    "Review does not approve uncommitted audio catalogs/codecs/assets, deployed URLs, or full native-game parity."
+  ]
+}

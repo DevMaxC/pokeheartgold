@@ -1,0 +1,312 @@
+TAP version 13
+# (node:55372) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+ok 1 - owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+  ---
+  duration_ms: 163.266875
+  type: 'test'
+  ...
+# Subtest: owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+ok 2 - owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+  ---
+  duration_ms: 4.245083
+  type: 'test'
+  ...
+# Subtest: native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+ok 3 - native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+  ---
+  duration_ms: 1.030834
+  type: 'test'
+  ...
+# Subtest: party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+ok 4 - party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+  ---
+  duration_ms: 0.838208
+  type: 'test'
+  ...
+# Subtest: fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+ok 5 - fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+  ---
+  duration_ms: 0.963333
+  type: 'test'
+  ...
+# Subtest: Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+ok 6 - Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+  ---
+  duration_ms: 1.101875
+  type: 'test'
+  ...
+# Subtest: settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+ok 7 - settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+  ---
+  duration_ms: 1.779459
+  type: 'test'
+  ...
+# Subtest: title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+ok 8 - title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+  ---
+  duration_ms: 3.204167
+  type: 'test'
+  ...
+# Subtest: Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+ok 9 - Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+  ---
+  duration_ms: 4.146
+  type: 'test'
+  ...
+# Subtest: a pending Settings music retry releases exact handlers and subscription without altering its replacement
+ok 10 - a pending Settings music retry releases exact handlers and subscription without altering its replacement
+  ---
+  duration_ms: 1.429208
+  type: 'test'
+  ...
+# Subtest: settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+ok 11 - settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+  ---
+  duration_ms: 2.414792
+  type: 'test'
+  ...
+# Subtest: replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+ok 12 - replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+  ---
+  duration_ms: 0.600625
+  type: 'test'
+  ...
+# Subtest: a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+ok 13 - a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+  ---
+  duration_ms: 0.367084
+  type: 'test'
+  ...
+# (node:55373) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+ok 14 - actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+  ---
+  duration_ms: 163.382375
+  type: 'test'
+  ...
+# main SHA256 a47f91f4abf3e1217b4b94bf08a8273e2f26c68b806347f83ea27e4290bae04e; selected actual bindings 9c25465eacb7fdfd0a8f0502c58c26dab7c920118f9a03c7e6fed2e8979e189b
+# Subtest: actual source script, room entry, menu and battle release all held field inputs before awaited work
+ok 15 - actual source script, room entry, menu and battle release all held field inputs before awaited work
+  ---
+  duration_ms: 405.034333
+  type: 'test'
+  ...
+# Subtest: room warp resets touch/camera immediately even when destination metadata rejects before entry
+ok 16 - room warp resets touch/camera immediately even when destination metadata rejects before entry
+  ---
+  duration_ms: 134.792708
+  type: 'test'
+  ...
+# Subtest: touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+ok 17 - touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+  ---
+  duration_ms: 329.500959
+  type: 'test'
+  ...
+# Subtest: actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+ok 18 - actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+  ---
+  duration_ms: 5.603291
+  type: 'test'
+  ...
+# Subtest: field Enter prevents the restored HUD button default from reopening a menu after it closes
+ok 19 - field Enter prevents the restored HUD button default from reopening a menu after it closes
+  ---
+  duration_ms: 2.505292
+  type: 'test'
+  ...
+# Subtest: actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+ok 20 - actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+  ---
+  duration_ms: 467.793584
+  type: 'test'
+  ...
+# Subtest: actual context sync disables held input for UI, script, battle, transition and pickup recovery locks
+ok 21 - actual context sync disables held input for UI, script, battle, transition and pickup recovery locks
+  ---
+  duration_ms: 461.761958
+  type: 'test'
+  ...
+# Subtest: keyboard admission and Q/E camera polling respect the same pickup recovery lock as touch and drag
+ok 22 - keyboard admission and Q/E camera polling respect the same pickup recovery lock as touch and drag
+  ---
+  duration_ms: 18.682959
+  type: 'test'
+  ...
+# Subtest: frame scenes cannot start during a pickup recovery or another owned modal action
+ok 23 - frame scenes cannot start during a pickup recovery or another owned modal action
+  ---
+  duration_ms: 81.066167
+  type: 'test'
+  ...
+# Subtest: actual save reports blocked or unavailable persistence without replacing the existing slot
+ok 24 - actual save reports blocked or unavailable persistence without replacing the existing slot
+  ---
+  duration_ms: 119.503041
+  type: 'test'
+  ...
+# Subtest: title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+ok 25 - title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+  ---
+  duration_ms: 20.899166
+  type: 'test'
+  ...
+# Subtest: Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+ok 26 - Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+  ---
+  duration_ms: 99.297583
+  type: 'test'
+  ...
+# Subtest: confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+ok 27 - confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+  ---
+  duration_ms: 74.292375
+  type: 'test'
+  ...
+# Subtest: live preference update uses actual normalization/persistence callback and keeps battle style intact
+ok 28 - live preference update uses actual normalization/persistence callback and keeps battle style intact
+  ---
+  duration_ms: 94.200542
+  type: 'test'
+  ...
+# (node:55374) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual gesture handler invokes unlock synchronously, deduplicates pending gestures and permits retry after rejection
+ok 29 - actual gesture handler invokes unlock synchronously, deduplicates pending gestures and permits retry after rejection
+  ---
+  duration_ms: 180.422875
+  type: 'test'
+  ...
+# main SHA256 a47f91f4abf3e1217b4b94bf08a8273e2f26c68b806347f83ea27e4290bae04e; actual music bindings 6fd5ac08544ae147530bb0b091992e3ed0e7ba2bb1bb3b6061bf6892b8a055c6
+# Subtest: actual preference construction migrates defaults and preserves explicit mute through gameplay entry and gesture unlock
+ok 30 - actual preference construction migrates defaults and preserves explicit mute through gameplay entry and gesture unlock
+  ---
+  duration_ms: 321.3735
+  type: 'test'
+  ...
+# Subtest: actual map music synchronization deduplicates intent and suppresses failures from a replaced map request
+ok 31 - actual map music synchronization deduplicates intent and suppresses failures from a replaced map request
+  ---
+  duration_ms: 75.621875
+  type: 'test'
+  ...
+# Subtest: ordinary field gestures and key repeats do not retry a failed song or repeat its error toast
+ok 32 - ordinary field gestures and key repeats do not retry a failed song or repeat its error toast
+  ---
+  duration_ms: 137.839208
+  type: 'test'
+  ...
+# Subtest: a resumed Context with a failed initial song remains unlocked without gesture retries and recovers through Settings Retry
+ok 33 - a resumed Context with a failed initial song remains unlocked without gesture retries and recovers through Settings Retry
+  ---
+  duration_ms: 126.031417
+  type: 'test'
+  ...
+# Subtest: a first gesture song load replaced by a successful new map does not report an outage or replace that map
+ok 34 - a first gesture song load replaced by a successful new map does not report an outage or replace that map
+  ---
+  duration_ms: 76.563167
+  type: 'test'
+  ...
+# Subtest: text/camera preferences do not touch audio, and explicit Retry exposes observable retryability
+ok 35 - text/camera preferences do not touch audio, and explicit Retry exposes observable retryability
+  ---
+  duration_ms: 117.494208
+  type: 'test'
+  ...
+# Subtest: late map success cannot erase a newer map failure diagnostic
+ok 36 - late map success cannot erase a newer map failure diagnostic
+  ---
+  duration_ms: 148.333625
+  type: 'test'
+  ...
+# Subtest: rapid volume changes ignore a superseded request even when the final content key is unchanged
+ok 37 - rapid volume changes ignore a superseded request even when the final content key is unchanged
+  ---
+  duration_ms: 91.322875
+  type: 'test'
+  ...
+# Subtest: actual battle setup uses the source trainer class, first living wild species and native cue selector
+ok 38 - actual battle setup uses the source trainer class, first living wild species and native cue selector
+  ---
+  duration_ms: 119.897042
+  type: 'test'
+  ...
+# Subtest: awaited cue preparation locks movement, menu, save, source frames and keyboard/drag camera before Battle.active
+ok 39 - awaited cue preparation locks movement, menu, save, source frames and keyboard/drag camera before Battle.active
+  ---
+  duration_ms: 14.442834
+  type: 'test'
+  ...
+# Subtest: a stalled shared catalog yields to the battle deadline without starting a late cue
+ok 40 - a stalled shared catalog yields to the battle deadline without starting a late cue
+  ---
+  duration_ms: 222.084625
+  type: 'test'
+  ...
+# Subtest: a stalled fetch cannot delay battle past the preparation deadline or start a late cue
+ok 41 - a stalled fetch cannot delay battle past the preparation deadline or start a late cue
+  ---
+  duration_ms: 90.46675
+  type: 'test'
+  ...
+# Subtest: a stalled decode cannot delay battle past the preparation deadline or start a late cue
+ok 42 - a stalled decode cannot delay battle past the preparation deadline or start a late cue
+  ---
+  duration_ms: 16.230709
+  type: 'test'
+  ...
+# Subtest: a stalled blackout restore releases gameplay at the return deadline and late bytes cannot beat a newer map
+ok 43 - a stalled blackout restore releases gameplay at the return deadline and late bytes cannot beat a newer map
+  ---
+  duration_ms: 148.3365
+  type: 'test'
+  ...
+# Subtest: failed cue decoding still runs the battle with old field phase paused, then restores it
+ok 44 - failed cue decoding still runs the battle with old field phase paused, then restores it
+  ---
+  duration_ms: 81.850209
+  type: 'test'
+  ...
+# Subtest: battle throw restores its actual field phase and releases the audio host lock without saving a battle result
+ok 45 - battle throw restores its actual field phase and releases the audio host lock without saving a battle result
+  ---
+  duration_ms: 98.1675
+  type: 'test'
+  ...
+# Subtest: blackout retains music ownership until the desired spawn map is known, then restores only that map and resumes its frame scene once
+ok 46 - blackout retains music ownership until the desired spawn map is known, then restores only that map and resumes its frame scene once
+  ---
+  duration_ms: 15.621459
+  type: 'test'
+  ...
+# Subtest: retained destination restore ownership recovers only through explicit Retry or a newer map intent
+ok 47 - retained destination restore ownership recovers only through explicit Retry or a newer map intent
+  ---
+  duration_ms: 159.247875
+  type: 'test'
+  ...
+# Subtest: an unavailable return-map music selection never leaves the completed battle cue looping in the field
+ok 48 - an unavailable return-map music selection never leaves the completed battle cue looping in the field
+  ---
+  duration_ms: 14.714375
+  type: 'test'
+  ...
+# Subtest: actual catching-tutorial hook uses the shared native cue owner and battleType 1<<10, then resumes source entry after release
+ok 49 - actual catching-tutorial hook uses the shared native cue owner and battleType 1<<10, then resumes source entry after release
+  ---
+  duration_ms: 120.262875
+  type: 'test'
+  ...
+1..49
+# tests 49
+# suites 0
+# pass 49
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4856.318375
