@@ -1,3 +1,4 @@
+import type {NativePrintToken,NativePrinterControls,NativePrinter} from './native-text.ts';
 export const $=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(id) as T;
 export const escapeHTML=(value:string)=>value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 type PendingUI={cancel:(reason:unknown)=>void};
@@ -11,6 +12,8 @@ export class UI{
   panelOpen=false;dialogueOpen=false;canDismiss=true;
   private next:(()=>void)|null=null;
   private dialogueTask:PendingUI|null=null;
+  private nativePrinter:PendingUI|null=null;
+  private nativeActions=new Map<HTMLElement,{active:()=>boolean}>();
   private panelTask:PendingUI|null=null;
   private focusTimer:ReturnType<typeof setTimeout>|undefined;
   private panelInert:{element:HTMLElement;previous:boolean}[]=[];
@@ -42,6 +45,7 @@ export class UI{
     if(event.defaultPrevented||event.ctrlKey||event.metaKey||event.altKey)return;
     const target=event.target as HTMLElement|null;
     if(target?.closest?.('[data-global-audio]')&&['Enter','Space','KeyF'].includes(event.code))return;
+    if(!this.panelOpen&&['Enter','Space'].includes(event.code)&&[...this.nativeActions].some(([button,{active}])=>(target===button||typeof target?.closest==='function'&&button.contains(target))&&button.isConnected&&!button.hidden&&!button.inert&&!(button as HTMLButtonElement).disabled&&active()))return;
     if(this.panelOpen){
       if(['Enter','Space','KeyF'].includes(event.code)&&target?.closest('[data-panel-neutral]')&&$('panel-content').contains(target)){event.preventDefault();return;}
       const controls=this.focusables(),active=document.activeElement as HTMLElement|null,index=controls.indexOf(active!);
@@ -60,7 +64,7 @@ export class UI{
       if(['Escape','KeyB'].includes(event.code)){event.preventDefault();if(!event.repeat){if(this.panelCancel)this.panelCancel();else if(this.canDismiss)this.close();}return;}
       return;
     }
-    if(this.dialogueOpen&&!this.editable(target)){if(['Enter','Space','KeyF'].includes(event.code)){event.preventDefault();if(!event.repeat)this.advance();}else if(['Escape','KeyB'].includes(event.code))event.preventDefault();}
+    if(this.dialogueOpen&&!this.editable(target)){if(['Enter','Space','KeyF'].includes(event.code)){event.preventDefault();if(!event.repeat)this.advance();}else if(['Escape','KeyB'].includes(event.code)){event.preventDefault();if(event.code==='KeyB'&&!event.repeat&&this.nativePrinter===this.dialogueTask)this.advance();}}
   }
   async message(text:string,characterDelay=0,signal?:AbortSignal){
     if(signal?.aborted)throw abortReason(signal);
@@ -106,6 +110,44 @@ export class UI{
       this.next=()=>{if(stopped||printed||this.dialogueTask!==task)return;$('dialogue-text').textContent=full;finish();};
       if(characterDelay>0&&chars.length)print();else{$('dialogue-text').textContent=full;finish();}
     });
+  }
+  /** Owned source printer: real WAIT callbacks and explicit page keys. The
+   * source parser emits literal operand tokens, so names cannot inject controls. */
+  printNativeMessage(tokens:readonly NativePrintToken[],characterDelay:number,controls:NativePrinterControls,signal?:AbortSignal):NativePrinter{
+    if(signal?.aborted)throw abortReason(signal);
+    if(!Number.isFinite(characterDelay)||characterDelay<0||typeof controls?.glyph!=='function'||typeof controls.nextFrame!=='function')throw Error('Invalid native printer controls');
+    const input=tokens.map(token=>{if(token.kind==='text'&&typeof token.text==='string')return{...token};if(token.kind==='page'||token.kind==='indicator'&&token.id===0)return{...token};if(token.kind==='pause'&&Number.isInteger(token.frames)&&token.frames>=0&&token.frames<=65535)return{...token};if(token.kind==='glyph'&&Number.isInteger(token.id)&&token.id>=1&&token.id<=5)return{...token};throw Error('Invalid native text token');});
+    this.dialogueTask?.cancel(replaced());
+    const owner=new AbortController();let stopped=false,finished=false,fast=false,text='',timer:ReturnType<typeof setTimeout>|undefined,wake:(()=>void)|undefined;
+    const active=()=>!stopped&&this.dialogueTask===task;
+    const abort=()=>task.cancel(abortReason(signal!));
+    const task:PendingUI={cancel:reason=>{if(stopped)return;stopped=true;clearTimeout(timer);timer=undefined;signal?.removeEventListener('abort',abort);owner.abort(reason);wake?.();wake=undefined;if(this.nativePrinter===task)this.nativePrinter=null;if(this.dialogueTask===task){this.dialogueTask=null;this.next=null;this.dialogueOpen=false;$('dialogue').hidden=true;$('dialogue').dataset.nativeChoice='';}}};
+    this.dialogueTask=task;this.nativePrinter=task;signal?.addEventListener('abort',abort,{once:true});this.dialogueOpen=true;$('dialogue').hidden=false;$('dialogue').dataset.nativeChoice='';$('dialogue-speaker').textContent='';$('dialogue-text').textContent='';
+    const check=()=>{owner.signal.throwIfAborted();if(!active())throw replaced();};
+    const observe=(work:()=>Promise<void>)=>new Promise<void>((resolve,reject)=>{let settled=false;const finish=(reason?:unknown)=>{if(settled)return;settled=true;owner.signal.removeEventListener('abort',cancel);if(reason===undefined)resolve();else reject(reason);},cancel=()=>finish(abortReason(owner.signal));owner.signal.addEventListener('abort',cancel,{once:true});if(owner.signal.aborted){cancel();return;}try{void work().then(()=>finish(),error=>finish(error instanceof Error?error:new Error('Native printer frame failed',{cause:error})));}catch(error){finish(error instanceof Error?error:new Error('Native printer frame failed',{cause:error}));}});
+    const wait=()=>new Promise<void>(resolve=>{wake=()=>{clearTimeout(timer);timer=undefined;wake=undefined;resolve();};timer=setTimeout(wake,characterDelay);});
+    const page=()=>new Promise<void>(resolve=>{this.next=()=>{if(!active())return;this.next=null;resolve();};});
+    const done=(async()=>{try{
+      for(const token of input){check();if(token.kind==='text'){
+        const chars=Array.from(token.text);this.next=()=>{if(!active())return;fast=true;wake?.();};
+        for(let i=0;i<chars.length;i++){check();text+=chars[i];$('dialogue-text').textContent=text;if(!fast&&characterDelay>0&&i+1<chars.length)await observe(wait);}
+        if(active())this.next=null;
+      }else if(token.kind==='page'){await observe(page);check();text='';fast=false;$('dialogue-text').textContent='';}
+      else if(token.kind==='indicator'){$('dialogue').dataset.nativeChoice='yes-no';}
+      else if(token.kind==='pause'){this.next=null;/* render_text.c state6 counts down then returns to state0. */for(let left=token.frames;left>=0;left--){await observe(()=>controls.nextFrame(owner.signal));check();}}
+      else{this.next=null;let waiting:boolean;do{check();waiting=controls.glyph(token.id);await observe(()=>controls.nextFrame(owner.signal));check();}while(waiting);}
+      }
+      check();finished=true;this.next=null;
+    }catch(error){task.cancel(error);throw error;}finally{clearTimeout(timer);timer=undefined;wake=undefined;if(!finished)signal?.removeEventListener('abort',abort);}})();
+    if(signal?.aborted)abort();
+    return{done,clear:()=>task.cancel(replaced())};
+  }
+  /** A live scene's accessible nonmodal button may retain native Enter/Space
+   * activation. Mandatory panels still capture every owned choice key. */
+  ownNativeAction(button:HTMLElement,active:()=>boolean,signal:AbortSignal):()=>void{
+    signal.throwIfAborted();if(this.nativeActions.has(button))throw Error('Native action button is already owned');
+    const entry={active};const clear=()=>{if(this.nativeActions.get(button)===entry)this.nativeActions.delete(button);signal.removeEventListener('abort',clear);};
+    this.nativeActions.set(button,entry);signal.addEventListener('abort',clear,{once:true});if(signal.aborted)clear();return clear;
   }
   private waitPanel<T>(signal:AbortSignal|undefined,bind:(resolve:(value:T)=>void,current:()=>boolean)=>(()=>void)):Promise<T>{
     return new Promise((resolve,reject)=>{

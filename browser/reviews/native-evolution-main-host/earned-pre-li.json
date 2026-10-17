@@ -1,0 +1,70 @@
+{
+  "source": {
+    "commit": "873de2c1e119736344b0a3754cfcd9b88ca504a4",
+    "artifact": "browser/reviews/native-battle-evolution/actual-Main-oldfail/witness.json",
+    "sha256": "48b0b5b7044ca2490b70a81ca12af8c07ff7a38370b17ffb4f86b98585459645",
+    "input": "Earned exact Mon from legal5\u219213 whole-battle trace; no XP/HP/species injection in this action"
+  },
+  "mon": {
+    "species": 155,
+    "level": 13,
+    "name": "CYNDAQUIL",
+    "gender": "female",
+    "maxHP": 35,
+    "stats": {
+      "atk": 20,
+      "def": 18,
+      "speed": 24,
+      "spatk": 19,
+      "spdef": 22
+    },
+    "hp": 35,
+    "exp": 1403,
+    "ivs": [
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+    ],
+    "evs": [
+      6,
+      13,
+      0,
+      4,
+      0,
+      0
+    ],
+    "nature": 23,
+    "personality": 2147483648,
+    "status": "",
+    "sleepTurns": 0,
+    "moves": [
+      {
+        "id": 98,
+        "pp": 30,
+        "maxPP": 30
+      },
+      {
+        "id": 43,
+        "pp": 30,
+        "maxPP": 30
+      },
+      {
+        "id": 108,
+        "pp": 20,
+        "maxPP": 20
+      },
+      {
+        "id": 52,
+        "pp": 25,
+        "maxPP": 25
+      }
+    ],
+    "friendship": 70,
+    "heldItem": null,
+    "ot": "Ethan",
+    "id": 2147483647
+  }
+}

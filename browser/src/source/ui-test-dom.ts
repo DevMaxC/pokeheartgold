@@ -20,6 +20,8 @@ export function installUIDOM(){
     getAttribute(key:string){return this.attributes.get(key)??null;}
     contains(other:any):boolean{return this===other||this.children.some(child=>child.contains(other));}
     appendChild(child:Element){child.parentElement=this;this.children.push(child);return child;}
+    removeChild(child:Element){const index=this.children.indexOf(child);if(index<0)throw Error('Node is not a child');this.children.splice(index,1);child.parentElement=null;const remove=(node:Element)=>{if(node.id&&ids.get(node.id)===node)ids.delete(node.id);for(const nested of node.children)remove(nested);};remove(child);return child;}
+    remove(){this.parentElement?.removeChild(this);}
     private matches(selector:string){if(selector==='[hidden]')return this.hidden;if(selector==='[inert]')return this.inert;const match=selector.match(/^([a-z]+)?(?:\[([\w-]+)(?:="?([^\]"]+)"?)?\])?$/i);return !!match&&(!match[1]||this.tagName===match[1].toUpperCase())&&(!match[2]||this.getAttribute(match[2])!==null&&(match[3]===undefined||this.getAttribute(match[2])===match[3]));}
     closest(selector:string):Element|null{for(let node:Element|null=this;node;node=node.parentElement)if(selector.split(',').some(part=>node!.matches(part.trim())))return node;return null;}
     querySelectorAll<T=Element>(selector:string):T[]{const found:Element[]=[];const visit=(node:Element)=>{for(const child of node.children){if(selector.split(',').some(part=>child.matches(part.trim())))found.push(child);visit(child);}};visit(this);return found as T[];}

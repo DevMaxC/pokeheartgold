@@ -93,3 +93,11 @@ test('known native provenance controls shiny-art availability independently of b
  const nativeRegular={...nativeShiny,id:0,provenance:{...provenance,otId:8}};assert.equal(evolutionArtPath(nativeRegular),'/source/pokemon/155-male-front.png');
  for(const otId of[-1,0x100000000,NaN,undefined])assert.throws(()=>evolutionArtPath({...nativeRegular,provenance:{...provenance,otId}} as any),/valid OT identity/);
 });
+
+
+test('owned draw re-hides refreshed actors between source ticks and never changes a foreign replacement actor or its owner',async()=>{
+ const f=viewFixture();await f.view.begin(evolutionScene(),new AbortController().signal);f.actors[0].visible=true;f.view.update(1/60);assert.equal(f.actors[0].visible,false,'an asynchronous refresh cannot expose the actor before the next source tick');
+ const late=new THREE.Group();f.field.actors=[...f.field.actors,{object:late,current:()=>true}];f.view.update(1/60);assert.equal(late.visible,false);f.view.cancel();assert.equal(f.actors[0].visible,true);assert.equal(late.visible,true);assert.equal(f.actors[1].visible,false,'originally hidden actors stay hidden');
+ const g=viewFixture();await g.view.begin(evolutionScene(),new AbortController().signal);g.stale();g.actors[0].visible=true;g.view.update(1/60);assert.equal(g.actors[0].visible,true,'stale identity cannot be re-hidden');
+ const replacement=new THREE.Group(),nextOwner={active:true,update(){},cancel(){}};g.field.actors=[{object:replacement,current:()=>true}];g.world.fieldEffect=nextOwner;g.view.update(1/60);assert.equal(replacement.visible,true);assert.equal(g.world.fieldEffect,nextOwner);assert.equal(g.view.active,false);
+});
