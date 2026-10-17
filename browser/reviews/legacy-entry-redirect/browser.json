@@ -1,0 +1,77 @@
+{
+  "source": "e01e1290",
+  "scope": "original.html-only compatibility redirect",
+  "browser": {
+    "toolIcon": {
+      "_tag": "website",
+      "pageUrl": "http://localhost:5207/?legacy-audio-check=1#mute"
+    },
+    "value": {
+      "active": false,
+      "prefs": {
+        "music": false,
+        "version": 1,
+        "volume": 0
+      },
+      "preserved": "unchanged",
+      "required": [
+        {
+          "id": "audio-toggle",
+          "present": true
+        },
+        {
+          "id": "phone-ring",
+          "present": true
+        },
+        {
+          "id": "touch-stick",
+          "present": true
+        },
+        {
+          "id": "touch-interact",
+          "present": true
+        },
+        {
+          "id": "touch-run",
+          "present": true
+        },
+        {
+          "id": "touch-menu",
+          "present": true
+        },
+        {
+          "id": "touch-layout-toggle",
+          "present": true
+        },
+        {
+          "id": "touch-hand-toggle",
+          "present": true
+        }
+      ],
+      "text": "Unmute\nPOKÉMON\nHEARTGOLD\n\nA grand adventure in Johto awaits.\n\nNew game\nBegin a new adventure\nSettings\nYour preferences",
+      "title": "Pokémon HeartGold — Paper Johto",
+      "url": "http://localhost:5207/?legacy-audio-check=1#mute"
+    }
+  },
+  "audioCheck": {
+    "toolIcon": {
+      "_tag": "website",
+      "pageUrl": "http://localhost:5207/?legacy-audio-check=1#mute"
+    },
+    "value": {
+      "active": false,
+      "prefs": {
+        "cameraSensitivity": 0.8,
+        "music": false,
+        "textSpeed": 1,
+        "version": 1,
+        "volume": 0
+      },
+      "pressed": "true",
+      "text": "Unmute\nPOKÉMON\nHEARTGOLD\n\nA grand adventure in Johto awaits.\n\nNew game\nBegin a new adventure\nSettings\nYour preferences",
+      "url": "http://localhost:5207/?legacy-audio-check=1#mute"
+    }
+  },
+  "volumeThroughout": 0,
+  "limits": "Functional redirect/DOM/control check only. No gameplay save was created. This uses synthetic preference/probe keys on a new local origin; no copied user save or campaign-play claim."
+}
