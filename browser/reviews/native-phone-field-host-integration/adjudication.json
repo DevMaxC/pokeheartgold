@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "reviewedOldCommit": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+  "fixedRuntimeCommit": "b3463c8bd1a5b2e288db1e7deed067e1bd40e7aa",
+  "fixParent": "7adbccc27cfdc293d1c8ae8c72817d73a2c95c2b",
+  "oldMainSHA256": "1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230",
+  "fixedMainSHA256": "aad9115264c0a681feb7567c81cc17263920b57b0408625436560361dd9ffb31",
+  "c390SnapshotInputs": 6841,
+  "snapshotCountMeansIntegrityInventoryNotAllFilesIndividuallyRead": true,
+  "snapshottedSourceFilesDuplicatedInArchive": false,
+  "rawHistoricalPathsPreserved": true,
+  "artifactResolution": "Map historical absolute paths using artifacts[].originalPath to artifacts[].path in this directory. All original source/data are recoverable from recorded Git commits and the full manifest.",
+  "oldCheckpointAdjudication": {
+    "initialIndependentReadReportedNoFindings": true,
+    "supersededByCompletedOpusAndRegressionProof": true,
+    "confirmedStateFindings": [
+      {
+        "id": "connection-ring-reset",
+        "severity": "Medium",
+        "statusAtC390": "confirmed",
+        "statusAtB346": "resolved"
+      },
+      {
+        "id": "failed-admission-reprompt-loop",
+        "severity": "Low",
+        "statusAtC390": "confirmed for repeat errors/invalid saved phone data",
+        "statusAtB346": "resolved"
+      }
+    ],
+    "oldReviewNotRewritten": true
+  },
+  "fixedCheckpointReview": {
+    "model": "claude-opus-5-5",
+    "completed": true,
+    "bothOriginalFindingsResolved": true,
+    "newNearbyStateOrRollbackDefects": 0,
+    "remainingPresentationGap": "Native no-reception answer shows a no-signal hang-up message; current state-correct answer consumes silently. UI was excluded; this remains presentation parity work.",
+    "remainingCoverageGaps": [
+      "Real warp() to enterMap active-ring control",
+      "Connection followed by destination frame-script reset",
+      "Retained connection ring followed by timeout or answer on receiving destination"
+    ]
+  },
+  "checks": {
+    "fixedAffectedTests": {
+      "executedBy": "implementation agent",
+      "pass": 82,
+      "fail": 0,
+      "log": "b346-affected82.raw.log"
+    },
+    "typescript": {
+      "executedBy": "implementation agent",
+      "exitCode": 0,
+      "log": "b346-tsc.raw.log"
+    },
+    "oldMainCounterfactual": {
+      "mainByteIdenticalToC390": true,
+      "sameNewRegressionTests": true,
+      "expectedFail": 2,
+      "actualFail": 2,
+      "pass": 0,
+      "log": "c390-counterfactual2-expected-failures.raw.log"
+    },
+    "olderOwnerRuns": {
+      "counts": [
+        77,
+        55
+      ],
+      "overlapNotSummed": true,
+      "sourceDiagnosticsMatchC390Main": true,
+      "notIndependentReviewerRuns": true
+    },
+    "noBuildBrowserOrFullSuite": true
+  },
+  "unchangedComponentContext": [
+    {
+      "path": "browser/src/source/phone-field-host.ts",
+      "sha256": "7e6c4ecb982fbd394bc57a20cacf674001e98e9fac491ebc24d5d45bcacfb1cc",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/phone-random.ts",
+      "sha256": "6043d3677e91cd9b287e927334b480b93a1ba2538a36825dc6b936616648be5f",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.ts",
+      "sha256": "216e30b3c5a7a8abc0da72686ef0cb6996ffed0606fe0cc2533ef6bf96c957a5",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/phone.ts",
+      "sha256": "eb8c547560a54ceb860a5c07ab002039fd78e29217ca742cf45a5d79a2c41f4f",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "sha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "sha256": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/egg-hatch-presentation.ts",
+      "sha256": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "116a461bfce1569a4bd694741a394a0be6334b9c1b2487a27eb7e1f6f64edc3b",
+      "sameAsC390Context": true
+    },
+    {
+      "path": "browser/public/source/phone-triggers.json",
+      "sha256": "237abc54bf9241892441e6edef4ee693546e1f6ddd6587f92a9d4868435a4456",
+      "sameAsC390Context": true
+    }
+  ],
+  "limits": [
+    "Review and test results do not approve later phone/UI/root merges",
+    "Generic random/forced call delivery and Safari call generation remain unported",
+    "No global DS RNG, persisted SysInfo RTC, native DST-clock or RTC-penalty completeness claim",
+    "No real DOM, rendered, GPU, audio or production deployment verification",
+    "Separate component review is not inherited; this records actual whole-host review and narrow fixed follow-up only"
+  ],
+  "artifacts": [
+    {
+      "path": "c390-snapshot-manifest.raw.json",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/snapshot-manifest.json",
+      "sha256": "b9bce5f1694430f2616659e27b07e0ae114917f65c89ba87ff7473a59442aaad",
+      "bytes": 1180930,
+      "rawUnchanged": true
+    },
+    {
+      "path": "c390-commit-attestation.raw.json",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-attestation.json",
+      "sha256": "3086ad5c66ff9ab0655576cfd3300a6a76f88592f28dfb0527ecf2c3d5be8184",
+      "bytes": 2630,
+      "rawUnchanged": true
+    },
+    {
+      "path": "c390-initial-independent-read.raw.json",
+      "originalPath": "/tmp/hg-native-whole-phone-host-independent-source-review.json",
+      "sha256": "8e8af41f458feae484e011b8200d17596982fa1130686a02792507888dc5fd0c",
+      "bytes": 4993,
+      "rawUnchanged": true
+    },
+    {
+      "path": "c390-opus-review.raw.json",
+      "originalPath": "/tmp/hg-native-whole-phone-host-opus-review.json",
+      "sha256": "4a2d96d8a407ba5fbb096be07c0f349fd224b2cf53636970dfc5d9423ce730f8",
+      "bytes": 9236,
+      "rawUnchanged": true
+    },
+    {
+      "path": "c390-opus-prompt.raw.txt",
+      "originalPath": "/tmp/hg-native-whole-phone-host-opus-prompt.txt",
+      "sha256": "d48aba22e13a3e493b5207a5c14c36da4ede6dfb1a1e74a8eec23be6f03ab90d",
+      "bytes": 5774,
+      "rawUnchanged": true
+    },
+    {
+      "path": "536758a-to-c39003b1.raw.diff",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-delta/536758a-to-c39003b1.diff",
+      "sha256": "93b7109c5a6437cfcc592d63745c0febeead45ff6e81cbc307867ef3bd462c1f",
+      "bytes": 223591,
+      "rawUnchanged": true
+    },
+    {
+      "path": "c390-diff-provenance.raw.json",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-delta/provenance.json",
+      "sha256": "76ba2cc8f910a190996ee2d3c33cc068ac181b3ad696027caa9fbdae3823f5b2",
+      "bytes": 405,
+      "rawUnchanged": true
+    },
+    {
+      "path": "owner77-targeted.raw.log",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-owner-logs/hg-native-phone-random-main-tests.log",
+      "sha256": "64df334d4abfbf6184da35cf223b50e6b067fb9505c3135f181ce9354769792d",
+      "bytes": 23004,
+      "rawUnchanged": true
+    },
+    {
+      "path": "owner55-admission.raw.log",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-owner-logs/hg-native-phone-random-admission-host-tests.log",
+      "sha256": "b12b0a105c7af2bc124bbfe1604a75f45d369dffc27112de0e19bd3af28348bc",
+      "bytes": 15473,
+      "rawUnchanged": true
+    },
+    {
+      "path": "owner-tsc.raw.log",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-owner-logs/hg-native-phone-random-main-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "rawUnchanged": true
+    },
+    {
+      "path": "owner-test-provenance.raw.json",
+      "originalPath": "/tmp/hg-native-whole-phone-host-c39003b1-owner-logs/manifest.json",
+      "sha256": "c9a69d220e47c19c5a47cddb42cd3ce62a0e1610a55b5865e955368df9dc165e",
+      "bytes": 1198,
+      "rawUnchanged": true
+    },
+    {
+      "path": "b346-fix-snapshot-manifest.raw.json",
+      "originalPath": "/tmp/hg-native-phone-host-fixes-b3463c8b-snapshot/snapshot-manifest.json",
+      "sha256": "77275e615bd68fac07bdfde0d94abbf81d241585d41faf813071a68d7c919d3a",
+      "bytes": 3013,
+      "rawUnchanged": true
+    },
+    {
+      "path": "7adbccc-to-b3463c8b.raw.diff",
+      "originalPath": "/tmp/hg-native-phone-host-fixes-b3463c8b-snapshot/7adbccc-to-b3463c8b.diff",
+      "sha256": "344a5ee0c965aa81582a7e91e748d8a79dc8f4989e6ad1d8d4fa27be84ecfa02",
+      "bytes": 47632,
+      "rawUnchanged": true
+    },
+    {
+      "path": "b346-opus-followup.raw.json",
+      "originalPath": "/tmp/hg-native-phone-host-fixes-opus-followup.json",
+      "sha256": "b3912aeeb6e110a3189056fec3100a7983e7d097ab68f2bbf25cf87ee75c7d75",
+      "bytes": 6892,
+      "rawUnchanged": true
+    },
+    {
+      "path": "b346-opus-prompt.raw.txt",
+      "originalPath": "/tmp/hg-native-phone-host-fixes-opus-followup-prompt.txt",
+      "sha256": "1df783d3e0773fdbfd1649baa146cc7c35474b3b018c780d200c31275422887f",
+      "bytes": 3525,
+      "rawUnchanged": true
+    },
+    {
+      "path": "b346-affected82.raw.log",
+      "originalPath": "/tmp/hg-native-phone-host-fixes-affected-final.log",
+      "sha256": "267b7bc56f2a51d0ff7c1618c786b0ebdd5599173d39ea9eca73a6cdfe0d3cde",
+      "bytes": 23931,
+      "rawUnchanged": true
+    },
+    {
+      "path": "b346-tsc.raw.log",
+      "originalPath": "/tmp/hg-native-phone-host-fixes-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "rawUnchanged": true
+    },
+    {
+      "path": "c390-counterfactual2-expected-failures.raw.log",
+      "originalPath": "/tmp/hg-native-phone-host-old-controls.log",
+      "sha256": "df784a7ba354daec73eb30ebf9753fbd9be7d905434f1e940ccab5961708489f",
+      "bytes": 2851,
+      "rawUnchanged": true
+    }
+  ],
+  "rawWhitespaceQualification": "The two raw diffs and expected-failure TAP log preserve original context whitespace; SHA256 validates them without normalizing raw evidence. Other metadata passes git whitespace checks."
+}

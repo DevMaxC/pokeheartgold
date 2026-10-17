@@ -1,0 +1,152 @@
+{
+  "reviews": [
+    {
+      "label": "initial",
+      "commit": "ce7258cfa21cbe519e80568da42e15e892cc9e2a",
+      "rawResult": "initial-opus-result.json",
+      "sha256": "03b172f48e8e42dccc059d2400e1e00e41dd79c58338e27267044897644fae3f",
+      "subtype": "success",
+      "isError": false,
+      "permissionDenials": [],
+      "durationMs": 1301012,
+      "turns": 125,
+      "sessionId": "eee435b5-af9a-4de6-90fd-5fa3b6052ca9",
+      "models": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 2026,
+          "outputTokens": 16,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.0021060000000000002,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 212,
+          "outputTokens": 101192,
+          "cacheReadInputTokens": 17114860,
+          "cacheCreationInputTokens": 292426,
+          "webSearchRequests": 0,
+          "costUSD": 6.909789999999997,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 81411,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "qualification": "Actual Claude CLI primary modelOpus5.5, read-only Read/Grep/Glob only. Reviewer ran no tests, build or browser; supplied logs are agent evidence."
+    },
+    {
+      "label": "followup",
+      "commit": "2e396ca028ecac96c8b8bc7a3afbbd0bff6c9cad",
+      "rawResult": "followup-opus-result.json",
+      "sha256": "9ade7024f054b150c506b28f55c5b86de25f787c67f685a4ca0f06c758fe5ef7",
+      "subtype": "success",
+      "isError": false,
+      "permissionDenials": [],
+      "durationMs": 741312,
+      "turns": 77,
+      "sessionId": "c479598c-6a1b-43ed-8e70-5b184be0702d",
+      "models": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 2184,
+          "outputTokens": 26,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.002314,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 124,
+          "outputTokens": 59915,
+          "cacheReadInputTokens": 8488687,
+          "cacheCreationInputTokens": 238223,
+          "webSearchRequests": 0,
+          "costUSD": 4.0876484,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 44362,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "qualification": "Actual Claude CLI primary modelOpus5.5, read-only Read/Grep/Glob only. Reviewer ran no tests, build or browser; supplied logs are agent evidence."
+    },
+    {
+      "label": "final",
+      "commit": "9855423ba23170e21d2bef5c50db1eaced2cbdd0",
+      "rawResult": "final-opus-result.json",
+      "sha256": "41ce270784092d7ce087f6e727a1dd3efbc5b80f2ef843f9f8864f8dd7b93594",
+      "subtype": "success",
+      "isError": false,
+      "permissionDenials": [],
+      "durationMs": 391237,
+      "turns": 50,
+      "sessionId": "46e6cfdf-2dca-48ff-91e1-a38f19d87cd7",
+      "models": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 2181,
+          "outputTokens": 20,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.002281,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 84,
+          "outputTokens": 32297,
+          "cacheReadInputTokens": 3945563,
+          "cacheCreationInputTokens": 146062,
+          "webSearchRequests": 0,
+          "costUSD": 2.1656986000000003,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 22794,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "qualification": "Actual Claude CLI primary modelOpus5.5, read-only Read/Grep/Glob only. Reviewer ran no tests, build or browser; supplied logs are agent evidence."
+    }
+  ],
+  "finalScope": "No new defect found in the final bounded Pursuit/Levitate/direct-damage/Spite follow-up. Initial failed review preserved; follow-up residualLow fixed separately. No global battle/campaign approval.",
+  "commandTemplate": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--permission-mode",
+    "default",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--output-format",
+    "json"
+  ],
+  "initialException": "Initial review used permission-mode plan, reported no available plan-file/ExitPlanMode tool. Raw result preserved, no denials and no edits."
+}

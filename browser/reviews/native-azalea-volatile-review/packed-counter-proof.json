@@ -1,0 +1,117 @@
+{
+  "commit": "64d301b44f223201cc01abd60f4126d509c49155",
+  "method": "mathematical replay of actual3bit C counter packing/decrement compared to pure logical duration; no native binary or engine battle executed",
+  "headerSHA256": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972",
+  "counterBits": 3,
+  "donors": [
+    {
+      "item": "ITEM_LIGHT_CLAY",
+      "holdEffect": "HOLD_EFFECT_EXTEND_SCREENS",
+      "holdEffectParam": "3"
+    }
+  ],
+  "cases": [
+    {
+      "extension": 0,
+      "initialPackedCounterHasActiveFlag": true,
+      "steps": [
+        {
+          "endOfTurn": 0,
+          "packed": 5,
+          "logical": 5,
+          "active": true
+        },
+        {
+          "endOfTurn": 1,
+          "packed": 4,
+          "logical": 4,
+          "active": true
+        },
+        {
+          "endOfTurn": 2,
+          "packed": 3,
+          "logical": 3,
+          "active": true
+        },
+        {
+          "endOfTurn": 3,
+          "packed": 2,
+          "logical": 2,
+          "active": true
+        },
+        {
+          "endOfTurn": 4,
+          "packed": 1,
+          "logical": 1,
+          "active": true
+        },
+        {
+          "endOfTurn": 5,
+          "packed": 0,
+          "logical": 0,
+          "active": false
+        }
+      ]
+    },
+    {
+      "extension": 3,
+      "initialPackedCounterHasActiveFlag": true,
+      "steps": [
+        {
+          "endOfTurn": 0,
+          "packed": 0,
+          "logical": 8,
+          "active": true
+        },
+        {
+          "endOfTurn": 1,
+          "packed": 7,
+          "logical": 7,
+          "active": true
+        },
+        {
+          "endOfTurn": 2,
+          "packed": 6,
+          "logical": 6,
+          "active": true
+        },
+        {
+          "endOfTurn": 3,
+          "packed": 5,
+          "logical": 5,
+          "active": true
+        },
+        {
+          "endOfTurn": 4,
+          "packed": 4,
+          "logical": 4,
+          "active": true
+        },
+        {
+          "endOfTurn": 5,
+          "packed": 3,
+          "logical": 3,
+          "active": true
+        },
+        {
+          "endOfTurn": 6,
+          "packed": 2,
+          "logical": 2,
+          "active": true
+        },
+        {
+          "endOfTurn": 7,
+          "packed": 1,
+          "logical": 1,
+          "active": true
+        },
+        {
+          "endOfTurn": 8,
+          "packed": 0,
+          "logical": 0,
+          "active": false
+        }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,7 @@ from ndspy.texture import NSBTX,renderTextureDataAsImage
 from ndspy.color import prepareLUTs,pack
 from PIL import Image
 from native_shoreline_srt import tag_glb
+from script_variable_aliases import variable_aliases,canonicalize_variable_aliases
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'browser/public/source';OUT.mkdir(parents=True,exist_ok=True)
 APICULA=ROOT/'.local-tools/apicula/target/release/apicula'
 CACHE=ROOT/'.local-tools/source-import';CACHE.mkdir(exist_ok=True)
@@ -70,6 +71,7 @@ for m in re.finditer(r'\[(MAP_\w+)\]\s*=\s*\{(.*?)\}',mapheaders,re.S):
    if line.endswith(':'):label=line[:-1];labels[label]=len(instructions);continue
    tokens=line.split(None,1);args=[x.strip() for x in tokens[1].split(',')] if len(tokens)>1 else []
    instructions.append([tokens[0],args])
+  instructions=canonicalize_variable_aliases(instructions,variable_aliases(script_path.read_text()))
  msgcode=fields['msgBank'].replace('NARC_msg_msg_','').replace('_bin','')
  msgpath=next((ROOT/'files/msgdata/msg').glob('msg_'+msgcode+'.gmm'),None)
  messages={}
@@ -123,6 +125,7 @@ for threshold,bank,messagebank in re.findall(r'\{\s*(\w+),\s*NARC_scr_seq_scr_se
   if line=='ScrDefEnd':continue
   if line.endswith(':'):labels[line[:-1]]=len(instructions);continue
   parts=line.split(None,1);instructions.append([parts[0],[x.strip() for x in parts[1].split(',')] if len(parts)>1 else []])
+ instructions=canonicalize_variable_aliases(instructions,variable_aliases(scriptpath.read_text()))
  msgpath=next((ROOT/'files/msgdata/msg').glob('msg_'+messagebank+'*.gmm'));messages={row.attrib['id']:row.find("language[@name='English']").text or '' for row in ET.parse(msgpath).getroot().findall('row') if row.find("language[@name='English']") is not None}
  header=re.search(r'#include \"(fielddata/script/scr_seq/[^\"]+)\"',scriptpath.read_text());local=constants(Path('files')/header.group(1)) if header else {}
  write(Path(f'scripts/{bank}.json'),{'id':-int(bank),'code':'COMMON_'+bank,'scripts':{'labels':labels,'entries':entries,'instructions':instructions},'messages':messages,'constants':local})

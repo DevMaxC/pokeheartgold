@@ -1,0 +1,62 @@
+{
+  "base": "1a0054b4",
+  "reviewKind": "Independent read-only code review by agent; actual CLI Opus review is separately recorded",
+  "files": [
+    {
+      "path": "browser/src/source/background-events.ts",
+      "sha256": "07ed75c523ade5cae1a10970f6020ad4171ee31d8d20caf3d558f43aca8f8e56"
+    },
+    {
+      "path": "browser/src/source/background-events.test.ts",
+      "sha256": "3a7cd5b6eefc8a8adf74c5b4efea1ce1a84bab8e6fea301fafa6ba6aa6c8f4ea"
+    },
+    {
+      "path": "browser/src/source/egg-field-main.test.ts",
+      "sha256": "4b6c9adcde86600511e27a87632d4df9bb1e1ae6cd0b4f938ea26bbfd530493f"
+    },
+    {
+      "path": "src/field_interaction.c",
+      "sha256": "d258f3091e02dfee2f6554381f4980908917bc36b11f8e43a9a45969a756fc37"
+    },
+    {
+      "path": "src/script_manager.c",
+      "sha256": "939c23feda6b7bb554147011ce47defa3b2a39f9ec1a5d587f467aae8925d6aa"
+    },
+    {
+      "path": "src/battle/battle_command.c",
+      "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"
+    },
+    {
+      "path": "src/encounter.c",
+      "sha256": "d6f0ffffa3153394e185837a35e326d609a6011528b4e2521a76daccd8d13402"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0850_T21.s",
+      "sha256": "ffcb1fc9a4f67dd0693e84a5d769ad7245adfa96b2e68c875575384063a19256"
+    }
+  ],
+  "findings": [],
+  "backgroundEvidence": [
+    "Exact facing tile only, original event order, hidden-event type2 bypasses direction test",
+    "Compiled literal native direction function across all32 direction/facing cases passes",
+    "All241 exported hidden events use original u16 hidden-script\u2192flag mapping and collected flag suppression",
+    "Actual interact binds frame/trainer admission before NPC then background, without current-tile fallback"
+  ],
+  "ordinaryRivalEvidence": [
+    "battle_command.c1213 suppresses critical only for tutorial or BATTLE_SPECIAL_FIRST_RIVAL",
+    "encounter.c SetupAndStartFirstBattle marks the special wild first battle",
+    "Original Cherrygrove trainer uses ordinary TrainerBattle Passerby with canLose1",
+    "Actual main host regression iterates every Passerby trainer, confirms options only weather and no critical suppression override"
+  ],
+  "tests": {
+    "command": "node --experimental-transform-types --test src/source/background-events.test.ts src/source/egg-field-main.test.ts",
+    "passed": 33,
+    "failed": 0,
+    "log": "/tmp/hg-background-rival-binding-review-tests.log"
+  },
+  "scopeLimits": [
+    "No browser/visual verification",
+    "Unported tile interactions or special first-wild battle are not made complete by this review",
+    "Continue fix changes separate main entry portions only"
+  ]
+}

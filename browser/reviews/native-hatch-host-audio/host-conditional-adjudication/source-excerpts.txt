@@ -1,0 +1,24 @@
+main.ts menu admission
+async function menu(){
+  if(!started||!ready||sourceActions?.busy||recoveryPrompt||hatching||battleSoundOwned||transitioning||vm.busy||walking||battle.active||ui.busy)return;
+  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
+  resetFieldInput();try{await panels.menu();}finally{resetFieldInput();}
+}
+
+
+main-native-interface.test.ts exact actual-main AST-bound regression
+test('captured hatch mute cannot be changed by keyboard, touch, HUD or stale menu admission',async()=>{
+ const c=fixture();try{c.hatching=true;c.state.options.sound=false;c.preferences.music=false;let settings=0,playerChanges=0;c.unlockSound=()=>{};c.reportInputError=(error:unknown)=>{throw error;};c.panels.menu=async()=>{settings++;c.preferences.music=true;c.state.options.sound=true;playerChanges++;};c.document=c.f.doc;c.addEventListener=(type:string,handler:any,options:any)=>c.f.win.addEventListener(type,handler,options);createContext(c);runInContext(compile(events),c);
+  const touchActions=runInContext(compile('('+((initializer('touch')as ts.NewExpression).arguments![1].getText(ast))+')'),c);c.f.calls.menu=touchActions.menu;
+  const hud=ast.statements.find(node=>ts.isExpressionStatement(node)&&node.getText(ast).startsWith("$('open-menu').onclick="));assert.ok(hud);runInContext(compile(hud.getText(ast)),c);c.syncInputContext();c.f.win.fire('keydown',{code:'Escape'});c.f.send('touch-menu','pointerdown',3);c.$('open-menu').onclick();await c.menu();await flush();assert.equal(settings,0);assert.equal(playerChanges,0);assert.equal(c.state.options.sound,false);assert.equal(c.preferences.music,false);
+  c.hatching=false;await c.menu();assert.equal(settings,1,'positive control: the ordinary host route really can reach settings only after hatch releases');assert.equal(playerChanges,1);
+ }finally{c.dispose();}
+});
+
+
+interface-panels.ts settings lifetime guard
+   const bind=(id:string,event:string,action:()=>void)=>{const element=$(id),handler=()=>{if(current()&&!(element as HTMLButtonElement).disabled){this.ports.gesture();action();}};element.addEventListener(event,handler);cleanups.push(()=>element.removeEventListener(event,handler));};
+   bind('setting-music','click',()=>{const music=!this.ports.preferences().music;update({music});$('setting-music').textContent=music?'On':'Off';$('setting-music').setAttribute('aria-pressed',String(music));});
+
+main.ts synchronous preference mutation before async tail
+  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences:value=>{const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=writeInterfacePreferences(preferenceStorage,value);if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();},touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);

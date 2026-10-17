@@ -1,0 +1,258 @@
+--- reviewed/browser/src/source/script.ts
++++ followup/browser/src/source/script.ts
+@@ -87,7 +87,11 @@
+   }
+   set(token:string,n:number){this.runAbort?.signal.throwIfAborted();if(this.fieldMoveOrigin!==null&&this.state.map!==this.fieldMoveOrigin)throw Error('Field move was cancelled by a field change');this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
+   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
+-  private async standard(id:number,object:string){const signal=this.runAbort?.signal;const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;signal?.throwIfAborted();const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=id;child.inheritedSignal=signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;try{await child.run(common,entry,object,true);}finally{this.child=null;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}}
++  private async runChild(map:SourceMap,script:string|number,object:string,standardID:number|null=this.standardID,approach?:TrainerApproachContext):Promise<void>{
++    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;
++    try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
++  }
++  private async standard(id:number,object:string){const signal=this.runAbort?.signal;const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;signal?.throwIfAborted();const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);await this.runChild(common,entry,object,id);}
+   text(message:string,map:SourceMap){
+     const raw=map.messages[message]??message;
+     return raw.replace(/\{STRVAR_1 (\d+), (\d+), \d+\}/g,(_,kind,slot)=>kind==='3'?this.state.name:this.buffers[Number(slot)]??(kind==='1'?this.state.rivalName:'')).replace(/\{YESNO \d+\}/g,'').replace(/\{[^}]+\}/g,'').replace(/\\+([nrf])/g,(_,control)=>control==='n'?'\n':'\\'+control);
+@@ -96,8 +100,8 @@
+     if(approach.trainers.length!==(approach.eyeType===0?1:2)||new Set(approach.trainers.map(t=>t.object)).size!==approach.trainers.length||approach.trainers.some(t=>!this.data.trainers[t.trainer]||!map.events.objects.some(n=>n.id===t.object&&trainerIdForScript(this.value(String(n.scriptId),map))===t.trainer))||approach.eyeType===1&&(approach.trainers[0].trainer!==approach.trainers[1].trainer||!this.data.trainers[approach.trainers[0].trainer].double)||approach.eyeType!==1&&approach.trainers.some(t=>this.data.trainers[t.trainer].double))throw Error('Invalid native engaged-trainer context');
+     return this.run(map,TRAINER_APPROACH_SCRIPT,approach.trainers[0].object,false,approach);
+   }
+-  async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false,approach?:TrainerApproachContext){
+-    if(this.busy&&!allowNested)return;
++  async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false,approach?:TrainerApproachContext):Promise<void>{
++    if(this.busy){if(!allowNested)return;await this.runChild(map,script,object,this.standardID,approach);return;}
+     if(script===0)return;
+     const controller=new AbortController(),generation=++this.runGeneration,parentSignal=this.inheritedSignal,inheritAbort=()=>controller.abort(parentSignal?.reason);
+     this.runAbort=controller;parentSignal?.addEventListener('abort',inheritAbort,{once:true});
+@@ -119,11 +123,15 @@
+     const assertLive=()=>{controller.signal.throwIfAborted();if(this.runAbort!==controller||this.runGeneration!==generation||cutScript&&this.state.map!==originMap.id)throw Error('Field move was cancelled by a field change');};
+     const fieldContext=():ScriptFieldMoveContext=>({map:originMap,object:this.context?.object??object,signal:controller.signal});
+     const requireFieldMoves=(command:string)=>{const ports=this.hooks.fieldMoves;if(!ports?.startEffect)throw new UnsupportedScript(map.code,command,pc-1);return ports;};
+-    const firstAlive=()=>{const slot=this.state.party.findIndex(mon=>mon.hp>0&&!mon.isEgg&&!mon.checksumFailed);if(slot<0)throw Error('Native first-alive party query has no valid non-Egg');return slot;};
++    const aliveSlot=()=>this.state.party.findIndex(mon=>mon.hp>0&&!mon.isEgg&&!mon.checksumFailed);
++    const firstAlive=()=>{const slot=aliveSlot();if(slot<0)throw Error('Native first-alive party query has no valid non-Egg');return slot;};
+     const pendingFields:Promise<void>[]=[];let pendingCry:Promise<void>|null=null;
+     const asyncFailure:{failed:boolean;error?:unknown}={failed:false};
+     const own=(promise:Promise<void>,completed?:()=>void)=>{if(!promise||typeof promise.then!=='function')throw Error('Native field-move port must return a completion Promise');const owned=Promise.resolve(promise).then(()=>{controller.signal.throwIfAborted();if(this.runAbort!==controller||this.runGeneration!==generation||this.state.map!==originMap.id)throw Error('Field move was cancelled by a field change');completed?.();}).catch(error=>{if(!asyncFailure.failed){asyncFailure.failed=true;asyncFailure.error=error;}controller.abort(error);});pendingFields.push(owned);return owned;};
+-    const awaitedField=async(promise:Promise<void>)=>{await own(promise);if(asyncFailure.failed)throw asyncFailure.error;controller.signal.throwIfAborted();};
++    const awaitedField=async(promise:Promise<void>)=>{await own(promise);if(asyncFailure.failed)throw asyncFailure.error;controller.signal.throwIfAborted();if(cutScript)await waitFrames(1);};
++    // SetupNativeScript first polls next tick, then resumes bytecode one tick
++    // after its completion callback. Keep these boundaries local to Cut.
++    const resumeNativeField=async(pending:Promise<void>)=>{await waitFrames(1);await pending;if(asyncFailure.failed)throw asyncFailure.error;assertLive();await waitFrames(1);};
+     const raw=(token:string,bits:8|16)=>{const literal=/^(?:0x[0-9a-f]+|-?\d+)$/i.test(token)?Number(token):map.constants[token]??this.data.constants[token];if(!Number.isInteger(literal))throw new UnsupportedScript(map.code,this.instruction?.command??'NativeLiteral',pc-1);return literal&(bits===8?255:65535);};
+     const waitFrames=async(frames:number)=>{
+       if(!Number.isInteger(frames)||frames<0)throw Error('Invalid native frame count');
+@@ -145,7 +153,7 @@
+         this.supported.add(cmd);
+         if(cutScript&&(cmd==='PlayCry'||cmd==='WaitCry')){
+           const ports=requireFieldMoves(cmd);if(!ports.cry)throw new UnsupportedScript(map.code,cmd,pc-1);
+-          if(cmd==='PlayCry'){pendingCry=own(ports.cry(v(a[0]),v(a[1]),fieldContext()));}else if(pendingCry){await pendingCry;if(asyncFailure.failed)throw asyncFailure.error;pendingCry=null;}
++          if(cmd==='PlayCry'){pendingCry=own(ports.cry(v(a[0]),v(a[1]),fieldContext()));}else{await resumeNativeField(pendingCry??Promise.resolve());pendingCry=null;}
+           continue;
+         }
+         if(cutScript&&cmd==='FollowMonResetMovement'){const ports=requireFieldMoves(cmd);if(!ports.resetFollowerMovement)throw new UnsupportedScript(map.code,cmd,pc-1);await awaitedField(ports.resetFollowerMovement(fieldContext()));continue;}
+@@ -186,22 +194,27 @@
+           this.set(a[0],Number(!active||this.hooks.fieldMoves!.followerVisibleFlag()));continue;
+         }
+         if(cmd==='PlayFieldMoveCutIn'){
++          if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);
+           const ports=requireFieldMoves(cmd),slot=v(a[0]);if(!ports.cutIn||!this.state.party[slot])throw new UnsupportedScript(map.code,cmd,pc-1);
+-          await awaitedField(ports.cutIn(slot,fieldContext()));continue;
++          await resumeNativeField(own(ports.cutIn(slot,fieldContext())));continue;
+         }
+         if(cmd==='StartFieldMoveEffect'){
++          if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);
+           const kind=v(a[0]);if(kind!==0&&kind!==3)throw new UnsupportedScript(map.code,cmd,pc-1);const ports=requireFieldMoves(cmd);
+           // COMMON_0146 runs Wait7/HidePerson before polling this variable.
+-          // Waiting here would hide the source tree at the wrong native phase.
+-          this.set(a[1],0);own(ports.startEffect(kind,fieldContext()),()=>this.set(a[1],1));continue;
++          // Awaiting completion here would hide the tree at the wrong phase.
++          // This TRUE-returning command yields once; Wait's native callback
++          // also resumes bytecode on the following tick (src/script.c).
++          this.set(a[1],0);own(ports.startEffect(kind,fieldContext()),()=>this.set(a[1],1));if(cutScript)await waitFrames(1);continue;
+         }
+         if(cmd==='SwapPlayerAndFollowMonPositions'){
++          if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);
+           const mode=raw(a[0],16),ports=requireFieldMoves(cmd);
+           if((mode!==1&&mode!==2)||!ports.swapPlayerFollower||!ports.jumpFollower||!ports.addFollowerMood||!ports.cry)throw new UnsupportedScript(map.code,cmd,pc-1);
+           await awaitedField(ports.swapPlayerFollower(mode,fieldContext()));continue;
+         }
+-        if(cmd==='FollowMonAddMood'){const ports=requireFieldMoves(cmd);if(!ports.addFollowerMood)throw new UnsupportedScript(map.code,cmd,pc-1);const byte=raw(a[0],8);ports.addFollowerMood(byte>=128?byte-256:byte);continue;}
+-        if(cmd==='FollowMonJumpOnSpot'){const ports=requireFieldMoves(cmd);if(!ports.jumpFollower)throw new UnsupportedScript(map.code,cmd,pc-1);await awaitedField(ports.jumpFollower(raw(a[0],8),fieldContext()));continue;}
++        if(cmd==='FollowMonAddMood'){if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);const ports=requireFieldMoves(cmd);if(!ports.addFollowerMood)throw new UnsupportedScript(map.code,cmd,pc-1);const byte=raw(a[0],8);ports.addFollowerMood(byte>=128?byte-256:byte);continue;}
++        if(cmd==='FollowMonJumpOnSpot'){if(!cutScript)throw new UnsupportedScript(map.code,cmd,pc-1);const ports=requireFieldMoves(cmd);if(!ports.jumpFollower)throw new UnsupportedScript(map.code,cmd,pc-1);await awaitedField(ports.jumpFollower(raw(a[0],8),fieldContext()));continue;}
+         if(cmd==='FirstAliveMonHasType'){
+           const mon=this.state.party[firstAlive()],native=await loadNativeFieldMoveData();controller.signal.throwIfAborted();
+           const base=this.data.personal[resolveTeachingPersonalIndex(native,mon.species,mon.form??0)];if(!base)throw Error('Missing original field Pokémon type record');let types=base.types.map(type=>this.data.constants[type]);
+@@ -221,7 +234,7 @@
+         if(cmd==='GetStdMsgNaix'){this.set(a[1],[752,211,30,435][v(a[0])]??0);continue;}
+         if(cmd==='MsgBoxExtern'||cmd==='NonNPCMsgExtern'){const bank=await sourceJSON<Record<string,string>>(`messages/${v(a[0])}.json`),raw=bank[v(a[1])];if(raw===undefined)throw Error(`Missing source message ${v(a[0])}:${v(a[1])}`);lastMessage=this.text(raw,map);await this.hooks.message(lastMessage);continue;}
+         if(cmd==='GetMenuChoice'||cmd==='YesNoBox'){this.set(a[0],await this.hooks.choice(lastMessage.split(/\\[rf]/).filter(Boolean).at(-1)));continue;}
+-        if(cmd==='Wait'){if(cutScript){const frames=raw(a[0],16);this.set(a[1],frames);for(let left=frames||65536;left>0;left--){await waitFrames(1);controller.signal.throwIfAborted();this.set(a[1],left-1);}}else await waitFrames(v(a[0]));continue;}
++        if(cmd==='Wait'){if(cutScript){const frames=raw(a[0],16);this.set(a[1],frames);for(let left=frames||65536;left>0;left--){await waitFrames(1);controller.signal.throwIfAborted();this.set(a[1],left-1);}await waitFrames(1);remaining=4000;}else await waitFrames(v(a[0]));continue;}
+         if(cmd==='CreateCameraTarget'||cmd==='RemoveCameraTarget'){
+           if(!this.hooks.cameraTarget)throw new UnsupportedScript(map.code,cmd,pc-1);
+           this.hooks.cameraTarget(cmd==='CreateCameraTarget'?{map,x:v(a[0]),z:v(a[1])}:null);ownsCameraTarget=cmd==='CreateCameraTarget';continue;
+@@ -290,7 +303,7 @@
+         if(cmd==='GetTotalApricornCount'){this.set(a[0],totalApricornCount(this.state));continue;}
+         if(cmd==='GetKurtBall'){this.set(a[0],kurtBall(this.data,this.state));continue;}
+         if(cmd==='ClearKurtApricorn'){clearKurtApricorn(this.state);continue;}
+-        if(cmd==='GetPartyLeadAlive'){this.set(a[0],firstAlive());continue;}
++        if(cmd==='GetPartyLeadAlive'){this.set(a[0],Math.max(0,aliveSlot()));continue;}
+         if(cmd==='GetPartyMonSpecies'){const mon=this.state.party[v(a[0])];this.set(a[1],mon?.checksumFailed?0:partyMonSpecies(mon));continue;}
+         if(cmd==='GetPartyMonForm2'){this.set(a[1],0);continue;}
+         if(cmd==='GetStarterChoice'){this.set(a[0],this.state.starter);continue;}
+--- reviewed/browser/src/source/cut-script.test.ts
++++ followup/browser/src/source/cut-script.test.ts
+@@ -10,9 +10,37 @@
+ 
+ globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));}catch{return new Response('',{status:404});}};
+ const data=await loadData(),route=await sourceJSON<SourceMap>('maps/34.json'),tree=route.events.objects.find(o=>o.id==='obj_R30_tree')!;
++const common=await sourceJSON<SourceMap>('scripts/0146.json');
+ const cut=data.constants.std_field_cut,menuCut=data.constants.std_menu_cut;
+ const slot=(species=19,move=15)=>{const mon=createMon(data,species,8,'Case',()=>.5);mon.moves=[{id:move,pp:0,maxPP:data.moves[move].pp}];return mon;};
+-async function until(predicate:()=>boolean){for(let attempt=0;!predicate();attempt++){assert.ok(attempt<10000,'The native fixture did not reach its expected yield');await immediate();}}
++// Independent literal replay of the native dispatcher for the original Cut tail.
++// A TRUE command ends this tick; a successful native callback only switches
++// mode, so bytecode resumes on the following tick (src/script.c:45–89).
++async function nativeTail(effectDoneAt:number){
++ const dispatcher=await readFile(new URL('../../../src/script.c',import.meta.url),'utf8'),handlers=await readFile(new URL('../../../src/scrcmd_c.c',import.meta.url),'utf8');
++ const nativeMode=dispatcher.slice(dispatcher.indexOf('case SCRIPT_MODE_NATIVE:'),dispatcher.indexOf('case SCRIPT_MODE_BYTECODE:'));
++ assert.match(nativeMode,/ctx->mode = SCRIPT_MODE_BYTECODE;[\s\S]*return TRUE;/);
++ assert.match(handlers.slice(handlers.indexOf('BOOL ScrCmd_StartFieldMoveEffect('),handlers.indexOf('BOOL ScrCmd_CheckHasWifiProfile(')),/return TRUE;/);
++ assert.match(handlers.slice(handlers.indexOf('static BOOL RunPauseTimer(ScriptContext *ctx) {'),handlers.indexOf('BOOL ScrCmd_DebugWatch(')),/\(\*frames_to_wait\)--;[\s\S]*return \*frames_to_wait == 0;/);
++ let pc=common.scripts.instructions.findIndex(([cmd,args])=>cmd==='StartFieldMoveEffect'&&args[0]==='0'),native=false,timer=0,done=0,compare=0,hidden=-1;
++ for(let tick=0;tick<100;tick++){
++  if(tick===effectDoneAt)done=1;
++  if(native){timer=(timer-1)&65535;if(timer===0)native=false;continue;}
++  let yieldTick=false;
++  for(let budget=0;!yieldTick&&budget<100;budget++){
++   const [cmd,args]=common.scripts.instructions[pc++];
++   if(cmd==='StartFieldMoveEffect'){done=0;yieldTick=true;}
++   else if(cmd==='Wait'){timer=Number(args[0]);native=true;yieldTick=true;}
++   else if(cmd==='HidePerson')hidden=tick;
++   else if(cmd==='Compare')compare=done-Number(args[1]);
++   else if(cmd==='GoTo'||cmd==='GoToIfEq'&&compare===0)pc=common.scripts.labels[args[0]];
++   else if(cmd==='GoToIfEq'||cmd==='ReleaseAll')continue;
++   else if(cmd==='End')return{hidden,complete:tick};
++   else assert.fail('Unexpected literal Cut-tail command '+cmd);
++  }
++ }
++ throw Error('Native Cut tail did not finish');
++}
+ 
+ class NativeClock{
+  frame=0;
+@@ -24,7 +52,8 @@
+   this.pending.push(task);signal.addEventListener('abort',task.abort,{once:true});if(signal.aborted)task.abort();
+  });}
+  async advance(frames:number){for(let i=0;i<frames;i++){this.frame++;for(const task of [...this.pending])if(task.at<=this.frame)task.resolve();await immediate();}}
+- async finish(run:Promise<void>){let settled=false;const result=run.finally(()=>settled=true);void result.catch(()=>{});for(let frame=0;!settled&&frame<4;frame++)await this.advance(1);assert.equal(settled,true,'Native completion polling must settle within four more frames');await result;}
++ async reach(predicate:()=>boolean){for(let attempt=0;attempt<10000;attempt++){await immediate();if(predicate())return;if(this.pending.length)await this.advance(1);}throw Error('Native fixture did not reach its phase');}
++ async finish(run:Promise<void>){let settled=false;const result=run.finally(()=>settled=true);void result.catch(()=>{});await immediate();for(let frame=0;!settled&&frame<4;frame++)await this.advance(1);assert.equal(settled,true,'Native completion polling must settle within four more frames');await result;}
+ }
+ 
+ function scene(options:{species?:number;choice?:number;badge?:boolean;active?:boolean;visibleFlag?:boolean;avatar?:number;effectFrames?:number;failEffect?:boolean;map?:SourceMap}={}){
+@@ -54,13 +83,13 @@
+  return{state,objects,clock,events,hooks,vm,recovery,run,record,get follower(){return follower;},get restores(){return restores;},get effectStarted(){return effectStarted;},get effectFinished(){return effectFinished;}};
+ }
+ 
+-test('actual standard10000 starts effect0, hides the native tree after 7 frames, then waits for true completion',async()=>{
+- const h=scene(),before=structuredClone(h.state);const running=h.run();await until(()=>h.effectStarted);
++test('actual standard10000 matches native dispatch and Wait7 phases before hiding and polling completion',async()=>{
++ const h=scene(),before=structuredClone(h.state);const running=h.run();await h.clock.reach(()=>h.effectStarted);const effectFrame=h.clock.frame,reference=await nativeTail(12);assert.deepEqual(reference,{hidden:9,complete:13});await h.clock.advance(1);
+  assert.equal(h.vm.busy,true);assert.equal(h.recovery.busy,true);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),0);assert.equal(h.vm.value('VAR_SPECIAL_RESULT',route),7);
+  await h.clock.advance(6);assert.equal(h.objects.snapshot().find(o=>o.id===tree.id)!.visible,true);assert.equal(h.vm.value('VAR_SPECIAL_RESULT',route),1);
+- await h.clock.advance(1);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.effectFinished,false);assert.equal(h.vm.busy,true);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),0);
+- assert.deepEqual(h.events.filter(e=>e.kind==='visible'),[{kind:'visible',frame:7,value:{id:tree.id,shown:false}}]);
+- await h.clock.advance(5);await h.clock.finish(running);assert.equal(h.effectFinished,true);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),1);assert.equal(h.vm.busy,false);assert.equal(h.recovery.busy,false);
++ await h.clock.advance(1);assert.equal(h.vm.value('VAR_SPECIAL_RESULT',route),0);assert.equal(h.state.flags[tree.eventFlag],undefined,'The final native callback does not dispatch bytecode in the same tick');await h.clock.advance(1);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.effectFinished,false);assert.equal(h.vm.busy,true);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),0);
++ assert.deepEqual(h.events.filter(e=>e.kind==='visible'),[{kind:'visible',frame:effectFrame+reference.hidden,value:{id:tree.id,shown:false}}]);
++ await h.clock.advance(3);await h.clock.finish(running);assert.equal(h.clock.frame,effectFrame+reference.complete);assert.equal(h.effectFinished,true);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),1);assert.equal(h.vm.busy,false);assert.equal(h.recovery.busy,false);
+  assert.equal(h.state.bag.ITEM_HM01,1);assert.deepEqual(h.state.party,before.party,'Field Cut does not spend PP or heal the user');
+  assert.deepEqual(h.events.filter(e=>e.kind==='effectStart').map(e=>e.value),[0]);assert.deepEqual(h.events.filter(e=>e.kind==='cutIn').map(e=>e.value),[0]);
+ });
+@@ -74,47 +103,47 @@
+ 
+ test('the first fainted zero-PP Cut user is selected while the follower query independently selects a living non-Egg',async()=>{
+  const h=scene();const egg={...slot(),isEgg:true},bad={...slot(),checksumFailed:true},fainted=slot();fainted.hp=0;fainted.name='ZERO';h.state.party=[egg,bad,fainted,slot(155,33)];
+- const running=h.run();await until(()=>h.effectStarted);assert.equal(h.vm.value('VAR_SPECIAL_x8004',route),2);assert.deepEqual(h.events.filter(e=>e.kind==='cutIn').map(e=>e.value),[2]);assert.equal(h.vm.buffers[0],'ZERO');assert.ok(h.events.some(e=>e.kind==='message'&&String(e.value).includes('ZERO')));
++ const running=h.run();await h.clock.reach(()=>h.effectStarted);assert.equal(h.vm.value('VAR_SPECIAL_x8004',route),2);assert.deepEqual(h.events.filter(e=>e.kind==='cutIn').map(e=>e.value),[2]);assert.equal(h.vm.buffers[0],'ZERO');assert.ok(h.events.some(e=>e.kind==='message'&&String(e.value).includes('ZERO')));
+  await h.clock.advance(12);await h.clock.finish(running);assert.equal(h.state.party[2].hp,0);assert.equal(h.state.party[2].moves[0].pp,0);
+ });
+ 
+ test('the actual active-follower branch swaps, uses native Grass mood/hops and cry, then starts effect3',async()=>{
+- const h=scene({species:152,active:true,visibleFlag:false});const running=h.run();await until(()=>h.effectStarted);
++ const h=scene({species:152,active:true,visibleFlag:false});const running=h.run();await h.clock.reach(()=>h.effectStarted);
+  assert.deepEqual(h.events.filter(e=>['swap','mood','jump','cry','effectStart'].includes(e.kind)).map(e=>[e.kind,e.value]),[['swap',1],['mood',20],['jump',2],['mood',1],['cry',{species:152,pattern:0}],['effectStart',3]]);
+  assert.deepEqual([h.state.x,h.state.z],[557.5,295.5]);assert.deepEqual(h.follower,{x:558.5,z:295.5});assert.equal((h.state.party[0]as Mon&{mood:number}).mood,21);
+  await h.clock.advance(12);await h.clock.finish(running);assert.equal(h.state.flags[tree.eventFlag],true);
+ });
+ 
+ test('actual menu10007 resets follower movement, preserves the literal target and follows the same delayed HidePerson',async()=>{
+- const h=scene();h.vm.set('VAR_SPECIAL_x8000',0);const running=h.run(menuCut);await until(()=>h.effectStarted);
+- assert.ok(h.events.some(e=>e.kind==='resetFollower'));assert.equal(h.events.some(e=>e.kind==='choice'),false);await h.clock.advance(7);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.effectFinished,false);await h.clock.advance(5);await h.clock.finish(running);
++ const h=scene();h.vm.set('VAR_SPECIAL_x8000',0);const running=h.run(menuCut);await h.clock.reach(()=>h.effectStarted);
++ assert.ok(h.events.some(e=>e.kind==='resetFollower'));assert.equal(h.events.some(e=>e.kind==='choice'),false);await h.clock.advance(9);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.effectFinished,false);await h.clock.advance(3);await h.clock.finish(running);
+ });
+ 
+ test('missing or non-Promise effect ports remain explicit errors before a cut-in or fabricated completion',async()=>{
+  const h=scene();delete (h.hooks.fieldMoves as Partial<NonNullable<ScriptHooks['fieldMoves']>>).startEffect;const before=structuredClone(h.state),actors=h.objects.save(route.id);
+  await assert.rejects(h.run(),UnsupportedScript);assert.equal(h.events.some(e=>e.kind==='cutIn'),false);assert.deepEqual(h.state,before);assert.deepEqual(h.objects.save(route.id),actors);
+- const invalid=scene();invalid.hooks.fieldMoves!.startEffect=(()=>undefined)as never;await assert.rejects(invalid.run(),/completion Promise/);assert.equal(invalid.state.flags[tree.eventFlag],undefined);assert.equal(invalid.vm.value('VAR_SPECIAL_x8005',route),0);
++ const invalid=scene();invalid.hooks.fieldMoves!.startEffect=(()=>undefined)as never;await assert.rejects(invalid.clock.finish(invalid.run()),/completion Promise/);assert.equal(invalid.state.flags[tree.eventFlag],undefined);assert.equal(invalid.vm.value('VAR_SPECIAL_x8005',route),0);
+ });
+ 
+ test('a failed real effect restores source flags, actor state and a follower swap before returning control',async()=>{
+  const h=scene({species:152,active:true,visibleFlag:false,effectFrames:10,failEffect:true}),before=structuredClone(h.state),actors=h.objects.save(route.id),follower={...h.follower};
+- const running=h.run(),outcome=running.then(()=>null,error=>error);await until(()=>h.effectStarted);await h.clock.advance(7);assert.equal(h.state.flags[tree.eventFlag],true);assert.notDeepEqual([h.state.x,h.state.z],[before.x,before.z]);
+- await h.clock.advance(3);assert.match(String(await outcome),/Native Cut effect failed/);assert.deepEqual(h.state,before);assert.deepEqual(h.objects.save(route.id),actors);assert.deepEqual(h.follower,follower);assert.equal(h.restores,1);assert.equal(h.vm.busy,false);assert.equal(h.recovery.busy,false);
++ const running=h.run(),outcome=running.then(()=>null,error=>error);await h.clock.reach(()=>h.effectStarted);await h.clock.advance(9);assert.equal(h.state.flags[tree.eventFlag],true);assert.notDeepEqual([h.state.x,h.state.z],[before.x,before.z]);
++ await h.clock.advance(1);assert.match(String(await outcome),/Native Cut effect failed/);assert.deepEqual(h.state,before);assert.deepEqual(h.objects.save(route.id),actors);assert.deepEqual(h.follower,follower);assert.equal(h.restores,1);assert.equal(h.vm.busy,false);assert.equal(h.recovery.busy,false);
+  const restored=structuredClone(h.state);await h.clock.advance(20);assert.deepEqual(h.state,restored,'No completion can rewrite restored flags/variables');
+  h.hooks.fieldMoves!.startEffect=(kind,context)=>{h.record('retryEffect',kind);return h.clock.wait(9,context.signal);};
+- const retry=h.run();await until(()=>h.events.some(e=>e.kind==='retryEffect'));await h.clock.advance(9);await h.clock.finish(retry);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.restores,1,'Explicit retry commits once from its restored checkpoint');
++ const retry=h.run();await h.clock.reach(()=>h.events.some(e=>e.kind==='retryEffect'));await h.clock.advance(9);await h.clock.finish(retry);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.restores,1,'Explicit retry commits once from its restored checkpoint');
+ });
+ 
+ test('cancellation drains even an uncooperative effect and blocks its completion write before recovery',async()=>{
+  const h=scene();let finish!:()=>void;h.hooks.fieldMoves!.startEffect=(_kind,context)=>{h.record('heldEffect',context.signal);return new Promise<void>(resolve=>finish=resolve);};
+- const before=structuredClone(h.state),actors=h.objects.save(route.id);const running=h.run(),outcome=running.then(()=>null,error=>error);await until(()=>!!finish);await h.clock.advance(7);assert.equal(h.state.flags[tree.eventFlag],true);
++ const before=structuredClone(h.state),actors=h.objects.save(route.id);const running=h.run(),outcome=running.then(()=>null,error=>error);await h.clock.reach(()=>!!finish);await h.clock.advance(9);assert.equal(h.state.flags[tree.eventFlag],true);
+  h.vm.cancel(Error('External map replacement cancelled Cut'));await immediate();assert.equal(h.vm.busy,true);assert.equal(h.recovery.busy,true);assert.equal(h.restores,0,'Hydration waits for ownership drain');
+  finish();assert.match(String(await outcome),/cancelled Cut/);assert.deepEqual(h.state,before);assert.deepEqual(h.objects.save(route.id),actors);assert.equal(h.restores,1);assert.equal(h.vm.busy,false);const restored=structuredClone(h.state);finish();await h.clock.advance(20);assert.deepEqual(h.state,restored);
+ });
+ 
+ test('an external map replacement cannot write a delayed Cut completion into the destination field',async()=>{
+  const h=scene();let finish!:()=>void;h.hooks.fieldMoves!.startEffect=()=>new Promise<void>(resolve=>finish=resolve);
+- const before=structuredClone(h.state),running=h.run(),outcome=running.then(()=>null,error=>error);await until(()=>!!finish);
++ const before=structuredClone(h.state),running=h.run(),outcome=running.then(()=>null,error=>error);await h.clock.reach(()=>!!finish);
+  h.state.map=35;await h.clock.advance(1);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),0);assert.equal(h.restores,0,'A pending effect still owns cleanup before hydration');
+  finish();assert.match(String(await outcome),/field change/);assert.deepEqual(h.state,before);assert.equal(h.restores,1);assert.equal(h.state.flags[tree.eventFlag],undefined);
+ });
+@@ -127,4 +156,25 @@
+   ['FirstAliveMonHasType',['12','VAR_TEMP_x4005']],['FollowMonIsInactiveOrVisible',['VAR_TEMP_x4006']],['End',[]],
+  ]}} as SourceMap;
+  await h.vm.run(map,1,tree.id);assert.equal(h.vm.value('VAR_TEMP_x4000',map),2);assert.equal(h.vm.value('VAR_TEMP_x4001',map),1);assert.equal(h.vm.value('VAR_TEMP_x4002',map),3);assert.equal(h.vm.value('VAR_TEMP_x4003',map),3);assert.equal(h.vm.value('VAR_TEMP_x4004',map),0);assert.equal(h.vm.value('VAR_TEMP_x4005',map),1);assert.equal(h.vm.value('VAR_TEMP_x4006',map),1);assert.equal(h.vm.buffers[0],'ZERO');assert.equal(h.vm.buffers[2],undefined,'Buffer byte is the literal VAR address low byte, not its value');
++ h.state.party.forEach(mon=>mon.hp=0);const noAlive={...map,scripts:{entries:['none'],labels:{none:0},instructions:[['GetPartyLeadAlive',['VAR_TEMP_x4000']],['End',[]]]}} as SourceMap;await h.vm.run(noAlive,1);assert.equal(h.vm.value('VAR_TEMP_x4000',noAlive),0,'Save_GetPartyLeadAlive differs from the asserting follower query');
+ });
++
++
++test('long native effect polling yields without exhausting a synchronous instruction budget',async()=>{
++ const h=scene({effectFrames:3000}),running=h.run();void running.catch(()=>{});await h.clock.reach(()=>h.effectStarted);
++ await h.clock.advance(2900);assert.equal(h.vm.busy,true);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),0);assert.equal(h.restores,0);
++ await h.clock.advance(100);await h.clock.finish(running);assert.equal(h.vm.value('VAR_SPECIAL_x8005',route),1);assert.equal(h.state.flags[tree.eventFlag],true);
++});
++
++test('a same-instance nested script retains its parent controller, busy ownership and later writes',async()=>{
++ const h=scene();const map={...route,scripts:{entries:['outer','inner'],labels:{outer:0,inner:3},instructions:[['Message',['nested']],['SetVar',['VAR_TEMP_x4001','29']],['End',[]],['SetVar',['VAR_TEMP_x4000','17']],['End',[]]]}} as SourceMap;
++ h.hooks.message=async()=>{assert.equal(h.vm.busy,true);await h.vm.run(map,2,tree.id,true);assert.equal(h.vm.busy,true);};
++ await h.vm.run(map,1,tree.id);assert.equal(h.vm.value('VAR_TEMP_x4000',map),17);assert.equal(h.vm.value('VAR_TEMP_x4001',map),29);assert.equal(h.vm.busy,false);
++});
++
++test('Cut-only ports cannot partially execute the actual Rock Smash or Flash standards',async()=>{
++ for(const standard of[10001,10013]){
++  const h=scene({active:true,visibleFlag:false});h.state.party[0].moves=[{id:standard===10001?249:148,pp:0,maxPP:15}];h.state.badges=[0];h.vm.set('VAR_SPECIAL_x8000',0);const before=structuredClone(h.state);
++  await assert.rejects(h.run(standard),UnsupportedScript);assert.equal(h.events.some(e=>['cutIn','effectStart','swap','mood','jump','cry'].includes(e.kind)),false);assert.deepEqual(h.state,before);
++ }
++});

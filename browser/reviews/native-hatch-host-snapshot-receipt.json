@@ -1,0 +1,20 @@
+{
+  "parentCommit": "1e046a6b14c2614b53b8219eec9e01a2d82c6440",
+  "worktree": "/Users/maxchurch/Documents/pokeheartgold-native-progression",
+  "snapshot": "/tmp/hg-hatch-host-review-20261017",
+  "inputs": 223,
+  "beforeAfterSourceHashesIdentical": true,
+  "allCopiedHashesVerified": true,
+  "nativeAssetProvenanceVerified": true,
+  "criticalHashes": {
+    "browser/src/source/main.ts": "94cb450d6253b00837b6ea2e2e0a672d62c984f879ce0ed868c717680ac0287c",
+    "browser/src/source/script.ts": "fa6a547e776f91dc5921b5c1f97f9ac78ab1d94db874efe210c2e74e8b3142e0",
+    "browser/src/source/egg-hatch-presentation.ts": "d21b35dc2af31e062755ff567af45a7eca522c8f970cae7618e2d1becb12269d",
+    "browser/src/source/egg-hatch-integration.test.ts": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+    "browser/src/source/egg-hatching.ts": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905",
+    "browser/src/source/egg-hatch-view.ts": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+    "browser/src/source/ui.ts": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+    "browser/src/source/script-recovery.ts": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+  },
+  "qualification": "Frozen main sound-enabled path deliberately throws NativeEggHatchMusic; sound-disabled path uses explicit no-op audio. Actual audio implementation is NOT present or approved. Root may change only audio factory wiring after this snapshot; those bytes require separate qualification/follow-up. Later actual-main binding tests not in snapshot are not claimed reviewed."
+}

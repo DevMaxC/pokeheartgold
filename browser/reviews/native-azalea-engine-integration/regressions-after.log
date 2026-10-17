@@ -1,0 +1,36 @@
+TAP version 13
+# (node:21613) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native mid-turn Supersonic self-hit clears a preceding Rage for WaterGun, preserving confusion next selection
+ok 1 - native mid-turn Supersonic self-hit clears a preceding Rage for WaterGun, preserving confusion next selection
+  ---
+  duration_ms: 220.266542
+  type: 'test'
+  ...
+# Subtest: native no-target command39 skips Rage-clearing command37 while spending selected PP
+ok 2 - native no-target command39 skips Rage-clearing command37 while spending selected PP
+  ---
+  duration_ms: 150.736
+  type: 'test'
+  ...
+# Subtest: actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+ok 3 - actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+  ---
+  duration_ms: 304.978542
+  type: 'test'
+  ...
+# Subtest: native faint cleanup neutralizes stages before actual Bugsy stage2 replacement, unlike a live pivot
+ok 4 - native faint cleanup neutralizes stages before actual Bugsy stage2 replacement, unlike a live pivot
+  ---
+  duration_ms: 307.360208
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1977.377458

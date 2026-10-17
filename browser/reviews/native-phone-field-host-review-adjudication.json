@@ -1,0 +1,87 @@
+{
+  "sourceCandidate": "acf02fd920b9ea1b16fa0f2b14f297258800ced6",
+  "base": "64adbc5",
+  "recordedAtUtc": "2026-10-17T13:15:21.459211+00:00",
+  "scope": "Bounded phone admission/field host; not later root main/UI/World integration or full phone delivery parity",
+  "reviews": [
+    {
+      "commit": "119c50ce9eabd002bf5d6cf2d008c2aa50339661",
+      "manifest": "native-phone-field-host-119c50c-manifest.json",
+      "manifestSha256": "eb1d37384fdc5c15f86a76a21ed8ab28471d456864fc87b655f1b780bb769229",
+      "rawResult": "native-phone-field-host-119c50c-opus-result.json",
+      "rawResultSha256": "6fcf9e0f6bd2eb38ce27aeb4310405b626528844b92ce70e59de1ea3a6c39327",
+      "requestedModel": "claude-opus-5-5",
+      "reportedModels": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "turns": 18,
+      "durationMs": 189171,
+      "outcome": "Medium: empty fallback interval remained ready",
+      "permissionDenials": []
+    },
+    {
+      "commit": "acf02fd920b9ea1b16fa0f2b14f297258800ced6",
+      "manifest": "native-phone-field-host-acf02fd-manifest.json",
+      "manifestSha256": "2083c20754bec51f5ba8db7c49953a89ca01c09f65a63666b88c1f2a7b05381d",
+      "rawResult": "native-phone-field-host-acf02fd-opus-result.json",
+      "rawResultSha256": "487f991a1d5412d9a1412b9982c8114cc8688c7b3e28fe9d11d7484aa47a5b9e",
+      "requestedModel": "claude-opus-5-5",
+      "reportedModels": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "turns": 25,
+      "durationMs": 191337,
+      "outcome": "PASS: no concrete in-scope defects",
+      "permissionDenials": []
+    }
+  ],
+  "adjudication": {
+    "119Medium": "Confirmed. Corrected by full native random admission, preserving actually selected random rings. Unconditional fallback reset was rejected and never committed.",
+    "acfOutcome": "Independent restricted Opus PASS. No runtime/source edits after sealed acf candidate.",
+    "aliasProof": {
+      "finding": "Nonblocking reviewer uncertainty resolved by actual VM/native source: ScriptVM.value uses numeric variable key first (script.ts56\u201364); flags are written/read under named keys (109,132\u2013133); actual contest scripts SetFlag/ClearFlag FLAG_UNK_996. Implementation uses that named flag first and accepts numeric stored fallback.",
+      "commit": "acf02fd920b9ea1b16fa0f2b14f297258800ced6",
+      "files": [
+        {
+          "path": "browser/src/source/script.ts",
+          "sha256": "c28999d1b3361170a6030095ed2cda621b6fd33256d180635f68cd730154b82a"
+        },
+        {
+          "path": "files/fielddata/script/scr_seq/scr_seq_0151.s",
+          "sha256": "44698d5120d7994f2afb5ca0c59809ea5103e203521911f1dfa0c8797305b6b2"
+        },
+        {
+          "path": "files/fielddata/script/scr_seq/scr_seq_0025_D22R0101.s",
+          "sha256": "bd74eec58cf4aafbed3553635aac1f20d80d333915ee8cdf85bd0bf7ca7c395f"
+        }
+      ]
+    },
+    "bookIndexProof": "All75 native book positions equal constants[row.id] at acf; stronger future exporter guard is nonblocking and not added after freeze.",
+    "staleComments": "Old scheduler comments still describe pre-admission scope; host and this receipt define current scope accurately."
+  },
+  "validation": {
+    "command": "node --experimental-transform-types --test browser/src/source/phone-field-host.test.ts browser/src/source/phone-random.test.ts browser/src/source/phone-scheduler.test.ts browser/src/source/phone.test.ts",
+    "tests": 54,
+    "passed": 54,
+    "failed": 0,
+    "rawLog": "native-phone-field-host-acf02fd-tests.txt",
+    "rawLogSha256": "2b6bc13419d51fedf687558b1ce1bd97bf15ad444bf2e727d04d73ad33730870",
+    "productionTypeScript": "PASS: browser/node_modules/.bin/tsc --noEmit",
+    "diffCheck": "PASS: git diff --check",
+    "snapshotPostReviewVerification": "All copied files/diffs/artifacts matched manifest hashes and committed git blobs after reviews."
+  },
+  "remaining": [
+    "root native field priority and ring/answer UI integration",
+    "generic random and forced dialogue/answer/effects",
+    "generic random answer-time recent history ADD",
+    "Safari trigger generation",
+    "saved native SysInfo RTC/offline/day-change handling",
+    "DS-global RNG implementation"
+  ],
+  "snapshotArtifactArchiveMapping": {
+    "previous-review-119c50c.json": "native-phone-field-host-119c50c-opus-result.json",
+    "validation-54-tests.log": "native-phone-field-host-acf02fd-tests.txt"
+  }
+}

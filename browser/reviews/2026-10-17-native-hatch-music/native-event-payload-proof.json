@@ -1,0 +1,33 @@
+{
+  "method": "Independent raw little-endian SDAT INFO sequence file ID -> FAT original SSEQ -> DATA event offset at SSEQ+0x18, compared with pinned SdatFile.sequence(id).blob before rendering.",
+  "source": "files/data/sound/gs_sound_data.sdat",
+  "sourceSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+  "rendererCommit": "80f878b0ebf100f391028bcef69f7c5743473770",
+  "recheckedAtUTC": "2026-10-17T12:38:26.317602+00:00",
+  "sequences": [
+    {
+      "id": 1011,
+      "fileId": 7,
+      "nativeFileOffset": 187520,
+      "nativeFileBytes": 5352,
+      "eventsOffsetWithinSSEQ": 28,
+      "nativeEventsBytes": 5324,
+      "nativeEventsSHA256": "67f22dd7d5bd223ffc70640ce3744eda9cf00c0018f491d9c09015fd29b3e569",
+      "renderEventsBytes": 5324,
+      "renderEventsSHA256": "67f22dd7d5bd223ffc70640ce3744eda9cf00c0018f491d9c09015fd29b3e569",
+      "equal": true
+    },
+    {
+      "id": 1188,
+      "fileId": 153,
+      "nativeFileOffset": 1172448,
+      "nativeFileBytes": 1380,
+      "eventsOffsetWithinSSEQ": 28,
+      "nativeEventsBytes": 1352,
+      "nativeEventsSHA256": "be0f6554fc6f06096f01bacf76f0e5595766783e8b71b4392096dcfc6b44335d",
+      "renderEventsBytes": 1352,
+      "renderEventsSHA256": "be0f6554fc6f06096f01bacf76f0e5595766783e8b71b4392096dcfc6b44335d",
+      "equal": true
+    }
+  ]
+}

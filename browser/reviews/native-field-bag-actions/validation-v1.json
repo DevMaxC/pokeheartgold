@@ -1,0 +1,64 @@
+{
+  "status": "scoped-runtime-reviewed-core-qualification; host-integration-pending",
+  "base": "ebecefcdf4694fdebad072f4243f9b961bab2e77",
+  "dependencies": [
+    {
+      "original": "85990b42",
+      "cherry": "71e03791"
+    },
+    {
+      "original": "b0dd6301",
+      "cherry": "ff311741"
+    }
+  ],
+  "sourceSHA256": {
+    "browser/src/source/interface-panels.ts": "e61f2b6a57a01208d7f4ddbce65868afa43539c73189d82903c7281599509260",
+    "browser/src/source/field-bag-actions.ts": "f36adfbd7b87db206e51f2b2ae1cc0585995817d500bfa743493b50f46119f13",
+    "browser/src/source/field-bag-actions.test.ts": "b0298033dd7f3aec8343ec50ff700968c912840bec9154741bf68a98d5b341a5"
+  },
+  "tests": {
+    "command": "node --experimental-transform-types --test src/source/field-bag-actions.test.ts src/source/interface-panels.test.ts src/source/ui.test.ts src/source/field-moves.test.ts",
+    "passed": 33,
+    "failed": 0,
+    "newBagTests": 9
+  },
+  "baselineRegression": {
+    "originalInterfacePanels": "ebecefcdf4694fdebad072f4243f9b961bab2e77",
+    "name": "actual Bag Use commits Potion",
+    "exitCode": 1,
+    "failure": "missing data-action=use:ITEM_POTION"
+  },
+  "typescript": {
+    "qualificationCommand": "tsc --noEmit",
+    "exitCode": 0,
+    "temporaryExactTypesFrom": "1a0054b4:browser/src/source/types.ts",
+    "temporaryExactTypesSHA256": "74bab3fae4bfd56b517d099031810762fea2edd1443a3ffc968c6ba9fe4538fe",
+    "liveUITypesUnchangedSHA256": "397ad68bf0244d7413072a7019ecdba2c1229e554ac1a9acb91fb41ea004a956",
+    "baselineDependencyDiagnostics": 13,
+    "baselineMissingNativeMonFields": [
+      "checksumFailed",
+      "form",
+      "provenance"
+    ],
+    "newDiagnostics": 0
+  },
+  "recoveryFixture": {
+    "gitObject": "4ca4545b:browser/src/source/script-recovery.ts",
+    "sourceSHA256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+  },
+  "reviewSnapshot": {
+    "manifestSHA256": "6e10e8411b13c26b70f54f02a0e51fd1e943f7681cd0c7a0493191a1c8637668",
+    "files": 216,
+    "changesBeforeReviewResult": []
+  },
+  "toolchain": {
+    "node": "v22.22.3",
+    "typescript": "5.9.3"
+  },
+  "limits": [
+    "No host main transaction/save wiring in this scope",
+    "No browser/render/build verification",
+    "No production types/core edits",
+    "No deployment/merge claim"
+  ]
+}

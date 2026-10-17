@@ -1,0 +1,209 @@
+TAP version 13
+# (node:83396) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual native trainer486 MOVE_SUPERSONIC can execute
+not ok 1 - actual native trainer486 MOVE_SUPERSONIC can execute
+  ---
+  duration_ms: 6.719709
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:178'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted rejection.
+    Actual message: "Unported original move effect 49: MOVE_SUPERSONIC"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Unported original move effect 49: MOVE_SUPERSONIC'
+  stack: |-
+    Battle.attack (/private/tmp/hg-azalea-before-engine-control/browser/src/source/battle.ts:168:71)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:593)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  operator: 'doesNotReject'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:535)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: actual native trainer21 MOVE_FOCUS_ENERGY can execute
+not ok 2 - actual native trainer21 MOVE_FOCUS_ENERGY can execute
+  ---
+  duration_ms: 4.165833
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:178'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted rejection.
+    Actual message: "Unported original move effect 47: MOVE_FOCUS_ENERGY"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Unported original move effect 47: MOVE_FOCUS_ENERGY'
+  stack: |-
+    Battle.attack (/private/tmp/hg-azalea-before-engine-control/browser/src/source/battle.ts:168:71)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:593)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'doesNotReject'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:535)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual native trainer21 MOVE_U_TURN can execute
+not ok 3 - actual native trainer21 MOVE_U_TURN can execute
+  ---
+  duration_ms: 0.734125
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:178'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted rejection.
+    Actual message: "Unported original move effect 228: MOVE_U_TURN"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Unported original move effect 228: MOVE_U_TURN'
+  stack: |-
+    Battle.attack (/private/tmp/hg-azalea-before-engine-control/browser/src/source/battle.ts:168:71)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:593)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'doesNotReject'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:535)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual native trainer1 MOVE_SPITE can execute
+not ok 4 - actual native trainer1 MOVE_SPITE can execute
+  ---
+  duration_ms: 0.392792
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:178'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted rejection.
+    Actual message: "Unported original move effect 100: MOVE_SPITE"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Unported original move effect 100: MOVE_SPITE'
+  stack: |-
+    Battle.attack (/private/tmp/hg-azalea-before-engine-control/browser/src/source/battle.ts:168:71)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:593)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'doesNotReject'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:535)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual native trainer1 MOVE_MEAN_LOOK can execute
+not ok 5 - actual native trainer1 MOVE_MEAN_LOOK can execute
+  ---
+  duration_ms: 0.545875
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:178'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted rejection.
+    Actual message: "Unported original move effect 106: MOVE_MEAN_LOOK"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Unported original move effect 106: MOVE_MEAN_LOOK'
+  stack: |-
+    Battle.attack (/private/tmp/hg-azalea-before-engine-control/browser/src/source/battle.ts:168:71)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:593)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'doesNotReject'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:535)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual native trainer1 MOVE_CURSE can execute
+not ok 6 - actual native trainer1 MOVE_CURSE can execute
+  ---
+  duration_ms: 0.340292
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:178'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted rejection.
+    Actual message: "Unported original move effect 109: MOVE_CURSE"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Unported original move effect 109: MOVE_CURSE'
+  stack: |-
+    Battle.attack (/private/tmp/hg-azalea-before-engine-control/browser/src/source/battle.ts:168:71)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:593)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'doesNotReject'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:535)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual native trainer1 MOVE_REFLECT can execute
+not ok 7 - actual native trainer1 MOVE_REFLECT can execute
+  ---
+  duration_ms: 0.3865
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:178'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted rejection.
+    Actual message: "Unported original move effect 65: MOVE_REFLECT"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Unported original move effect 65: MOVE_REFLECT'
+  stack: |-
+    Battle.attack (/private/tmp/hg-azalea-before-engine-control/browser/src/source/battle.ts:168:71)
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:593)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'doesNotReject'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:4:535)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a native all-PP-empty action uses typeless Struggle against actual Rival Gastly
+not ok 8 - a native all-PP-empty action uses typeless Struggle against actual Rival Gastly
+  ---
+  duration_ms: 151.700083
+  type: 'test'
+  location: '/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:5:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 8
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 8
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts:5:618)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 0
+# fail 8
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 877.605584

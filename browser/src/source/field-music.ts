@@ -24,6 +24,9 @@ type Voice=SharedMusicVoice&{position:()=>number;isStopped:()=>boolean};
 export type SharedHatchTransport={prepare:(track:SharedHatchTrack,signal:AbortSignal)=>Promise<void>;play:(track:SharedHatchTrack,signal:AbortSignal)=>Promise<SharedMusicVoice>;dispose:()=>Promise<void>};
 export type FieldMusicOptions={enabled:boolean;volume:number;loadCatalog?:(signal:AbortSignal)=>Promise<NativeFieldCatalog>;fetchBytes?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;createContext?:()=>AudioContext;maxDecodedTracks?:number;unlockTimeoutMs?:number;ioTimeoutMs?:number};
 export type FieldPlaybackResult={status:'playing'|'locked'|'muted'|'silence';cue?:NativeMusicCue};
+/** Borrowed output for owned native effects. Consumers must stop/disconnect
+ * their nodes on signal abort; the player alone owns the gain and Context. */
+export type SharedNativeAudioOutput={context:AudioContext;output:AudioNode;signal:AbortSignal};
 const ROOT='/source/music/';
 const reason=(signal:AbortSignal)=>signal.reason??new Error('Native field music cancelled');
 function check(signal:AbortSignal){if(signal.aborted)throw reason(signal);}
@@ -149,6 +152,9 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
 
  const player={
   field,
+  /** Requires an existing gesture-unlocked Context; never creates or resumes
+   * one. Effects inherit the same volume/mute gain as field and battle music. */
+  sharedAudioOutput():SharedNativeAudioOutput{return{context:actualContext(),output:gain!,signal:lifetime.signal};},
   /** Small source catalog only; no Context or song download. */
   catalog:getCatalog,
   /** Context permission is separate from successful song loading. */

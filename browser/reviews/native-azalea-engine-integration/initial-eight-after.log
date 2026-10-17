@@ -1,0 +1,60 @@
+TAP version 13
+# (node:84032) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual native trainer486 MOVE_SUPERSONIC can execute
+ok 1 - actual native trainer486 MOVE_SUPERSONIC can execute
+  ---
+  duration_ms: 8.28925
+  type: 'test'
+  ...
+# Subtest: actual native trainer21 MOVE_FOCUS_ENERGY can execute
+ok 2 - actual native trainer21 MOVE_FOCUS_ENERGY can execute
+  ---
+  duration_ms: 0.582917
+  type: 'test'
+  ...
+# Subtest: actual native trainer21 MOVE_U_TURN can execute
+ok 3 - actual native trainer21 MOVE_U_TURN can execute
+  ---
+  duration_ms: 154.092667
+  type: 'test'
+  ...
+# Subtest: actual native trainer1 MOVE_SPITE can execute
+ok 4 - actual native trainer1 MOVE_SPITE can execute
+  ---
+  duration_ms: 0.501125
+  type: 'test'
+  ...
+# Subtest: actual native trainer1 MOVE_MEAN_LOOK can execute
+ok 5 - actual native trainer1 MOVE_MEAN_LOOK can execute
+  ---
+  duration_ms: 0.322208
+  type: 'test'
+  ...
+# Subtest: actual native trainer1 MOVE_CURSE can execute
+ok 6 - actual native trainer1 MOVE_CURSE can execute
+  ---
+  duration_ms: 0.245583
+  type: 'test'
+  ...
+# Subtest: actual native trainer1 MOVE_REFLECT can execute
+ok 7 - actual native trainer1 MOVE_REFLECT can execute
+  ---
+  duration_ms: 0.263666
+  type: 'test'
+  ...
+# Subtest: a native all-PP-empty action uses typeless Struggle against actual Rival Gastly
+ok 8 - a native all-PP-empty action uses typeless Struggle against actual Rival Gastly
+  ---
+  duration_ms: 151.465792
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1020.729

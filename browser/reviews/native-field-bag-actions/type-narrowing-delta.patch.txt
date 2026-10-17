@@ -1,0 +1,22 @@
+--- v3/browser/src/source/field-bag-actions.ts
++++ v4/browser/src/source/field-bag-actions.ts
+@@ -88,7 +88,8 @@
+    }
+    if(plan.status!=='ready')throw interrupted();ownedPlan=plan;
+    const detail=plan.replacingMove?`Forget ${moveName(data,plan.replacingMove)} and learn ${moveName(data,plan.move)}?`:`Teach ${moveName(data,plan.move)} to ${mon.name}?`;
+-   const confirm=await awaitCurrent(()=>ui.choose('Teach this move?',['Teach move','Cancel'],`${detail}\n${plan.consumesItem?'One TM will be used.':'The HM will stay in your Bag.'}`,context.signal,{cancelIndex:1}));
++   const confirmation=`${detail}\n${plan.consumesItem?'One TM will be used.':'The HM will stay in your Bag.'}`;
++   const confirm=await awaitCurrent(()=>ui.choose('Teach this move?',['Teach move','Cancel'],confirmation,context.signal,{cancelIndex:1}));
+    if(confirm!==0)return finish(cancelled);
+    current();const result=commitTMHMTeaching(state,plan);if(result.status!=='learned')throw interrupted();
+    stateCurrent=checkpoint(context);
+@@ -98,7 +99,8 @@
+  }
+  let request={item,partySlot:partyIndex,moveSlot:undefined as number|undefined},plan=planFieldMedicine(data,state,request);
+  if(plan.kind==='select-move'){
+-  const selectedMove=await awaitCurrent(()=>choice(ui,'Restore which move?',itemName(data,item),plan.moves.map(move=>({value:`move:${move.slot}`,label:moveName(data,move.id),detail:`PP ${move.pp} / ${move.maxPP}${move.canRestore?'':' · PP full'}`})),context.signal));
++  const moves=plan.moves;
++  const selectedMove=await awaitCurrent(()=>choice(ui,'Restore which move?',itemName(data,item),moves.map(move=>({value:`move:${move.slot}`,label:moveName(data,move.id),detail:`PP ${move.pp} / ${move.maxPP}${move.canRestore?'':' · PP full'}`})),context.signal));
+   if(selectedMove==='cancel')return finish(cancelled);
+   if(!selectedMove.startsWith('move:'))throw interrupted();
+   request={...request,moveSlot:Number(selectedMove.slice(5))};plan=planFieldMedicine(data,state,request);

@@ -1,0 +1,42 @@
+{
+  "sourceCommit": "8b33642d9f07351194f6c5a824fa2811e074f286",
+  "kind": "integration checkpoint, not release approval",
+  "checks": {
+    "tests": {
+      "passed": 503,
+      "failed": 0,
+      "skipped": 0,
+      "logSha256": "a64a825b8ed48f13ad77f0230c6d1b517128eb1306fd290aebe24a46d12853b7"
+    },
+    "typescript": "pass",
+    "productionBuild": "pass"
+  },
+  "sourceSha256": {
+    "src/source/main.ts": "6056a0331aded4131789f50e5380cb9b6d33f53888f5d0a0f8f4ce95e46de93a",
+    "src/source/world.ts": "2b0739c79b16a27bad279daccef4bdaf5c33278f25035a43c234c58003dca4c6",
+    "src/source/script.ts": "e35fc27fd41a6aefeb1b34d52b7762d4352bb32c46467feaa7100cea6ca733dd",
+    "src/source/types.ts": "79c4617115e0d1320dabf39d4d8004f74f6c91535137276dbdc830a7e3c44206",
+    "src/source/battle.ts": "dff4235915179ad68f4a058dfcf06a5b22bb481db06798e7db729f0d71940659",
+    "src/source/script-recovery.ts": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+    "src/source/gym-violet.ts": "9cc7ddacbafe03144a1c9b53b81e02cb617e9664e5adfaf49181c865ac86e055",
+    "src/source/script-camera.ts": "6c3b312c0aefd3eacf0c2c6ce1b97a73914308f87ad3ea2e0fa3cf4424284914",
+    "src/source/game-stats.ts": "d25f75f482681605ca728ee8e09bd31a42da6124965763cb172bca939aced477"
+  },
+  "buildArtifacts": {
+    "assets/main-Dgg0C_U-.js": {
+      "bytes": 1013938,
+      "sha256": "75806efd4263eb20781f03ce661afae37471e9975ddfffc02c1c8131a1bc3e82"
+    },
+    "assets/main-BSf6ee-7.css": {
+      "bytes": 14348,
+      "sha256": "9684cdc25d4d0cf8f83ccf2040695e44940ee548d367867686ba9e7137752424"
+    }
+  },
+  "independentCombinedReview": "pending",
+  "renderedPlaythrough": "pending disconnected native preview",
+  "terrainBase": "57dc95b; terrain review corrections and full792 audit are pending",
+  "buildingBase": "e1bbb254; A3roof repair and immutable final audit are pending",
+  "scope": "opening, trainer VM/encounters, source-action recovery, early battle effects, native scripted camera, Violet lift and first-badge rewards",
+  "knownNextBlocker": "GiveTogepiEgg remains explicit unsupported; no Egg created by this checkpoint",
+  "completeGameParity": false
+}

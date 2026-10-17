@@ -1,0 +1,157 @@
+{
+  "scope": "new pure battle-volatiles primitives/contract only; no engine/math/main/UI/World or move admission",
+  "reviewedCommits": {
+    "initial": "64d301b44f223201cc01abd60f4126d509c49155",
+    "fix": "060662fc5d7774494575f39683b52e0e0fa9efd1"
+  },
+  "externalReview": {
+    "model": "claude-opus-5-5",
+    "sameSession": true,
+    "session": "5e3f857e-33aa-47bb-aba5-7b97055ffa9b",
+    "initial": {
+      "subtype": "success",
+      "is_error": false,
+      "num_turns": 90,
+      "duration_ms": 457422
+    },
+    "followup": {
+      "subtype": "success",
+      "is_error": false,
+      "num_turns": 13,
+      "duration_ms": 73914
+    }
+  },
+  "initialFindings": [
+    {
+      "severity": "Medium",
+      "issue": "successful history wording could cause miss/effect failure to clear Spite history",
+      "status": "resolved by literal moveSucceededFlag timing and source fixtures; confirmed by actual followup"
+    },
+    {
+      "severity": "Medium",
+      "issue": "generic departure helper name implied full Attract/Bind cleanup",
+      "status": "renamed narrow MeanLook helper; unported ownership rejects; confirmed by actual followup"
+    },
+    {
+      "severity": "Low",
+      "issue": "host qualifications and downstream source/test coverage incomplete",
+      "status": "documented actual GenIV ability/item/type cases and phase boundaries; expanded43source pins/all3rival variants/15phase source crosswalk/packedReflect tests; confirmed followup"
+    }
+  ],
+  "algorithmDefectsFound": 0,
+  "reviewPremiseCorrection": {
+    "incorrectRawClaim": "MOVE_STATUS_FAIL excludes MISSED",
+    "actualSource": "FAIL includes DID_NOT_HIT, which includes MISSED. TryMove sets MOVE_SUCCEEDED before accuracy/effect execution; history checks that flag later.",
+    "adjudication": "Contract finding remains valid for timing reason. Actual followup explicitly admits/corrects mistaken mask premise; original raw retained."
+  },
+  "validation": {
+    "initialTests": 9,
+    "reviewedFixTests": 13,
+    "finalTests": 13,
+    "typeScriptExit": 0,
+    "runtimeUnchangedSinceReviewedFix": true,
+    "postReviewTestOnlyAddition": "Pins native COMMAND24 accuracy dispatch and per-action0xFFFFFEA1 clearing MOVE_SUCCEEDED bit6; same13test cases. This test-only extension was run by Codex after Opus followup and is not represented as externally reviewed."
+  },
+  "qualification": [
+    "All7 effects remain Unsupported; a source/scalar fixture is not a natural battle or injected victory.",
+    "Uturn gates/phase descriptor only; no executed pivot. Attract/Bind/BatonPass/Transform/doubles and resolved native host ability/item/PP/switch/EXP/recovery behavior remain explicit pending requirements.",
+    "MeanLook enemy escape gate is native non-link enemy RunInput; no link-battle controller support claimed.",
+    "Reflect logical8 versus native packed3bit0+active flag is mathematically replayed for actual sole LightClay modifier3; no native binary executed.",
+    "External snapshots comprise exact committed native/source/data copied files; original/tmp paths are provenance. Manifests reconstruct them from reviewed commits.",
+    "Initial57/fixed64committed blob attestations have0mismatches. This is not an attestation of a parent cherry-pick, production merge or deployment.",
+    "No build/browser/full suite or global RNG parity claim; earlier gym/party/phone reviews do not transfer here."
+  ],
+  "artifacts": [
+    {
+      "artifact": "opus-review.json",
+      "originalPath": "/tmp/hg-native-azalea-volatile-opus-review.json",
+      "sha256": "63317d1de3a23b00d9e5245a67017802f84e791c30f867d4ffdb54c36bb9c9a2",
+      "bytes": 9448,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "opus-followup.json",
+      "originalPath": "/tmp/hg-native-azalea-volatile-opus-followup.json",
+      "sha256": "85ccdf4fae6c7eda445bd7aab293b322b12bbd2dbcb62bd546fccc1104d60b60",
+      "bytes": 6732,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "review-prompt.txt",
+      "originalPath": "/tmp/hg-native-azalea-volatile-opus-prompt.txt",
+      "sha256": "84fd517b17b1af99151c6e3e8e389c13ad8ddb27c8b777569ef9781ddb103f5d",
+      "bytes": 1734,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "followup-prompt.txt",
+      "originalPath": "/tmp/hg-native-azalea-volatile-opus-followup-prompt.txt",
+      "sha256": "566f2306068bb1aebdea346dccebcf9e7c9de41c952b037286ac9125a2ca5187",
+      "bytes": 1786,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "initial-manifest.json",
+      "originalPath": "/tmp/hg-native-azalea-volatile-review/manifest.json",
+      "sha256": "9cd2ef6d9e599e6d3d05aee994f6be1b4c6733e4bb566398d56f00a5f29502b2",
+      "bytes": 12293,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "fix-manifest.json",
+      "originalPath": "/tmp/hg-native-azalea-volatile-fixed-review/manifest.json",
+      "sha256": "2effa5bf3621d47efc4617914743a6eb8f896558dcd2a8412275b6868af5de18",
+      "bytes": 13811,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "fix.diff",
+      "originalPath": "/tmp/hg-native-azalea-volatile-fixed-review/fix.diff",
+      "sha256": "e217e205b453421b9d6c0bb9796cb2e3b54547b9a34a61ba58cdc14205012f59",
+      "bytes": 40963,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "attestations.json",
+      "originalPath": "/tmp/hg-native-azalea-volatile-attestations.json",
+      "sha256": "1ec9147040d7eb59c7089617b0227e8cdd25b5c5078054885f350502d5e74156",
+      "bytes": 441,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "packed-counter-proof.json",
+      "originalPath": "/tmp/hg-native-reflect-packed-counter-proof.json",
+      "sha256": "9d1c93c81dc07569c947ffc1ac71428a0cedba8dc4a37260d02a7a20cf5f1d96",
+      "bytes": 2483,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "initial-tests.log",
+      "originalPath": "/tmp/hg-native-azalea-volatile-primitives-tests.log",
+      "sha256": "6594d30fb768d0315162845db154504078e950bc15cd0a47f1c10ac12c7ac647",
+      "bytes": 2745,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "reviewed-fix-tests.log",
+      "originalPath": "/tmp/hg-native-azalea-volatile-fixed-tests.log",
+      "sha256": "2878eaa2bf9611974642251e6cff85d7f2ae1967fa4c6b26329fff76e7357073",
+      "bytes": 3813,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "final-tests.log",
+      "originalPath": "/tmp/hg-native-azalea-volatile-final-tests.log",
+      "sha256": "a7195968bc1d71a06436618489e77d2e4617a522a40c58b787669925335161d5",
+      "bytes": 3818,
+      "rawUnchanged": true
+    },
+    {
+      "artifact": "tsc.log",
+      "originalPath": "/tmp/hg-native-azalea-volatile-fixed-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "rawUnchanged": true
+    }
+  ]
+}

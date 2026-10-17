@@ -1,0 +1,94 @@
+{
+  "status": "Review completed; concrete findings fixed and independently checked. Browser integration/playthrough remains unverified.",
+  "providerModelVerified": "claude-opus-5-5",
+  "routerModelAlsoReported": "claude-haiku-4-5-20251001",
+  "reviewedSnapshotManifest": "native-trainer-encounters-review-pending.json",
+  "providerResultSha256": "520483b5e268c7a350f8dae1ab07244cadec222303175521ae7afcb395a7fc0a",
+  "findings": [
+    {
+      "id": 1,
+      "issue": "Menu could dispatch on-frame scripts during area loading",
+      "resolution": "menu now rejects transitioning before field priority dispatch"
+    },
+    {
+      "id": 2,
+      "issue": "Border trainer could leave browser ownership/context stale",
+      "resolution": "Synchronize world.owner header first, then dispatch current frame/trainer priority and recompute coordinates. Native seamless overlay ordering was not proved by review; this is the browser context correction."
+    },
+    {
+      "id": 3,
+      "issue": "Player Surf eligibility incorrectly blocked native NPC sight across water",
+      "resolution": "Adapter uses collision attribute bit15 plus native directional/height/occupancy and furniture, never player HM eligibility. Clear-water and blocked-water regression fixtures pass."
+    },
+    {
+      "id": 4,
+      "issue": "Missing native double partner threw before retry latch, preventing walking away",
+      "resolution": "Structured MissingTrainerPartner is caught, reported inside the same source-action runScript boundary as Unsupported, and latched once per player tile. Location observation also clears stale attempts after leaving and returning."
+    },
+    {
+      "id": 5,
+      "issue": "Moving actors occupied only current coordinates",
+      "resolution": "Native current+previous NPC tile/floor occupancy and follower previous positions retained during tween and cleared after drain. Autonomous NPC movement/large follower extra footprint remains outside this change."
+    },
+    {
+      "id": 6,
+      "issue": "Trainer constant lookup differed from VM",
+      "resolution": "Both now resolve map constants before global constants."
+    }
+  ],
+  "independentFollowupReview": "Recovery integration owner read current transition guard, owner synchronization, missing-partner admission/latch, path drain and raw collision adapter; no additional concrete defect reported. Source-action busy/recovery guards and followerPrevious reset must survive merge.",
+  "checks": {
+    "typescript": "passed",
+    "fullSuite": {
+      "tests": 203,
+      "passed": 203,
+      "failed": 0
+    },
+    "encounterFixtures": {
+      "tests": 16,
+      "passed": 16
+    },
+    "browser": "not run",
+    "viteBuild": "not run"
+  },
+  "checkpointHashes": [
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "84df4bf23fef685a2a513cccfe103a658c6757235986083fec38bf39adf25c5c"
+    },
+    {
+      "path": "browser/src/source/trainer-encounters.ts",
+      "sha256": "be93448b1b8d4b1237458dfa4ddf3d109be7e0636cb406c6c3af52b43a9f780f"
+    },
+    {
+      "path": "browser/src/source/objects.ts",
+      "sha256": "85344f29ea49f0ae6769b147b8a2c0eff891362f8d37dac5f6722e6010d65efd"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "5d21982ef3ef361ac2951944b2d85b8049fe09a8a7ab828833e85bec67f94a0a"
+    },
+    {
+      "path": "browser/src/source/trainer-script-state.ts",
+      "sha256": "450d7a114b0a9fa9443f33dceac6912b7d28b69beafafe86e4c6685993a2dd36"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "7e2a5d493f54d6677f99890d6e0106eb75f1c6c103f2341695c1c4629add3f4a"
+    },
+    {
+      "path": "browser/src/source/trainer-encounters.test.ts",
+      "sha256": "f7bc7aaab2271e55f0c4a8d122e1a0930aa03b08ca9f8460f32a90341e2d9db3"
+    },
+    {
+      "path": "browser/src/source/script-cache.test.ts",
+      "sha256": "7488b3b3bb02492b759ca01c15264d8757b402930101a0d429333056f40a5398"
+    }
+  ],
+  "limitations": [
+    "Double/multi battle engine remains explicitly unsupported before combat.",
+    "Hidden movement51-54 reveal animation remains explicitly unsupported.",
+    "Incoming trainer phone scheduling and general trainer callers remain unsupported.",
+    "Recovery, virtual camera and Violet Gym integrations are owned by other isolated branches; natural merged-runtime verification remains necessary."
+  ]
+}

@@ -1,4 +1,5 @@
 import type {GameData,Mon,MoveData} from './types.ts';
+import {nativeReflectIntermediate} from './battle-volatiles.ts';
 export type Stages={atk:number;def:number;spatk:number;spdef:number;speed:number;accuracy:number;evasion:number};
 export function freshStages():Stages{return {atk:0,def:0,spatk:0,spdef:0,speed:0,accuracy:0,evasion:0};}
 export function stageMultiplier(stage:number,accuracy=false){stage=Math.max(-6,Math.min(6,stage));const base=accuracy?3:2;return stage>=0?(base+stage)/base:base/(base-stage);}
@@ -12,7 +13,7 @@ export function stageHitChance(accuracy:number,attackerAccuracy:number,targetEva
   const [numerator,denominator]=hitChanceStages[stage+6];
   return Math.floor(accuracy*numerator/denominator);
 }
-export function typeEffectiveness(data:Pick<GameData,'constants'|'personal'|'typeChart'>,moveType:number,species:number,identified=false,roosting=false){let factor=1;for(const type of new Set(data.personal[species].types)){const id=data.constants[type];if(roosting&&id===data.constants.TYPE_FLYING)continue;if(identified&&id===data.constants.TYPE_GHOST&&[data.constants.TYPE_NORMAL,data.constants.TYPE_FIGHTING].includes(moveType))continue;const row=data.typeChart.find(r=>r[0]===moveType&&r[1]===id);if(row)factor*=row[2];}return factor;}
+export function typeEffectiveness(data:Pick<GameData,'constants'|'personal'|'typeChart'>,moveType:number,species:number,identified=false,roosting=false,grounded=false){let factor=1;for(const type of new Set(data.personal[species].types)){const id=data.constants[type];if(roosting&&id===data.constants.TYPE_FLYING)continue;if(identified&&id===data.constants.TYPE_GHOST&&[data.constants.TYPE_NORMAL,data.constants.TYPE_FIGHTING].includes(moveType))continue;const row=data.typeChart.find(r=>r[0]===moveType&&r[1]===id);if(row&&!(grounded&&id===data.constants.TYPE_FLYING&&row[2]===0))factor*=row[2];}return factor;}
 export function monAbility(data:Pick<GameData,'personal'>,mon:Mon){const abilities=data.personal[mon.species].abilities;return abilities[mon.personality%2]!=='ABILITY_NONE'?abilities[mon.personality%2]:abilities[0];}
 export type BattleWeather='clear'|'rain'|'hail'|'sandstorm'|'fog'|'sun';
 // battle_util.c:TryAbilityOnEntry. Field weather0 means ordinary weather,
@@ -24,25 +25,59 @@ export function weatherHPRecovery(maxHP:number,weather:BattleWeather,suppressed=
 // BtlCmd_SetMultiHit uses a second four-way draw only for the latter half
 // of the first draw:2/3/4/5 have probabilities3/8,3/8,1/8,1/8.
 export function multiHitCount(rng:()=>number,skillLink=false){if(skillLink)return 5;const first=Math.floor(rng()*4);return first<2?first+2:Math.floor(rng()*4)+2;}
-export type DamageContext={roosting?:boolean;flying?:boolean};
-// Base Gen IV single-target calculation. Weather/screens/held modifiers are separate parity tasks.
-export function moveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,roll:number,critical=false,identified=false,context:DamageContext={}){
+export type DamageContext={roosting?:boolean;flying?:boolean;reflect?:boolean;criticalMultiplier?:1|2|3};
+// Scoped Gen IV singles intermediate, including Technician and physical Reflect.
+// The engine rejects unported modifier callbacks on newly admitted paths.
+export function moveBaseDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,critical=false,context:DamageContext={}){
   const physical=move.category===0;const attackStat=physical?'atk':'spatk',defenseStat=physical?'def':'spdef';
   const as=critical?Math.max(0,attackStages[attackStat]):attackStages[attackStat],ds=critical?Math.min(0,defenseStages[defenseStat]):defenseStages[defenseStat];
-  const attack=Math.max(1,Math.floor(attacker.stats[attackStat]*stageMultiplier(as))),defense=Math.max(1,Math.floor(defender.stats[defenseStat]*stageMultiplier(ds)));
-  let power=move.power;const ability=monAbility(data,attacker);
+  const ability=monAbility(data,attacker);let rawAttack=attacker.stats[attackStat];
+  // CalcMoveDamage modifies the raw Attack before applying stat stages.
+  if(physical&&(ability==='ABILITY_HUSTLE'||ability==='ABILITY_GUTS'&&attacker.status))rawAttack=Math.floor(rawAttack*150/100);
+  const attack=Math.max(1,Math.floor(rawAttack*stageMultiplier(as))),defense=Math.max(1,Math.floor(defender.stats[defenseStat]*stageMultiplier(ds)));
+  let power=move.power;
+  // CalcMoveDamage applies Technician before the typed low-HP boosts.
+  if(ability==='ABILITY_TECHNICIAN'&&move.id!==data.constants.MOVE_STRUGGLE&&power<=60)power=Math.floor(power*15/10);
   // effect_script_0149: Gust hits a target in Fly and doubles its power.
   // Fly's own two-turn execution remains a separate, unported move effect.
   if(move.effect===149&&context.flying)power*=2;
-  if(attacker.hp<=Math.floor(attacker.maxHP/3)&&((ability==='ABILITY_BLAZE'&&move.type===10)||(ability==='ABILITY_TORRENT'&&move.type===11)||(ability==='ABILITY_OVERGROW'&&move.type===12)))power=Math.floor(power*1.5);
+  if(attacker.hp<=Math.floor(attacker.maxHP/3)&&((ability==='ABILITY_BLAZE'&&move.type===10)||(ability==='ABILITY_TORRENT'&&move.type===11)||(ability==='ABILITY_OVERGROW'&&move.type===12)||(ability==='ABILITY_SWARM'&&move.type===data.constants.TYPE_BUG)))power=Math.floor(power*1.5);
   let damage=Math.floor(Math.floor((Math.floor(attacker.level*2/5)+2)*power*attack/defense)/50);
-  if(physical&&attacker.status==='BRN')damage=Math.floor(damage/2);
-  damage+=2; // CalcMoveDamage applies burn before its final +2.
-  if(critical)damage*=2;
+  if(physical&&attacker.status==='BRN'&&ability!=='ABILITY_GUTS')damage=Math.floor(damage/2);
+  damage=nativeReflectIntermediate(damage,{active:!!context.reflect,physical,criticalMultiplier:context.criticalMultiplier??(critical?2:1),removesScreens:false,doubleBattleTwoTargets:false});
+  return damage+2; // CalcMoveDamage applies burn before its final +2.
+}
+export function moveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,roll:number,critical=false,identified=false,context:DamageContext={}){
+  let damage=moveBaseDamage(data,attacker,defender,move,attackStages,defenseStages,critical,context);
+  if(critical)damage*=context.criticalMultiplier??2;
   damage=Math.floor(damage*Math.max(85,Math.min(100,roll))/100);
+  if(move.id===data.constants.MOVE_STRUGGLE)return{damage:Math.max(1,damage),effectiveness:1};
   if(data.personal[attacker.species].types.some(t=>data.constants[t]===move.type))damage=Math.floor(damage*1.5);
-  const effectiveness=typeEffectiveness(data,move.type,defender.species,identified,context.roosting);damage=Math.floor(damage*effectiveness);
+  const grounded=monAbility(data,defender)!=='ABILITY_KLUTZ'&&data.items.find(item=>item.item===defender.heldItem)?.holdEffect==='HOLD_EFFECT_SPEED_DOWN_GROUNDED';
+  const levitate=monAbility(data,attacker)!=='ABILITY_MOLD_BREAKER'&&monAbility(data,defender)==='ABILITY_LEVITATE'&&move.type===data.constants.TYPE_GROUND&&!grounded;
+  const effectiveness=levitate?0:typeEffectiveness(data,move.type,defender.species,identified,context.roosting,grounded);damage=Math.floor(damage*effectiveness);
   return {damage:effectiveness===0?0:Math.max(1,damage),effectiveness};
+}
+/** Effect0040/0041/0087 set damage directly. IGNORE_TYPE_EFFECTIVENESS
+ * suppresses STAB/nonzero type multipliers and their messages, not immunity
+ * or WonderGuard's preceding type-flag check. No critical/range draw. */
+export function fixedMoveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,identified=false,context:Pick<DamageContext,'roosting'>={}){
+  if(![40,41,87].includes(move.effect))throw Error('Not a native fixed-damage effect');
+  const ability=monAbility(data,attacker),targetAbility=monAbility(data,defender),type=ability==='ABILITY_NORMALIZE'?data.constants.TYPE_NORMAL:move.type;
+  const grounded=targetAbility!=='ABILITY_KLUTZ'&&data.items.find(item=>item.item===defender.heldItem)?.holdEffect==='HOLD_EFFECT_SPEED_DOWN_GROUNDED';
+  const factor=typeEffectiveness(data,type,defender.species,identified||ability==='ABILITY_SCRAPPY',context.roosting,grounded);
+  const immunityAbility=ability!=='ABILITY_MOLD_BREAKER'&&targetAbility==='ABILITY_LEVITATE'&&type===data.constants.TYPE_GROUND&&!grounded?'Levitate':ability!=='ABILITY_MOLD_BREAKER'&&targetAbility==='ABILITY_WONDER_GUARD'&&move.power&&factor<=1?'Wonder Guard':null;
+  const immune=!!immunityAbility||factor===0,damage=move.effect===40?Math.max(1,Math.floor(defender.hp/2)):move.effect===41?40:attacker.level;
+  return{damage:immune?0:damage,effectiveness:immune?0:1,immunityAbility};
+}
+/** CheckAttackerStatus case11 directly calls CalcMoveDamage(STRUGGLE,0,0,40,
+ * 0,self,self,1), then ApplyDamageRange. No STAB/type, screens or weather.
+ * Caller preflights unported damage-affecting ability/item branches. */
+export function confusionDamage(data:GameData,mon:Mon,stages:Stages,rawRange:number){
+  const ability=monAbility(data,mon),rawAttack=ability==='ABILITY_HUSTLE'||ability==='ABILITY_GUTS'&&mon.status?Math.floor(mon.stats.atk*150/100):mon.stats.atk;
+  const attack=Math.max(1,Math.floor(rawAttack*stageMultiplier(stages.atk))),defense=Math.max(1,Math.floor(mon.stats.def*stageMultiplier(stages.def)));
+  let damage=Math.floor(Math.floor((Math.floor(mon.level*2/5)+2)*40*attack/defense)/50);if(mon.status==='BRN'&&ability!=='ABILITY_GUTS')damage=Math.floor(damage/2);damage+=2;
+  return Math.max(1,Math.floor(damage*(100-(rawRange%16))/100));
 }
 // BtlCmd_GetMonBallCatchRate: integer divisions and nested square roots match the source path.
 export function catchShakes(catchRate:number,hp:number,maxHP:number,ballMultiplier:number,status:string,roll:()=>number){

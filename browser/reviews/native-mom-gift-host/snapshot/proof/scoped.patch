@@ -1,0 +1,340 @@
+diff --git a/browser/src/source/mom-gift-host.test.ts b/browser/src/source/mom-gift-host.test.ts
+new file mode 100644
+index 00000000..ab622996
+--- /dev/null
++++ b/browser/src/source/mom-gift-host.test.ts
+@@ -0,0 +1,150 @@
++import {test,after} from 'node:test';
++import assert from 'node:assert/strict';
++import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';
++import {tmpdir} from 'node:os';
++import {join} from 'node:path';
++import {execFileSync} from 'node:child_process';
++import {loadData,newState} from './data.ts';
++import {sourceJSON,type State,type SourceMap} from './types.ts';
++import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
++import {FieldObjects} from './objects.ts';
++import {FieldPhoneHost,type MotherGiftCall} from './phone-field-host.ts';
++import type {PhoneAdmissionRules} from './phone-random.ts';
++import {phoneCall} from './phone.ts';
++import {hasMomGift,peekMomGift,popMomGift} from './mom-gifts.ts';
++import {readMomSavings,type MomSavingsState} from './mom-savings.ts';
++import {SourceActionRecovery,runRecoverableSourceAction,type SourceActionPrompts} from './script-recovery.ts';
++
++let failMotherBank=false;
++globalThis.fetch=async input=>{const path=String(input);if(path==='/source/messages/664.json'&&failMotherBank){failMotherBank=false;return new Response('',{status:503});}try{return new Response(await readFile(new URL('../../public'+path,import.meta.url)));}catch{return new Response('',{status:404});}};
++const data=await loadData(),c=data.constants,common=await sourceJSON<SourceMap>('scripts/0144.json'),newBark=await sourceJSON<SourceMap>('maps/60.json'),rules=await sourceJSON<PhoneAdmissionRules>('phone-triggers.json'),motherText=await sourceJSON<Record<string,string>>('messages/664.json');
++const maps=await Promise.all(Object.keys(data.index.maps).map(id=>sourceJSON<SourceMap>(`maps/${id}.json`)));
++const placements=maps.flatMap(map=>map.events.objects.filter(object=>object.scriptId==='std_moms_gift_deliveryman').map(object=>({map,object})));
++const call:MotherGiftCall={trigger:12,contact:0,scripted:3,script:27,forcePickUp:false};
++function state():State&MomSavingsState{const value:State&MomSavingsState=newState(data,'Ethan','boy',()=>.5);value.map=60;value.momSavings={balance:2900,normalGiftsGiven:1,gifts:[{item:c.ITEM_SUPER_POTION,quantity:1},{item:c.ITEM_OCCA_BERRY,quantity:5}]};value.phoneTriggers=[12,0];return value;}
++const baseHooks=():ScriptHooks=>({message:async()=>{},choice:async()=>assert.fail('native gift delivery has no choice'),move:async()=>{},position(){},face(){},visible(){},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>assert.fail(),warp:async()=>assert.fail('delivery never warps')});
++function delivery(row=placements[0]){
++  const value=state();value.map=row.map.id;
++  // Native COMMON0144 init would clear this flag for a nonempty queue. That
++  // shared MysteryGift init is deliberately NOT claimed implemented here.
++  value.flags.FLAG_HIDE_MOM_GIFT_DELIVERYMAN=false;
++  const objects=new FieldObjects(data,value);objects.load(row.map.events.objects);objects.snapshot();
++  const phone=new FieldPhoneHost(rules,1000,9),messages:string[]=[],controls:{message?:(text:string,index:number)=>void|Promise<void>;refresh?:()=>void}={};
++  const hooks=baseHooks();hooks.face=name=>{const actor=objects.get(name);if(actor)actor.facingDirection=3;};hooks.message=async text=>{messages.push(text);await controls.message?.(text,messages.length);};hooks.refresh=async()=>{objects.snapshot();controls.refresh?.();};
++  const vm=new ScriptVM(data,value,hooks),owner=new SourceActionRecovery(value,{capture:()=>({objects:objects.save(value.map),phone:phone.snapshot()}),restore:async snapshot=>{objects.load(row.map.events.objects);objects.restore(value.map,snapshot.objects);objects.snapshot();phone.restore(snapshot.phone);}});
++  const action=async()=>{phone.resetForSourceEvent();await vm.run(row.map,row.object.scriptId,row.object.id);};
++  return{row,value,objects,phone,messages,controls,vm,owner,action,run:()=>owner.run(action)};
++}
++const deferred=()=>{let resolve!:()=>void;const promise=new Promise<void>(done=>{resolve=done;});return{promise,resolve};};
++
++test('literal delivery ABI and all exported deliverymen run real COMMON0144→std2033 once per package',async()=>{
++  assert.equal(placements.length,16);assert.equal(c.std_moms_gift_deliveryman,10202);
++  const entry=common.scripts.labels[common.scripts.entries[2]],commands=common.scripts.instructions.slice(entry).map(row=>row[0]);
++  assert.ok(commands.indexOf('HasSpaceForItem')<commands.indexOf('CallStd'));assert.ok(commands.indexOf('CallStd')<commands.indexOf('PopMomGift'));assert.ok(commands.indexOf('PopMomGift')<commands.indexOf('UnsetPhoneCallTrigger'));assert.ok(!commands.includes('Warp'));
++  for(const row of placements){const f=delivery(row),store=readMomSavings(f.value);await f.run();assert.equal(f.value.bag.ITEM_SUPER_POTION,1);assert.deepEqual(readMomSavings(f.value),{...store,gifts:store.gifts.slice(1)});assert.deepEqual(f.value.phoneTriggers,[0]);assert.ok(f.messages[0].includes('package for you from your'));assert.ok(f.messages.some(text=>text.includes('Super Potion')));assert.equal(f.messages.at(-1),'We look forward to your next visit.');assert.equal(f.vm.lastUnsupported,null);
++    // Continue/re-entry preserves exact queue/bank/mask; reading never grants.
++    const saved=JSON.parse(JSON.stringify(f.value));assert.deepEqual(readMomSavings(saved),readMomSavings(f.value));assert.equal(saved.bag.ITEM_SUPER_POTION,1);
++    await f.run();assert.equal(f.value.bag.ITEM_OCCA_BERRY,5);assert.equal(hasMomGift(f.value),false);assert.equal(readMomSavings(f.value).balance,store.balance);assert.equal(readMomSavings(f.value).normalGiftsGiven,store.normalGiftsGiven);
++    const bag={...f.value.bag};await f.run();assert.deepEqual(f.value.bag,bag);assert.ok(f.messages.at(-1)?.includes('no further packages'));
++  }
++});
++test('real full-stack and five-berry overflow branches keep the complete queue and pending call',async()=>{
++  for(const key of['ITEM_SUPER_POTION','ITEM_OCCA_BERRY']){const f=delivery();if(key==='ITEM_OCCA_BERRY')f.value.momSavings!.gifts=f.value.momSavings!.gifts!.slice(1);f.value.bag[key]=key==='ITEM_OCCA_BERRY'?995:999;const before=structuredClone(f.value),store=readMomSavings(f.value);await f.run();assert.deepEqual(f.value.bag,before.bag);assert.deepEqual(readMomSavings(f.value),store);assert.deepEqual(f.value.phoneTriggers,[12,0]);assert.equal(f.messages.length,2);assert.ok(f.messages.at(-1)?.includes('too many'));}
++});
++test('every awaited delivery message and final refresh failure restore State and live object/phone snapshots',async()=>{
++  const baseline=delivery();let refreshes=0;baseline.controls.refresh=()=>{refreshes++;};await baseline.run();assert.ok(baseline.messages.length>=4);assert.equal(refreshes,2,'std2033 child refresh then final delivery refresh');
++  for(let phase=1;phase<=baseline.messages.length+refreshes;phase++){
++    const f=delivery(),before=structuredClone(f.value),actors=f.objects.save(f.value.map),phone=f.phone.snapshot();
++    f.controls.message=(_text,index)=>{if(index===phase){f.objects.position(f.row.object.id,99,99);f.phone.triggerQueued(12,true);throw Error('late delivery phase '+phase);}};
++    let seenRefreshes=0;f.controls.refresh=()=>{if(++seenRefreshes===phase-baseline.messages.length)throw Error('final refresh failed');};
++    await assert.rejects(f.run(),/late delivery phase|final refresh/);assert.deepEqual(f.value,before);assert.deepEqual(f.objects.save(f.value.map),actors);assert.deepEqual(f.phone.snapshot(),phone);assert.equal(f.vm.busy,false);assert.equal(f.owner.busy,false);
++    f.controls.message=undefined;f.controls.refresh=undefined;await f.run();assert.equal(f.value.bag.ITEM_SUPER_POTION,1);assert.equal(readMomSavings(f.value).gifts.length,1);
++  }
++});
++test('failed source delivery Return grants nothing; explicit Retry grants/pop exactly once after acknowledgement',async()=>{
++  for(const answer of['return','retry']as const){const f=delivery(),before=structuredClone(f.value);let failed=false,attempts=0,commits=0;
++    f.controls.message=()=>{if(f.value.bag.ITEM_SUPER_POTION&&!failed){failed=true;throw Error('source item acknowledgement failed');}};
++    const prompts:SourceActionPrompts={failed:async()=>{assert.deepEqual(f.value,before);return answer;},recoveryFailed:async error=>{throw error;},retry(){},committed(){commits++;}};
++    const result=await runRecoverableSourceAction(f.owner,async()=>{attempts++;await f.action();},prompts);
++    assert.equal(result.ok,answer==='retry');assert.equal(attempts,answer==='retry'?2:1);assert.equal(commits,1);if(answer==='return')assert.deepEqual(f.value,before);else{assert.equal(f.value.bag.ITEM_SUPER_POTION,1);assert.equal(readMomSavings(f.value).gifts.length,1);}
++  }
++});
++test('cancellation and controlled bag/head changes between source phases never discard or duplicate a package',async()=>{
++  for(const kind of['cancel','capacity','head']as const){const f=delivery(),before=structuredClone(f.value);let changed=false;
++    f.controls.message=()=>{
++      if(kind==='capacity'&&!changed){
++        changed=true;
++        // A controlled storage port changes after HasSpace's initial reads but
++        // before std2033 GiveItem. This is an invariant-negative fixture, not
++        // an assertion that ordinary source input mutates the locked Bag.
++        let checks=0;const bag=f.value.bag;Object.defineProperty(bag,'ITEM_SUPER_POTION',{configurable:true,enumerable:true,get(){return++checks>=3?999:0;},set(value){Object.defineProperty(bag,'ITEM_SUPER_POTION',{value,writable:true,configurable:true,enumerable:true});}});return;
++      }
++      if(!changed&&f.value.bag.ITEM_SUPER_POTION===1){changed=true;if(kind==='cancel')f.vm.cancel();if(kind==='head')f.value.momSavings!.gifts![0]={item:c.ITEM_REPEL,quantity:1};}
++    };
++    await assert.rejects(f.run(),kind==='head'?/matching source item grant/:kind==='capacity'?/grant failed/:/cancelled/);assert.deepEqual(f.value,before);
++  }
++});
++test('transient delivery-bank fetch retries and shared MysteryGift init remains explicitly unsupported',async()=>{
++  // Standard banks may already be cached in this process; use an independent
++  // bank key with identical exact source bytes to exercise cache eviction.
++  const f=delivery(),copy={...data,index:{...data.index,stdScripts:data.index.stdScripts.map(row=>row.min===10200?{...row,bank:'0144-retry-fixture'}:row)}};
++  const original=globalThis.fetch;let loads=0;globalThis.fetch=async input=>{if(String(input)==='/source/scripts/0144-retry-fixture.json'){loads++;if(loads===1)return new Response('',{status:503});return new Response(await readFile(new URL('../../public/source/scripts/0144.json',import.meta.url)));}return original(input);};
++  try{const vm=new ScriptVM(copy,f.value,f.vm.hooks);await assert.rejects(f.owner.run(()=>vm.run(f.row.map,10202,f.row.object.id)),/503/);await f.owner.run(()=>vm.run(f.row.map,10202,f.row.object.id));assert.equal(loads,2);assert.equal(f.value.bag.ITEM_SUPER_POTION,1);}finally{globalThis.fetch=original;}
++  const init=delivery(),before=structuredClone(init.value);await assert.rejects(init.owner.run(()=>init.vm.run(init.row.map,c.std_hide_show_deliverymen,init.row.object.id)),(error:unknown)=>error instanceof UnsupportedScript&&error.command==='MysteryGift');assert.deepEqual(init.value,before);
++});
++test('Mother trigger12 rings as exact script27, is not inferred on Continue, and answering never awards a gift',async()=>{
++  const value=state(),host=new FieldPhoneHost(rules,1000,9),queue=readMomSavings(value);value.phoneTriggers=[12];
++  assert.equal(host.current().kind,'none');assert.equal(host.poll(value,newBark,()=>assert.fail(),()=>assert.fail()).kind,'none');assert.equal(value.bag.ITEM_SUPER_POTION,undefined);
++  host.triggerQueued(12,true);host.advanceRTC(1060,9);assert.deepEqual(host.poll(value,newBark,()=>0,()=>assert.fail()),{kind:'mother',call});assert.deepEqual(value.phoneTriggers,[12]);
++  const owner=new SourceActionRecovery(value,{capture:()=>host.snapshot(),restore:async snap=>host.restore(snap)}),seen:string[]=[];
++  const outcome=await host.answerMother(value,action=>runRecoverableSourceAction(owner,action,{failed:async()=> 'return',recoveryFailed:async error=>{throw error;},retry(){},committed(){}}),async token=>{assert.deepEqual(token,call);assert.deepEqual(value.phoneTriggers,[]);await phoneCall(data,value,token.contact,token.scripted,token.script,async text=>{seen.push(new ScriptVM(data,value,baseHooks()).text(text,newBark));},async()=>assert.fail());});
++  assert.equal(outcome.ok,true);assert.deepEqual(seen,['Mother: '+motherText[29].replace(/\{STRVAR_1 3, 0, 0\}/g,value.name).replace(/\\+n/g,'\n')]);assert.deepEqual(readMomSavings(value),queue);assert.deepEqual(value.bag,{});assert.equal(host.current().kind,'none');
++});
++test('Mother incoming local priority, exact genders and unsupported callers stay source bounded',async()=>{
++  for(const gender of['boy','girl']as const)for(const map of[60,63]){const value=state(),seen:string[]=[];value.gender=gender;value.map=map;await phoneCall(data,value,0,3,27,async text=>{seen.push(text);},async()=>assert.fail());assert.deepEqual(seen,['Mother: '+motherText[map===63?(gender==='boy'?1:2):29]]);}
++  const value=state(),host=new FieldPhoneHost(rules,1000,9);value.map=63;value.phoneTriggers=[12];host.triggerQueued(12,true);host.advanceRTC(1060,9);const home=maps.find(map=>map.id===63)!;assert.equal(host.poll(value,home,()=>assert.fail(),()=>99).kind,'none');assert.deepEqual(value.phoneTriggers,[12]);
++  await assert.rejects(phoneCall(data,value,0,3,28,async()=>assert.fail(),async()=>0),/Unported original phone caller/);
++  value.map=60;value.phoneTriggers=[1];host.triggerQueued(1,true);host.advanceRTC(1120,9);assert.equal(host.poll(value,newBark,()=>0,()=>99).kind,'unsupported');await assert.rejects(host.answerMother(value,async()=>assert.fail(),async()=>assert.fail()),/Only the native optional Mother/);assert.deepEqual(value.phoneTriggers,[1]);
++});
++test('Mother failed fetch/dialogue Return and explicit Retry restore same pinned call and queue without reselection',async()=>{
++  for(const kind of['fetch','late']as const)for(const answer of['return','retry']as const){const value=state(),host=new FieldPhoneHost(rules,1000,9);value.phoneTriggers=[12];host.triggerQueued(12,true);host.advanceRTC(1060,9);let draws=0;host.poll(value,newBark,()=>{draws++;return 0;},()=>assert.fail());const before=structuredClone(value),snapshot=host.snapshot(),owner=new SourceActionRecovery(value,{capture:()=>host.snapshot(),restore:async snap=>host.restore(snap)});let attempts=0;
++    const result=await host.answerMother(value,action=>runRecoverableSourceAction(owner,action,{failed:async()=>{assert.deepEqual(value,before);assert.deepEqual(host.snapshot(),snapshot);assert.equal(host.current().kind,'busy');return answer;},recoveryFailed:async error=>{throw error;},retry(){},committed(){}}),async token=>{attempts++;if(kind==='fetch'&&attempts===1)failMotherBank=true;await phoneCall(data,value,token.contact,token.scripted,token.script,async()=>{if(kind==='late'&&attempts===1){value.money=0;value.momSavings!.gifts!.shift();throw Error('late phone failure');}},async()=>assert.fail());});
++    assert.equal(result.ok,answer==='retry');assert.equal(draws,1);assert.equal(attempts,answer==='retry'?2:1);assert.deepEqual(readMomSavings(value),readMomSavings(before));if(answer==='return'){assert.deepEqual(value,before);assert.deepEqual(host.current(),{kind:'mother',call});}else{assert.deepEqual(value.phoneTriggers,[]);assert.equal(host.current().kind,'none');}
++  }
++});
++test('Mother answer owns admission through pending UI and cancellation; tampered calls never launch',async()=>{
++  const value=state(),host=new FieldPhoneHost(rules,1000,9);value.phoneTriggers=[12];host.triggerQueued(12,true);host.advanceRTC(1060,9);host.poll(value,newBark,()=>0,()=>assert.fail());const entered=deferred(),release=deferred(),owner=new SourceActionRecovery(value,{capture:()=>host.snapshot(),restore:async snap=>host.restore(snap)});
++  const pending=host.answerMother(value,action=>runRecoverableSourceAction(owner,action,{failed:async()=> 'return',recoveryFailed:async error=>{throw error;},retry(){},committed(){}}),async()=>{entered.resolve();await release.promise;throw new DOMException('phone cancelled','AbortError');});
++  await entered.promise;assert.equal(host.current().kind,'busy');const snap=host.snapshot();host.advanceRTC(5000,9);assert.deepEqual(host.snapshot(),snap);assert.equal(host.poll(value,newBark,()=>assert.fail(),()=>assert.fail()).kind,'busy');await assert.rejects(host.answerMother(value,async()=>assert.fail(),async()=>assert.fail()),/already pending/);release.resolve();assert.deepEqual(await pending,{ok:false});assert.deepEqual(host.current(),{kind:'mother',call});
++  const altered=host.snapshot();(altered.ring.active as {contact:number}).contact=1;host.restore(altered);assert.equal(host.current().kind,'unsupported');await assert.rejects(host.answerMother(value,async()=>assert.fail(),async()=>assert.fail()),/Only the native optional Mother/);assert.deepEqual(value.phoneTriggers,[12]);
++});
++
++// Actual native Peek/Get and command-pointer ABI, compiled rather than a second
++// TS queue algorithm. The state store validation is covered separately above.
++const saveSource=await readFile(new URL('../../../src/save_pokegear.c',import.meta.url),'utf8'),checkSource=await readFile(new URL('../../../src/scrcmd_12.c',import.meta.url),'utf8'),commandSource=await readFile(new URL('../../../src/field/scrcmd_pokemon_misc.c',import.meta.url),'utf8');
++function extract(source:string,signature:string){const match=new RegExp(signature.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'[^;{]*\\{').exec(source);assert.ok(match,signature);const start=match.index,brace=source.indexOf('{',start);let depth=0;for(let i=brace;i<source.length;i++){if(source[i]==='{')depth++;if(source[i]==='}'&&!--depth)return source.slice(start,i+1);}throw Error('Incomplete native definition');}
++const directory=await mkdtemp(join(tmpdir(),'heartgold-mom-gift-')),binary=join(directory,'native');
++const native=`#include <stdint.h>
++#include <stdio.h>
++#include <string.h>
++typedef uint16_t u16;typedef uint8_t u8;typedef int BOOL;
++#define TRUE 1
++#define FALSE 0
++typedef struct{u16 momGiftQueue[5][2];}PhoneCallPersistentState;
++typedef struct{PhoneCallPersistentState*saveData;}FieldSystem;
++typedef struct{FieldSystem*fieldSystem;u16*outputs[2];int next;}ScriptContext;
++PhoneCallPersistentState*SaveData_GetPhoneCallPersistentState(PhoneCallPersistentState*s){return s;}u16*ScriptGetVarPointer(ScriptContext*c){return c->outputs[c->next++];}
++${extract(saveSource,'u16 PhoneCallPersistentState_MomGiftQueue_Peek(')}
++${extract(saveSource,'void PhoneCallPersistentState_MomGiftQueue_Get(')}
++${extract(checkSource,'BOOL ScrCmd_MomGiftCheck(')}
++${extract(commandSource,'BOOL ScrCmd_PeekMomGift(')}
++${extract(commandSource,'BOOL ScrCmd_PopMomGift(')}
++int main(void){int n;while(scanf("%d",&n)==1){PhoneCallPersistentState s={0};for(int i=0;i<n;i++)scanf("%hu%hu",&s.momGiftQueue[i][0],&s.momGiftQueue[i][1]);FieldSystem f={&s};u16 check,item,quantity;ScriptContext c={&f,{&check,0},0};for(int i=0;i<6;i++){c.next=0;c.outputs[0]=&check;ScrCmd_MomGiftCheck(&c);c.next=0;c.outputs[0]=&item;c.outputs[1]=&quantity;ScrCmd_PeekMomGift(&c);printf("%hu %hu %hu ",check,item,quantity);ScrCmd_PopMomGift(&c);}printf("\\n");}return 0;}`;
++await writeFile(join(directory,'native.c'),native);execFileSync(process.env.CC||'cc',['-std=c99','-O0',join(directory,'native.c'),'-o',binary],{stdio:'pipe'});after(()=>rm(directory,{recursive:true,force:true}));
++test('Mom queue check/peek outputs and pop order match literal C for every compact queue size; reads do not mutate saves',()=>{
++  const all=[{item:c.ITEM_SUPER_POTION,quantity:1},{item:c.ITEM_REPEL,quantity:1},{item:c.ITEM_SUPER_POTION,quantity:1},{item:c.ITEM_SILK_SCARF,quantity:1},{item:c.ITEM_MOON_STONE,quantity:1}];
++  for(let n=0;n<=5;n++){const value=state();value.momSavings={balance:123456,normalGiftsGiven:31,gifts:all.slice(0,n)};const before=structuredClone(value);peekMomGift(value);hasMomGift(value);assert.deepEqual(value,before);const expected=execFileSync(binary,[],{input:[n,...all.slice(0,n).flatMap(g=>[g.item,g.quantity])].join(' ')+'\n',encoding:'utf8'}).trim().split(/\s+/).map(Number),actual:number[]=[];
++    for(let i=0;i<6;i++){const gift=peekMomGift(value);actual.push(Number(hasMomGift(value)),gift.item,gift.quantity);popMomGift(value);}assert.deepEqual(actual,expected);assert.equal(readMomSavings(value).balance,123456);assert.equal(readMomSavings(value).normalGiftsGiven,31);
++  }
++  const value=state();delete value.momSavings;const before=structuredClone(value);assert.deepEqual(peekMomGift(value),{item:0,quantity:0});popMomGift(value);assert.deepEqual(value,before);
++});
+diff --git a/browser/src/source/mom-gifts.ts b/browser/src/source/mom-gifts.ts
+new file mode 100644
+index 00000000..1ff78673
+--- /dev/null
++++ b/browser/src/source/mom-gifts.ts
+@@ -0,0 +1,18 @@
++import {readMomSavings,type MomGift,type MomSavingsState} from './mom-savings.ts';
++
++/** ScrCmd_MomGiftCheck / PeekMomGift inspect only the packed queue head.
++ * Reading a saved queue never awards items or schedules a new call. */
++export function peekMomGift(state:MomSavingsState):MomGift{
++  return readMomSavings(state).gifts[0]??{item:0,quantity:0};
++}
++export function hasMomGift(state:MomSavingsState){return peekMomGift(state).quantity!==0;}
++
++/** PhoneCallPersistentState_MomGiftQueue_Get: shift once and preserve bank/mask.
++ * This is the raw native Pop command, NOT a grant. The real COMMON0144 delivery
++ * script invokes it after successful std2033; its whole action (including final
++ * acknowledgement) must share the existing outer State/field recovery owner. */
++export function popMomGift(state:MomSavingsState):MomGift{
++  const save=readMomSavings(state),gift=save.gifts.shift()??{item:0,quantity:0};
++  if(state.momSavings!==undefined||gift.quantity)state.momSavings=save;
++  return gift;
++}
+diff --git a/browser/src/source/phone-field-host.test.ts b/browser/src/source/phone-field-host.test.ts
+index b4d33463..7abd1136 100644
+--- a/browser/src/source/phone-field-host.test.ts
++++ b/browser/src/source/phone-field-host.test.ts
+@@ -110,7 +110,7 @@ test('Buena filtering uses the stored RTC anchor hour through subminute ticks an
+ });
+ 
+ test('generic, forced and other Elm calls stay explicit and cannot enter Elm13 delivery or consume pending bits',async()=>{
+-  for(const id of[1,2,3,4,5,6,7,8,9,10,11,12]){
++  for(const id of[1,2,3,4,5,6,7,8,9,10,11]){
+     const {host,state:value}=ready(state(),[id]);value.pokegear={cards:[],contacts:['PHONE_CONTACT_DAY_C_MAN']};const delivery=poll(host,value,newBark,()=>0);assert.equal(delivery.kind,'unsupported',String(id));
+     await assert.rejects(host.answerElm(value,async()=>assert.fail('unsupported cannot start a source answer'),async()=>assert.fail()),/Only the native optional Elm/);assert.deepEqual(value.phoneTriggers,[id]);assert.equal(host.current().kind,'unsupported');
+   }
+diff --git a/browser/src/source/phone-field-host.ts b/browser/src/source/phone-field-host.ts
+index 995f6ca4..b991dbe8 100644
+--- a/browser/src/source/phone-field-host.ts
++++ b/browser/src/source/phone-field-host.ts
+@@ -4,11 +4,14 @@ import {advancePhoneMinutes,advancePhoneRingSeconds,boostPhoneTimer,launchIncomi
+ import {planRandomIncomingCall,type PhoneAdmissionRules} from './phone-random.ts';
+ 
+ export type ElmHatchCall=Readonly<{trigger:0;contact:1;scripted:3;script:13;forcePickUp:false}>;
++export type MotherGiftCall=Readonly<{trigger:12;contact:0;scripted:3;script:27;forcePickUp:false}>;
++type SupportedIncomingCall=ElmHatchCall|MotherGiftCall;
+ export type PhoneFieldSnapshot=Readonly<{ring:PhoneRingState;rtcAnchor:number;rtcHour:number}>;
+ export type PhoneFieldAvailability=
+   |{kind:'none'}
+   |{kind:'busy'}
+   |{kind:'elm';call:ElmHatchCall}
++  |{kind:'mother';call:MotherGiftCall}
+   |{kind:'unsupported';call:IncomingPhoneCall};
+ type PhoneFieldState=Pick<State,'map'|'phoneTriggers'|'pokegear'|'phoneRecentCallers'|'flags'|'vars'>;
+ type SourceActionExecutor=<T>(action:()=>Promise<T>)=>Promise<SourceActionResult<T>>;
+@@ -18,7 +21,10 @@ function rtcHour(value:number){if(!Number.isInteger(value)||value<0||value>23)th
+ function elmCall(call:IncomingPhoneCall):call is ElmHatchCall{
+   return call.scripted===3&&call.trigger===0&&call.contact===1&&call.script===13&&call.forcePickUp===false;
+ }
+-function sameCall(left:IncomingPhoneCall|null,right:ElmHatchCall){
++function motherCall(call:IncomingPhoneCall):call is MotherGiftCall{
++  return call.scripted===3&&call.trigger===12&&call.contact===0&&call.script===27&&call.forcePickUp===false;
++}
++function sameCall(left:IncomingPhoneCall|null,right:Readonly<{trigger:number;contact:number;scripted:3;script:number;forcePickUp:boolean}>){
+   return left!==null&&left.scripted===3&&left.trigger===right.trigger&&left.contact===right.contact&&left.scripted===right.scripted&&left.script===right.script&&left.forcePickUp===right.forcePickUp;
+ }
+ 
+@@ -100,7 +106,7 @@ export class FieldPhoneHost{
+   }
+ 
+   private availability(call:IncomingPhoneCall):PhoneFieldAvailability{
+-    const copy=Object.freeze({...call});return elmCall(copy)?{kind:'elm',call:copy}:{kind:'unsupported',call:copy};
++    const copy=Object.freeze({...call});return elmCall(copy)?{kind:'elm',call:copy}:motherCall(copy)?{kind:'mother',call:copy}:{kind:'unsupported',call:copy};
+   }
+ 
+   /** Pin Elm13 before the root captures its outer action. Launch (bit removal)
+@@ -109,13 +115,24 @@ export class FieldPhoneHost{
+    * no caller reselection. This adapter does not save or compete with rollback.
+    * Hold admission until the executor resolves, including its recovery prompt. */
+   async answerElm<T>(state:Pick<State,'phoneTriggers'>,execute:SourceActionExecutor,deliver:(call:ElmHatchCall)=>Promise<T>):Promise<SourceActionResult<T>>{
++    return this.answerSupported(state,execute,deliver,elmCall,'Only the native optional Elm hatch call13 can be answered by this adapter');
++  }
++
++  /** Native trigger12 only clears its call bit on launch. Dialogue script27
++   * never awards/pops gifts: the separate source deliveryman owns collection.
++   * As with Elm, State AND this host snapshot belong to the outer executor. */
++  async answerMother<T>(state:Pick<State,'phoneTriggers'>,execute:SourceActionExecutor,deliver:(call:MotherGiftCall)=>Promise<T>):Promise<SourceActionResult<T>>{
++    return this.answerSupported(state,execute,deliver,motherCall,'Only the native optional Mother gift call27 can be answered by this adapter');
++  }
++
++  private async answerSupported<T,Call extends SupportedIncomingCall>(state:Pick<State,'phoneTriggers'>,execute:SourceActionExecutor,deliver:(call:Call)=>Promise<T>,accept:(call:IncomingPhoneCall)=>call is Call,unsupported:string):Promise<SourceActionResult<T>>{
+     if(this.answering)throw Error('A field phone answer is already pending');
+     const active=this.ring.active;
+-    if(!active||!elmCall(active))throw Error('Only the native optional Elm hatch call13 can be answered by this host');
+-    const pinned:ElmHatchCall=Object.freeze({...active});
++    if(!active||!accept(active))throw Error(unsupported);
++    const pinned=Object.freeze({...active});
+     this.answering=true;
+     try{return await execute(async()=>{
+-      if(!sameCall(this.ring.active,pinned)||!state.phoneTriggers?.includes(pinned.trigger))throw Error('The pinned Elm hatch call is no longer pending');
++      if(!sameCall(this.ring.active,pinned)||!state.phoneTriggers?.includes(pinned.trigger))throw Error('The pinned incoming call is no longer pending');
+       const launch=launchIncomingCall(state,this.ring);this.ring=launch.ring;
+       return deliver(pinned);
+     });}finally{this.answering=false;}
+diff --git a/browser/src/source/phone.ts b/browser/src/source/phone.ts
+index 159aeb56..b121655c 100644
+--- a/browser/src/source/phone.ts
++++ b/browser/src/source/phone.ts
+@@ -10,6 +10,7 @@ export async function phoneCall(data:GameData,state:State,contact:number,scripte
+     else if(state.badges.length<7)script=!f.FLAG_SYS_HATCHED_TOGEPI_EGG?12:f.FLAG_GOT_EVERSTONE_FROM_ELM?14+Math.floor(Math.random()*2):13;
+     else {const key='VAR_SCENE_ROCKET_TAKEOVER',takeover=state.vars['#'+data.constants[key]]??state.vars[key]??0;if(takeover>=2&&takeover<=4)script=16;else if(state.badges.length<8)script=17;else if(!f.FLAG_GAME_CLEAR)script=18;else if(!f.FLAG_GOT_SS_TICKET_FROM_ELM)script=19;else script=f.FLAG_SYS_HATCHED_TOGEPI_EGG&&!f.FLAG_GOT_EVERSTONE_FROM_ELM?13:!f.FLAG_SYS_HATCHED_TOGEPI_EGG?12:20+Math.floor(Math.random()*(f.FLAG_WAS_TOLD_ABOUT_POKERUS?3:2));}
+   }}else if(contact===data.constants.PHONE_CONTACT_PROF__OAK&&scripted===2){name='Professor Oak';script=82;}
++  else if(contact===data.constants.PHONE_CONTACT_MOTHER&&scripted===3&&predefined===27){name='Mother';script=state.map===data.constants.MAP_NEW_BARK_PLAYER_HOUSE_1F?23:27;}
+   else if(contact===data.constants.PHONE_CONTACT_MOTHER&&scripted===2){const bank=await sourceJSON<Record<string,string>>('messages/664.json');state.flags.FLAG_TALKED_TO_MOM_AFTER_NAMING_RIVAL=true;await message('Mom: '+bank[22]);const saving=await choice(bank[22])===0;state.flags.FLAG_SYS_MOMS_SAVINGS=saving;await message('Mom: '+bank[saving?25:26]);return;}
+   else throw Error(`Unported original phone caller/context ${contact}:${scripted}:${predefined}`);
+   const definition=phone.scripts[script];if(!definition)throw Error(`Missing original phone script ${script}`);
+diff --git a/browser/src/source/script.ts b/browser/src/source/script.ts
+index 9c1f7c4c..c12c56d3 100644
+--- a/browser/src/source/script.ts
++++ b/browser/src/source/script.ts
+@@ -13,6 +13,8 @@ import {kurtApricornQuantity,totalApricornCount,kurtBall,clearKurtApricorn} from
+ import {giveTogepiEgg,isOriginalTogepiGift,isUsableBattler,partyMonSpecies,type EggContext} from './eggs.ts';
+ import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDefeated,trainerContacts,phoneContactKey,phoneRematchTrainer,type TrainerContact} from './trainer-script-state.ts';
+ import {getPartySlotWithMove,monHasMove,loadNativeFieldMoveData,resolveTeachingPersonalIndex} from './field-moves.ts';
++import {peekMomGift,hasMomGift,popMomGift} from './mom-gifts.ts';
++import type {MomGift} from './mom-savings.ts';
+ 
+ export type EngagedTrainer={trainer:number;object:string};
+ /** Supplied by the field's sight detector, never inferred by the script VM. */
+@@ -73,6 +75,7 @@ export class ScriptVM{
+   buffers:Record<number,string>={};
+   private battleWon=false;
+   private pendingPhone:[number,number,number]|null=null;
++  private momGiftDelivery:{gift:MomGift;given:boolean}|null=null;
+   private context:{activeScript:number;map:SourceMap;object:string;phone:TrainerContact|null;approach?:TrainerApproachContext}|null=null;
+   private runAbort:AbortController|null=null;private runGeneration=0;private inheritedSignal:AbortSignal|undefined;private standardID:number|null=null;private fieldMoveOrigin:number|null=null;
+   /** The host cancels before an external map replacement/recovery. A failed
+@@ -91,8 +94,8 @@ export class ScriptVM{
+   set(token:string,n:number){this.runAbort?.signal.throwIfAborted();if(this.fieldMoveOrigin!==null&&this.state.map!==this.fieldMoveOrigin)throw Error('Field move was cancelled by a field change');this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
+   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
+   private async runChild(map:SourceMap,script:string|number,object:string,standardID:number|null=this.standardID,approach?:TrainerApproachContext):Promise<void>{
+-    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;
+-    try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
++    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;child.momGiftDelivery=this.momGiftDelivery;
++    try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;this.momGiftDelivery=child.momGiftDelivery;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
+   }
+   private async standard(id:number,object:string){const signal=this.runAbort?.signal;const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;signal?.throwIfAborted();const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);await this.runChild(common,entry,object,id);}
+   text(message:string,map:SourceMap){
+@@ -110,7 +113,7 @@ export class ScriptVM{
+     this.runAbort=controller;parentSignal?.addEventListener('abort',inheritAbort,{once:true});
+     const finish=()=>{parentSignal?.removeEventListener('abort',inheritAbort);if(this.runAbort===controller){this.runAbort=null;this.fieldMoveOrigin=null;}this.busy=false;};
+     if(parentSignal?.aborted){inheritAbort();finish();controller.signal.throwIfAborted();}
+-    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
++    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;this.momGiftDelivery=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
+     const scriptID=typeof script==='number'?script:this.value(script,map);if(!allowNested){this.battleWon=false;this.context={activeScript:scriptID,map,object,phone:null,approach};const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}
+     if(scriptID>=2000){try{await this.standard(scriptID,object);controller.signal.throwIfAborted();}catch(error){controller.abort(error);throw error;}finally{finish();}return;}
+     const entry=scriptID-1;
+@@ -325,9 +328,24 @@ export class ScriptVM{
+         if(cmd==='BufferPocketName'){const pockets=['Items','Medicine','Poké Balls','TMs & HMs','Berries','Mail','Battle Items','Key Items'];this.buffers[v(a[0])]=pockets[v(a[1])]||'Items';continue;}
+         if(cmd==='BufferInteger'||cmd==='BufferNumber'){this.buffers[v(a[0])]=String(v(a[1]));continue;}
+         if(cmd==='HasItem'||cmd==='CheckItemSpace'||cmd==='HasSpaceForItem'){const key=this.itemKey(a[0],map);this.set(a[2],cmd==='HasItem'?Number((this.state.bag[key]||0)>=v(a[1])):Number(hasBagSpace(this.data,this.state.bag,key,v(a[1]))));continue;}
++        if(cmd==='MomGiftCheck'){this.set(a[0],Number(hasMomGift(this.state)));continue;}
++        if(cmd==='PeekMomGift'){const gift=peekMomGift(this.state);this.set(a[0],gift.item);this.set(a[1],gift.quantity);if(this.standardID===this.data.constants.std_moms_gift_deliveryman)this.momGiftDelivery={gift,given:false};continue;}
++        if(cmd==='PopMomGift'){
++          if(this.standardID===this.data.constants.std_moms_gift_deliveryman){const head=peekMomGift(this.state),receipt=this.momGiftDelivery;if(!receipt?.given||head.item!==receipt.gift.item||head.quantity!==receipt.gift.quantity)throw Error('Mom gift delivery has no successful matching source item grant');}
++          popMomGift(this.state);this.momGiftDelivery=null;continue;
++        }
+         if(cmd==='GoToIfNoItemSpace'||cmd==='GoToIfNoItemSpace2'){const item=v(a[0]),quantity=v(a[1]);this.set('VAR_SPECIAL_x8004',item);this.set('VAR_SPECIAL_x8005',quantity);const result=Number(hasBagSpace(this.data,this.state.bag,this.itemKey(a[0],map),quantity));this.set('VAR_SPECIAL_RESULT',result);compare=result-(cmd==='GoToIfNoItemSpace'?0:1);if(!result)jump(a[2]);continue;}
+         if(cmd==='GiveItemNoCheck'){const item=v(a[0]),quantity=v(a[1]);this.set('VAR_SPECIAL_x8004',item);this.set('VAR_SPECIAL_x8005',quantity);await this.standard(this.data.constants.std_give_item_verbose,object);continue;}
+-        if(cmd==='AddItem'||cmd==='GiveItem'){const result=addBagItem(this.data,this.state.bag,this.itemKey(a[0],map),v(a[1]));if(a[2])this.set(a[2],Number(result));continue;}
++        if(cmd==='AddItem'||cmd==='GiveItem'){
++          const key=this.itemKey(a[0],map),quantity=v(a[1]),result=addBagItem(this.data,this.state.bag,key,quantity);if(a[2])this.set(a[2],Number(result));
++          // Native std10202 checks space before std2033. Browser presentation
++          // awaits external ports, so fail atomically if that invariant changed
++          // rather than silently Pop an ungranted package. Other grants retain
++          // their original result-variable semantics.
++          const receipt=this.momGiftDelivery;
++          if(this.standardID===this.data.constants.std_give_item_verbose&&receipt&&this.data.constants[key]===receipt.gift.item&&quantity===receipt.gift.quantity){if(!result)throw Error('Mom gift item grant failed after the source capacity check');receipt.given=true;}
++          continue;
++        }
+         if(cmd==='TakeItem'||cmd==='RemoveItem'||cmd==='TakeItemNoCheck'){const key=this.itemKey(a[0],map),quantity=v(a[1]);if(cmd==='TakeItemNoCheck'){this.set('VAR_SPECIAL_x8004',v(a[0]));this.set('VAR_SPECIAL_x8005',quantity);}const result=takeBagItem(this.state.bag,key,quantity);if(a[2]||cmd==='TakeItemNoCheck')this.set(a[2]||'VAR_SPECIAL_RESULT',Number(result));continue;}
+         if(cmd==='HealParty'){healParty(this.state);continue;}
+         if(cmd==='CountMailboxMessages'){this.set(a[0],0);continue;}

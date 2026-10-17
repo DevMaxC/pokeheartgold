@@ -1,0 +1,114 @@
+{
+  "commit": "7f869d992c21fd81fe3eb319cb22e9355a5dbc4e",
+  "baseCommit": "391e26b91d55b63a6969383ab98ac67e79d276f8",
+  "snapshot": "/tmp/hg-native-phone-core-7f869d9-opus-snapshot",
+  "files": {
+    "browser/src/source/phone.ts": {
+      "bytes": 3021,
+      "sha256": "eb8c547560a54ceb860a5c07ab002039fd78e29217ca742cf45a5d79a2c41f4f"
+    },
+    "browser/src/source/phone-scheduler.ts": {
+      "bytes": 5077,
+      "sha256": "43954a1060775018239abc31265a98657810f4a32178c83aa0ab6aa849a585c9"
+    },
+    "browser/src/source/phone.test.ts": {
+      "bytes": 6797,
+      "sha256": "e0717f3df0ce68ce0ed1ecce5bb9af8f2c7bb9417a806d17a1e1588eeee62630"
+    },
+    "browser/src/source/phone-scheduler.test.ts": {
+      "bytes": 7555,
+      "sha256": "9545ed6af06581977bbd06ce3f1ddaa75ee411273c827bebe3b34cf84481cc9f"
+    },
+    "browser/src/source/script.ts": {
+      "bytes": 32591,
+      "sha256": "c28999d1b3361170a6030095ed2cda621b6fd33256d180635f68cd730154b82a"
+    },
+    "browser/src/source/types.ts": {
+      "bytes": 5205,
+      "sha256": "64eb906aa8126376542ab32384388a56714bf28761c60e81be1000ea565b458d"
+    },
+    "browser/src/source/script-recovery.ts": {
+      "bytes": 5940,
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+    },
+    "browser/src/source/main.ts": {
+      "bytes": 46308,
+      "sha256": "94cb450d6253b00837b6ea2e2e0a672d62c984f879ce0ed868c717680ac0287c"
+    },
+    "browser/src/source/egg-hatching.ts": {
+      "bytes": 13659,
+      "sha256": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905"
+    },
+    "browser/scripts/export_phone_triggers.py": {
+      "bytes": 2015,
+      "sha256": "dba9275ddfa9817e889a91e2d89f063ce0897dd37f1810e8b3909832d08d001c"
+    },
+    "browser/public/source/phone-triggers.json": {
+      "bytes": 2393,
+      "sha256": "3200dc3d60415146bd09586dfb2362578b9bdaba1ef11a1b6959b0395ed340f5"
+    },
+    "browser/public/source/phone.json": {
+      "bytes": 45965,
+      "sha256": "aa8107accb789d5163b42d8239c8d95d7de6517f90ecb140ab32c5bcc0a0ebb5"
+    },
+    "browser/public/source/messages/716.json": {
+      "bytes": 7689,
+      "sha256": "0b2016b8e3a9dc533f252eeb90d3ba489bc7c303a26f564b6b67e3fa8a508918"
+    },
+    "src/gear_phone_ring_manager.c": {
+      "bytes": 12399,
+      "sha256": "1aa8a19b06f291709d178beb1fbc7ed0cf92777514d17924f93676984391ad66"
+    },
+    "src/field/overlay_2_gear_phone.c": {
+      "bytes": 11067,
+      "sha256": "0806e2ed5435facabf685bc7b9a088cffded68f64e23f421cfe92bb40dc54f25"
+    },
+    "src/field/field_control.c": {
+      "bytes": 47347,
+      "sha256": "cfcefc46d5995417bf9af4a66cb5eb0ed6d57da2ac823fe6a3d1a6749ff79127"
+    },
+    "src/field_time_events.c": {
+      "bytes": 8357,
+      "sha256": "cfe62b3f93f8000214b274808e11e619d880405185f0986f668d99ebcb260a58"
+    },
+    "src/save_pokegear.c": {
+      "bytes": 12647,
+      "sha256": "92fba0290fc25af9327862c2185a5827b36316f31f9e9aceb7758a46b8059680"
+    },
+    "src/application/pokegear/phone/scripts/phone_scripts_prof_elm.c": {
+      "bytes": 3740,
+      "sha256": "4c788d3180a4cbb1869fdeca366b747fc991bb0e402c38173932bc747cd64cd8"
+    },
+    "src/phonebook_dat.c": {
+      "bytes": 5627,
+      "sha256": "7f58ef3995bf02d0412906d136fb42582a792354a2199ab7d3e0f36114f0fd21"
+    },
+    "include/field_system.h": {
+      "bytes": 11240,
+      "sha256": "a08a32b258570628f3d745241049daae08091c8607d63484bc2a671c181f4af5"
+    },
+    "include/constants/phone_constants.h": {
+      "bytes": 848,
+      "sha256": "97bcd7db0e27ab865212d2f14cc3062a4317370c30a18d9cfb9dad0058842d1b"
+    },
+    "files/tel/pmtel_book.json": {
+      "bytes": 46182,
+      "sha256": "49c053ff74c4380290d7342448255e4b75261a5eff0718295ee69e3310fef82b"
+    },
+    "src/scrcmd_c.c": {
+      "bytes": 181697,
+      "sha256": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4"
+    },
+    "files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s": {
+      "bytes": 26208,
+      "sha256": "419adbe8343e180c15995c07d14e75f80486c3eb613c0d97b578da337853dbf1"
+    },
+    "scoped-phone.diff": {
+      "bytes": 30717,
+      "sha256": "c996518dd8fbdb4d6da5c58a55f52bea3b7fd5a73ad72e4bd0f8a1c609ca031b"
+    }
+  },
+  "fileCount": 26,
+  "graphSha256": "430d452412590327e05080b5325e792164603de3e92776111122c1300f0e8e87",
+  "scope": "Isolated native triggered-phone core, not field/UI delivery integration"
+}

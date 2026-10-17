@@ -1,0 +1,8 @@
+Default mismatch exit=1; mismatched proof bytes preserved.
+Traceback (most recent call last):
+  File "/private/tmp/hg-native-gender-final-consumer-before/browser/reviews/native-mon-gender/verify-sprite-resources.py", line 62, in <module>
+    assert OUT.read_text() == serialized, 'Existing proof differs; inspect before explicitly regenerating it.'
+AssertionError: Existing proof differs; inspect before explicitly regenerating it.
+
+Explicit --regenerate exit=0; original proof bytes restored, art untouched.
+Verified 108 existing original-art facings, including81/100; art unchanged, proof regenerated.

@@ -1,0 +1,42 @@
+{
+  "sourceCommit": "1f9277ce771ebb07aed14239d507d7ac0026456c",
+  "tests": 45,
+  "tsc": "pass",
+  "reviewedInputsStable": true,
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1054,
+      "outputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001159,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 12,
+      "outputTokens": 2679,
+      "cacheReadInputTokens": 64650,
+      "cacheCreationInputTokens": 21773,
+      "webSearchRequests": 0,
+      "costUSD": 0.175423,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1088,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "rawResultSHA256": "c74cda2c12c273ead553765b4c2396511372b84e1404a1e1427e1a111101d546",
+  "limitations": [
+    "initial review ran in live worktree and lacked patch.diff; preserved but not used as immutable approval",
+    "only final copied inputs reviewed; root verified hashes independently",
+    "accessor only; hatch/Cut consumer integration and audible/device checks pending"
+  ]
+}

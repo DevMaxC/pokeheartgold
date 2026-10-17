@@ -1,0 +1,46 @@
+{
+  "kind": "test-only actual-main binding regression evidence",
+  "baseCommit": "e8626f25e0cd8350b13f197ae3f46695ab4759f2",
+  "mainSha256": "7febb2f8f0b143ee8855b2c1041c49e18f62ef2f2c836c904a0058c639164f72",
+  "uiSha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+  "partyFieldBindingsSha256": "99cc11f319338c76edc3a36acf48cb1bd40bf212d1ce5aa0c9e298cb8b1556ce",
+  "globalPartyBindingsSha256": "c220eddd2463765c0104182eb73cefd692dfa675a00cf216349ce53b1120a0b9",
+  "tests": {
+    "party-field-main.test.ts": {
+      "sha256": "8e090caa613dacad8010fea4c6861e8abc859b9314038cefc26c2d0ae5decc01",
+      "cases": 7,
+      "binding": "TypeScript AST-extracted actual save, executeSourceAction, partyMenu, choosePartyAction, summary, displayMapName, updateHUD, refreshNPCs, captureField, restoreField and follower render statements",
+      "newEvidence": [
+        "One-shot party-hud innerHTML failure happens after the actual swap and a provisional follower replacement; the subsequent real updateHUD succeeds during restoration.",
+        "Actual captureField preserves live exported FieldObjects state newer than State.objectEvents. Actual restoreField rehydrates those actors through real FieldObjects load/restore and refreshNPCs.",
+        "Full State and party order roll back; the Return-to-field save records restored live objects and height rather than stale saved actors.",
+        "Real FieldPhoneHost ring plus RTC anchor, orbit, weather, player visibility/height/direction lock, follower position/identity/visibility/facing, VM refresh, input/tweens and event cursors are checked after recovery."
+      ]
+    },
+    "party-global-ui.test.ts": {
+      "sha256": "f54145b213c53f27ecd1c8c720dd1f42340916a36610ecfc758260554fd82790",
+      "cases": 2,
+      "binding": "Literal top-level main addEventListener('keydown', ...) AST statement, actual party/source-action functions and imported real UI.choose",
+      "newEvidence": [
+        "Production registration order is UI constructor, global main handler, then party-owned handler. Escape enters the global handler before local cancellation at both action and target choosers.",
+        "Global Escape does not call UI.close while the real chooser has canDismiss=false. Owned abort cancels without source rollback and removes its listener.",
+        "After external panel replacement, the real Scene not completed choice stays open and usable under global Escape plus stale old party abort/button callbacks; Return completes normally."
+      ]
+    }
+  },
+  "validation": {
+    "targetedCommand": "node --experimental-transform-types --test src/source/party-field-main.test.ts src/source/party-global-ui.test.ts src/source/ui-cancellation.test.ts src/source/party-order.test.ts",
+    "targetedPassed": 33,
+    "targetedFailed": 0,
+    "typescript": "npx tsc --noEmit PASS",
+    "diffCheck": "git diff --check PASS",
+    "sourceStableDuringTests": true
+  },
+  "limits": [
+    "No runtime files changed and no runtime bug was found; these close test coverage gaps.",
+    "World hydration/rendering remains a controlled test port. FieldObjects, FieldPhoneHost, source recovery and the tested main function bodies are real.",
+    "Global/UI integration uses a synthetic DOM and event dispatcher, not a browser. It executes the actual global handler and UI.choose rather than copied Escape conditions.",
+    "The UI-only fixture uses a minimal recovery field port; the separate party-field fixture executes actual captureField/restoreField.",
+    "No full suite, build, browser or Claude invocation. The hashes qualify this tested revision and do not approve later main changes."
+  ]
+}

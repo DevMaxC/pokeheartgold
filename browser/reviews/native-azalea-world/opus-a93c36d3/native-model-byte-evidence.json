@@ -1,0 +1,142 @@
+{
+  "115": {
+    "nativeSHA256": "596e7ccfd91f01f24ff0a4e69d6ca45a179e22a78aeb502efe826d3b45791efc",
+    "modelBase": 72,
+    "modelInfoOffset": 92,
+    "modelInfo44BytesHex": "000000030102010000800000000200006e00300000003000c4cfaef3f4fc7660510c16060000010000010000",
+    "scalingRule": 0,
+    "textureMatrixMode": 0,
+    "nodes": [
+      {
+        "name": "g02rope_1",
+        "absoluteOffset": 224,
+        "flags": "0xf807",
+        "record64BytesHex": "07f8001007f8001003f800100000000000000000000000000000000000000000000000002600000000060100000201010b240005002b46020000000202010b44"
+      },
+      {
+        "name": "g02rope_1a",
+        "absoluteOffset": 228,
+        "flags": "0xf807",
+        "record64BytesHex": "07f8001003f800100000000000000000000000000000000000000000000000002600000000060100000201010b240005002b46020000000202010b440005012b"
+      },
+      {
+        "name": "g02rope_1b",
+        "absoluteOffset": 232,
+        "flags": "0xf803",
+        "record64BytesHex": "03f800100000000000000000000000000000000000000000000000002600000000060100000201010b240005002b46020000000202010b440005012b01000000"
+      }
+    ]
+  },
+  "116": {
+    "nativeSHA256": "1f87a606326b3c18a6e48bc6f575b9c0078ac58fded4d84b2447c254dbf14548",
+    "modelBase": 72,
+    "modelInfoOffset": 92,
+    "modelInfo44BytesHex": "000000030102010000800000000200006e00300000003000f1cfb8e6dff41c60bf1240160000010000010000",
+    "scalingRule": 0,
+    "textureMatrixMode": 0,
+    "nodes": [
+      {
+        "name": "g02rope_2",
+        "absoluteOffset": 224,
+        "flags": "0xf807",
+        "record64BytesHex": "07f8001007f8001007f800102600000000060100000201010b240005002b46020000000202010b440005012b010000002c00540000012800080010007f010000"
+      },
+      {
+        "name": "g02rope_2a",
+        "absoluteOffset": 228,
+        "flags": "0xf807",
+        "record64BytesHex": "07f8001007f800102600000000060100000201010b240005002b46020000000202010b440005012b010000002c00540000012800080010007f0100003d000100"
+      },
+      {
+        "name": "g02rope_2b",
+        "absoluteOffset": 232,
+        "flags": "0xf807",
+        "record64BytesHex": "07f800102600000000060100000201010b240005002b46020000000202010b440005012b010000002c00540000012800080010007f0100003d00010004000800"
+      }
+    ]
+  },
+  "117": {
+    "nativeSHA256": "ad238d8d4e6a3f42c7e5c199dc41d389839234cf1725b74f552c75f22b5dcae5",
+    "modelBase": 72,
+    "modelInfoOffset": 92,
+    "modelInfo44BytesHex": "00000001010100000040000000040000040001000000010000e0000400e00040002800300080000000020000",
+    "scalingRule": 0,
+    "textureMatrixMode": 0,
+    "nodes": [
+      {
+        "name": "gym02switch",
+        "absoluteOffset": 176,
+        "flags": "0xf807",
+        "record64BytesHex": "07f80010060000000200010b040005002b0100002c00540000012800080010007f0100003e000100040008008000000067327377697463680000000000000000"
+      }
+    ]
+  },
+  "118": {
+    "nativeSHA256": "1fd210c4a0d9e4caa595fbed02c221a5bec323fb771d488061a4e55303417aac",
+    "modelBase": 72,
+    "modelInfoOffset": 92,
+    "modelInfo44BytesHex": "00000007071602000040000000040000700169000c005d00fac999ed50f1ec696a1e51570080000000020000",
+    "scalingRule": 0,
+    "textureMatrixMode": 0,
+    "nodes": [
+      {
+        "name": "gym02lift",
+        "absoluteOffset": 320,
+        "flags": "0xf802",
+        "record64BytesHex": "02f800100000000000e0ffff99910000660e0000660e0000660e0000c8110000c8110000c811000088fa620f844cfffff0c0ffff1c580000620f98fbc7110000"
+      },
+      {
+        "name": "pCube2",
+        "absoluteOffset": 360,
+        "flags": "0xfa88",
+        "record64BytesHex": "88fa620f844cfffff0c0ffff1c580000620f98fbc7110000c7110000c7110000660e0000660e0000660e000000f89c0cac7afffff0c0ffff10adffff68fbb708"
+      },
+      {
+        "name": "pCube3",
+        "absoluteOffset": 404,
+        "flags": "0xf800",
+        "record64BytesHex": "00f89c0cac7afffff0c0ffff10adffff68fbb708d003540f9002ebf60f002c0dc7110000c7110000c7110000660e0000660e0000660e000000f8510c5061ffff"
+      },
+      {
+        "name": "pCube4",
+        "absoluteOffset": 460,
+        "flags": "0xf800",
+        "record64BytesHex": "00f8510c5061fffff0c0ffffe615010085fbd3f68f035c0f46fd93090e00d20cc7110000c7110000c7110000660e0000660e0000660e000000f864f3396c0000"
+      },
+      {
+        "name": "pCube5",
+        "absoluteOffset": 516,
+        "flags": "0xf800",
+        "record64BytesHex": "00f864f3396c0000f0c0ffff69bffffffeffda09feff0010010026f6000064f3c7110000c7110000c7110000660e0000660e0000660e000088fd00f0ad930000"
+      },
+      {
+        "name": "pCube6",
+        "absoluteOffset": 572,
+        "flags": "0xfd88",
+        "record64BytesHex": "88fd00f0ad930000f0c0ffff1c58000000f0fcffc7110000c7110000c7110000660e0000660e0000660e000000f86ef23e9c0000f0c0ffffe6150100ffff85f7"
+      },
+      {
+        "name": "pCube7",
+        "absoluteOffset": 616,
+        "flags": "0xf800",
+        "record64BytesHex": "00f86ef23e9c0000f0c0ffffe6150100ffff85f7ffff0010ffff7b0800006ef2c7110000c7110000c7110000660e0000660e0000660e00002600000000020001"
+      }
+    ]
+  },
+  "122": {
+    "nativeSHA256": "5284175d188f1d019dca29cff582e9cf975625e122bde52fa0af85fadc1d35c9",
+    "modelBase": 72,
+    "modelInfoOffset": 92,
+    "modelInfo44BytesHex": "00000001010100000040000000040000040001000000010000e0000400e00040002800300080000000020000",
+    "scalingRule": 0,
+    "textureMatrixMode": 0,
+    "nodes": [
+      {
+        "name": "gym02switch_r",
+        "absoluteOffset": 176,
+        "flags": "0xf807",
+        "record64BytesHex": "07f80010060000000200010b040005002b0100002c00540000012800080010007f0100003e000100040008008000000067327377697463680000000000000000"
+      }
+    ]
+  }
+}

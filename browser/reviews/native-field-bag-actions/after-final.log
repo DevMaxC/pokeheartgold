@@ -1,0 +1,220 @@
+TAP version 13
+# (node:2084) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Bag Use commits Potion only after acknowledgement, refreshes inventory and never saves itself
+ok 1 - actual Bag Use commits Potion only after acknowledgement, refreshes inventory and never saves itself
+  ---
+  duration_ms: 62.480875
+  type: 'test'
+  ...
+# Subtest: Bag keeps read-only fallback, cancellation makes no changes and stale inventory cannot dispatch a Use callback
+ok 2 - Bag keeps read-only fallback, cancellation makes no changes and stale inventory cannot dispatch a Use callback
+  ---
+  duration_ms: 4.0275
+  type: 'test'
+  ...
+# Subtest: late acknowledgement replacement or abort rolls medicine and teaching back through actual SourceActionRecovery
+ok 3 - late acknowledgement replacement or abort rolls medicine and teaching back through actual SourceActionRecovery
+  ---
+  duration_ms: 101.85425
+  type: 'test'
+  ...
+# Subtest: healthy medicine and unsupported native dependencies remain distinct without consumption or claimed success
+ok 4 - healthy medicine and unsupported native dependencies remain distinct without consumption or claimed success
+  ---
+  duration_ms: 5.233042
+  type: 'test'
+  ...
+# Subtest: Egg and Bad Egg rows hide species, nickname, level, HP and moves and cannot be selected
+ok 5 - Egg and Bad Egg rows hide species, nickname, level, HP and moves and cannot be selected
+  ---
+  duration_ms: 2.776917
+  type: 'test'
+  ...
+# Subtest: full TM sets protect HMs, cancel inertly and confirm replacement with native base PP and exact affinity
+ok 6 - full TM sets protect HMs, cancel inertly and confirm replacement with native base PP and exact affinity
+  ---
+  duration_ms: 7.212667
+  type: 'test'
+  ...
+# Subtest: HM teaching is reusable on fainted zero-PP Pokémon while known and incompatible attempts stay unchanged
+ok 7 - HM teaching is reusable on fainted zero-PP Pokémon while known and incompatible attempts stay unchanged
+  ---
+  duration_ms: 1.288292
+  type: 'test'
+  ...
+# Subtest: PP move selection cancels without consumption and restores only the chosen move with boosted capacity intact
+ok 8 - PP move selection cancels without consumption and restores only the chosen move with boosted capacity intact
+  ---
+  duration_ms: 2.959083
+  type: 'test'
+  ...
+# Subtest: changed State, party, bag or map and abort invalidate awaited confirmation; adventure clock ticks do not
+ok 9 - changed State, party, bag or map and abort invalidate awaited confirmation; adventure clock ticks do not
+  ---
+  duration_ms: 4.013167
+  type: 'test'
+  ...
+# Subtest: a resolved prompt replaced before its continuation cannot dispatch Bag use, steal the next panel or commit an acknowledgement
+ok 10 - a resolved prompt replaced before its continuation cannot dispatch Bag use, steal the next panel or commit an acknowledgement
+  ---
+  duration_ms: 136.802375
+  type: 'test'
+  ...
+# (node:2085) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the native teaching export is reproducible and pins the actual item, form, query and standard sources
+ok 11 - the native teaching export is reproducible and pins the actual item, form, query and standard sources
+  ---
+  duration_ms: 1172.410875
+  type: 'test'
+  ...
+# Subtest: native move queries skip Eggs and checksum-failed Bad Eggs but retain fainted and zero-PP users
+ok 12 - native move queries skip Eggs and checksum-failed Bad Eggs but retain fainted and zero-PP users
+  ---
+  duration_ms: 0.876791
+  type: 'test'
+  ...
+# Subtest: the Cut menu environment check preserves native map-load/badge/object priority
+ok 13 - the Cut menu environment check preserves native map-load/badge/object priority
+  ---
+  duration_ms: 0.277625
+  type: 'test'
+  ...
+# Subtest: all native personal compatibility entries and alternate-form offsets are retained
+ok 14 - all native personal compatibility entries and alternate-form offsets are retained
+  ---
+  duration_ms: 70.199166
+  type: 'test'
+  ...
+# Subtest: HM01 teaching uses a first empty slot, requires no badge or HP, restores base PP and retains the HM
+ok 15 - HM01 teaching uses a first empty slot, requires no badge or HP, restores base PP and retains the HM
+  ---
+  duration_ms: 1.609375
+  type: 'test'
+  ...
+# Subtest: full native sets require a decision and cannot replace an existing HM
+ok 16 - full native sets require a decision and cannot replace an existing HM
+  ---
+  duration_ms: 0.580458
+  type: 'test'
+  ...
+# Subtest: a successful TM consumes one item while Egg, known, incompatible and missing-item attempts are exact no-ops
+ok 17 - a successful TM consumes one item while Egg, known, incompatible and missing-item attempts are exact no-ops
+  ---
+  duration_ms: 0.938458
+  type: 'test'
+  ...
+# Subtest: cancelled and stale prompts cannot teach, consume or alter party data
+ok 18 - cancelled and stale prompts cannot teach, consume or alter party data
+  ---
+  duration_ms: 1.34225
+  type: 'test'
+  ...
+# Subtest: native affinity uses egg location, positive-tier bonuses, Soothe Bell and signed mood saturation
+ok 19 - native affinity uses egg location, positive-tier bonuses, Soothe Bell and signed mood saturation
+  ---
+  duration_ms: 1.534167
+  type: 'test'
+  ...
+# Subtest: invalid source data is rejected before a single mutation and a source change invalidates a prepared plan
+ok 20 - invalid source data is rejected before a single mutation and a source change invalidates a prepared plan
+  ---
+  duration_ms: 1.423458
+  type: 'test'
+  ...
+# (node:2086) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+ok 21 - owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+  ---
+  duration_ms: 85.146459
+  type: 'test'
+  ...
+# Subtest: owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+ok 22 - owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+  ---
+  duration_ms: 2.002667
+  type: 'test'
+  ...
+# Subtest: native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+ok 23 - native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+  ---
+  duration_ms: 126.484625
+  type: 'test'
+  ...
+# Subtest: party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+ok 24 - party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+  ---
+  duration_ms: 1.357542
+  type: 'test'
+  ...
+# Subtest: fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+ok 25 - fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+  ---
+  duration_ms: 1.495458
+  type: 'test'
+  ...
+# Subtest: Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+ok 26 - Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+  ---
+  duration_ms: 1.956959
+  type: 'test'
+  ...
+# Subtest: settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+ok 27 - settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+  ---
+  duration_ms: 1.994417
+  type: 'test'
+  ...
+# Subtest: title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+ok 28 - title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+  ---
+  duration_ms: 6.398583
+  type: 'test'
+  ...
+# Subtest: Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+ok 29 - Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+  ---
+  duration_ms: 1.324875
+  type: 'test'
+  ...
+# Subtest: a pending Settings music retry releases exact handlers and subscription without altering its replacement
+ok 30 - a pending Settings music retry releases exact handlers and subscription without altering its replacement
+  ---
+  duration_ms: 1.885583
+  type: 'test'
+  ...
+# Subtest: confirming a focused Retry twice cannot activate Settings Back when the request disables the button
+ok 31 - confirming a focused Retry twice cannot activate Settings Back when the request disables the button
+  ---
+  duration_ms: 0.496083
+  type: 'test'
+  ...
+# Subtest: settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+ok 32 - settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+  ---
+  duration_ms: 2.252667
+  type: 'test'
+  ...
+# Subtest: replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+ok 33 - replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+  ---
+  duration_ms: 0.597375
+  type: 'test'
+  ...
+# Subtest: a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+ok 34 - a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+  ---
+  duration_ms: 0.396792
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1806.213917

@@ -1,0 +1,102 @@
+TAP version 13
+# (node:46811) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual standard10000 matches native dispatch and Wait7 phases before hiding and polling completion
+not ok 1 - actual standard10000 matches native dispatch and Wait7 phases before hiding and polling completion
+  ---
+  duration_ms: 104.245291
+  type: 'test'
+  location: '/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:86:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    6 !== 7
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 7
+  actual: 6
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:88:127)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: long native effect polling yields without exhausting a synchronous instruction budget
+not ok 2 - long native effect polling yields without exhausting a synchronous instruction budget
+  ---
+  duration_ms: 296.080666
+  type: 'test'
+  location: '/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:163:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:165:37)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a same-instance nested script retains its parent controller, busy ownership and later writes
+not ok 3 - a same-instance nested script retains its parent controller, busy ownership and later writes
+  ---
+  duration_ms: 3.63175
+  type: 'test'
+  location: '/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:169:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    Object.h.hooks.message (/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:171:99)
+    async ScriptVM.run (/private/tmp/hg-cut-yield-prototype/browser/src/source/script.ts:217:118)
+    async TestContext.<anonymous> (/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:172:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Cut-only ports cannot partially execute the actual Rock Smash or Flash standards
+not ok 4 - Cut-only ports cannot partially execute the actual Rock Smash or Flash standards
+  ---
+  duration_ms: 4.302417
+  type: 'test'
+  location: '/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:175:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-cut-yield-prototype/browser/src/source/cut-script.test.ts:178:66)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 931.13075

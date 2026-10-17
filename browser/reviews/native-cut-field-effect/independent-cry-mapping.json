@@ -1,0 +1,18 @@
+{
+  "sourceSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+  "speciesBanksVerified": 494,
+  "method": "Independent struct-only original SYMB/INFO/FAT\u2192SBNK instrument0\u2192SWAR wave0 mapping; no ndspy/exporter import",
+  "verified": {
+    "speciesBankOverrideMapsSameWaveArchiveId": true,
+    "literalSinglePcmInstrument": true,
+    "noteDefinitionHex": "000000003c7f7f7f7f40",
+    "nativePCMFrameSizeAndOffset": true,
+    "genericCrySequenceId": 2,
+    "genericCrySymbol": "SEQ_PV",
+    "genericCrySequenceVolume": 120,
+    "literalCryEventPayloadHex": "e164008100c17fc0403c7f00ffff0000"
+  },
+  "limits": [
+    "Does not emulate DS hardware timer/mixer or custom Chatot recordings; runtime source scope remains pattern0 only."
+  ]
+}

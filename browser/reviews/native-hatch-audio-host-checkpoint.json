@@ -1,0 +1,29 @@
+{
+  "sourceBase": "0280847",
+  "status": "Draft enabled/muted native hatch audio host checkpoint. Actual renderer/browser QA and final audio-hardening/whole-host follow-up reviews pending.",
+  "implementation": [
+    "Construct a fresh source-action-owned music session on each EggHatchAnim invocation and each Retry.",
+    "Enabled sound selects original sequence/sample-backed1011/1188 playback and native175cry; muted sound explicitly skips both.",
+    "Actual factory has an explicit no-field-track snapshot until a genuine global field/radio/surf player exists; no invented map soundtrack is restored."
+  ],
+  "validation": {
+    "hatchAudioHostTests": 53,
+    "passed": 53,
+    "failed": 0,
+    "tsc": "passed",
+    "actualMainCases": "Ten actual binding tests include enabled Retry and a second Egg: three distinct real sessions, source cue requests1011 /1011+1188 /1011+1188, disposal eachtime, native175form0cry, and no AudioContext allocation when muted.",
+    "logSha256": "e4a0d874d992f56beb15583396d5bbb0afebb932f0fd82e96ae9ac18f0e90fb3"
+  },
+  "sources": {
+    "browser/src/source/main.ts": "0acddf79996e4f998fbc80b2fca6145e54a967324e55706b916955acae3935c7",
+    "browser/src/source/egg-field-main.test.ts": "b8a80c4132a0d73da1e56c006448a731ed56f5e2f1083504d22855044386ca56",
+    "browser/src/source/hatch-music.ts": "859bf05e35e3e086d5dca0f80db5b9335e78b656c3701a6506fc937ce652eb7f",
+    "browser/public/source/hatching/music/manifest.json": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e"
+  },
+  "limitations": [
+    "Sequence/sample-backed emulated rendering is not a hardware-bit-exact DS audio claim.",
+    "Only these two hatch sequences and native175cry are exported; complete soundtrack/field/radio/surf playback is separate work.",
+    "Audio review followups: preload fanfare before pausing BGM, capture actual suspended field phase in future field port, explicit exporter guards underpython-O.",
+    "No new full-suite, production build, deployment or rendered playthrough is claimed by this narrow checkpoint."
+  ]
+}

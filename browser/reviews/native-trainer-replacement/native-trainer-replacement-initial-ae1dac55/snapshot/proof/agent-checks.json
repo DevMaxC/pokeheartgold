@@ -1,0 +1,34 @@
+{
+  "baseCommit": "d0900800545927c135760296ab0ee18df7f0c8f6",
+  "scope": "two new helper/test files only; no engine integration",
+  "commands": [
+    {
+      "cwd": "browser",
+      "cmd": "node --experimental-transform-types --test src/source/battle-replacement.test.ts",
+      "exitCode": 0,
+      "tests": 9,
+      "passed": 9
+    },
+    {
+      "cwd": "browser",
+      "cmd": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "cwd": ".",
+      "cmd": "git diff --cached --check",
+      "exitCode": 0
+    }
+  ],
+  "oracle": "Literal native selector/task/CalculateTypeEffectiveness/TrainerAI_GetMoveType/flags/charge helpers compiled at -O0; heavyweight damage calls are explicit neutral ports. Actual engine current-actor damage parity is not supplied or approved by this helper fixture.",
+  "coverage": {
+    "typeScoreTuples": 5832,
+    "flagContexts": 720
+  },
+  "limits": [
+    "Ordinary singles only; no opposing-target RNG.",
+    "Weather Ball without active unsuppressed weather explicitly throws instead of inventing uninitialized native local value.",
+    "Native task fallback HP-only, legitimate nonEgg/nonempty trainer parties required.",
+    "Engine owner must bind current/just-fainted actor damage/stages/abilities/types/field; no engine edits made."
+  ]
+}

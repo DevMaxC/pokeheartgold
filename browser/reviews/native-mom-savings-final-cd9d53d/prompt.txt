@@ -1,0 +1,15 @@
+READ-ONLY actual Opus followup on committed cd9d53db65688e6ab7ca4b882cf703375f303cc6, base5c39d05d32b56aa5aeb848d61f4c6e089299b1ce. CWD /tmp/hg-opus-mom-savings-final-review/snapshot is an immutable bounded copy; ../input-manifest.json pins all Git blobs and file hashes. Read/Grep/Glob only; no execution/build/test/compiler/browser/edit.
+
+Prior actual review is preserved in review-proof/prior-review.json. It found no Mom module bug but two coverage holes. Module mom-savings.ts remains BYTE-IDENTICAL22d0c6b133a6446ef55d5a5cad3e2102aa48c796e25410a1c5a06da67fdeb39a. New test now12cases plus360baselineprofiles+19berrychoices.
+Focus on whether the accepted test gaps are CLOSED using literal native C, not merely asserted labels:
+- partialmask1 bank4000 emptyqueue must skip boughtSuperPotion and buyRepel; masks3/15 test further normal progression, including one freequeue slot;
+- fullnormalqueue withmask31 andhighbank must block an otherwise eligible newnormalgift;
+- berryqueue4 plus2999→3000 must draw/enqueue one to fillslot5, whilefull5 must block purchase and RNG evenon tiercross; pendingphone12 doesnot implyfresh event;
+- setupmessageflag nowcheckedwithMomoff/fullbank/fullwallet+zerodeposit;
+- original360sweep title nowhonestlybaselineprofiles and remainsseparatefrom19berrycases;
+- original rawreview and9testproof remainunchanged outside this packet; current12test/TSC exactcommand provenance is in review-proof/agent-checks.json andlogs.
+Native math_util.c andmath_util.h are nowincluded soLCRandom's u16return/implementation can be inspected rather than inferred fromTS.
+
+Confirm these newcases genuinely hitnative branches and are legal source state/history, including compactqueue invariants andgivenbits. Look for real masking/provenance issues/newbugs in changedtests or any confirmed module flaw notcaught before. Preserve earlierfindingadjudication and noapprovaltransfer: this is a backend-only task, base main stilldoesNOTwireMomhelper, hostP2notclosedyet. No main/UI/World/types/ability expansion belongs here. Giftcollection, Motherincomingcalls, bankUI, globalRNG owner remainexplicitunimplemented integration boundaries. Review must notclaimexecutedtests.
+
+Output prioritizedconfirmedfindings with exactpath/line/nativeevidence, orboundedno newfinding; explicitlyclose/leaveopen originaltestgaps. Include readscope/limitations and integration obligations. Prior reviewcontext is notautomaticapproval for changedtestbytes orfuturemainhooks.

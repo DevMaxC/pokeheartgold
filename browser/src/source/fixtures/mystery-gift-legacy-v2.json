@@ -1,0 +1,54 @@
+{
+  "nativeBase": "e4bfa73ac49dcbf76df2ada9c7ff5f3f73c6b3d8",
+  "qualification": "All six reachable browser data.ts constructor revisions before this base; exact snippets extracted from their Git blobs. Only these own browser-v2 save shapes are migrated, not native .sav or foreign import formats.",
+  "entries": [
+    {
+      "commit": "013a6d89ad16d94a9e328b8ed2721a68b37dfb4e",
+      "path": "browser/src/source/data.ts",
+      "gitBlob": "7365d527d67042c28a3e08494a99dd5cd25f86c8",
+      "fileSha256": "8651684dee9ccc7dcf43999a01dcd074f9d65c7f5a6b203701e1be02267f87ae",
+      "constructorSha256": "d1187f60608bd3314dc5d9a9d0a6b05cb6eb68a078d43cc5a6863c91e91385ba",
+      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{\n  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
+    },
+    {
+      "commit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+      "path": "browser/src/source/data.ts",
+      "gitBlob": "5d7fc57c6520be71a894cfe3a03111535e120701",
+      "fileSha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0",
+      "constructorSha256": "d1187f60608bd3314dc5d9a9d0a6b05cb6eb68a078d43cc5a6863c91e91385ba",
+      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{\n  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
+    },
+    {
+      "commit": "8f1649b17a9ce8d4f9553e56666dfe77e9d5661c",
+      "path": "browser/src/source/data.ts",
+      "gitBlob": "14c586599b5f9f5717fa6a1ef7d5bb40b67e4493",
+      "fileSha256": "48a127cd48b47a32470d9306b0aed5925008a20e808f8b7cfa42e4be55a4d130",
+      "constructorSha256": "d1187f60608bd3314dc5d9a9d0a6b05cb6eb68a078d43cc5a6863c91e91385ba",
+      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{\n  return {version:2,trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
+    },
+    {
+      "commit": "8b33642d9f07351194f6c5a824fa2811e074f286",
+      "path": "browser/src/source/data.ts",
+      "gitBlob": "42b8d22599931b267f84a5abdcc2e595a819b332",
+      "fileSha256": "01e48e2d8b5c15161ddc2a890371b0c3cae32fc9dedbef64d2805cd6cb311f20",
+      "constructorSha256": "b59bd4bc638f9a4eb186397c536d8dcd93f8acaa1618523e8d9a7c4713ae4ea5",
+      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl'):State{\n  return {version:2,gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
+    },
+    {
+      "commit": "5160efe009041718f2138b28cfb49e42b640d4c2",
+      "path": "browser/src/source/data.ts",
+      "gitBlob": "46f671369bcf17dc045467798817f43b432c00bc",
+      "fileSha256": "6a8b4993a2c56ef092022e20452cf38f4e62d55daa4541501528b62a91599540",
+      "constructorSha256": "a77e433a779d831643b30c69c47889383fe4202e21b8065607f14bf226a69ccd",
+      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl'):State{\n  return {version:2,name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
+    },
+    {
+      "commit": "432a1cfaadb35917f917a086e9dc033d639c1682",
+      "path": "browser/src/source/data.ts",
+      "gitBlob": "ad5b6bd9b6042b0b6ccd111620dc3f96bca4820c",
+      "fileSha256": "352e42de37f42a31f26b4f74b79937dcb09d29a794754733daa3c7ca7ff32191",
+      "constructorSha256": "a77e433a779d831643b30c69c47889383fe4202e21b8065607f14bf226a69ccd",
+      "source": "export function newState(data:GameData,name:string,gender:'boy'|'girl'):State{\n  return {version:2,name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};\n}"
+    }
+  ]
+}

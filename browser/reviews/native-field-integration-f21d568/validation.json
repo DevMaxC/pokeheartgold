@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "f21d56866643e055efde7566afd2106129b841c6",
+  "checks": {
+    "automatedTests": 785,
+    "failures": 0,
+    "typescript": "pass",
+    "productionBuild": "pass"
+  },
+  "logs": {
+    "tests.log": {
+      "sha256": "2bb7a22c56c99f9ef5ec09f763a2c197d6c781bb2eef1c75f09f04fa022dbf34",
+      "bytes": 229956
+    },
+    "tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "build.log": {
+      "sha256": "19c4d14563f79d66ac1e57a5193f34e66791db8d3d9877e432827ec0dee8cd5a",
+      "bytes": 806
+    }
+  },
+  "mainSHA256": "aad9115264c0a681feb7567c81cc17263920b57b0408625436560361dd9ffb31",
+  "reviewScope": "The source-backed phone host fixes and production battle reconciliation have their own exact-scope review artifacts. A separate broad actual Opus 5.5 review of f21d568 is running; this receipt does not pre-approve its result.",
+  "remaining": [
+    "Building/terrain layers and strict terrain classifications remain draft work.",
+    "Collaborative browser/fresh-save rendered playthrough pending host reconnection.",
+    "Later campaign, generic random-call answer dialogue, global RNG/RTC penalties, NoSignal phone presentation and other ledger Partial features remain incomplete.",
+    "No inheritance of this checkpoint to later UI, shoreline, tree or corner source changes."
+  ]
+}

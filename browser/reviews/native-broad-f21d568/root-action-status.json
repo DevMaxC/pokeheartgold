@@ -1,0 +1,21 @@
+{
+  "reviewedCommit": "f21d56866643e055efde7566afd2106129b841c6",
+  "scope": "Exact original source snapshot only; later commits are not approved by this review.",
+  "findings": {
+    "P2-1 escape": "Corrected in9f078d09; exact fix merged/live production669c8fd6, retained1a7a63d1; independent runtime/fixture reviews preserved.",
+    "P2-2 burn": "Corrected in9f078d09; exact fix merged/live production669c8fd6, retained1a7a63d1; independent runtime/fixture reviews preserved.",
+    "P2-3 Mom savings": "Source settlement core integrated4a345320 and independently reviewed; economy host and delivery/phone integration pending. No hosted savings claim.",
+    "P3-1 first-rival criticals": "Corrected native main1a0054b4; separate actual static review preserved in native-continue-entry, actual main tests pass. Not released in prototype main.",
+    "P3-2 background interaction facing": "Corrected native main/background-events1a0054b4; facing-only/source direction/hidden flags tested and independently reviewed. Not released in prototype main.",
+    "P3-3 ordinary Pokemon gender": "Native ratio/consumer source013a6d89+2d2d680a, separate exact Opus review preserved32b48ce3. Battle engine/root InterfacePanels integration pending.",
+    "P3-4 Continue entry lifecycle": "Native main corrected1230f153; actual independent review and before-fail/after-pass host tests preserved209b3a40. Not released in prototype main.",
+    "Struggle effectiveness": "Dedicated actual engine candidatece7258cf tests source typeless/noSTAB, review pending; not yet integrated."
+  },
+  "noClaim": [
+    "full game parity",
+    "whole-code correctness",
+    "rendering/manual visual approval",
+    "later commit approval"
+  ],
+  "statusAsOfNativeSource": "38db016f (later metadata does not change runtime); no later-source approval inherited from broad review"
+}

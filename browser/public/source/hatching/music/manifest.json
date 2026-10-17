@@ -1,0 +1,158 @@
+{
+  "source": "files/data/sound/gs_sound_data.sdat",
+  "sourceSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+  "renderer": {
+    "repository": "https://github.com/TetraSsky/DualRip",
+    "commit": "80f878b0ebf100f391028bcef69f7c5743473770",
+    "license": "MIT",
+    "numpy": "2.2.6",
+    "ndspy": "4.2.0",
+    "files": {
+      "dualrip/engine/sdat/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dualrip/engine/sdat/channel.py": "dcbbb8eaf78a2813fd10f176388da6d6239a701da6195191ed784775b530ca16",
+      "dualrip/engine/sdat/cprims.py": "4ec0d314bfd17bebf6a551a97315e9f74ef3b567d05897694735e79385e0d1e9",
+      "dualrip/engine/sdat/render.py": "34aa705379e3023e7c3be004dd293fbda59af3263a22c76c12714cb0e27eba6c",
+      "dualrip/engine/sdat/sequencer.py": "d67c36e6c547e4d84154232d408eb0bfa753660369e810fd46b959232b3daf40",
+      "dualrip/engine/sdat/tables.py": "f02a82985b96916293fba8dbf2204f27396a14ea118638410040e848c0d9dd0f",
+      "dualrip/formats/sdat/__init__.py": "02c53df2796c85cb34a9ea53201cdea7607a7da13e2f32ae26418bdb2337a6d0",
+      "dualrip/formats/sdat/common.py": "372c9ee925e44e64ef299e4f27068fc2efa90f726337ecdaa5bcee143289ac81",
+      "dualrip/formats/sdat/rom.py": "58c75448fbcd1dd526107e584afda3c0f32097b543f6820d84f850ddadf5f065",
+      "dualrip/formats/sdat/sbnk.py": "07971e00df2262877ebfc293f11a2f4609d5fe2aceee458c80fee6274d384d94",
+      "dualrip/formats/sdat/sdat.py": "26ed84b07711c5bc877fe4ddbb6315eb2752a9874fda292b92de36930284eebf",
+      "dualrip/formats/sdat/swar.py": "d729a9eb33000fbe97472a55795de29d4326f5ff5537444aeabeb3bf06704cf1"
+    }
+  },
+  "policy": "Native SSEQ + exact INFO bank/SWAR sample dependencies; no MIDI, substitute instruments, normalization, fades or composed replacement.",
+  "limitations": [
+    "Emulated sequence/sample rendering, not a bit-exact DS hardware/DAC or shared-channel mixer capture.",
+    "Only cues1011 and1188 are exported; general field/radio/surf music playback is not implemented.",
+    "Fanfare completion includes native sound_playback.c fifteen-frame post-sequence wait at the source thirty-Hz app cadence."
+  ],
+  "tracks": {
+    "1011": {
+      "id": 1011,
+      "key": "SEQ_GS_SHINKA",
+      "file": "1011-SEQ_GS_SHINKA.wav",
+      "sampleRate": 32768,
+      "channels": 2,
+      "bitsPerSample": 16,
+      "frames": 1545228,
+      "loopFrames": [
+        1030038,
+        1529353
+      ],
+      "sequenceEndFrame": null,
+      "completionFrame": 1545228,
+      "volume": 80,
+      "channelPriority": 30,
+      "player": 7,
+      "eventCounts": {
+        "DefineTracksSequenceEvent": 1,
+        "BeginTrackSequenceEvent": 9,
+        "MonoPolySequenceEvent": 10,
+        "TempoSequenceEvent": 1,
+        "InstrumentSwitchSequenceEvent": 10,
+        "TrackVolumeSequenceEvent": 45,
+        "PanSequenceEvent": 44,
+        "PortamentoRangeSequenceEvent": 10,
+        "TrackPrioritySequenceEvent": 10,
+        "VibratoDepthSequenceEvent": 10,
+        "VibratoSpeedSequenceEvent": 10,
+        "VibratoTypeSequenceEvent": 10,
+        "VibratoRangeSequenceEvent": 10,
+        "VibratoDelaySequenceEvent": 10,
+        "NoteSequenceEvent": 849,
+        "RestSequenceEvent": 894,
+        "JumpSequenceEvent": 10,
+        "RawDataSequenceEvent": 10,
+        "CallSequenceEvent": 72,
+        "ReturnSequenceEvent": 31,
+        "PortamentoSequenceEvent": 101
+      },
+      "sequence": {
+        "fileId": 7,
+        "offset": 187520,
+        "size": 5352,
+        "sha256": "e0e003a667fe5728b03b50bbbebe06eb8ddbad5231dce1d6e51ea1a88ed461aa"
+      },
+      "bank": {
+        "id": 700,
+        "name": "BANK_BASIC",
+        "fileId": 1725,
+        "offset": 1764256,
+        "size": 4288,
+        "sha256": "c6a1da231c482c81df1934a3814b8364a420027962f2d742a2c79a0d2baf1222"
+      },
+      "waveArchives": [
+        {
+          "id": 700,
+          "name": "WAVE_ARC_BASIC",
+          "fileId": 2286,
+          "offset": 6937120,
+          "size": 431288,
+          "sha256": "85bbebf93e046313467267323fbc9dd587faded2d8468f3b1d426f574f104e2b"
+        }
+      ],
+      "wavSHA256": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e"
+    },
+    "1188": {
+      "id": 1188,
+      "key": "SEQ_ME_SHINKAOME",
+      "file": "1188-SEQ_ME_SHINKAOME.wav",
+      "sampleRate": 32768,
+      "channels": 2,
+      "bitsPerSample": 16,
+      "frames": 136052,
+      "loopFrames": null,
+      "sequenceEndFrame": 123078,
+      "completionFrame": 139462,
+      "volume": 76,
+      "channelPriority": 127,
+      "player": 2,
+      "eventCounts": {
+        "DefineTracksSequenceEvent": 1,
+        "BeginTrackSequenceEvent": 8,
+        "MonoPolySequenceEvent": 9,
+        "TempoSequenceEvent": 1,
+        "InstrumentSwitchSequenceEvent": 9,
+        "TrackVolumeSequenceEvent": 58,
+        "PanSequenceEvent": 9,
+        "PortamentoRangeSequenceEvent": 6,
+        "VibratoSpeedSequenceEvent": 6,
+        "VibratoRangeSequenceEvent": 6,
+        "VibratoDepthSequenceEvent": 6,
+        "TrackPrioritySequenceEvent": 9,
+        "NoteSequenceEvent": 197,
+        "RestSequenceEvent": 233,
+        "EndTrackSequenceEvent": 9,
+        "PortamentoSequenceEvent": 1,
+        "RawDataSequenceEvent": 1
+      },
+      "sequence": {
+        "fileId": 153,
+        "offset": 1172448,
+        "size": 1380,
+        "sha256": "0d71812be6c42f3e581f1525f59378e4e5de08a0d879ded4a0138cb78e2633d1"
+      },
+      "bank": {
+        "id": 700,
+        "name": "BANK_BASIC",
+        "fileId": 1725,
+        "offset": 1764256,
+        "size": 4288,
+        "sha256": "c6a1da231c482c81df1934a3814b8364a420027962f2d742a2c79a0d2baf1222"
+      },
+      "waveArchives": [
+        {
+          "id": 700,
+          "name": "WAVE_ARC_BASIC",
+          "fileId": 2286,
+          "offset": 6937120,
+          "size": 431288,
+          "sha256": "85bbebf93e046313467267323fbc9dd587faded2d8468f3b1d426f574f104e2b"
+        }
+      ],
+      "wavSHA256": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea"
+    }
+  }
+}

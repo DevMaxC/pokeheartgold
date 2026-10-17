@@ -1,0 +1,30 @@
+TAP version 13
+# (node:20583) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual native opening confirms the remembered choice before any deferred focus task
+ok 1 - actual native opening confirms the remembered choice before any deferred focus task
+  ---
+  duration_ms: 302.968125
+  type: 'test'
+  ...
+# Subtest: actual modal capture and native cursor move once per arrow and keep focus selection aligned
+ok 2 - actual modal capture and native cursor move once per arrow and keep focus selection aligned
+  ---
+  duration_ms: 6.750459
+  type: 'test'
+  ...
+# Subtest: native opening retains pointer selection and mandatory Back behavior under modal ownership
+ok 3 - native opening retains pointer selection and mandatory Back behavior under modal ownership
+  ---
+  duration_ms: 59.501167
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2943.210292

@@ -1,0 +1,3 @@
+Actual Opus 5.5 reviews of the native Mystery Gift store initialization, known browser-save migration, script ABI and Mart arrival behavior. Initial and final immutable source copies, raw findings, adjudication, probes and complete artifact manifests are retained without replacing the initial findings.
+
+Final reviewed original source is 88d7a5667f71b2f95a0be88091aa57ccb6c65776; the native integration cherry-pick is 22c0bc62. This evidence approves that leaf only. Actual combined Main/World entry behavior and full receiving remain separate; queued gifts are preserved and receiving commands remain explicitly unsupported. No full campaign parity claim.

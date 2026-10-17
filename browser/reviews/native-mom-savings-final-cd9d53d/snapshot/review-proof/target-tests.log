@@ -1,0 +1,84 @@
+TAP version 13
+# (node:54604) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle settlement matches literal native C across capped prize, loss/zero and baseline saved profiles
+ok 1 - battle settlement matches literal native C across capped prize, loss/zero and baseline saved profiles
+  ---
+  duration_ms: 681.434291
+  type: 'test'
+  ...
+# Subtest: all17 source berry choices use one raw16-bit modulo draw, including16/17/65535 and multi-tier gains
+ok 2 - all17 source berry choices use one raw16-bit modulo draw, including16/17/65535 and multi-tier gains
+  ---
+  duration_ms: 7.261709
+  type: 'test'
+  ...
+# Subtest: a partial given mask skips bought gifts and reaches the next native gift, including the final free queue slot
+ok 3 - a partial given mask skips bought gifts and reaches the next native gift, including the final free queue slot
+  ---
+  duration_ms: 7.051167
+  type: 'test'
+  ...
+# Subtest: full queues block eligible normal/berry purchases while a fourth berry queue entry allows exactly one more
+ok 4 - full queues block eligible normal/berry purchases while a fourth berry queue entry allows exactly one more
+  ---
+  duration_ms: 6.564792
+  type: 'test'
+  ...
+# Subtest: normal gifts retain source ordering/costs and capacity; a zero-gain battle still purchases without a berry draw
+ok 5 - normal gifts retain source ordering/costs and capacity; a zero-gain battle still purchases without a berry draw
+  ---
+  duration_ms: 2.055083
+  type: 'test'
+  ...
+# Subtest: full-bank display is captured separately; purchases can free space but never retroactively enlarge this deposit
+ok 6 - full-bank display is captured separately; purchases can free space but never retroactively enlarge this deposit
+  ---
+  duration_ms: 5.668208
+  type: 'test'
+  ...
+# Subtest: the native setup message bit depends on saving policy/bank cap, including a full wallet with zero actual deposit
+ok 7 - the native setup message bit depends on saving policy/bank cap, including a full wallet with zero actual deposit
+  ---
+  duration_ms: 0.115333
+  type: 'test'
+  ...
+# Subtest: native zero/partial initialization, toggle and JSON reload preserve funds/gift identity without inferred fresh events
+ok 8 - native zero/partial initialization, toggle and JSON reload preserve funds/gift identity without inferred fresh events
+  ---
+  duration_ms: 0.125875
+  type: 'test'
+  ...
+# Subtest: the existing actual Mother phone choice toggles only saving policy, retaining purchased gifts, funds and pending calls
+ok 9 - the existing actual Mother phone choice toggles only saving policy, retaining purchased gifts, funds and pending calls
+  ---
+  duration_ms: 6.264958
+  type: 'test'
+  ...
+# Subtest: a fresh purchase reports phone12 even if its bit is already set, and returned/read objects cannot mutate saved gifts
+ok 10 - a fresh purchase reports phone12 even if its bit is already set, and returned/read objects cannot mutate saved gifts
+  ---
+  duration_ms: 0.551375
+  type: 'test'
+  ...
+# Subtest: invalid/missing RNG, malformed stored data and missing source items fail before ANY state write
+ok 11 - invalid/missing RNG, malformed stored data and missing source items fail before ANY state write
+  ---
+  duration_ms: 5.921709
+  type: 'test'
+  ...
+# Subtest: the actual outer source checkpoint restores funds/gifts/phone manager after a later host failure; Retry commits once
+ok 12 - the actual outer source checkpoint restores funds/gifts/phone manager after a later host failure; Retry commits once
+  ---
+  duration_ms: 0.777666
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1430.050083

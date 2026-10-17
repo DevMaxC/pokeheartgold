@@ -1,0 +1,16 @@
+{
+  "sourceCommit": "9855423ba23170e21d2bef5c50db1eaced2cbdd0",
+  "startedAt": "2026-10-17T17:04:39.635726+00:00",
+  "finishedAt": "2026-10-17T17:04:58.669751+00:00",
+  "command": [
+    "browser/node_modules/.bin/tsc",
+    "--noEmit",
+    "-p",
+    "browser/tsconfig.json"
+  ],
+  "cwd": "/Users/maxchurch/Documents/pokeheartgold-azalea-battles",
+  "exitCode": 0,
+  "log": "final-tsc.log",
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "qualification": "Actual subprocess exit status; not inferred from an empty log. No build/browser."
+}

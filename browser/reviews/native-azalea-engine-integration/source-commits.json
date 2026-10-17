@@ -1,0 +1,121 @@
+{
+  "runtimeSourceCommit": "9855423ba23170e21d2bef5c50db1eaced2cbdd0",
+  "base": "d0900800545927c135760296ab0ee18df7f0c8f6",
+  "ownCommits": [
+    {
+      "commit": "ce7258cfa21cbe519e80568da42e15e892cc9e2a",
+      "subject": "Implement native Azalea battle volatiles and U-turn lifecycle",
+      "changedFiles": [
+        "browser/src/source/azalea-battle-integration.test.ts",
+        "browser/src/source/battle-action-end.test.ts",
+        "browser/src/source/battle-escape-burn.test.ts",
+        "browser/src/source/battle-math.ts",
+        "browser/src/source/battle-volatiles.test.ts",
+        "browser/src/source/battle.ts",
+        "browser/src/source/early-battle-effects.test.ts"
+      ]
+    },
+    {
+      "commit": "93b81f643676ef66fb6862d3a9913a411c46d13e",
+      "subject": "Fix reviewed volatile action and faint lifecycle regressions",
+      "changedFiles": [
+        "browser/src/source/azalea-battle-integration.test.ts",
+        "browser/src/source/battle-math.ts",
+        "browser/src/source/battle-turn-phase.test.ts",
+        "browser/src/source/battle.ts"
+      ]
+    },
+    {
+      "commit": "9a1ba63b036a2c73e485568e8e08da17a07008cc",
+      "subject": "Apply native Guts and Hustle damage and accuracy ordering",
+      "changedFiles": [
+        "browser/src/source/azalea-battle-integration.test.ts",
+        "browser/src/source/battle-math.ts",
+        "browser/src/source/battle.ts"
+      ]
+    },
+    {
+      "commit": "e75f4b251bbda913f5c5186027f0ad5481612353",
+      "subject": "Run native Static on-hit hooks before pivot and per-hit items",
+      "changedFiles": [
+        "browser/src/source/azalea-battle-integration.test.ts",
+        "browser/src/source/battle.ts"
+      ]
+    },
+    {
+      "commit": "2e396ca028ecac96c8b8bc7a3afbbd0bff6c9cad",
+      "subject": "Scope U-turn Pursuit guards to unresolved selected actions",
+      "changedFiles": [
+        "browser/src/source/azalea-battle-integration.test.ts",
+        "browser/src/source/battle.ts"
+      ]
+    },
+    {
+      "commit": "13a8317e20a7832589235e9df36fbc4f0f254ee5",
+      "subject": "Allow guaranteed Pursuit-user knockouts and identify Levitate misses",
+      "changedFiles": [
+        "browser/src/source/azalea-battle-integration.test.ts",
+        "browser/src/source/battle.ts"
+      ]
+    },
+    {
+      "commit": "b6caf5a26278de6754e5ece994253ee67c54cf9f",
+      "subject": "Use native direct damage without critical or range draws",
+      "changedFiles": [
+        "browser/src/source/battle-math.ts",
+        "browser/src/source/battle.ts",
+        "browser/src/source/fixed-damage-battle.test.ts"
+      ]
+    },
+    {
+      "commit": "9855423ba23170e21d2bef5c50db1eaced2cbdd0",
+      "subject": "Exercise a real native accuracy miss in the Spite history fixture",
+      "changedFiles": [
+        "browser/src/source/azalea-battle-integration.test.ts"
+      ]
+    }
+  ],
+  "dependenciesExcludeFromParentHandoff": {
+    "85183783": "e8966bdf823cfe0198b6222619f4baa55efe0647",
+    "393a5581": "866dc829854702c6e77f67b368836cd02a965091",
+    "c81d7525": "8cbd4f1d3341dd937f71b63ab10d0f9df7abaed7"
+  },
+  "pins": [
+    {
+      "path": "browser/src/source/battle.ts",
+      "sha256": "c89ca8dc26e1d1d101c80825079fc921222fd13fe28cd0b598c1879b5483accf",
+      "matchesCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/battle-math.ts",
+      "sha256": "a6e1f3f6f2bb87c84cb4fbf43b5570aa4ba4eff2c6524030dc1a7334ad7cefe7",
+      "matchesCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/azalea-battle-integration.test.ts",
+      "sha256": "a80a5f2e190fd7c1128d8ba8914d34824f305c97163c6a247f580870f74e4635",
+      "matchesCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/fixed-damage-battle.test.ts",
+      "sha256": "d6db89779a206720e43badc5aa2b6256171df19f04e4c3b3483032d59459b5d9",
+      "matchesCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/battle-replacement.ts",
+      "sha256": "10aba7042db71a4f97c70b358d90abb20f70db05a40f198afe480e2e8deb16c1",
+      "matchesCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/gender.ts",
+      "sha256": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6",
+      "matchesCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/trainers.ts",
+      "sha256": "155234fdc9988b56ee88b0069a4cc6372dcff8d300091221572fbc32fe7f676d",
+      "matchesCommittedBlob": true
+    }
+  ],
+  "qualification": "Exact runtime source9855423b independently reviewed; this packet is metadata only. No fullcampaign/globalLCG/browser/production approval."
+}

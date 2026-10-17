@@ -1,0 +1,35 @@
+TAP version 13
+# (node:82150) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: PP move selection cancels without consumption and restores only the chosen move with boosted capacity intact
+not ok 1 - PP move selection cancels without consumption and restores only the chosen move with boosted capacity intact
+  ---
+  duration_ms: 6.93925
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:101:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:103:157)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Error: Test "PP move selection cancels without consumption and restores only the chosen move with boosted capacity intact" at src/source/field-bag-actions.test.ts:101:1 generated asynchronous activity after the test ended. This activity created the error "AbortError: This operation was aborted" and would have caused the test to fail, but instead triggered an unhandledRejection event.
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 979.434542

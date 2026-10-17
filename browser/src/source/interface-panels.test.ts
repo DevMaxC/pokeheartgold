@@ -190,3 +190,13 @@ test('a stale Save callback cannot save, unlock sound, navigate, or resolve a re
     const old=f.panels.menu(),rejected=assert.rejects(old,{name:'AbortError'}),save=f.action('save'),stale=save.onclick!,next=f.ui.choose('Recovery',['Retry']);await rejected;assert.equal(save.onclick,null);stale();assert.equal(f.saves,0);assert.equal(f.gestures,0);assert.match(f.html(),/Recovery/);assert.equal(f.ui.panelOpen,true);f.d.buttons[0].click();await next;
   }finally{f.restore();}
 });
+
+test('modern party and summary use the native male sprite slot for genderless Pokémon without changing identity',async()=>{
+ const f=fixture();try{
+  const mon={species:81,gender:'genderless',name:'Magnemite',level:5,hp:15,maxHP:20,status:'',ot:'Ethan',stats:{atk:8,def:9,spatk:10,spdef:7,speed:8},moves:[]}as Mon;
+  f.state!.party=[mon];const before=structuredClone(mon),party=f.panels.party();
+  assert.match(f.html(),/81-male-front\.png/);assert.doesNotMatch(f.html(),/genderless-front|[♂♀]/);
+  f.action('0').click();await tick();assert.match(f.html(),/81-male-front\.png/);assert.doesNotMatch(f.html(),/genderless-front|[♂♀]/);
+  f.action('back').click();await tick();f.action('back').click();await party;assert.deepEqual(mon,before);
+ }finally{f.restore();}
+});

@@ -1,0 +1,37 @@
+{
+  "baseCommit": "d0900800545927c135760296ab0ee18df7f0c8f6",
+  "commands": [
+    {
+      "cwd": "browser",
+      "cmd": "node --experimental-transform-types --test src/source/battle-replacement.test.ts",
+      "exitCode": 0,
+      "tests": 9,
+      "passed": 9
+    },
+    {
+      "cwd": "browser",
+      "cmd": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "cwd": ".",
+      "cmd": "git diff --cached --check",
+      "exitCode": 0
+    }
+  ],
+  "coverage": {
+    "typeScoreTuples": 5832,
+    "independentFlagContexts": 1440
+  },
+  "acceptedPriorGaps": [
+    "G1 power1 score-carry fixture now Psychic target, asserts actualStage2Tackle call",
+    "G2 entire C move/type/score callback tuples logged/deep-compared; dynamic Judgment FirePlate override in Stage2",
+    "G3 chargeMoveHit independent fromGravity"
+  ],
+  "limits": [
+    "Heavy damage functions neutral explicit test ports, not actual native damage proof.",
+    "Synthetic arithmetic/controller controls are not encounter claims; Bugsy metadata separate actual team.",
+    "Harness normal singles now partner aliases actor/opponent=actor^1; explicit optional partner exclusion controls remain labeled synthetic.",
+    "Runtime delta from initial review is comments only; emitted JS byte-identical."
+  ]
+}

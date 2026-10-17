@@ -1,0 +1,144 @@
+TAP version 13
+# (node:81608) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Cut assets retain twelve source joints, all three45-frame tracks, exact FX32 scales, colors and texel UV matrices
+ok 1 - actual Cut assets retain twelve source joints, all three45-frame tracks, exact FX32 scales, colors and texel UV matrices
+  ---
+  duration_ms: 188.771875
+  type: 'test'
+  ...
+# Subtest: posed instances own geometry, skeleton, materials and texture matrices without mutating source or siblings
+ok 2 - posed instances own geometry, skeleton, materials and texture matrices without mutating source or siblings
+  ---
+  duration_ms: 130.369291
+  type: 'test'
+  ...
+# Subtest: native player/follower placement uses each performers logical tile ahead and exact height, never the tree flag or camera
+ok 3 - native player/follower placement uses each performers logical tile ahead and exact height, never the tree flag or camera
+  ---
+  duration_ms: 212.653708
+  type: 'test'
+  ...
+# Subtest: literal priority0 wrapper polls before priority1024 model: hide45, observe46, delete47; no instant success
+ok 4 - literal priority0 wrapper polls before priority1024 model: hide45, observe46, delete47; no instant success
+  ---
+  duration_ms: 8.105375
+  type: 'test'
+  ...
+# Subtest: dt convenience retains integer native frames at30Hz; visual completion does not await independent native SE
+ok 5 - dt convenience retains integer native frames at30Hz; visual completion does not await independent native SE
+  ---
+  duration_ms: 9.445666
+  type: 'test'
+  ...
+# Subtest: abort releases current resources synchronously, drains its Promise, blocks late writes and allows a new owned run
+ok 6 - abort releases current resources synchronously, drains its Promise, blocks late writes and allows a new owned run
+  ---
+  duration_ms: 13.746541
+  type: 'test'
+  ...
+# Subtest: overlapping starts reject without disturbing the active instance; missing followers and map replacement fail explicitly
+ok 7 - overlapping starts reject without disturbing the active instance; missing followers and map replacement fail explicitly
+  ---
+  duration_ms: 4.668417
+  type: 'test'
+  ...
+# Subtest: original SE is prepared before synchronous dispatch, uses host Context and ends on real audio completion
+ok 8 - original SE is prepared before synchronous dispatch, uses host Context and ends on real audio completion
+  ---
+  duration_ms: 9.214792
+  type: 'test'
+  ...
+# Subtest: unprepared enabled sound rejects the field effect before source progress; a prepared retry on the same owner finishes
+ok 9 - unprepared enabled sound rejects the field effect before source progress; a prepared retry on the same owner finishes
+  ---
+  duration_ms: 200.733459
+  type: 'test'
+  ...
+# Subtest: pattern0 cries load only the actual species PCM on demand, preserve mono timing, await ended and reject unsupported patterns/species
+ok 10 - pattern0 cries load only the actual species PCM on demand, preserve mono timing, await ended and reject unsupported patterns/species
+  ---
+  duration_ms: 11.727875
+  type: 'test'
+  ...
+# Subtest: explicit mute requests no Context or audio data, while suspended Context is never silently resumed
+ok 11 - explicit mute requests no Context or audio data, while suspended Context is never silently resumed
+  ---
+  duration_ms: 7.113334
+  type: 'test'
+  ...
+# Subtest: ignored-abort fetch/decode settle promptly without late cache publication or voices, and disposal stops an active cry
+ok 12 - ignored-abort fetch/decode settle promptly without late cache publication or voices, and disposal stops an active cry
+  ---
+  duration_ms: 15.750916
+  type: 'test'
+  ...
+# Subtest: broken audio preparation has a bounded reported admission failure and no fabricated voice
+ok 13 - broken audio preparation has a bounded reported admission failure and no fabricated voice
+  ---
+  duration_ms: 19.135833
+  type: 'test'
+  ...
+# Subtest: source FieldSystem_IsFieldMapRunning gates model updates, while completed wrapper polling/release remains independent
+ok 14 - source FieldSystem_IsFieldMapRunning gates model updates, while completed wrapper polling/release remains independent
+  ---
+  duration_ms: 105.1425
+  type: 'test'
+  ...
+# Subtest: native Cut ignores failed SE admission/completion and WaitCry sees no voice after technical failure, with required status evidence
+ok 15 - native Cut ignores failed SE admission/completion and WaitCry sees no voice after technical failure, with required status evidence
+  ---
+  duration_ms: 20.025
+  type: 'test'
+  ...
+# Subtest: undefined decode rejection remains a failed admission; muted preparation then enabled dispatch is reported without a pretend sound
+ok 16 - undefined decode rejection remains a failed admission; muted preparation then enabled dispatch is reported without a pretend sound
+  ---
+  duration_ms: 82.363792
+  type: 'test'
+  ...
+# Subtest: malformed audio host and throwing stop cannot leak visual instances or block cancellation cleanup
+ok 17 - malformed audio host and throwing stop cannot leak visual instances or block cancellation cleanup
+  ---
+  duration_ms: 7.399
+  type: 'test'
+  ...
+# Subtest: native failure policy is pinned to ignored PlaySE return, untested PlayCryEx result and actual playing-count WaitCry
+ok 18 - native failure policy is pinned to ignored PlaySE return, untested PlayCryEx result and actual playing-count WaitCry
+  ---
+  duration_ms: 5.434584
+  type: 'test'
+  ...
+# Subtest: technical source-start/autoplay failures stop owned nodes and report admission failure, without silently fabricating cry or SE
+ok 19 - technical source-start/autoplay failures stop owned nodes and report admission failure, without silently fabricating cry or SE
+  ---
+  duration_ms: 6.642541
+  type: 'test'
+  ...
+# Subtest: throwing status port remains an explicit configuration failure during and after visual completion, observed through owner.failure
+ok 20 - throwing status port remains an explicit configuration failure during and after visual completion, observed through owner.failure
+  ---
+  duration_ms: 15.741167
+  type: 'test'
+  ...
+# Subtest: unsupported texture shape and corrupted cry gain remain explicit required-resource errors
+ok 21 - unsupported texture shape and corrupted cry gain remain explicit required-resource errors
+  ---
+  duration_ms: 3.662625
+  type: 'test'
+  ...
+# Subtest: failed scene admission aborts the SE controller before stop and clears assigned run; undefined port throw gets real failure diagnostics
+ok 22 - failed scene admission aborts the SE controller before stop and clears assigned run; undefined port throw gets real failure diagnostics
+  ---
+  duration_ms: 142.948209
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1812.607166

@@ -11,7 +11,7 @@ const data=await loadData();
 function move(mon:Mon,key:string){const id=data.constants[key],pp=data.moves[id].pp;mon.moves=[{id,pp,maxPP:pp}];}
 function fixture(player:Mon,rng:()=>number=()=>0){
   const elements=new Map<string,{innerHTML:string;hidden:boolean}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}} as unknown as Document;
-  const state=newState(data,'Ethan','boy');state.party=[player];const messages:string[]=[],battle=new Battle(data,state,{choose:async()=>4} as unknown as UI,rng);
+  const state=newState(data,'Ethan','boy',()=>.5);state.party=[player];const messages:string[]=[],battle=new Battle(data,state,{choose:async()=>4} as unknown as UI,rng);
   Reflect.set(battle,'say',async(text:string)=>messages.push(text));Reflect.set(battle,'nextAction',async()=>({kind:'move',slot:0}));return{battle,state,messages};
 }
 function mon(species:number,level:number){return createMon(data,species,level,'Ethan',()=>.5);}
@@ -62,6 +62,6 @@ test('equal-speed residuals use a fresh native low-bit tie instead of reusing th
 test('native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie',async()=>{
  const player=mon(74,1),enemy=mon(19,1);for(const battler of[player,enemy]){battler.hp=1;move(battler,'MOVE_TACKLE');}player.status='PAR';
  assert.equal(player.stats.speed,5);assert.equal(enemy.stats.speed,6);
- const {battle,messages}=fixture(player,()=>.25);Reflect.set(battle,'nextAction',async()=>{Reflect.set(battle,'playerStages',{...freshStages(),speed:-6});Reflect.set(battle,'enemyStages',{...freshStages(),speed:-6});return{kind:'move',slot:0};});
- assert.equal(await battle.start([enemy]),'lost');assert.equal(messages.find(text=>text.includes(' used ')),`The opposing ${enemy.name} used Tackle!`);assert.equal(Reflect.get(battle,'effectiveSpeed').call(battle,true),0);assert.equal(Reflect.get(battle,'effectiveSpeed').call(battle,false),1);
+ const {battle,messages}=fixture(player,()=>.25);Reflect.set(battle,'nextAction',async()=>{Reflect.set(battle,'playerStages',{...freshStages(),speed:-6});Reflect.set(battle,'enemyStages',{...freshStages(),speed:-6});assert.equal(Reflect.get(battle,'effectiveSpeed').call(battle,true),0);assert.equal(Reflect.get(battle,'effectiveSpeed').call(battle,false),1);return{kind:'move',slot:0};});
+ assert.equal(await battle.start([enemy]),'lost');assert.equal(messages.find(text=>text.includes(' used ')),`The opposing ${enemy.name} used Tackle!`);assert.equal(Reflect.get(battle,'playerStages').speed,0,'native InitFaintedWork neutralizes the defeated actor’s stages');
 });

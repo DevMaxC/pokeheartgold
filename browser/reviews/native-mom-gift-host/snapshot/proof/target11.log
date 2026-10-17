@@ -1,0 +1,78 @@
+TAP version 13
+# (node:4947) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal delivery ABI and all exported deliverymen run real COMMON0144→std2033 once per package
+ok 1 - literal delivery ABI and all exported deliverymen run real COMMON0144→std2033 once per package
+  ---
+  duration_ms: 387.370792
+  type: 'test'
+  ...
+# Subtest: real full-stack and five-berry overflow branches keep the complete queue and pending call
+ok 2 - real full-stack and five-berry overflow branches keep the complete queue and pending call
+  ---
+  duration_ms: 1.698958
+  type: 'test'
+  ...
+# Subtest: every awaited delivery message and final refresh failure restore State and live object/phone snapshots
+ok 3 - every awaited delivery message and final refresh failure restore State and live object/phone snapshots
+  ---
+  duration_ms: 14.957125
+  type: 'test'
+  ...
+# Subtest: failed source delivery Return grants nothing; explicit Retry grants/pop exactly once after acknowledgement
+ok 4 - failed source delivery Return grants nothing; explicit Retry grants/pop exactly once after acknowledgement
+  ---
+  duration_ms: 3.663875
+  type: 'test'
+  ...
+# Subtest: cancellation and controlled bag/head changes between source phases never discard or duplicate a package
+ok 5 - cancellation and controlled bag/head changes between source phases never discard or duplicate a package
+  ---
+  duration_ms: 4.110667
+  type: 'test'
+  ...
+# Subtest: transient delivery-bank fetch retries and shared MysteryGift init remains explicitly unsupported
+ok 6 - transient delivery-bank fetch retries and shared MysteryGift init remains explicitly unsupported
+  ---
+  duration_ms: 4.198083
+  type: 'test'
+  ...
+# Subtest: Mother trigger12 rings as exact script27, is not inferred on Continue, and answering never awards a gift
+ok 7 - Mother trigger12 rings as exact script27, is not inferred on Continue, and answering never awards a gift
+  ---
+  duration_ms: 2.571375
+  type: 'test'
+  ...
+# Subtest: Mother incoming local priority, exact genders and unsupported callers stay source bounded
+ok 8 - Mother incoming local priority, exact genders and unsupported callers stay source bounded
+  ---
+  duration_ms: 424.842459
+  type: 'test'
+  ...
+# Subtest: Mother failed fetch/dialogue Return and explicit Retry restore same pinned call and queue without reselection
+ok 9 - Mother failed fetch/dialogue Return and explicit Retry restore same pinned call and queue without reselection
+  ---
+  duration_ms: 4.234416
+  type: 'test'
+  ...
+# Subtest: Mother answer owns admission through pending UI and cancellation; tampered calls never launch
+ok 10 - Mother answer owns admission through pending UI and cancellation; tampered calls never launch
+  ---
+  duration_ms: 1.092459
+  type: 'test'
+  ...
+# Subtest: Mom queue check/peek outputs and pop order match literal C for every compact queue size; reads do not mutate saves
+ok 11 - Mom queue check/peek outputs and pop order match literal C for every compact queue size; reads do not mutate saves
+  ---
+  duration_ms: 2285.69625
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4793.438209

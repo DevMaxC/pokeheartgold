@@ -1,0 +1,188 @@
+{
+  "finalSourceCommit": "9a46fed256405a9b7d9bbca584962f1842071c6d",
+  "base": "5c39d05d32b56aa5aeb848d61f4c6e089299b1ce",
+  "reviews": [
+    {
+      "directory": "review-initial",
+      "sourceCommit": "4d5431e00841afc29547d86e825230623d02a819",
+      "rawResultSHA256": "ec8b8be3096e7ae77aa04ea230061a3848c21f0a9f0ec2c95faf391cbc48c0c9",
+      "snapshotManifestSHA256": "a80e66376618058ead920d310bb4277b1baa09cc7ce3eb92265037d2ed95c68e",
+      "promptSHA256": "b744e7811027f9e5b94890ae6023e04f79d1ecddb61311e4d1acc0098a90fee6",
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1804,
+          "outputTokens": 14,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001874,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 74,
+          "outputTokens": 40382,
+          "cacheReadInputTokens": 3639795,
+          "cacheCreationInputTokens": 173143,
+          "webSearchRequests": 0,
+          "costUSD": 2.4016100000000007,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 31188,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "durationMs": 519085
+    },
+    {
+      "directory": "review-followup-0d509f9e",
+      "sourceCommit": "0d509f9e9a7b98043efa7eb47ee405b64715aa31",
+      "rawResultSHA256": "67ed26220569724c1a288056cd2ae8b8cd13f01b1de07da7866fd6f41b45d8e0",
+      "snapshotManifestSHA256": "b149cf045e5c34b0d2c116a8e3e74eb0be35d17cd267d1564d2595e29e9fa039",
+      "promptSHA256": "22525658378795dc3fab00ce93fa65426a556d9ea09f016f1ba4f93ce4c08a00",
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1635,
+          "outputTokens": 16,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001715,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 74,
+          "outputTokens": 36724,
+          "cacheReadInputTokens": 3317301,
+          "cacheCreationInputTokens": 145421,
+          "webSearchRequests": 0,
+          "costUSD": 2.1253412,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 26427,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "durationMs": 409329
+    },
+    {
+      "directory": "review-final-9a46fed2",
+      "sourceCommit": "9a46fed256405a9b7d9bbca584962f1842071c6d",
+      "rawResultSHA256": "6c5935d4afa9fe83cac929e9a934255e251bade36b510f0e7ea94430ef69714c",
+      "snapshotManifestSHA256": "22ad5c25b191e4c2b010c89b239f678f13810dcf8c394d43b665b70c982e75fa",
+      "promptSHA256": "c5681f2794230ae6790f7a086797889c00e1afd1de881f3172b98df2d77ea11e",
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1495,
+          "outputTokens": 16,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001575,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 8,
+          "outputTokens": 10165,
+          "cacheReadInputTokens": 69611,
+          "cacheCreationInputTokens": 45737,
+          "webSearchRequests": 0,
+          "costUSD": 0.4459392,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 7113,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "durationMs": 104800
+    }
+  ],
+  "finalSourceSHA256": {
+    "browser/src/source/cut-field-effect.ts": "3f154a2070791241d57aefc57138a6cd301f4905c4794772d6e89c837abed31c",
+    "browser/src/source/cut-field-effect.test.ts": "28eb5474b5213a021fa645452c9fb58d9b2470ac6f126bd1a22436cc1ad339e3",
+    "browser/scripts/export_cut_effect.py": "a214873156190d8ca795f4e95ccf386156ab08e042975584f12ea57cf557a3f5",
+    "browser/scripts/test_cut_effect_resources.py": "0d628ccca625cc6f2098e4411e57ca8729d3bf23937073a92a91d48f6f6f28b6",
+    "browser/public/source/cut/model.glb": "80103dba9005dd862f039cbcd993b6fadb5dcac816c50be384e19fa3923a3bd1",
+    "browser/public/source/cut/resources.json": "f07c5dffaf6dee73c67464c2bd47183b7b8566dca30019387129747479929d18"
+  },
+  "adjudicatedFindings": [
+    {
+      "finding": "Cry gain omitted actualSEQ_PV volume120",
+      "resolution": "0d509f9e multiplies sequence120/127 by native initial100/127; exact source record/test, remains linear mixer approximation."
+    },
+    {
+      "finding": "Technical audio admission/playback failure aborted Cut; SE completion delayed visual task",
+      "resolution": "0d509f9e reports through required status callback, permits native failed-admission/no-playing semantics, releases visual on47 independently; cancellation/invalid mechanisms unsupported."
+    },
+    {
+      "finding": "Model update/render gate absent",
+      "resolution": "0d509f9e requires actualmapRunning; model stops, wrapper observes/deletes independently. Draw sampling perqueue remains qualified."
+    },
+    {
+      "finding": "Undefined rejection and malformed stop cleanup",
+      "resolution": "0d509f9e explicit observer success flag and guarded finally;9a46fed2 normalizes actualdiagnostics, abort-before-stop and assigned-run sceneadmission rollback."
+    },
+    {
+      "finding": "Initial GLB omitted, claimed baked diffuse incorrect",
+      "resolution": "Followup includes actualGLB/decodedaccessors/converter. Actual reviewerverifiedwhiteCOLOR/UVdoubleflip/inversebinds/S8. NativeNORMAL/lightMask1 explicitly retained in facts; boundedunlit diffuse mapping once ratherthan fullDSshader."
+    },
+    {
+      "finding": "Unlit diffuse wrongcolor-space",
+      "resolution": "9a46fed2 uses THREE.SRGBColorSpace once, finalactualreviewconfirmed."
+    },
+    {
+      "finding": "Broken onStatus afterstart silentlyswallowed",
+      "resolution": "9a46fed2 persistent owner.failure +active configuration rejection +sticky guard, finalactualreviewconfirmed before/aftervisualcompletion."
+    }
+  ],
+  "nativeAudioFailureEvidence": {
+    "src/field/field_move_effects.c": "CutEffect_InitAtPlayer434/InitAtFollower443 callPlaySE without testing return; task completion independent of SE.",
+    "src/sound_playback.c": "PlaySEEx270 returnsSound_StartSeqBOOL;PlayCry345 returnsadmission;pattern0PlayCryEx461 ignoresit;IsCryFinished397 usesactualplaying-count.",
+    "src/scrcmd_sound.c": "PlayCry115 ignoresPlayCryExresult;WaitCry127 completeswhennoactualplayingvoice.",
+    "src/sound.c": "GF_SndOnStartSeqFailed493 is empty."
+  },
+  "verification": {
+    "runtimeTests": 22,
+    "sdkResourceTests": 8,
+    "productionTypeScript": "pass",
+    "independentStructOnlyCryMappings": 494,
+    "independentDuplicateOutputFiles": 497,
+    "duplicateDifferentFiles": 0,
+    "scope": "Focused headless tests and native data/SDKscalar getter oracle. Reviewers read supplied logs and did not run tests."
+  },
+  "finalReviewOutcome": "Actual claude-opus-5-5 found no confirmed defects in0d\u21929a delta; priorreview verified assets/converter and found only correctedLowissues. This is not whole-game or production approval.",
+  "limitations": [
+    "Initial actualreview packet omitted GLB/converter binary-data evidence, correctedonlyinlateractualreview; do notattributeitretrospectively.",
+    "FullDSambient/specular/global-light/translucency/DAC/sharedchannel behavior not recreated.",
+    "SFX is pinnedDualRip sequence/sample render; cryPCM bytes/rates original but linear gain/timer resamplingnotbitexacthardware.",
+    "Rootmustalign sourceVM\u2192mainqueue phase and same-dispatch firstpass;30Hzdtconvenience/catchupisnotproof.",
+    "mapRunningvisibilitysampledperqueue;hostactualfieldrenderadmission mustremaincoherent.",
+    "OnlyCutflowpattern0 defaultcries;customChatot/otherpatterns/fullsharedPVreplacementunsupported;invalidspeciesrejectratherthanBulbasaurfallback.",
+    "Hostmastergainowns mutingalreadyplayingvoices;freshpreparebeforeeverydispatch remainshostcontract.",
+    "Observe owner.failureonce throughseparateerrorpath;neverawaitcleanfailurePromiseascompletionbarrier.",
+    "NoWorld/main/VM/playerintegration,browser/mobilevisual/audioaudition,Vitebuild,fullCut/campaignorproductionclaim."
+  ]
+}

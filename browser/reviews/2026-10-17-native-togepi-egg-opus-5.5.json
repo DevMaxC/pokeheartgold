@@ -1,0 +1,197 @@
+{
+  "provider": "Claude Code CLI",
+  "requestedModel": "claude-opus-5-5",
+  "isError": false,
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1497,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001582,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 80,
+      "outputTokens": 21234,
+      "cacheReadInputTokens": 2156408,
+      "cacheCreationInputTokens": 208193,
+      "webSearchRequests": 0,
+      "costUSD": 1.8972466000000006,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 9782,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "snapshotSHA256": "6243e86cf6297b012ff9ae669a3fc1e63c31a92b3838f59b43e73e0617028047",
+  "snapshot": {
+    "base": "d254f4f",
+    "files": [
+      {
+        "path": "browser/public/source/eggs/egg-icon.png",
+        "sha256": "edce5fb48c1d8318bca44f38099092f641ed0f9deadf44634e8ed57cb75f29cc"
+      },
+      {
+        "path": "browser/public/source/eggs/provenance.json",
+        "sha256": "6976f2ddaa065cc00a48ee9da72ea8c3ff83fc3ac58e1212604789c45eda36fc"
+      },
+      {
+        "path": "browser/public/source/maps/157.json",
+        "sha256": "c111b7a611763552241165927742b9ee43df6f7c5516ddc877417d849b2c7184"
+      },
+      {
+        "path": "browser/public/source/maps/73.json",
+        "sha256": "4152b2297ac9f3e584c6d2381344ceb1cb9835fb5c36b54ff36e928158fb7829"
+      },
+      {
+        "path": "browser/reviews/2026-10-17-native-togepi-egg.md",
+        "sha256": "3a07a40ef7793341dabbe45c25a5769a1918f9eb19acd26f618c31b060923ebe"
+      },
+      {
+        "path": "browser/scripts/export_egg_assets.py",
+        "sha256": "f87c858edc3f9470b46762abd169d44e59e7785ce0bee2edb6463266b85b9fb1"
+      },
+      {
+        "path": "browser/src/source/battle.ts",
+        "sha256": "dff4235915179ad68f4a058dfcf06a5b22bb481db06798e7db729f0d71940659"
+      },
+      {
+        "path": "browser/src/source/data.ts",
+        "sha256": "48a127cd48b47a32470d9306b0aed5925008a20e808f8b7cfa42e4be55a4d130"
+      },
+      {
+        "path": "browser/src/source/eggs.test.ts",
+        "sha256": "94db6d8efcb1382fff4b1f556f4ebbe8b87deadac7bf95f9b4783f8e8463084a"
+      },
+      {
+        "path": "browser/src/source/eggs.ts",
+        "sha256": "16e6ecd5250b3537458df780943798bd0fb7464dfd2196e8a9528c26330b6bd5"
+      },
+      {
+        "path": "browser/src/source/first-badge.test.ts",
+        "sha256": "1be8015293320bc19c1aedeab5fce41af39397951b580d13e4146749822e3f94"
+      },
+      {
+        "path": "browser/src/source/main.ts",
+        "sha256": "614987ba94b5d3b7acbb1fe4e354c0c2dd41e601e7a45cb9d25651ca7b359005"
+      },
+      {
+        "path": "browser/src/source/native-rng.ts",
+        "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e"
+      },
+      {
+        "path": "browser/src/source/script-recovery.ts",
+        "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+      },
+      {
+        "path": "browser/src/source/script.ts",
+        "sha256": "610aacc2ea3592cbff0a73d17fcb77e7232ca855f11fe169cdb8cb4a96a7e697"
+      },
+      {
+        "path": "browser/src/source/types.ts",
+        "sha256": "6f9faeed2e9ef3fcc6043d1daa09b0e31992015ff64176dd594351c08658c49c"
+      },
+      {
+        "path": "files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s",
+        "sha256": "71ba9c947a1882a28788ebe825221dd1696bd8f71985258399dbb35fec2e1c74"
+      },
+      {
+        "path": "files/poketool/icongra/poke_icon/poke_icon_00000501.png",
+        "sha256": "c772fb205fdd9daab5dac934f575cc3f1de19ab3dbf7a727a19092756d54f7ac"
+      },
+      {
+        "path": "files/poketool/personal/personal.json",
+        "sha256": "8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"
+      },
+      {
+        "path": "include/config.h",
+        "sha256": "773f3b3ffaabd2750f040be690dc91c605d1ce58a6686bc85d41e6e1335ad419"
+      },
+      {
+        "path": "include/constants/map_sections.h",
+        "sha256": "1102c63c2637718fa28aeb57038c78c5d614f6c8cca0018ca1d199a07613431a"
+      },
+      {
+        "path": "include/constants/pokemon.h",
+        "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+      },
+      {
+        "path": "src/field/scrcmd_pokemon_misc.c",
+        "sha256": "850fcb6773c043f18b2d082d0eb5c094923b89680ca03caf42485ac7f6864509"
+      },
+      {
+        "path": "src/field_misc_events.c",
+        "sha256": "66c6b095f98046a903108ec13ff07063540a227a80e8fa4496ee4b215d6b0eec"
+      },
+      {
+        "path": "src/field_misc_util.c",
+        "sha256": "4e7e71bd07eb4665973e648ac0b2cda6174c755991b02fa126488dd47fe34e48"
+      },
+      {
+        "path": "src/follow_mon.c",
+        "sha256": "34b005c9e772c219dd37d23ba8c3cc35d7112ae250f650450fc8969d6f7a6c8e"
+      },
+      {
+        "path": "src/get_egg.c",
+        "sha256": "0908b443c2ea2c94893c4c073bceada92a7f7382011838ce989fcba8daa8cf40"
+      },
+      {
+        "path": "src/math_util.c",
+        "sha256": "ed76da9a0792494d7b22a029d903db402f5c2cec06212870e0337205be747612"
+      },
+      {
+        "path": "src/overlay_36.c",
+        "sha256": "87af06021f54c29794beedbc28d66da080b8665d925f39a2ad1e4770b02e93e9"
+      },
+      {
+        "path": "src/pokemon.c",
+        "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+      },
+      {
+        "path": "src/pokemon_icon_idx.c",
+        "sha256": "c394377eded3353079550669f1a809ef8eed8f3bcec6840019920a02a75827ec"
+      },
+      {
+        "path": "src/scrcmd_party.c",
+        "sha256": "df64cfc7080caa0d4350dcb1aeb0f4790629f7a9c80fc04efc5c11e79312d8cd"
+      },
+      {
+        "path": "src/trainer_memo.c",
+        "sha256": "c68f7f7da5fb3c0ea7df00404a873a29864899a6025c081151d36f05eb050f9c"
+      }
+    ]
+  },
+  "permissions": {
+    "tools": [
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "strictMcpConfig": true,
+    "mcpServers": {},
+    "settingSources": [],
+    "sessionPersistence": false
+  },
+  "scope": "read-only copied native source review, no actual gameplay/render verification",
+  "postReviewChanges": [
+    "Clarifying browser id token comment only in eggs.ts",
+    "Native icon palette-slot verification and recorded palette source provenance",
+    "Deterministic RNG argument in preexisting presentation-equivalence test; runtime battle unchanged"
+  ],
+  "finalCoreSHA256": {
+    "browser/src/source/eggs.ts": "bc5278444c1da0163f6de57ce9138c516fc0b16f1e59dd274ee42b726ebeac95",
+    "browser/src/source/native-rng.ts": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e",
+    "browser/src/source/data.ts": "48a127cd48b47a32470d9306b0aed5925008a20e808f8b7cfa42e4be55a4d130",
+    "browser/src/source/types.ts": "6f9faeed2e9ef3fcc6043d1daa09b0e31992015ff64176dd594351c08658c49c",
+    "browser/src/source/script.ts": "610aacc2ea3592cbff0a73d17fcb77e7232ca855f11fe169cdb8cb4a96a7e697"
+  }
+}

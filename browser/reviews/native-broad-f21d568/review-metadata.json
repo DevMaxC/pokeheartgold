@@ -1,0 +1,42 @@
+{
+  "inputCommit": "f21d56866643e055efde7566afd2106129b841c6",
+  "inputTree": "bdbdecae0a369e2f6d7e62e33dac18154165fefd",
+  "snapshotRoot": "/Users/maxchurch/Documents/pokeheartgold-opus-broad-f21d568",
+  "manifestPath": "/tmp/hg-broad-opus-f21d568-review/input-manifest.json",
+  "manifestSha256": "36ab39a9cc9d995432109bfea513af77971e79e3027cd1d94299b8de566aceeb",
+  "runtimeSourceFileCount": 182,
+  "runtimeSourceBytes": 1814313,
+  "trackedFileCount": 23965,
+  "trackedBytes": 337155816,
+  "scopeExclusions": [
+    "Uncommitted/new interface worktree changes",
+    "Shoreline and T2 changes after inputCommit",
+    "Any runtime files outside exact detached inputCommit"
+  ],
+  "reviewTools": [
+    "Read",
+    "Grep",
+    "Glob"
+  ],
+  "requestedModel": "claude-opus-5-5",
+  "promptSha256": "40e752394587d99843f3b24abcaca1421f0b5a929b09b59f199377f4a8a7ae32",
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--setting-sources",
+    "",
+    "--no-session-persistence",
+    "--output-format",
+    "json"
+  ],
+  "startedAtUTC": "2026-10-17T13:59:36.214783+00:00"
+}

@@ -1,0 +1,231 @@
+TAP version 13
+# (node:13786) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Bag Use commits Potion only after acknowledgement, refreshes inventory and never saves itself
+ok 1 - actual Bag Use commits Potion only after acknowledgement, refreshes inventory and never saves itself
+  ---
+  duration_ms: 15.795375
+  type: 'test'
+  ...
+# Subtest: Bag keeps read-only fallback, cancellation makes no changes and stale inventory cannot dispatch a Use callback
+ok 2 - Bag keeps read-only fallback, cancellation makes no changes and stale inventory cannot dispatch a Use callback
+  ---
+  duration_ms: 3.252583
+  type: 'test'
+  ...
+# Subtest: late acknowledgement replacement or abort rolls medicine and teaching back through actual SourceActionRecovery
+ok 3 - late acknowledgement replacement or abort rolls medicine and teaching back through actual SourceActionRecovery
+  ---
+  duration_ms: 164.757209
+  type: 'test'
+  ...
+# Subtest: healthy medicine and unsupported native dependencies remain distinct without consumption or claimed success
+ok 4 - healthy medicine and unsupported native dependencies remain distinct without consumption or claimed success
+  ---
+  duration_ms: 6.672917
+  type: 'test'
+  ...
+# Subtest: Egg and Bad Egg rows hide species, nickname, level, HP and moves and cannot be selected
+ok 5 - Egg and Bad Egg rows hide species, nickname, level, HP and moves and cannot be selected
+  ---
+  duration_ms: 1.636834
+  type: 'test'
+  ...
+# Subtest: full TM sets protect HMs, cancel inertly and confirm replacement with native base PP and exact affinity
+ok 6 - full TM sets protect HMs, cancel inertly and confirm replacement with native base PP and exact affinity
+  ---
+  duration_ms: 5.656542
+  type: 'test'
+  ...
+# Subtest: HM teaching is reusable on fainted zero-PP Pokémon while known and incompatible attempts stay unchanged
+ok 7 - HM teaching is reusable on fainted zero-PP Pokémon while known and incompatible attempts stay unchanged
+  ---
+  duration_ms: 2.375417
+  type: 'test'
+  ...
+# Subtest: PP move selection cancels without consumption and restores only the chosen move with boosted capacity intact
+ok 8 - PP move selection cancels without consumption and restores only the chosen move with boosted capacity intact
+  ---
+  duration_ms: 2.800875
+  type: 'test'
+  ...
+# Subtest: changed State, party, bag or map and abort invalidate awaited confirmation; adventure clock ticks do not
+ok 9 - changed State, party, bag or map and abort invalidate awaited confirmation; adventure clock ticks do not
+  ---
+  duration_ms: 209.874083
+  type: 'test'
+  ...
+# Subtest: a resolved prompt replaced before its continuation cannot dispatch Bag use, steal the next panel or commit an acknowledgement
+ok 10 - a resolved prompt replaced before its continuation cannot dispatch Bag use, steal the next panel or commit an acknowledgement
+  ---
+  duration_ms: 24.957
+  type: 'test'
+  ...
+# (node:13788) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native transaction retains joystick + camera across completed steps and seamless OnLoad
+ok 11 - native transaction retains joystick + camera across completed steps and seamless OnLoad
+  ---
+  duration_ms: 286.245333
+  type: 'test'
+  ...
+# combined main SHA256 7e1b3d49f6b2a7bb15e31fdd05328cf4ba43d1c425d68cca1ebb08d6dc41ddce
+# Subtest: native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+ok 12 - native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+  ---
+  duration_ms: 824.580125
+  type: 'test'
+  ...
+# Subtest: touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+ok 13 - touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+  ---
+  duration_ms: 416.899958
+  type: 'test'
+  ...
+# Subtest: priority coordinate scene consumes a completed step before Egg/wild/phone admission
+ok 14 - priority coordinate scene consumes a completed step before Egg/wild/phone admission
+  ---
+  duration_ms: 152.567375
+  type: 'test'
+  ...
+# Subtest: Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+ok 15 - Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+  ---
+  duration_ms: 169.514458
+  type: 'test'
+  ...
+# Subtest: failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+ok 16 - failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+  ---
+  duration_ms: 164.537709
+  type: 'test'
+  ...
+# Subtest: nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+ok 17 - nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+  ---
+  duration_ms: 123.603167
+  type: 'test'
+  ...
+# Subtest: loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+ok 18 - loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+  ---
+  duration_ms: 180.650375
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+ok 19 - explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+  ---
+  duration_ms: 169.298833
+  type: 'test'
+  ...
+# Subtest: Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+ok 20 - Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+  ---
+  duration_ms: 136.328625
+  type: 'test'
+  ...
+# Subtest: menu waits for native party child to finish and resets active phone only for the four real child actions
+ok 21 - menu waits for native party child to finish and resets active phone only for the four real child actions
+  ---
+  duration_ms: 148.314041
+  type: 'test'
+  ...
+# Subtest: actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+ok 22 - actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+  ---
+  duration_ms: 5.687084
+  type: 'test'
+  ...
+# Subtest: owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+ok 23 - owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+  ---
+  duration_ms: 52.812417
+  type: 'test'
+  ...
+# Subtest: modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+ok 24 - modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+  ---
+  duration_ms: 253.185125
+  type: 'test'
+  ...
+# Subtest: field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+ok 25 - field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+  ---
+  duration_ms: 3.319792
+  type: 'test'
+  ...
+# Subtest: hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+ok 26 - hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+  ---
+  duration_ms: 229.355
+  type: 'test'
+  ...
+# Subtest: real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+ok 27 - real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+  ---
+  duration_ms: 592.983083
+  type: 'test'
+  ...
+# (node:13789) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Enter preserves the remembered Girl cursor before deferred focus runs, with one actual highlighted option
+ok 28 - Enter preserves the remembered Girl cursor before deferred focus runs, with one actual highlighted option
+  ---
+  duration_ms: 1.319458
+  type: 'test'
+  ...
+# Subtest: arrows, focus and clicks use the same cursor even if focus is subsequently elsewhere
+ok 29 - arrows, focus and clicks use the same cursor even if focus is subsequently elsewhere
+  ---
+  duration_ms: 0.1755
+  type: 'test'
+  ...
+# (node:13791) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual native opening confirms the remembered choice before any deferred focus task
+ok 30 - actual native opening confirms the remembered choice before any deferred focus task
+  ---
+  duration_ms: 219.7245
+  type: 'test'
+  ...
+# Subtest: actual modal capture and native cursor move once per arrow and keep focus selection aligned
+ok 31 - actual modal capture and native cursor move once per arrow and keep focus selection aligned
+  ---
+  duration_ms: 5.689917
+  type: 'test'
+  ...
+# Subtest: native opening retains pointer selection and mandatory Back behavior under modal ownership
+ok 32 - native opening retains pointer selection and mandatory Back behavior under modal ownership
+  ---
+  duration_ms: 4.055583
+  type: 'test'
+  ...
+# (node:13792) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an opening menu can own remembered-cursor focus without a queued default first-button focus overriding it
+ok 33 - an opening menu can own remembered-cursor focus without a queued default first-button focus overriding it
+  ---
+  duration_ms: 2.933125
+  type: 'test'
+  ...
+# Subtest: one confirm reveals a typing opening page and a second advances it; an extra confirm cannot skip the next native page
+ok 34 - one confirm reveals a typing opening page and a second advances it; an extra confirm cannot skip the next native page
+  ---
+  duration_ms: 0.341042
+  type: 'test'
+  ...
+# Subtest: existing field-dialogue calls remain instant and retain native newline/page-break handling
+ok 35 - existing field-dialogue calls remain instant and retain native newline/page-break handling
+  ---
+  duration_ms: 0.072208
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7303.753792

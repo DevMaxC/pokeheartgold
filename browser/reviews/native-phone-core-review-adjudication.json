@@ -1,0 +1,97 @@
+{
+  "baseCommit": "391e26b91d55b63a6969383ab98ac67e79d276f8",
+  "sourceCommits": [
+    "7f869d992c21fd81fe3eb319cb22e9355a5dbc4e",
+    "ca82bbd50bc57ada05e6457430f2bd6ec50e9468"
+  ],
+  "reviews": [
+    {
+      "commit": "7f869d992c21fd81fe3eb319cb22e9355a5dbc4e",
+      "rawResult": "native-phone-core-7f869d9-opus-result.json",
+      "rawSha256": "55d0db45e736a6217804abda34bef746ed3f31f9f0f1d8f2eced6ed1d1bf52bb",
+      "manifest": "native-phone-core-7f869d9-manifest.json",
+      "graphSha256": "430d452412590327e05080b5325e792164603de3e92776111122c1300f0e8e87",
+      "postReviewFilesAndDiffVerifiedAgainstCommittedBytes": 26,
+      "models": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "turns": 21,
+      "durationMs": 136391,
+      "verdict": "PASS within isolated core scope",
+      "tools": [
+        "Read",
+        "Grep",
+        "Glob"
+      ],
+      "mcpServers": {},
+      "permissionDenials": []
+    },
+    {
+      "commit": "ca82bbd50bc57ada05e6457430f2bd6ec50e9468",
+      "rawResult": "native-phone-core-ca82bbd-opus-result.json",
+      "rawSha256": "058fd560176cd7e33e5359d6a15a6c8d37cebbf7f646f0a313f9fb5d2360474c",
+      "manifest": "native-phone-core-ca82bbd-manifest.json",
+      "graphSha256": "e36484cd9f5a1e4fc0983e673e875bc4145898cc8cae0b5164563d093deeaf0c",
+      "postReviewFilesAndDiffVerifiedAgainstCommittedBytes": 29,
+      "models": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "turns": 19,
+      "durationMs": 74115,
+      "verdict": "PASS within isolated core scope",
+      "tools": [
+        "Read",
+        "Grep",
+        "Glob"
+      ],
+      "mcpServers": {},
+      "permissionDenials": []
+    }
+  ],
+  "adjudication": [
+    {
+      "finding": "Zero-minute polls could consume the first >=10-minute RTC catchup guard",
+      "status": "Fixed inca82bbd; actual native FieldSystem_CheckTimeAdvance forwards only positive minutes; zero is now inert."
+    },
+    {
+      "finding": "Eligible no-trigger outcome ambiguous for future random fallback",
+      "status": "Fixed interface inca82bbd by explicit no-trigger discriminator; the separate random fallback itself remains unimplemented."
+    },
+    {
+      "finding": "Exact outgoing-local map provenance missing in first snapshot",
+      "status": "Resolved in second snapshot using actual pokegear_phone_gfx.c:450 \u2192 phone_call.c:53 and gear_phone_ring_manager.c current mapID assignment; exactlab61 is source-correct."
+    }
+  ],
+  "validation": {
+    "focusedCommand": "node --experimental-transform-types --test browser/src/source/phone-scheduler.test.ts browser/src/source/phone.test.ts browser/src/source/egg-hatching.test.ts browser/src/source/script-recovery.test.ts",
+    "passed": 72,
+    "failed": 0,
+    "logSha256": "fec071686ddee786f59469bffc23c5a922869d3fb1251ef8015fb7cfddf9900d",
+    "typecheck": "./node_modules/.bin/tsc --noEmit: PASS (production sources; existing tsconfig excludes tests)",
+    "diffCheck": "git diff --check: PASS",
+    "beforeHardening": {
+      "newFocusedCases": 2,
+      "failedBeforeFix": 2,
+      "passedAfterFix": 2
+    }
+  },
+  "scope": "Native triggered-phone selection/state core, exporter/source fixtures and minimal VM SetPhoneCallTrigger fix. No main/field/UI/State-schema changes. All hatch hooks preserved.",
+  "hostContract": [
+    "Deliver Elm0 as optional ring after explicit native RTC-minute eligibility; do not immediately call on hatch.",
+    "Capture/restore ephemeral PhoneRingState with the root source checkpoint and explicitly report fresh hatch acceleration inside that checkpoint. Saved pending0 on Continue is not a fresh enqueue.",
+    "Answer/launch consumes only its pending bit, then await owned native UI under source recovery; a failed answer restores State+ring and retains earlier successful hatch.",
+    "no-trigger marks native random-fallback position. A host must not silently equate it with admission-blocked none or claim that random fallback exists.",
+    "Native party-order UI is still needed for the normal healthy Togepi-before-starter lab presentation. Existing source Elm lab script already handles reward and once-only flags."
+  ],
+  "explicitUnimplemented": [
+    "field idle polling and RTC bridge",
+    "optional ring/answer Pokegear UI and ring audio",
+    "random callers/recent callers/Safari generation",
+    "unsupported contact-specific selectors and forced std2047 host contexts",
+    "global RTC penalty detection/full DS-global RNG equivalence",
+    "party reorder interaction and integrated hatch\u2192call\u2192lab browser playthrough"
+  ],
+  "browserBuildPushOrMergePerformed": false
+}

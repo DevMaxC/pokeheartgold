@@ -1,0 +1,51 @@
+TAP version 13
+# (node:40204) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+not ok 1 - actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+  ---
+  duration_ms: 295.106166
+  type: 'test'
+  location: '/private/tmp/hg-azalea-followup-low-before-control/browser/src/source/azalea-battle-integration.test.ts:143:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(f.messages.some(text=>text===`${target.name} makes Ground moves miss by using Levitate!`))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-followup-low-before-control/browser/src/source/azalea-battle-integration.test.ts:145:584)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: guaranteed KO of the selected Pursuit user permits U-turn even when its party has a living reserve
+not ok 2 - guaranteed KO of the selected Pursuit user permits U-turn even when its party has a living reserve
+  ---
+  duration_ms: 151.945375
+  type: 'test'
+  location: '/private/tmp/hg-azalea-followup-low-before-control/browser/src/source/azalea-battle-integration.test.ts:214:1'
+  failureType: 'testCodeFailure'
+  error: 'Unsupported native U-turn Pursuit phase'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Battle.assertActionScope (/private/tmp/hg-azalea-followup-low-before-control/browser/src/source/battle.ts:96:75)
+    Battle.attack (/private/tmp/hg-azalea-followup-low-before-control/browser/src/source/battle.ts:337:10)
+    async action (/private/tmp/hg-azalea-followup-low-before-control/browser/src/source/azalea-battle-integration.test.ts:25:58)
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-followup-low-before-control/browser/src/source/azalea-battle-integration.test.ts:215:530)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1522.979917

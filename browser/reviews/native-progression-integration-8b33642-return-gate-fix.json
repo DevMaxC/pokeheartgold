@@ -1,0 +1,74 @@
+{
+  "finding": "return_map_gate_pause",
+  "reviewedCommit": "8b33642d9f07351194f6c5a824fa2811e074f286",
+  "fixBaseCommit": "bae9a17acc686bb194dd76a1a80e4e2c53a3b9ac",
+  "archivedReviewArtifacts": {
+    "browser/reviews/native-progression-integration-8b33642-opus-result.json": {
+      "sha256": "cf2d8e4ffab0ffb8102f79cf9ff9bba9748d798a5fbd759c6388fe66fe95633d",
+      "copiedExactlyFrom": "/tmp/hg-native-integration-review-8b33642-opus-result.json"
+    },
+    "browser/reviews/native-progression-integration-8b33642-manifest.json": {
+      "sha256": "5f4a1d0900a6a745d79db531bbb0d7b12f75144be695f682cd00d414f6630347",
+      "copiedExactlyFrom": "/tmp/hg-native-integration-review-8b33642-visual-agent/manifest.json"
+    },
+    "browser/reviews/native-progression-integration-8b33642-manual.json": {
+      "sha256": "cf91170be3be465c325cabea4f0090c008b82ade610f832a78cc89d936b7287f",
+      "copiedExactlyFrom": "/tmp/hg-native-integration-review-8b33642-manual.json"
+    },
+    "browser/reviews/native-progression-integration-8b33642-adjudication.json": {
+      "sha256": "4a0dbca728391d3232d60904c029863fc1af2125eadeb382ac91dd702e0620b7",
+      "copiedExactlyFrom": "/tmp/hg-native-integration-review-8b33642-adjudication.json"
+    }
+  },
+  "qualification": "The raw Opus, manifest, manual review and adjudication are unmodified historical receipts for exact 8b33642. They do not claim review of later battle-accuracy, metadata, building or display changes. The scoped fix and new binding tests below were performed afterward; no new browser, build or full-parity approval is claimed.",
+  "status": "fixed; focused regression verification passed",
+  "sourceEvidence": [
+    "main.ts checkFrameTriggers calls frameTriggerGate.visit(String(state.map)); a new map clears the previous blocked set.",
+    "Nested source actions execute under the outer recovery checkpoint; destination entry/warp can poll frame triggers and propagate failure through the outer action.",
+    "SourceActionRecovery restores State and field before failed UI; a failed map excursion can therefore leave the live gate under a different map, or under the original map with its prior pauses erased.",
+    "The Return callback now restores a union of pre-outer and current blocked sets only when each set belongs to the restored State.map. Pauses belonging to rolled-back destination maps are excluded. This also handles an initially empty gate.",
+    "Explicit Retry still restores the exact pre-outer frame and trainer snapshots, and successful map visits retain their ordinary gate-clearing behavior."
+  ],
+  "tests": {
+    "method": "Node executes the actual main.ts executeSourceAction binding after stripping TypeScript, with the real SourceActionRecovery, SourceTriggerGate, TrainerAttemptLatch, ScriptVM, FieldObjects and native data; WebGL/UI ports are injected.",
+    "beforeRuntimeFix": {
+      "targetedTests": 5,
+      "passed": 3,
+      "failed": 2,
+      "failures": [
+        "A to B failed visit Return loses paused A",
+        "A to B to A failed excursion Return loses earlier A pause"
+      ]
+    },
+    "afterRuntimeFix": {
+      "command": "node --experimental-transform-types --test src/source/script-recovery.test.ts src/source/trainer-encounters.test.ts src/source/opening-save.test.ts",
+      "passed": 45,
+      "failed": 0
+    },
+    "bindingRegressions": [
+      "A to B failed Return preserves original map pause and coherent save",
+      "Same-map failed Return retains newly failed trigger plus previous pauses",
+      "A to B to A failed Return unions old and new original-map pauses without destination pauses",
+      "Successful map excursions still clear pauses normally",
+      "Explicit Retry restores both pre-outer frame and trainer snapshots before replay"
+    ],
+    "typecheck": {
+      "command": "./node_modules/.bin/tsc --noEmit",
+      "result": "passed"
+    },
+    "diffCheck": {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    "browserOrBuildExecuted": false
+  },
+  "changedRuntimePaths": [
+    "browser/src/source/main.ts"
+  ],
+  "changedTestPaths": [
+    "browser/src/source/script-recovery.test.ts"
+  ],
+  "runtimeSha256": "7c9199a099979810d06e6ae072fb6142700f3e23dcf3dc5399b352b49dd5a2c0",
+  "testSha256": "9cb89b34a297bc75e937a9900faa59f8bc662254be686801c0641f6e5be919e8",
+  "fullParity": "Not claimed; unsupported source commands remain explicit recoverable failures."
+}

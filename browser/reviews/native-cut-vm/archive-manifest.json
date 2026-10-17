@@ -1,0 +1,125 @@
+{
+  "runtimeCommit": "2787f390d1d614c466024564ac67c1fe067871de",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "58d5957ca6aa44e080f471909373f32daa429c67ac8d7060311c95847b6d6809"
+    },
+    {
+      "path": "base-coordinate-failure.log",
+      "sha256": "c9a8befface9fddc55bd6b4e3a158166c152a80b2898353792ea1e9e72d468be"
+    },
+    {
+      "path": "base-integration-failures.log",
+      "sha256": "e26cdb0e54287cf4b30f2b6d172ea321253ac463e4779a1e660249f6d5b186e0"
+    },
+    {
+      "path": "before-followup-regressions.log",
+      "sha256": "91d11fa60806f43019f42a4249e804137f46901def637056d2c96b8a2211eb39"
+    },
+    {
+      "path": "final-vm-tests.log",
+      "sha256": "21c753622b4fc016e76e4807fa810505199a506e0e270adf5cccb36bbfefd192"
+    },
+    {
+      "path": "followup/FOLLOWUP.diff",
+      "sha256": "9709bbc69cb16823f0bc1c9252a6aad47f9aed207badeaec146dfd3aee8d1d0e"
+    },
+    {
+      "path": "followup/PATCH.diff",
+      "sha256": "e36e9877def14831327c390155339a2e8185a036852267546e5de46c12ca5be1"
+    },
+    {
+      "path": "followup/cut-script.test.ts",
+      "sha256": "0354d8f15e02bf78accd75e913524328f02db5e988c31d0c233140d40d79bb18"
+    },
+    {
+      "path": "followup/manifest.json",
+      "sha256": "ec86d3e8339ee1ac256822a92df0b5425f9a1f3aa7e9a9c9accaf518ee3caad7"
+    },
+    {
+      "path": "followup/prompt.txt",
+      "sha256": "025ed1ee74070e139424a34b267d900129a6fd287200124cff48b89a3d29a6e3"
+    },
+    {
+      "path": "followup/result.raw.json",
+      "sha256": "30c6b7aa02710eaa6eb9e188a6dfde32c623f9895ce7c8a113f55e2afe5ff337"
+    },
+    {
+      "path": "followup/script.ts",
+      "sha256": "ed75a6d562cef0bae90c06faba5ce94a9139d6cbb78a3aa66e062de78e78cf0b"
+    },
+    {
+      "path": "followup/source-validation.json",
+      "sha256": "ca0f5f983a55a91d8a9187bdfcbb6391c21055d8721040af821e9ecb614617ee"
+    },
+    {
+      "path": "initial/PATCH.diff",
+      "sha256": "3ec711a9ba496d0cddd3d9f1693999f5e80bb6d2b984f8fb7f72c64a06a0e74a"
+    },
+    {
+      "path": "initial/cut-script.test.ts",
+      "sha256": "fcba36527df06ae4c17e0350eef67507be720077cc5f70aefb10eb0685e5e5b9"
+    },
+    {
+      "path": "initial/manifest.json",
+      "sha256": "64fb2ce22e943ab9a474477df17bfaf8ddd4f173812872ca8ea0e334a38ae25a"
+    },
+    {
+      "path": "initial/prompt.txt",
+      "sha256": "f1b47a2bbc6e913541224f132d3687d499ff6de1fcac6ec57758db55b36a23e1"
+    },
+    {
+      "path": "initial/result.raw.json",
+      "sha256": "d5b21e956cb8c04f9800d5f98ce15e45dca63d9eac17ccfa2bf7654f763b40f0"
+    },
+    {
+      "path": "initial/script.ts",
+      "sha256": "f352c32319bd0b8f99e383e9058f66e61171ea76eb645a0b3006e82dfb2ea22a"
+    },
+    {
+      "path": "initial/source-validation.json",
+      "sha256": "16766ba2b4cf6c2289867d7ec5390b6b5843037892627c448b1e21de18d5afbf"
+    },
+    {
+      "path": "integration-contract.txt",
+      "sha256": "4434280ae7ad1e8eeb3f24209d3cc6d6012d936811e6a2acd7caadb9247f9152"
+    },
+    {
+      "path": "native-scheduler-proof.json",
+      "sha256": "5591e0d42d30b0cad21509601dce60777602e54a2a7c99dc5b3240b191704937"
+    },
+    {
+      "path": "task-boundary/FOLLOWUP.diff",
+      "sha256": "0d1cd54b3b81e79cb41cdc8171edeee082484ebf19cfc3746c767fc5c6971fcf"
+    },
+    {
+      "path": "task-boundary/cut-script.test.ts",
+      "sha256": "a78c5b165ebe2a95cf44ed150d7028b473e2825a536e86b8c6c3cf2cb711efa4"
+    },
+    {
+      "path": "task-boundary/manifest.json",
+      "sha256": "fc229e62daa51b5e4ae6787a74f8e193fc31598c6dfe38bff1c3c9880460716e"
+    },
+    {
+      "path": "task-boundary/prompt.txt",
+      "sha256": "c1898a3ba90d7aaabdd74d4429c1b63f78c772329329c5e21f662c269308e00d"
+    },
+    {
+      "path": "task-boundary/result.raw.json",
+      "sha256": "62c27b50fdafd3f76dfe5070a00d5208cddd7fb8c60fa04eb01a5c3008ef9f84"
+    },
+    {
+      "path": "task-boundary/script.ts",
+      "sha256": "0c2668942b82ced881e1474de3d625e93143e8bc213761c61011a9d35cc20ad3"
+    },
+    {
+      "path": "task-boundary/source-validation.json",
+      "sha256": "a35562717311cc61b955e6f60a7264d2ec1c56dea9c27b876d8dee3329b4ffd9"
+    },
+    {
+      "path": "validation.json",
+      "sha256": "01bbc7bee958b2bd9c90f0dfd84cd46bce8afc3a20d5cb1350ae0068e9474308"
+    }
+  ]
+}

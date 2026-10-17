@@ -1,0 +1,19 @@
+{
+  "source": "files/data/sound/gs_sound_data.sdat",
+  "sourceSHA256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+  "conversion": "Native mono signed PCM8 -> unsigned PCM8 WAV; original rate and all sample bytes retained.",
+  "cries": {
+    "175": {
+      "file": "cry-175.wav",
+      "archive": "WAVE_ARC_PV175",
+      "wave": 0,
+      "sampleRate": 10512,
+      "frames": 5380,
+      "durationSeconds": 0.5117960426179604,
+      "sourceSWAROffset": 3537472,
+      "sourcePCMOffset": 3537548,
+      "signedPCMSourceSHA256": "62cf4110fa208505221b087df57c40afc67a47b83fd2413894e58525161562cf",
+      "wavSHA256": "dac18e8e3d950a7952eb2294210c969ef0dad0155f60b14452026f7d39339ecd"
+    }
+  }
+}

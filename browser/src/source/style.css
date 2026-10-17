@@ -214,7 +214,7 @@ kbd { display: inline-flex; align-items: center; justify-content: center; min-wi
 .setting-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 68px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 .setting-row > div { min-width: 0; }
 .setting-row small { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.5; }
-.setting-row button { flex: 0 0 auto; min-height: 44px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper-low); font-size: 12px; }
+.setting-row button { flex: 0 0 auto; min-width: 44px; min-height: 44px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper-low); font-size: 12px; }
 .setting-row button[aria-pressed='true'] { background: var(--navy); border-color: var(--navy); color: var(--paper); }
 .intro-portrait { display: block; width: 128px; height: 128px; margin: 12px auto 18px; object-fit: contain; image-rendering: pixelated; }
 .select-row { display: flex; gap: 12px; margin: 20px 0; }
@@ -551,3 +551,5 @@ body.in-battle :is(#game-hud, #control-hud, #party-hud, #touch-pad), #game[data-
 .trainer-stats dd { margin:0; font-weight:700; text-align:right; }
 
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+#phone-ring{pointer-events:auto;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--navy);font-size:12px;text-align:left;min-height:44px}#phone-ring small{display:block;font-size:10px;margin-top:4px}@media(max-width:760px){#phone-ring{position:fixed;right:calc(14px + var(--safe-right));top:calc(62px + var(--safe-top));font-size:10px;padding:9px 11px}}

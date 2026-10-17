@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "sourceCommit": "b3463c8bd1a5b2e288db1e7deed067e1bd40e7aa",
+  "parentCommit": "7adbccc27cfdc293d1c8ae8c72817d73a2c95c2b",
+  "priorFailedReviewCommit": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+  "diffSHA256": "344a5ee0c965aa81582a7e91e748d8a79dc8f4989e6ad1d8d4fa27be84ecfa02",
+  "files": [
+    {
+      "path": "browser/src/source/egg-field-main.test.ts",
+      "sha256": "888c1a234d0fa345dc98d414d4d6e6c6704741d5d3bb18395ecb977afca8ddef",
+      "bytes": 43167
+    },
+    {
+      "path": "browser/src/source/gym-violet-integration.test.ts",
+      "sha256": "268654be38ef68c04886387b74f3659aa1aa2e704fe689934eca24e211d4450c",
+      "bytes": 9864
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "aad9115264c0a681feb7567c81cc17263920b57b0408625436560361dd9ffb31",
+      "bytes": 51936
+    },
+    {
+      "path": "browser/src/source/party-field-main.test.ts",
+      "sha256": "e2863e1bd045637f2ce94e3304d32e97835ecde4414a03dcdfb3d28efb82700b",
+      "bytes": 18824
+    }
+  ],
+  "unchangedNativeInputs": [
+    {
+      "path": "src/field/fieldmap.c",
+      "sha256": "1acb4bd760aa242fe27e3a88b6d994f427cf8c03d25f7cc4fd67c26967e5d660",
+      "readFromUnchangedSnapshot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/src/field/fieldmap.c"
+    },
+    {
+      "path": "src/field_warp_state.c",
+      "sha256": "bcf6ad596b4c6dd712b1967c19915bfe71853694c0c06633468b7d041be8024b",
+      "readFromUnchangedSnapshot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/src/field_warp_state.c"
+    },
+    {
+      "path": "src/field_warp_tasks.c",
+      "sha256": "78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea",
+      "readFromUnchangedSnapshot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/src/field_warp_tasks.c"
+    },
+    {
+      "path": "src/script_manager.c",
+      "sha256": "939c23feda6b7bb554147011ce47defa3b2a39f9ec1a5d587f467aae8925d6aa",
+      "readFromUnchangedSnapshot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/src/script_manager.c"
+    },
+    {
+      "path": "src/field_system.c",
+      "sha256": "0a95627586f4388c42cc885def5fd8b59d75cd0ef72a14e82971fbea9eca496b",
+      "readFromUnchangedSnapshot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/src/field_system.c"
+    },
+    {
+      "path": "src/gear_phone_ring_manager.c",
+      "sha256": "1aa8a19b06f291709d178beb1fbc7ed0cf92777514d17924f93676984391ad66",
+      "readFromUnchangedSnapshot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/src/gear_phone_ring_manager.c"
+    },
+    {
+      "path": "src/application/pokegear/phone/phone_call.c",
+      "sha256": "db43411ec37c949ce04b3cc4ab7905344759230dce199903daa77f65fafd85a3",
+      "readFromUnchangedSnapshot": "/tmp/hg-native-whole-phone-host-c39003b1-snapshot/src/application/pokegear/phone/phone_call.c"
+    }
+  ],
+  "scope": "Four changed actual source/test files copied from exact committed blobs; unchanged components and native context remain in prior immutablec390 snapshot. No live root source read."
+}
