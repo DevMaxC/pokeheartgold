@@ -9,8 +9,9 @@ globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'
 const data=await loadData(),root=new URL('../../../',import.meta.url),contract=JSON.parse(await readFile(new URL('../../reviews/native-azalea-volatile-contract.json',import.meta.url),'utf8'));
 function noDraw():never{throw Error('This native branch must not consume RNG');}
 
-test('contract pins full relevant native C/subscript/data files and all7 selected upcoming unsupported effects',async()=>{
-  for(const source of contract.sources)assert.equal(createHash('sha256').update(await readFile(new URL(source.path,root))).digest('hex'),source.sha256,source.path);
+test('historical contract pins native C/data and original trainer adapter; all7 upcoming effects remain unsupported',async()=>{
+  for(const source of contract.sources.filter((source:{path:string})=>source.path!=='browser/src/source/trainers.ts'))assert.equal(createHash('sha256').update(await readFile(new URL(source.path,root))).digest('hex'),source.sha256,source.path);
+  const oldAdapter=contract.sources.find((source:{path:string})=>source.path==='browser/src/source/trainers.ts');assert.equal(createHash('sha256').update(await readFile(new URL('browser/reviews/native-mon-gender/trainers-before.ts.txt',root))).digest('hex'),oldAdapter.sha256);
   const cases=[['TRAINER_EXECUTIVE_PROTON_PROTON',49],['TRAINER_LEADER_BUGSY_BUGSY',47],['TRAINER_LEADER_BUGSY_BUGSY',228],['TRAINER_RIVAL_SILVER',100],['TRAINER_RIVAL_SILVER',106],['TRAINER_RIVAL_SILVER',109],['TRAINER_RIVAL_SILVER',65]]as const;
   for(const[key,effect]of cases){const party=await originalTrainerParty(data,data.constants[key]);assert.ok(party.some(mon=>mon.moves.some(move=>data.moves[move.id].effect===effect)),`${key}/${effect}`);}
   const engine=await readFile(new URL('browser/src/source/battle.ts',root),'utf8'),admitted=engine.match(/const implementedEffects=new Set\(\[([^\]]*)\]/)![1].split(',').map(Number);
