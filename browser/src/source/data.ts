@@ -1,3 +1,4 @@
+import {NATIVE_SPECIES_WEIGHTS} from './species-weights-data.ts';
 import {newMysteryGiftSave} from './mystery-gifts.ts';
 import {sampleUint32} from './native-rng.ts';
 import {nativeMonGender} from './gender.ts';
@@ -8,7 +9,7 @@ export async function loadData():Promise<GameData>{
     sourceJSON<SourceIndex>('index.json'),sourceJSON<Record<string,number>>('constants.json'),sourceJSON<Record<string,SpriteInfo>>('sprites.json'),sourceJSON<{baseStats:Personal[]}>('pokemon.json'),sourceJSON<MoveData[]>('moves.json'),sourceJSON<GameData['learnsets']>('learnsets.json'),sourceJSON<GameData['growth']>('growth.json'),sourceJSON<{encounters:GameData['encounters']}>('encounters.json'),sourceJSON<{trainers:Trainer[]}>('trainers.json'),sourceJSON<GameData['items']>('items.json'),sourceJSON<number[][]>('type-chart.json'),sourceJSON<GameData['initial']>('initial-state.json'),sourceJSON<GameData['intro']>('intro-messages.json'),
     sourceJSON<GameData['names']>('names.json'),sourceJSON<Record<string,string>>('messages/302.json'),
   ]);
-  return {index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names,eggSummary};
+  return {nativeWeights:NATIVE_SPECIES_WEIGHTS,index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names,eggSummary};
 }
 export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{
   return {version:2,mysteryGifts:newMysteryGiftSave(),trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
