@@ -10,6 +10,14 @@ import {planNativeExperience} from './battle-experience.ts';
 type Result='won'|'lost'|'caught'|'ran';
 type Action={kind:'move';slot:number}|{kind:'switch';index:number}|{kind:'item';item:string}|{kind:'run'};
 const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,43,44,48,50,51,52,53,54,55,56,58,59,60,61,62,63,64,66,67,68,69,70,71,72,73,74,78,81,85,87,103,113,132,149,156,214]);
+// constants/moves.h: SINGLE, RANDOM_OPPONENT, ADJACENT_OPPONENTS, ALL_ADJACENT.
+// Self/side/field targets still exist without a living opposing active mon.
+const singleBattleLiveOpponentTargets=new Set([0,2,4,8]);
+// BattleCtx_IsIdenticalToCurrentMove's complete native effect table. Its
+// first-turn TryNoTarget predicate is false: the charge script must run even
+// without an opponent. Charge/locked-turn state is unported, so keep all of
+// these effects unsupported instead of claiming a completed no-target action.
+const unportedChargeEffects=new Set([26,39,75,145,151,155,255,256,263,272]);
 export class Battle{
   active=false;private enemies:Mon[]=[];private enemyIndex=0;private playerIndex=0;private trainer:number|null=null;
   private playerStages=freshStages();private enemyStages=freshStages();private resolve:((r:Result)=>void)|null=null;private actions:((a:Action)=>void)|null=null;
@@ -77,6 +85,19 @@ export class Battle{
   private async loop(){while(this.active){
     this.roosting.clear(); // Native turnData.roostFlag lasts only this turn.
     const action=await this.nextAction();this.actions=null;if(action.kind==='switch'&&(!isUsableBattler(this.state.party[action.index])||action.index===this.playerIndex))continue;this.turns++;this.flinch=false;
+    let enemyFainted=false,playerFainted=false;
+    // Native ActionEnd settles every action before the next living actor gets
+    // its selected move. Replacements still wait until TurnEnd after residuals.
+    const settleFaints=async()=>{
+      if(!enemyFainted&&this.enemy.hp<=0){enemyFainted=true;await this.say(`${this.enemy.name} fainted!`);await this.gainExperience();if(this.enemyIndex+1>=this.enemies.length){await this.say(this.trainer!==null?'You defeated the opposing Trainer!':'You won the battle!');this.finish('won');return;}}
+      if(!playerFainted&&this.player.hp<=0){playerFainted=true;await this.say(`${this.player.name} fainted!`);if(!this.state.party.some(isUsableBattler)){await this.say(`${this.state.name} has no Pokémon left to fight!`);this.finish('lost');}}
+    };
+    const moveAction=async(playerSide:boolean,slot:number,selectedMoveId:number)=>{
+      if(!this.active||(playerSide?this.player:this.enemy).hp<=0)return;
+      // EXP can replace this slot before the second action. FightInput reads
+      // the current move again, so attack must resolve its ID/target then.
+      await this.attack(playerSide,slot,selectedMoveId);await settleFaints();
+    };
     if(action.kind==='run'){
       if(this.trainer!==null){await this.say('No! There’s no running from a Trainer battle!');continue;}
       this.prepareRageTurn(this.player);
@@ -89,16 +110,9 @@ export class Battle{
       this.prepareRageTurn(this.player,action.slot);this.prepareRageTurn(this.enemy,enemySlot);
       const ps=this.effectiveSpeed(true),es=this.effectiveSpeed(false);
       const first=playerMove.priority>enemyMove.priority||(playerMove.priority===enemyMove.priority&&(ps>es||(ps===es&&this.rng()<.5)));
-      if(first){await this.attack(true,action.slot);if(this.enemy.hp>0&&this.player.hp>0)await this.attack(false,enemySlot);}else{await this.attack(false,enemySlot);if(this.player.hp>0&&this.enemy.hp>0)await this.attack(true,action.slot);}
+      if(first){await moveAction(true,action.slot,playerMove.id);await moveAction(false,enemySlot,enemyMove.id);}else{await moveAction(false,enemySlot,enemyMove.id);await moveAction(true,action.slot,playerMove.id);}
     }
     if(!this.active)break;
-    let enemyFainted=false,playerFainted=false;
-    // ActionEnd grants EXP and checks battle outcome before end-turn damage.
-    // Replacements wait until residuals complete (native TurnEnd).
-    const settleFaints=async()=>{
-      if(!enemyFainted&&this.enemy.hp<=0){enemyFainted=true;await this.say(`${this.enemy.name} fainted!`);await this.gainExperience();if(this.enemyIndex+1>=this.enemies.length){await this.say(this.trainer!==null?'You defeated the opposing Trainer!':'You won the battle!');this.finish('won');return;}}
-      if(!playerFainted&&this.player.hp<=0){playerFainted=true;await this.say(`${this.player.name} fainted!`);if(!this.state.party.some(isUsableBattler)){await this.say(`${this.state.name} has no Pokémon left to fight!`);this.finish('lost');}}
-    };
     await settleFaints();if(!this.active)break;
     // Supported stage/paralysis speed subset. Native residual order ignores
     // chosen move priority and draws a fresh low-bit tie, before any later EXP.
@@ -132,17 +146,26 @@ export class Battle{
   private chooseEnemyMove(){const slots=this.enemy.moves.map((m,i)=>m.pp>0?i:-1).filter(i=>i>=0);return slots.length?slots[Math.floor(this.rng()*slots.length)]:-1;}
   private async enemyTurn(){if(this.enemy.hp>0&&this.player.hp>0){const slot=this.chooseEnemyMove();this.prepareRageTurn(this.enemy,slot);await this.attack(false,slot);}}
   private async switch(index:number){if(!isUsableBattler(this.state.party[index])||index===this.playerIndex)return;await this.say(`${this.player.name}, that’s enough! Come back!`);this.identified.delete(this.player);this.curled.delete(this.player);this.raging.delete(this.player);this.roosting.delete(this.player);this.selectedMoveSlots.delete(this.player);this.playerIndex=index;this.experienceMask|=1<<index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);}
-  private async attack(playerSide:boolean,slot:number){
+  private async attack(playerSide:boolean,slot:number,selectedMoveId?:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
+    if(attacker.hp<=0)return;
     if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
     if(attacker.status==='SLP'){attacker.sleepTurns--;if(attacker.sleepTurns>0){await this.say(`${attacker.name} is fast asleep.`);return;}attacker.status='';await this.say(`${attacker.name} woke up!`);}
     if(attacker.status==='FRZ'){if(this.rng()>=.2){await this.say(`${attacker.name} is frozen solid!`);return;}attacker.status='';await this.say(`${attacker.name} thawed out!`);}
     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
     const move=slot<0?this.data.moves[165]:this.data.moves[attacker.moves[slot].id];
-    if(slot>=0&&!implementedEffects.has(move.effect))throw Error(`Unported original move effect ${move.effect}: ${move.key}`);
+    // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
+    // too unless FightInput has reselected a changed slot; OPPONENT_SIDE(128)
+    // retains a side target even if its active mon fainted. Their unported
+    // effects must not be silently accepted as a no-target action.
+    const noTarget=!unportedChargeEffects.has(move.effect)&&defender.hp<=0&&(singleBattleLiveOpponentTargets.has(move.target)||(move.target===1024&&(selectedMoveId===undefined||selectedMoveId===move.id)));
+    if(slot>=0&&!implementedEffects.has(move.effect)&&!noTarget)throw Error(`Unported original move effect ${move.effect}: ${move.key}`);
     if(slot>=0)attacker.moves[slot].pp--;
     await this.say(`${playerSide?'':'The opposing '}${attacker.name} used ${moveName(this.data,move.id)}!`);
     try{
+    // TryMove checks status and deducts PP before its no-target script. A
+    // recoil-fainted opponent does not prevent user/side/field moves running.
+    if(noTarget){await this.say('But there was no target...');return;} // msg_0197_01234
     if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78&&Math.floor(this.rng()*100)>=stageHitChance(move.accuracy,as.accuracy,ds.evasion,this.identified.has(defender))){await this.say(`${attacker.name}’s attack missed!`);return;}
     if([32,132,214].includes(move.effect)&&attacker.hp===attacker.maxHP){await this.say(`${attacker.name}’s HP is full!`);return;}
     await this.view?.attack(playerSide,move);
