@@ -7,6 +7,8 @@ export type BattleEvolutionCompletion={
  readonly result:NativeBattleOutcome;
  readonly levelUpMask:number;
  readonly party:readonly Mon[];
+ /** A later Battle.start invalidates this record even with the same mons. */
+ readonly isCurrent:()=>boolean;
 };
 
 /** Detached display data; the scene never receives the live party object. */

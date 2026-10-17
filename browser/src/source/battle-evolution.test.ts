@@ -16,7 +16,7 @@ globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'
 const data=await loadData(),native=await loadNativeEvolutionData(data),fieldMoves=await loadNativeFieldMoveData();
 const mon=(species=155,level=14)=>({...createMon(data,species,level,'Ethan',()=>.5),hasNickname:false});
 const selection=(m:Mon):NativeEvolutionSelection=>selectNativeLevelEvolution(native,null,m,{night:false,evolutionLocation:0});
-const completion=(party:Mon[],mask=1,result:BattleEvolutionCompletion['result']='won'):BattleEvolutionCompletion=>Object.freeze({serial:1,result,levelUpMask:mask,party:Object.freeze([...party])});
+const completion=(party:Mon[],mask=1,result:BattleEvolutionCompletion['result']='won'):BattleEvolutionCompletion=>Object.freeze({serial:1,result,levelUpMask:mask,party:Object.freeze([...party]),isCurrent:()=>true});
 const scene:BattleEvolutionScenePort=async(_scene,callbacks)=>{callbacks.evolve();callbacks.register();await callbacks.learnMoves();callbacks.finish();return'evolved';};
 function fixture(party:Mon[]=[mon()]){
  const state=newState(data,'Ethan','boy',()=>.5);state.party=party;const events:unknown[]=[];

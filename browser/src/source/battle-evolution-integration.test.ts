@@ -60,5 +60,6 @@ test('real ExpShare rewards mark both exact party bits even when the second mon 
 
 test('no-level battles produce no candidate, and technical combat failure cannot expose a successful completion',async()=>{
  const f=fixture([{...createMon(data,155,18,'Ethan',()=>.5),hasNickname:false}]);assert.equal(await f.battle.start(await originalTrainerParty(data,8),8),'won');assert.equal(f.battle.evolutionCompletion!.levelUpMask,0);await f.queue.run(data,f.state,f.battle.evolutionCompletion!,f.ports);assert.equal(f.scenes.length,0);
+ const stale=f.battle.evolutionCompletion!;assert.equal(stale.isCurrent(),true);assert.equal(await f.battle.start(await originalTrainerParty(data,8),8),'won');assert.equal(stale.isCurrent(),false);const before=structuredClone(f.state);await assert.rejects(f.queue.run(data,f.state,stale,f.ports),/Stale native battle/);assert.deepEqual(f.state,before);
  Object.assign(f.battle,{nextAction:async()=>{throw Error('input failed');}});await assert.rejects(f.battle.start(await originalTrainerParty(data,8),8),/input failed/);assert.equal(f.battle.evolutionCompletion,null);
 });

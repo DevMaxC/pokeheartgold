@@ -83,6 +83,7 @@ export class BattleEvolutionQueue{
  pending(completion:BattleEvolutionCompletion){return completion.levelUpMask&~(this.consumed.get(completion)??0);}
  async run(data:GameData,state:State,completion:BattleEvolutionCompletion,ports:BattleEvolutionPorts,signal?:AbortSignal):Promise<BattleEvolutionSummary>{
   if(this.running)throw Error('A native evolution batch already owns the field');
+  if(!completion.isCurrent())throw Error('Stale native battle evolution completion');
   integer(completion.levelUpMask,0,63,'six-slot level-up mask');
   if(state.party.length>6||new Set(state.party).size!==state.party.length)throw new UnsupportedBattleEvolution('Invalid native party slots');
   const identity=()=>{if(state.party.length!==completion.party.length||state.party.some((mon,index)=>mon!==completion.party[index]))throw Error('Native evolution party identity changed');};identity();
