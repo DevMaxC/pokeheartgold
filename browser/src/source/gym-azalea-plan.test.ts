@@ -52,9 +52,14 @@ test('switches toggle their native bits and select the actual upper routes witho
   const two=flipAzaleaGymSwitch(initial,1);assert.equal(two.switches,2);assert.equal(planAzaleaGymRide(two,7).destination,10);const three=flipAzaleaGymSwitch(two,0);assert.equal(three.switches,3);assert.equal(planAzaleaGymRide(three,7).destination,11);assert.deepEqual(three.spiders,initial.spiders);assert.deepEqual(flipAzaleaGymSwitch(three,1),one);assert.throws(()=>flipAzaleaGymSwitch(initial,2),RangeError);
 });
 
-test('Continue and connections retain all4 saved stations while real warps initialize source state without mutating input',()=>{
+test('Continue retains saved stations, while native OnTransition reinitializes both connection and warp entries',async()=>{
   const moved=completeAzaleaGymRide(initialAzaleaGymState(),planAzaleaGymRide(initialAzaleaGymState(),0)),saved=flipAzaleaGymSwitch(moved,1),snapshot=structuredClone(saved);
-  for(const kind of['continue','connection']as const){const result=azaleaGymEntryState(JSON.parse(JSON.stringify(saved)),kind);assert.deepEqual(result,saved);assert.notEqual(result,saved);assert.notEqual(result.spiders,saved.spiders);}
+  const result=azaleaGymEntryState(saved,'continue');assert.deepEqual(result,saved);assert.notEqual(result,saved);assert.notEqual(result.spiders,saved.spiders);
+  assert.deepEqual(azaleaGymEntryState(saved,'connection'),initialAzaleaGymState());
+  const header=await readFile(new URL('files/fielddata/script/scr_seq/scr_seq_0642_T23GYM0102_hdr.s',root),'utf8'),script=await readFile(new URL('files/fielddata/script/scr_seq/scr_seq_0869_T23GYM0102.s',root),'utf8'),entry=await readFile(new URL('src/field_warp_tasks.c',root),'utf8');
+  assert.match(header,/InitScriptEntry_OnTransition _EV_scr_seq_T23GYM0102_016 \+ 1/);assert.match(script,/scr_seq_T23GYM0102_016:\s+AzaleaGymInit/);
+  const onEnter=entry.slice(entry.indexOf('void FieldSystem_InitMapOnEnter('),entry.indexOf('static void FieldSystem_CreatePlayerAndMapObjects(',entry.indexOf('void FieldSystem_InitMapOnEnter(')));assert.match(onEnter,/if \(isConnection\)/);assert.match(onEnter,/TryStartMapScriptByType\(fieldSystem, INIT_SCRIPT_ON_TRANSITION\);/);
+  const continuation=entry.slice(entry.indexOf('if (CheckFlag966(varsFlags))'),entry.indexOf('FieldSystem_RandomizeRoamers(fieldSystem);',entry.indexOf('if (CheckFlag966(varsFlags))')));assert.match(continuation,/} else \{[\s\S]*FieldSystem_RestorePlayerAndMapObjects\(fieldSystem\);/);
   assert.deepEqual(azaleaGymEntryState(saved,'warp'),initialAzaleaGymState());assert.deepEqual(saved,snapshot);assert.deepEqual(azaleaGymEntryState(undefined,'continue'),initialAzaleaGymState());
   for(const invalid of[{spiders:[0,1,2,2],switches:0},{spiders:[0,1,2,12],switches:0},{spiders:Array(4),switches:0},{spiders:[0,1,2,7],switches:4}])assert.throws(()=>azaleaGymEntryState(invalid as AzaleaGymState,'continue'),RangeError);
 });
@@ -66,4 +71,22 @@ test('stale switch/station plans and invalid ticks fail before commit; partial r
 
 test('authored docking waits retain native postincrement ticks and camera offsets return to zero without an orbit reset',()=>{
   assert.equal(rules.phases.afterBoardWaitTicks,5);assert.equal(rules.phases.beforeDisembarkWaitTicks,9);assert.equal(rules.phases.dockTicks,1);assert.equal(rules.phases.shakeTicks,7);assert.deepEqual(azaleaGymShakeOffsets(1),[1/16,1/16,0,0,1/16,1/16,0]);for(const facing of[0,2,3])assert.deepEqual(azaleaGymShakeOffsets(facing),[-1/16,-1/16,0,0,-1/16,-1/16,0]);assert.throws(()=>azaleaGymShakeOffsets(4),RangeError);
+});
+
+// Exact segment boundaries are additional witnesses, independent of the sparse
+// generated sample list. Every authored diagonal overshoots both axes on tick49.
+test('every native directed diagonal reaches tick48 without freezing and snaps both axes together on49',()=>{
+  let diagonals=0;
+  for(let station=0;station<12;station++)for(let switches=0;switches<4;switches++){
+    if(!rules.slots[station][switches])continue;const plan=planAzaleaGymRide(occupied(station,switches),station);let elapsed=0;
+    for(const segment of plan.segments){
+      const scale=16*4096,from={x:segment.from.x*scale,z:segment.from.z*scale},to={x:segment.to.x*scale,z:segment.to.z*scale};assert.deepEqual(azaleaGymRideFrame(plan,elapsed).fixed,from);
+      if(segment.velocity.x&&segment.velocity.z){
+        assert.equal(segment.ticks,49);for(const axis of['x','z']as const){const direction=Math.sign(to[axis]-from[axis]);assert.ok((from[axis]+48*segment.velocity[axis]-to[axis])*direction<0);assert.ok((from[axis]+49*segment.velocity[axis]-to[axis])*direction>0);}
+        assert.deepEqual(azaleaGymRideFrame(plan,elapsed+48).fixed,{x:from.x+48*segment.velocity.x,z:from.z+48*segment.velocity.z});diagonals++;
+      }
+      elapsed+=segment.ticks;assert.deepEqual(azaleaGymRideFrame(plan,elapsed).fixed,to);
+    }
+  }
+  assert.ok(diagonals>0);
 });

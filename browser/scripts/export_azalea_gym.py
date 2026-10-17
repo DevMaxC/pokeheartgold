@@ -37,6 +37,8 @@ def native_data():
     assert 'VEC_MultAdd(FX32_CONST(2)' in source
     refs = ['src/field/gymmick/azalea.c', 'src/gymmick_init.c', 'include/gymmick.h',
             'src/save_gymmick.c', 'src/field_warp_tasks.c', 'src/main.c',
+            'files/fielddata/script/scr_seq/scr_seq_0642_T23GYM0102_hdr.s',
+            'files/fielddata/script/scr_seq/scr_seq_0869_T23GYM0102.s',
             'lib/NitroSDK/src/fx/fx_vec_normalize.c', 'lib/NitroSDK/src/fx/fx_vec_mult_add.c']
     return {'model': 118, 'asset': 'props/0-118-27.glb', 'nativeUnitsPerTile': 16, 'fixedOne': 4096,
             'movementUnitsPerTick': 2, 'ticksPerSecond': 30,

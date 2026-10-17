@@ -12,9 +12,9 @@ function validate(state:AzaleaGymState){
   return state;
 }
 function copy(state:AzaleaGymState):AzaleaGymState{validate(state);return{spiders:[...state.spiders],switches:state.switches};}
-/** A real warp clears native gymmick data before InitAzaleaGym. Continue and
- * ordinary connections retain it; this helper does not reset another gym. */
-export function azaleaGymEntryState(saved:AzaleaGymState|undefined,kind:'continue'|'connection'|'warp'):AzaleaGymState{return kind==='warp'||saved===undefined?initialAzaleaGymState():copy(saved);}
+/** The Azalea OnTransition script runs InitAzaleaGym on connections and warps.
+ * An ordinary Continue bypasses that script and retains this gym's saved state. */
+export function azaleaGymEntryState(saved:AzaleaGymState|undefined,kind:'continue'|'connection'|'warp'):AzaleaGymState{return kind!=='continue'||saved===undefined?initialAzaleaGymState():copy(saved);}
 export function flipAzaleaGymSwitch(state:AzaleaGymState,index:number):AzaleaGymState{validate(state);if(!validIndex(index,2))throw RangeError('Invalid original Azalea switch');return{spiders:[...state.spiders],switches:(state.switches^(1<<index))as 0|1|2|3};}
 
 function squareRoot(value:bigint){if(value<0n)throw RangeError('Negative fixed-point length');if(value<2n)return value;let root=value,next=(root+1n)>>1n;while(next<root){root=next;next=(root+value/root)>>1n;}return root;}
