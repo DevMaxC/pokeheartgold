@@ -24,6 +24,9 @@ import {catchingTutorialState} from './tutorial.ts';
 import {gymFieldEntry} from './gym-violet.ts';
 import {isUsableBattler,firstFollowerMon,NATIVE_EGG_ICON} from './eggs.ts';
 import {partyHUD,partyRow,partySummary} from './party-display.ts';
+import {advancePartyEggStep,recordEggHatchEvent,type EggStepClock} from './egg-hatching.ts';
+import {presentNativeEggHatch} from './egg-hatch-presentation.ts';
+import {WorldEggHatchView} from './egg-hatch-view.ts';
 import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
 
 const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-qa':'heartgold-3d-v2';
@@ -40,6 +43,7 @@ const trainerApproachTasks=new Map<number,Promise<void>>();
 let sourceActions:SourceActionRecovery<ReturnType<typeof captureField>>|undefined,recoveryPrompt=false;
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
 let followerPrevious:{x:number;z:number;height:number}|null=null;let playerTweenY:number|undefined;let previousStepJump=false;let restoringGym=false;
+let hatching=false,hatchFollowerPendingCommit=false;
 const npcTweenY=new Map<string,number>();
 const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
 function save(){if(!ready||!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking)return;try{state.fieldHeight=player.group.position.y;state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Local save is unavailable');}}
@@ -126,6 +130,21 @@ async function chooseStarter(){
   }
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
 }
+async function hatchEgg(){
+  if(hatching)throw Error('An Egg hatch already owns the field');
+  // Enabled playback needs original sequence assets and an owned music player.
+  // A deliberate muted setting skips all audio, including the original cry.
+  if(state.options.sound)throw new UnsupportedScript(map.code,'NativeEggHatchMusic',vm.current?.pc??-1);
+  hatching=true;hatchFollowerPendingCommit=true;keys.clear();drag=false;
+  try{await presentNativeEggHatch(data,state,map,{
+    view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:async()=>{}}),
+    music:{start:async()=>{},fanfare:async()=>{},restore:async()=>{}},
+    message:(text,signal)=>ui.printMessage(text,(state.options.textSpeed===0?8:state.options.textSpeed===1?4:1)*1000/60,signal),
+    choose:(text,options,signal)=>ui.choose(text,options,'',signal),
+    nickname:(scene,signal)=>ui.input('Pokémon nickname',10,scene.speciesName,signal),
+    resumeField:async()=>{refreshNPCs();updateHUD();keys.clear();},
+  });}finally{hatching=false;}
+}
 // Live actors are newer than state.objectEvents until the next durable save.
 function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
@@ -172,6 +191,8 @@ async function executeSourceAction<T>(action:()=>Promise<T>){
           // Retain its new failures too, including an A -> B -> A excursion.
           const location=String(state.map),current=frameTriggerGate.snapshot();
           frameTriggerGate.restore({location,blocked:[...new Set([...(triggerState.location===location?triggerState.blocked:[]),...(current.location===location?current.blocked:[])])]});
+          const trainerLocation=`${state.map}:${Math.floor(state.x)},${Math.floor(state.z)}`,currentTrainers=trainerAttempts.snapshot();
+          trainerAttempts.restore({location:trainerLocation,attempts:[...new Set([...(trainerState.location===trainerLocation?trainerState.attempts:[]),...(currentTrainers.location===trainerLocation?currentTrainers.attempts:[])])]});
         }
         return choice===0?'retry':'return';
       }finally{recoveryPrompt=false;}
@@ -240,7 +261,7 @@ async function warp(index:number,facing=state.facing){
   }finally{transitioning=false;}
   });
 }
-async function checkEvents(enteredDoor=false){
+async function checkEvents(enteredDoor=false,eggClock?:EggStepClock){
   const outcome=await executeSourceAction(async()=>{
   const owner=world.owner(state.x,state.z);
   if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
@@ -253,9 +274,13 @@ async function checkEvents(enteredDoor=false){
   const transitionFacing=enteredDoor?state.facing:stepWarpFacing(world.permission(state.x,state.z),state.facing);
   if(warpIndex>=0&&key!==lastWarp&&transitionFacing!==null){await warp(warpIndex,transitionFacing);save();return;}if(warpIndex<0)lastWarp='';
   if(await checkFrameTriggers())return;
+  // This host currently provides ordinary walking/ledge movement. Native
+  // forced-movement, poison/Safari/repel and breeding handlers remain separate
+  // parity work; those future higher-priority handlers must precede daycare.
+  if(eggClock&&advancePartyEggStep(data,state,eggClock).hatchReady){recordEggHatchEvent(data,state);await runScript(data.constants.std_hatch_egg,'obj_player',false,false,true);return;}
   return !vm.busy&&!ui.busy&&!transitioning;
   });
-  if(outcome.ok&&outcome.value)await wildEncounter();
+  return outcome.ok&&!!outcome.value;
 }
 async function wildEncounter(){
   if(!state.party.some(isUsableBattler))return;
@@ -306,15 +331,21 @@ async function step(facing:number){
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
   const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z)),standing=world.permission(state.x,state.z),ladder=[60,61].includes(standing&255);
   if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.terrainWalkable(x,z))){await warp(exit,facing);save();return;}
-  // Native ledge collision takes priority over ordinary map/NPC blocking.
-  if(ledgeDirection(world.permission(x,z))===facing){walking=true;try{await tweenPlayer(x+d.x,z+d.z,.42,true);}finally{walking=false;}encounterChecks.step();await checkEvents();return;}
+  // A completed ledge hop is one movement event even though it crosses two tiles.
+  const jumping=ledgeDirection(world.permission(x,z))===facing;
   const nativeWarp=map.events.warps.some(w=>w.x===Math.floor(x)&&w.z===Math.floor(z));
   const enteredDoor=doorwayEntry(world.permission(x,z),nativeWarp,facing);
-  if((!world.walkable(x,z,state.x,state.z,player.group.position.y)&&!enteredDoor)||occupied)return;
-  walking=true;
-  try{await tweenPlayer(x,z,keys.has('ShiftLeft')&&state.runningShoes? .14:.25);}
-  finally{walking=false;}
-  encounterChecks.step();await checkEvents(enteredDoor);
+  if(!jumping&&((!world.walkable(x,z,state.x,state.z,player.group.position.y)&&!enteredDoor)||occupied))return;
+  // Capture the target and browser date once so explicit Retry replays the
+  // same completed step. Global native RTC penalty detection is unported.
+  const date=new Date(),eggClock={month:date.getMonth()+1,day:date.getDate(),penalty:false};
+  const targetX=jumping?x+d.x:x,targetZ=jumping?z+d.z:z,seconds=jumping?.42:keys.has('ShiftLeft')&&state.runningShoes?.14:.25;
+  const outcome=await executeSourceAction(async()=>{
+    walking=true;try{await tweenPlayer(targetX,targetZ,seconds,jumping);}finally{walking=false;}
+    encounterChecks.step();return checkEvents(enteredDoor,eggClock);
+  });
+  // Commit the completed movement before the independent wild battle action.
+  if(outcome.ok&&outcome.value)await wildEncounter();
 }
 async function menu(){if(!started||sourceActions?.busy||recoveryPrompt||transitioning||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(!ui.panelOpen&&await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;if(ui.panelOpen){ui.close();return;}
   const entries=[['party','Pokémon',`${state.party.length} in your party`],['bag','Bag','Items and Key Items'],['trainer',state.name,`${state.badges.length} Badges`],['save','Save','Save your adventure'],['options','Options','Game settings'],['close','Close','Return to Johto']];
@@ -343,14 +374,15 @@ async function title(){
 }
 async function begin(){
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
-  vm=new ScriptVM(data,state,{cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
+  vm=new ScriptVM(data,state,{eggHatchAnim:()=>hatchEgg(),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,true);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started){openingView?.draw(dt);return;}
     state.playSeconds+=dt;if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
-    const lead=firstFollowerMon(state.party);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
+    if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
+    const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;}
     if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);

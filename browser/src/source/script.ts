@@ -17,6 +17,7 @@ import {SCRIPT_CAMERA_PERSON,SCRIPT_CAMERA_ACTOR} from './script-camera.ts';
 
 export type ScriptHooks={
   eggContext?:EggContext;
+  eggHatchAnim?:()=>Promise<void>;
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
   move:(object:string,label:string,map:SourceMap)=>Promise<void>;position:(object:string,x:number,z:number,facing?:number)=>void;
   face:(object:string,facing?:number)=>void;visible:(object:string,value:boolean)=>void;
@@ -190,6 +191,7 @@ export class ScriptVM{
         if(cmd==='PartyCountNotEgg'){this.set(a[0],this.state.party.filter(mon=>!mon.isEgg).length);continue;}
         if(cmd==='PartyCountEgg'){this.set(a[0],this.state.party.filter(mon=>!!mon.isEgg).length);continue;}
         if(cmd==='GiveTogepiEgg'){giveTogepiEgg(this.data,this.state,this.hooks.eggContext);continue;}
+        if(cmd==='EggHatchAnim'){if(!this.hooks.eggHatchAnim)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.eggHatchAnim();continue;}
         if(cmd==='MonIsFromTogepiEgg'){this.set(a[1],Number(isOriginalTogepiGift(this.data,this.state,this.state.party[v(a[0])])));continue;}
         if(cmd==='PartyHasPokerus'){this.set(a[0],Number(this.state.party.some(mon=>!!mon.pokerus)));continue;}
         if(cmd==='PokeCenAnim'){if(!this.hooks.healAnimation)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.healAnimation(v(a[0]));continue;}

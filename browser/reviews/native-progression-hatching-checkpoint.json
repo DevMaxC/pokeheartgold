@@ -1,0 +1,48 @@
+{
+  "status": "Draft source integration checkpoint; visual QA and enabled native sequence audio remain pending. Full game parity is not achieved.",
+  "sourceBase": "c1d5190",
+  "sources": {
+    "browser/src/source/main.ts": "94cb450d6253b00837b6ea2e2e0a672d62c984f879ce0ed868c717680ac0287c",
+    "browser/src/source/script.ts": "fa6a547e776f91dc5921b5c1f97f9ac78ab1d94db874efe210c2e74e8b3142e0",
+    "browser/src/source/egg-hatching.ts": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905",
+    "browser/src/source/egg-hatch-presentation.ts": "d21b35dc2af31e062755ff567af45a7eca522c8f970cae7618e2d1becb12269d",
+    "browser/src/source/egg-hatch-integration.test.ts": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+    "browser/src/source/egg-field-main.test.ts": "c9c825d4776fb1efb929a055dc7e14d3b009479f0b0c5610cb88dd2063c8f7b0",
+    "browser/src/source/egg-hatch-view.ts": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+    "browser/src/source/ui.ts": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8"
+  },
+  "validation": {
+    "fullTests": 628,
+    "passed": 628,
+    "failed": 0,
+    "skipped": 0,
+    "tsc": "passed",
+    "viteBuild": "passed",
+    "asset": "main-BzANkWh4.js",
+    "bytes": 1044245,
+    "sha256": "0c4dd22398439afe0186d0fca6c89df226956151539c00506a53c1947f697a64",
+    "fullTestLogSha256": "b6e5ee2247a1f5019f72236c18e771c4512bfca8f0421001a9878adb30858308"
+  },
+  "implemented": [
+    "Saved native shared Egg steps on completed ordinary walking or one ledge hop, after frame/trainer/coordinate/warp priorities.",
+    "Real standard2021 intro and awaited EggHatchAnim hook.",
+    "Live3D field Egg reveal preserving free camera and original paper Pok\u00e9mon, original Togepi cry export, memo/OT/Dex/Elm lifecycle.",
+    "Original cry and automatic text start together; fanfare after cry, printer completion before nickname decision, with no extra confirm.",
+    "Whole pre-tween step/hatch checkpoint; abort and drain cry/printer/name/view tasks before rollback or Retry; no autosave/input during provisional state.",
+    "Follower creation waits for complete source-action commit, and restored-tile trainer/frame pauses survive Return.",
+    "Standalone wild battle begins only after the completed step commits."
+  ],
+  "reviewScope": [
+    "Native Egg lifecycle and view had separate source-backed offline reviews.",
+    "UI cancellation and printer actual Opus5.5 reviews are archived at their exactsource commits.",
+    "Current whole-host actual Opus5.5 review is running on copied immutable inputs; no review approval is claimed here."
+  ],
+  "limitations": [
+    "No browser/visual/playthrough verification while the native preview host is disconnected.",
+    "Muted user setting explicitly skips all audio. Enabled hatch sequence playback currently stops explicitly; source-backed native SSEQ rendering/player is being implemented separately.",
+    "Global nativeRTC penalty detection, forced movement/poison/Safari/repel/daycare breeding step handlers, alternate-form hatch/Jirachi unlock, full incomingphone delivery and complete campaign remain unported.",
+    "The independent battle review found a supported paralysis-speed zero clamp bug in b30324e; a separate targeted fix follows this checkpoint.",
+    "Terrain integration remains historicalT0 plus buildingA3; new T2 terrain/audit source and final355building renders are not approved by these tests.",
+    "Turn-input facing intentionally changes before the completed-movement checkpoint; rollback restores pre-tween coordinates/progression and retains requestedheading."
+  ]
+}
