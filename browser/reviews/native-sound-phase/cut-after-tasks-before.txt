@@ -1,0 +1,33 @@
+TAP version 13
+# (node:85793) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Cut admission from the global after-tasks phase waits settled and preserves source retry ownership
+not ok 1 - Cut admission from the global after-tasks phase waits settled and preserves source retry ownership
+  ---
+  duration_ms: 210.885
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.test.ts:113:1'
+  failureType: 'testCodeFailure'
+  error: 'Native field task registration during task execution is unsupported'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Object.onTick (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/native-field-clock.ts:68:90)
+    NativeCutFieldHost.run (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.ts:86:85)
+    NativeCutFieldHost.f.host.run (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.test.ts:116:76)
+    <anonymous> (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.test.ts:47:38)
+    SourceActionRecovery.run (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/script-recovery.ts:53:26)
+    Object.run (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.test.ts:47:25)
+    Object.callback (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.test.ts:118:60)
+    run (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/native-field-clock.ts:82:153)
+    async Object.advance (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.test.ts:45:91)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-native-sound-phase/browser/src/source/cut-field-host.test.ts:119:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3014.708667

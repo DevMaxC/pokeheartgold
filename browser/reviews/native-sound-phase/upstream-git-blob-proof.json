@@ -1,0 +1,29 @@
+{
+  "method": "Exact git show 704cacea:path bytes compared with copied fixture, plus git rev-parse commit:path blob identity; no fixture regeneration or runtime edit",
+  "records": [
+    {
+      "upstreamCommit": "704cacea1f02cb609db84ed3d5f7f6ea74d1beae",
+      "upstreamPath": "browser/src/source/gym-azalea-audio.ts",
+      "gitBlobSHA1": "2ad637a6ed6906de75a40795c0570b4da0045463",
+      "upstreamSHA256": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7",
+      "fixtureSHA256": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7",
+      "byteEqual": true
+    },
+    {
+      "upstreamCommit": "704cacea1f02cb609db84ed3d5f7f6ea74d1beae",
+      "upstreamPath": "browser/src/source/azalea-audio-data.ts",
+      "gitBlobSHA1": "125bca43c3d3013e17d5acde2557cf9392e3f72b",
+      "upstreamSHA256": "1e124adc767c2faddee567a661cc96ecc2a1625f2d1ca7ecbc186c2123580b59",
+      "fixtureSHA256": "1e124adc767c2faddee567a661cc96ecc2a1625f2d1ca7ecbc186c2123580b59",
+      "byteEqual": true
+    },
+    {
+      "upstreamCommit": "704cacea1f02cb609db84ed3d5f7f6ea74d1beae",
+      "upstreamPath": "browser/public/source/azalea-audio/resources.json",
+      "gitBlobSHA1": "7bce2b59a67e3b016d0948a5379b509e12cb26eb",
+      "upstreamSHA256": "fca2bfd8fc1e869bd56a73ff1f510230da6f3a0f3e97e5397030f9bdfa629e11",
+      "fixtureSHA256": "fca2bfd8fc1e869bd56a73ff1f510230da6f3a0f3e97e5397030f9bdfa629e11",
+      "byteEqual": true
+    }
+  ]
+}

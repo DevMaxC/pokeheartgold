@@ -1,0 +1,37 @@
+{
+  "status": "post-review hardening candidate awaiting distinct narrow review",
+  "base": "dc4c79d961fbade9bd1ee2396875fbd8d70bb7ca",
+  "files": {
+    "browser/public/source/azalea-audio/1561-SEQ_SE_DP_KI_GASYAN.wav": "162590f019167497b8534946c35ec78a5cb8105be565badc3b4af69cf1090a90",
+    "browser/public/source/azalea-audio/2171-SEQ_SE_GS_ITOMARU_ROBO.wav": "56c6ddbc6fb9b3b90a5b8d44af793419a1dd64343bbf4290a66eb5ccbbfbe2b1",
+    "browser/public/source/azalea-audio/resources.json": "fca2bfd8fc1e869bd56a73ff1f510230da6f3a0f3e97e5397030f9bdfa629e11",
+    "browser/scripts/export_azalea_audio.py": "1ad7848512a1b2fe405dd8ae89327010e2615998d47cc6798d358f494a73bfb0",
+    "browser/scripts/test_azalea_audio_resources.py": "5762dc3ed84f6e4b61ff35a71fb5adf95607e0e48b561d4c093a33f02ff61ac7",
+    "browser/src/source/azalea-audio-data.ts": "1e124adc767c2faddee567a661cc96ecc2a1625f2d1ca7ecbc186c2123580b59",
+    "browser/src/source/gym-azalea-audio.test.ts": "d0ae362e0c1294ca56508395622607cbabbf185147162ca5f16fcd1b39d3c9f0",
+    "browser/src/source/gym-azalea-audio.ts": "9cb584bc8fa7f60921e4f1f8ea8b5adb6e2f7f6d184c2d8b5b31269c2470f7b2"
+  },
+  "tests": {
+    "nodeAudio": 26,
+    "pythonBinaryAndC": 4,
+    "affectedHostClockPrevious": 51,
+    "tsc": "PASS",
+    "hardeningBeforeOldRuntime": "6/6 FAIL as expected"
+  },
+  "notRun": [
+    "browser",
+    "Vite build",
+    "Main binding",
+    "hardware listening",
+    "production"
+  ],
+  "knownRequiredFollowup": "live native whole-PLAYER3 idle sampling at each host script poll; no latching completion parity claim",
+  "initialSourceReview": {
+    "commit": "d6a61e5a",
+    "verdict": "ACCEPT narrow source-only",
+    "actualModel": "claude-opus-5-5",
+    "rawSHA256": "004e7be7bfb28159b3ddcea27ee69cc3e1bcdcb445e17e87a569d7a7e3ed772a",
+    "manifestSHA256": "b4505c55a3721f1d1d3c8c2daed1b0e3d564740ba71b66dadfc87a5670fc7178",
+    "reranTests": false
+  }
+}

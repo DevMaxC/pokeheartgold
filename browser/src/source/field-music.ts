@@ -153,6 +153,9 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
 
  const player={
   field,
+  /** Stable root ownership before audio unlock/Context creation. Reading it
+   * never allocates, resumes or requests audio; remains readable when closed. */
+  get lifetimeSignal():AbortSignal{return lifetime.signal;},
   /** Requires an existing gesture-unlocked Context; never creates or resumes
    * one. Effects inherit the same volume/mute gain as field and battle music. */
   sharedAudioOutput():SharedNativeAudioOutput{return{context:actualContext(),output:gain!,signal:lifetime.signal};},

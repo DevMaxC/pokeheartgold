@@ -1,0 +1,180 @@
+TAP version 13
+# (node:84645) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual room admission hydrates four spiders only for Continue; warp/connection reset original save state
+ok 1 - actual room admission hydrates four spiders only for Continue; warp/connection reset original save state
+  ---
+  duration_ms: 63.06125
+  type: 'test'
+  ...
+# Subtest: shared clock publishes every actual route frame with follower, endpoint save before dock, eight-tick board/disembark
+ok 2 - shared clock publishes every actual route frame with follower, endpoint save before dock, eight-tick board/disembark
+  ---
+  duration_ms: 367.65425
+  type: 'test'
+  ...
+# Subtest: reverse source station rides south with no follower and persists final native grid centers
+ok 3 - reverse source station rides south with no follower and persists final native grid centers
+  ---
+  duration_ms: 468.973583
+  type: 'test'
+  ...
+# Subtest: source follower wait delays boarding; shared static phase continues and stalled draw never catches up
+ok 4 - source follower wait delays boarding; shared static phase continues and stalled draw never catches up
+  ---
+  duration_ms: 341.540125
+  type: 'test'
+  ...
+# Subtest: source switch awaits actual1561 completion and missing audio rejects before puzzle/rider mutation
+ok 5 - source switch awaits actual1561 completion and missing audio rejects before puzzle/rider mutation
+  ---
+  duration_ms: 15.187916
+  type: 'test'
+  ...
+# Subtest: native ignored PlaySE failure permits visual progression with explicit no-voice diagnostics and a real task poll
+ok 6 - native ignored PlaySE failure permits visual progression with explicit no-voice diagnostics and a real task poll
+  ---
+  duration_ms: 245.260541
+  type: 'test'
+  ...
+# Subtest: abort drains asynchronous sound finalization before the VM-owned action rejects
+ok 7 - abort drains asynchronous sound finalization before the VM-owned action rejects
+  ---
+  duration_ms: 23.365416
+  type: 'test'
+  ...
+# Subtest: switch port waits for its entire native sequence player even after this voice ends or cannot start
+ok 8 - switch port waits for its entire native sequence player even after this voice ends or cannot start
+  ---
+  duration_ms: 7.971792
+  type: 'test'
+  ...
+# Subtest: failed action scope admission does not attach abandoned context or map abort listeners
+ok 9 - failed action scope admission does not attach abandoned context or map abort listeners
+  ---
+  duration_ms: 7.797333
+  type: 'test'
+  ...
+# Subtest: local abort restores same-map checkpoint and never cancels another admitted field scope
+ok 10 - local abort restores same-map checkpoint and never cancels another admitted field scope
+  ---
+  duration_ms: 13.009917
+  type: 'test'
+  ...
+# Subtest: unload while moving releases owned view without restoring departed actor coordinates or saving stale puzzle
+ok 11 - unload while moving releases owned view without restoring departed actor coordinates or saving stale puzzle
+  ---
+  duration_ms: 9.997125
+  type: 'test'
+  ...
+# Subtest: reentrant actor port unload stops before follower or further actor writes in the same source tick
+ok 12 - reentrant actor port unload stops before follower or further actor writes in the same source tick
+  ---
+  duration_ms: 281.723291
+  type: 'test'
+  ...
+# Subtest: changed actor identity fails rather than moving a replacement into a stale ride
+ok 13 - changed actor identity fails rather than moving a replacement into a stale ride
+  ---
+  duration_ms: 14.631667
+  type: 'test'
+  ...
+# Subtest: a render vector cannot silently replace an unrelated logical boarding tile
+ok 14 - a render vector cannot silently replace an unrelated logical boarding tile
+  ---
+  duration_ms: 9.5405
+  type: 'test'
+  ...
+# Subtest: real0869 station/switch byte commands reach required ports with source map and abort signal
+ok 15 - real0869 station/switch byte commands reach required ports with source map and abort signal
+  ---
+  duration_ms: 5.747667
+  type: 'test'
+  ...
+# Subtest: VM cancellation aborts and drains the owned Azalea port before source recovery can resume
+ok 16 - VM cancellation aborts and drains the owned Azalea port before source recovery can resume
+  ---
+  duration_ms: 0.730375
+  type: 'test'
+  ...
+# Subtest: actual0869 VM ride command waits for native host final tiles and resumes in the child-completion scripts phase
+ok 17 - actual0869 VM ride command waits for native host final tiles and resumes in the child-completion scripts phase
+  ---
+  duration_ms: 39.423125
+  type: 'test'
+  ...
+# Subtest: World applies cumulative camera shake to position AND target without orbit reset or drift
+ok 18 - World applies cumulative camera shake to position AND target without orbit reset or drift
+  ---
+  duration_ms: 0.551667
+  type: 'test'
+  ...
+# Subtest: World streaming consumes the live rider vector or the native frozen tracking point, scoped to the active map
+ok 19 - World streaming consumes the live rider vector or the native frozen tracking point, scoped to the active map
+  ---
+  duration_ms: 0.160459
+  type: 'test'
+  ...
+# Subtest: actual World draw follows rider override rather than stale logical tile and retains orbit
+ok 20 - actual World draw follows rider override rather than stale logical tile and retains orbit
+  ---
+  duration_ms: 0.605292
+  type: 'test'
+  ...
+# Subtest: actual World streaming suppresses only managed Azalea props when an owning host is installed
+ok 21 - actual World streaming suppresses only managed Azalea props when an owning host is installed
+  ---
+  duration_ms: 11.011083
+  type: 'test'
+  ...
+# Subtest: real World transition releases Azalea actor/view ownership before globally cancelling shared field scopes
+ok 22 - real World transition releases Azalea actor/view ownership before globally cancelling shared field scopes
+  ---
+  duration_ms: 0.660958
+  type: 'test'
+  ...
+# Subtest: a superseded asynchronous room load never publishes an incoming field cart, scope or save
+ok 23 - a superseded asynchronous room load never publishes an incoming field cart, scope or save
+  ---
+  duration_ms: 8.060625
+  type: 'test'
+  ...
+# Subtest: failed late resources are quiet for superseded entry and disposal still completes
+ok 24 - failed late resources are quiet for superseded entry and disposal still completes
+  ---
+  duration_ms: 0.497875
+  type: 'test'
+  ...
+# Subtest: live PLAYER3 is sampled every scripts poll when a new sequence starts after completion promise resolves
+ok 25 - live PLAYER3 is sampled every scripts poll when a new sequence starts after completion promise resolves
+  ---
+  duration_ms: 345.684458
+  type: 'test'
+  ...
+# Subtest: missing live native PLAYER query rejects before source switch mutation
+ok 26 - missing live native PLAYER query rejects before source switch mutation
+  ---
+  duration_ms: 21.381417
+  type: 'test'
+  ...
+# Subtest: invalid live PLAYER query is explicit and rolls back; unload during query cannot complete stale switch
+ok 27 - invalid live PLAYER query is explicit and rolls back; unload during query cannot complete stale switch
+  ---
+  duration_ms: 8.443792
+  type: 'test'
+  ...
+# Subtest: throwing live query aborts and drains still-pending sound before rejecting action
+ok 28 - throwing live query aborts and drains still-pending sound before rejecting action
+  ---
+  duration_ms: 143.773333
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5284.599708
