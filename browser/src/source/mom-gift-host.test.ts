@@ -25,8 +25,8 @@ function state():State&MomSavingsState{const value:State&MomSavingsState=newStat
 const baseHooks=():ScriptHooks=>({message:async()=>{},choice:async()=>assert.fail('native gift delivery has no choice'),move:async()=>{},position(){},face(){},visible(){},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>assert.fail(),warp:async()=>assert.fail('delivery never warps')});
 function delivery(row=placements[0]){
   const value=state();value.map=row.map.id;
-  // Native COMMON0144 init would clear this flag for a nonempty queue. That
-  // shared MysteryGift init is deliberately NOT claimed implemented here.
+  // This isolated Mother-host fixture starts after COMMON0144 init; actual
+  // Mart entry initialization is covered by mystery-gifts.test.ts.
   value.flags.FLAG_HIDE_MOM_GIFT_DELIVERYMAN=false;
   const objects=new FieldObjects(data,value);objects.load(row.map.events.objects);objects.snapshot();
   const phone=new FieldPhoneHost(rules,1000,9),messages:string[]=[],controls:{message?:(text:string,index:number)=>void|Promise<void>;refresh?:()=>void}={};
@@ -84,13 +84,13 @@ test('cancellation and controlled bag/head changes between source phases never d
     await assert.rejects(f.run(),kind==='head'?/matching source item grant/:kind==='capacity'?/grant failed/:/cancelled/);assert.deepEqual(f.value,before);
   }
 });
-test('transient delivery-bank fetch retries and shared MysteryGift init remains explicitly unsupported',async()=>{
+test('transient delivery-bank fetch retries and shared init reads the represented empty store',async()=>{
   // Standard banks may already be cached in this process; use an independent
   // bank key with identical exact source bytes to exercise cache eviction.
   const f=delivery(),copy={...data,index:{...data.index,stdScripts:data.index.stdScripts.map(row=>row.min===10200?{...row,bank:'0144-retry-fixture'}:row)}};
   const original=globalThis.fetch;let loads=0;globalThis.fetch=async input=>{if(String(input)==='/source/scripts/0144-retry-fixture.json'){loads++;if(loads===1)return new Response('',{status:503});return new Response(await readFile(new URL('../../public/source/scripts/0144.json',import.meta.url)));}return original(input);};
   try{const vm=new ScriptVM(copy,f.value,f.vm.hooks);await assert.rejects(f.owner.run(()=>vm.run(f.row.map,10202,f.row.object.id)),/503/);await f.owner.run(()=>vm.run(f.row.map,10202,f.row.object.id));assert.equal(loads,2);assert.equal(f.value.bag.ITEM_SUPER_POTION,1);}finally{globalThis.fetch=original;}
-  const init=delivery(),before=structuredClone(init.value);await assert.rejects(init.owner.run(()=>init.vm.run(init.row.map,c.std_hide_show_deliverymen,init.row.object.id)),(error:unknown)=>error instanceof UnsupportedScript&&error.command==='MysteryGift');assert.deepEqual(init.value,before);
+  const init=delivery();await init.owner.run(()=>init.vm.run(init.row.map,c.std_hide_show_deliverymen,init.row.object.id));assert.equal(init.value.flags.FLAG_HIDE_MOM_GIFT_DELIVERYMAN,false);assert.equal(init.value.flags.FLAG_HIDE_MYSTERY_GIFT_DELIVERYMAN,true);assert.equal(init.vm.lastUnsupported,null);
 });
 test('Mother trigger12 rings as exact script27, is not inferred on Continue, and answering never awards a gift',async()=>{
   const value=state(),host=new FieldPhoneHost(rules,1000,9),queue=readMomSavings(value);value.phoneTriggers=[12];

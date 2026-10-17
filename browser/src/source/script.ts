@@ -1,3 +1,4 @@
+import {ensureMysteryGiftSave,nextMysteryGift,type MysteryGiftSave} from './mystery-gifts.ts';
 import {isTMHMItem,tmhmMove} from './tmhm.ts';
 import {speciesName,titleCase,healParty,moveName} from './data.ts';
 import type {GameData,SourceMap,State} from './types.ts';
@@ -75,6 +76,7 @@ export class ScriptVM{
   buffers:Record<number,string>={};
   private battleWon=false;
   private pendingPhone:[number,number,number]|null=null;
+  private mysteryGiftSession:{save:MysteryGiftSave|null}={save:null};
   private momGiftDelivery:{gift:MomGift;given:boolean}|null=null;
   private context:{activeScript:number;map:SourceMap;object:string;phone:TrainerContact|null;approach?:TrainerApproachContext}|null=null;
   private runAbort:AbortController|null=null;private runGeneration=0;private inheritedSignal:AbortSignal|undefined;private standardID:number|null=null;private fieldMoveOrigin:number|null=null;
@@ -94,7 +96,7 @@ export class ScriptVM{
   set(token:string,n:number){this.runAbort?.signal.throwIfAborted();if(this.fieldMoveOrigin!==null&&this.state.map!==this.fieldMoveOrigin)throw Error('Field move was cancelled by a field change');this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
   private async runChild(map:SourceMap,script:string|number,object:string,standardID:number|null=this.standardID,approach?:TrainerApproachContext):Promise<void>{
-    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;child.momGiftDelivery=this.momGiftDelivery;
+    const previous=this.child,child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.standardID=standardID;child.inheritedSignal=this.runAbort?.signal;child.context=this.context;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;child.momGiftDelivery=this.momGiftDelivery;child.mysteryGiftSession=this.mysteryGiftSession;
     try{await child.run(map,script,object,true,approach);}finally{this.child=previous;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;this.momGiftDelivery=child.momGiftDelivery;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}
   }
   private async standard(id:number,object:string){const signal=this.runAbort?.signal;const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;signal?.throwIfAborted();const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);await this.runChild(common,entry,object,id);}
@@ -111,9 +113,9 @@ export class ScriptVM{
     if(script===0)return;
     const controller=new AbortController(),generation=++this.runGeneration,parentSignal=this.inheritedSignal,inheritAbort=()=>controller.abort(parentSignal?.reason);
     this.runAbort=controller;parentSignal?.addEventListener('abort',inheritAbort,{once:true});
-    const finish=()=>{parentSignal?.removeEventListener('abort',inheritAbort);if(this.runAbort===controller){this.runAbort=null;this.fieldMoveOrigin=null;}this.busy=false;};
+    const finish=()=>{if(!allowNested)this.mysteryGiftSession.save=null;parentSignal?.removeEventListener('abort',inheritAbort);if(this.runAbort===controller){this.runAbort=null;this.fieldMoveOrigin=null;}this.busy=false;};
     if(parentSignal?.aborted){inheritAbort();finish();controller.signal.throwIfAborted();}
-    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;this.momGiftDelivery=null;}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
+    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;this.momGiftDelivery=null;this.mysteryGiftSession={save:null};}let pc=0,compare=0,switchValue=0,lastMessage='',ownsCameraTarget=false;const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
     const scriptID=typeof script==='number'?script:this.value(script,map);if(!allowNested){this.battleWon=false;this.context={activeScript:scriptID,map,object,phone:null,approach};const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}
     if(scriptID>=2000){try{await this.standard(scriptID,object);controller.signal.throwIfAborted();}catch(error){controller.abort(error);throw error;}finally{finish();}return;}
     const entry=scriptID-1;
@@ -262,6 +264,27 @@ export class ScriptVM{
         if(cmd==='FlashAction'||cmd==='DefogAction'){const flag=cmd==='FlashAction'?'FLAG_SYS_FLASH':'FLAG_SYS_DEFOG',action=v(a[0]);if(action===2)this.set(a[1],Number(!!this.state.flags[flag]));else if(action===0||action===1)this.state.flags[flag]=!!action;else throw new UnsupportedScript(map.code,cmd,pc-1);continue;}
         if(cmd==='GivePokedex'){this.state.pokedexEnabled=true;continue;}
         if(cmd==='CheckPokedex'){this.set(a[0],Number(!!this.state.pokedexEnabled));continue;}
+        if(cmd==='NopVar490'){
+          // ScrCmd_NopVar490 consumes one ScriptGetVarPointer and never writes it.
+          if(a.length!==1)throw new UnsupportedScript(map.code,cmd,pc-1);
+          const id=raw(a[0],16);if(id>=0x4000&&!(id<=0x416f||id>=0x8000&&id<=0x800d))throw new UnsupportedScript(map.code,cmd,pc-1);
+          continue;
+        }
+        if(cmd==='MysteryGift'){
+          // Selector is ScriptReadHalfword: a VAR selector is its literal ID,
+          // never the current value stored in that variable.
+          const selector=raw(a[0],16);
+          if(selector===0){this.mysteryGiftSession.save=ensureMysteryGiftSave(this.state);continue;}
+          if(selector===7||selector===8){this.mysteryGiftSession.save=null;continue;}
+          if(selector===1||selector===2){
+            if(!this.mysteryGiftSession.save)throw Error('Mystery Gift query without native BEGIN');
+            const gift=nextMysteryGift(this.mysteryGiftSession.save);
+            this.set(a[1],selector===1?Number(gift!==null):gift?.tag??0);continue;
+          }
+          // External gift checks, grants and message construction require the
+          // native tag-specific payload adapters. Never consume queued bytes.
+          throw new UnsupportedScript(map.code,cmd,pc-1);
+        }
         if(cmd==='SetMysteryGiftActive'){this.state.mysteryGiftEnabled=true;continue;}
         if(cmd==='SetSpawn'){this.state.lastHeal={...(await originalSpawn(v(a[0]))).death};continue;}
         if(cmd==='PhoneCall'){const args=a.map(v);this.set('VAR_SPECIAL_x8004',args[0]);this.set('VAR_SPECIAL_x8005',args[1]);this.set('VAR_SPECIAL_x8006',args[2]);await this.standard(this.data.constants.std_phone_call,object);continue;}
