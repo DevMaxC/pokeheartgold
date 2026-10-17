@@ -35,8 +35,9 @@ export function moveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData
   // Fly's own two-turn execution remains a separate, unported move effect.
   if(move.effect===149&&context.flying)power*=2;
   if(attacker.hp<=Math.floor(attacker.maxHP/3)&&((ability==='ABILITY_BLAZE'&&move.type===10)||(ability==='ABILITY_TORRENT'&&move.type===11)||(ability==='ABILITY_OVERGROW'&&move.type===12)))power=Math.floor(power*1.5);
-  let damage=Math.floor(Math.floor((Math.floor(attacker.level*2/5)+2)*power*attack/defense)/50)+2;
+  let damage=Math.floor(Math.floor((Math.floor(attacker.level*2/5)+2)*power*attack/defense)/50);
   if(physical&&attacker.status==='BRN')damage=Math.floor(damage/2);
+  damage+=2; // CalcMoveDamage applies burn before its final +2.
   if(critical)damage*=2;
   damage=Math.floor(damage*Math.max(85,Math.min(100,roll))/100);
   if(data.personal[attacker.species].types.some(t=>data.constants[t]===move.type))damage=Math.floor(damage*1.5);

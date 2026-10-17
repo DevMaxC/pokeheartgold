@@ -1,0 +1,965 @@
+{
+  "inputCommit": "99c833c24799dbd856453d527695b69c5fc5afa4",
+  "parentCommit": "dc1e777aec8e379a23fed7b92e749f1d6f195f48",
+  "snapshotRoot": "/tmp/hg-opus-escape-burn-fixture-review/snapshot",
+  "scope": "Exact selected tracked files from99c833 plus exactproductionc4 before-runtime2files and untouched priorproviderraw. This is a bounded copied snapshot, not a whole-repository worktree.",
+  "files": [
+    {
+      "path": "before-production/battle-math.ts",
+      "bytes": 5544,
+      "sha256": "7418bd5497c62487041e5e671d722232ed20008990c1d66ca41bdd30e422883e"
+    },
+    {
+      "path": "before-production/battle.ts",
+      "bytes": 29211,
+      "sha256": "1957f716967008d3380e917f037892b1ddb3f34c3a427fc36a0ae3b0ad44fa90"
+    },
+    {
+      "path": "browser/package.json",
+      "bytes": 462,
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251",
+      "gitBlob": "5424cb2f2c7dc53233b910518ae19015e772425a"
+    },
+    {
+      "path": "browser/public/source/constants.json",
+      "bytes": 456675,
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31",
+      "gitBlob": "11f055fffaec06f6b959ab62cd207d562ded92b0"
+    },
+    {
+      "path": "browser/public/source/growth.json",
+      "bytes": 5089,
+      "sha256": "bb55edcd45f93b88cf2f2ea73586a734969ec3ccf20a803a54e2d1d57991f34c",
+      "gitBlob": "2e229f9e6babfdacdcff3b0c37746983ae378dd4"
+    },
+    {
+      "path": "browser/public/source/learnsets.json",
+      "bytes": 158647,
+      "sha256": "b3364190eb81d410021602c6ee963fd2fc0849448b954ef7fe345b7e35887d00",
+      "gitBlob": "70cd2a7624ed8eef00d0e90ebbeec1e21b00d2a8"
+    },
+    {
+      "path": "browser/public/source/moves.json",
+      "bytes": 72416,
+      "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb",
+      "gitBlob": "4ad5d97293a08ca48f3bbceb3b6fe05ca81a59d8"
+    },
+    {
+      "path": "browser/public/source/pokemon.json",
+      "bytes": 310681,
+      "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d",
+      "gitBlob": "055f1d7010cd4af3ca393133ad2974a1be5e1bca"
+    },
+    {
+      "path": "browser/reviews/native-escape-burn/after.log",
+      "bytes": 1799,
+      "sha256": "33c84d5ffa5355b22f177d0689e554daa3cc6805fa98d9289653a08e533d9b9d",
+      "gitBlob": "2c9f15b119b6d3c307e7f0e3891aa6f0007288e0"
+    },
+    {
+      "path": "browser/reviews/native-escape-burn/battle-suite.log",
+      "bytes": 27614,
+      "sha256": "90b6ab24ac2332b116fb830a493805677d56572ca34c17a39d535565b181be06",
+      "gitBlob": "650dfd0547fc1a141cade4b08e5812fa1c82c849"
+    },
+    {
+      "path": "browser/reviews/native-escape-burn/before.json",
+      "bytes": 5403,
+      "sha256": "77b58a808e2dc2accb623c07bb6fc059aa45fab418a28de68cd000ed3ccaf63f",
+      "gitBlob": "11c076d4a50f49701d8c0cc8c83ed5dc447627a3"
+    },
+    {
+      "path": "browser/reviews/native-escape-burn/receipt.json",
+      "bytes": 5854,
+      "sha256": "719da1824cda2cc5da075dc61e73a986feaca5ebe03f58a31b00cc0fa0c89671",
+      "gitBlob": "50f74e4f08144015b1fadec0cf2fbe834f74cb84"
+    },
+    {
+      "path": "browser/reviews/native-escape-burn-fixture-correction/battle-suite.log",
+      "bytes": 27627,
+      "sha256": "f3652a4e55014c3a36815220682d76002fe63d7240408d4c0bcff9e374639319",
+      "gitBlob": "60e75d546706e7e4bbbdf07412dd13e8f9d4f15c"
+    },
+    {
+      "path": "browser/reviews/native-escape-burn-fixture-correction/before.json",
+      "bytes": 5349,
+      "sha256": "ffd4478f0b64546e5bfc3559fd8d3ec6a06eb7075752558fb6d882208dde9fa0",
+      "gitBlob": "d267ca562485ff9db3ac25a1b2c69e9b18cd42d7"
+    },
+    {
+      "path": "browser/reviews/native-escape-burn-fixture-correction/receipt.json",
+      "bytes": 2101,
+      "sha256": "1196eaafa37e255d15b8c852019a2671bb70f49620839145e1d9c3df2533bd7a",
+      "gitBlob": "1257003669a64fc71448260e39c5c3d96b6c5eb3"
+    },
+    {
+      "path": "browser/src/source/atmosphere.test.ts",
+      "bytes": 6882,
+      "sha256": "c554009f63b6a5edfc2c16515df2e57aed4caab242c3099fea626ac5584bd905",
+      "gitBlob": "49d47c6c1817db4624e5459ab9b30950a84695a9"
+    },
+    {
+      "path": "browser/src/source/atmosphere.ts",
+      "bytes": 3324,
+      "sha256": "a48dddb097c65f6d50b755d5135faf5968faf1f028bc306c5dd99f37f3ed88ab",
+      "gitBlob": "7aaf62722581f5a73be26da381ebb7cff27314bf"
+    },
+    {
+      "path": "browser/src/source/bag.ts",
+      "bytes": 1576,
+      "sha256": "d70c869d89b08e3b32ef78e1a030838dbe6e1caa7297998526de52e939b17338",
+      "gitBlob": "b6ec244b9d92076d0c8b94b82d6cff4f1fb6e3f4"
+    },
+    {
+      "path": "browser/src/source/battle-accuracy.test.ts",
+      "bytes": 5901,
+      "sha256": "15710b6f6f92fb1fbb844275c375f9536e9b05b4b8c53bc2d4b0c68e0a3ba13c",
+      "gitBlob": "8e5e1c047e8927c49759b42d1fe1cb4b29e25209"
+    },
+    {
+      "path": "browser/src/source/battle-action-end.test.ts",
+      "bytes": 16605,
+      "sha256": "cb45b44c86a24d7fe4e773f418c05bc0382909090ffa0e180cf964148ea070e0",
+      "gitBlob": "e963ff809cb9aaa28f48a485c73ca26918acb467"
+    },
+    {
+      "path": "browser/src/source/battle-camera.test.ts",
+      "bytes": 1894,
+      "sha256": "697c0a6d2326e85fd8b108ec76e7802eeb1304148c1a2b54855099eea7bbcfb0",
+      "gitBlob": "45e0eb6be7fc7a10343bc5fa85c646862583973b"
+    },
+    {
+      "path": "browser/src/source/battle-camera.ts",
+      "bytes": 1887,
+      "sha256": "8630f858a9906e4829100634447949747629a8bdf3f33da638452fc87d5a46bc",
+      "gitBlob": "d71184313bf415f2f1ddfc4bfc6d2d88db230b90"
+    },
+    {
+      "path": "browser/src/source/battle-escape-burn.test.ts",
+      "bytes": 11206,
+      "sha256": "5d2b18b9e18bf5ce32a7d6fe8a9a768728b6f70996f222d2746d3d75a2697710",
+      "gitBlob": "bc6cb03d0f82976eda14e5b411b1f4d55edf41f4"
+    },
+    {
+      "path": "browser/src/source/battle-experience-integration.test.ts",
+      "bytes": 3351,
+      "sha256": "24aaf2379a15c0dad4e191ec4a6e3dd1ee206b1d1edf172b50e523b8a2d066a7",
+      "gitBlob": "d76b52972050255164cf129782d2cad3ce6c913b"
+    },
+    {
+      "path": "browser/src/source/battle-experience-plan.test.ts",
+      "bytes": 4936,
+      "sha256": "01a3a592dd9f7b2bc2621e90f8d717dad7c9bb568c281ddd9640871c000106fc",
+      "gitBlob": "6577c67cf6cb3f9a6c14218c52457eee524f948f"
+    },
+    {
+      "path": "browser/src/source/battle-experience.test.ts",
+      "bytes": 6632,
+      "sha256": "59c6314d8747cad5813c688b70d4c454572484fbe1e35d08b1cddb3363b0635e",
+      "gitBlob": "6d48ac70b26caf3bb30607247f1a6dd6c5d049be"
+    },
+    {
+      "path": "browser/src/source/battle-experience.ts",
+      "bytes": 6106,
+      "sha256": "7814ae132f8d968376d48b29955ace542d09b4cb88145b8bc1b2577054edc794",
+      "gitBlob": "93fff862f595b27f895f228ea6c57773c8ae7596"
+    },
+    {
+      "path": "browser/src/source/battle-layout.test.ts",
+      "bytes": 2420,
+      "sha256": "330f2888fc8788e3dee47d0b62415c14afbc2c29dd0aa27506a950a619d5f23c",
+      "gitBlob": "0c76a4e2282cf8dd75f8b71147eadc06ee42c548"
+    },
+    {
+      "path": "browser/src/source/battle-layout.ts",
+      "bytes": 2956,
+      "sha256": "327b54eb2414696dec1311519c51c8e6e9c00a5f9078b247c000385de4d92d1b",
+      "gitBlob": "fedba9ec234bfb733b2c5efbdbd07d4e7f2f96f6"
+    },
+    {
+      "path": "browser/src/source/battle-math.ts",
+      "bytes": 5607,
+      "sha256": "7ca568cc1242dd36fb38acc83c40662ab71dd3fce13c6b6b18ad254fdf9ce6db",
+      "gitBlob": "8752056146db635a58179545c07372e5756bc01c"
+    },
+    {
+      "path": "browser/src/source/battle-party.test.ts",
+      "bytes": 3279,
+      "sha256": "1d7daab0eb9b76fe752bc06d0f298c0b8e93d7d58724863534c1699800028fdd",
+      "gitBlob": "1797636b282e8b4c2098efdda0cdfac667ae048d"
+    },
+    {
+      "path": "browser/src/source/battle-party.ts",
+      "bytes": 476,
+      "sha256": "e283c422284a434f3e0fcc563d89ec0771220dcf5ddb79d8434c690a4c498775",
+      "gitBlob": "5f0ac2a3a1e7e713c79955f45ebe0eaf464945e9"
+    },
+    {
+      "path": "browser/src/source/battle-stage.ts",
+      "bytes": 13360,
+      "sha256": "5271bd1358b79100eda45bba2df840b8e65439f2157ec539f2a2d4967e2f580f",
+      "gitBlob": "aa974fe248352b963c68a9c437d7af7bbf45be14"
+    },
+    {
+      "path": "browser/src/source/battle-turn-phase.test.ts",
+      "bytes": 5726,
+      "sha256": "6999e414a9a03a1f38562d2252942f2d3034f8d66b23fc625dbf086d6a4151b0",
+      "gitBlob": "0d5b34234808046e0be4e3db133f975cb090ad7a"
+    },
+    {
+      "path": "browser/src/source/battle-view.ts",
+      "bytes": 471,
+      "sha256": "56bbd6e95f04056c58cd18948c18c31aa0baf4fabe55565acbb015904a2a3aa8",
+      "gitBlob": "18643447bc3bf7f630e7d2f15f07d482cf06a2a4"
+    },
+    {
+      "path": "browser/src/source/battle.test.ts",
+      "bytes": 3762,
+      "sha256": "2b2e4fac366ed07a6c7185e3ac152bf35030b84c2b9567e66284dec3b7afd21d",
+      "gitBlob": "5bdcff32e70060d8c7de85554c93291500d53c4f"
+    },
+    {
+      "path": "browser/src/source/battle.ts",
+      "bytes": 29470,
+      "sha256": "463cdc3bf01ef959c582d5b5f1de046b1bb06595c61d91f0d97e33df2108766e",
+      "gitBlob": "1955a5c327d8ad3546735e319098446e38d85963"
+    },
+    {
+      "path": "browser/src/source/building-footing.test.ts",
+      "bytes": 3628,
+      "sha256": "c4fddd6ed3358422f810e1798a29843f19f5be057cf71615430674ee694b64b4",
+      "gitBlob": "7fd33598c5dfebe870624ba194c445a3c9ffde4d"
+    },
+    {
+      "path": "browser/src/source/building-footing.ts",
+      "bytes": 3847,
+      "sha256": "e5afe47a932db5518a6625bf7789ff27629d98b1fc8092962a5562b6b6b12074",
+      "gitBlob": "5695c1fcfdb9b0dab4262bf69a6635a83e5eb69a"
+    },
+    {
+      "path": "browser/src/source/camera-transition.test.ts",
+      "bytes": 3936,
+      "sha256": "f074b73324937f6c3afe21b8059b69e64064892222d15bf57afcaf9d3d53e0fd",
+      "gitBlob": "1f54b086608b6948ed918a4a4d4dc81753d6629b"
+    },
+    {
+      "path": "browser/src/source/camera.test.ts",
+      "bytes": 4367,
+      "sha256": "6d72a427c6cffafb43593c3fccdf59e6ab4084a683ca31b196cae25a98d10408",
+      "gitBlob": "888b5c92e4300b64d13c4c4d0277b509a20978ed"
+    },
+    {
+      "path": "browser/src/source/camera.ts",
+      "bytes": 1552,
+      "sha256": "3b2f47cc7d2dbc4ac3c67ce78fa7e7aeb5d72772362a308ae4b12fa3d18de84e",
+      "gitBlob": "a51cf56d1c92a55bb6f7080e901da284aefe573a"
+    },
+    {
+      "path": "browser/src/source/canopy-occlusion.test.ts",
+      "bytes": 2672,
+      "sha256": "9acfbd5cfc54d42894fa81864945699865a0928069ab59fb6103fafa287312cf",
+      "gitBlob": "da492af653050a2c76d4942af7e0a042ff7b766f"
+    },
+    {
+      "path": "browser/src/source/canopy-occlusion.ts",
+      "bytes": 2398,
+      "sha256": "1578d8a9daa0745e2d83e24a1f61af1de40212a10c6f30d14f5c74af20a4b486",
+      "gitBlob": "e6fe743a8f243e56b1155548e14cc5234273ea4b"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "bytes": 4610,
+      "sha256": "6a8b4993a2c56ef092022e20452cf38f4e62d55daa4541501528b62a91599540",
+      "gitBlob": "46f671369bcf17dc045467798817f43b432c00bc"
+    },
+    {
+      "path": "browser/src/source/early-battle-effects.test.ts",
+      "bytes": 20989,
+      "sha256": "e1160a2c1e8e4efb5a6b48d817a93e70b3c6d0f44dfba0d8d7acae0250cf315c",
+      "gitBlob": "e392b4d2eedae2f20bfece72b14a6ba926a37e5e"
+    },
+    {
+      "path": "browser/src/source/encounter.test.ts",
+      "bytes": 1603,
+      "sha256": "3a6b45a884d6173cc29c580e2e03d2163364a56e311f5a460f6977dbc971500a",
+      "gitBlob": "0a44d5f6cc3f89810b1e58f68a935493dbcaeaab"
+    },
+    {
+      "path": "browser/src/source/encounter.ts",
+      "bytes": 1214,
+      "sha256": "0f3a4040fb000935ec40b7da231e10e6e0a5a03d84d775e318ec79318ab61ab0",
+      "gitBlob": "77dec9d16bc5657b1b83e66c8b4e56c70a937761"
+    },
+    {
+      "path": "browser/src/source/field-services.ts",
+      "bytes": 687,
+      "sha256": "b462b4865d52e71504d85b03fbb7fedb97703b2b98887af83ef7b420b5ce17c6",
+      "gitBlob": "3be57062b658810fc17edd5dbd462d59438ed615"
+    },
+    {
+      "path": "browser/src/source/field-transitions.test.ts",
+      "bytes": 1987,
+      "sha256": "41479b31f575d382f7b882db53479efca9e42078c2f2f172b528edd0bc8aac3a",
+      "gitBlob": "7a2cc922bc0e83cd2f6059b363b35a59de40026a"
+    },
+    {
+      "path": "browser/src/source/field-transitions.ts",
+      "bytes": 1525,
+      "sha256": "1320ca3214ad3c1df7ff67ad7fa9a3e79f0ee6ab3f49d96157a9fa57f123eeab",
+      "gitBlob": "6491a1e3b3566f3a585c81bfaeef56f9c6101990"
+    },
+    {
+      "path": "browser/src/source/foundations.test.ts",
+      "bytes": 1072,
+      "sha256": "c0fc1e760fd9e6f191e572b86180343e8a8707a14643e775e0d1c08c9161f7e2",
+      "gitBlob": "106f29ee54220f477927252c01b495a7ae267d04"
+    },
+    {
+      "path": "browser/src/source/foundations.ts",
+      "bytes": 1475,
+      "sha256": "6505e58b1f31a7047f84407c13fd1a7f940e7aeeaa2a549599627fa2ff3c35f1",
+      "gitBlob": "24e4536d39fa3f5904ddc0d7763ceca7af414b70"
+    },
+    {
+      "path": "browser/src/source/furniture-collision.test.ts",
+      "bytes": 4175,
+      "sha256": "0e8605622d3e2ca0df205aa3cd9fbd74e7a564d40ac61889773abe7b1cce158d",
+      "gitBlob": "c0a5fd8c16da09431aa178aaefa2f0032c051b78"
+    },
+    {
+      "path": "browser/src/source/furniture-collision.ts",
+      "bytes": 4245,
+      "sha256": "229e75c36ac495dff147782fb39e38bac5e4975e866c3adf03865af06aee7ef4",
+      "gitBlob": "67f4524de3699c4b5d6d0e035db96bf99d6f66f1"
+    },
+    {
+      "path": "browser/src/source/furniture.test.ts",
+      "bytes": 2282,
+      "sha256": "24e59c3e9647e33c72bc7bf71625197f7a02446c82f35a9cc5ac4f99e4c409cc",
+      "gitBlob": "e4b2ba7529c7d3c04b20e363b90a19ea6adcff2d"
+    },
+    {
+      "path": "browser/src/source/furniture.ts",
+      "bytes": 7650,
+      "sha256": "baf4b364137fe2d7ac203a32b2fdc68f8cf3c8c9c4208b399ef71e9374d17b2c",
+      "gitBlob": "d2046f6227f30be9b953b3dcae12a0cce6ff7592"
+    },
+    {
+      "path": "browser/src/source/grass.test.ts",
+      "bytes": 1135,
+      "sha256": "e6522d5459552e409fc20bf8451e91fbf455217790dad198e341b591395d1f3b",
+      "gitBlob": "2a5043f88fe3ee955cda6b495c6faf44c90a28d8"
+    },
+    {
+      "path": "browser/src/source/grass.ts",
+      "bytes": 3521,
+      "sha256": "f1d46d8592ae9f95afe0b6ca139c09597b17cff71a3b1f565565057a48aba1d6",
+      "gitBlob": "29684e96bad947988359407591bf0e10e299bd64"
+    },
+    {
+      "path": "browser/src/source/ledges.test.ts",
+      "bytes": 4392,
+      "sha256": "0b78fb0d524b1f3101c983397fbf74b5bdd3fddc34d53cd540a35566e316d6d9",
+      "gitBlob": "6997c181a5b7570d3e69bcebd77920fd4edb1987"
+    },
+    {
+      "path": "browser/src/source/ledges.ts",
+      "bytes": 3075,
+      "sha256": "a3712230b8133173ce0b4692b85f3c132270143275ec928762d061477afeaa8d",
+      "gitBlob": "f2d314e37fc8e9cbbf0afd48cc9ee1b306e256ee"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "bytes": 30417,
+      "sha256": "a36483bb4dac70de331caafe299e329c4dcd5cfe5842ecaa55fceb8a0172977e",
+      "gitBlob": "c3b02f0699b63438b02ba71feed41d80885f56fb"
+    },
+    {
+      "path": "browser/src/source/movement.ts",
+      "bytes": 1639,
+      "sha256": "2842bc55427aa209c30371570b412ddf06f11136a3a49e1e69e62e92b20387fb",
+      "gitBlob": "62793a84faba947f2431100519084944145524d0"
+    },
+    {
+      "path": "browser/src/source/objects.test.ts",
+      "bytes": 3158,
+      "sha256": "17242041560c510c29301879cb44609b8c970de8a951ac516b1aee5d0b3568ab",
+      "gitBlob": "9b19e0a577effd22333b95991378b380aba881a7"
+    },
+    {
+      "path": "browser/src/source/objects.ts",
+      "bytes": 2386,
+      "sha256": "35b3a1be753286d1521226b945a45043547ee957f7adae6313c363a79a97fbf8",
+      "gitBlob": "d6a3eff0ba4217b0b47f9c896e228ef611d7d397"
+    },
+    {
+      "path": "browser/src/source/phone.ts",
+      "bytes": 2918,
+      "sha256": "a9b1a287167525512e4a31cf4b1f744c281a22720a15b9edad83d6a08d61c74d",
+      "gitBlob": "ee17e7589c84d50769cf5e5e14b9aae8066e5d28"
+    },
+    {
+      "path": "browser/src/source/render-repair.test.ts",
+      "bytes": 21452,
+      "sha256": "690a129069cd110d7bcb5deb717f098f09525cfa356d9cef29554ed57a07b2ec",
+      "gitBlob": "b30db9069f8d84d20cec8e8ac4e2393275ad5ec8"
+    },
+    {
+      "path": "browser/src/source/render-repair.ts",
+      "bytes": 46700,
+      "sha256": "aa95d94ec1a2a514df5929f78be53766104d594812d83713abae02e1a37b95a7",
+      "gitBlob": "b3141c1c5e8b0a0c9d07d9a0b455036141f23027"
+    },
+    {
+      "path": "browser/src/source/render-review.ts",
+      "bytes": 2940,
+      "sha256": "52fc380d718110e797b65cb5656fff1ea7e4802e48bd8c5140977fee8dd56477",
+      "gitBlob": "03c11c5e81e5140c25e2c4435b0ce78e4ccd88b5"
+    },
+    {
+      "path": "browser/src/source/runtime.test.ts",
+      "bytes": 9008,
+      "sha256": "2af2d81f83e8735be0e4d6a60e82747527dbffdcd28ea898ea082435b0489936",
+      "gitBlob": "5bd351ccc355977fa03bfae93aba77806960ce1a"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "bytes": 21078,
+      "sha256": "32899a299ff9b538888ecd094c97c90a5b896626659c8e77de73d8353496b427",
+      "gitBlob": "7655427b79fc80bde452e2f66a2f4784993d3bc1"
+    },
+    {
+      "path": "browser/src/source/shoreline-native.test.ts",
+      "bytes": 11107,
+      "sha256": "4b161c4fdbbdfde776983c59a112642fd6c3cc93716a26efcf8b8494d3f255f3",
+      "gitBlob": "439019c4be1db0597814fccbdca11bc6b2713d57"
+    },
+    {
+      "path": "browser/src/source/shoreline.test.ts",
+      "bytes": 1221,
+      "sha256": "62ef20a63175078e216881d5603a7b619be6cbce5238cffc7434d252c97f24ad",
+      "gitBlob": "74419f85db53472536b0f7d447be3f9d970d774c"
+    },
+    {
+      "path": "browser/src/source/shoreline.ts",
+      "bytes": 1754,
+      "sha256": "7e3b52da0246c1823fea261e96759bbfb4fde7323c59e365f10439019d7848b7",
+      "gitBlob": "8607dd2dc6beab3f1eb9c65ea6ec90fbb260ffb2"
+    },
+    {
+      "path": "browser/src/source/sky.ts",
+      "bytes": 13772,
+      "sha256": "2243d41a90a16462d9da75b9896adb16131b6cb7e081c43952e7814926c56381",
+      "gitBlob": "96509a341e6658ae8f9d884cb0a7ff9b8e731827"
+    },
+    {
+      "path": "browser/src/source/source-assets.test.ts",
+      "bytes": 16341,
+      "sha256": "e7542ca0c9739bd69229ac83673b2c5e2f8763a5778f2ed9f444fc5d64b0bc80",
+      "gitBlob": "1acf8adfae7f4be81153e0590ff65994a5e88b63"
+    },
+    {
+      "path": "browser/src/source/spawns.test.ts",
+      "bytes": 1416,
+      "sha256": "3efd4cfa86de1dc24c598c5a44bc07305bd99a77b8428ca3767442d33c04428b",
+      "gitBlob": "07ee17c307ff2580362fda2aa8a3922b8f72da4d"
+    },
+    {
+      "path": "browser/src/source/spawns.ts",
+      "bytes": 677,
+      "sha256": "32854207437a0857bca71eb67b66b3b056b424c4c21f5080170c31854a591429",
+      "gitBlob": "8d64f189fd0bedbefd61aa18d29f26f98c4061a4"
+    },
+    {
+      "path": "browser/src/source/story.test.ts",
+      "bytes": 6609,
+      "sha256": "9fbecd6dd20923a922cbefff97d0de4feadf564638679213e515458bcac104a2",
+      "gitBlob": "6663de75e22d801bd82fe0e95859cd08644ee704"
+    },
+    {
+      "path": "browser/src/source/streaming.test.ts",
+      "bytes": 8883,
+      "sha256": "1daddfad4bb63c9e407541ba0f12e550d882f2b2691a3d4685faec81e9d7842d",
+      "gitBlob": "44026202ab3abeca4cd7f8e9475a93b5a64307b7"
+    },
+    {
+      "path": "browser/src/source/style.css",
+      "bytes": 10231,
+      "sha256": "2c2a28632e49dd14004a6fae0220e43657907dcf8fbf5e599e4ccd3730e7dd12",
+      "gitBlob": "d13404607897d92cf1af2ebf30ec8750729c18ec"
+    },
+    {
+      "path": "browser/src/source/terrace-model.test.ts",
+      "bytes": 11274,
+      "sha256": "372c6fb6d4e2e0a8dd695008847dd7ea7b74be5ba4de74e80f914506e6c188b7",
+      "gitBlob": "e5322c8a8ccacca1138ee46ca207362a9a80a84d"
+    },
+    {
+      "path": "browser/src/source/terrace-model.ts",
+      "bytes": 10024,
+      "sha256": "8a7e76d763ea56ad06e2cf486b23f0cf754f8fec17c7b9354ff0363a439ca393",
+      "gitBlob": "d9be3343b6533f043d11a751952ab8d1cd91248a"
+    },
+    {
+      "path": "browser/src/source/terrain-work.ts",
+      "bytes": 660,
+      "sha256": "7c5f5ca96fbae174a82b8a952c76c71de2ab4312126f8738ca09528dd354a9b2",
+      "gitBlob": "368236678ca7ac29640806b633dd7ffd20d61a55"
+    },
+    {
+      "path": "browser/src/source/terrain.ts",
+      "bytes": 1248,
+      "sha256": "7b35543ec261ac04cdfbe45d3ed2f22e4ef3087ed605d195f19d4ca5ff9fc3e1",
+      "gitBlob": "7f83992762ea5c5ae413b4196109ebbe17b3a003"
+    },
+    {
+      "path": "browser/src/source/trainers.ts",
+      "bytes": 2254,
+      "sha256": "7ddd00955d0297edd5b86accef4f113087efe35dbbc926b478a29deb4f2b11c1",
+      "gitBlob": "4cfbd6754c61eec2b50853eb02ae610fabf7fbf7"
+    },
+    {
+      "path": "browser/src/source/tree-texture.test.ts",
+      "bytes": 1415,
+      "sha256": "2b226822f9495d18c4e4140153051242ec899dc1bef5a4d1523a51c6af333d80",
+      "gitBlob": "8243a3f37851209761bcb8f06de677287afe4db5"
+    },
+    {
+      "path": "browser/src/source/tree-texture.ts",
+      "bytes": 1940,
+      "sha256": "056ffba302a63721c81588ba5c22aee95069279f8bd51bfaa2b70f931db31335",
+      "gitBlob": "1a9cdc05992ba4c43af8d5a2673e930dfba89f2d"
+    },
+    {
+      "path": "browser/src/source/tree-volume.test.ts",
+      "bytes": 5184,
+      "sha256": "cc5940cc6a75e1de000af21e4b3a3de378115f3b7e6023ac421a371fadce79c0",
+      "gitBlob": "cfa0ddd3e4b4e345a58e04cf68c34af92099b67d"
+    },
+    {
+      "path": "browser/src/source/tree-volume.ts",
+      "bytes": 4971,
+      "sha256": "5aa6ca7cb48cda6f87d9d21df5a3accc49cf963ca50f2490fe219ee7c0d1e8ab",
+      "gitBlob": "fc8b17e20ca5cfa0cd7a7a45cadad8b00030e167"
+    },
+    {
+      "path": "browser/src/source/tutorial.ts",
+      "bytes": 541,
+      "sha256": "2e012a228c82632891c883a31a73a5b97de3646af5efd7c280c31effc422ac53",
+      "gitBlob": "94fcb8ca11bcdf3038e3a9a5dd594cbc3ff1babd"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "bytes": 4380,
+      "sha256": "397ad68bf0244d7413072a7019ecdba2c1229e554ac1a9acb91fb41ea004a956",
+      "gitBlob": "6a3cdf8cffdedcd88341c39be8e94e464bef1526"
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "bytes": 3146,
+      "sha256": "ec22c596d15599d96fb04d0092e94579bf40f724950cc038184e3833120bbfdb",
+      "gitBlob": "64c894eceade72e10e8bda3e176f599442f8e204"
+    },
+    {
+      "path": "browser/src/source/world.ts",
+      "bytes": 20620,
+      "sha256": "a4fefb36e93655552d7340a6dcb931f84809f12719fe98bed130fa9b06392904",
+      "gitBlob": "39559736a3248d2dd117163edb0a560fc9fa16a3"
+    },
+    {
+      "path": "include/battle/battle.h",
+      "bytes": 17444,
+      "sha256": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972",
+      "gitBlob": "2fb185ccf54540e0cf1462815e88d96045b0e1a6"
+    },
+    {
+      "path": "include/battle/battle_022378C0.h",
+      "bytes": 1675,
+      "sha256": "b02e07e50a22f000393965b8bcf5407353a9125025ebf71e4c1c661634eb0f99",
+      "gitBlob": "826ae899583aaa9ea0c29fe61c3c2927dc12d3ff"
+    },
+    {
+      "path": "include/battle/battle_anim_ball.h",
+      "bytes": 8451,
+      "sha256": "5d8c0280812f457d073b983e9a6dbc8b474cce16eee7721c7eeeada041d301e4",
+      "gitBlob": "6cba11ffccaa16f4cc5da66a143ae8c158acfa43"
+    },
+    {
+      "path": "include/battle/battle_anim_battler_util.h",
+      "bytes": 6843,
+      "sha256": "d7c87056795ebfd67ef2f78921b0eab61731912ff0185ff9f0ed747428434f17",
+      "gitBlob": "60ca1b88492773c08f3cf50a2f882f879ea47b53"
+    },
+    {
+      "path": "include/battle/battle_anim_effects.h",
+      "bytes": 13265,
+      "sha256": "3485cdda284a65a95208bdb1c911229c401494adef258dee649493005fb40929",
+      "gitBlob": "983fe2313fb9711bf6f554a08d46fda0ff2d3b0e"
+    },
+    {
+      "path": "include/battle/battle_anim_emitter.h",
+      "bytes": 10073,
+      "sha256": "8573d7b4a01c98654132e9ac6db37e379c3c1aecc712711c605a78b0881f353b",
+      "gitBlob": "7eeed46a25bfb24e0cb3584b0097abb1b23fa0b3"
+    },
+    {
+      "path": "include/battle/battle_anim_funcs.h",
+      "bytes": 8257,
+      "sha256": "fa2a7a4f7c398cd5a88c3aa3b77d2a4145b11a6900cf93c504f37c89a32189f5",
+      "gitBlob": "a5a037c04caa4504089193d40a74a54c87e7d58f"
+    },
+    {
+      "path": "include/battle/battle_anim_internal.h",
+      "bytes": 20424,
+      "sha256": "b6b1dc29c50e258afae5a835542b472c92db672f26b6354748781a89da927878",
+      "gitBlob": "9b75597157187172aac82507ed8a6654e71a10b7"
+    },
+    {
+      "path": "include/battle/battle_anim_move_effects.h",
+      "bytes": 8380,
+      "sha256": "4d8f63973b7812082a5ec1fc59e725ca2e48e72cafaef60d640230966f651e55",
+      "gitBlob": "1e7ea8a03db08143011825b8fbd7763ca5a87a9f"
+    },
+    {
+      "path": "include/battle/battle_anim_util.h",
+      "bytes": 11352,
+      "sha256": "1f9f6ca09ac8fecad155ff7841d224a0075ca23af415af98dbc6d59bfe2fd14b",
+      "gitBlob": "b7cd95f9da27bff8dfd7862d15918a587b129b5b"
+    },
+    {
+      "path": "include/battle/battle_bag_menu.h",
+      "bytes": 1352,
+      "sha256": "f9a3dcd76f6c6645dcf222d6690a054bfced02879394b60d57e040cb3f7965f3",
+      "gitBlob": "114c555eb21566a430669875dab55e51354dbb4e"
+    },
+    {
+      "path": "include/battle/battle_command.h",
+      "bytes": 17928,
+      "sha256": "38751cd16cbbdce3a8c8d2693ab8e9d5c053b378ecda3d81aa13da1adb983f9e",
+      "gitBlob": "df6ca7ddb1d81cbbefe507e9948b895fc248baf8"
+    },
+    {
+      "path": "include/battle/battle_controller.h",
+      "bytes": 9526,
+      "sha256": "78cf600b5de8a4129ac55c843e5649cb044ae65827da8d9535d27143584bcf3f",
+      "gitBlob": "dbde796df460b97013362cb373d243815630cfca"
+    },
+    {
+      "path": "include/battle/battle_controller_opponent.h",
+      "bytes": 1746,
+      "sha256": "958d23d9a3ef67cf17f5c00e014ad304e27765ca231d768c9de708ee414fba0f",
+      "gitBlob": "aea9e95f1602c8176bdd8708389af8b6d1eab327"
+    },
+    {
+      "path": "include/battle/battle_controller_player.h",
+      "bytes": 459,
+      "sha256": "083f139abd89887da67ccfc2ab0450efb94ca970965ad902c0454aef812a40c8",
+      "gitBlob": "2d51ee1e219f6e4865dfe2c04e038e0bd78f116d"
+    },
+    {
+      "path": "include/battle/battle_cursor.h",
+      "bytes": 1613,
+      "sha256": "99da27b741b3351c6611bf0dcfdc69a0321f02ca64759b803e476a74c261ee7b",
+      "gitBlob": "cfa04742f1044f15fd5e335249594ed400a4623b"
+    },
+    {
+      "path": "include/battle/battle_dpad_cursor.h",
+      "bytes": 1765,
+      "sha256": "b57d635b464a1b4e0e08cd6fcd6f6fd80f1eb30e5809cd737bb119ab6b59e04f",
+      "gitBlob": "46eae5392f73710b42a812e988b5f6072053a352"
+    },
+    {
+      "path": "include/battle/battle_finger.h",
+      "bytes": 1334,
+      "sha256": "b4b5ad1a84d0e38557f9d8cc8d7c371cfdbc44b3a38915b7e0108ab6ca6b5480",
+      "gitBlob": "35468750ddc2e5bd25b88ce230e4178b4182cb42"
+    },
+    {
+      "path": "include/battle/battle_hp_bar.h",
+      "bytes": 1117,
+      "sha256": "92f7e4612ec4cdf6811749a2f7c47b42a40bee419f609dea45470b8a0e9b4d57",
+      "gitBlob": "6fda1ccbe6cbc525f621e7436d1c6ba3573331ae"
+    },
+    {
+      "path": "include/battle/battle_input.h",
+      "bytes": 7249,
+      "sha256": "5e0c4e5686908891e868ea7873829f6e250beda377101132c62a3c1e6a96b6be",
+      "gitBlob": "ece8ba15f68f52a6103410b35516f098fd9f5f39"
+    },
+    {
+      "path": "include/battle/battle_main.h",
+      "bytes": 2267,
+      "sha256": "272be5da0a8f539694601d80ce5a1b2107a5ae7e8aa71cfde0fa9e03a1443495",
+      "gitBlob": "f63c699f1f362a3f36ca432b1dbfe612d7889001"
+    },
+    {
+      "path": "include/battle/battle_party_menu.h",
+      "bytes": 1595,
+      "sha256": "b8c7e38741dd5555865ad9f9aaf194f58c40cacbf26f388a31493462553dffd2",
+      "gitBlob": "7292963159f052151ffd3991e64a6da7e478be24"
+    },
+    {
+      "path": "include/battle/battle_pokepic_bob.h",
+      "bytes": 261,
+      "sha256": "b13942f0293ac2ea07c86a718ca7c4bd2be2f99810b590ab756c04a194fa60d5",
+      "gitBlob": "4f2b98d5dbee3ff0b67879d531636f58ef1992c7"
+    },
+    {
+      "path": "include/battle/battle_recording_stop.h",
+      "bytes": 409,
+      "sha256": "d4fe32f912f4620257932de2c50c04110bd7e943d5690ea24a73d2425830b5f6",
+      "gitBlob": "5ff2b0ec6336fe224f00aa7988fc00a3a9615fdb"
+    },
+    {
+      "path": "include/battle/battle_setup.h",
+      "bytes": 3781,
+      "sha256": "386211e0a3be505763f20a57209a5c67b2a128fb8831e58fe301ed86c1a24d51",
+      "gitBlob": "4052613eb02aa910d24576db7ee135a58e58b38f"
+    },
+    {
+      "path": "include/battle/battle_system.h",
+      "bytes": 10303,
+      "sha256": "c29fa4c2d0e9ff58ef01ccbc55e94adeac55a110630dd6ee101d50e39e3091b6",
+      "gitBlob": "24aada6614e48e4c401074775e3c7dc3dd456e4b"
+    },
+    {
+      "path": "include/battle/battle_terrain.h",
+      "bytes": 232,
+      "sha256": "3ea78ad433e33feda20dee79832aeacd5d8afa202a0cf95a59b8e6e0b14df5c5",
+      "gitBlob": "639716da8a6ef506dc47485da1a2bbf22ef5c549"
+    },
+    {
+      "path": "include/battle/battle_util.h",
+      "bytes": 11079,
+      "sha256": "315d533bd403b029666940eb30c986b360a826d69b3d171da9b51572fe30ddc5",
+      "gitBlob": "17c17b1d4cbfb3a612c20366dbd39222b4879ea5"
+    },
+    {
+      "path": "include/battle/link_battle_screen.h",
+      "bytes": 1416,
+      "sha256": "f22096fcb423e4c7bbd8e1c7b5d21ffca8a2ae27f3a4a0d561b2cdf45320c6aa",
+      "gitBlob": "c5a4ff4615a26893eaa075579da4c81cb675b081"
+    },
+    {
+      "path": "include/battle/party_gauge.h",
+      "bytes": 1418,
+      "sha256": "02fc047d8005955925f691fea3741b356cdd565a16dcf2f14ec33bc4201d0966",
+      "gitBlob": "b8cb98fff34e8469b3ac5432bbb2a4a4efae80d1"
+    },
+    {
+      "path": "include/battle/trainer_ai.h",
+      "bytes": 334,
+      "sha256": "6eb8c0535ed8ad36580c93098f4f65eb43fdf121d82a715e1748c910cc5f066b",
+      "gitBlob": "95d2254df81c0bb5c2f587a40220d7509f955cbc"
+    },
+    {
+      "path": "include/constants/abilities.h",
+      "bytes": 4160,
+      "sha256": "9a88eb104430db81f07a0b33267cd85279bd24df71c61c004bb935dc7470811a",
+      "gitBlob": "2592214e0f3872a002cf0abb7ef588c6be22f7a0"
+    },
+    {
+      "path": "include/constants/items.h",
+      "bytes": 32040,
+      "sha256": "20576a5dc04bd40cb1d212f1dad2de8e0083cf966e9535e3c10baac36cbd7193",
+      "gitBlob": "1464215e7cc735ca1ec630ef76793c3c9fb12128"
+    },
+    {
+      "path": "prior-dc1-review.json",
+      "bytes": 9541,
+      "sha256": "d2a838bf557977de5b7ec7b0266b68c2734ff3bd037847b8e8e25749beec54d8"
+    },
+    {
+      "path": "src/battle/battle_022378C0.c",
+      "bytes": 11655,
+      "sha256": "a04d37e849b5242224008cb9bc4d460b5e81c644f5ae133870ad88ebb6e6a50d",
+      "gitBlob": "723a754b53c6f78baddd7cca77435fcb71f584a4"
+    },
+    {
+      "path": "src/battle/battle_anim_ball.c",
+      "bytes": 71433,
+      "sha256": "55c4966bc618020044be3df527519a3a64059d6d819a78b502bbcac58effffd8",
+      "gitBlob": "1a4368cf99b8da8b4775a14c533ba898d4831517"
+    },
+    {
+      "path": "src/battle/battle_anim_battler_util.c",
+      "bytes": 17949,
+      "sha256": "dc5f44e3bd625eb3ce82aefd2251dde767967b6f4642034099c8a416491a6370",
+      "gitBlob": "0198fb1bafd3e9482db11931b0cb8c02fb78b614"
+    },
+    {
+      "path": "src/battle/battle_anim_effects.c",
+      "bytes": 145925,
+      "sha256": "79b7c7c5575b536b4ce45e1708f072b66cfd2b0fc2ed6fe86fb0521feeb91111",
+      "gitBlob": "34c74b86bb28f4086259807a0ee498c308403ce1"
+    },
+    {
+      "path": "src/battle/battle_anim_emitter.c",
+      "bytes": 58216,
+      "sha256": "3431c6951ae41d30b838a2a68b57e4871af66d765c2afce2d7f546d6598e802e",
+      "gitBlob": "85e66aad64b6c83619b6ec384e16553b0ec135f8"
+    },
+    {
+      "path": "src/battle/battle_anim_funcs.c",
+      "bytes": 113572,
+      "sha256": "56a26847a49ec73c9e9f841c1c703f6b0bf277b69bdc510069a79fe49c64c5df",
+      "gitBlob": "be778baf7575177a219ef17a671b5345515057ac"
+    },
+    {
+      "path": "src/battle/battle_anim_move_effects.c",
+      "bytes": 167594,
+      "sha256": "305d9e343f46b7f29d8a2fc2f22882dc4f3755153ef124538fe0475cbf65a6f1",
+      "gitBlob": "e2221647f8bb3259a73849c555d12b33b83c3576"
+    },
+    {
+      "path": "src/battle/battle_anim_system.c",
+      "bytes": 110365,
+      "sha256": "06d36dcd87c86c62e901276f8c667f37a2be754d67ab4000d97bf20eadfd7405",
+      "gitBlob": "bb7abca2a8731e77b1b75b627bd01ab8b25721b1"
+    },
+    {
+      "path": "src/battle/battle_anim_util.c",
+      "bytes": 26653,
+      "sha256": "5b1239ebbca9c37a82de7695e5ec08d93878d758e68091c00c2a5481ff830b21",
+      "gitBlob": "b2375006df98d3bc91cb1676bda5e3a17553b587"
+    },
+    {
+      "path": "src/battle/battle_bag_menu.c",
+      "bytes": 64558,
+      "sha256": "f59cb5d938ad5c336ff6274b185f353ce7135c2145602d0b3615e1fa1121c15b",
+      "gitBlob": "c9778cfccd3b0aed5a8d5ffc18662f70a5224c96"
+    },
+    {
+      "path": "src/battle/battle_command.c",
+      "bytes": 318338,
+      "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e",
+      "gitBlob": "a8a8a027b0c2c50283069eea86a52315a51d2c53"
+    },
+    {
+      "path": "src/battle/battle_controller.c",
+      "bytes": 72492,
+      "sha256": "3e0d76025ce9507f39ab7a4155ec5431c589f5b1a2a06bb94ee488984b8bc69c",
+      "gitBlob": "e72c33f0fc139ef0bbc74fe24050b88986705e39"
+    },
+    {
+      "path": "src/battle/battle_controller_opponent.c",
+      "bytes": 315249,
+      "sha256": "71caa38b61bc70e06a0fc2f1c2357ca19ee634215c8db708f6c06ae92aa85cd8",
+      "gitBlob": "75ff72ac8a817020a3d62448bfcfbe0fbe896047"
+    },
+    {
+      "path": "src/battle/battle_controller_player.c",
+      "bytes": 185800,
+      "sha256": "ac75a056728f54624529a6d58a55ca953bb071cb2ffef1fcdecfd64d7c341d0d",
+      "gitBlob": "a71a2de717065e6847c2f582b2f06458df9d7d28"
+    },
+    {
+      "path": "src/battle/battle_cursor.c",
+      "bytes": 5028,
+      "sha256": "c42d78af531cc15b14d15c1ce78ea1006c82e11bdf8cd7364e40f6c0622401b4",
+      "gitBlob": "2c887573c1ecf927a65a0035cfeb0270ab161ed2"
+    },
+    {
+      "path": "src/battle/battle_dpad_cursor.c",
+      "bytes": 3490,
+      "sha256": "f9fada97046d41104a82ca115f3cdeab62175ac838d379df39a13a6e65264bd9",
+      "gitBlob": "301a65541853b7f4bf46bd19bbaa3641bf22a1fd"
+    },
+    {
+      "path": "src/battle/battle_dpad_cursor_input.c",
+      "bytes": 3123,
+      "sha256": "0065f3258293730de3a9c97bfb00151f7f3271595a29eb093f43d2802d55175b",
+      "gitBlob": "1c421ba8ffd902ce765493aa982c66f020ca3509"
+    },
+    {
+      "path": "src/battle/battle_finger.c",
+      "bytes": 5984,
+      "sha256": "8672c3a2bf788dce21d1be990a86b537d0a38e206e4f52decf17761a0687aa96",
+      "gitBlob": "93d4cc8d1ab72b9dfb5aad9ad993924242a70b6a"
+    },
+    {
+      "path": "src/battle/battle_hp_bar.c",
+      "bytes": 49516,
+      "sha256": "d4cc17635f474979809fdb6769fc88f44a588d19ac5e0c14031c686a07194f14",
+      "gitBlob": "90fbc66db2c0e510624d1e431fb351ab33768b92"
+    },
+    {
+      "path": "src/battle/battle_hp_bar_data.h",
+      "bytes": 16326,
+      "sha256": "d5e06ae91ca20dcafca2b599c63d70d71c93ddbdc747a5a4b756c2b49026ed08",
+      "gitBlob": "b707d3b5243c0581049b033e04a904997b178a2a"
+    },
+    {
+      "path": "src/battle/battle_input.c",
+      "bytes": 171619,
+      "sha256": "806eaefd817a6a8ffd499582ef0dbcbe709931d0a9bb2fddf5b1638f4754cefc",
+      "gitBlob": "9bb449a70eb66c2b3a8f664eba7233351b72f2dc"
+    },
+    {
+      "path": "src/battle/battle_main.c",
+      "bytes": 64764,
+      "sha256": "9f5e5d3767fcd30d0a928e4aa4ccb35fb3d0ded5392a5e4d1f058b744e6690b6",
+      "gitBlob": "d04462f1840f32966ed44df6e5742159570c9001"
+    },
+    {
+      "path": "src/battle/battle_party_menu.c",
+      "bytes": 160425,
+      "sha256": "f7f500238a403fc0eb7f150a3aeff535f8b0ece3b5b52e1774f52a0f36c77544",
+      "gitBlob": "495895a4d6a9a2b14fa1512516579a8e718ecc9b"
+    },
+    {
+      "path": "src/battle/battle_pokepic_bob.c",
+      "bytes": 1203,
+      "sha256": "bfe9f2eba988e9d864ab84e7969ae8287eb3a365c06f39351694d0831d262cb4",
+      "gitBlob": "2ae1c01aa2385ac3a749c1c03e428265c4113f70"
+    },
+    {
+      "path": "src/battle/battle_recording_stop.c",
+      "bytes": 1945,
+      "sha256": "22f76b3af4fc62bf346c075d1a380f07fb964c909ee08ebf82754071ae22d083",
+      "gitBlob": "7e72b671be2ec8852cabd52aa648987442b7456c"
+    },
+    {
+      "path": "src/battle/battle_setup.c",
+      "bytes": 22612,
+      "sha256": "1f029d6c401b9b9f59bfe0ab67a3a0aa988b62ba77f6ca98156032aeef759235",
+      "gitBlob": "6801d66328533f7009d0c0b30a3accd60f2c0b92"
+    },
+    {
+      "path": "src/battle/battle_system.c",
+      "bytes": 75182,
+      "sha256": "00bdbdc5d780d7562cfa8f5ab8907d8e2cbc1b2e0d563c7b3e236d88ac96cdc4",
+      "gitBlob": "7d84323373c4a883014ff768eac8dde368d0b5c3"
+    },
+    {
+      "path": "src/battle/battle_terrain.c",
+      "bytes": 6125,
+      "sha256": "c79286075220de142b817755fc8109b4f06b1df130f79d16e4be9ff41f7e0eea",
+      "gitBlob": "79ba880cff297d74cc28a039c99bf088dc3e70a5"
+    },
+    {
+      "path": "src/battle/battle_util.c",
+      "bytes": 274735,
+      "sha256": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949",
+      "gitBlob": "be1b1f12bf68dd93cd5d7862112aa99d011df2a2"
+    },
+    {
+      "path": "src/battle/link_battle_screen.c",
+      "bytes": 82542,
+      "sha256": "044993ccf725c0387ca356670ff93c3796a317b05d50be827fa78499e4755959",
+      "gitBlob": "fd78127b5c607370d1a59815104a893114fd71ab"
+    },
+    {
+      "path": "src/battle/party_gauge.c",
+      "bytes": 22128,
+      "sha256": "ff4e318d7952aff407e280efa7f1f12287c1675062ceab33249d0c4be3ced905",
+      "gitBlob": "2636db3a18c8927a15f9611912dd9c603c66f3b8"
+    },
+    {
+      "path": "src/battle/trainer_ai.c",
+      "bytes": 147482,
+      "sha256": "ff922c5dfeffd1954b4cf8cfc9448cb8ef8663d300a6b3fc88ed49ed97c8a07f",
+      "gitBlob": "928753b8c5554c7a9c7c72d8b71028385f0d23bf"
+    }
+  ]
+}
