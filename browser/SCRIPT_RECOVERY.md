@@ -27,7 +27,12 @@ stay blocked while the player retries loading.
 
 ## Battle commit policy
 
-A battle completed in an earlier field action remains committed. A battle
+A standalone wild catch or victory commits before the field’s resume scripts
+run. A wild blackout commits its healed party, money loss and loaded destination
+before that destination’s source entry scripts run. A failure in these unrelated
+field scripts restores the post-battle checkpoint and retains the battle result.
+
+A battle completed in an earlier field action remains committed. A trainer battle
 inside a source scene stays provisional until that entire scene finishes. If a
 later phone offer, dialogue or quest command fails, its battle rewards, HP/PP,
 experience, inventory and trainer flags roll back together. Committing only the

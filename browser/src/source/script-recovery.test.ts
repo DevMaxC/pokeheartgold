@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {loadData,newState,createMon,giveMon} from './data.ts';
 import {FieldObjects} from './objects.ts';
 import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
-import {SourceActionRecovery,SourceRecoveryError,SourceTriggerGate,restoreStateInPlace,runRecoverableSourceAction} from './script-recovery.ts';
+import {SourceActionRecovery,SourceRecoveryError,SourceTriggerGate,restoreStateInPlace,runRecoverableSourceAction,runFieldBattleAction} from './script-recovery.ts';
 import {sourceJSON,type SourceMap,type Script,type State} from './types.ts';
 
 globalThis.fetch=async input=>{
@@ -214,4 +214,36 @@ test('a persistence callback failure does not falsely report an already complete
     failed:async()=>{reported=true;return 'return';},recoveryFailed:async()=>assert.fail('no recovery'),retry:()=>{},committed:()=>{throw Error('persistence unavailable');},
   }),/persistence unavailable/);
   assert.equal(reported,false);assert.equal(h.state.flags.FINISHED,true);assert.equal(h.recovery.busy,false);
+});
+
+
+test('a completed standalone wild catch is retained when its unrelated map-resume script fails',async()=>{
+  const h=await harness();h.state.party=[createMon(data,155,5,h.state.name,()=>.5)];h.state.bag.ITEM_POKE_BALL=2;
+  let prompts=0;const execute=<T>(task:()=>Promise<T>)=>runRecoverableSourceAction(h.recovery,task,{failed:async()=>{prompts++;return 'return';},recoveryFailed:async()=>assert.fail('no load failure'),retry:()=>{},committed:h.save});
+  const result=await runFieldBattleAction({nested:false,execute,
+    fight:async()=>{h.state.party[0].exp+=18;h.state.party[0].hp=3;h.state.bag.ITEM_POKE_BALL--;giveMon(h.state,createMon(data,16,3,h.state.name,()=>.5));h.state.seen.push(16);h.state.caught.push(16);return 'caught';},
+    resume:async()=>{assert.equal(h.writes,1);assert.equal(JSON.parse(h.saved).party.length,2);await h.vm.run(h.script([['SetFlag',['UNFINISHED_RESUME']],['UnportedResume',[]]]),1);},
+  });
+  assert.deepEqual(result,{ok:true,value:'caught'});assert.equal(prompts,1);assert.equal(h.state.party.length,2);assert.equal(h.state.party[0].hp,3);assert.equal(h.state.bag.ITEM_POKE_BALL,1);assert.ok(h.state.caught.includes(16));assert.equal(h.state.flags.UNFINISHED_RESUME,undefined);assert.equal(JSON.parse(h.saved).party.length,2);
+});
+
+test('a standalone blackout retains healed party, money loss and destination when its destination entry script fails',async()=>{
+  const h=await harness();h.state.party=[createMon(data,155,5,h.state.name,()=>.5)];h.state.party[0].hp=0;
+  const execute=<T>(task:()=>Promise<T>)=>runRecoverableSourceAction(h.recovery,task,{failed:async()=> 'return',recoveryFailed:async()=>assert.fail('no load failure'),retry:()=>{},committed:h.save});
+  const result=await runFieldBattleAction({nested:false,execute,
+    fight:async()=>{h.state.money-=100;h.state.party[0].hp=h.state.party[0].maxHP;await h.enter(61);h.state.lastHeal={map:61,x:4.5,z:5.5};return 'lost';},
+    resume:async()=>{assert.equal(JSON.parse(h.saved).map,61);await h.vm.run(h.script([['SetFlag',['UNFINISHED_ENTRY']],['UnportedEntry',[]]]),1);},
+  });
+  assert.deepEqual(result,{ok:true,value:'lost'});assert.equal(h.state.map,61);assert.equal(h.map.id,61);assert.equal(h.state.money,2900);assert.equal(h.state.party[0].hp,h.state.party[0].maxHP);assert.equal(h.state.flags.UNFINISHED_ENTRY,undefined);assert.equal(JSON.parse(h.saved).money,2900);
+});
+
+test('trainer battle and resume failures remain inside their parent quest checkpoint',async()=>{
+  const h=await harness();h.state.party=[createMon(data,155,5,h.state.name,()=>.5)];const before=structuredClone(h.state);let prompts=0;
+  const execute=<T>(task:()=>Promise<T>)=>runRecoverableSourceAction(h.recovery,task,{failed:async()=>{prompts++;return 'return';},recoveryFailed:async()=>assert.fail('no load failure'),retry:()=>{},committed:h.save});
+  const result=await execute(async()=>{
+    h.state.flags.QUEST_STARTED=true;
+    await runFieldBattleAction({nested:true,execute,fight:async()=>{h.state.money+=500;h.state.party[0].exp+=100;h.state.party[0].hp=1;return 'won';},resume:async()=>{h.save();assert.equal(h.writes,0);await h.vm.run(h.script([['UnportedResume',[]]]),1);}});
+    h.state.flags.TRAINER_DEFEATED=true;
+  });
+  assert.deepEqual(result,{ok:false});assert.equal(prompts,1);const expected={...before,objectEvents:h.objects.save(h.state.map)};assert.deepEqual(h.state,expected);assert.equal(h.writes,1);
 });

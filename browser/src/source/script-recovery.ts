@@ -104,3 +104,16 @@ export async function runRecoverableSourceAction<T,Field>(recovery:SourceActionR
     prompts.committed();return{ok:true,value};
   }
 }
+
+/** A trainer fight inside a source scene shares that scene's checkpoint. A
+ * standalone wild battle finishes before unrelated field-resume scripts begin:
+ * a missing map command must not erase an already completed catch or victory. */
+export async function runFieldBattleAction<T>(ports:{nested:boolean;execute:<R>(action:()=>Promise<R>)=>Promise<SourceActionResult<R>>;fight:()=>Promise<T>;resume:()=>Promise<void>}):Promise<SourceActionResult<T>>{
+  const result=await ports.execute(async()=>{
+    const value=await ports.fight();
+    if(ports.nested)await ports.resume();
+    return value;
+  });
+  if(result.ok&&!ports.nested)await ports.execute(ports.resume);
+  return result;
+}

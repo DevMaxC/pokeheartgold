@@ -13,7 +13,7 @@ import {doorwayEntry} from './terrain.ts';
 import {ledgeDirection,jumpHeight} from './ledges.ts';
 import {stepWarpFacing,pushWarp,fieldEntryScripts,arrivalStep,arrivalFacing} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
-import {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction} from './script-recovery.ts';
+import {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction,runFieldBattleAction} from './script-recovery.ts';
 import {furnitureBlocksStep} from './furniture-collision.ts';
 import {movementAction} from './movement.ts';
 import {findTrainerEncounter,fieldTrainerCollision,trainerEventPriority,approachTrainer,MissingTrainerPartner,TrainerAttemptLatch,type TrainerEncounter} from './trainer-encounters.ts';
@@ -122,7 +122,7 @@ async function chooseStarter(){
   const mon=createMon(data,chosen,5,state.name);giveMon(state,mon);state.starter=chosen;updateHUD();
 }
 // Live actors are newer than state.objectEvents until the next durable save.
-function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,playerHeight:player.group.position.y,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:world.sky.currentWeather,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
+function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
@@ -133,8 +133,8 @@ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unkno
     // port. Older field worlds accept this compatible superset and ignore them.
     const field:{enter:(id:number,x:number,z:number,weather?:number,initialHeight?:number,violetLift?:0|1)=>Promise<SourceMap>;clearScriptCameraTarget?:()=>void}=world;
     field.clearScriptCameraTarget?.();
-    const gym=(state as State&{gymmick?:{kind:string;liftState:0|1}}).gymmick;
-    const restored=await field.enter(state.map,state.x,state.z,snapshot.weather,snapshot.playerHeight,gym?.kind==='violet'?gym.liftState:0);
+    const gym=(state as State&{gymmick?:{kind:string;liftState:0|1}}).gymmick,source=await world.map(state.map);
+    const restored=await field.enter(state.map,state.x,state.z,snapshot.weather??mapWeather(source,state),snapshot.playerHeight,gym?.kind==='violet'?gym.liftState:0);
     map=restored;world.clearNPCs();objects.load(map.events.objects);objects.restore(state.map,snapshot.actors);
     npcTweenY.clear();playerTweenY=undefined;stepFrame=-1;followerMoving=false;followerStep=-1;
     playerDirectionLocked=snapshot.playerDirectionLocked;followerSuppressed=snapshot.followerSuppressed;followerFacing=snapshot.followerFacing;previousStepJump=snapshot.previousStepJump;
@@ -224,7 +224,7 @@ async function warp(index:number,facing=state.facing){
   });
 }
 async function checkEvents(enteredDoor=false){
-  await executeSourceAction(async()=>{
+  const outcome=await executeSourceAction(async()=>{
   const owner=world.owner(state.x,state.z);
   if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
@@ -235,8 +235,10 @@ async function checkEvents(enteredDoor=false){
   if(trigger){const id=String(trigger.scriptId)+':'+key;if(id!==lastCoord){lastCoord=id;await runScript(trigger.scriptId);return;}}else lastCoord='';
   const transitionFacing=enteredDoor?state.facing:stepWarpFacing(world.permission(state.x,state.z),state.facing);
   if(warpIndex>=0&&key!==lastWarp&&transitionFacing!==null){await warp(warpIndex,transitionFacing);save();return;}if(warpIndex<0)lastWarp='';
-  if(!vm.busy&&!ui.busy&&!transitioning)await wildEncounter();
+  if(await checkFrameTriggers())return;
+  return !vm.busy&&!ui.busy&&!transitioning;
   });
+  if(outcome.ok&&outcome.value)await wildEncounter();
 }
 async function wildEncounter(){
   if(!state.party.some(m=>m.hp>0))return;
@@ -247,12 +249,30 @@ async function wildEncounter(){
   const species=data.constants[key],level=typeof row.level==='number'?row.level:row.level.HEARTGOLD;if(!species)return;
   await startBattle([createMon(data,species,level,'')]);
 }
-async function whiteOut(){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z);}
-async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){const outcome=await executeSourceAction(async()=>{const battleMap=state.map;keys.clear();encounterChecks.reset();const result=await battle.start(enemies,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});if(result==='caught'){const mon=enemies[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
-  if(result==='lost'){if(canLose)healParty(state);else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null)await whiteOut();}}
-  if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`);}
-  if(state.map===battleMap){keys.clear();await runFieldEntry('resume');await checkFrameTriggers();}updateHUD();save();return result==='won';
-});return outcome.ok?outcome.value:false;}
+async function whiteOut(runEntry=true,deferTriggers=false){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z,runEntry,false,false,deferTriggers);}
+async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){
+  const nested=!!sourceActions?.busy,battleMap=state.map,opponents=structuredClone(enemies);let blackedOut=false;
+  const outcome=await runFieldBattleAction({nested,execute:executeSourceAction,
+    fight:async()=>{
+      // An explicit battle retry keeps the encounter and restores fresh enemy HP.
+      const attempt=structuredClone(opponents);blackedOut=false;keys.clear();encounterChecks.reset();
+      const result=await battle.start(attempt,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY'});
+      if(result==='caught'){const mon=attempt[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
+      if(result==='lost'){
+        if(canLose)healParty(state);
+        else{state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);if(trainer===null){blackedOut=true;await whiteOut(nested,!nested);}}
+      }
+      if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!`);}
+      updateHUD();return result==='won';
+    },
+    resume:async()=>{
+      if(blackedOut&&!nested){keys.clear();await runFieldEntry('warp');await checkFrameTriggers();}
+      else if(state.map===battleMap){keys.clear();await runFieldEntry('resume');await checkFrameTriggers();}
+      updateHUD();
+    },
+  });
+  return outcome.ok?outcome.value:false;
+}
 async function trainerBattle(id:number,options?:{second:number;canLose:boolean;suppressFollower:boolean}){const trainer=data.trainers[id];if(!trainer)throw Error(`Missing trainer ${id}`);if(options?.second||trainer.double)throw new UnsupportedScript(map.code,'TrainerBattleDouble',vm.current?.pc??-1);return startBattle(await originalTrainerParty(data,id),id,options?.canLose);}
 async function interact(){
   if(ui.dialogueOpen){ui.advance();return;}if(!started||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
