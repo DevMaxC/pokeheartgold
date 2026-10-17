@@ -100,7 +100,7 @@ def material_frames(raw, model_materials):
         infos = struct.unpack('<5I', data)
         assert all(info & 0x20000000 for info in infos[:4]), 'Cut material colors are constant'
         colors = [info & 32767 for info in infos[:4]]
-        assert colors == model_materials[material]['colors'], 'Native vertex colors must remain unchanged'
+        assert colors == model_materials[material]['colors'], 'Literal BMA colors must agree with model materials'
         alpha = infos[4]
         assert alpha & ~65535 == 45 << 16, 'Cut alpha is full-rate u8'
         values = list(raw[base + (alpha & 65535):base + (alpha & 65535) + 45])
@@ -136,6 +136,7 @@ def texture_frames(raw, model_materials):
 def model_info(raw):
     base, name = resource_base(raw, b'MDL0')
     assert raw[base + 21:base + 25] == bytes([0, 0, 12, 5]), 'Cut uses basic joints and Maya textures'
+    assert struct.unpack_from('<ii', raw, base + 28) == (32768, 512), 'Literal native positionScale8 / inverse1/8'
     names = [name for _, name in dictionary(raw, base + 64, 4)]
     material_base = base + struct.unpack_from('<I', raw, base + 8)[0]
     materials = {}
@@ -144,7 +145,11 @@ def model_info(raw):
         diffuse, emission = struct.unpack_from('<II', raw, offset + 4)
         misc, width, height = struct.unpack_from('<HHH', raw, offset + 30)
         assert not misc & 1 or misc & 15 == 15, 'Rest texture matrix must be identity'
-        materials[material] = {'colors': [diffuse & 32767, diffuse >> 16 & 32767, emission & 32767, emission >> 16 & 32767], 'dimensions': [width, height]}
+        poly_attr = struct.unpack_from('<I', raw, offset + 12)[0]
+        mag = list(struct.unpack_from('<ii', raw, offset + 36))
+        assert mag == [4096, 4096], 'Native texture magnification is one'
+        assert poly_attr & 15 == (1 if material in {'ha1', 'ha2', 'ha3'} else 0), 'Measured native light masks'
+        materials[material] = {'polyAttr': poly_attr, 'lightMask': poly_attr & 15, 'magnificationFx32': mag, 'colors': [diffuse & 32767, diffuse >> 16 & 32767, emission & 32767, emission >> 16 & 32767], 'dimensions': [width, height]}
     return name, names, materials
 
 
@@ -250,7 +255,7 @@ def export_audio(output, renderer):
             wav.writeframes(bytes((value + 128) & 255 for value in sample.data))
         cries[str(species)] = {'file': 'cries/' + target.name, 'sampleRate': sample.sampleRate, 'frames': len(sample.data), 'channels': 1, 'wavSHA256': sha(target.read_bytes()), 'signedPCMSourceSHA256': sha(sample.data), 'bank': species, 'bankName': bank_name, 'waveArchive': species, 'waveArchiveName': wave_name, 'waveResource': native_wave, 'nativePCMOffset': pcm_offset, 'nativeTimer': u16(sample_offset + 4), 'bankResource': resource(u16(record(info, 2, species)))}
     engine_files = sorted((renderer / 'dualrip/engine/sdat').glob('*.py')) + sorted((renderer / 'dualrip/formats/sdat').glob('*.py'))
-    return {'sound': sound, 'cries': cries, 'cryPattern': 0, 'crySequence': {'id': 2, 'key': original.sequences[2][0], 'sequence': resource(u16(record(info, 0, 2))), 'volume': pv.volume, 'nativeInitialVolume': 100, 'notePitch': 60, 'bankRootPitch': 60, 'adsr': [127] * 4}, 'sourceSDATSHA256': sha(raw), 'renderer': {'commit': RENDERER, 'files': {str(path.relative_to(renderer)): sha(path.read_bytes()) for path in engine_files}, 'limitation': 'Native sequence/sample emulator render; not a DS hardware/DAC/shared-channel capture. Cries retain literal original PCM8 and native sample rates, not hardware timer/mixer interpolation. Browser cry gain100/127 is a linear presentation mapping, not the DS logarithmic mixer/ADSR hardware path.'}}
+    return {'sound': sound, 'cries': cries, 'cryPattern': 0, 'crySequence': {'id': 2, 'key': original.sequences[2][0], 'sequence': resource(u16(record(info, 0, 2))), 'volume': pv.volume, 'nativeInitialVolume': 100, 'notePitch': 60, 'bankRootPitch': 60, 'adsr': [127] * 4}, 'sourceSDATSHA256': sha(raw), 'renderer': {'commit': RENDERER, 'files': {str(path.relative_to(renderer)): sha(path.read_bytes()) for path in engine_files}, 'limitation': 'Native sequence/sample emulator render; not a DS hardware/DAC/shared-channel capture. Cries retain literal original PCM8 and native sample rates, not hardware timer/mixer interpolation. Browser cry gain(120/127)*(100/127) is a linear presentation mapping, not the DS logarithmic mixer/ADSR hardware path.'}}
 
 
 def export(apicula, renderer, output):
@@ -268,7 +273,7 @@ def export(apicula, renderer, output):
         assert len(glbs) == 1
         glb = pack_glb(glbs[0], names)
     (output / 'model.glb').write_bytes(glb)
-    manifest = {'version': 1, 'name': name, 'asset': 'model.glb', 'glbSHA256': sha(glb), 'modelArchive': 3, 'nativeNodeNames': names, 'materials': materials, 'ticksPerSecond': 30, 'modelFinishedAfterUpdates': 45, 'completionAfterQueueUpdates': 47, 'scheduler': {'wrapperPriority': 0, 'modelPriority': 1024, 'newTaskMayRunInDispatchTick': True}, 'joint': joint_frames(native[0]), 'color': material_frames(native[1], materials), 'texture': texture_frames(native[2], materials), 'nativeMemberSHA256': {str(index): sha(value) for index, value in enumerate(native)}, 'sources': {}}
+    manifest = {'version': 1, 'name': name, 'asset': 'model.glb', 'glbSHA256': sha(glb), 'modelArchive': 3, 'nativePositionScaleFx32': 32768, 'nativeInversePositionScaleFx32': 512, 'rendering': 'Literal BMA diffuse applied once over white converter vertex colors as bounded unlit palette mapping. Native leaf light0/NORMAL, ambient/specular and global DS lighting are not recreated.', 'nativeNodeNames': names, 'materials': materials, 'ticksPerSecond': 30, 'modelFinishedAfterUpdates': 45, 'completionAfterQueueUpdates': 47, 'scheduler': {'wrapperPriority': 0, 'modelPriority': 1024, 'newTaskMayRunInDispatchTick': True}, 'joint': joint_frames(native[0]), 'color': material_frames(native[1], materials), 'texture': texture_frames(native[2], materials), 'nativeMemberSHA256': {str(index): sha(value) for index, value in enumerate(native)}, 'sources': {}}
     for path in ['files/a/1/3/4', 'src/field/field_move_effects.c', 'asm/field_move_effects_data.s', 'src/sys_task.c', 'src/main.c', 'src/field/field_3d_object_task.c', 'src/field/area_data.c', 'src/sound_playback.c', 'src/scrcmd_sound.c', 'lib/NitroSystem/src/g3d_anm_bca_trans.c', 'lib/NitroSystem/src/g3d_anm_bca_scale.c', 'lib/NitroSystem/src/g3d_anm_bma.c', 'lib/NitroSystem/src/g3d_anm_bta_sincos.c', 'lib/NitroSystem/src/g3d_cgtool_maya_tex.c', 'lib/include/nnsys/g3d_anm_mat_internal.h', 'browser/scripts/export_cut_effect.py']:
         manifest['sources'][path] = sha((ROOT / path).read_bytes())
     manifest['converter'] = {'binarySHA256': sha(apicula.read_bytes()), 'playback': 'Original SDK integer-frame tables, not converter60fps clips/quaternion interpolation'}

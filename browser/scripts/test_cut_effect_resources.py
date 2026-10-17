@@ -77,6 +77,42 @@ static s32 FX_GetDivResult(void){return ratio;}
             self.assertEqual(cut.sha(cut.member(ARCHIVE, int(key))), expected)
         self.assertEqual(cut.sha((OUT / 'model.glb').read_bytes()), MANIFEST['glbSHA256'])
 
+    def test_literal_native_light_magnification_position_scale_and_actual_glb_palette_uv_skin(self):
+        raw = cut.member(ARCHIVE, 3)
+        base, _ = cut.resource_base(raw, b'MDL0')
+        self.assertEqual(struct.unpack_from('<ii', raw, base + 28), (32768, 512))
+        self.assertEqual((MANIFEST['nativePositionScaleFx32'], MANIFEST['nativeInversePositionScaleFx32']), (32768, 512))
+        _, _, materials = cut.model_info(raw)
+        self.assertEqual(materials, MANIFEST['materials'])
+        self.assertEqual([materials[name]['lightMask'] for name in ['ha1', 'ha2', 'ha3', 'lambert2', 'lambert3']], [1, 1, 1, 0, 0])
+        for material in materials.values():
+            self.assertEqual(material['magnificationFx32'], [4096, 4096])
+        glb = (OUT / 'model.glb').read_bytes()
+        size = struct.unpack_from('<I', glb, 12)[0]
+        doc, binary = json.loads(glb[20:20 + size]), glb[28 + size:]
+        def accessor(index):
+            data = doc['accessors'][index]
+            view = doc['bufferViews'][data['bufferView']]
+            width = {'VEC2': 2, 'VEC3': 3, 'VEC4': 4, 'MAT4': 16, 'SCALAR': 1}[data['type']]
+            fmt = {5126: 'f', 5121: 'B', 5123: 'H'}[data['componentType']]
+            stride = view.get('byteStride', width * struct.calcsize(fmt))
+            offset = view.get('byteOffset', 0) + data.get('byteOffset', 0)
+            return [struct.unpack_from('<' + fmt * width, binary, offset + row * stride) for row in range(data['count'])]
+        self.assertTrue(all('KHR_materials_unlit' in material['extensions'] for material in doc['materials']))
+        self.assertEqual([node['extras']['nativeCutJoint'] for node in doc['nodes'][:12]], list(range(12)))
+        for mesh in doc['meshes']:
+            for primitive in mesh['primitives']:
+                attributes = primitive['attributes']
+                self.assertEqual(set(accessor(attributes['COLOR_0'])), {(255, 255, 255)}, 'Tint is NOT baked by NORMAL-cleared converter vertices')
+                self.assertEqual(set(accessor(attributes['TEXCOORD_0'])), {(0., 0.), (1., 0.), (0., 1.), (1., 1.)})
+                self.assertEqual(set(accessor(attributes['WEIGHTS_0'])), {(255, 0, 0, 0)})
+                self.assertTrue(all(0 <= joint < len(doc['skins'][0]['joints']) for row in accessor(attributes['JOINTS_0']) for joint in row))
+                self.assertIn((0., 0., 1.), accessor(attributes['NORMAL']))
+        # Changed native encodings must reject rather than lose their extra scale.
+        altered = bytearray(raw);struct.pack_into('<i', altered, base + 28, 4096)
+        with self.assertRaises(AssertionError):
+            cut.model_info(altered)
+
     def test_all_45_frames_all_12_joint_translations_scales_inverses_against_original_sdk_c(self):
         raw = cut.member(ARCHIVE, 0)
         base, _ = cut.resource_base(raw, b'JNT0')
