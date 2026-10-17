@@ -64,7 +64,7 @@ export class Battle{
     // These callbacks need the complete native damage modifier pipeline. Do
     // not silently apply only the new screen/crit/self-hit part to that path.
     const attackAbility=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender);
-    if(['ABILITY_HUGE_POWER','ABILITY_PURE_POWER','ABILITY_HUSTLE','ABILITY_SLOW_START','ABILITY_GUTS','ABILITY_SIMPLE','ABILITY_UNAWARE','ABILITY_RIVALRY','ABILITY_SOLAR_POWER','ABILITY_FLOWER_GIFT','ABILITY_FLASH_FIRE','ABILITY_NORMALIZE','ABILITY_ADAPTABILITY','ABILITY_TINTED_LENS','ABILITY_RECKLESS','ABILITY_IRON_FIST'].includes(attackAbility)||['ABILITY_MARVEL_SCALE','ABILITY_THICK_FAT','ABILITY_HEATPROOF','ABILITY_DRY_SKIN','ABILITY_FILTER','ABILITY_SOLID_ROCK','ABILITY_SIMPLE','ABILITY_UNAWARE'].includes(targetAbility))throw Error('Unsupported native volatile damage ability');
+    if(['ABILITY_HUGE_POWER','ABILITY_PURE_POWER','ABILITY_SLOW_START','ABILITY_SIMPLE','ABILITY_UNAWARE','ABILITY_RIVALRY','ABILITY_SOLAR_POWER','ABILITY_FLOWER_GIFT','ABILITY_FLASH_FIRE','ABILITY_NORMALIZE','ABILITY_ADAPTABILITY','ABILITY_TINTED_LENS','ABILITY_RECKLESS','ABILITY_IRON_FIST'].includes(attackAbility)||['ABILITY_MARVEL_SCALE','ABILITY_THICK_FAT','ABILITY_HEATPROOF','ABILITY_DRY_SKIN','ABILITY_FILTER','ABILITY_SOLID_ROCK','ABILITY_SIMPLE','ABILITY_UNAWARE'].includes(targetAbility))throw Error('Unsupported native volatile damage ability');
     this.assertItemScope(attacker,defender);
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
@@ -93,7 +93,7 @@ export class Battle{
     value.status2=check.status2;
     if(check.outcome==='snapped-out'){await this.say(`${mon.name} snapped out of confusion!`);return false;}
     await this.say(`${mon.name} is confused!`);if(check.outcome!=='self-hit')return false;
-    const damage=confusionDamage(mon,stages,this.random16());mon.hp=Math.max(0,mon.hp-damage);await this.view?.hit(playerSide);await this.say('It hurt itself in its confusion!');
+    const damage=confusionDamage(this.data,mon,stages,this.random16());mon.hp=Math.max(0,mon.hp-damage);await this.view?.hit(playerSide);await this.say('It hurt itself in its confusion!');
     // Self-hit continues34 ->37, clearing Rage for a non-Rage selected move.
     if(selected.effect!==81){this.raging.delete(mon);value.status2&=~nativeStatus2.rage;}
     await this.heldRecovery(mon);await this.healAbility(mon);return true;
@@ -318,7 +318,11 @@ export class Battle{
     // recoil-fainted opponent does not prevent user/side/field moves running.
     if(noTarget){await this.say('But there was no target...');return;} // msg_0197_01234
     this.volatile(attacker).previousMove=nativePreviousMove(0,move.id,{noMoveSet:false,moveSucceededFlag:true});
-    if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78&&Math.floor(this.rng()*100)>=Math.floor(stageHitChance(move.accuracy,as.accuracy,ds.evasion,this.identified.has(defender))*(monAbility(this.data,defender)==='ABILITY_TANGLED_FEET'&&(this.volatile(defender).status2&nativeStatus2.confusion)&&monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER'?.5:1))){await this.say(`${attacker.name}’s attack missed!`);return;}
+    let hitChance=stageHitChance(move.accuracy,as.accuracy,ds.evasion,this.identified.has(defender));
+    // Native u16 assignments truncate each accuracy modifier independently.
+    if(monAbility(this.data,attacker)==='ABILITY_HUSTLE'&&move.category===0)hitChance=Math.floor(hitChance*80/100);
+    if(monAbility(this.data,defender)==='ABILITY_TANGLED_FEET'&&(this.volatile(defender).status2&nativeStatus2.confusion)&&monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER')hitChance=Math.floor(hitChance*50/100);
+    if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78&&Math.floor(this.rng()*100)>=hitChance){await this.say(`${attacker.name}’s attack missed!`);return;}
     if([32,132,214].includes(move.effect)&&attacker.hp===attacker.maxHP){await this.say(`${attacker.name}’s HP is full!`);return;}
     await this.view?.attack(playerSide,move);
     if(move.effect===47){const applied=nativeFocusEnergy(this.volatile(attacker).status2);this.volatile(attacker).status2=applied.status2;await this.say(applied.applied?`${attacker.name} is getting pumped!`:'But it failed!');return;}

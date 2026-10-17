@@ -28,7 +28,7 @@ async function oneTurn(f:Fixture,playerSlot:number,enemySlot:number){const stop=
 test('actual Proton Supersonic self-hit precedes paralysis/PP; leaving clears only volatile status',async()=>{
  const team=await originalTrainerParty(data,486),tape=rawTape(0,2,0,0),player=fieldMon(),f=fixture(team,[player,fieldMon(158)],tape.rng);assert.equal(team[0].species,41);
  await action(f,false,'MOVE_SUPERSONIC');assert.equal(volatile(f,player).status2&7,4);player.status='PAR';const slot=sourceMove(player,'MOVE_EMBER'),pp=player.moves[slot].pp,hp=player.hp;
- await invoke(f,'attack',true,slot);assert.equal(player.hp,hp-confusionDamage(player,freshStages(),0));assert.equal(player.moves[slot].pp,pp);assert.equal(tape.calls,4);assert.equal(volatile(f,player).previousMove,0);assert.equal(volatile(f,player).status2&7,3);assert.ok(f.events.includes('hit:true'));
+ await invoke(f,'attack',true,slot);assert.equal(player.hp,hp-confusionDamage(data,player,freshStages(),0));assert.equal(player.moves[slot].pp,pp);assert.equal(tape.calls,4);assert.equal(volatile(f,player).previousMove,0);assert.equal(volatile(f,player).status2&7,3);assert.ok(f.events.includes('hit:true'));
  await invoke(f,'switch',1);assert.ok(!Reflect.get(f.battle,'volatiles').has(player));assert.equal(player.status,'PAR');
 });
 test('snap-out consumes no confusion coin/range and permits the selected natural move',async()=>{
@@ -156,4 +156,23 @@ test('native faint cleanup neutralizes stages before actual Bugsy stage2 replace
 });
 test('snap-out/normal confusion action does not require unsupported self-damage ability hooks',async()=>{
  for(const count of[1,2]){const mon=fieldMon(19,10);mon.personality=(mon.personality|1)>>>0;assert.equal(monAbility(data,mon),'ABILITY_GUTS');const team=await originalTrainerParty(data,486),f=fixture(team,[mon]);volatile(f,mon).status2=count;await action(f,true,'MOVE_QUICK_ATTACK');assert.ok(f.events.includes('attack:true'));}
+});
+
+test('Route32 Guts Rattata uses status-boosted raw Attack before stages, burn and native Reflect',async()=>{
+ assert.ok(JSON.stringify(data.encounters.find(row=>row.map==='R32')).includes('SPECIES_RATTATA'));
+ const team=await originalTrainerParty(data,1),bayleef=team.find(mon=>mon.species===153)!,rat=fieldMon(19,10);rat.personality=(rat.personality|1)>>>0;rat.status='BRN';const f=fixture([bayleef],[rat]);assert.equal(monAbility(data,rat),'ABILITY_GUTS');Reflect.set(f.battle,'noCritical',true);await action(f,false,'MOVE_REFLECT');
+ Reflect.get(f.battle,'playerStages').atk=-1;const raw=Math.floor(rat.stats.atk*150/100),attack=Math.floor(raw*2/3),intermediate=Math.floor(Math.floor((Math.floor(rat.level*2/5)+2)*40*attack/bayleef.stats.def)/50),expected=Math.max(1,Math.floor(Math.floor((Math.floor(intermediate/2)+2)*93/100)*15/10));
+ const hp=bayleef.hp;await action(f,true,'MOVE_QUICK_ATTACK');assert.equal(hp-bayleef.hp,expected);assert.equal(rat.status,'BRN');
+});
+test('actual Guts Rattata and Hustle Togepi confusion self-hits use native boosted Attack, including burn exceptions',async()=>{
+ for(const species of[19,175])for(const status of['','BRN']as const){const mon=fieldMon(species,12);mon.personality=species===19?(mon.personality|1)>>>0:(mon.personality&~1)>>>0;mon.status=status;const team=await originalTrainerParty(data,486),f=fixture(team,[mon],rawTape(0,0).rng);assert.equal(monAbility(data,mon),species===19?'ABILITY_GUTS':'ABILITY_HUSTLE');volatile(f,mon).status2=2;Reflect.get(f.battle,'playerStages').atk=1;
+  const boosted=species===175||status?Math.floor(mon.stats.atk*150/100):mon.stats.atk,atk=Math.floor(boosted*3/2);let expected=Math.floor(Math.floor((Math.floor(mon.level*2/5)+2)*40*atk/mon.stats.def)/50);if(status&&species!==19)expected=Math.floor(expected/2);expected+=2;const hp=mon.hp,slot=sourceMove(mon,species===19?'MOVE_QUICK_ATTACK':'MOVE_CHARM'),pp=mon.moves[slot].pp;await invoke(f,'attack',true,slot);assert.equal(hp-mon.hp,expected);assert.equal(mon.moves[slot].pp,pp);
+ }
+});
+test('native Hustle physical accuracy truncates before the hit roll; legal special/status moves keep ordinary accuracy',async()=>{
+ // Corsola is a literal GenIV ability/arithmetic fixture. This does not
+ // assert it is naturally obtainable before Bugsy in the field host.
+ const mon=fieldMon(222,1);mon.personality=(mon.personality&~1)>>>0;assert.equal(monAbility(data,mon),'ABILITY_HUSTLE');const target=fieldMon(79,10),miss=fixture([target],[mon],()=>.81),slot=sourceMove(mon,'MOVE_TACKLE'),pp=mon.moves[slot].pp,hp=target.hp;await invoke(miss,'attack',true,slot);assert.equal(target.hp,hp);assert.equal(mon.moves[slot].pp,pp-1);assert.ok(miss.messages.some(text=>text.includes('missed')));
+ const special=fieldMon(223,5);special.personality=(special.personality&~1)>>>0;const f=fixture([fieldMon(79,10)],[special],rawTape(58983,1,0).rng);assert.equal(monAbility(data,special),'ABILITY_HUSTLE');await action(f,true,'MOVE_WATER_GUN');assert.ok(f.events.includes('hit:false'),'special accuracy100 is not reduced to80');
+ const early=fieldMon(175,6);early.personality=(early.personality&~1)>>>0;const status=fixture(await originalTrainerParty(data,486),[early],()=>.9);await action(status,true,'MOVE_CHARM');assert.equal(Reflect.get(status.battle,'enemyStages').atk,-2,'native gift-compatible early Charm remains available');
 });
