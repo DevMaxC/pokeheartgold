@@ -357,7 +357,7 @@ function treePanels(root:THREE.Group,mesh:THREE.Mesh,source:Triangle[],summary:R
    // single selected half-atlas card, its literal U range is the tighter bound.
    const halfWidth=lower?Math.min(.5,(right-left)*rootPart.uAxis.length()/part.uAxis.length()/2):Infinity;
    const region=[Math.max(0,part.minU-partTile,lower?partOffset-halfWidth:left),Math.max(0,part.minV),Math.min(1,part.maxU-partTile,lower?partOffset+halfWidth:right),Math.min(1,part.maxV)]as const;
-   const shape:Partial<TreeShape>=alias||full?{footU:info?.footU??rootSprite.shape.footU,footV:info?.footV??rootSprite.shape.footV,topV:info?.topV}:{region,footU:Math.fround(partOffset)};const sprite=treeSpritePixels(pixels,shape);if(!sprite)continue;
+   const shape:Partial<TreeShape>=alias||full?{footU:info?.footU??rootSprite.shape.footU,footV:info?.footV??rootSprite.shape.footV,topV:info?.topV}:{region,footU:Math.fround(partOffset)};if(localV.y>0)shape.growth=-1;const sprite=treeSpritePixels(pixels,shape);if(!sprite)continue;
    const stem=part.point(u,alias?(info?.footV??sprite.shape.footV):sprite.shape.footV);if(lower){stem.x=ground.x;stem.z=ground.z;}
    if(ownedMarker){const shift=ownedMarker.clone().sub(ground);stem.add(shift);ground.copy(ownedMarker);}
    const partKey=JSON.stringify(shape),key=family+':'+ground.toArray().map(n=>Math.round(n*100)).join(',')+':'+partKey;if(roots.has(key)){part.pair.forEach(t=>converted.add(t));if(lower)lower.pair.forEach(t=>converted.add(t));continue;}

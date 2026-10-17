@@ -1,4 +1,4 @@
-export type TreeShape={footV:number;footU?:number;topV?:number;crownWidth?:number;crownCenterU?:number;region?:readonly[number,number,number,number]};
+export type TreeShape={footV:number;footU?:number;topV?:number;crownWidth?:number;crownCenterU?:number;region?:readonly[number,number,number,number];growth?:1|-1};
 export type TreePixels={data:Uint8Array|Uint8ClampedArray;width:number;height:number};
 const readableImages=new WeakMap<object,TreePixels>();
 type TreeSprite={data:Uint8Array;width:number;height:number;nativeAlpha:Uint8Array;bounds:readonly[number,number,number,number];shape:{footV:number;footU:number;topV:number;crownWidth:number;crownCenterU:number}};
