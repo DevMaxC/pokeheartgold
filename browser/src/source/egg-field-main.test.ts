@@ -17,6 +17,8 @@ const {giveTogepiEgg,firstFollowerMon,isUsableBattler}=await load('browser/src/s
 const {advancePartyEggStep,recordEggHatchEvent}=await load('browser/src/source/egg-hatching.ts');
 const {presentNativeEggHatch}=await load('browser/src/source/egg-hatch-presentation.ts');
 const {createNativeHatchMusicSession}=await load('browser/src/source/hatch-music.ts');
+const {FieldPhoneHost}=await load('browser/src/source/phone-field-host.ts');
+const {phoneCall}=await load('browser/src/source/phone.ts');
 const {ScriptVM,UnsupportedScript}=await load('browser/src/source/script.ts');
 const {FieldObjects}=await load('browser/src/source/objects.ts');
 const {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction,runFieldBattleAction}=await load('browser/src/source/script-recovery.ts');
@@ -29,11 +31,12 @@ const {gymFieldEntry}=await load('browser/src/source/gym-violet.ts');
 const {movementAction}=await load('browser/src/source/movement.ts');
 const {sourceJSON}=await load('browser/src/source/types.ts');
 globalThis.fetch=async input=>new Response(await readFile(root+'/browser/public'+String(input)));
+const phoneRules=await sourceJSON('phone-triggers.json');
 const data=await loadData(),nativeMap=await sourceJSON('maps/73.json');
 const main=await readFile(root+'/browser/src/source/main.ts','utf8');
 const ast=ts.createSourceFile('main.ts',main,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
 const functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node.getText(ast)]));
-const names=['save','tweenPlayer','captureField','restoreField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','wildEncounter','runFieldEntry','enterMap'];
+const names=['save','tweenPlayer','captureField','restoreField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','wildEncounter','runFieldEntry','enterMap','pollFieldInput','refreshPhoneIndicator','answerPhone'];
 for(const name of names)assert.ok(functions.has(name),'actual main function missing: '+name);
 const begin=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='begin');
 let vmInitializer;function visit(node){if(ts.isBinaryExpression(node)&&node.left.getText(ast)==='vm'&&ts.isNewExpression(node.right)&&node.right.expression.getText(ast)==='ScriptVM')vmInitializer=node.right.getText(ast);ts.forEachChild(node,visit);}visit(begin);assert.ok(vmInitializer,'actual begin ScriptVM initializer');
@@ -48,7 +51,9 @@ assert.ok(release.includes('hatchFollowerPendingCommit'),'host must retain hatch
 const renderFollower=[release,...renderStatements.slice(leadIndex,leadIndex+3).map(node=>node.getText(ast))].join('\n');
 assert.match(main,/addEventListener\('pagehide',save\)/,'pagehide uses the same tested save binding');
 const compile=source=>ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
-const boundSource=names.map(name=>functions.get(name)).join('\n')+'\nfunction renderFollowerActual(){'+renderFollower+'}\n';
+const renderPhone=renderStatements.filter(node=>ts.isExpressionStatement(node)&&(/^(fieldPhone\.advanceRTC|refreshPhoneIndicator)/).test(node.getText(ast))).map(node=>node.getText(ast)).join('\n');
+assert.match(renderPhone,/Date.now\(\)/,'phone seconds use explicit browser RTC');
+const boundSource=names.map(name=>functions.get(name)).join('\n')+'\nfunction renderFollowerActual(){'+renderFollower+'}\nfunction renderPhoneActual(){'+renderPhone+'}\n';
 const sourceHash=createHash('sha256').update(boundSource+'\n'+vmInitializer).digest('hex');
 const mainHash=createHash('sha256').update(main).digest('hex');
 after(async()=>assert.equal(createHash('sha256').update(await readFile(root+'/browser/src/source/main.ts')).digest('hex'),mainHash,'actual main changed during binding tests; rerun against the settled host')); 
@@ -65,18 +70,19 @@ async function fixture({counter=4,readyEgg=false,fainted=false}={}){
  const actor={...structuredClone(nativeMap.events.objects[0]),id:'fixture_actor',x:2,z:3,eventFlag:'FLAG_NOTHING'};map.events.objects=[actor];
  const objects=new FieldObjects(data,state);objects.load(map.events.objects);
  const player={group:new THREE.Group()},follower={group:new THREE.Group()};player.group.position.set(state.x,3,state.z);follower.group.position.set(state.x,3,state.z+1);
- const log=[],writes=[],controls={blocked:false,behavior:0,permission:undefined,tween:undefined,reveal:undefined,cry:undefined,finish:undefined,choice:1,nickname:'Pip',failedChoices:[1],trainer:false,warp:undefined,afterMessage:undefined};
+ const log=[],writes=[],controls={blocked:false,behavior:0,permission:undefined,tween:undefined,reveal:undefined,cry:undefined,finish:undefined,choice:1,nickname:'Pip',failedChoices:[1],trainer:false,warp:undefined,afterMessage:undefined,rtcSeconds:1000};
  const world={scene:new THREE.Scene(),npcSprites:new Map(),yaw:1.2,pitch:.5,distance:17,sky:{currentWeather:7},violetGym:{riderHeight:null},height:()=>3,permission:(x,z)=>controls.permission?.(x,z)??controls.behavior,walkable:()=>!controls.blocked,terrainWalkable:()=>!controls.blocked,owner:()=>state.map,beginFieldTransition(){log.push('transition-begin');},endFieldTransition(){log.push('transition-end');},clearScriptCameraTarget(){log.push('clear-camera');},map:async()=>map,enter:async(_id,x,z,weather,height)=>{log.push(['restore',x,z,weather,height]);return map;},clearNPCs(){},removePaper:actor=>{actor.group.removeFromParent();log.push('remove-paper');return true;},paper:key=>{log.push(['paper',key]);return{group:new THREE.Group()};},animate(){}};
  const ui={busy:false,loading(){},message:async(text,_wait,signal)=>{log.push(['message',text]);await controls.afterMessage?.(text,signal);return()=>{};},choose:async(title,options,_detail,signal)=>{log.push(['choice',title]);if(title==='The area could not be restored.')throw Error('fixture hydration failed');if(title==='Scene not completed'){await controls.failedPrompt?.();return controls.failedChoices.shift()??1;}return typeof controls.choice==='function'?controls.choice(title,options,signal):controls.choice;},input:async()=>controls.nickname};
  ui.printMessage=ui.message;
  class HatchView{constructor(_world,actors,options){this.actors=actors;this.signal=options.signal;log.push(['hatch-view-cry',options.cry]);}async reveal(scene){log.push('reveal');assert.equal(state.party[1].isEgg,false);await controls.reveal?.(scene,this.signal);}async cry(scene){log.push('cry');log.push(['cry-request',scene.cry]);await controls.cry?.(scene,this.signal);}async finish(){log.push('finish');await controls.finish?.();}cancel(){log.push('cancel');}}
- const c={state,data,map,objects,world,player,follower,ui,battle:{active:false,start:unexpected},ready:true,started:true,walking:false,transitioning:false,recoveryPrompt:false,hatching:false,hatchFollowerPendingCommit:false,followSpecies:155,followMon:state.party[0],followerSuppressed:false,playerDirectionLocked:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,restoringGym:false,lastWarp:'',lastCoord:'',lastError:'',keys:new Set(),drag:false,npcTweenY:new Map(),trainerApproachTasks:new Map(),frameTriggerGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],Date:FieldDate,Promise,AbortController,structuredClone,console:{error(){},warn:console.warn},SAVE_KEY:'test-native-save',localStorage:{setItem:(_key,text)=>writes.push(JSON.parse(text))},ScriptVM,UnsupportedScript,SourceActionRecovery,runRecoverableSourceAction,runFieldBattleAction,trainerEventPriority,firstFollowerMon,isUsableBattler,advancePartyEggStep,recordEggHatchEvent,presentNativeEggHatch,createNativeHatchMusicSession,WorldEggHatchView:HatchView,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,fieldEntryScripts,movementAction,gymFieldEntry,createMon,giveMon,
+ const phoneButton={hidden:true},fieldPhone=new FieldPhoneHost(phoneRules,controls.rtcSeconds);
+ const c={state,data,map,objects,fieldPhone,fieldPolling:false,phoneCall,$:id=>{assert.equal(id,'phone-ring');return phoneButton;},world,player,follower,ui,battle:{active:false,start:unexpected},ready:true,started:true,walking:false,transitioning:false,recoveryPrompt:false,hatching:false,hatchFollowerPendingCommit:false,followSpecies:155,followMon:state.party[0],followerSuppressed:false,playerDirectionLocked:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,restoringGym:false,lastWarp:'',lastCoord:'',lastError:'',keys:new Set(),drag:false,npcTweenY:new Map(),trainerApproachTasks:new Map(),frameTriggerGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],Date:class extends FieldDate{static now(){return controls.rtcSeconds*1000;}},Promise,AbortController,structuredClone,console:{error(){},warn:console.warn},SAVE_KEY:'test-native-save',localStorage:{setItem:(_key,text)=>writes.push(JSON.parse(text))},ScriptVM,UnsupportedScript,SourceActionRecovery,runRecoverableSourceAction,runFieldBattleAction,trainerEventPriority,firstFollowerMon,isUsableBattler,advancePartyEggStep,recordEggHatchEvent,presentNativeEggHatch,createNativeHatchMusicSession,WorldEggHatchView:HatchView,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,fieldEntryScripts,movementAction,gymFieldEntry,createMon,giveMon,
   tween:async(seconds,frame)=>{log.push(['tween',seconds,state.x,state.z,c.sourceActions.busy]);frame(.5);await controls.tween?.();frame(1);},encounterChecks:{step(){log.push('encounter-step');},reset(){},roll(){assert.equal(c.sourceActions.busy,false,'wild admission must follow committed step');return true;}},landSlot:()=>0,
   tryTrainerEncounter:async()=>{log.push('trainer');return controls.trainer;},warp:async(...args)=>{log.push(['warp',...args]);await controls.warp?.();},enterMap:unexpected,
   scriptCameraMovement:()=>null,setScriptCameraTarget:unexpected,SCRIPT_CAMERA_ACTOR:241,beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,mapWeather:()=>7,refreshNPCs(){log.push('refresh');},updateHUD(){},requestAnimationFrame:unexpected};
  createContext(c);runInContext(compile(boundSource+'\nvm='+vmInitializer+';'),c);c.sourceActions=new SourceActionRecovery(state,{capture:()=>c.captureField(),restore:(snapshot,error)=>c.restoreField(snapshot,error)});
  const wildActual=c.wildEncounter;c.wildEncounter=async()=>{log.push('wild-admission');return wildActual();};
- return Object.assign(c,{log,writes,controls});
+ return Object.assign(c,{log,writes,controls,phoneButton});
 }
 function stat(c){return c.state.gameStats?.[data.constants.GAME_STAT_EGGS_HATCHED]??0;}
 function counts(c){return c.log.filter(v=>Array.isArray(v)&&v[0]==='tween');}
@@ -170,3 +176,56 @@ function counts(c){return c.log.filter(v=>Array.isArray(v)&&v[0]==='tween');}
   await c.step(1);assert.deepEqual([c.state.x,c.state.z],[10.5,10.5]);assert.equal(c.trainerAttempts.admit(c.state,'blocked-before-step'),false,'next poll must retain the pre-step pause');if(newLocalFailure)assert.equal(c.trainerAttempts.admit(c.state,'new-failure-at-restored-tile'),false);assert.equal(c.trainerAttempts.admit(c.state,'failed-at-destination'),true,'destination failures must not leak to restored tile');assert.equal(c.state.eggCycleSteps,254);
  }
  });
+
+function queueElm(c){c.state.phoneTriggers=[0];c.state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG=true;c.fieldPhone.triggerQueued(0,true);c.controls.rtcSeconds=1060;c.renderPhoneActual();}
+async function ringElm(c){queueElm(c);await c.pollFieldInput();c.refreshPhoneIndicator();assert.equal(c.fieldPhone.current().kind,'elm');assert.equal(c.phoneButton.hidden,false);}
+
+test('actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue',async()=>{
+ const c=await fixture({counter:254,readyEgg:true});await c.step(1);assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,9);assert.equal(c.fieldPhone.current().kind,'none');
+ await c.pollFieldInput();assert.equal(c.fieldPhone.current().kind,'none');c.controls.rtcSeconds=1059;c.renderPhoneActual();await c.pollFieldInput();assert.equal(c.fieldPhone.current().kind,'none');
+ c.controls.rtcSeconds=1060;c.renderPhoneActual();await c.pollFieldInput();c.refreshPhoneIndicator();assert.equal(c.fieldPhone.current().kind,'elm');assert.equal(c.phoneButton.hidden,false);assert.deepEqual(c.state.phoneTriggers,[0]);
+ assert.equal(c.log.filter(row=>Array.isArray(row)&&row[0]==='message'&&row[1].startsWith('Professor Elm:')).length,0,'ringing is optional, not an automatic phone dialogue');
+});
+
+test('actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits',async()=>{
+ const c=await fixture({counter:254,readyEgg:true});await c.step(1);c.controls.rtcSeconds=1060;c.renderPhoneActual();await c.pollFieldInput();c.state.phoneTriggers.push(12);
+ const entered=deferred(),release=deferred();c.controls.afterMessage=async text=>{entered.resolve(text);await release.promise;};const before=c.writes.length,pending=c.answerPhone();const text=await entered.promise;assert.ok(text.startsWith('Professor Elm:'));assert.ok(text.includes('show me'));assert.ok(!text.includes('{STRVAR'));
+ assert.deepEqual(c.state.phoneTriggers,[12]);assert.equal(c.sourceActions.busy,true);c.save();assert.equal(c.writes.length,before);c.controls.rtcSeconds=5000;c.renderPhoneActual();assert.equal(c.fieldPhone.snapshot().rtcAnchor,1060,'answer owns the RTC observation until its transaction resolves');
+ release.resolve();await pending;assert.equal(c.fieldPhone.current().kind,'none');assert.equal(c.phoneButton.hidden,true);assert.equal(c.state.party[1].isEgg,false);assert.equal(stat(c),1);assert.deepEqual(c.writes.at(-1).phoneTriggers,[12]);assert.equal(c.sourceActions.busy,false);
+});
+
+test('actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once',async()=>{
+ for(const retry of[false,true]){const c=await fixture({counter:254,readyEgg:true});await c.step(1);c.controls.rtcSeconds=1060;c.renderPhoneActual();await c.pollFieldInput();const checkpoint=c.fieldPhone.snapshot();let messages=0;c.controls.failedChoices=[retry?0:1];
+  c.controls.afterMessage=async()=>{if(++messages===1)throw Error('phone text failed');};await c.answerPhone();assert.equal(c.state.party[1].isEgg,false);assert.equal(stat(c),1);assert.equal(c.state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG,true);assert.equal(messages,retry?2:1);assert.equal(c.sourceActions.busy,false);
+  if(retry){assert.deepEqual(c.state.phoneTriggers,[]);assert.equal(c.fieldPhone.current().kind,'none');}else{assert.deepEqual(c.state.phoneTriggers,[0]);assert.deepEqual(c.fieldPhone.snapshot(),checkpoint);assert.equal(c.fieldPhone.current().kind,'elm');assert.equal(c.phoneButton.hidden,false);}
+ }
+});
+
+test('actual post-memo hatch failure rolls back the fresh boost with the whole preceding step',async()=>{
+ const c=await fixture({counter:254,readyEgg:true}),before=c.fieldPhone.snapshot();c.controls.choice=0;c.ui.input=async()=>{assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,9);throw Error('nickname failed after fresh native phone event');};await c.step(1);
+ assert.equal(c.state.party[1].isEgg,true);assert.equal(stat(c),0);assert.deepEqual(c.state.phoneTriggers??[],[]);assert.deepEqual(c.fieldPhone.snapshot(),before);assert.equal(c.state.z,10.5);
+});
+
+test('actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost',async()=>{
+ const c=await fixture();await ringElm(c);c.controls.rtcSeconds=1061;c.renderPhoneActual();c.controls.rtcSeconds=1091;c.renderPhoneActual();assert.equal(c.phoneButton.hidden,false);c.controls.rtcSeconds=1092;c.renderPhoneActual();assert.equal(c.phoneButton.hidden,true);assert.deepEqual(c.state.phoneTriggers,[0]);
+ const saved=JSON.parse(JSON.stringify(c.state));c.fieldPhone=new FieldPhoneHost(phoneRules,1092);Object.assign(c.state,saved);c.controls.rtcSeconds=1152;c.renderPhoneActual();await c.pollFieldInput();assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,1);assert.equal(c.fieldPhone.current().kind,'none');
+});
+
+test('actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring',async()=>{
+ for(const priority of['frame','trainer','coord','warp','egg','wild','blocked','ordinary']){const c=await fixture({counter:priority==='egg'?254:4,readyEgg:priority==='egg'});queueElm(c);c.world.yaw=0;c.keys.add('KeyS');
+  if(priority==='frame'||priority==='coord'){c.map.scripts={labels:{priority:0},entries:['priority'],instructions:[['SetVar',['VAR_SPECIAL_RESULT','1']],['End',[]]]};if(priority==='frame')c.map.initTriggers=[{var:'VAR_SPECIAL_RESULT',value:0,script:'priority'}];else c.map.events.coords=[{x:10,z:11,w:1,h:1,var:'0',val:0,scriptId:'priority'}];}
+  if(priority==='trainer')c.controls.trainer=true;if(priority==='warp'){c.map.events.warps=[{x:10,z:11}];c.controls.behavior=103;}
+  if(priority==='wild'){const bank=data.encounters.find(e=>e.land?.rate&&e.land.mons[0]);c.map.fields.wildEncounterBank='ENCDATA_'+bank.map;c.controls.behavior=2;c.battle.start=async()=> 'won';}
+  if(priority==='blocked')c.controls.blocked=true;await c.pollFieldInput();assert.equal(c.fieldPhone.current().kind,['blocked','ordinary'].includes(priority)?'elm':'none',priority);assert.equal(c.fieldPolling,false);
+ }
+});
+
+test('actual native scenes reset only active rings and answer respects trainer/UI admission',async()=>{
+ const c=await fixture();await ringElm(c);c.controls.trainer=true;await c.answerPhone();assert.deepEqual(c.state.phoneTriggers,[0]);assert.equal(c.fieldPhone.current().kind,'elm');c.controls.trainer=false;c.ui.busy=true;await c.answerPhone();assert.equal(c.fieldPhone.current().kind,'elm');c.ui.busy=false;
+ c.map.scripts={labels:{scene:0},entries:['scene'],instructions:[['End',[]]]};await c.runScript('scene','obj_player',false,false,true);assert.equal(c.fieldPhone.current().kind,'none');assert.deepEqual(c.state.phoneTriggers,[0]);
+ c.fieldPhone.triggerQueued(0,true);await c.runScript('scene','obj_player',false,false,true);assert.equal(c.fieldPhone.snapshot().ring.elapsedMinutes,9,'inactive interval survives scene reset');
+});
+
+test('actual HUD and answer keep unsupported forced callers explicit and unconsumed',async()=>{
+ const c=await fixture();c.state.phoneTriggers=[2];c.fieldPhone.triggerQueued(2,true);c.controls.rtcSeconds=1060;c.renderPhoneActual();await c.pollFieldInput();c.refreshPhoneIndicator();assert.equal(c.fieldPhone.current().kind,'unsupported');assert.equal(c.phoneButton.hidden,true);await c.answerPhone();assert.deepEqual(c.state.phoneTriggers,[2]);assert.ok(!c.log.some(row=>Array.isArray(row)&&row[0]==='message'));
+});

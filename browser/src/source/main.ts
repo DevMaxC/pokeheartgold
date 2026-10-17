@@ -29,6 +29,9 @@ import {advancePartyEggStep,recordEggHatchEvent,type EggStepClock} from './egg-h
 import {presentNativeEggHatch} from './egg-hatch-presentation.ts';
 import {WorldEggHatchView} from './egg-hatch-view.ts';
 import {createNativeHatchMusicSession} from './hatch-music.ts';
+import {FieldPhoneHost} from './phone-field-host.ts';
+import type {PhoneTriggerRules} from './phone-scheduler.ts';
+import {phoneCall} from './phone.ts';
 import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
 
 const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-qa':'heartgold-3d-v2';
@@ -44,6 +47,7 @@ let lastWarp='',lastCoord='',lastError='';
 let fieldPolling=false;const trainerAttempts=new TrainerAttemptLatch();let activeTrainerEncounter:TrainerEncounter|null=null;
 const trainerApproachTasks=new Map<number,Promise<void>>();
 let sourceActions:SourceActionRecovery<ReturnType<typeof captureField>>|undefined,recoveryPrompt=false;
+let fieldPhone:FieldPhoneHost;
 let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
 let followerPrevious:{x:number;z:number;height:number}|null=null;let playerTweenY:number|undefined;let previousStepJump=false;let restoringGym=false;
 let hatching=false,hatchFollowerPendingCommit=false;
@@ -84,8 +88,19 @@ async function beginTrainerPath(index:number,trainer:{trainer:number;object:stri
 async function finishTrainerPath(index:number){const task=trainerApproachTasks.get(index);if(!task)throw Error('Native trainer approach task was not started');await task;trainerApproachTasks.delete(index);return true;}
 async function pollFieldInput(){
   if(fieldPolling||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
-  try{if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);await step(Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0);}}
+  try{if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;const horizontal=Number(keys.has('KeyD')||keys.has('ArrowRight'))-Number(keys.has('KeyA')||keys.has('ArrowLeft')),forward=Number(keys.has('KeyW')||keys.has('ArrowUp'))-Number(keys.has('KeyS')||keys.has('ArrowDown'));if(horizontal||forward){const x=horizontal*Math.cos(world.yaw)-forward*Math.sin(world.yaw),z=-horizontal*Math.sin(world.yaw)-forward*Math.cos(world.yaw);if(!await step(Math.abs(x)>Math.abs(z)?x>0?3:2:z>0?1:0))return;}
+    if(!sourceActions?.busy&&!recoveryPrompt&&!transitioning&&!walking&&!vm.busy&&!ui.busy&&!battle.active)fieldPhone.poll(state,map,()=>Math.floor(Math.random()*0x10000));
+  }
   finally{fieldPolling=false;}
+}
+function refreshPhoneIndicator(){const available=fieldPhone.current(),button=$<HTMLButtonElement>('phone-ring');button.hidden=available.kind!=='elm'||!ready||transitioning||recoveryPrompt||!!sourceActions?.busy||vm.busy||ui.busy||battle.active;}
+async function answerPhone(){
+  const blocked=()=>!started||!ready||sourceActions?.busy||recoveryPrompt||transitioning||walking||vm.busy||ui.busy||battle.active;
+  if(blocked()||fieldPhone.current().kind!=='elm')return;
+  if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter)||blocked()||fieldPhone.current().kind!=='elm')return;
+  keys.clear();drag=false;
+  await fieldPhone.answerElm(state,executeSourceAction,call=>phoneCall(data,state,call.contact,call.scripted,call.script,text=>ui.message(vm.text(text,map)),text=>ui.choose('',['Yes','No'],text)));
+  refreshPhoneIndicator();
 }
 async function tweenNPC(npc:NPC&{step:number;previousX?:number;previousZ?:number;previousY?:number},x:number,z:number,seconds:number,jump=false){
   const from={x:npc.x,z:npc.z},fromY=world.npcSprites.get(npc.id)?.group.position.y??world.height(from.x+.5,from.z+.5),toY=world.height(x+.5,z+.5,fromY,from.x+.5,from.z+.5);
@@ -142,6 +157,7 @@ async function hatchEgg(){
   try{await presentNativeEggHatch(data,state,map,{
     view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:sound?undefined:async()=>{}}),
     music:createNativeHatchMusicSession({enabled:sound}),
+    phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),
     message:(text,signal)=>ui.printMessage(text,(state.options.textSpeed===0?8:state.options.textSpeed===1?4:1)*1000/60,signal),
     choose:(text,options,signal)=>ui.choose(text,options,'',signal),
     nickname:(scene,signal)=>ui.input('Pokémon nickname',10,scene.speciesName,signal),
@@ -149,12 +165,13 @@ async function hatchEgg(){
   });}finally{hatching=false;}
 }
 // Live actors are newer than state.objectEvents until the next durable save.
-function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
+function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,phone:fieldPhone.snapshot(),playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
   followerPrevious=null;keys.clear();drag=false;transitioning=true;world.beginFieldTransition();ui.loading('Restoring the area…');
   try{
+    fieldPhone.restore(snapshot.phone);
     Object.assign(world,snapshot.camera);
     // Optional height/lift parameters are also understood by the gym hydration
     // port. Older field worlds accept this compatible superset and ignore them.
@@ -205,6 +222,7 @@ async function executeSourceAction<T>(action:()=>Promise<T>){
 async function runScript(script:string|number,object='obj_player',nested=false,preserveControls=false,deferTriggers=false,approach?:TrainerEncounter,admissionError?:UnsupportedScript){
   if(vm.busy&&!nested)return false;
   const result=await executeSourceAction(async()=>{
+    fieldPhone.resetForSourceEvent();
     const runner=nested?new ScriptVM(data,state,vm.hooks):vm,wasWalking=walking;
     if(!preserveControls)keys.clear();walking=true;
     try{try{if(admissionError)throw admissionError;if(approach){if(approach.eyeType!==0)throw new UnsupportedScript(map.code,'TrainerBattleDouble',-1);await runner.runTrainerApproach(map,approach);}else await runner.run(map,script,object);}finally{if(approach){await Promise.allSettled(trainerApproachTasks.values());trainerApproachTasks.clear();}}updateHUD();}finally{walking=wasWalking;}
@@ -215,6 +233,7 @@ async function runScript(script:string|number,object='obj_player',nested=false,p
 async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=false){await executeSourceAction(async()=>{for(const event of fieldEntryScripts(kind))if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,preserveControls,true);});}
 async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false){
   await executeSourceAction(async()=>{
+  fieldPhone.resetForSourceEvent();
   world.clearScriptCameraTarget();
   encounterChecks.reset();
   const {initialHeight,violetLift}=gymFieldEntry(state,restoreObjects,connection),previousRestore=restoringGym;restoringGym=restoreObjects;
@@ -286,19 +305,20 @@ async function checkEvents(enteredDoor=false,eggClock?:EggStepClock){
   return outcome.ok&&!!outcome.value;
 }
 async function wildEncounter(){
-  if(!state.party.some(isUsableBattler))return;
-  const behavior=world.permission(state.x,state.z)&255;if(![2,3,8].includes(behavior))return;
-  const bank=map.fields.wildEncounterBank?.replace('ENCDATA_',''),encounter=data.encounters.find(e=>e.map===bank);if(!encounter?.land.rate||!encounterChecks.roll(encounter.land.rate,state.facing,!!state.runningShoes&&keys.has('ShiftLeft'),behavior===3))return;
+  if(!state.party.some(isUsableBattler))return false;
+  const behavior=world.permission(state.x,state.z)&255;if(![2,3,8].includes(behavior))return false;
+  const bank=map.fields.wildEncounterBank?.replace('ENCDATA_',''),encounter=data.encounters.find(e=>e.map===bank);if(!encounter?.land.rate||!encounterChecks.roll(encounter.land.rate,state.facing,!!state.runningShoes&&keys.has('ShiftLeft'),behavior===3))return false;
   const slot=landSlot();
-  const row=encounter.land.mons[slot];if(!row)return;const hour=new Date().getHours(),time=hour>=4&&hour<10?'morn':hour>=10&&hour<20?'day':'nite';let key=row.species[time];if(typeof key!=='string')key=key.HEARTGOLD;
-  const species=data.constants[key],level=typeof row.level==='number'?row.level:row.level.HEARTGOLD;if(!species)return;
-  await startBattle([createMon(data,species,level,'')]);
+  const row=encounter.land.mons[slot];if(!row)return false;const hour=new Date().getHours(),time=hour>=4&&hour<10?'morn':hour>=10&&hour<20?'day':'nite';let key=row.species[time];if(typeof key!=='string')key=key.HEARTGOLD;
+  const species=data.constants[key],level=typeof row.level==='number'?row.level:row.level.HEARTGOLD;if(!species)return false;
+  await startBattle([createMon(data,species,level,'')]);return true;
 }
 async function whiteOut(runEntry=true,deferTriggers=false){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z,runEntry,false,false,deferTriggers);}
 async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){
   const nested=!!sourceActions?.busy,battleMap=state.map,opponents=structuredClone(enemies);let blackedOut=false;
   const outcome=await runFieldBattleAction({nested,execute:executeSourceAction,
     fight:async()=>{
+      fieldPhone.resetForSourceEvent();
       // An explicit battle retry keeps the encounter and restores fresh enemy HP.
       const attempt=structuredClone(opponents);blackedOut=false;keys.clear();encounterChecks.reset();
       const result=await battle.start(attempt,trainer,{noCritical:trainer!==null&&data.trainers[trainer].class==='TRAINERCLASS_PASSERBY',weather:world.sky.currentWeather});
@@ -330,15 +350,15 @@ async function interact(){
   if(bg)await runScript(bg.scriptId);
 }
 async function step(facing:number){
-  if(sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
+  if(sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return false;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
   const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z)),standing=world.permission(state.x,state.z),ladder=[60,61].includes(standing&255);
-  if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.terrainWalkable(x,z))){await warp(exit,facing);save();return;}
+  if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.terrainWalkable(x,z))){await warp(exit,facing);save();return false;}
   // A completed ledge hop is one movement event even though it crosses two tiles.
   const jumping=ledgeDirection(world.permission(x,z))===facing;
   const nativeWarp=map.events.warps.some(w=>w.x===Math.floor(x)&&w.z===Math.floor(z));
   const enteredDoor=doorwayEntry(world.permission(x,z),nativeWarp,facing);
-  if(!jumping&&((!world.walkable(x,z,state.x,state.z,player.group.position.y)&&!enteredDoor)||occupied))return;
+  if(!jumping&&((!world.walkable(x,z,state.x,state.z,player.group.position.y)&&!enteredDoor)||occupied))return true;
   // Capture the target and browser date once so explicit Retry replays the
   // same completed step. Global native RTC penalty detection is unported.
   const date=new Date(),eggClock={month:date.getMonth()+1,day:date.getDate(),penalty:false};
@@ -348,13 +368,13 @@ async function step(facing:number){
     encounterChecks.step();return checkEvents(enteredDoor,eggClock);
   });
   // Commit the completed movement before the independent wild battle action.
-  if(outcome.ok&&outcome.value)await wildEncounter();
+  return outcome.ok&&!!outcome.value&&!await wildEncounter();
 }
 async function menu(){if(!started||sourceActions?.busy||recoveryPrompt||transitioning||vm.busy||walking||battle.active||ui.dialogueOpen)return;if(!ui.panelOpen&&await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;if(ui.panelOpen){ui.close();return;}
   const entries=[['party','Pokémon',`${state.party.length} in your party`],['bag','Bag','Items and Key Items'],['trainer',state.name,`${state.badges.length} Badges`],['save','Save','Save your adventure'],['options','Options','Game settings'],['close','Close','Return to Johto']];
   const unlocks:Record<string,string>={bag:'FLAG_GOT_BAG',trainer:'FLAG_GOT_TRAINER_CARD',save:'FLAG_GOT_SAVE_BUTTON',options:'FLAG_GOT_OPTIONS_BUTTON'};
   ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Menu</h2><div class="menu-list">${entries.filter(([key])=>key==='party'?state.party.length:!unlocks[key]||state.flags[unlocks[key]]).map(([key,label,detail])=>`<button data-menu="${key}">${esc(label)}<small>${esc(detail)}</small></button>`).join('')}</div>`);
-  document.querySelectorAll<HTMLButtonElement>('[data-menu]').forEach(b=>b.onclick=async()=>{const key=b.dataset.menu;ui.close();if(key==='party')partyMenu();if(key==='bag')bagMenu();if(key==='trainer')trainerCard();if(key==='save'){save();await ui.message(`${state.name} saved the game!`);}if(key==='options')optionsMenu();});
+  document.querySelectorAll<HTMLButtonElement>('[data-menu]').forEach(b=>b.onclick=async()=>{const key=b.dataset.menu;ui.close();if(['party','bag','trainer','options'].includes(key??''))fieldPhone.resetForSourceEvent();if(key==='party')partyMenu();if(key==='bag')bagMenu();if(key==='trainer')trainerCard();if(key==='save'){save();await ui.message(`${state.name} saved the game!`);}if(key==='options')optionsMenu();});
 }
 function partyMenu(focused=0){ui.panel(`<button class="close-panel" id="close-party" aria-label="Close">×</button><span class="eyebrow">POKÉMON</span><h2>Your party</h2>${state.party.map((mon,i)=>partyRow(mon,i,NATIVE_EGG_ICON)).join('')}`,false);$('close-party').onclick=()=>ui.close();document.querySelectorAll<HTMLButtonElement>('[data-party-slot]').forEach(b=>b.onclick=()=>{void choosePartyAction(Number(b.dataset.partySlot));});document.querySelector<HTMLButtonElement>(`[data-party-slot="${focused}"]`)?.focus();}
 async function choosePartyAction(index:number){
@@ -398,14 +418,15 @@ async function title(){
   await begin();
 }
 async function begin(){
+  fieldPhone=new FieldPhoneHost(await sourceJSON<PhoneTriggerRules>('phone-triggers.json'),Math.floor(Date.now()/1000));
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
-  vm=new ScriptVM(data,state,{eggHatchAnim:()=>hatchEgg(),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
+  vm=new ScriptVM(data,state,{eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:(id,x,z)=>enterMap(id,x+.5,z+.5)});
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,true);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started){openingView?.draw(dt);return;}
-    state.playSeconds+=dt;if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
+    state.playSeconds+=dt;fieldPhone.advanceRTC(Math.floor(Date.now()/1000));refreshPhoneIndicator();if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
     const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&(followMon!==(lead??null)||followSpecies!==(lead?.species??0))){const position=follower?.group.position.clone()??player.group.position.clone();if(follower)world.removePaper(follower);follower=null;followSpecies=lead?.species??0;followMon=lead??null;const key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';if(lead&&data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(position);}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
@@ -413,12 +434,12 @@ async function boot(){
     if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);
     if(ready&&!sourceActions?.busy&&!recoveryPrompt&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
     world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
-    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,scriptCamera:world.scriptCameraPosition,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
+    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,scriptCamera:world.scriptCameraPosition,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,phone:fieldPhone.current(),party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
   }requestAnimationFrame(render);await title();
 }
-addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;if(e.code==='Escape'){if(ui.dialogueOpen)return;if(ui.panelOpen){if(ui.canDismiss)ui.close();return;}menu();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat&&!ui.dialogueOpen)void interact();});
+addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;if(e.code==='KeyR'&&!e.repeat&&!ui.busy){e.preventDefault();void answerPhone().catch(error=>{console.error(error);lastError=String(error);});return;}if(e.code==='Escape'){if(ui.dialogueOpen)return;if(ui.panelOpen){if(ui.canDismiss)ui.close();return;}menu();return;}if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat&&!ui.dialogueOpen)void interact();});
 addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',()=>keys.clear());addEventListener('pagehide',save);
-$('open-menu').onclick=menu;
+$('open-menu').onclick=menu;$('phone-ring').onclick=()=>{void answerPhone().catch(error=>{console.error(error);lastError=String(error);});};
 let drag=false,lastPointer={x:0,y:0};const canvas=$<HTMLCanvasElement>('original-world');canvas.addEventListener('pointerdown',e=>{if(ui.busy||!started||world.fieldTransitionActive)return;drag=true;lastPointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(!drag||world.fieldTransitionActive)return;world.yaw-=(e.clientX-lastPointer.x)*.006;world.pitch=Math.max(.18,Math.min(.95,world.pitch+(e.clientY-lastPointer.y)*.003));lastPointer={x:e.clientX,y:e.clientY};});for(const event of ['pointerup','pointercancel'])canvas.addEventListener(event,()=>drag=false);canvas.addEventListener('wheel',e=>{e.preventDefault();if(world&&!world.fieldTransitionActive)world.distance=Math.max(5,Math.min(28,world.distance+e.deltaY*.01));},{passive:false});
 document.querySelectorAll<HTMLButtonElement>('[data-control]').forEach(button=>{button.addEventListener('pointerdown',e=>{e.preventDefault();if(button.dataset.control==='KeyF'){void interact();return;}keys.add(button.dataset.control!);button.setPointerCapture(e.pointerId);});for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,()=>keys.delete(button.dataset.control!));});
 boot().catch(error=>{console.error(error);ui.loading(null);ui.panel('<h2>Johto could not load.</h2><p>The world needs WebGL 2 and its original data files. Reload to try again.</p><button id="retry" class="game-button">Retry</button>');$('retry').onclick=()=>location.reload();});

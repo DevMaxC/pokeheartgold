@@ -14,6 +14,7 @@ const {OriginalWorld}=await load('browser/src/source/world.ts');
 const {VioletGym}=await load('browser/src/source/gym-violet.ts');
 const {ScriptVM,UnsupportedScript}=await load('browser/src/source/script.ts');
 const {FieldObjects}=await load('browser/src/source/objects.ts');
+const {FieldPhoneHost}=await load('browser/src/source/phone-field-host.ts');
 const {SourceActionRecovery}=await load('browser/src/source/script-recovery.ts');
 const {setScriptCameraTarget,SCRIPT_CAMERA_ACTOR}=await load('browser/src/source/script-camera.ts');
 const {firstFollowerMon}=await load('browser/src/source/eggs.ts');
@@ -21,6 +22,7 @@ const {fieldCameraEntry}=await load('browser/src/source/camera.ts');
 const {mapWeather}=await load('browser/src/source/atmosphere.ts');
 const {sourceJSON}=await load('browser/src/source/types.ts');
 globalThis.fetch=async input=>new Response(await readFile(root+'/browser/public'+String(input)));
+const phoneRules=await sourceJSON('phone-triggers.json');
 const data=await loadData(),map=await sourceJSON('maps/135.json'),land=await sourceJSON('lands/246.json');
 const main=await readFile(root+'/browser/src/source/main.ts','utf8');
 const raw=await readFile(root+'/browser/public/source/props/0-111-26.glb');
@@ -53,7 +55,7 @@ async function fixture(height=2,restoreSave=false){
  await world.enter(135,state.x,state.z,0,height,height===31?1:0);
  const player={group:new THREE.Group()},follower={group:new THREE.Group()};player.group.position.set(state.x,height,state.z);follower.group.position.set(state.x,height,state.z+1);world.scene.add(player.group,follower.group);
  const objects=new FieldObjects(data,state);objects.load(map.events.objects);
- const context={state,world,data,map,objects,player,follower,restoringGym:restoreSave,followerMoving:false,followSpecies:152,followMon:state.party[0],started:true,ready:true,walking:false,transitioning:false,followerPrevious:null,playerTweenY:undefined,stepFrame:-1,followerStep:-1,followerFacing:1,followerSuppressed:false,playerDirectionLocked:false,previousStepJump:false,lastWarp:'',lastCoord:'',keys:new Set(),drag:false,npcTweenY:new Map(),ScriptVM,UnsupportedScript,FieldObjects,setScriptCameraTarget,SCRIPT_CAMERA_ACTOR,firstFollowerMon,mapWeather,console,requestAnimationFrame:unexpected,ui:{loading(){},message:unexpected,choose:unexpected},refreshNPCs(){},updateHUD(){},beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,enterMap:unexpected,encounterChecks:{reset(){}}};
+ const context={state,world,data,map,fieldPhone:new FieldPhoneHost(phoneRules,1000),objects,player,follower,restoringGym:restoreSave,followerMoving:false,followSpecies:152,followMon:state.party[0],started:true,ready:true,walking:false,transitioning:false,followerPrevious:null,playerTweenY:undefined,stepFrame:-1,followerStep:-1,followerFacing:1,followerSuppressed:false,playerDirectionLocked:false,previousStepJump:false,lastWarp:'',lastCoord:'',keys:new Set(),drag:false,npcTweenY:new Map(),ScriptVM,UnsupportedScript,FieldObjects,setScriptCameraTarget,SCRIPT_CAMERA_ACTOR,firstFollowerMon,mapWeather,console,requestAnimationFrame:unexpected,ui:{loading(){},message:unexpected,choose:unexpected},refreshNPCs(){},updateHUD(){},beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,enterMap:unexpected,encounterChecks:{reset(){}}};
  createContext(context);context.vm=runInContext(compile(hookExpression),context);runInContext(compile(capture+'\n'+restore+'\nglobalThis.captureActual=captureField;globalThis.restoreActual=restoreField;'),context);
  return context;
 }
