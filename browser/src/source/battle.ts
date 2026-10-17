@@ -1,6 +1,6 @@
 import type {GameData,State,Mon,MoveData} from './types.ts';
 import {calculateStats,createMon,giveMon,speciesName,titleCase,itemName,moveName,trainerName} from './data.ts';
-import {catchShakes,fieldBattleWeather,freshStages,monAbility,moveDamage,multiHitCount,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
+import {catchShakes,fieldBattleWeather,freshStages,monAbility,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
 import {takeBagItem,isCaptureBall} from './bag.ts';
 import type {BattleView} from './battle-view.ts';
@@ -119,7 +119,7 @@ export class Battle{
     if(slot>=0)attacker.moves[slot].pp--;
     await this.say(`${playerSide?'':'The opposing '}${attacker.name} used ${moveName(this.data,move.id)}!`);
     try{
-    if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78&&Math.floor(this.rng()*100)>=move.accuracy*stageMultiplier(Math.max(-6,Math.min(6,as.accuracy-(this.identified.has(defender)?Math.min(0,ds.evasion):ds.evasion))),true)){await this.say(`${attacker.name}’s attack missed!`);return;}
+    if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78&&Math.floor(this.rng()*100)>=stageHitChance(move.accuracy,as.accuracy,ds.evasion,this.identified.has(defender))){await this.say(`${attacker.name}’s attack missed!`);return;}
     if([32,132,214].includes(move.effect)&&attacker.hp===attacker.maxHP){await this.say(`${attacker.name}’s HP is full!`);return;}
     await this.view?.attack(playerSide,move);
     if(move.effect===113){this.identified.add(defender);await this.say(`${attacker.name} identified ${defender.name}!`);return;}

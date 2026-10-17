@@ -1,0 +1,47 @@
+{
+  "base": "a0d26ee60af51e26e26c548c35629098a755aa62",
+  "reviewModel": "claude-opus-5-5",
+  "ancillaryCliRouter": "claude-haiku-4-5-20251001",
+  "immutableSnapshot": "/tmp/hg-battle-accuracy-review-20261017",
+  "snapshotHashesVerified": true,
+  "currentRuntimeAndTestsMatchReviewedBytes": true,
+  "verdict": "No introduced correctness bug found; no production follow-up required.",
+  "reviewLimits": [
+    "Provider used static Read/Grep/Glob only; local orchestration independently verified hashes.",
+    "Accuracy ability/item/weather/Gravity rules remain unimplemented, as documented in scope.",
+    "No browser or build performed."
+  ],
+  "validation": {
+    "targetedBattleTests": {
+      "pass": 31,
+      "fail": 0
+    },
+    "fullSuite": {
+      "pass": 192,
+      "fail": 0,
+      "command": "npm test",
+      "logSha256": "583329830ceda22d39287c5dd1ef0ab550d4d965d46741b066a20dd6d42fb6ac"
+    },
+    "typescript": "npx tsc --noEmit passed",
+    "nativeTableAssertions": 3718,
+    "nativeMoveAccuracies": [
+      30,
+      50,
+      55,
+      60,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95,
+      100
+    ],
+    "diffCheck": "git diff --check passed"
+  },
+  "nonblockingReviewNotes": [
+    "Independent integration fixtures cover Foresight in addition to exhaustive table assertions.",
+    "Combined57-percent case verifies stage combination; separate71 and99 boundary cases detect original bugs.",
+    "Effect78 bypass is unchanged and not newly tested; legal Swift and accuracy-zero/tutorial fixtures cover existing bypass/draw behavior."
+  ]
+}
