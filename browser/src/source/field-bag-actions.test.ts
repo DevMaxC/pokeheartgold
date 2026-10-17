@@ -1,12 +1,9 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';
-import {execFileSync} from 'node:child_process';
+import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {tmpdir} from 'node:os';
-import path from 'node:path';
-import {pathToFileURL} from 'node:url';
 import {UI} from './ui.ts';
+import {SourceActionRecovery} from './script-recovery.ts';
 import {InterfacePanels} from './interface-panels.ts';
 import {loadData,newState,createMon} from './data.ts';
 import {loadNativeFieldMoveData,prepareTMHMTeaching} from './field-moves.ts';
@@ -17,13 +14,10 @@ import type {State} from './types.ts';
 
 globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
 const data=await loadData(),native=await loadNativeFieldMoveData();
-// Run the exact reviewed Native recovery implementation without adding it as
-// a UI production dependency or duplicating its transaction algorithm.
-const recoverySource=execFileSync('git',['show','4ca4545b:browser/src/source/script-recovery.ts'],{cwd:new URL('../../../',import.meta.url),encoding:'utf8'});
+// Execute the exact reviewed recovery shipped with this checkout, including
+// shallow CI clones that do not contain the leaf's original private Git object.
+const recoverySource=await readFile(new URL('./script-recovery.ts',import.meta.url),'utf8');
 assert.equal(createHash('sha256').update(recoverySource).digest('hex'),'3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd');
-const temporary=await mkdtemp(path.join(tmpdir(),'hg-bag-recovery-'));
-let SourceActionRecovery:any;
-try{const file=path.join(temporary,'recovery.mts');await writeFile(file,recoverySource);({SourceActionRecovery}=await import(pathToFileURL(file).href));}finally{await rm(temporary,{recursive:true,force:true});}
 const tick=async()=>{for(let i=0;i<15;i++)await Promise.resolve();};
 const move=(id:number,pp=data.moves[id].pp,maxPP=data.moves[id].pp)=>({id,pp,maxPP});
 function fixture(item='ITEM_POTION',count=2){
