@@ -5,14 +5,15 @@ export type HatchMusicCue={id:number;key:string};
 export type HatchMusicSession={start:(cue:HatchMusicCue,signal:AbortSignal)=>Promise<void>;fanfare:(cue:HatchMusicCue,signal:AbortSignal)=>Promise<void>;restore:()=>Promise<void>};
 export type EffectiveFieldMusic={kind:'none'}|{kind:'playing';cue:HatchMusicCue;positionSeconds:number;source:'map'|'surf'|'radio'|'other';identity:string};
 /** A future field player supplies its ACTUAL effective voice/override snapshot.
- * This module never guesses map music. Native FieldBGM_GetEffective first
+ * capture fixes cue identity; suspend returns its actual paused phase after
+ * any asset-loading latency. This module never guesses map music. Native FieldBGM_GetEffective first
  * checks Surf/flag99A, then day/night+story music and the saved override;
  * the separate radio player must also be captured by its real owner. */
-export type EffectiveFieldMusicPort={capture:()=>EffectiveFieldMusic;suspend:(snapshot:EffectiveFieldMusic)=>Promise<void>;restore:(snapshot:EffectiveFieldMusic)=>Promise<void>};
+export type EffectiveFieldMusicPort={capture:()=>EffectiveFieldMusic;suspend:(snapshot:EffectiveFieldMusic)=>Promise<EffectiveFieldMusic>;restore:(snapshot:EffectiveFieldMusic)=>Promise<void>};
 export type NativeHatchTrack={id:number;key:string;file:string;sampleRate:number;frames:number;completionFrame:number;loopFrames:[number,number]|null;wavSHA256:string};
 export type NativeHatchMusicManifest={tracks:Record<string,NativeHatchTrack>};
 export type NativeMusicVoice={ended:Promise<void>;pause:()=>void;resume:()=>void;stop:(reason?:unknown)=>void};
-export type NativeMusicTransport={play:(asset:NativeHatchTrack,signal:AbortSignal)=>Promise<NativeMusicVoice>;dispose:()=>Promise<void>};
+export type NativeMusicTransport={prepare:(asset:NativeHatchTrack,signal:AbortSignal)=>Promise<void>;play:(asset:NativeHatchTrack,signal:AbortSignal)=>Promise<NativeMusicVoice>;dispose:()=>Promise<void>};
 export type HatchMusicOptions={enabled:boolean;field?:EffectiveFieldMusicPort;loadManifest?:(signal:AbortSignal)=>Promise<NativeHatchMusicManifest>;transport?:NativeMusicTransport;wait?:(milliseconds:number,signal:AbortSignal)=>Promise<void>};
 const ROOT='/source/hatching/music/';
 const abortReason=(signal:AbortSignal)=>signal.reason??new Error('Native hatch audio cancelled');
@@ -41,10 +42,11 @@ function track(manifest:NativeHatchMusicManifest,cue:HatchMusicCue,id:number,key
  * retains its actual mixed-sample phase; restarting creates a new source node
  * at that offset, rather than restarting the intro. Context is session-owned. */
 export function createWebAudioHatchTransport():NativeMusicTransport{
- let context:AudioContext|undefined,closed=false;const voices=new Set<NativeMusicVoice>();
- return{
-  async play(asset,signal){
-   check(signal);if(closed)throw Error('Native hatch audio transport is closed');
+ let context:AudioContext|undefined,closed=false;const voices=new Set<NativeMusicVoice>(),buffers=new Map<number,Promise<AudioBuffer>>();
+ const prepare=async(asset:NativeHatchTrack,signal:AbortSignal)=>{
+  check(signal);if(closed)throw Error('Native hatch audio transport is closed');
+  const cached=buffers.get(asset.id);if(cached)return cached;
+  const pending=(async()=>{
    const AudioContextClass=globalThis.AudioContext;if(!AudioContextClass)throw Error('Native hatch music requires WebAudio');
    context??=new AudioContextClass();const audioContext=context;
    await resumeAudioContext(audioContext,signal);check(signal);
@@ -55,7 +57,13 @@ export function createWebAudioHatchTransport():NativeMusicTransport{
    if(digest!==asset.wavSHA256)throw Error('Original hatch audio checksum mismatch: '+asset.file);
    const buffer=await audioContext.decodeAudioData(bytes);check(signal);
    if(closed)throw Error('Native hatch audio transport closed during loading');
-   if(buffer.numberOfChannels!==2||Math.abs(buffer.duration-asset.frames/asset.sampleRate)>1/asset.sampleRate+1/audioContext.sampleRate)throw Error('Original hatch audio decoded with unexpected duration/channels');
+   if(buffer.numberOfChannels!==2||Math.abs(buffer.duration-asset.frames/asset.sampleRate)>1/asset.sampleRate+1/audioContext.sampleRate)throw Error('Original hatch audio decoded with unexpected duration/channels');return buffer;
+  })();buffers.set(asset.id,pending);try{return await pending;}catch(error){buffers.delete(asset.id);throw error;}
+ };
+ return{
+  async prepare(asset,signal){await prepare(asset,signal);check(signal);},
+  async play(asset,signal){
+   const buffer=await prepare(asset,signal);check(signal);if(closed)throw Error('Native hatch audio transport is closed');const audioContext=context!;
    let source:AudioBufferSourceNode|undefined,offset=0,startedAt=0,done=false,paused=false;
    let resolve!:()=>void,reject!:(reason:unknown)=>void;const ended=new Promise<void>((yes,no)=>{resolve=yes;reject=no;});
    // BGM is not directly awaited. Observe cancellation without hiding it from
@@ -69,7 +77,7 @@ export function createWebAudioHatchTransport():NativeMusicTransport{
    const voice:NativeMusicVoice={ended,pause(){if(done||paused)return;offset=position();paused=true;disconnect();},resume(){if(done||!paused)return;paused=false;begin();},stop:complete};
    voices.add(voice);signal.addEventListener('abort',cancel,{once:true});try{begin();}catch(error){complete(error);throw error;}return voice;
   },
-  async dispose(){closed=true;for(const voice of[...voices])voice.stop();if(context&&context.state!=='closed')await context.close();},
+  async dispose(){closed=true;for(const voice of[...voices])voice.stop();buffers.clear();if(context&&context.state!=='closed')await context.close();},
  };
 }
 
@@ -79,7 +87,7 @@ export function createWebAudioHatchTransport():NativeMusicTransport{
 export function createNativeHatchMusicSession(options:HatchMusicOptions):HatchMusicSession{
  if(typeof options.enabled!=='boolean')throw Error('Native hatch audio requires an explicit sound option');
  if(!options.enabled)return{start:async(_cue,signal)=>check(signal),fanfare:async(_cue,signal)=>check(signal),restore:async()=>{}};
- const snapshot=structuredClone(options.field?.capture()??{kind:'none'}as EffectiveFieldMusic);
+ let snapshot=structuredClone(options.field?.capture()??{kind:'none'}as EffectiveFieldMusic);
  if(snapshot.kind!=='none'&&(snapshot.kind!=='playing'||!Number.isFinite(snapshot.positionSeconds)||snapshot.positionSeconds<0||!snapshot.identity))throw Error('Invalid actual effective field music snapshot');
  const controller=new AbortController(),pending=new Set<Promise<unknown>>(),transport=options.transport??createWebAudioHatchTransport();
  let background:NativeMusicVoice|undefined,foreground:NativeMusicVoice|undefined,started=false,fanfareStarted=false,closed=false,restored=false,suspended=false;
@@ -91,16 +99,23 @@ export function createNativeHatchMusicSession(options:HatchMusicOptions):HatchMu
  const session:HatchMusicSession={
   start(cue,signal){return own(async()=>{
    if(closed||started)throw Error('Native hatch music session already started or restored');bind(signal);started=true;
-   const asset=track(await getManifest(),cue,1011,'SEQ_GS_SHINKA');check(controller.signal);
-   if(snapshot.kind==='playing'){suspended=true;await options.field!.suspend(structuredClone(snapshot));check(controller.signal);}
+   const native=await getManifest(),asset=track(native,cue,1011,'SEQ_GS_SHINKA'),fanfareAsset=track(native,{id:1188,key:'SEQ_ME_SHINKAOME'},1188,'SEQ_ME_SHINKAOME');check(controller.signal);
+   // Both cues are decoded before taking field audio away. Fanfare time then
+   // performs only a sample-node start, with no network/checksum/decode gap.
+   await transport.prepare(asset,controller.signal);await transport.prepare(fanfareAsset,controller.signal);check(controller.signal);
+   if(snapshot.kind==='playing'){
+    suspended=true;const paused=await options.field!.suspend(structuredClone(snapshot));
+    if(paused.kind!=='playing'||paused.identity!==snapshot.identity||paused.cue.id!==snapshot.cue.id||paused.cue.key!==snapshot.cue.key||paused.source!==snapshot.source||!Number.isFinite(paused.positionSeconds)||paused.positionSeconds<0)throw Error('The actual field music voice changed before suspension');
+    snapshot=structuredClone(paused);check(controller.signal);
+   }
    try{background=await transport.play(asset,controller.signal);check(controller.signal);}catch(error){background?.stop(error);throw error;}
   });},
   fanfare(cue,signal){return own(async()=>{
    if(closed||!background||fanfareStarted)throw Error('Native hatch fanfare requires its active hatch session');bind(signal);fanfareStarted=true;
    const asset=track(await getManifest(),cue,1188,'SEQ_ME_SHINKAOME');check(controller.signal);background.pause();
-   try{foreground=await transport.play(asset,controller.signal);await foreground.ended;check(controller.signal);
-    await(options.wait??wait)((asset.completionFrame-asset.frames)/asset.sampleRate*1000,controller.signal);check(controller.signal);
-   }finally{foreground?.stop();foreground=undefined;if(!closed&&!controller.signal.aborted)background.resume();}
+   let completed=false;try{foreground=await transport.play(asset,controller.signal);await foreground.ended;check(controller.signal);
+    await(options.wait??wait)((asset.completionFrame-asset.frames)/asset.sampleRate*1000,controller.signal);check(controller.signal);completed=true;
+   }finally{foreground?.stop();foreground=undefined;if(completed&&!closed&&!controller.signal.aborted)background.resume();}
   });},
   restore(){
    if(restored)return Promise.resolve();if(restorePromise)return restorePromise;closed=true;
