@@ -12,7 +12,7 @@ import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusion
 
 type Result='won'|'lost'|'caught'|'ran';
 type Action={kind:'move';slot:number}|{kind:'switch';index:number}|{kind:'item';item:string}|{kind:'run'};
-const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,214,228]);
+const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,201,210,214,228]);
 // constants/moves.h: SINGLE, RANDOM_OPPONENT, ADJACENT_OPPONENTS, ALL_ADJACENT.
 // Self/side/field targets still exist without a living opposing active mon.
 const singleBattleLiveOpponentTargets=new Set([0,2,4,8]);
@@ -27,6 +27,8 @@ export class Battle{
   private experienceMask=0;private fleeAttempts=0;private turns=0;private flinch=false;private messageText='';
   private identified=new Set<Mon>();private curled=new Set<Mon>();
   private roosting=new Set<Mon>();private raging=new Set<Mon>();private weather:BattleWeather='clear';
+  // moveEffectFlags, not status2: Rage's before-turn status2 mask retains them.
+  private mudSport=new Set<Mon>();private waterSport=new Set<Mon>();
   private selectedMoveSlots=new Map<Mon,number>();private pendingMoves=new Map<Mon,number>();
   private volatiles=new Map<Mon,NativeBattlerVolatile>();private reflectTurns:[number,number]=[0,0];
   private tutorial=false;private noCritical=false;
@@ -37,10 +39,11 @@ export class Battle{
   private random16(){return Math.floor(this.rng()*0x10000);}
   private rawHeld(mon:Mon){if(!mon.heldItem)return null;const item=this.data.items.find(item=>item.item===mon.heldItem);if(!item)throw Error('Missing native held item '+mon.heldItem);return item;}
   private held(mon:Mon){return monAbility(this.data,mon)==='ABILITY_KLUTZ'?null:this.rawHeld(mon);}
-  private clearBattleVolatiles(){this.volatiles.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.selectedMoveSlots.clear();this.pendingMoves.clear();}
+  private clearBattleVolatiles(){this.volatiles.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.mudSport.clear();this.waterSport.clear();this.selectedMoveSlots.clear();this.pendingMoves.clear();}
+  private sportContext(){return{mudSport:[this.player,this.enemy].some(mon=>this.mudSport.has(mon)),waterSport:[this.player,this.enemy].some(mon=>this.waterSport.has(mon))};}
   private clearOnLeave(mon:Mon){
     const source=mon===this.player?0:1;for(const other of[this.player,this.enemy]){const value=this.volatile(other);if(value.meanLookSource===source)value.status2&=~nativeStatus2.meanLook;}
-    this.volatiles.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.selectedMoveSlots.delete(mon);this.pendingMoves.delete(mon);
+    this.volatiles.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.mudSport.delete(mon);this.waterSport.delete(mon);this.selectedMoveSlots.delete(mon);this.pendingMoves.delete(mon);
   }
   private critMultiplier(attacker:Mon,defender:Mon,move:MoveData):1|2|3{
     if(this.noCritical)return 1;const ability=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender),effect=this.held(attacker)?.holdEffect;
@@ -68,6 +71,11 @@ export class Battle{
     this.assertItemScope(attacker,defender);
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
+    if([201,210].includes(move.effect)){
+      this.assertItemScope(attacker,defender);
+      if(defender.hp>0&&monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native Sport Pressure PP');
+    }
+    this.assertSportDamageScope(attacker,defender,move);
     if([40,41,87,47,49,65,100,106,109,228].includes(move.effect))this.assertItemScope(attacker,defender);
     if(defender.hp>0&&move.category!==2&&(move.flags&1)&&monAbility(this.data,defender)==='ABILITY_STATIC'){
       this.assertItemScope(attacker,defender);
@@ -92,9 +100,18 @@ export class Battle{
     // learned moves. Sleeping/frozen, already-used or no-PP actions cannot
     // intercept. A failed pivot or guaranteed KO of that user cannot intercept.
     if(this.pendingMoves.get(foe)===this.data.constants.MOVE_PURSUIT&&foe.hp>0&&!['SLP','FRZ'].includes(foe.status)&&foe.moves.some(slot=>slot.pp>0&&slot.id===this.data.constants.MOVE_PURSUIT)&&reserves.some(mon=>mon!==attacker&&isUsableBattler(mon))){
-      const lowerBound=moveDamage(this.data,attacker,foe,move,playerSide?this.playerStages:this.enemyStages,playerSide?this.enemyStages:this.playerStages,85,false,this.identified.has(foe),{roosting:this.roosting.has(foe),reflect:!!this.reflectTurns[playerSide?1:0]}).damage;
+      const lowerBound=moveDamage(this.data,attacker,foe,move,playerSide?this.playerStages:this.enemyStages,playerSide?this.enemyStages:this.playerStages,85,false,this.identified.has(foe),{...this.sportContext(),roosting:this.roosting.has(foe),reflect:!!this.reflectTurns[playerSide?1:0]}).damage;
       if(lowerBound<foe.hp)throw Error('Unsupported native U-turn Pursuit phase');
     }
+  }
+  private assertSportDamageScope(attacker:Mon,defender:Mon,move:MoveData){
+    const sport=this.sportContext();
+    if(move.category===2||[40,41,87].includes(move.effect)||!(move.type===this.data.constants.TYPE_ELECTRIC&&sport.mudSport||move.type===this.data.constants.TYPE_FIRE&&sport.waterSport))return;
+    this.assertDamageScope(attacker,defender);
+    const ability=monAbility(this.data,defender);
+    if(monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER'&&(move.type===this.data.constants.TYPE_FIRE&&ability==='ABILITY_FLASH_FIRE'||move.type===this.data.constants.TYPE_ELECTRIC&&['ABILITY_VOLT_ABSORB','ABILITY_MOTOR_DRIVE'].includes(ability)))throw Error('Unsupported native Sport damage immunity ability');
+    const suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
+    if(this.weather!=='clear'&&!suppressed)throw Error('Unsupported native Sport damage weather');
   }
   private async checkConfusion(mon:Mon,stages:Stages,playerSide:boolean,selected:MoveData){
     const value=this.volatile(mon);if(!(value.status2&nativeStatus2.confusion))return false;
@@ -158,7 +175,8 @@ export class Battle{
       currentActorDamage:move=>{
         this.assertDamageScope(actor,target);if(this.weather!=='clear')throw Error('Unsupported native trainer replacement damage weather');
         const row=this.data.moves[move];if(row.power&&(!implementedEffects.has(row.effect)||[40,41,87].includes(row.effect)))throw Error('Unsupported native trainer replacement dynamic damage');
-        return moveBaseDamage(this.data,actor,target,row,this.enemyStages,this.playerStages,false,{reflect:!!this.reflectTurns[0]});
+        this.assertSportDamageScope(actor,target,row);
+        return moveBaseDamage(this.data,actor,target,row,this.enemyStages,this.playerStages,false,{...this.sportContext(),reflect:!!this.reflectTurns[0]});
       },
       applyCurrentActorType:(move,override,score)=>this.replacementTypeDamage(actor,target,move,override,score)
     });
@@ -348,6 +366,12 @@ export class Battle{
     if(monAbility(this.data,defender)==='ABILITY_TANGLED_FEET'&&(this.volatile(defender).status2&nativeStatus2.confusion)&&monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER')hitChance=Math.floor(hitChance*50/100);
     if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78&&Math.floor(this.rng()*100)>=hitChance){await this.say(`${attacker.name}’s attack missed!`);return;}
     if([32,132,214].includes(move.effect)&&attacker.hp===attacker.maxHP){await this.say(`${attacker.name}’s HP is full!`);return;}
+    if(move.effect===201||move.effect===210){
+      const flags=move.effect===201?this.mudSport:this.waterSport;
+      if(flags.has(attacker)){await this.say('But it failed!');return;}
+      flags.add(attacker);await this.view?.attack(playerSide,move);
+      await this.say(move.effect===201?'Electricity’s power was weakened!':'Fire’s power was weakened!');return;
+    }
     await this.view?.attack(playerSide,move);
     if(move.effect===47){const applied=nativeFocusEnergy(this.volatile(attacker).status2);this.volatile(attacker).status2=applied.status2;await this.say(applied.applied?`${attacker.name} is getting pumped!`:'But it failed!');return;}
     if(move.effect===49){if((this.volatile(defender).status2&nativeStatus2.confusion)||(monAbility(this.data,defender)==='ABILITY_OWN_TEMPO'&&monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER')){await this.say('But it failed!');return;}this.volatile(defender).status2|=nativeConfusionDuration(()=>this.random16());await this.say(`${defender.name} became confused!`);return;}
@@ -375,7 +399,7 @@ export class Battle{
     // The native multi-hit controller reruns critical/damage calculation for
     // every hit, skips additional accuracy/PP checks and stops on fainting.
     const fixed=[40,41,87].includes(move.effect),multiplier=fixed?1:this.critMultiplier(attacker,defender,move),critical=multiplier>1;
-    const result=fixed?fixedMoveDamage(this.data,attacker,defender,move,this.identified.has(defender),{roosting:this.roosting.has(defender)}):moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{roosting:this.roosting.has(defender),reflect:!!this.reflectTurns[playerSide?1:0],criticalMultiplier:multiplier});
+    const result=fixed?fixedMoveDamage(this.data,attacker,defender,move,this.identified.has(defender),{roosting:this.roosting.has(defender)}):moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{...this.sportContext(),roosting:this.roosting.has(defender),reflect:!!this.reflectTurns[playerSide?1:0],criticalMultiplier:multiplier});
     const {damage,effectiveness}=result;let total=damage;
     if(effectiveness===0)total=0;total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));

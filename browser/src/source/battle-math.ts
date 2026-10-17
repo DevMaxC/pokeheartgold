@@ -25,7 +25,7 @@ export function weatherHPRecovery(maxHP:number,weather:BattleWeather,suppressed=
 // BtlCmd_SetMultiHit uses a second four-way draw only for the latter half
 // of the first draw:2/3/4/5 have probabilities3/8,3/8,1/8,1/8.
 export function multiHitCount(rng:()=>number,skillLink=false){if(skillLink)return 5;const first=Math.floor(rng()*4);return first<2?first+2:Math.floor(rng()*4)+2;}
-export type DamageContext={roosting?:boolean;flying?:boolean;reflect?:boolean;criticalMultiplier?:1|2|3};
+export type DamageContext={roosting?:boolean;flying?:boolean;reflect?:boolean;criticalMultiplier?:1|2|3;mudSport?:boolean;waterSport?:boolean};
 // Scoped Gen IV singles intermediate, including Technician and physical Reflect.
 // The engine rejects unported modifier callbacks on newly admitted paths.
 export function moveBaseDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,critical=false,context:DamageContext={}){
@@ -41,6 +41,9 @@ export function moveBaseDamage(data:GameData,attacker:Mon,defender:Mon,move:Move
   // effect_script_0149: Gust hits a target in Fly and doubles its power.
   // Fly's own two-turn execution remains a separate, unported move effect.
   if(move.effect===149&&context.flying)power*=2;
+  // Gen IV CalcMoveDamage checks any active battler's move-effect flags.
+  // These halve power once, after Technician and before Blaze/Overgrow/etc.
+  if(move.type===data.constants.TYPE_ELECTRIC&&context.mudSport||move.type===data.constants.TYPE_FIRE&&context.waterSport)power=Math.floor(power/2);
   if(attacker.hp<=Math.floor(attacker.maxHP/3)&&((ability==='ABILITY_BLAZE'&&move.type===10)||(ability==='ABILITY_TORRENT'&&move.type===11)||(ability==='ABILITY_OVERGROW'&&move.type===12)||(ability==='ABILITY_SWARM'&&move.type===data.constants.TYPE_BUG)))power=Math.floor(power*1.5);
   let damage=Math.floor(Math.floor((Math.floor(attacker.level*2/5)+2)*power*attack/defense)/50);
   if(physical&&attacker.status==='BRN'&&ability!=='ABILITY_GUTS')damage=Math.floor(damage/2);
