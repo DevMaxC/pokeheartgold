@@ -1,0 +1,39 @@
+{
+  "parentCommit": "dc1e777aec8e379a23fed7b92e749f1d6f195f48",
+  "scope": "Test-only correction. Both runtime files are byte-identical to reviewed dc1. Original dc1 review/logs/receipt retained unchanged.",
+  "actualReview": {
+    "model": "claude-opus-5-5",
+    "turns": 41,
+    "durationMs": 280365,
+    "permissionDenials": 0,
+    "isError": false,
+    "rawSha256": "d2a838bf557977de5b7ec7b0266b68c2734ff3bd037847b8e8e25749beec54d8",
+    "runtimeVerdict": "No confirmed runtime defect; both scoped original P2 findings closed.",
+    "testFinding": "Rattata with evenPID has RunAway and bypasses native ordinary escape counter. Original fixture outcome agrees but is not literal native ordinary-path evidence."
+  },
+  "correction": "Use Pidgey/KeenEye for equal/faster ordinary Run fixtures and assert noRunAway/no heldescapeitem inside every ordinary runCase. Trainer refusal retains its own source ordering. Also assert literal native extraction markers before scanning.",
+  "checks": [
+    {
+      "command": "unchanged final test against exact productionc4 Git archive",
+      "result": "1pass5fail expectednegative"
+    },
+    {
+      "command": "node --experimental-transform-types --test src/source/battle*.test.ts src/source/early-battle-effects.test.ts",
+      "result": "112pass0fail, including all6 correctedfixtures"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "pass"
+    }
+  ],
+  "fileSha256": {
+    "browser/src/source/battle.ts": "463cdc3bf01ef959c582d5b5f1de046b1bb06595c61d91f0d97e33df2108766e",
+    "browser/src/source/battle-math.ts": "7ca568cc1242dd36fb38acc83c40662ab71dd3fce13c6b6b18ad254fdf9ce6db",
+    "browser/src/source/battle-escape-burn.test.ts": "5d2b18b9e18bf5ce32a7d6fe8a9a768728b6f70996f222d2746d3d75a2697710"
+  },
+  "logsSha256": {
+    "before.json": "ffd4478f0b64546e5bfc3559fd8d3ec6a06eb7075752558fb6d882208dde9fa0",
+    "battle-suite.log": "f3652a4e55014c3a36815220682d76002fe63d7240408d4c0bcff9e374639319"
+  },
+  "followup": "Actual narrow review of these changed test bytes is separate; no automatic approval transfer from dc1 review."
+}

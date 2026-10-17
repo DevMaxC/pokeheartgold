@@ -2,8 +2,8 @@
   "reviewedCommit": "f21d56866643e055efde7566afd2106129b841c6",
   "scope": "Exact original source snapshot only; later commits are not approved by this review.",
   "findings": {
-    "P2-1 escape": "Validated; isolated runtime correction under separate actual Opus review, not yet integrated.",
-    "P2-2 burn": "Validated; isolated runtime correction under separate actual Opus review, not yet integrated.",
+    "P2-1 escape": "Corrected by dc1e777 + fixture-only99c833, integrated in9f078d09; actual independent runtime and fixture Opus reviews preserved separately. Current combined 19 escape/volatile tests +TSC pass. No full natural-play claim.",
+    "P2-2 burn": "Corrected by dc1e777 + fixture-only99c833, integrated in9f078d09; actual independent runtime and fixture Opus reviews preserved separately. Current combined 19 escape/volatile tests +TSC pass. No full natural-play claim.",
     "P2-3 Mom savings": "Validated; source module being implemented, no hosted behavior yet.",
     "P3-1 first-rival criticals": "Validated; pending.",
     "P3-2 background interaction facing": "Validated; pending.",
