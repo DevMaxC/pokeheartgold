@@ -1,7 +1,9 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import * as THREE from 'three';
 import {createEvolutionPresentation,type EvolutionAudioSession,type EvolutionPresentationPorts,type EvolutionSharedOutput} from './evolution-presentation.ts';
+import {WorldEvolutionView} from './evolution-view.ts';
 import {evolutionScene,viewFixture} from './evolution-test-fixtures.ts';
 import type {BattleEvolutionCallbacks} from './battle-evolution-types.ts';
 
@@ -35,9 +37,21 @@ test('B on the same tick as final particle completion still wins over evolution'
  const f=fixture();let polls=0;f.ports.takeBCancel=()=>++polls===120;assert.equal(await f.present(evolutionScene(),f.callbacks),'cancelled');assert.deepEqual(semantic(f),[]);assert.equal(f.world.fieldEffect,null);
 });
 
+test('white silhouettes stay white throughout widening and reveal begins only in the reveal phase',async()=>{
+ const f=fixture(),samples:{phase:string;white:number}[]=[],tick=f.view.tick.bind(f.view);f.view.tick=()=>{tick();const next=f.view.group.children.find(object=>object instanceof THREE.Mesh&&object.material instanceof THREE.ShaderMaterial&&object.material.uniforms.art.value===f.newArt.texture)as THREE.Mesh<THREE.PlaneGeometry,THREE.ShaderMaterial>;samples.push({phase:f.view.phase,white:next.material.uniforms.white.value});};await f.present(evolutionScene(),f.callbacks);assert.ok(samples.filter(s=>s.phase==='widen').every(s=>s.white===1));assert.ok(samples.filter(s=>s.phase==='oscillate').every(s=>s.white===1));assert.equal(samples.find(s=>s.phase==='reveal')!.white,15/16);
+});
+
+test('white old art does not flash back to colour before the cancel reveal begins',async()=>{
+ const f=fixture(),samples:number[]=[],tick=f.view.tick.bind(f.view);f.view.tick=()=>{tick();if(f.view.phase==='cancel'){const old=f.view.group.children.find(object=>object instanceof THREE.Mesh&&object.material instanceof THREE.ShaderMaterial&&object.material.uniforms.art.value===f.oldArt.texture)as THREE.Mesh<THREE.PlaneGeometry,THREE.ShaderMaterial>;samples.push(old.material.uniforms.white.value);}};f.ports.takeBCancel=()=>true;assert.equal(await f.present(evolutionScene(),f.callbacks),'cancelled');assert.deepEqual(samples.slice(0,16),Array(16).fill(1));assert.equal(samples[16],15/16);
+});
+
 test('source glyph callbacks are live polls and no fanfare is invented when a printer never emits glyph3',async()=>{
  const f=fixture();const seen:boolean[]=[];f.ports.print=(_bank,id,_args,glyph)=>{if(id===918){seen.push(glyph(1));seen.push(glyph(2));glyph(4);glyph(5);seen.push(glyph(2));}return{done:Promise.resolve(),clear(){}};};await f.present(evolutionScene(),f.callbacks);assert.deepEqual(of(f,'fanfare').map(e=>e.value),[1184]);assert.deepEqual(seen,[false,false,true]);assert.ok(of(f,'se').some(e=>e.value===1510));
  const g=fixture();g.ports.print=(_bank,_id,_args,glyph)=>{glyph(77);return{done:Promise.resolve(),clear(){}};};await assert.rejects(g.present(evolutionScene(),g.callbacks),/Unsupported native evolution text callback 77/);assert.equal(g.restores,1);assert.equal(g.view.active,false);assert.deepEqual(semantic(g),[]);
+});
+
+test('a printer rejected with undefined remains a technical failure and cannot advance registration',async()=>{
+ const f=fixture();f.ports.print=(_bank,id)=>({done:id===918?Promise.reject(undefined):Promise.resolve(),clear(){}});await assert.rejects(f.present(evolutionScene(),f.callbacks));assert.equal(of(f,'evolve').length,1);assert.equal(of(f,'register').length,0);assert.equal(of(f,'finish').length,0);assert.equal(f.world.fieldEffect,null);assert.equal(f.restores,1);
 });
 
 test('audio remains on the required borrowed master, muted admission never asks for Context or creates a second player',async()=>{
@@ -61,6 +75,16 @@ test('simultaneous scenes reject, external abort cancels before later semantic c
 
 test('hung borrowed preparation is bounded with an owned session handle, and late completion cannot start the scene',async()=>{
  const f=fixture();f.ports.preparationTimeoutMs=15;let release!:()=>void,aborted=false;f.audio.prepare=signal=>{signal.addEventListener('abort',()=>aborted=true,{once:true});return new Promise<void>(resolve=>release=resolve);};await assert.rejects(f.present(evolutionScene(),f.callbacks),/audio preparation timed out/);assert.equal(aborted,true);assert.equal(f.cancels,1);assert.equal(f.restores,1);assert.equal(f.world.fieldEffect,null);release();await flush();assert.deepEqual(of(f,'bgm'),[]);assert.deepEqual(semantic(f),[]);
+});
+
+test('an abort-ignoring nextFrame cannot retain the scene or block a fresh retry',async()=>{
+ const f=fixture(),abort=new AbortController(),original=f.ports.nextFrame;let release!:()=>void,waiting=false,settled=false;f.ports.nextFrame=()=>{waiting=true;return new Promise<void>(resolve=>release=resolve);};const action=f.present(evolutionScene(),f.callbacks,abort.signal),observed=action.then(()=>{settled=true;},()=>{settled=true;});
+ try{for(let i=0;i<10&&!waiting;i++)await flush();assert.equal(waiting,true);abort.abort(Error('Frame owner aborted'));for(let i=0;i<5&&!settled;i++)await flush();assert.equal(settled,true);assert.equal(f.restores,1);assert.equal(f.world.fieldEffect,null);release();await observed;f.ports.nextFrame=original;assert.equal(await f.present(evolutionScene(),f.callbacks),'evolved');}finally{abort.abort();release?.();await observed;}
+});
+
+test('separate factories reserve the same field before audio preparation without opening a competing session',async()=>{
+ const f=fixture(),abort=new AbortController();let release!:()=>void,secondOpened=0;f.audio.prepare=()=>new Promise<void>(resolve=>release=resolve);const first=f.present(evolutionScene(),f.callbacks,abort.signal),observed=first.catch(()=>{}),otherView=new WorldEvolutionView(f.world,()=>f.field,{art:async()=>f.oldArt});const other=createEvolutionPresentation({...f.ports,view:otherView,audio:{open(){secondOpened++;throw Error('Competing audio must not open');}}});
+ try{await assert.rejects(other(evolutionScene(),f.callbacks),/already owned|active presentation/);assert.equal(secondOpened,0);}finally{abort.abort(Error('Owner test done'));release();await observed;}
 });
 
 test('bad flags/form/shiny artwork fail before audio ownership or any gameplay callback',async()=>{

@@ -36,6 +36,8 @@ source frame with its original normal palette (`art-oracle.json`).
   burst. This is the native evolution scene frame domain, not an extra call to
   the30Hz field task clock. Draw must continue driving `World.fieldEffect.update`.
   A hidden/unloaded/disposed host aborts its scene signal.
+  The leaf also observes abort independently of a stalled frame promise. Pure
+  frame waits may be detached; mutating move-learning work is always drained.
 * `takeBCancel()` returns the current frame's new B edge only. Earlier/held B must
   not be queued into the cancellation window. No keyboard listener is installed
   by the leaf; Main still owns coherent input and source-action priority.
@@ -52,6 +54,8 @@ source frame with its original normal palette (`art-oracle.json`).
   unlocking a Context. Existing global mute/master gain remains authoritative.
   The backend must implement native no-voice outcomes and real completion/timer
   semantics; this leaf does not claim the borrowed backend is implemented.
+  `cryPlaying` becomes true synchronously for an admitted cry. Native
+  `fanfarePlaying` completion also performs its stop/background-unpause work.
 * Audio preparation and artwork have technical4s watchdogs, distinct from scene
   timing. Session `cancel` stops owned voices synchronously. Independent field
   restoration is bounded1500ms. `retainRestore` preserves a failed/aborted cleanup
@@ -60,6 +64,10 @@ source frame with its original normal palette (`art-oracle.json`).
   `current()` identity guards. A stale/unloaded actor is not resurrected. A field
   effect must be cancelled before replacing its owner, as current World field
   transitions do. A stolen slot is never cleared and its camera never overwritten.
+
+The field is reserved before audio preparation across separate presentation
+factories. A competing factory cannot open a session while another owns that
+field, including its preparation phase.
 
 Main must release the battle stage before this field view can be admitted, keep
 the post-battle outer SourceRecovery transaction open, and defer source script
