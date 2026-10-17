@@ -1,0 +1,96 @@
+TAP version 13
+# (node:75532) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal native effect scripts use per-user moveEffectFlags; field query has no HP predicate
+ok 1 - literal native effect scripts use per-user moveEffectFlags; field query has no HP predicate
+  ---
+  duration_ms: 6.875125
+  type: 'test'
+  ...
+# Subtest: actual Route32 Wooper6 and UnionCave Geodude6 cast MudSport with no gameplay draw; repeat spends PP but does not animate
+ok 2 - actual Route32 Wooper6 and UnionCave Geodude6 cast MudSport with no gameplay draw; repeat spends PP but does not animate
+  ---
+  duration_ms: 2.825916
+  type: 'test'
+  ...
+# Subtest: actual Cherrygrove OldRod Krabby10 weakens Mareep ThunderShock power, rather than halving final damage
+ok 3 - actual Cherrygrove OldRod Krabby10 weakens Mareep ThunderShock power, rather than halving final damage
+  ---
+  duration_ms: 182.986708
+  type: 'test'
+  ...
+# Subtest: actual Henry Poliwag8 weakens Cyndaquil Ember with GenIV half-power; no five-turn expiry
+ok 4 - actual Henry Poliwag8 weakens Cyndaquil Ember with GenIV half-power; no five-turn expiry
+  ---
+  duration_ms: 164.600583
+  type: 'test'
+  ...
+# Subtest: both users can own WaterSport, it never stacks, and withdrawing one leaves the other flag active
+ok 5 - both users can own WaterSport, it never stacks, and withdrawing one leaves the other flag active
+  ---
+  duration_ms: 302.707042
+  type: 'test'
+  ...
+# Subtest: Sport flags survive native Rage status2 masking and can run without a living opponent
+ok 6 - Sport flags survive native Rage status2 masking and can run without a living opponent
+  ---
+  duration_ms: 153.013542
+  type: 'test'
+  ...
+# Subtest: actual Henry caster faint clears WaterSport before its reserve takes the pending turn
+ok 7 - actual Henry caster faint clears WaterSport before its reserve takes the pending turn
+  ---
+  duration_ms: 152.722166
+  type: 'test'
+  ...
+# Subtest: source-compatible Technician Thunderbolt95 is tested before MudSport halves its power to47
+ok 8 - source-compatible Technician Thunderbolt95 is tested before MudSport halves its power to47
+  ---
+  duration_ms: 151.109625
+  type: 'test'
+  ...
+# Subtest: Blaze odd-power rounding follows WaterSport95→47 then lowHP47→70, not142→71
+ok 9 - Blaze odd-power rounding follows WaterSport95→47 then lowHP47→70, not142→71
+  ---
+  duration_ms: 152.299958
+  type: 'test'
+  ...
+# Subtest: fixed DragonRage remains40 under WaterSport and cleanup clears flags without touching saved party data
+ok 10 - fixed DragonRage remains40 under WaterSport and cleanup clears flags without touching saved party data
+  ---
+  duration_ms: 152.592667
+  type: 'test'
+  ...
+# Subtest: actual native replacement damage port uses the outgoing actor and active WaterSport, without a gameplay draw
+ok 11 - actual native replacement damage port uses the outgoing actor and active WaterSport, without a gameplay draw
+  ---
+  duration_ms: 1.71225
+  type: 'test'
+  ...
+# Subtest: native field flag remains queryable at HP0 until InitFaintedWork cleanup, then clears
+ok 12 - native field flag remains queryable at HP0 until InitFaintedWork cleanup, then clears
+  ---
+  duration_ms: 0.368584
+  type: 'test'
+  ...
+# Subtest: new affected damage rejects unported immunity/weather/held callbacks before PP or HP changes
+ok 13 - new affected damage rejects unported immunity/weather/held callbacks before PP or HP changes
+  ---
+  duration_ms: 2.352625
+  type: 'test'
+  ...
+# Subtest: a real loop clears a fainted Sport caster before native stage2 replacement scores its legal reserves
+ok 14 - a real loop clears a fainted Sport caster before native stage2 replacement scores its legal reserves
+  ---
+  duration_ms: 151.850041
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2626.436417

@@ -1,0 +1,35 @@
+{
+  "sourceCommit": "a169413d4ff039f01ac3f3a0b338e049e52fe6d5",
+  "createdAt": "2026-10-17T17:28:12.728492+00:00",
+  "qualification": "Same new13 source/action tests against literal previous aeb engine or one controlled incorrect algorithm. These are failing negative controls, not current defects. No global gameplay RNG or production claim.",
+  "controls": [
+    {
+      "control": "old-aeb",
+      "exitCode": 1,
+      "log": "/tmp/hg-battle-sports-control-old-aeb.log",
+      "logSha256": "08203f449c92a94123f5d8a9795d86b5529af13bc165747026c4a7627763a7af",
+      "expectedFailureDetected": true
+    },
+    {
+      "control": "no-power-halving",
+      "exitCode": 1,
+      "log": "/tmp/hg-battle-sports-control-no-power-halving.log",
+      "logSha256": "9243573da52c53ffb43760f8debae2a7a566ccb2f27d5b9d395b3cb628184c9a",
+      "expectedFailureDetected": true
+    },
+    {
+      "control": "wrong-Blaze-order",
+      "exitCode": 1,
+      "log": "/tmp/hg-battle-sports-control-wrong-Blaze-order.log",
+      "logSha256": "275f490c456f2c1aa756dd1a07144266bcc34f7c845996dc5678487f4b3e25ba",
+      "expectedFailureDetected": true
+    },
+    {
+      "control": "no-leave-cleanup",
+      "exitCode": 1,
+      "log": "/tmp/hg-battle-sports-control-no-leave-cleanup.log",
+      "logSha256": "35c9d422d35e34ee63a50eebc3451614a2a6d9a36f519eb5c92993d5f81acaff",
+      "expectedFailureDetected": true
+    }
+  ]
+}

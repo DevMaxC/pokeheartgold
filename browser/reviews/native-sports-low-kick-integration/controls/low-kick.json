@@ -1,0 +1,35 @@
+{
+  "sourceCommit": "293ff9d81d07a5290dce1fb10b4eb8eaf2853f07",
+  "createdAt": "2026-10-17T17:44:42.076892+00:00",
+  "qualification": "Same new native action fixtures on literal olda169 Battle/Math (with weight dependency data available) or one controlled erroneous algorithm. Onlyold harness adapter skips nonexistent weight initialization; no action/assertion/native code weakened. Old source actually rejects effect196 and actualAnthony replacement rain. No globalRNG/AI/campaign approval.",
+  "controls": [
+    {
+      "control": "old-a169-native-actions",
+      "exitCode": 1,
+      "log": "/tmp/hg-low-kick-control-old-a169-native-actions.log",
+      "logSha256": "a5f295d846fd3981220f1df6a4483a9d94f60592192f3c21032dba9c79d26a34",
+      "expectedSemanticFailureDetected": true
+    },
+    {
+      "control": "flat-power40",
+      "exitCode": 1,
+      "log": "/tmp/hg-low-kick-control-flat-power40.log",
+      "logSha256": "e4a5a4cde2b34499cd2e88576d865567572dd0881a4a591962f257913db3672b",
+      "expectedSemanticFailureDetected": true
+    },
+    {
+      "control": "lost-NoGuard",
+      "exitCode": 1,
+      "log": "/tmp/hg-low-kick-control-lost-NoGuard.log",
+      "logSha256": "d4a0fb1422e6c73cf57a89dd20bf38446f4082dfcff188ac45d23f0b865a8d74",
+      "expectedSemanticFailureDetected": true
+    },
+    {
+      "control": "missing-switch-weight",
+      "exitCode": 1,
+      "log": "/tmp/hg-low-kick-control-missing-switch-weight.log",
+      "logSha256": "af66f926b437318afa97188eb0f6a58c0bba0286ce4f7c95e7b0180ce57fdcaf",
+      "expectedSemanticFailureDetected": true
+    }
+  ]
+}

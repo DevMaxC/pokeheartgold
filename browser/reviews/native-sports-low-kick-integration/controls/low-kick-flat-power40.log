@@ -1,0 +1,113 @@
+TAP version 13
+# (node:77959) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native LowKick command reads live target weight before crit/damage; rain does not modify Fighting power
+ok 1 - native LowKick command reads live target weight before crit/damage; rain does not modify Fighting power
+  ---
+  duration_ms: 198.177541
+  type: 'test'
+  ...
+# Subtest: actual Anthony Machop11 LowKick uses inclusive Magikarp100→20 and Seadra250→40, with one PP and per-hit draws
+not ok 2 - actual Anthony Machop11 LowKick uses inclusive Magikarp100→20 and Seadra250→40, with one PP and per-hit draws
+  ---
+  duration_ms: 155.13675
+  type: 'test'
+  location: '/private/tmp/hg-low-kick-control-flat-power40/browser/src/source/battle-low-kick.test.ts:37:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    6 !== 3
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 3
+  actual: 6
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-low-kick-control-flat-power40/browser/src/source/battle-low-kick.test.ts:39:386)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native NoGuard clears a drawn miss in either direction, including a MoldBreaker attacker; ordinary control still misses
+ok 3 - native NoGuard clears a drawn miss in either direction, including a MoldBreaker attacker; ordinary control still misses
+  ---
+  duration_ms: 304.551417
+  type: 'test'
+  ...
+# Subtest: initialized live weight is retained until leaving; ordinary player/enemy reentry captures fresh weight and end clears it
+ok 4 - initialized live weight is retained until leaving; ordinary player/enemy reentry captures fresh weight and end clears it
+  ---
+  duration_ms: 1.65025
+  type: 'test'
+  ...
+# Subtest: LowKick requires initialized live weight and refuses unsupported initial forms/data before PP/HP mutation
+not ok 5 - LowKick requires initialized live weight and refuses unsupported initial forms/data before PP/HP mutation
+  ---
+  duration_ms: 1.707292
+  type: 'test'
+  location: '/private/tmp/hg-low-kick-control-flat-power40/browser/src/source/battle-low-kick.test.ts:54:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-low-kick-control-flat-power40/browser/src/source/battle-low-kick.test.ts:56:61)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: dynamic LowKick power precedes Technician and uses the initial BattleMon bank deliberately
+not ok 6 - dynamic LowKick power precedes Technician and uses the initial BattleMon bank deliberately
+  ---
+  duration_ms: 0.32425
+  type: 'test'
+  location: '/private/tmp/hg-low-kick-control-flat-power40/browser/src/source/battle-low-kick.test.ts:59:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    8 !== 5
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 8
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-low-kick-control-flat-power40/browser/src/source/battle-low-kick.test.ts:63:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual Anthony party resolves through legal actions in Route33 rain, including its native NoGuard LowKick
+ok 7 - actual Anthony party resolves through legal actions in Route33 rain, including its native NoGuard LowKick
+  ---
+  duration_ms: 607.56825
+  type: 'test'
+  ...
+# Subtest: LowKick guards relevant rain hooks, on-hit abilities, Pressure and unresolved entry callbacks before PP/HP
+ok 8 - LowKick guards relevant rain hooks, on-hit abilities, Pressure and unresolved entry callbacks before PP/HP
+  ---
+  duration_ms: 1.4845
+  type: 'test'
+  ...
+# Subtest: actual Anthony NoGuard LowKick retains the supported native Static contact phase after damage
+ok 9 - actual Anthony NoGuard LowKick retains the supported native Static contact phase after damage
+  ---
+  duration_ms: 151.550542
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 6
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2773.371459

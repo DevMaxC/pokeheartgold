@@ -1,0 +1,9 @@
+{
+  "qualification": "Earlier read-only review snapshot intentionally did not execute tests and omitted optional egg-summary302 resource used by loadData. Earlier negative-control attempts failed at fixture resource loading and are INVALID as semantic controls. Raw logs/receipt preserved. New controls add exact committed302 bytes, with no production/source changes.",
+  "addedFixtureDependency": {
+    "path": "browser/public/source/messages/302.json",
+    "commit": "a169413d4ff039f01ac3f3a0b338e049e52fe6d5",
+    "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+  },
+  "supersededInvalidReceipt": "/tmp/hg-battle-sports-controlled-regressions.json"
+}

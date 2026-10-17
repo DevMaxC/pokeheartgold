@@ -1,0 +1,16 @@
+from pathlib import Path
+import subprocess,json,hashlib,datetime
+snapshot=Path('/tmp/hg-low-kick-fixture-followup-aa7c8866');m=json.loads((snapshot/'manifest.json').read_text());results=[]
+for name in ['first-HP-fallback','recompute-live-weight']:
+ out=Path('/tmp/hg-low-kick-final-control-'+name);out.mkdir(exist_ok=False)
+ for row in m['inputs']:
+  if row.get('evidenceOnly'):continue
+  p=out/row['path'];p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((snapshot/row['path']).read_bytes())
+ if name=='first-HP-fallback':
+  p=out/'browser/src/source/battle.ts';s=p.read_text();anchor='  private chooseEnemyReplacement(){';assert s.count(anchor)==1;s=s.replace(anchor,anchor+'\n    return this.enemies.findIndex((mon,index)=>index!==this.enemyIndex&&mon.hp>0);\n    // Deliberately wrong fallback-only negative control.\n');p.write_text(s);pattern='rain replacement uses native damage scoring'
+ else:
+  p=out/'browser/src/source/battle.ts';s=p.read_text();anchor='  private targetWeight(mon:Mon){';assert s.count(anchor)==1;s=s.replace(anchor,anchor+'return nativeBattleWeight(this.data,mon.species,mon.form??0);\n    // Deliberately wrong per-read recomputation negative control.\n');p.write_text(s);pattern='dynamic LowKick power precedes Technician'
+ run=subprocess.run(['node','--experimental-transform-types','--test','--test-name-pattern='+pattern,'browser/src/source/battle-low-kick.test.ts'],cwd=out,capture_output=True,text=True);text=run.stdout+run.stderr;log=Path('/tmp/hg-low-kick-final-control-'+name+'.log');log.write_text(text)
+ assert run.returncode!=0 and 'ERR_ASSERTION' in text and 'ENOENT' not in text and 'TypeError' not in text,(name,text)
+ result={'control':name,'sourceCommit':m['commit'],'exitCode':run.returncode,'expectedAssertionFailure':True,'log':str(log),'sha256':hashlib.sha256(log.read_bytes()).hexdigest()};results.append(result);print(json.dumps(result),flush=True)
+Path('/tmp/hg-low-kick-final-controlled-regressions.json').write_text(json.dumps({'createdAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'qualification':'Narrow copied-code negative controls. Fixtures and current source unchanged; new rain-score and live-persistence assertions reject these wrong algorithms. Not current runtime defects.','results':results},indent=2)+'\n')

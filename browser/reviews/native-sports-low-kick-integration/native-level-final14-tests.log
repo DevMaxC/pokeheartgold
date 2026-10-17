@@ -1,0 +1,96 @@
+TAP version 13
+# (node:88787) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native LowKick command reads live target weight before crit/damage; rain does not modify Fighting power
+ok 1 - native LowKick command reads live target weight before crit/damage; rain does not modify Fighting power
+  ---
+  duration_ms: 32.035833
+  type: 'test'
+  ...
+# Subtest: actual Anthony Machop11 LowKick uses inclusive Magikarp100→20 and Seadra250→40, with one PP and per-hit draws
+ok 2 - actual Anthony Machop11 LowKick uses inclusive Magikarp100→20 and Seadra250→40, with one PP and per-hit draws
+  ---
+  duration_ms: 457.470542
+  type: 'test'
+  ...
+# Subtest: native NoGuard clears a drawn miss in either direction, including a MoldBreaker attacker; ordinary control still misses
+ok 3 - native NoGuard clears a drawn miss in either direction, including a MoldBreaker attacker; ordinary control still misses
+  ---
+  duration_ms: 303.292458
+  type: 'test'
+  ...
+# Subtest: initialized live weight is retained until leaving; ordinary player/enemy reentry captures fresh weight and end clears it
+ok 4 - initialized live weight is retained until leaving; ordinary player/enemy reentry captures fresh weight and end clears it
+  ---
+  duration_ms: 1.275583
+  type: 'test'
+  ...
+# Subtest: LowKick requires initialized live weight and refuses unsupported initial forms/data before PP/HP mutation
+ok 5 - LowKick requires initialized live weight and refuses unsupported initial forms/data before PP/HP mutation
+  ---
+  duration_ms: 1.175667
+  type: 'test'
+  ...
+# Subtest: dynamic LowKick power precedes Technician and uses the initial BattleMon bank deliberately
+ok 6 - dynamic LowKick power precedes Technician and uses the initial BattleMon bank deliberately
+  ---
+  duration_ms: 0.457166
+  type: 'test'
+  ...
+# Subtest: actual Anthony party resolves through legal actions in Route33 rain, including its native NoGuard LowKick
+ok 7 - actual Anthony party resolves through legal actions in Route33 rain, including its native NoGuard LowKick
+  ---
+  duration_ms: 607.169334
+  type: 'test'
+  ...
+# Subtest: LowKick guards relevant rain hooks, on-hit abilities, Pressure and unresolved entry callbacks before PP/HP
+ok 8 - LowKick guards relevant rain hooks, on-hit abilities, Pressure and unresolved entry callbacks before PP/HP
+  ---
+  duration_ms: 1.43875
+  type: 'test'
+  ...
+# Subtest: actual Anthony NoGuard LowKick retains the supported native Static contact phase after damage
+ok 9 - actual Anthony NoGuard LowKick retains the supported native Static contact phase after damage
+  ---
+  duration_ms: 151.901
+  type: 'test'
+  ...
+# Subtest: rain replacement uses native damage scoring rather than firstHP fallback, and rejects affected callback contexts
+ok 10 - rain replacement uses native damage scoring rather than firstHP fallback, and rejects affected callback contexts
+  ---
+  duration_ms: 0.942792
+  type: 'test'
+  ...
+# Subtest: actual Anthony LowKick in Route33 rain has the same native Fighting damage at Chikorita weight64→20
+ok 11 - actual Anthony LowKick in Route33 rain has the same native Fighting damage at Chikorita weight64→20
+  ---
+  duration_ms: 151.681458
+  type: 'test'
+  ...
+# Subtest: unported weather stays guarded, while living CloudNine and AirLock suppress its native LowKick modifiers
+ok 12 - unported weather stays guarded, while living CloudNine and AirLock suppress its native LowKick modifiers
+  ---
+  duration_ms: 303.169208
+  type: 'test'
+  ...
+# Subtest: a natural faint and forced switch make the next LowKick consume the new entrant weight, not the old one
+ok 13 - a natural faint and forced switch make the next LowKick consume the new entrant weight, not the old one
+  ---
+  duration_ms: 1207.988583
+  type: 'test'
+  ...
+# Subtest: real Uturn party choice initializes the pending LowKick target weight before that opposing action
+ok 14 - real Uturn party choice initializes the pending LowKick target weight before that opposing action
+  ---
+  duration_ms: 301.443625
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4718.537125

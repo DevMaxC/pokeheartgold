@@ -1,0 +1,186 @@
+TAP version 13
+# (node:75553) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal native effect scripts use per-user moveEffectFlags; field query has no HP predicate
+ok 1 - literal native effect scripts use per-user moveEffectFlags; field query has no HP predicate
+  ---
+  duration_ms: 6.275083
+  type: 'test'
+  ...
+# Subtest: actual Route32 Wooper6 and UnionCave Geodude6 cast MudSport with no gameplay draw; repeat spends PP but does not animate
+ok 2 - actual Route32 Wooper6 and UnionCave Geodude6 cast MudSport with no gameplay draw; repeat spends PP but does not animate
+  ---
+  duration_ms: 4.134375
+  type: 'test'
+  ...
+# Subtest: actual Cherrygrove OldRod Krabby10 weakens Mareep ThunderShock power, rather than halving final damage
+not ok 3 - actual Cherrygrove OldRod Krabby10 weakens Mareep ThunderShock power, rather than halving final damage
+  ---
+  duration_ms: 233.908833
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:44:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    27 !== 18
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 18
+  actual: 27
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:46:173)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual Henry Poliwag8 weakens Cyndaquil Ember with GenIV half-power; no five-turn expiry
+not ok 4 - actual Henry Poliwag8 weakens Cyndaquil Ember with GenIV half-power; no five-turn expiry
+  ---
+  duration_ms: 201.293666
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:49:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    13 !== 7
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 7
+  actual: 13
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:50:624)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: both users can own WaterSport, it never stacks, and withdrawing one leaves the other flag active
+not ok 5 - both users can own WaterSport, it never stacks, and withdrawing one leaves the other flag active
+  ---
+  duration_ms: 151.887667
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:53:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    6 !== 3
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 3
+  actual: 6
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:54:392)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Sport flags survive native Rage status2 masking and can run without a living opponent
+ok 6 - Sport flags survive native Rage status2 masking and can run without a living opponent
+  ---
+  duration_ms: 153.129583
+  type: 'test'
+  ...
+# Subtest: actual Henry caster faint clears WaterSport before its reserve takes the pending turn
+ok 7 - actual Henry caster faint clears WaterSport before its reserve takes the pending turn
+  ---
+  duration_ms: 153.671708
+  type: 'test'
+  ...
+# Subtest: source-compatible Technician Thunderbolt95 is tested before MudSport halves its power to47
+not ok 8 - source-compatible Technician Thunderbolt95 is tested before MudSport halves its power to47
+  ---
+  duration_ms: 150.459791
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:67:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    52 !== 26
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 26
+  actual: 52
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:69:370)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Blaze odd-power rounding follows WaterSport95→47 then lowHP47→70, not142→71
+not ok 9 - Blaze odd-power rounding follows WaterSport95→47 then lowHP47→70, not142→71
+  ---
+  duration_ms: 1.306
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:72:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    14 !== 7
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 7
+  actual: 14
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:74:576)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: fixed DragonRage remains40 under WaterSport and cleanup clears flags without touching saved party data
+ok 10 - fixed DragonRage remains40 under WaterSport and cleanup clears flags without touching saved party data
+  ---
+  duration_ms: 152.707792
+  type: 'test'
+  ...
+# Subtest: actual native replacement damage port uses the outgoing actor and active WaterSport, without a gameplay draw
+not ok 11 - actual native replacement damage port uses the outgoing actor and active WaterSport, without a gameplay draw
+  ---
+  duration_ms: 1.452583
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:81:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-power-halving/browser/src/source/battle-sports.test.ts:84:95)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native field flag remains queryable at HP0 until InitFaintedWork cleanup, then clears
+ok 12 - native field flag remains queryable at HP0 until InitFaintedWork cleanup, then clears
+  ---
+  duration_ms: 0.210416
+  type: 'test'
+  ...
+# Subtest: new affected damage rejects unported immunity/weather/held callbacks before PP or HP changes
+ok 13 - new affected damage rejects unported immunity/weather/held callbacks before PP or HP changes
+  ---
+  duration_ms: 1.311166
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 7
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2328.593959

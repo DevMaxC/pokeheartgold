@@ -1,0 +1,142 @@
+{
+  "reviews": [
+    {
+      "scope": "sports",
+      "rawPath": "sports/raw-opus-result.json",
+      "rawSha256": "b9cf76d8dbb738e4334d0e4b0147fd4fc1a17e279143918aedfdb1a397050d3c",
+      "numTurns": 45,
+      "durationMS": 419566,
+      "isError": false,
+      "permissionDenials": [],
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1347,
+          "outputTokens": 19,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.0014420000000000001,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 78,
+          "outputTokens": 29460,
+          "cacheReadInputTokens": 3649669,
+          "cacheCreationInputTokens": 141760,
+          "webSearchRequests": 0,
+          "costUSD": 2.0282458000000005,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 20942,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "qualification": "Actual read-only ClaudeCLI primaryOpus5.5; Read/Grep/Glob only. Reviewer did not execute tests/build/browser. Smallhaiku metadata sidecalls are retained in rawusage."
+    },
+    {
+      "scope": "low-kick",
+      "rawPath": "low-kick/raw-opus-result.json",
+      "rawSha256": "17686624d7c8721d0f9fc0075610e3be25f76c8ce04492d50989cbc799f0741b",
+      "numTurns": 57,
+      "durationMS": 535427,
+      "isError": false,
+      "permissionDenials": [],
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1825,
+          "outputTokens": 17,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.00191,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 88,
+          "outputTokens": 40793,
+          "cacheReadInputTokens": 4895849,
+          "cacheCreationInputTokens": 201698,
+          "webSearchRequests": 0,
+          "costUSD": 2.8038718000000005,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 29499,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "qualification": "Actual read-only ClaudeCLI primaryOpus5.5; Read/Grep/Glob only. Reviewer did not execute tests/build/browser. Smallhaiku metadata sidecalls are retained in rawusage."
+    },
+    {
+      "scope": "final",
+      "rawPath": "final/raw-opus-result.json",
+      "rawSha256": "805d09e89e47a278b133cfea7e45fc7807072df7112848780f177022aff7189a",
+      "numTurns": 16,
+      "durationMS": 150901,
+      "isError": false,
+      "permissionDenials": [],
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1502,
+          "outputTokens": 15,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001577,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 26,
+          "outputTokens": 13138,
+          "cacheReadInputTokens": 498527,
+          "cacheCreationInputTokens": 66321,
+          "webSearchRequests": 0,
+          "costUSD": 0.6941744000000001,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 8779,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "qualification": "Actual read-only ClaudeCLI primaryOpus5.5; Read/Grep/Glob only. Reviewer did not execute tests/build/browser. Smallhaiku metadata sidecalls are retained in rawusage."
+    }
+  ],
+  "commandTemplate": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--permission-mode",
+    "default",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--output-format",
+    "json"
+  ],
+  "scope": "No new runtime defect found in either source review; all8 accepted fixture gaps closed by the bounded follow-up. Later Raylevel/source-pin test-only qualification is explicit."
+}

@@ -1,0 +1,75 @@
+{
+  "commit": "e6623baaed08a90fd62a9f8b1c53699c0384a04b",
+  "runtimeByteIdenticalTo": "293ff9d81d07a5290dce1fb10b4eb8eaf2853f07",
+  "changedFilesVsRuntime": [
+    "browser/src/source/battle-low-kick.test.ts"
+  ],
+  "finalActualReviewCommit": "aa7c886660f37493570eb2f7372d2a94f17b63a0",
+  "postReviewTestOnlyChange": "Rayquaza fixture20\u219250 plus direct original encounter-source assertions. No runtime/math/allowlist change. Latest14LowKick tests pass after this small correction; source-specific manual/agent qualification, not a claim Opus read the later test bytes.",
+  "nativeSeadraWitness": {
+    "map": "D40R0104",
+    "method": "Surf",
+    "rows": [
+      {
+        "level": {
+          "min": 15,
+          "max": 25
+        },
+        "species": "SPECIES_SEADRA"
+      },
+      {
+        "level": {
+          "min": 15,
+          "max": 25
+        },
+        "species": "SPECIES_SEADRA"
+      },
+      {
+        "level": {
+          "min": 30,
+          "max": 30
+        },
+        "species": "SPECIES_SEADRA"
+      }
+    ],
+    "adjudication": "Native source expressly permits level15\u201325, so Seadra20 is valid despite evolution32. Final reviewer assertion to the contrary was false."
+  },
+  "nativeRayquazaWitness": {
+    "path": "files/fielddata/script/scr_seq/scr_seq_0135_D52R0103.s",
+    "instruction": "WildBattle SPECIES_RAYQUAZA, 50, 0",
+    "adjudication": "Final fixture uses50; original20 was only a synthetic ability/damage vector, now corrected to the literal encounter level."
+  },
+  "reviewerDescriptiveCorrections": [
+    "Final LowKick file has14tests, not12; actual full affected run232PASS.",
+    "Rain negative fixture is Rattata19 with GenIVTackle35, not Pidgey/Tackle40. Its rejection remains correctly about Normal nonzero power.",
+    "NoGuard expression equivalence does not establish nativeLCG tape mapping; normalized engine tape/critical order remainPartial.",
+    "SwiftSwim rejection is fail-closed for unported full-host weather/speed lifecycle, not a claim nativeCalcDamage rejectsSwiftSwim."
+  ],
+  "sourcePins": [
+    {
+      "path": "files/fielddata/encountdata/gs_enc_data.json",
+      "sha256": "ae0895407231448bbf12be33480e534e5ca812d9f172ffd0b0918c29070f4ab1",
+      "gitBlob": "bb3d4a421f4f53dc80126fde7e1dff79ed012a1f"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0135_D52R0103.s",
+      "sha256": "d23649c14c2a822041f64dc79c13ca82cfa50210a8191a9d9401010696a8c4e6",
+      "gitBlob": "9578466810fbf98b2ba03bccd02c7fd70b2d831a"
+    },
+    {
+      "path": "browser/public/source/encounters.json",
+      "sha256": "7aa85c587bc597a5c7744e73b50fd9fd4b30eeee7497597ac438880d1ece6789",
+      "gitBlob": "8d586f9e3f107208c59a5bb283cc88f949483fb5"
+    },
+    {
+      "path": "browser/public/source/moves.json",
+      "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb",
+      "gitBlob": "4ad5d97293a08ca48f3bbceb3b6fe05ca81a59d8"
+    },
+    {
+      "path": "browser/src/source/battle-low-kick.test.ts",
+      "sha256": "273f6238edba735d3d5cb29c9ec3fe3a4dad2b5a35e6b94b65e55bc4d5eabd4d",
+      "gitBlob": "d025703c4536c3f7c12a9f7b79c3dd53d3c3727e"
+    }
+  ]
+}

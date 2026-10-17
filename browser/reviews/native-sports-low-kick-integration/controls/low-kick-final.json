@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-10-17T17:58:56.157385+00:00",
+  "qualification": "Narrow copied-code negative controls. Fixtures and current source unchanged; new rain-score and live-persistence assertions reject these wrong algorithms. Not current runtime defects.",
+  "results": [
+    {
+      "control": "first-HP-fallback",
+      "sourceCommit": "aa7c886660f37493570eb2f7372d2a94f17b63a0",
+      "exitCode": 1,
+      "expectedAssertionFailure": true,
+      "log": "/tmp/hg-low-kick-final-control-first-HP-fallback.log",
+      "sha256": "bc0712107bb4d7abfed06a92be6b3be3826f67e8abb829542d14922b0bbdf413"
+    },
+    {
+      "control": "recompute-live-weight",
+      "sourceCommit": "aa7c886660f37493570eb2f7372d2a94f17b63a0",
+      "exitCode": 1,
+      "expectedAssertionFailure": true,
+      "log": "/tmp/hg-low-kick-final-control-recompute-live-weight.log",
+      "sha256": "c02826987e21cc22ff518ab1c0c2e771ac01888ab4c4d7f63482f71b5b3e6932"
+    }
+  ]
+}

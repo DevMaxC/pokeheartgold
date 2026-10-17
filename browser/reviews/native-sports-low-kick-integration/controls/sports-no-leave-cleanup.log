@@ -1,0 +1,138 @@
+TAP version 13
+# (node:75707) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal native effect scripts use per-user moveEffectFlags; field query has no HP predicate
+ok 1 - literal native effect scripts use per-user moveEffectFlags; field query has no HP predicate
+  ---
+  duration_ms: 171.727292
+  type: 'test'
+  ...
+# Subtest: actual Route32 Wooper6 and UnionCave Geodude6 cast MudSport with no gameplay draw; repeat spends PP but does not animate
+ok 2 - actual Route32 Wooper6 and UnionCave Geodude6 cast MudSport with no gameplay draw; repeat spends PP but does not animate
+  ---
+  duration_ms: 3.300666
+  type: 'test'
+  ...
+# Subtest: actual Cherrygrove OldRod Krabby10 weakens Mareep ThunderShock power, rather than halving final damage
+ok 3 - actual Cherrygrove OldRod Krabby10 weakens Mareep ThunderShock power, rather than halving final damage
+  ---
+  duration_ms: 152.681625
+  type: 'test'
+  ...
+# Subtest: actual Henry Poliwag8 weakens Cyndaquil Ember with GenIV half-power; no five-turn expiry
+ok 4 - actual Henry Poliwag8 weakens Cyndaquil Ember with GenIV half-power; no five-turn expiry
+  ---
+  duration_ms: 155.220708
+  type: 'test'
+  ...
+# Subtest: both users can own WaterSport, it never stacks, and withdrawing one leaves the other flag active
+not ok 5 - both users can own WaterSport, it never stacks, and withdrawing one leaves the other flag active
+  ---
+  duration_ms: 152.6635
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-leave-cleanup/browser/src/source/battle-sports.test.ts:53:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    ordinary return does not restore a withdrawn flag
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-leave-cleanup/browser/src/source/battle-sports.test.ts:54:571)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Sport flags survive native Rage status2 masking and can run without a living opponent
+ok 6 - Sport flags survive native Rage status2 masking and can run without a living opponent
+  ---
+  duration_ms: 152.138292
+  type: 'test'
+  ...
+# Subtest: actual Henry caster faint clears WaterSport before its reserve takes the pending turn
+not ok 7 - actual Henry caster faint clears WaterSport before its reserve takes the pending turn
+  ---
+  duration_ms: 153.326167
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-leave-cleanup/browser/src/source/battle-sports.test.ts:63:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-leave-cleanup/browser/src/source/battle-sports.test.ts:64:614)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: source-compatible Technician Thunderbolt95 is tested before MudSport halves its power to47
+ok 8 - source-compatible Technician Thunderbolt95 is tested before MudSport halves its power to47
+  ---
+  duration_ms: 151.505875
+  type: 'test'
+  ...
+# Subtest: Blaze odd-power rounding follows WaterSport95→47 then lowHP47→70, not142→71
+ok 9 - Blaze odd-power rounding follows WaterSport95→47 then lowHP47→70, not142→71
+  ---
+  duration_ms: 150.520375
+  type: 'test'
+  ...
+# Subtest: fixed DragonRage remains40 under WaterSport and cleanup clears flags without touching saved party data
+ok 10 - fixed DragonRage remains40 under WaterSport and cleanup clears flags without touching saved party data
+  ---
+  duration_ms: 152.697042
+  type: 'test'
+  ...
+# Subtest: actual native replacement damage port uses the outgoing actor and active WaterSport, without a gameplay draw
+ok 11 - actual native replacement damage port uses the outgoing actor and active WaterSport, without a gameplay draw
+  ---
+  duration_ms: 2.399584
+  type: 'test'
+  ...
+# Subtest: native field flag remains queryable at HP0 until InitFaintedWork cleanup, then clears
+not ok 12 - native field flag remains queryable at HP0 until InitFaintedWork cleanup, then clears
+  ---
+  duration_ms: 0.640375
+  type: 'test'
+  location: '/private/tmp/hg-battle-sports-control-v2-no-leave-cleanup/browser/src/source/battle-sports.test.ts:92:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-battle-sports-control-v2-no-leave-cleanup/browser/src/source/battle-sports.test.ts:93:183)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: new affected damage rejects unported immunity/weather/held callbacks before PP or HP changes
+ok 13 - new affected damage rejects unported immunity/weather/held callbacks before PP or HP changes
+  ---
+  duration_ms: 1.743833
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 10
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2334.477166

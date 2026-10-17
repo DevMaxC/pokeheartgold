@@ -1,0 +1,36 @@
+TAP version 13
+# (node:87190) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: dynamic LowKick power precedes Technician and uses the initial BattleMon bank deliberately
+not ok 1 - dynamic LowKick power precedes Technician and uses the initial BattleMon bank deliberately
+  ---
+  duration_ms: 1.906292
+  type: 'test'
+  location: '/private/tmp/hg-low-kick-final-control-recompute-live-weight/browser/src/source/battle-low-kick.test.ts:59:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    6500 !== 7500
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 7500
+  actual: 6500
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-low-kick-final-control-recompute-live-weight/browser/src/source/battle-low-kick.test.ts:67:21)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1137.439833
