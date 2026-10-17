@@ -24,7 +24,7 @@ export type ScriptHooks={
   move:(object:string,label:string,map:SourceMap)=>Promise<void>;position:(object:string,x:number,z:number,facing?:number)=>void;
   face:(object:string,facing?:number)=>void;visible:(object:string,value:boolean)=>void;
   chooseStarter:()=>Promise<void>;nickname:(index:number)=>Promise<void>;refresh:()=>Promise<void>;
-  battle:(trainer:number,options?:{second:number;canLose:boolean;suppressFollower:boolean})=>Promise<boolean>;warp:(map:number,x:number,z:number)=>Promise<void>;
+  battle:(trainer:number,options?:{second:number;canLose:boolean;suppressFollower:boolean})=>Promise<boolean>;warp:(map:number,x:number,z:number,facing?:number)=>Promise<void>;
   coordinates?:(object:string)=>{x:number;z:number};nameRival?:()=>Promise<string>;whiteOut?:()=>Promise<void>;
   catchingTutorial?:()=>Promise<void>;objectName?:(id:number)=>string|undefined;healAnimation?:(count:number)=>Promise<void>;followerVisible?:(visible:boolean)=>void;
   weather?:(value?:number)=>number;
@@ -237,7 +237,9 @@ export class ScriptVM{
         if(cmd==='CatchingTutorial'){if(!this.hooks.catchingTutorial)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.catchingTutorial();continue;}
         if(cmd==='NameRival'){if(!this.hooks.nameRival)throw new UnsupportedScript(map.code,cmd,pc-1);this.state.rivalName=await this.hooks.nameRival();if(a[0])this.set(a[0],0);continue;}
         if(cmd==='WhiteOut'){if(!this.hooks.whiteOut)throw new UnsupportedScript(map.code,cmd,pc-1);await this.hooks.whiteOut();continue;}
-        if(cmd==='Warp'){await this.hooks.warp(v(a[0]),v(a[3]),v(a[4]));continue;}
+        // ScrCmd_Warp consumes operand1 as an unused literal halfword and
+        // passes warpId=-1: the following operands are X, Z and facing.
+        if(cmd==='Warp'){await this.hooks.warp(v(a[0]),v(a[2]),v(a[3]),v(a[4]));continue;}
         this.supported.delete(cmd);throw new UnsupportedScript(map.code,cmd,pc-1);
       }
       await Promise.all(pendingMoves);if(movementFailure.failed)throw movementFailure.error;await this.hooks.refresh();

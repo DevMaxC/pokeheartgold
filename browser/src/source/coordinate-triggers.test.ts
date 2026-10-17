@@ -12,7 +12,7 @@ globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('.
 const data=await loadData(),ilex=await sourceJSON<SourceMap>('maps/117.json');
 
 function fixture(){
-  const map=structuredClone(ilex),state=newState(data,'Case','boy'),objects=new FieldObjects(data,state),messages:string[]=[],warps:{map:number;x:number;z:number}[]=[];
+  const map=structuredClone(ilex),state=newState(data,'Case','boy'),objects=new FieldObjects(data,state),messages:string[]=[],warps:{map:number;x:number;z:number;facing?:number}[]=[];
   state.map=map.id;state.flags.FLAG_BEAT_AZALEA_ROCKETS=true;objects.load(map.events.objects);
   const deltas=[[0,-1],[0,1],[-1,0],[1,0]];
   const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async(id,label,source)=>{
@@ -22,7 +22,7 @@ function fixture(){
       if(id==='obj_player'){state.facing=action.facing;state.x+=dx*distance;state.z+=dz*distance;}
       else if(id!=='obj_partner_poke'){const actor=objects.get(id);assert.ok(actor,id);actor.facingDirection=action.facing;actor.x+=dx*distance;actor.z+=dz*distance;}
     }
-  },position:(id,x,z,facing)=>{objects.position(id,x,z,facing);},face:()=>{},visible:(id,visible)=>objects.show(id,visible),chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>{throw Error('No battle belongs to this source branch');},warp:async(id,x,z)=>{warps.push({map:id,x,z});state.map=id;state.x=x+.5;state.z=z+.5;},coordinates:id=>{const actor=objects.get(id);assert.ok(actor,id);return{x:Math.floor(actor.x),z:Math.floor(actor.z)};}};
+  },position:(id,x,z,facing)=>{objects.position(id,x,z,facing);},face:()=>{},visible:(id,visible)=>objects.show(id,visible),chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>{throw Error('No battle belongs to this source branch');},warp:async(id,x,z,facing)=>{warps.push({map:id,x,z,facing});state.map=id;state.x=x+.5;state.z=z+.5;if(facing!==undefined)state.facing=facing;},coordinates:id=>{const actor=objects.get(id);assert.ok(actor,id);return{x:Math.floor(actor.x),z:Math.floor(actor.z)};}};
   const vm=new ScriptVM(data,state,hooks),find=(x=state.x,z=state.z)=>findCoordinateTrigger(map,x,z,token=>vm.value(token,map),data.constants);
   return{map,state,objects,messages,warps,vm,find};
 }
@@ -56,13 +56,11 @@ test('numeric campaign triggers and persisted variable aliases retain their prio
   assert.equal(findCoordinateTrigger(azalea,event.x+.5,event.z+4.5,token=>vm.value(token,azalea),data.constants),event);assert.equal(findCoordinateTrigger(azalea,event.x+.5,event.z+5.5,token=>vm.value(token,azalea),data.constants),undefined);
 });
 
-test('actual Ilex stick script changes the blind spot and first-Farfetchd catch reaches its source warp after quest flags',async()=>{
+test('actual Ilex stick script changes the blind spot and first-Farfetchd catch returns to its native warp coordinates/facing',async()=>{
   const f=fixture();await f.vm.run(f.map,f.map.initScripts.OnTransition);const bird=f.map.events.objects.find(o=>o.id==='obj_D36R0101_tsure_poke_static_farfetchd')!;assert.ok(bird);assert.deepEqual([f.objects.get(bird.id)!.x,f.objects.get(bird.id)!.z],[25,62]);
   f.state.x=25.5;f.state.z=66.5;const stick=f.find();assert.ok(stick);assert.equal(stick.scriptId,'_EV_scr_seq_D36R0101_farfetchd1_sticks1 + 1');await f.vm.run(f.map,stick.scriptId);
   assert.equal(f.vm.value('VAR_TEMP_x4002',f.map),1);assert.equal(f.vm.value('VAR_FARFETCHD1_STICKS1',f.map),2);assert.equal(f.find(),undefined,'deactivated sticks do not retrigger underfoot');assert.ok(f.messages.some(text=>text.includes('noticed you')));
-  // Stop at the host boundary: the existing VM Warp coordinate ABI is a
-  // separately reported blocker, not approval transferred by this fixture.
-  const boundary=Error('observed original catch warp');f.vm.hooks.warp=async map=>{assert.equal(map,117);throw boundary;};
-  f.state.x=25.5;f.state.z=61.5;f.state.facing=1;await assert.rejects(f.vm.run(f.map,bird.scriptId,bird.id),error=>error===boundary);
+  f.state.x=25.5;f.state.z=61.5;f.state.facing=1;await f.vm.run(f.map,bird.scriptId,bird.id);
   assert.equal(f.vm.lastUnsupported,null);assert.equal(f.state.flags.FLAG_FOUND_FIRST_FARFETCHD,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_LOST,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_FOUND,false);assert.equal(f.objects.get(bird.id)!.shown,false);assert.equal(f.state.flags.FLAG_FOUND_SECOND_FARFETCHD,undefined);assert.equal(f.state.flags.FLAG_GOT_HM01,undefined);
+  assert.deepEqual(f.warps,[{map:117,x:15,z:65,facing:data.constants.DIR_NORTH}]);assert.deepEqual([f.state.map,f.state.x,f.state.z,f.state.facing],[117,15.5,65.5,0]);
 });
