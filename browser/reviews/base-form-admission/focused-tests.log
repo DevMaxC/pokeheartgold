@@ -1,0 +1,93 @@
+TAP version 13
+# (node:32315) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal original CreateBoxMon+ZeroBoxMonData initialize actual form bitfield0 for every species/layout, with non-form dependencies bounded
+ok 1 - literal original CreateBoxMon+ZeroBoxMonData initialize actual form bitfield0 for every species/layout, with non-form dependencies bounded
+  ---
+  duration_ms: 2655.006667
+  type: 'test'
+  ...
+# Subtest: ambiguous missing-form exclusions follow actual native SanitizeMonForm cases, never copied numeric species IDs
+ok 2 - ambiguous missing-form exclusions follow actual native SanitizeMonForm cases, never copied numeric species IDs
+  ---
+  duration_ms: 0.576417
+  type: 'test'
+  ...
+# (node:32316) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:32316) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: fresh source factory gives explicit form0 and fresh marker without any OT reconstruction
+ok 3 - fresh source factory gives explicit form0 and fresh marker without any OT reconstruction
+  ---
+  duration_ms: 4.264458
+  type: 'test'
+  ...
+# Subtest: actual pinned old factory omits form; explicit compatibility admits ordinary party+box records without identity/name ownership heuristics
+ok 4 - actual pinned old factory omits form; explicit compatibility admits ordinary party+box records without identity/name ownership heuristics
+  ---
+  duration_ms: 2.611625
+  type: 'test'
+  ...
+# Subtest: legacy Cynda13 reaches actual EVO_LEVEL queue only after explicit form admission, without view/host substitutions
+ok 5 - legacy Cynda13 reaches actual EVO_LEVEL queue only after explicit form admission, without view/host substitutions
+  ---
+  duration_ms: 5.676042
+  type: 'test'
+  ...
+# Subtest: known zero/nonzero forms survive; one-time marker blocks new missing/corrupt metadata on every later admission
+ok 6 - known zero/nonzero forms survive; one-time marker blocks new missing/corrupt metadata on every later admission
+  ---
+  duration_ms: 1.197625
+  type: 'test'
+  ...
+# Subtest: native/foreign provenance, Eggs, Bad Eggs, ambiguous forms and extensions remain unresolved and unchanged
+ok 7 - native/foreign provenance, Eggs, Bad Eggs, ambiguous forms and extensions remain unresolved and unchanged
+  ---
+  duration_ms: 1.163416
+  type: 'test'
+  ...
+# Subtest: malformed factory fields, impossible cached stats, accessors and unsupported moves never get form metadata
+ok 8 - malformed factory fields, impossible cached stats, accessors and unsupported moves never get form metadata
+  ---
+  duration_ms: 0.356625
+  type: 'test'
+  ...
+# Subtest: migration plans before writes: invalid marker/data or unwritable State marker cannot partially modify mons
+ok 9 - migration plans before writes: invalid marker/data or unwritable State marker cannot partially modify mons
+  ---
+  duration_ms: 1.032459
+  type: 'test'
+  ...
+# Subtest: atomic rollback restores planned record descriptors if the final marker write rejects
+ok 10 - atomic rollback restores planned record descriptors if the final marker write rejects
+  ---
+  duration_ms: 1.5945
+  type: 'test'
+  ...
+# Subtest: origin/array/alias boundaries reject or report without claiming foreign records are player-owned
+ok 11 - origin/array/alias boundaries reject or report without claiming foreign records are player-owned
+  ---
+  duration_ms: 4.229333
+  type: 'test'
+  ...
+# Subtest: admission before a real Recovery checkpoint survives rollback and does not run again during future actions
+ok 12 - admission before a real Recovery checkpoint survives rollback and does not run again during future actions
+  ---
+  duration_ms: 2.204084
+  type: 'test'
+  ...
+# Subtest: actual hatched Togepi and other known forms retain metadata without a false legacy-shape diagnostic
+ok 13 - actual hatched Togepi and other known forms retain metadata without a false legacy-shape diagnostic
+  ---
+  duration_ms: 306.375292
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3270.670208

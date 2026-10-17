@@ -1,0 +1,22 @@
+(node:26983) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26983) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+{"oldFactoryCommit":"6262bfac42497c01f92143df899d7a274a7207d4","oldHasForm":false,"newForm":0}
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Actual old factory omitted the native initial form0
+
+undefined !== 0
+
+    at <anonymous> (/Users/maxchurch/Documents/pokeheartgold-base-form-admission/browser/scripts/prove_base_form_before.ts:16:57) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.22.3

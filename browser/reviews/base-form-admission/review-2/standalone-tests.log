@@ -1,0 +1,354 @@
+TAP version 13
+# (node:32486) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fresh Cyndaquil5 earns its actual Li evolution through original early teams and retains native completion until drained
+ok 1 - fresh Cyndaquil5 earns its actual Li evolution through original early teams and retains native completion until drained
+  ---
+  duration_ms: 12276.031125
+  type: 'test'
+  ...
+# Subtest: real ExpShare rewards mark both exact party bits even when the second mon never acts
+ok 2 - real ExpShare rewards mark both exact party bits even when the second mon never acts
+  ---
+  duration_ms: 2257.312333
+  type: 'test'
+  ...
+# Subtest: no-level battles produce no candidate, and technical combat failure cannot expose a successful completion
+ok 3 - no-level battles produce no candidate, and technical combat failure cannot expose a successful completion
+  ---
+  duration_ms: 302.947708
+  type: 'test'
+  ...
+# Subtest: a real successful capture freezes the grown party identity after giveMon and drains a zero level-up mask
+ok 4 - a real successful capture freezes the grown party identity after giveMon and drains a zero level-up mask
+  ---
+  duration_ms: 0.618708
+  type: 'test'
+  ...
+# Subtest: the actual battle integration fixture rejects omitted native nickname metadata instead of defaulting false
+ok 5 - the actual battle integration fixture rejects omitted native nickname metadata instead of defaulting false
+  ---
+  duration_ms: 1.199875
+  type: 'test'
+  ...
+# (node:32487) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original C BattleSystem_CheckEvolution exit flags, bit order and once-per-slot behavior match every legal mask
+ok 6 - original C BattleSystem_CheckEvolution exit flags, bit order and once-per-slot behavior match every legal mask
+  ---
+  duration_ms: 847.859041
+  type: 'test'
+  ...
+# Subtest: native starter targets update only species-derived fields at the source callback boundaries
+ok 7 - native starter targets update only species-derived fields at the source callback boundaries
+  ---
+  duration_ms: 2.18725
+  type: 'test'
+  ...
+# Subtest: native cancellation consumes only its own level-up bit and preserves earned EXP, level, item, stats and identity
+ok 8 - native cancellation consumes only its own level-up bit and preserves earned EXP, level, item, stats and identity
+  ---
+  duration_ms: 0.6605
+  type: 'test'
+  ...
+# Subtest: actual raw Everstone suppresses the source query even under Klutz, and consumes the battle bit without a scene
+ok 9 - actual raw Everstone suppresses the source query even under Klutz, and consumes the battle bit without a scene
+  ---
+  duration_ms: 2.808667
+  type: 'test'
+  ...
+# Subtest: one bit never chains two species even after a multi-level battle; no HP condition is fabricated
+ok 10 - one bit never chains two species even after a multi-level battle; no HP condition is fabricated
+  ---
+  duration_ms: 0.370583
+  type: 'test'
+  ...
+# Subtest: technical failure restores both pending bits and every provisional evolution while retaining original objects for retry
+ok 11 - technical failure restores both pending bits and every provisional evolution while retaining original objects for retry
+  ---
+  duration_ms: 2.27525
+  type: 'test'
+  ...
+# Subtest: outer abort during a scene or after an earlier completed candidate restores the batch and its pending mask
+ok 12 - outer abort during a scene or after an earlier completed candidate restores the batch and its pending mask
+  ---
+  duration_ms: 5.69675
+  type: 'test'
+  ...
+# Subtest: a concurrent run cannot steal the active queue owner or consume its pending batch
+ok 13 - a concurrent run cannot steal the active queue owner or consume its pending batch
+  ---
+  duration_ms: 5.517958
+  type: 'test'
+  ...
+# Subtest: a native cancel followed by a later technical failure restores the cancelled bit for the source-action retry
+ok 14 - a native cancel followed by a later technical failure restores the cancelled bit for the source-action retry
+  ---
+  duration_ms: 1.61175
+  type: 'test'
+  ...
+# Subtest: the source register boundary retains a confirmed custom nickname while registering the new species
+ok 15 - the source register boundary retains a confirmed custom nickname while registering the new species
+  ---
+  duration_ms: 0.723291
+  type: 'test'
+  ...
+# Subtest: stale callbacks, source phase skips, post-commit cancel and changed slot identity cannot mutate the party
+ok 16 - stale callbacks, source phase skips, post-commit cancel and changed slot identity cannot mutate the party
+  ---
+  duration_ms: 4.192375
+  type: 'test'
+  ...
+# Subtest: target-level moves use native append/full/known outcomes and reset only a replaced slot PP
+ok 17 - target-level moves use native append/full/known outcomes and reset only a replaced slot PP
+  ---
+  duration_ms: 87.819083
+  type: 'test'
+  ...
+# Subtest: actual Lanturn27 move rows retain native source order through mixed replace, decline and replace outcomes
+ok 18 - actual Lanturn27 move rows retain native source order through mixed replace, decline and replace outcomes
+  ---
+  duration_ms: 0.664083
+  type: 'test'
+  ...
+# Subtest: source evolution move summary preserves a legally taught HM and rejects a port that tries to forget it
+ok 19 - source evolution move summary preserves a legally taught HM and rejects a port that tries to forget it
+  ---
+  duration_ms: 23.294
+  type: 'test'
+  ...
+# Subtest: owned move UI aborts and drains before technical rollback; a late choice cannot teach a restored mon
+ok 20 - owned move UI aborts and drains before technical rollback; a late choice cannot teach a restored mon
+  ---
+  duration_ms: 24.334833
+  type: 'test'
+  ...
+# Subtest: unsupported eligible methods/forms and unknown nickname metadata fail explicitly before transition
+ok 21 - unsupported eligible methods/forms and unknown nickname metadata fail explicitly before transition
+  ---
+  duration_ms: 84.507417
+  type: 'test'
+  ...
+# Subtest: ordinary source transition retains custom nickname, derives new-species gender and preserves a native faint
+ok 22 - ordinary source transition retains custom nickname, derives new-species gender and preserves a native faint
+  ---
+  duration_ms: 0.188042
+  type: 'test'
+  ...
+# Subtest: the unchanged native HP tail matches every HP of one stats fixture per starter and explicit shrinking-maximum controls
+ok 23 - the unchanged native HP tail matches every HP of one stats fixture per starter and explicit shrinking-maximum controls
+  ---
+  duration_ms: 295.281125
+  type: 'test'
+  ...
+# (node:32488) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# {"originalCComparisons":9359,"observedMethods":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],"functions":{"GetMonEvolution":"942bb07230a5c9e5c3fbe86e07a96c93aea872d8f3158e30619421282ef717d8","MonHasMove":"32066adc70fda27fb1dae291a492ee9292561dd2b61455470c791021fe85fac7","GetGenderBySpeciesAndPersonality_PreloadedPersonal":"339ddd17fd37085125cd52d22e5f92eb1deb576ddd385572acb6d1b70a3ca05e","Party_HasMon":"465c66869cee61c20760af1012ee98ad003e817b6f89228e42b52577e548a858","IsNighttime":"1c8f5df0c531ab5c678181ec5dae1623167976888cb6ea2298095e27bfafd805","GF_RTC_GetTimeOfDayByHour":"4f884446fd5db6143021d408a2a7eb5fd02629be0ab3d18fd3fa7b849b6da95e","MapHeader_GetMapEvolutionMethod":"d0e68811ded3ef47d1c328f101a3044efd2c3d3ba72c7553e1307290d0c3cceb"},"wrapperSHA256":"d3ae49e4e6c7d40eec62a9afaeee59b58fdbf8657feff3fb32ab75ef6c0bed0c"}
+# Subtest: original230 declarations/247 rules compile to229 species/246 rules; all26 methods/seven slots and native enum retained
+ok 24 - original230 declarations/247 rules compile to229 species/246 rules; all26 methods/seven slots and native enum retained
+  ---
+  duration_ms: 205.425458
+  type: 'test'
+  ...
+# Subtest: actual three starters select only at native thresholds; fainted HP does not invent an eligibility guard
+ok 25 - actual three starters select only at native thresholds; fainted HP does not invent an eligibility guard
+  ---
+  duration_ms: 7.983542
+  type: 'test'
+  ...
+# Subtest: Everstone uses raw held effect despite ability, while Kadabra and item-use retain original exceptions
+ok 26 - Everstone uses raw held effect despite ability, while Kadabra and item-use retain original exceptions
+  ---
+  duration_ms: 47.663166
+  type: 'test'
+  ...
+# Subtest: Pichu requires actual form and spiky-ear form1 is blocked in every source context
+ok 27 - Pichu requires actual form and spiky-ear form1 is blocked in every source context
+  ---
+  duration_ms: 0.317167
+  type: 'test'
+  ...
+# Subtest: malformed inherited held-item keys remain unsupported instead of acting like native ITEM_NONE
+ok 28 - malformed inherited held-item keys remain unsupported instead of acting like native ITEM_NONE
+  ---
+  duration_ms: 0.134834
+  type: 'test'
+  ...
+# Subtest: level-up wrapper owns the native context even when a structurally widened environment carries kind
+ok 29 - level-up wrapper owns the native context even when a structurally widened environment carries kind
+  ---
+  duration_ms: 0.100375
+  type: 'test'
+  ...
+# Subtest: RTC uses exact native four-hour late bucket; map location is always EVO_NONE in HGSS and first matching row wins
+ok 30 - RTC uses exact native four-hour late bucket; map location is always EVO_NONE in HGSS and first matching row wins
+  ---
+  duration_ms: 0.468708
+  type: 'test'
+  ...
+# Subtest: gender methods use new personal/PID calculation, never the cached gender label
+ok 31 - gender methods use new personal/PID calculation, never the cached gender label
+  ---
+  duration_ms: 0.163333
+  type: 'test'
+  ...
+# Subtest: native Atk/Def and PID-high-word branches, learned moves and raw held item/time all match source
+ok 32 - native Atk/Def and PID-high-word branches, learned moves and raw held item/time all match source
+  ---
+  duration_ms: 0.559917
+  type: 'test'
+  ...
+# Subtest: party species-or-egg semantics exclude Eggs/corruption, retain fainted Remoraid and accept actual NULL party
+ok 33 - party species-or-egg semantics exclude Eggs/corruption, retain fainted Remoraid and accept actual NULL party
+  ---
+  duration_ms: 0.730625
+  type: 'test'
+  ...
+# Subtest: missing beauty/night/state is explicit unsupported; Nincada preserves method_ret-only row and no Shedinja target
+ok 34 - missing beauty/night/state is explicit unsupported; Nincada preserves method_ret-only row and no Shedinja target
+  ---
+  duration_ms: 0.274709
+  type: 'test'
+  ...
+# Subtest: loader is explicit, immutable, validates every method/parameter and propagates I/O failure without fallback
+ok 35 - loader is explicit, immutable, validates every method/parameter and propagates I/O failure without fallback
+  ---
+  duration_ms: 178.881291
+  type: 'test'
+  ...
+# Subtest: differential all real evolution records against seven unchanged original C kernels and original headers
+ok 36 - differential all real evolution records against seven unchanged original C kernels and original headers
+  ---
+  duration_ms: 4178.046875
+  type: 'test'
+  ...
+# (node:32489) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: gender oracle is compiled from unchanged native function/header and covers every imported native ratio
+ok 37 - gender oracle is compiled from unchanged native function/header and covers every imported native ratio
+  ---
+  duration_ms: 169.355125
+  type: 'test'
+  ...
+# Subtest: ordinary starter Chikorita is male at native PID boundary31
+ok 38 - ordinary starter Chikorita is male at native PID boundary31
+  ---
+  duration_ms: 0.916459
+  type: 'test'
+  ...
+# Subtest: ordinary Pidgey is male at native half-ratio PID boundary127
+ok 39 - ordinary Pidgey is male at native half-ratio PID boundary127
+  ---
+  duration_ms: 0.220084
+  type: 'test'
+  ...
+# Subtest: ordinary Magnemite is genderless at both extreme PID low bytes
+ok 40 - ordinary Magnemite is genderless at both extreme PID low bytes
+  ---
+  duration_ms: 0.140958
+  type: 'test'
+  ...
+# Subtest: ordinary createMon matches the literal native C oracle for all256 PID bytes and all7 source ratios without changing its RNG consumption
+ok 41 - ordinary createMon matches the literal native C oracle for all256 PID bytes and all7 source ratios without changing its RNG consumption
+  ---
+  duration_ms: 243.081958
+  type: 'test'
+  ...
+# Subtest: existing native Egg gender API preserves every source-ratio/PID result including fixed sexes and genderless
+ok 42 - existing native Egg gender API preserves every source-ratio/PID result including fixed sexes and genderless
+  ---
+  duration_ms: 0.996167
+  type: 'test'
+  ...
+# (node:32490) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal original CreateBoxMon+ZeroBoxMonData initialize actual form bitfield0 for every species/layout, with non-form dependencies bounded
+ok 43 - literal original CreateBoxMon+ZeroBoxMonData initialize actual form bitfield0 for every species/layout, with non-form dependencies bounded
+  ---
+  duration_ms: 554.872625
+  type: 'test'
+  ...
+# Subtest: ambiguous missing-form exclusions follow actual native SanitizeMonForm cases, never copied numeric species IDs
+ok 44 - ambiguous missing-form exclusions follow actual native SanitizeMonForm cases, never copied numeric species IDs
+  ---
+  duration_ms: 0.751042
+  type: 'test'
+  ...
+# (node:32491) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:32491) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: fresh source factory gives explicit form0 and fresh marker without any OT reconstruction
+ok 45 - fresh source factory gives explicit form0 and fresh marker without any OT reconstruction
+  ---
+  duration_ms: 2.414667
+  type: 'test'
+  ...
+# Subtest: actual pinned old factory omits form; explicit compatibility admits ordinary party+box records without identity/name ownership heuristics
+ok 46 - actual pinned old factory omits form; explicit compatibility admits ordinary party+box records without identity/name ownership heuristics
+  ---
+  duration_ms: 2.455541
+  type: 'test'
+  ...
+# Subtest: legacy Cynda13 reaches actual EVO_LEVEL queue only after explicit form admission, without view/host substitutions
+ok 47 - legacy Cynda13 reaches actual EVO_LEVEL queue only after explicit form admission, without view/host substitutions
+  ---
+  duration_ms: 206.611958
+  type: 'test'
+  ...
+# Subtest: known zero/nonzero forms survive; one-time marker blocks new missing/corrupt metadata on every later admission
+ok 48 - known zero/nonzero forms survive; one-time marker blocks new missing/corrupt metadata on every later admission
+  ---
+  duration_ms: 1.47375
+  type: 'test'
+  ...
+# Subtest: native/foreign provenance, Eggs, Bad Eggs, ambiguous forms and extensions remain unresolved and unchanged
+ok 49 - native/foreign provenance, Eggs, Bad Eggs, ambiguous forms and extensions remain unresolved and unchanged
+  ---
+  duration_ms: 1.129917
+  type: 'test'
+  ...
+# Subtest: malformed factory fields, impossible cached stats, accessors and unsupported moves never get form metadata
+ok 50 - malformed factory fields, impossible cached stats, accessors and unsupported moves never get form metadata
+  ---
+  duration_ms: 0.453042
+  type: 'test'
+  ...
+# Subtest: migration plans before writes: invalid marker/data or unwritable State marker cannot partially modify mons
+ok 51 - migration plans before writes: invalid marker/data or unwritable State marker cannot partially modify mons
+  ---
+  duration_ms: 1.194125
+  type: 'test'
+  ...
+# Subtest: atomic rollback restores planned record descriptors if the final marker write rejects
+ok 52 - atomic rollback restores planned record descriptors if the final marker write rejects
+  ---
+  duration_ms: 2.359625
+  type: 'test'
+  ...
+# Subtest: origin/array/alias boundaries reject or report without claiming foreign records are player-owned
+ok 53 - origin/array/alias boundaries reject or report without claiming foreign records are player-owned
+  ---
+  duration_ms: 0.719042
+  type: 'test'
+  ...
+# Subtest: admission before a real Recovery checkpoint survives rollback and does not run again during future actions
+ok 54 - admission before a real Recovery checkpoint survives rollback and does not run again during future actions
+  ---
+  duration_ms: 1.830083
+  type: 'test'
+  ...
+# Subtest: actual hatched Togepi and other known forms retain metadata without a false legacy-shape diagnostic
+ok 55 - actual hatched Togepi and other known forms retain metadata without a false legacy-shape diagnostic
+  ---
+  duration_ms: 441.574083
+  type: 'test'
+  ...
+1..55
+# tests 55
+# suites 0
+# pass 55
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16790.255375
