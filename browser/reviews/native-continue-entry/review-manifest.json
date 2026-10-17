@@ -1,0 +1,118 @@
+{
+  "base": "1a0054b4",
+  "files": [
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "ee3e44910b493a61359a31fd016e6d16824d7f774b8c0d7c6c4c607f02ee69d9"
+    },
+    {
+      "path": "browser/src/source/field-entry-main.test.ts",
+      "sha256": "e7f79087f21098b9f032166035396f1b2961df0c5af19e82e7b2fdc84848d851"
+    },
+    {
+      "path": "browser/src/source/gym-violet-integration.test.ts",
+      "sha256": "811bb81c2890865aaf9f18e3440a384333f14f7f5ce215924d1ece6d59dc4de7"
+    },
+    {
+      "path": "browser/src/source/background-events.ts",
+      "sha256": "07ed75c523ade5cae1a10970f6020ad4171ee31d8d20caf3d558f43aca8f8e56"
+    },
+    {
+      "path": "browser/src/source/background-events.test.ts",
+      "sha256": "3a7cd5b6eefc8a8adf74c5b4efea1ce1a84bab8e6fea301fafa6ba6aa6c8f4ea"
+    },
+    {
+      "path": "browser/src/source/egg-field-main.test.ts",
+      "sha256": "4b6c9adcde86600511e27a87632d4df9bb1e1ae6cd0b4f938ea26bbfd530493f"
+    },
+    {
+      "path": "browser/src/source/field-transitions.ts",
+      "sha256": "1320ca3214ad3c1df7ff67ad7fa9a3e79f0ee6ab3f49d96157a9fa57f123eeab"
+    },
+    {
+      "path": "browser/src/source/opening.ts",
+      "sha256": "81e1d48700c5ff9211443f16f337949c3507d0ec057bd9d8c0b6baa3f874e72f"
+    },
+    {
+      "path": "browser/src/source/gym-violet.ts",
+      "sha256": "9cc7ddacbafe03144a1c9b53b81e02cb617e9664e5adfaf49181c865ac86e055"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "3bc04b2090c9d97125c82145f96f40ec3725a3e2c19660474c1a4453cd39d3d9"
+    },
+    {
+      "path": "browser/src/source/objects.ts",
+      "sha256": "268e80f013e5d2869c987cb3081e848ebbaf9dcb48f2f81e827b2f08cf50baaa"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "74bab3fae4bfd56b517d099031810762fea2edd1443a3ffc968c6ba9fe4538fe"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0"
+    },
+    {
+      "path": "browser/public/source/maps/60.json",
+      "sha256": "a4f6f37be6eb51c8c70b7181f605e1aa1f56c1d9a18a89a7188838edea23ca82"
+    },
+    {
+      "path": "browser/public/source/maps/51.json",
+      "sha256": "61ebf12823838a062ea340fdfee71b83d19ca0c55065a6397e04652c3b32c49d"
+    },
+    {
+      "path": "browser/public/source/maps/135.json",
+      "sha256": "eb289aa904293fe2aa2e37ee778b74127996fe1142aa5660a369a45e41908640"
+    },
+    {
+      "path": "src/field_warp_tasks.c",
+      "sha256": "78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea"
+    },
+    {
+      "path": "src/field_warp_state.c",
+      "sha256": "bcf6ad596b4c6dd712b1967c19915bfe71853694c0c06633468b7d041be8024b"
+    },
+    {
+      "path": "src/field/fieldmap.c",
+      "sha256": "1acb4bd760aa242fe27e3a88b6d994f427cf8c03d25f7cc4fd67c26967e5d660"
+    },
+    {
+      "path": "src/script_manager.c",
+      "sha256": "939c23feda6b7bb554147011ce47defa3b2a39f9ec1a5d587f467aae8925d6aa"
+    },
+    {
+      "path": "src/field_interaction.c",
+      "sha256": "d258f3091e02dfee2f6554381f4980908917bc36b11f8e43a9a45969a756fc37"
+    },
+    {
+      "path": "src/battle/battle_command.c",
+      "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"
+    },
+    {
+      "path": "src/encounter.c",
+      "sha256": "d6f0ffffa3153394e185837a35e326d609a6011528b4e2521a76daccd8d13402"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0842_T20.s",
+      "sha256": "4253dbe52593ecb10162fd54dbdfeef673b4b3cd52d97291294e6ce9abd3f313"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0750_T03.s",
+      "sha256": "bcdb5028756ceb04132d0c6dfd961da08c10f621760a0f76a996d9801a5fce12"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0850_T21.s",
+      "sha256": "ffcb1fc9a4f67dd0693e84a5d769ad7245adfa96b2e68c875575384063a19256"
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0859_T22GYM0101.s",
+      "sha256": "64196ccbe768ce30d14e601c114e34c1f4cc2b4043a91a622a69b4f577334c17"
+    }
+  ],
+  "scope": "Continue lifecycle in main.ts and entry tests; root background/rival code read-only review, no modifications."
+}
