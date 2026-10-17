@@ -5,13 +5,13 @@ export function ledgeDirection(permission:number):number|null{
 }
 export function jumpHeight(from:number,to:number,t:number){return from+(to-from)*t+Math.sin(Math.PI*t)*.65;}
 
-export type TerraceData={version:2;scale:number;cells:Record<string,string>;ledges:[number,number,number][];cliffAssets:Record<string,string>;nativeEdges?:Record<string,number[]>;foundations?:Record<string,[number,number]>};
+export type TerraceData={version:2;scale:number;cells:Record<string,string>;ledges:[number,number,number][];cornerEdges?:[number,number,number][];cliffAssets:Record<string,string>;nativeEdges?:Record<string,number[]>;nativeCornerEdges?:Record<string,number[]>;foundations?:Record<string,[number,number]>};
 /** Nine height points per original tile preserve a cliff at the midpoint of a
  * short ledge while tapering its endpoints into the open paths around it. */
 export class Terraces{
  private decoded=new Map<string,Int16Array>();
  readonly ledgeCells:Set<string>;
- constructor(readonly data:TerraceData){this.ledgeCells=new Set(data.ledges.map(([x,z])=>Math.floor(x/32)+','+Math.floor(z/32)));}
+ constructor(readonly data:TerraceData){this.ledgeCells=new Set([...data.ledges,...(data.cornerEdges??[])].map(([x,z])=>Math.floor(x/32)+','+Math.floor(z/32)));}
  private lastX=NaN;private lastZ=NaN;private lastValues:Int16Array|null=null;
  private values(tx:number,tz:number){
   const cx=Math.floor(tx/32),cz=Math.floor(tz/32);if(cx===this.lastX&&cz===this.lastZ)return this.lastValues;

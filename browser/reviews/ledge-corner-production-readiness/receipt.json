@@ -1,0 +1,19 @@
+{
+  "testedCommit": "ca43ac800c04edd0e45330fd7cfa2378caf06b97",
+  "baseProduction": "2fde277c53ffa095ed0d2797cb930e44d4f49320",
+  "checks": {
+    "nodePassed": 443,
+    "nodeFailed": 0,
+    "nodeSkipped": 0,
+    "typecheck": "pass",
+    "build": "pass",
+    "python": "see topology-tests.log"
+  },
+  "terraceSHA256": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+  "runtimeScope": "native ledge-corner topology and terrace publication only",
+  "limits": [
+    "finite source geometry tests, not browser visual approval",
+    "held opaque-terrain draft excluded",
+    "previous terrain audit data hashes do not approve this new height field"
+  ]
+}

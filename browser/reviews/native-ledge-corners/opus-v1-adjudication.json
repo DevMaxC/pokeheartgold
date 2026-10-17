@@ -1,0 +1,59 @@
+{
+  "scope": "Actual immutable v1 review; publication hazard closed by v2, pending separate follow-up. No approval transfer.",
+  "snapshotManifestSha256": "2fadb25234b23a070258e757507498139530800c1c6df75987c2aa67c51f3589",
+  "snapshot": "/tmp/hg-hill-corner-opus-snapshot",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1894,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001979,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 46,
+      "outputTokens": 24674,
+      "cacheReadInputTokens": 1123702,
+      "cacheCreationInputTokens": 81217,
+      "webSearchRequests": 0,
+      "costUSD": 1.1244893999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 18282,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "is_error": false,
+  "duration_ms": 301405,
+  "resultSha256": "b14645354a41584d6cc43aa31a1a016e5f833e98513bd6ed7cc0c410b8a6d2d0",
+  "findingDispositions": [
+    {
+      "finding": "Half-finished two-stage regeneration can publish missing nativeCornerEdges and prevent every ledge cell loading.",
+      "v2": "Python stages outside public; native-profile/drop/art validation precedes atomic rename; cell-local profile guard. Fresh publication test rejects unsupported stage while preserving previous complete file, then proves verified promotion."
+    },
+    {
+      "finding": "Corner positive drops and source-art height/outer-edge coverage were only proven by current data/tests.",
+      "v2": "Profile producer requires drop >0.8, exactly flat native upward allpeak at floor +1/16 at center and both outer midpoints. Unknown cases reject."
+    },
+    {
+      "finding": "No literal wall-to-ground stored-vertex proof.",
+      "v2": "New actual Route29 emitted grass Float32 vertices equal both cliff top/bottom exactly at both three-point edges."
+    }
+  ],
+  "retainedLimitations": [
+    "No browser rendered check; geometry PNG is untextured offline illustration.",
+    "Production corners lack north-facing58 cases; synthetic topology/emission covers them.",
+    "Existing aggregate maxVisualCollisionDelta5 across83assets not fully adjudicated; all48 corner profiles are source-flat floor plus1/16 art, no fallback.",
+    "Global198cell field changes require combined terrain/T2/source vertical-deformer revalidation.",
+    "Full game parity, full route/script/NPC traversal, Surf state and performance not proven."
+  ]
+}

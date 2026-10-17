@@ -1,0 +1,242 @@
+TAP version 13
+# (node:74287) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: rigid native walls receive a continuous footing where terrain falls below their base
+ok 1 - rigid native walls receive a continuous footing where terrain falls below their base
+  ---
+  duration_ms: 7.318583
+  type: 'test'
+  ...
+# Subtest: level plots add no redundant foundation and decorative shadows cannot define the wall floor
+ok 2 - level plots add no redundant foundation and decorative shadows cannot define the wall floor
+  ---
+  duration_ms: 0.842041
+  type: 'test'
+  ...
+# Subtest: footings extend gate columns without closing the original passage
+ok 3 - footings extend gate columns without closing the original passage
+  ---
+  duration_ms: 80.840083
+  type: 'test'
+  ...
+# Subtest: unloading a footing frees its geometry and cloned material without disposing source assets
+ok 4 - unloading a footing frees its geometry and cloned material without disposing source assets
+  ---
+  duration_ms: 1.365291
+  type: 'test'
+  ...
+# (node:74293) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: raised background forest steps receive opaque sides down to adjacent matrix ground
+ok 5 - raised background forest steps receive opaque sides down to adjacent matrix ground
+  ---
+  duration_ms: 3.231709
+  type: 'test'
+  ...
+# (node:74294) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all three literal art witnesses and six collision-aligned floor samples pass for every actual corner
+ok 6 - all three literal art witnesses and six collision-aligned floor samples pass for every actual corner
+  ---
+  duration_ms: 3.110583
+  type: 'test'
+  ...
+# Subtest: actual native corner triangles reject wrong material, underside, wrong layer, non-flatness, missing coverage and degenerate art
+ok 7 - actual native corner triangles reject wrong material, underside, wrong layer, non-flatness, missing coverage and degenerate art
+  ---
+  duration_ms: 0.378208
+  type: 'test'
+  ...
+# Subtest: a corner rejects each non-flat endpoint, collision-layer mismatch, missing floor and non-finite floor
+ok 8 - a corner rejects each non-flat endpoint, collision-layer mismatch, missing floor and non-finite floor
+  ---
+  duration_ms: 0.617209
+  type: 'test'
+  ...
+# (node:74320) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the actual Route29 blocked rim remains on the upper terrace instead of sagging between the two cliff ends
+ok 9 - the actual Route29 blocked rim remains on the upper terrace instead of sagging between the two cliff ends
+  ---
+  duration_ms: 368.902916
+  type: 'test'
+  ...
+# Subtest: native Route29 convex corner has continuous opaque faces to both lower floors and one exact shared endpoint
+ok 10 - native Route29 convex corner has continuous opaque faces to both lower floors and one exact shared endpoint
+  ---
+  duration_ms: 8.211167
+  type: 'test'
+  ...
+# Subtest: actual emitted grass-floor boundaries share the exact stored cliff top and bottom vertices at the repaired turn
+ok 11 - actual emitted grass-floor boundaries share the exact stored cliff top and bottom vertices at the repaired turn
+  ---
+  duration_ms: 286.080417
+  type: 'test'
+  ...
+# Subtest: all added native corner sectors retain physical drops and closed emitted joints, including existing three-level turns
+ok 12 - all added native corner sectors retain physical drops and closed emitted joints, including existing three-level turns
+  ---
+  duration_ms: 312.49225
+  type: 'test'
+  ...
+# Subtest: corner wall emission handles every orientation and cell-border endpoint and refuses missing source profiles
+ok 13 - corner wall emission handles every orientation and cell-border endpoint and refuses missing source profiles
+  ---
+  duration_ms: 16.687125
+  type: 'test'
+  ...
+# Subtest: an invalid corner profile rejects its own cell without preventing unrelated native ledge cells from loading
+ok 14 - an invalid corner profile rejects its own cell without preventing unrelated native ledge cells from loading
+  ---
+  duration_ms: 2.198709
+  type: 'test'
+  ...
+# (node:74321) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual World Route30/31 ordinary steps retain source walkability and stay below the literal native blocked-height boundary
+ok 15 - actual World Route30/31 ordinary steps retain source walkability and stay below the literal native blocked-height boundary
+  ---
+  duration_ms: 1047.135833
+  type: 'test'
+  ...
+# Subtest: MrPokémon house approach, native Cut object and Route31 cave keep their actual source transition classifications
+ok 16 - MrPokémon house approach, native Cut object and Route31 cave keep their actual source transition classifications
+  ---
+  duration_ms: 0.731416
+  type: 'test'
+  ...
+# Subtest: actual Route30 south ledge keeps its native one-way branch and correct upper/lower World landing references
+ok 17 - actual Route30 south ledge keeps its native one-way branch and correct upper/lower World landing references
+  ---
+  duration_ms: 0.150375
+  type: 'test'
+  ...
+# Subtest: actual terrain-only traversal still reaches the south house approach
+ok 18 - actual terrain-only traversal still reaches the south house approach
+  ---
+  duration_ms: 359.7885
+  type: 'test'
+  ...
+# (node:74324) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native ledges allow only their original downhill jump direction
+ok 19 - native ledges allow only their original downhill jump direction
+  ---
+  duration_ms: 1.425667
+  type: 'test'
+  ...
+# Subtest: jump arcs connect actual terrace heights continuously without overshooting the endpoints
+ok 20 - jump arcs connect actual terrace heights continuously without overshooting the endpoints
+  ---
+  duration_ms: 0.684
+  type: 'test'
+  ...
+# Subtest: exported Route 29 ledges have distinct upper/lower heights and continuous open edges across cell borders
+ok 21 - exported Route 29 ledges have distinct upper/lower heights and continuous open edges across cell borders
+  ---
+  duration_ms: 8149.194542
+  type: 'test'
+  ...
+# Subtest: terrain displacement keeps every affected native water tile flat at its original level
+ok 22 - terrain displacement keeps every affected native water tile flat at its original level
+  ---
+  duration_ms: 552.238167
+  type: 'test'
+  ...
+# Subtest: every raised native ledge retains a physical drop at its edge midpoint, including single-tile ends
+ok 23 - every raised native ledge retains a physical drop at its edge midpoint, including single-tile ends
+  ---
+  duration_ms: 429.481
+  type: 'test'
+  ...
+# Subtest: major outdoor structures sit on flat terrace offsets through their complete source footprints
+ok 24 - major outdoor structures sit on flat terrace offsets through their complete source footprints
+  ---
+  duration_ms: 610.639
+  type: 'test'
+  ...
+# (node:74325) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: deformed original ground agrees with actor height on both terraces and retains shared source geometry
+ok 25 - deformed original ground agrees with actor height on both terraces and retains shared source geometry
+  ---
+  duration_ms: 196.571208
+  type: 'test'
+  ...
+# Subtest: new ledge faces are opaque from both sides and join upper/lower floor edges
+ok 26 - new ledge faces are opaque from both sides and join upper/lower floor edges
+  ---
+  duration_ms: 133.797541
+  type: 'test'
+  ...
+# Subtest: raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+ok 27 - raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+  ---
+  duration_ms: 41.270375
+  type: 'test'
+  ...
+# Subtest: separate solid rocks retain their shapes when rooted on different terrace heights
+ok 28 - separate solid rocks retain their shapes when rooted on different terrace heights
+  ---
+  duration_ms: 54.554041
+  type: 'test'
+  ...
+# Subtest: jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+ok 29 - jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+  ---
+  duration_ms: 9.946042
+  type: 'test'
+  ...
+# Subtest: crossed flowers crossing a ledge translate as one rooted clump
+ok 30 - crossed flowers crossing a ledge translate as one rooted clump
+  ---
+  duration_ms: 156.255125
+  type: 'test'
+  ...
+# Subtest: touching boulders retain distinct authored roots across a ledge
+ok 31 - touching boulders retain distinct authored roots across a ledge
+  ---
+  duration_ms: 105.849792
+  type: 'test'
+  ...
+# Subtest: native water and shoreline artwork stays flat when it overhangs a displaced land tile
+ok 32 - native water and shoreline artwork stays flat when it overhangs a displaced land tile
+  ---
+  duration_ms: 8.24175
+  type: 'test'
+  ...
+# Subtest: exported visual floor profiles cover both sides of every native ledge
+ok 33 - exported visual floor profiles cover both sides of every native ledge
+  ---
+  duration_ms: 11.408459
+  type: 'test'
+  ...
+# Subtest: offset tree crowns and connecting trunks move by the same authored ground height
+ok 34 - offset tree crowns and connecting trunks move by the same authored ground height
+  ---
+  duration_ms: 208.029292
+  type: 'test'
+  ...
+# Subtest: stale terrain work stops before replacing shared source geometry
+ok 35 - stale terrain work stops before replacing shared source geometry
+  ---
+  duration_ms: 20.515375
+  type: 'test'
+  ...
+# (node:74328) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fresh source validation publishes a complete staged terrace field and preserves the last field on rejection
+ok 36 - fresh source validation publishes a complete staged terrace field and preserves the last field on rejection
+  ---
+  duration_ms: 41923.714833
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 42686.038709

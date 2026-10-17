@@ -1,0 +1,35 @@
+Perform a narrow final READ-ONLY code review of this immutable snapshot. Use only Read/Grep/Glob, never execute tests/commands/agents/network or edit files. Report concrete defects with path/line, distinguish proof limits. No browser/render/build claims. Source manifest identifies exact candidate6345b8b0; runtime cliff geometry and public field remain byte-identical to ff540e95/277bac. This is an offline source-generation follow-up, not a full-game or combined-terrain approval.
+
+Actual prior Opus5.5 v2 review is preserved in browser/reviews/native-ledge-corners/opus-v2-{result,adjudication,source-manifest}. It closed the normal-workflow partial-publication bug, but found F1 old stage after failed Python generation could be automatically published against changed source inputs. F2 weak rejection fixtures/profile freshness, F3 producer did not enforce all6 flat collision-aligned floor samples or all3 edge drops, F4 route permission check is an architectural invariant, F5 stale center-only art proof/counts. Do not relabel prior review as approval of new code. historical-v2 contains exact selected old code and its complete manifest for comparison; historical-v1 also remains.
+
+Review all v3 changes in:
+ browser/scripts/export_terraces.py
+ browser/scripts/export_ledge_profiles.ts
+ browser/scripts/terrace_stage.ts (new)
+ browser/scripts/ledge_corner_art.ts (new)
+ browser/scripts/test_ledge_corner_topology.py
+ browser/src/source/terrace-publication.test.ts
+ browser/src/source/ledge-corner-art.test.ts (new)
+ browser/reviews/native-ledge-corners/README.md
+ browser/reviews/native-ledge-corners/v3-*.log, v3-generation-inputs.json, v3-validation-qualification.json, geometry-proof.json, native-corner-art-proof.json
+
+F1 closure design:
+- Python invalidates old stage at export() entry before matrix/input reading or solve. It records SHA256 of the exact Python generator/topology code, matrix, referenced native floor/permission JSON (including absent inputs), foundations (including absence), and every native land GLB, including duplicate contexts. These are the inputs that drive the Python solve/cliff asset inventory. Stage-only _generation metadata records the hashes. Public field remains untouched during solve/failure.
+- Profile CLI without --staged revalidates ONLY published data, regardless of any old stage. Promotion requires explicit `0 --staged`.
+- terrace_stage.ts independently derives the full expected input set from the current matrix + current native GLB directory, including added/removed assets and absent optional land/foundation files. It requires exact set/digest equality with the stage metadata both before and after fresh native profile checks.
+- Only fully verified field is written to .verified.json then atomically renamed over public. Generation metadata is stripped; public bytes remain277bac. Log states input=published or verified-stage. Unlink of stage is after publish.
+- This is a trusted local generated artifact/input-freshness guard, not a signed execution attestation. A deliberately forged stage body/proof or concurrent producers are not supported. Do not invent a security signing requirement. No fsync/power-loss claim.
+
+F2/F3 closure:
+- All6 corner floor samples must be finite and exactly equal the native collision floor at the corner center, not merely have some nearby art. Non-flat and wrong-layer variants reject. All3 points of each outward edge require finite drops >0.8. Current minimum0.8359375. No tolerance or new geometry was introduced.
+- The same literal native-art predicate now lives in ledge_corner_art.ts and produces fresh three-point source triangle witnesses for all48 corners. Actual captured source triangles test wrong material, underside, wrong layer, non-flatness, missing coverage, degenerate art; all6 floor endpoints have negative counterexamples.
+- Actual CLI publication fixture uses a copied source graph. It proves stale foundation hash rejection, plain published revalidation ignores old stage, actual native scene with no geometry rejects fallback, direction/sector/NaN displacement rejection, serving field unchanged after each failure, and successful recomputation of BOTH deliberately corrupted profile tables (not just counts). Python fixture proves failed later export clears old stage.
+- Negative geometry fixture is isolated; native source/shared data untouched. 36 Node checks +8 Python checks +projectTSC passed. Extra strict offline-producer TypeScript also passed using existing cached Node declarations (none installed/added); qualification file notes this. These are author's logs, not tests run by you.
+
+F4/F5 qualification:
+- README now explicitly says walkability equality shares native permissions/furniture and ignores relief; it is not independent native permission parity. The step-height assertions and exact source transition snapshots remain meaningful. Independent native NARC/Git traversal qualification e361b01e is separate and not reviewed here.
+- New proof JSON has literal triangles at center +both outer edge midpoints for all48 corners; old center-only proof retained as -v1. geometry-proof counts36/8 and current metadata date distinguish original geometry-capture date. Browser/alpha/lighting/performance remain unverified; offline PNG is untextured geometry only.
+
+Please check the Python versus Node source-input set carefully (including duplicate GLB context and missing referenced files), default/explicit CLI selection, publication ordering/failure safety, all native floor/art/drop predicates and actual test assertions. Report any genuine remaining blocker. If only unsupported concurrent writers, power loss, forged internal metadata, or non-rendered/manual-quality gaps remain, qualify those without demanding unrelated features or transferring prior approval. Do not claim all native game features/movement semantics/terrain are equivalent.
+
+Return concise findings (or no confirmed defect), disposition of F1/F3, and retained limits. No repeated generic style suggestions or hypothetical regulatory concerns.

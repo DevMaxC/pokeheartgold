@@ -1,0 +1,74 @@
+{
+  "reviewedCodeCommit": "6345b8b0d6e883e6c51c2d482c1e024a56397a06",
+  "sourceSnapshot": "/tmp/hg-hillcorner-v3-opus-snapshot",
+  "sourceManifestSha256": "75332bbbafbbf501f12aa2dc60ca16a1258bfdf165e1f3a8395075544f1ec345",
+  "resultSha256": "32d635f5be0c0754211ec7c8f375bbc50e26f6fa8928a145023ea0de37debb8b",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2281,
+      "outputTokens": 19,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.002376,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 11982,
+      "cacheReadInputTokens": 383941,
+      "cacheCreationInputTokens": 45538,
+      "webSearchRequests": 0,
+      "costUSD": 0.5442222,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 6637,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "duration_ms": 128255,
+  "is_error": false,
+  "snapshotFilesVerifiedUnchanged": 2312,
+  "runtimeAndProducerFilesStillMatchSnapshot": true,
+  "reviewerVerdict": "No confirmed defect. F1 stale-stage and F3 floor/endpoint predicates closed for sequential trusted local workflow. F2 substantially addressed; F4/F5 accurately qualified.",
+  "authorValidation": {
+    "nodeTerrainTests": 36,
+    "pythonChecks": 8,
+    "projectTypeScriptExit": 0,
+    "offlineProducerStrictTypeScriptExit": 0,
+    "nativeCorners": 48,
+    "extraEdgeFaces": 96,
+    "extraTriangles": 384,
+    "nativeJumpRowsUnchanged": 1453,
+    "dataSha256": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+    "regenerationByteIdentical": true,
+    "sourceInputFingerprints": 856,
+    "minimumCornerDrop": 0.8359375,
+    "nativeFallbackSamples": 0
+  },
+  "retainedMinorProofGaps": [
+    "Cross-language Python\u2192Node proof interoperability was exercised by the actual staged run, not a fast automated fixture.",
+    "Absent optional source input path has no negative fixture; current856inputs all present.",
+    "Python failure fixture uses missing matrix; later solve failure safety follows entry invalidation.",
+    "One unsupported-corner fixture accepts either drop/art rejection.",
+    "Stage cleanup failure after successful rename can report failure after publication."
+  ],
+  "retainedScopeLimits": [
+    "No concurrent producers, forged metadata or power-loss guarantee; NumPy/SciPy versions not fingerprinted.",
+    "Three art points do not prove whole-tile texture/alpha coverage.",
+    "Current48corners lack native north58; synthetic coverage only.",
+    "Existing aggregate maxVisualCollisionDelta5 across83assets not fully adjudicated.",
+    "No Vite build/browser/lighting/alpha/performance/manual rendering approval.",
+    "Independent traversal e361b01e and combined T2/native vertical-deformer/shoreline need separate integration validation.",
+    "No claim of full game or movement/terrain parity."
+  ],
+  "releaseStatus": "Committed candidate for parent integration; no child PR, merge, build, deploy or production completion claim.",
+  "recordedUTC": "2026-10-17T14:38:52.507808+00:00"
+}
