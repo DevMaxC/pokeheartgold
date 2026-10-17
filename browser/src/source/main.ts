@@ -39,7 +39,7 @@ const deltas=[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}];
 let preferenceStorage:Storage|null=null;try{preferenceStorage=localStorage;}catch{/* Private browsing still has working controls. */}
 let preferences=readInterfacePreferences(preferenceStorage),panels:InterfacePanels;
 const music=createNativeFieldMusicPlayer({enabled:preferences.music,volume:preferences.volume});
-let musicKey='',musicError='',musicNotice='',musicRetryable=true,pickupRecoveryBlocked=false,soundUnlocked=false;let unlockPending:Promise<void>|null=null;let battleSoundOwned=false;let musicRequestPending:Promise<void>|null=null;let musicRequestSerial=0,musicPreferencePending=0;const pendingMusicRestores=new Set<(signal?:AbortSignal)=>Promise<void>>(),musicListeners=new Set<()=>void>();
+let musicKey='',musicError='',musicNotice='',musicRetryable=true,pickupRecoveryBlocked=false,soundUnlocked=false;let unlockPending:Promise<void>|null=null;let battleSoundOwned=false;let musicRequestPending:Promise<void>|null=null;let musicRequestSerial=0,musicSettledRequest=0,musicSettledLocked=false,musicPreferencePending=0;const pendingMusicRestores=new Set<(signal?:AbortSignal)=>Promise<void>>(),musicListeners=new Set<()=>void>();
 const MUSIC_WAIT_MS=1500;
 function reportInputError(error:unknown){if(error instanceof DOMException&&error.name==='AbortError')return;console.error(error);lastError=String(error);ui.toast('That action could not finish. Please try again.');}
 function musicChanged(){for(const listener of musicListeners)try{listener();}catch(error){console.warn(error);}}
@@ -49,9 +49,16 @@ function clearMusicFailure(){musicError='';musicNotice='';musicRetryable=true;mu
 function musicStatus(){return{pending:!!musicRequestPending||!!unlockPending||musicPreferencePending>0,message:musicError?(musicRetryable?'Music could not load. You can retry.':'This original track is unavailable.'):'',canRetry:!!musicError&&musicRetryable&&!battleSoundOwned};}
 async function retryMusicRestores(signal?:AbortSignal){for(const restore of pendingMusicRestores){if(!signal&&battleSoundOwned)return;if(signal?.aborted)throw signal.reason;await restore(signal);pendingMusicRestores.delete(restore);}}
 function musicDeadline(message:string){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(new DOMException(message,'TimeoutError')),MUSIC_WAIT_MS);return{controller,clear:()=>clearTimeout(timer)};}
+// A locked map request has not handled playback. The unlock may have performed
+// that current song's first load; report it without downloading the song again.
+function finishMusicUnlock(request:number,failure?:{error:unknown}){
+  if(!started||!map){if(failure)musicFailed(failure.error);else clearMusicFailure();return;}
+  const current=musicRequestSerial,finish=()=>{if(current!==musicRequestSerial)return;if(request!==current&&(musicSettledRequest!==current||!musicSettledLocked))return;if(failure)musicFailed(failure.error);else{musicKey='';syncMusic();}};
+  if(request!==current&&musicRequestPending)void musicRequestPending.then(finish);else finish();
+}
 function unlockSound(){
   if(music.isUnlocked()){soundUnlocked=true;return;}if(unlockPending)return;soundUnlocked=false;
-  const request=musicRequestSerial,pending=music.unlock();unlockPending=pending;musicChanged();void pending.then(()=>{soundUnlocked=true;if(request!==musicRequestSerial)return;if(!started){clearMusicFailure();return;}musicKey='';syncMusic();}).catch(error=>{soundUnlocked=music.isUnlocked();if(soundUnlocked&&request!==musicRequestSerial)return;musicFailed(error);}).finally(()=>{if(unlockPending===pending)unlockPending=null;musicChanged();});
+  const request=musicRequestSerial,pending=music.unlock();unlockPending=pending;musicChanged();void pending.then(()=>{soundUnlocked=true;finishMusicUnlock(request);}).catch(error=>{soundUnlocked=music.isUnlocked();if(soundUnlocked)finishMusicUnlock(request,{error});else musicFailed(error);}).finally(()=>{if(unlockPending===pending)unlockPending=null;musicChanged();});
 }
 async function retryMusic(){
   if(battleSoundOwned||musicError&&!musicRetryable)return;
@@ -64,7 +71,7 @@ async function retryMusic(){
 function syncMusic(){
   if(!started||!map||battle?.active||battleSoundOwned)return;
   const hour=new Date().getHours(),key=JSON.stringify([map.id,hour,state.flags,preferences.music,preferences.volume]);if(key===musicKey)return;musicKey=key;const request=++musicRequestSerial;
-  const pending=music.playMap(map,{hour,flags:state.flags}).then(async()=>{if(request!==musicRequestSerial||key!==musicKey||battleSoundOwned)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey&&!battleSoundOwned)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey||battleSoundOwned)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
+  const pending=music.playMap(map,{hour,flags:state.flags}).then(async result=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=result.status==='locked';if(musicSettledLocked||battleSoundOwned)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey&&!battleSoundOwned)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=false;if(battleSoundOwned)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
 }
 function textDelay(){return [8,4,1][preferences.textSpeed]*1000/60;}
 const touch=new TouchControls($('touch-pad'),{interact:()=>{unlockSound();void interact().catch(reportInputError);},menu:()=>{unlockSound();void menu().catch(reportInputError);}});
