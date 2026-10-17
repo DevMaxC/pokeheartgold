@@ -8,7 +8,9 @@ export class HatchHostAudioFailure extends Error{
 export type HatchAudioPlayer={field:{capture:()=>EffectiveFieldMusic;suspend:(snapshot:EffectiveFieldMusic)=>Promise<EffectiveFieldMusic>;restore:(snapshot:EffectiveFieldMusic,signal?:AbortSignal)=>Promise<void>};createHatchTransport:()=>NativeMusicTransport};
 export type SharedHatchAudioOutput={context:AudioContext;output:AudioNode;signal:AbortSignal};
 export type HatchHostAudioPorts={
- enabled:boolean;player:HatchAudioPlayer;sharedAudioOutput:()=>SharedHatchAudioOutput;
+ /** Read current global preference at each admission/restore boundary. Master
+  * output gain owns immediate muting; this port never stops admitted voices. */
+ enabled:()=>boolean;player:HatchAudioPlayer;sharedAudioOutput:()=>SharedHatchAudioOutput;
  drainFieldWork:(signal:AbortSignal)=>Promise<void>;report:(failure:HatchHostAudioFailure)=>void;
  retainRestore:(retry:(signal?:AbortSignal)=>Promise<void>)=>void;timeoutMs?:number;preparationTimeoutMs?:number;
  loadManifest?:(signal:AbortSignal)=>Promise<{sourceSHA256:string;tracks:Record<string,NativeHatchTrack>}>;
@@ -40,15 +42,16 @@ async function manifest(signal:AbortSignal){const response=await fetch('/source/
  * Missing/wrong source/configuration and cancellation remain explicit failures.
  */
 export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusicSession;cry:(scene:EggHatchVisualScene,signal:AbortSignal)=>Promise<void>}{
- if(!ports||typeof ports.enabled!=='boolean'||typeof ports.player?.field?.capture!=='function'||typeof ports.player.field.suspend!=='function'||typeof ports.player.field.restore!=='function'||typeof ports.player.createHatchTransport!=='function'||typeof ports.sharedAudioOutput!=='function'||typeof ports.drainFieldWork!=='function'||typeof ports.report!=='function'||typeof ports.retainRestore!=='function')throw new UnsupportedHatchHostAudio('Native hatch requires shared player/output, field drain, failure report and retained restore ports');
+ if(!ports||typeof ports.enabled!=='function'||typeof ports.player?.field?.capture!=='function'||typeof ports.player.field.suspend!=='function'||typeof ports.player.field.restore!=='function'||typeof ports.player.createHatchTransport!=='function'||typeof ports.sharedAudioOutput!=='function'||typeof ports.drainFieldWork!=='function'||typeof ports.report!=='function'||typeof ports.retainRestore!=='function')throw new UnsupportedHatchHostAudio('Native hatch requires shared player/output, field drain, failure report and retained restore ports');
  const timeout=ports.timeoutMs??1500;if(!Number.isInteger(timeout)||timeout<1||timeout>120000)throw new UnsupportedHatchHostAudio('Invalid hatch audio operation deadline');
  const preparationTimeout=ports.preparationTimeoutMs??4000;if(!Number.isInteger(preparationTimeout)||preparationTimeout<1||preparationTimeout>120000)throw new UnsupportedHatchHostAudio('Invalid hatch audio preparation deadline');
  const owner=new AbortController(),lifetimes=new Map<AbortSignal,()=>void>(),links=new Set<{controller:AbortController;release:()=>void}>(),voices=new Set<NativeMusicVoice>();
  let fault:UnsupportedHatchHostAudio|undefined,started=false,closed=false,restored=false,suspended=false,retained=false,fanfareStarted=false,drainIncomplete=false;
  let saved:EffectiveFieldMusic={kind:'none'},transport:NativeMusicTransport|undefined,background:NativeMusicVoice|undefined,external:AbortSignal|undefined,detach=()=>{};
- let cleanup:Promise<void>|undefined,restoration:Promise<void>|undefined,tracks:Record<string,NativeHatchTrack>|undefined,cryBuffer:AudioBuffer|undefined;
- const prepared=new Set<number>(),wait=ports.wait??sleep;
+ let cleanup:Promise<void>|undefined,restoration:Promise<void>|undefined,tracks:Record<string,NativeHatchTrack>|undefined,cryBuffer:AudioBuffer|undefined,manifestAttempted=false;
+ const prepared=new Set<number>(),preparationAttempted=new Set<number>(),wait=ports.wait??sleep;
  const guard=()=>{if(fault)throw fault;};
+ const enabled=()=>{const value=ports.enabled();if(typeof value!=='boolean')throw new UnsupportedHatchHostAudio('Native hatch requires a live boolean sound preference');return value;};
  const report=(operation:string,error:unknown)=>{try{ports.report(new HatchHostAudioFailure(operation,error));}catch(cause){fault=new UnsupportedHatchHostAudio('Native hatch audio failure-report port failed: '+String(cause));owner.abort(fault);throw fault;}};
  const fatal=(error:unknown,signal?:AbortSignal)=>{if(signal)check(signal);guard();if(error instanceof UnsupportedHatchHostAudio)throw error;if(owner.signal.aborted)throw why(owner.signal);};
  function link(signals:AbortSignal[]){const controller=new AbortController(),handlers=signals.map(signal=>()=>controller.abort(why(signal)));const result={controller,release:()=>{signals.forEach((signal,i)=>signal.removeEventListener('abort',handlers[i]));links.delete(result);}};links.add(result);signals.forEach((signal,i)=>{if(signal.aborted)handlers[i]();else signal.addEventListener('abort',handlers[i],{once:true});});return result;}
@@ -72,10 +75,16 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
   for(const id of[1011,1188]as const){const actual=value.tracks[String(id)],expected=NATIVE[id];if(!actual||Object.entries(expected).some(([key,v])=>JSON.stringify(actual[key as keyof NativeHatchTrack])!==JSON.stringify(v)))throw new UnsupportedHatchHostAudio('Wrong or missing original hatch track: '+id);}
   return value.tracks;
  }
+ async function prepareMusic(ids:readonly number[],signal:AbortSignal){
+  if(!enabled())return;if(!transport)getTransport();
+  if(!manifestAttempted){manifestAttempted=true;const loaded=await attempt('music manifest',signal,ports.loadManifest??manifest);if(loaded!==undefined)tracks=validateManifest(loaded);}
+  if(!tracks||!enabled())return;
+  await Promise.all(ids.filter(id=>!preparationAttempted.has(id)).map(async id=>{preparationAttempted.add(id);const result=await attempt('prepare '+id,signal,async input=>{await transport!.prepare(tracks![String(id)],input);return true;},preparationTimeout);if(result)prepared.add(id);}));
+ }
  function bind(signal:AbortSignal){check(signal);if(external&&external!==signal)throw new UnsupportedHatchHostAudio('Hatch audio cannot change its owning source-action signal');if(!external){external=signal;const abort=()=>owner.abort(why(signal));signal.addEventListener('abort',abort,{once:true});detach=()=>signal.removeEventListener('abort',abort);}check(owner.signal);}
  async function retryRestore(signal?:AbortSignal){
   if(restored)return;if(signal)check(signal);if(restoration)return signal?observe(restoration,signal):restoration;
-  const pending=(async()=>{if(suspended&&drainIncomplete){await bounded(ports.drainFieldWork,signal?[signal]:[],'prior field work drain');drainIncomplete=false;}if(suspended&&ports.enabled&&saved.kind==='playing'){const output=ports.sharedAudioOutput();if(!output?.context||!output.output||output.output.context!==output.context||!output.signal)throw new UnsupportedHatchHostAudio('Missing shared hatch restoration output');check(output.signal);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running for field restoration');}if(suspended)await bounded(input=>ports.player.field.restore(structuredClone(saved),input),signal?[signal]:[],'field restore');restored=true;})();restoration=pending;try{await pending;}finally{if(restoration===pending)restoration=undefined;}
+  const pending=(async()=>{if(suspended&&drainIncomplete){await bounded(ports.drainFieldWork,signal?[signal]:[],'prior field work drain');drainIncomplete=false;}if(suspended&&enabled()&&saved.kind==='playing'){const output=ports.sharedAudioOutput();if(!output?.context||!output.output||output.output.context!==output.context||!output.signal)throw new UnsupportedHatchHostAudio('Missing shared hatch restoration output');check(output.signal);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running for field restoration');}if(suspended)await bounded(input=>ports.player.field.restore(structuredClone(saved),input),signal?[signal]:[],'field restore');restored=true;})();restoration=pending;try{await pending;}finally{if(restoration===pending)restoration=undefined;}
  }
  const music:HatchMusicSession={
   async start(value,signal){
@@ -85,13 +94,16 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
    // player latch cancels generations before any late unlock/map continuation.
    drainIncomplete=!(await attempt('field drain',signal,async input=>{await ports.drainFieldWork(input);return true;}));check(signal);check(owner.signal);saved=snapshot(ports.player.field.capture());suspended=true;
    try{const pausing=Promise.resolve(ports.player.field.suspend(structuredClone(saved)));void pausing.catch(()=>{});saved=snapshot(await bounded(()=>pausing,[signal,owner.signal],'field suspend'));}catch(error){fatal(error,signal);throw new UnsupportedHatchHostAudio('Shared field suspension could not establish hatch ownership: '+String(error));}
-   if(!ports.enabled)return;getTransport();const loaded=await attempt('music manifest',signal,ports.loadManifest??manifest);if(loaded===undefined)return;tracks=validateManifest(loaded);
-   await Promise.all([1011,1188].map(async id=>{const result=await attempt('prepare '+id,signal,async input=>{await transport!.prepare(tracks![String(id)],input);return true;},preparationTimeout);if(result)prepared.add(id);}));
-   if(!prepared.has(1011))return;
-   try{background=await startVoice(tracks['1011'],signal);const current=background;void current.ended.then(()=>{if(!closed&&!owner.signal.aborted)report('hatch background ended',Error('Looping native hatch music ended unexpectedly'));},error=>{if(!closed&&!owner.signal.aborted)report('hatch background playback',error);}).catch(()=>{});}catch(error){fatal(error,signal);report('hatch music start',error);}
+   await prepareMusic([1011,1188],signal);
+   if(!prepared.has(1011)||!enabled())return;
+   try{background=await startVoice(tracks!['1011'],signal);const current=background;void current.ended.then(()=>{if(!closed&&!owner.signal.aborted)report('hatch background ended',Error('Looping native hatch music ended unexpectedly'));},error=>{if(!closed&&!owner.signal.aborted)report('hatch background playback',error);}).catch(()=>{});}catch(error){fatal(error,signal);report('hatch music start',error);}
   },
   async fanfare(value,signal){
-   guard();cue(value,1188);bind(signal);if(!started||closed||fanfareStarted)throw new UnsupportedHatchHostAudio('Hatch fanfare requires its single active source session');fanfareStarted=true;if(!ports.enabled)return;
+   guard();cue(value,1188);bind(signal);if(!started||closed||fanfareStarted)throw new UnsupportedHatchHostAudio('Hatch fanfare requires its single active source session');fanfareStarted=true;if(!enabled())return;
+   // A mute at hatch entry skipped I/O. An explicit later unmute may admit
+   // this future native cue, without replaying the earlier background phase.
+   // Previously failed admission is not silently retried.
+   await prepareMusic([1188],signal);if(!enabled())return;
    let foreground:NativeMusicVoice|undefined,played=false;const begin=performance.now();try{
     try{background?.pause();}catch(error){fatal(error,signal);report('hatch music pause',error);}if(tracks&&prepared.has(1188)){try{foreground=await startVoice(tracks['1188'],signal);await bounded(()=>foreground!.ended,[signal,owner.signal],'fanfare playback',NATIVE[1188].frames/32768*1000+timeout);played=true;}catch(error){fatal(error,signal);report(foreground?'fanfare playback':'fanfare start',error);}}else report('fanfare admission',Error('No prepared original fanfare voice'));
     // Native PlayFanfare starts15-count timer even if Sound_StartSeq fails.
@@ -118,14 +130,14 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
   },
  };
  async function cry(scene:EggHatchVisualScene,signal:AbortSignal){
-  guard();check(signal);if(scene.kind!=='standard'||scene.cry.species!==175||scene.cry.form!==0||scene.hatched.species!==175)throw new UnsupportedHatchHostAudio('Original hatch cry supports standard Togepi175 form0 only');if(!started||closed)throw new UnsupportedHatchHostAudio('Cry requires its active hatch session');if(!ports.enabled)return;
+  guard();check(signal);if(scene.kind!=='standard'||scene.cry.species!==175||scene.cry.form!==0||scene.hatched.species!==175)throw new UnsupportedHatchHostAudio('Original hatch cry supports standard Togepi175 form0 only');if(!started||closed)throw new UnsupportedHatchHostAudio('Cry requires its active hatch session');if(!enabled())return;
   let output:SharedHatchAudioOutput;try{output=sharedOutput();}catch(error){fatal(error,signal);report('cry output',error);return;}
   if(!output?.context||!output.output||output.output.context!==output.context||!output.signal||typeof output.context.createBufferSource!=='function'||typeof output.context.createGain!=='function'||typeof output.context.decodeAudioData!=='function')throw new UnsupportedHatchHostAudio('Missing shared hatch cry output mechanism');check(output.signal);
   let original:AudioBuffer|undefined;try{original=await bounded(async input=>{
    check(output.signal);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running');if(cryBuffer)return cryBuffer;
    const data=await(ports.fetchBytes??fetchBytes)('/source/hatching/cry-175.wav',input);check(input);check(output.signal);const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data)),v=>v.toString(16).padStart(2,'0')).join('');check(input);if(hash!==CRY.wavSHA256)throw Error('Original Togepi hatch cry checksum mismatch');
    const buffer=await new Promise<AudioBuffer>((resolve,reject)=>{const pending=output.context.decodeAudioData(data,resolve,reject);if(pending?.then)void pending.then(resolve,reject);});check(input);check(output.signal);if(buffer.numberOfChannels!==1||Math.abs(buffer.duration-CRY.frames/CRY.sampleRate)>1/CRY.sampleRate+1/output.context.sampleRate)throw Error('Original Togepi cry decoded with different source timing');cryBuffer=buffer;return buffer;
-  },[signal,owner.signal,output.signal],'cry preparation');}catch(error){fatal(error,signal);check(output.signal);report('cry preparation',error);return;}if(!original)return;
+  },[signal,owner.signal,output.signal],'cry preparation');}catch(error){fatal(error,signal);check(output.signal);report('cry preparation',error);return;}if(!original||!enabled())return;
   const owned=link([signal,owner.signal,output.signal]),input=owned.controller.signal;let node:AudioBufferSourceNode|undefined,gain:GainNode|undefined,stop:((reason?:unknown)=>void)|undefined,played=false;
   try{
    check(input);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running');node=output.context.createBufferSource();gain=output.context.createGain();node.buffer=original;gain.gain.value=120/127;node.connect(gain);gain.connect(output.output);

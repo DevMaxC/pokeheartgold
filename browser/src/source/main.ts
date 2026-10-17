@@ -245,7 +245,7 @@ async function hatchEgg(){
   const priorMusicWork=[musicRequestPending,unlockPending];
   hatching=true;hatchFollowerPendingCommit=true;resetFieldInput();
   try{
-  const audio=createHatchHostAudio({enabled:state.options.sound,player:music,sharedAudioOutput:()=>music.sharedAudioOutput(),drainFieldWork:async()=>{await Promise.allSettled(priorMusicWork);},report:musicFailed,retainRestore:retry=>{pendingMusicRestores.add(retry);},timeoutMs:MUSIC_WAIT_MS});
+  const audio=createHatchHostAudio({enabled:()=>preferences.music,player:music,sharedAudioOutput:()=>music.sharedAudioOutput(),drainFieldWork:async()=>{await Promise.allSettled(priorMusicWork);},report:musicFailed,retainRestore:retry=>{pendingMusicRestores.add(retry);},timeoutMs:MUSIC_WAIT_MS});
   await presentNativeEggHatch(data,state,map,{
     view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:audio.cry}),
     music:audio.music,
@@ -259,6 +259,10 @@ async function hatchEgg(){
 // Live actors are newer than state.objectEvents until the next durable save.
 function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,phone:fieldPhone.snapshot(),phoneAdmission:phoneAdmissionGate.snapshot(),playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
+  // Global preferences can change during an owned scene or recovery prompt.
+  // State rollback restores gameplay options, while these current UI values
+  // remain authoritative for audio and text, including the next browser save.
+  state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
   // update the blackout spawn. Those mutations belong to the failed action.
   abortBagUse();followerPrevious=null;resetFieldInput();transitioning=true;connecting=false;musicKey='';musicRequestSerial++;world.beginFieldTransition();ui.loading('Restoring the area…');
@@ -596,9 +600,9 @@ async function boot(){
 // Permission resume must originate in the trusted gesture stack, including an
 // explicitly retried owned prompt. An already unlocked failed song is never
 // retried here; only Settings' explicit Retry can request it again.
-addEventListener('pointerdown',()=>unlockSound(),{capture:true,passive:true});
-addEventListener('keydown',e=>{if(!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey)unlockSound();},{capture:true});
-addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.closest('[data-global-audio]'))return;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
+addEventListener('pointerdown',e=>{const target=e.target as HTMLElement|null;if(!target?.closest?.('[data-global-audio]'))unlockSound();},{capture:true,passive:true});
+addEventListener('keydown',e=>{const target=e.target as HTMLElement|null;if(!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!target?.closest?.('[data-global-audio]'))unlockSound();},{capture:true});
+addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.closest?.('[data-global-audio]')&&['Enter','Space'].includes(e.code))return;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
   if(e.code==='KeyR'&&!e.repeat){e.preventDefault();void answerPhone().catch(reportInputError);return;}
   if(e.code==='Escape'){e.preventDefault();if(!e.repeat)void menu().catch(reportInputError);return;}
   if(!fieldControlsAvailable())return;

@@ -556,5 +556,5 @@ body.in-battle :is(#game-hud, #control-hud, #party-hud, #touch-pad), #game[data-
 /* Audio remains reachable through title, dialogue, menus and battle. */
 #audio-toggle { position: absolute; top: calc(12px + var(--safe-top)); right: calc(12px + var(--safe-right)); z-index: 40; min-width: 64px; min-height: 44px; padding: 0 10px; border: 1px solid #fffbe3c2; border-radius: 12px; background: #fcf9eef5; box-shadow: 0 4px 18px #08142333; color: var(--ink); font-size: 12px; }
 #audio-toggle[aria-pressed='true'] { background: var(--navy); color: var(--gold-light); border-color: var(--gold); }
-#game-hud { right: calc(88px + var(--safe-right)); }
+#game-hud, .battle-heading { right: calc(88px + var(--safe-right)); }
 @media (max-width: 680px) { .location-card { max-width: calc(100vw - 174px - var(--safe-left) - var(--safe-right)); } #game-hud { gap: 6px; } #open-menu { padding: 0 10px; } }

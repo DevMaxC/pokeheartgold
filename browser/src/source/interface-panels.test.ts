@@ -200,3 +200,14 @@ test('modern party and summary use the native male sprite slot for genderless Po
   f.action('back').click();await tick();f.action('back').click();await party;assert.deepEqual(mon,before);
  }finally{f.restore();}
 });
+
+test('open Settings follows the global mute and cross-tab volume changes without replacing its owned panel',async()=>{
+ const f=fixture();try{const listeners=new Set<()=>void>();Object.assign(f.ports,{watchMusic:(listener:()=>void)=>{listeners.add(listener);return()=>{listeners.delete(listener);};}});const pending=f.panels.settings();f.ports.updatePreferences({...f.prefs,music:false,volume:.17});for(const listener of listeners)listener();assert.equal(f.node('setting-music').textContent,'Off');assert.equal(f.node('setting-music').getAttribute('aria-pressed'),'false');assert.equal(f.node('setting-volume').value,'17');assert.equal(f.node('setting-volume-value').textContent,'17%');assert.equal(f.ui.panelOpen,true);f.node('setting-music').click();assert.equal(f.prefs.music,true);f.node('settings-done').click();await pending;assert.equal(listeners.size,0);
+ }finally{f.restore();}
+});
+
+
+test('turning music on from a saved mute performs its gesture unlock after enabling the preference',async()=>{
+ const f=fixture(false);try{f.ports.updatePreferences({...f.prefs,music:false});const observed:boolean[]=[];f.ports.gesture=()=>{observed.push(f.prefs.music);};const pending=f.panels.settings();f.node('setting-music').click();assert.equal(f.prefs.music,true);assert.deepEqual(observed,[false,true],'the enabling user gesture reaches unlock with the new preference');assert.equal(f.node('setting-music').textContent,'On');f.node('settings-done').click();await pending;
+ }finally{f.restore();}
+});

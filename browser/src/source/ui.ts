@@ -41,7 +41,7 @@ export class UI{
   private keydown(event:KeyboardEvent){
     if(event.defaultPrevented||event.ctrlKey||event.metaKey||event.altKey)return;
     const target=event.target as HTMLElement|null;
-    if(target?.closest('[data-global-audio]')&&event.code!=='Tab')return;
+    if(target?.closest?.('[data-global-audio]')&&['Enter','Space','KeyF'].includes(event.code))return;
     if(this.panelOpen){
       if(['Enter','Space','KeyF'].includes(event.code)&&target?.closest('[data-panel-neutral]')&&$('panel-content').contains(target)){event.preventDefault();return;}
       const controls=this.focusables(),active=document.activeElement as HTMLElement|null,index=controls.indexOf(active!);
