@@ -89,5 +89,5 @@ export function createNativeRepelAudio(resources:NativeRepelAudioResources,ports
  }
  function cancelOwner(owner:object){for(const entry of[...owners])if(entry.owner===owner){player(entry.id).cancelOwner(entry.token);owners.delete(entry);}}
  function dispose(){if(closed)return;closed=true;lifetime.abort(new DOMException('Original Repel audio disposed','AbortError'));for(const entry of[...owners]){player(entry.id).cancelOwner(entry.token);owners.delete(entry);}buffers.clear();prepared.clear();detach();}
- return{async prepare(signal:AbortSignal){await prepareOne(1500,signal);await prepareOne(1535,signal);},play,cancelOwner,isPlayerIdle(id:RepelSE){guard();return!player(id).isPlaying(id);},waitIdle(id:RepelSE,signal:AbortSignal){guard();return player(id).waitIdle(AbortSignal.any([signal,lifetime.signal]));},failure,dispose};
+ return{async prepare(signal:AbortSignal){await prepareOne(1500,signal);await prepareOne(1535,signal);},async prepareMenu(signal:AbortSignal){await prepareOne(1500,signal);},play,cancelOwner,isPlayerIdle(id:RepelSE){guard();return!player(id).isPlaying(id);},waitIdle(id:RepelSE,signal:AbortSignal){guard();return player(id).waitIdle(AbortSignal.any([signal,lifetime.signal]));},failure,dispose};
 }
