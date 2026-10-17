@@ -58,6 +58,18 @@ export function moveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData
   const effectiveness=levitate?0:typeEffectiveness(data,move.type,defender.species,identified,context.roosting,grounded);damage=Math.floor(damage*effectiveness);
   return {damage:effectiveness===0?0:Math.max(1,damage),effectiveness};
 }
+/** Effect0040/0041/0087 set damage directly. IGNORE_TYPE_EFFECTIVENESS
+ * suppresses STAB/nonzero type multipliers and their messages, not immunity
+ * or WonderGuard's preceding type-flag check. No critical/range draw. */
+export function fixedMoveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,identified=false,context:Pick<DamageContext,'roosting'>={}){
+  if(![40,41,87].includes(move.effect))throw Error('Not a native fixed-damage effect');
+  const ability=monAbility(data,attacker),targetAbility=monAbility(data,defender),type=ability==='ABILITY_NORMALIZE'?data.constants.TYPE_NORMAL:move.type;
+  const grounded=targetAbility!=='ABILITY_KLUTZ'&&data.items.find(item=>item.item===defender.heldItem)?.holdEffect==='HOLD_EFFECT_SPEED_DOWN_GROUNDED';
+  const factor=typeEffectiveness(data,type,defender.species,identified||ability==='ABILITY_SCRAPPY',context.roosting,grounded);
+  const immunityAbility=ability!=='ABILITY_MOLD_BREAKER'&&targetAbility==='ABILITY_LEVITATE'&&type===data.constants.TYPE_GROUND&&!grounded?'Levitate':ability!=='ABILITY_MOLD_BREAKER'&&targetAbility==='ABILITY_WONDER_GUARD'&&move.power&&factor<=1?'Wonder Guard':null;
+  const immune=!!immunityAbility||factor===0,damage=move.effect===40?Math.max(1,Math.floor(defender.hp/2)):move.effect===41?40:attacker.level;
+  return{damage:immune?0:damage,effectiveness:immune?0:1,immunityAbility};
+}
 /** CheckAttackerStatus case11 directly calls CalcMoveDamage(STRUGGLE,0,0,40,
  * 0,self,self,1), then ApplyDamageRange. No STAB/type, screens or weather.
  * Caller preflights unported damage-affecting ability/item branches. */

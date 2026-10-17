@@ -1,6 +1,6 @@
 import type {GameData,State,Mon,MoveData} from './types.ts';
 import {calculateStats,createMon,giveMon,speciesName,titleCase,itemName,moveName,trainerName} from './data.ts';
-import {catchShakes,confusionDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
+import {catchShakes,confusionDamage,fixedMoveDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
 import {takeBagItem,isCaptureBall} from './bag.ts';
 import type {BattleView} from './battle-view.ts';
@@ -68,12 +68,12 @@ export class Battle{
     this.assertItemScope(attacker,defender);
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
-    if([47,49,65,100,106,109,228].includes(move.effect))this.assertItemScope(attacker,defender);
+    if([40,41,87,47,49,65,100,106,109,228].includes(move.effect))this.assertItemScope(attacker,defender);
     if(defender.hp>0&&move.category!==2&&(move.flags&1)&&monAbility(this.data,defender)==='ABILITY_STATIC'){
       this.assertItemScope(attacker,defender);
       if(!attacker.status&&monAbility(this.data,attacker)==='ABILITY_SYNCHRONIZE')throw Error('Unsupported native Static Synchronize phase');
     }
-    if(move.category!==2&&(move.effect===228||this.reflectTurns[playerSide?1:0]||(this.volatile(attacker).status2&nativeStatus2.focusEnergy))){
+    if(move.category!==2&&![40,41,87].includes(move.effect)&&(move.effect===228||this.reflectTurns[playerSide?1:0]||(this.volatile(attacker).status2&nativeStatus2.focusEnergy))){
       this.assertDamageScope(attacker,defender);
     }
     if(move.effect===49&&monAbility(this.data,defender)==='ABILITY_SOUNDPROOF'&&move.id===this.data.constants.MOVE_SUPERSONIC)throw Error('Unsupported native Soundproof move admission');
@@ -374,11 +374,12 @@ export class Battle{
     if(hit)await this.view?.attack(playerSide,move);
     // The native multi-hit controller reruns critical/damage calculation for
     // every hit, skips additional accuracy/PP checks and stops on fainting.
-    const multiplier=this.critMultiplier(attacker,defender,move),critical=multiplier>1;const {damage,effectiveness}=moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{roosting:this.roosting.has(defender),reflect:!!this.reflectTurns[playerSide?1:0],criticalMultiplier:multiplier});
-    let total=move.effect===41?40:move.effect===87?attacker.level:move.effect===40?Math.max(1,Math.floor(defender.hp/2)):damage;
+    const fixed=[40,41,87].includes(move.effect),multiplier=fixed?1:this.critMultiplier(attacker,defender,move),critical=multiplier>1;
+    const result=fixed?fixedMoveDamage(this.data,attacker,defender,move,this.identified.has(defender),{roosting:this.roosting.has(defender)}):moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{roosting:this.roosting.has(defender),reflect:!!this.reflectTurns[playerSide?1:0],criticalMultiplier:multiplier});
+    const {damage,effectiveness}=result;let total=damage;
     if(effectiveness===0)total=0;total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));
-    if(effectiveness===0)await this.say(monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER'&&monAbility(this.data,defender)==='ABILITY_LEVITATE'&&move.type===this.data.constants.TYPE_GROUND?`${defender.name} makes Ground moves miss by using Levitate!`:'It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
+    if(effectiveness===0)await this.say('immunityAbility'in result&&result.immunityAbility==='Wonder Guard'?`${defender.name} avoided damage by using Wonder Guard!`:monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER'&&monAbility(this.data,defender)==='ABILITY_LEVITATE'&&move.type===this.data.constants.TYPE_GROUND?`${defender.name} makes Ground moves miss by using Levitate!`:'It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
     if(effectiveness===0)break;
     let pivoted=false;
     if(total>0){landed++;if(move.effect===228)pivoted=await this.pivot(playerSide,attacker,defender,move);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
