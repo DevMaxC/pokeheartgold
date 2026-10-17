@@ -42,7 +42,7 @@ function fixture(){
   Battle:class{constructor(){this.start=async enemies=>{giveMon(c.state,enemies[0]);return'caught';};}},WorldBattleView:class{},FieldObjects:class{},
   captureField:()=>({}),restoreField:async()=>{},enterMap:async()=>{},save:()=>{writes.push(copy(c.state));return true;},$:()=>({focus:no}),
   localStorage:{setItem(key,value){log.push(['persist',key]);writes.push(JSON.parse(value));}},console:{warn:(...args)=>log.push(['warn',...args]),error:no},
-  hatchEgg:asyncNo,setScriptCameraTarget:no,SCRIPT_CAMERA_ACTOR:241,beginTrainerPath:asyncNo,finishTrainerPath:asyncNo,whiteOut:asyncNo,setPosition:no,face:no,showPerson:no,chooseStarter:asyncNo,trainerBattle:asyncNo,scriptWarp:asyncNo,moveActor:asyncNo,refreshNPCs:no,updateHUD:no,textDelay:()=>0,
+  installAzaleaField:asyncNo,hatchEgg:asyncNo,setScriptCameraTarget:no,SCRIPT_CAMERA_ACTOR:241,beginTrainerPath:asyncNo,finishTrainerPath:asyncNo,whiteOut:asyncNo,setPosition:no,face:no,showPerson:no,chooseStarter:asyncNo,trainerBattle:asyncNo,scriptWarp:asyncNo,moveActor:asyncNo,refreshNPCs:no,updateHUD:no,textDelay:()=>0,
   resetFieldInput:no,encounterChecks:{reset:no},momSavingsActive:()=>false,settleMomBattleMoney:()=>({}),withBattleMusic:async(_attempt,_trainer,action)=>action(),battleMoneyLoss:()=>0,healParty:no,trainerPrize:async()=>0,runFieldEntry:asyncNo,checkFrameTriggers:async()=>false,runFieldBattleAction,structuredClone,DOMException,AbortController,
  };
  c.executeSourceAction=async action=>{try{return{ok:true,value:await c.sourceActions.run(action)};}catch(error){errors.push(error);return{ok:false};}};
