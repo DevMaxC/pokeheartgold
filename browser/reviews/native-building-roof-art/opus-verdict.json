@@ -1,0 +1,73 @@
+{
+  "decision": "PASS",
+  "scope": "bank1 props/1-4-5.glb (Ecruteak gate), props/1-217-10.glb (Love House), props/1-118-6.glb (Olivine restaurant roof well) only",
+  "findings": [
+    {
+      "severity": "low",
+      "path": "browser/src/source/decorative-building-shells.ts",
+      "line": 66,
+      "evidence": "b.join([[-22.28125,40,-25.3125],[22.28125,40,-25.3125]],[[-29.171875,40,-32.0625],[29.171875,40,-32.0625]],wall) adds a Y40 soffit under the rear cornice. It is coloured with one texel taken from the centre of the side-wall face. The source kbc_lv02 faces have no downward-facing soffit on any side: the front, sides and corner chamfers have only vertical cornice faces 36-40/113-120 and the Y44 ledges 47-52/103-110.",
+      "reason": "This is a generated surface the source never authored, and it makes the rear differ from the front and sides. You only see it when looking up under the eave. It stays below Y44 and inside the native footprint, does not overlap the roof, and has no coplanar native face to fight with. It is cosmetic, not a blocker."
+    },
+    {
+      "severity": "low",
+      "path": "browser/src/source/decorative-building-shells.ts",
+      "line": 209,
+      "evidence": "![4,78,173,175,176,234,249].includes(model) means model 4 skips the entrance guard completely. In the test at decorative-building-shells.test.ts:106, the gate branch passes {passageOnly:true}, which would be ignored anyway. So that test proves the passage stays open in a transformed clone, but it does not exercise any gate entrance guard.",
+      "reason": "Acceptable for a two-post open gate. Everything openGate generates sits on the native post, foot, beam, fascia and ridge footprint (|x| 20-28 at Y\u22648; |x| 22-26 at Y8-48; beam Y\u226544.22). The probes at test lines 83-88 show the clear opening (x -19..19, Y2.1..44) has no hits. Still, a future real rear door placed on a post would not be detected."
+    },
+    {
+      "severity": "info",
+      "path": "browser/src/source/decorative-building-shells.ts",
+      "line": 122,
+      "evidence": "The new right well wall runs from (20.46484375,64.71484375,-19.0390625) down to (25.23046875,52.05078125,-23.88671875). It passes through x=21.36328125 at about Y62.3, so for z -20.27..-8.36 the top ~2.4 units lie inside the native chimney (x 8.40..21.36, Y54.68..66.55). The native rim (faces 16/17, x 20.46..27.16) and the native rear well wall (faces 32/33, about Y61.5 and up) already cut into the chimney the same way.",
+      "reason": "This intersection comes from how the source was modelled, not from the patch. The overlapping strip is enclosed by the chimney faces. No visible artifact appears in restaurant118-candidate.png Right/Rear/Rear-quarter views."
+    },
+    {
+      "severity": "info",
+      "path": "evidence/gate4-candidate.json",
+      "line": 14,
+      "evidence": "In each capture JSON, the embedded inventory.rendererSourceHashes lists decorative-building-shells.ts as 2ce91dc8\u2026 and render-repair.ts as 27291115\u2026. capture-verification.json:3 and source-pins-after.json:25 give runtime 54e2d860\u2026, which matches manifest.json:69. The 2ce91dc8 value also appears in building-visual-inventory.json.",
+      "reason": "The 2ce91dc8 hash is inventory-generation metadata, not the runtime. The capture JSONs also do not record which shell family ran or its triangle count. That the frozen code was used is supported by capture-verification.json and by the pixel differences, not by the capture JSON itself."
+    }
+  ],
+  "independentGeometryAssessment": {
+    "gate4": {
+      "selectors": "Checked against source-and-old-generic-faces.json en_gate02_3. Every count matches the source exactly: rear roof top faces 88/89/98/99 = 4; fascia z=16, Y50.418-54.418 = 84/85/112/113; beam z=14, Y44.219-52 = 86/87/96/97; ridge z=2, Y\u226570.418 = 72/73/78-81/114/115 = 8; post fronts z=10, Y8-48 = 56/57/70/71; foot fronts z=12, Y2-8 = 64/65/118/119.",
+      "mirrors": "Fascia, beam and ridge are reflected z\u2192-z, landing at -16/-14/-2. These match the native roof eave (z=-16) and the side-profile limits (beam/truss sides 12-23 span z \u00b114; ridge top 90/91/100/101 spans z \u00b12). Posts and feet are reflected z\u2192-2-z, landing at -12 and -14. These match the native post side faces 40-55 (z -12..10) and foot sides 58-69 (z -14..12).",
+      "uv": "Generated faces reuse the UVs of their own source faces (samples=face.p).",
+      "roof": "The native maroon roof is untouched. The base failure in before-regressions.log ('native roof artwork remains the first surface') comes from the pre-existing generic helper: its untextured 3d-solid-backing at z=-13.95 rises to Y66.10, through the rear roof slope, whose top surface is only at Y\u224856.7 at that z. finish() now hides that generated mesh.",
+      "noteOnNovelty": "The textured backs are geometrically identical to the old generic 3d-rear-facade output. The real changes are that the untextured 3d-solid-backing overdraw is gone and the backs are now owned per placement."
+    },
+    "love217": {
+      "selectors": "The native side-wall plane at x=25.3125 is found (faces 93/94). Rear roof faces 32-35 = 4. Cornice Y40-44 with normal.z>.5 = 36-40 plus chamfers 117-120 = 9. Front pillars = 61/62/77/78 (z=29.3125) + 59/60/75/76 (x=\u00b122.28) + chamfers 63/64/71/72/79/80/97/98 = 16. The Y30-32 entry lintel (85-90/101/102) is correctly excluded by its Y range.",
+      "closure": "Each mirrored rear pillar (22.28,-25.31)\u2192(22.28,-29.31)\u2192(26.28,-29.31)\u2192(29.17,-32.06)\u2192(32.06,-29.17) meets the native rear-side pieces 133/134 (\u2192(29.31,-26.28)), 55/56 (x=29.31) and 53/54 (z=-22.28), giving a closed outline. The rear cornice meets the native side cornices 113-116 at (\u00b132.06,-29.17).",
+      "roofAndBoard": "Nothing generated goes above Y44. The rear roof slopes 32-35 and ledges 47/48 are native and complete. The front entry board (24-27, 41-46, 123-126) and the front wall's entry opening are left alone and not copied. The old generic output copied the opening (x -18..2, Y2..28) and the board (Y44..60.2) onto z=-25.31/-32.06; see the 3d-rear-facade entries in source-and-old-generic-faces.json.",
+      "uv": "The rear wall maps onto side-wall UVs at the same texel density as the front (0.015625 per unit). Barycentric extrapolation from face 93 gives (0.9814,0.2715) at the fourth corner, which exactly matches native face 94.",
+      "sourceAuthoredNotDefects": "These appear identically in love217-source.png and love217-candidate.png and come from the source, not the patch: the green front-dormer roof seen in the Left/Right/Rear-quarter views; the dormer tip showing above the finial in the Rear view (orthographic pitch \u224813.4\u00b0); and the small light mark near the top of the masonry, which is part of the wall texture and also appears on the front and sides."
+    },
+    "restaurant118": {
+      "well": "Native lambert7 faces 32/33 are the only inner wall (rear). Floor 34/35 sits at Y52.05078125. The rim inner edge runs x -22..20.46484375 by z -19.0390625..2.58203125; the front rim (faces 6-11) is at Y64.57421875 and the rear and side rims are at Y64.71484375. All 12 new vertices are copied directly from these edges. They share edges with faces 32/33 and with each other, so there are no gaps.",
+      "oldGenericDifference": "The old generic copy of the well wall (old 3d-rear-facade faces 6/7) put the front rim at Y64.71484375. The patch uses the correct front-rim height, Y64.57421875.",
+      "uvMaterial": "Face 32 has the same UV (0.0712890625,0.0068359375) at all three vertices, so the centroid sample is that exact texel. The material is an opaque lambert7 clone with DoubleSide, transparent=false and alphaTest=0, and the alpha-sampling test covers it.",
+      "noOverdraw": "The walls slope outward going down, so they sit under the rim. The Top views in restaurant118-source.png and -candidate.png are pixel-identical over the well. The floor stays native at Y52.05078125 (test line ~103)."
+    },
+    "transformsResourcesFamilies": "sourceFaces uses getVertexPosition, so skinning and morphs are applied, and multiplies by matrixWorld and then the root inverse. Output geometry stays in root-local space under root. Native geometry, materials and maps are never changed; materials are cloned per placement while maps stay shared. The new mesh names start with 'decorative-building-', which ownsBuildingExteriorResources already covers. No family before decorative in the closeBuildingExterior chain claims models 4 or 217 (checked every family set and regex), and no later family claimed them either, so their only change is null \u2192 'decorative'. Model 118 was already decorative."
+  },
+  "captureAssessment": {
+    "gate4": "In gate4-candidate.png Rear and Rear-quarter views, the teal beam, the fascia tile ends, and the post and foot backs are now present. In gate4-source.png Rear they were missing or untextured. The roof pixels match in all six views, and the passage is still visibly open.",
+    "love217": "In love217-source.png Rear and Rear-quarter views there is a dark untextured block behind a door-shaped hole. In love217-candidate.png the same views show continuous masonry, the cornice and corner pillars, and an unchanged roof. The old A3-compare-love217.png candidate showed a copied rear dormer and a diagonal strip; neither appears in the current candidate.",
+    "restaurant118": "The cyan see-through gap in the well visible in restaurant118-source.png and the old A3 Rear-quarter view is closed in restaurant118-candidate.png Rear-quarter. The Left and Right views show dark inner walls matching the native rear inner wall seen in the Front view."
+  },
+  "testsEvidenceAssessment": {
+    "targetTests": "21/21 pass (target-tests.log). The new tests at lines 83, 89, 95 and 106 check meaningful things: roof first-hit and UV identity (sameRoof), passage clearance, exact intersections with the literal well edges, closure rays, and Y\u226444 bounds. Their line numbers match the failure locations in before-regressions.log.",
+    "baseRegressions": "All 4 new tests fail on the frozen base helper, for the expected reasons: generic backing overdrawing the roof, the hull above the Love House hip, missing well walls, and the gate shell returning null. The tests are therefore not passing trivially.",
+    "gaps": "The gate entrance test is vacuous (model 4 ignores all doors). No test pins the Love House soffit pixel. The family-file count assertion (15) depends on the real repo's props directory, which this review set does not contain in full."
+  },
+  "limitations": [
+    "Nothing was run: no tests, no TSC, no browser. The PASS/TSC results are as reported in the logs.",
+    "Source geometry was checked against the face dump in source-and-old-generic-faces.json, not by parsing the GLB binaries directly.",
+    "The captures are orthographic diagnostics of one placement each (0:12,5:2; 0:40,9:14; 0:8,7:6). They do not show in-world lighting, footing interaction or other placements, and are not a global 355-placement approval.",
+    "Only the three selected props are in this review set, so I could not directly confirm there are no other 1-4-* or 1-217-* texture variants. The exact geometry-count guards make any unexpected variant fall back to no shell (return null)."
+  ]
+}

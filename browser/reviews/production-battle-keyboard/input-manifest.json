@@ -1,0 +1,181 @@
+{
+  "base": "333423a4d3110ad7e8c01c10496fc78488b7b5d1",
+  "snapshotRoot": "/tmp/hg-opus-production-battle-keyboard/snapshot",
+  "scope": [
+    "browser/src/source/main.ts",
+    "browser/src/source/main-battle-keyboard.test.ts"
+  ],
+  "createdUTC": "2026-10-17T17:28:26.150871+00:00",
+  "files": [
+    {
+      "path": "browser/package.json",
+      "bytes": 462,
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+    },
+    {
+      "path": "browser/public/source/constants.json",
+      "bytes": 456675,
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+    },
+    {
+      "path": "browser/public/source/encounters.json",
+      "bytes": 294629,
+      "sha256": "7aa85c587bc597a5c7744e73b50fd9fd4b30eeee7497597ac438880d1ece6789"
+    },
+    {
+      "path": "browser/public/source/growth.json",
+      "bytes": 5089,
+      "sha256": "bb55edcd45f93b88cf2f2ea73586a734969ec3ccf20a803a54e2d1d57991f34c"
+    },
+    {
+      "path": "browser/public/source/index.json",
+      "bytes": 99556,
+      "sha256": "8b1ef89441ecdcb3b55f44c882019753bb5c30cdefe44a69cb2a8e25af1f0f95"
+    },
+    {
+      "path": "browser/public/source/initial-state.json",
+      "bytes": 5622,
+      "sha256": "2f7cebdd8dea69d12849c7c58c323e2291805e93503488954c4a9d3f2c70ac64"
+    },
+    {
+      "path": "browser/public/source/intro-messages.json",
+      "bytes": 5146,
+      "sha256": "8c0d3283ebf62c6cc1ecf5b68832311f64284197d5b15eccde9d6f4a0559479f"
+    },
+    {
+      "path": "browser/public/source/items.json",
+      "bytes": 663829,
+      "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab"
+    },
+    {
+      "path": "browser/public/source/learnsets.json",
+      "bytes": 158647,
+      "sha256": "b3364190eb81d410021602c6ee963fd2fc0849448b954ef7fe345b7e35887d00"
+    },
+    {
+      "path": "browser/public/source/messages/302.json",
+      "bytes": 8527,
+      "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+    },
+    {
+      "path": "browser/public/source/moves.json",
+      "bytes": 72416,
+      "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb"
+    },
+    {
+      "path": "browser/public/source/names.json",
+      "bytes": 78183,
+      "sha256": "c14bc3f85810a0b6a66882362d1edfe08f0dc0a99012c2eff5fbfe73694ab922"
+    },
+    {
+      "path": "browser/public/source/pokemon.json",
+      "bytes": 310681,
+      "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d"
+    },
+    {
+      "path": "browser/public/source/sprites.json",
+      "bytes": 109079,
+      "sha256": "d9f9a472f53b935cdde6e6e6f310001d99d2588aa4b2864c7033d0a2bf522955"
+    },
+    {
+      "path": "browser/public/source/trainers.json",
+      "bytes": 611888,
+      "sha256": "da80e4f5746d0ed0d49caeae63a35f70b96b7b32f5fdc929b006c46cdb94d7e2"
+    },
+    {
+      "path": "browser/public/source/type-chart.json",
+      "bytes": 1228,
+      "sha256": "bd67a8c53c54cc682d4008c73dfdfce2551234ec0933a6ae39e0430256895e66"
+    },
+    {
+      "path": "browser/src/source/bag.ts",
+      "bytes": 1576,
+      "sha256": "d70c869d89b08e3b32ef78e1a030838dbe6e1caa7297998526de52e939b17338"
+    },
+    {
+      "path": "browser/src/source/battle-experience.ts",
+      "bytes": 6106,
+      "sha256": "7814ae132f8d968376d48b29955ace542d09b4cb88145b8bc1b2577054edc794"
+    },
+    {
+      "path": "browser/src/source/battle-math.ts",
+      "bytes": 5607,
+      "sha256": "7ca568cc1242dd36fb38acc83c40662ab71dd3fce13c6b6b18ad254fdf9ce6db"
+    },
+    {
+      "path": "browser/src/source/battle-party.ts",
+      "bytes": 476,
+      "sha256": "e283c422284a434f3e0fcc563d89ec0771220dcf5ddb79d8434c690a4c498775"
+    },
+    {
+      "path": "browser/src/source/battle.ts",
+      "bytes": 29470,
+      "sha256": "463cdc3bf01ef959c582d5b5f1de046b1bb06595c61d91f0d97e33df2108766e"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "bytes": 4610,
+      "sha256": "6a8b4993a2c56ef092022e20452cf38f4e62d55daa4541501528b62a91599540"
+    },
+    {
+      "path": "browser/src/source/main-battle-keyboard.test.ts",
+      "bytes": 6435,
+      "sha256": "0a441415f8f91c5a27671f8ce2bb23da7b034e4368e716b7b4795fd3af7b181f"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "bytes": 36385,
+      "sha256": "973aace60664d103d6d7ffa99b64cced46c829864390f0fd0f8440c4d6150a30"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "bytes": 4380,
+      "sha256": "397ad68bf0244d7413072a7019ecdba2c1229e554ac1a9acb91fb41ea004a956"
+    },
+    {
+      "path": "browser/src/source/ui-test-dom.ts",
+      "bytes": 7543,
+      "sha256": "5ccfad9716e6f42aa32745da67ec407c667fc79790c72ca2b8f03d7be9ca8a52"
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "bytes": 17746,
+      "sha256": "71542a27b03ca746ff766b16ffca0193910c291a84a9238ca83647eae3715ada"
+    },
+    {
+      "path": "browser/tsconfig.json",
+      "bytes": 249,
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0"
+    },
+    {
+      "path": "before/main.ts",
+      "bytes": 36385,
+      "sha256": "3642e3ed94adfc3d318c8cec66e6c21971c6cd8125240a9c59a4f16303deddef"
+    },
+    {
+      "path": "evidence/before-tests.log",
+      "bytes": 2121,
+      "sha256": "76f32fd23df165e2763d54724e5459b55ee70d62c14ec208891fbda5f76b1d40"
+    },
+    {
+      "path": "evidence/after-tests.log",
+      "bytes": 1240,
+      "sha256": "f378760b4fad7f66c403fa89c2262fdef3dfe3fff8dc030812531f7e97143f4d"
+    },
+    {
+      "path": "evidence/tsc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/contract.md",
+      "bytes": 2128,
+      "sha256": "ab32cbaa7880f911fbcdfecd3381b741a0bbf61110b37bb30c2d2007bdac20a0"
+    },
+    {
+      "path": "evidence/change.diff",
+      "bytes": 9709,
+      "sha256": "e93df3c7d0e75c04ef7f8eca6538689a631c90b21d914c9e2296495c02e0f46f"
+    }
+  ]
+}

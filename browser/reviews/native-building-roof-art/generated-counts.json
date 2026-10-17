@@ -1,0 +1,22 @@
+{
+  "runtimeSHA256": "54e2d8601e138c7064ce9613b25d1317e2a7aab7c39bb25460fdd261f8cd3d72",
+  "nativeHelperDirectResults": [
+    {
+      "asset": "props/1-4-5.glb",
+      "family": "ecruteak-open-gate",
+      "triangles": 24
+    },
+    {
+      "asset": "props/1-217-10.glb",
+      "family": "love-house",
+      "triangles": 29
+    },
+    {
+      "asset": "props/1-118-6.glb",
+      "family": "olivine-restaurant",
+      "triangles": 22,
+      "newWellTriangles": 6
+    }
+  ],
+  "correction": "Earlier progress message incorrectly summed the gate faces as28; literal emitted count is24. This is a metadata correction, no geometry/source change."
+}

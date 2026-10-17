@@ -1,0 +1,89 @@
+{
+  "commit": "e5ee8f3e2af57fe35ced251a6cad6416dde3440e",
+  "base": "333423a4d3110ad7e8c01c10496fc78488b7b5d1",
+  "branch": "fix/production-battle-keyboard",
+  "worktree": "/Users/maxchurch/Documents/pokeheartgold-tree-release",
+  "clean": true,
+  "scope": [
+    "browser/src/source/main.ts",
+    "browser/src/source/main-battle-keyboard.test.ts"
+  ],
+  "sourceHashes": {
+    "browser/src/source/main.ts": "973aace60664d103d6d7ffa99b64cced46c829864390f0fd0f8440c4d6150a30",
+    "browser/src/source/main-battle-keyboard.test.ts": "0a441415f8f91c5a27671f8ce2bb23da7b034e4368e716b7b4795fd3af7b181f"
+  },
+  "review": {
+    "actualModel": "claude-opus-5-5",
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 1200,
+        "outputTokens": 16,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.0012799999999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-haiku-4-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      },
+      "claude-opus-5-5": {
+        "inputTokens": 30,
+        "outputTokens": 6797,
+        "cacheReadInputTokens": 270594,
+        "cacheCreationInputTokens": 31512,
+        "webSearchRequests": 0,
+        "costUSD": 0.3477388,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2770,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "durationMs": 85628,
+    "numTurns": 20,
+    "is_error": false,
+    "permission_denials": [],
+    "rawSHA256": "f983d2dab412127e577c7791f8fec88ae874032040ed265ac992fee613f06d1f",
+    "manifestSHA256": "601a162576fc70f75d9ddb9ee0c5bf03920cc284f927ea7b579806a89e0a604e",
+    "promptSHA256": "80886774de96a5dbf50067adcc88f103d100e37b3fc1edea084352d54b4b0ba1",
+    "inputs": 34,
+    "verdict": "No scoped defects found; static review only."
+  },
+  "checks": {
+    "before": {
+      "command": "HG_PRODUCTION_KEYBOARD_MAIN=/tmp/hg-production-keyboard-before-main.ts node --experimental-transform-types --test browser/src/source/main-battle-keyboard.test.ts",
+      "exitCodeObserved": 1,
+      "pass": 2,
+      "fail": 1,
+      "failure": "Enter defaultPrevented true during actual Battle Fight activation"
+    },
+    "after": {
+      "command": "node --experimental-transform-types --test browser/src/source/main-battle-keyboard.test.ts",
+      "exitCodeObserved": 0,
+      "pass": 3,
+      "fail": 0
+    },
+    "tsc": {
+      "command": "npx tsc --noEmit (cwd browser)",
+      "exitCodeObserved": 0
+    },
+    "diffCheck": {
+      "command": "git diff --check",
+      "exitCodeObserved": 0
+    }
+  },
+  "nativeCampaignReferenceOnly": "dd64b5c2771f25f4ee33968a0b7ec45edc32d740; no approval transfer",
+  "createdUTC": "2026-10-17T17:31:23.282446+00:00",
+  "limits": [
+    "Implementing-agent tests; provider read only, did not execute tests.",
+    "Headless real-handler fixtures supply unprevented button default click; no actual browser default-keyup/focus/layout/scroll/autorepeat QA.",
+    "Before test stops on first failed Enter/Fight assertion; after covers both keys and Fight/move/Back.",
+    "No campaign, battle mechanics, tree, renderer, audio or UI implementation change/approval.",
+    "No Vite build, broad suite, merge or deployment verification performed by this agent; parent owns combined release."
+  ]
+}
