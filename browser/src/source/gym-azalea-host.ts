@@ -22,8 +22,11 @@ export type AzaleaGymAudio={
  /** Must admit the ACTUAL source SE assets/transport, or reject. No beep,
   * music replacement, silent fallback or completion guessed from a timer. */
  prepare:(ids:readonly[1561,2171],signal:AbortSignal)=>Promise<void>;
- /** Resolves at actual completion, or immediately for a diagnosed technical
-  * no-voice. Native PlaySE ignores admission failure; its WaitSE then finishes
+ /** Resolves when this SE's native sequence PLAYER is idle (IsSEPlaying),
+  * including other sequences on that player, not merely this voice's end;
+  * and reports diagnosed technical no-voice without inventing playback.
+  * Even a failed voice must wait if another sequence occupies that player.
+  * Native PlaySE ignores admission failure; its WaitSE then finishes
   * on the next task poll. Source/config absence belongs to prepare's error. */
  switch1561:(signal:AbortSignal)=>Promise<AzaleaSEOutcome>;
  robot2171:(owner:object)=>AzaleaSEOutcome;stop2171:(owner:object,fade:1)=>void;
@@ -88,7 +91,8 @@ export class AzaleaGymHost{
   // Validate saved Continue before loading or publishing anything. Transition
   // entries intentionally ignore old/malformed saved values, as native Init.
   azaleaGymEntryState(saved,kind);const generation=this.generation;
-  await this.renderer.enter(map,saved,kind);
+  try{await this.renderer.enter(map,saved,kind);}catch(error){if(generation!==this.generation||this.disposed)return;throw error;}
+  if(generation!==this.generation||this.disposed)return;
   // Resource completion may land between task callbacks and the shared
   // phase's finally. Admit the persistent callback after that actual phase,
   // never by inventing SysTask insertion during task execution.
@@ -128,8 +132,9 @@ export class AzaleaGymHost{
  private release(){this.view=null;this.held=false;this.streamPoint=null;const riders=this.currentRiders;this.currentRiders=null;try{riders?.player.movement(null);}finally{try{riders?.follower?.movement(null);}finally{this.world.setAzaleaCameraOffset(this,0);}}}
  private async run<T>(context:ScriptGymContext,action:(signal:AbortSignal,scope:NativeFieldTaskScope,riders:Riders,audio:AzaleaGymAudio)=>Promise<T>):Promise<T>{
   this.context(context);if(this.moving)throw Error('Azalea Gym is busy');const audio=this.audio(),riders=this.riders();this.context(context);const owner=new AbortController(),abort=()=>owner.abort(reason(context.signal));
-  context.signal.addEventListener('abort',abort,{once:true});this.mapOwner!.signal.addEventListener('abort',abortMap,{once:true});const host=this;function abortMap(){owner.abort(host.mapOwner?.signal.reason??new DOMException('Azalea field unloaded','AbortError'));}
-  const scope=this.clock.createScope(this.mapID,owner.signal),externals=new Set<Promise<unknown>>();this.external.set(owner.signal,externals);this.action=owner;this.currentRiders=riders;this.busy=true;
+  const mapOwner=this.mapOwner!,scope=this.clock.createScope(this.mapID,owner.signal),abortMap=()=>owner.abort(reason(mapOwner.signal)),externals=new Set<Promise<unknown>>();
+  context.signal.addEventListener('abort',abort,{once:true});mapOwner.signal.addEventListener('abort',abortMap,{once:true});if(context.signal.aborted)abort();if(mapOwner.signal.aborted)abortMap();
+  this.external.set(owner.signal,externals);this.action=owner;this.currentRiders=riders;this.busy=true;
   const cancelRenderer=()=>this.renderer.cancel();owner.signal.addEventListener('abort',cancelRenderer,{once:true});
   let started:Promise<T>|null=null;
   try{
@@ -140,7 +145,7 @@ export class AzaleaGymHost{
    // rollback/finally. Drain it before the VM's source recovery can continue.
    if(started)await (started as Promise<T>).catch(()=>{});
    await Promise.allSettled([...externals]);this.external.delete(owner.signal);
-   context.signal.removeEventListener('abort',abort);this.mapOwner?.signal.removeEventListener('abort',abortMap);owner.signal.removeEventListener('abort',cancelRenderer);
+   context.signal.removeEventListener('abort',abort);mapOwner.signal.removeEventListener('abort',abortMap);owner.signal.removeEventListener('abort',cancelRenderer);
    scope.cancel();if(this.action===owner){this.action=null;try{this.release();}finally{this.currentRiders=null;this.busy=false;}}
   }
  }
@@ -161,14 +166,15 @@ export class AzaleaGymHost{
     waitFollower:async ownSignal=>{while(this.ports.followerMoving()){forward();check(ownSignal);await scope.waitFrames(1,ownSignal);}forward();},
     stepRiders:async(direction,phase,ownSignal)=>{
      forward();const p=point(riders.player.position()),f=riders.follower?point(riders.follower.position()):null,dz=direction===0?-1:1;
-     this.state.facing=direction;this.actorWrite(riders,signal,()=>riders.player.face(direction));if(riders.follower)this.actorWrite(riders,signal,()=>riders.follower!.face(direction));
-     await this.ticks(8,tick=>{forward();if(tick===1){this.state.x=p.x;this.state.z=p.z+dz;this.state.fieldHeight=0;}const movement={direction,step:tick-1,current:{x:p.x,y:0,z:p.z+dz},previous:point(p)};this.actorWrite(riders,signal,()=>riders.player.movement(movement));if(riders.follower&&f)this.actorWrite(riders,signal,()=>riders.follower!.movement({direction,step:tick-1,current:{x:f.x,y:0,z:f.z+dz},previous:point(f)}));this.place(riders,{x:p.x,y:0,z:p.z+dz*tick/8},f?{x:f.x,y:0,z:f.z+dz*tick/8}:undefined,signal);},ownSignal);
+     await this.ticks(8,tick=>{forward();if(tick===1){this.state.x=p.x;this.state.z=p.z+dz;this.state.fieldHeight=0;this.state.facing=direction;this.actorWrite(riders,signal,()=>riders.player.face(direction));if(riders.follower)this.actorWrite(riders,signal,()=>riders.follower!.face(direction));}const movement={direction,step:tick-1,current:{x:p.x,y:0,z:p.z+dz},previous:point(p)};this.actorWrite(riders,signal,()=>riders.player.movement(movement));if(riders.follower&&f)this.actorWrite(riders,signal,()=>riders.follower!.movement({direction,step:tick-1,current:{x:f.x,y:0,z:f.z+dz},previous:point(f)}));this.place(riders,{x:p.x,y:0,z:p.z+dz*tick/8},f?{x:f.x,y:0,z:f.z+dz*tick/8}:undefined,signal);},ownSignal);
      forward();this.settle(riders,{x:p.x,y:0,z:p.z+dz},f?{x:f.x,y:0,z:f.z+dz}:undefined,signal);this.actorWrite(riders,signal,()=>riders.player.movement(null));if(riders.follower)this.actorWrite(riders,signal,()=>riders.follower!.movement(null));
      // Task_SpinarakRide completes from the scripts/TaskManager phase after
      // its final movement task, not from inside this task callback. Parent
      // bytecode resumes on that same child-completion tick, with no extra
      // SetupNativeScript-style bytecode wait. Keep it inside the renderer's
      // awaited port so cancellation still owns its rollback/finally.
+     // This bounded adapter assumes step observation on its own eighth tick;
+     // absolute DS SysTask/MapObject priority ordering is not proven here.
      if(phase==='disembark'){await scope.waitFrames(1,ownSignal);forward();}
     },
     holdPlayer:movement=>{this.held=movement===73;},
@@ -190,5 +196,5 @@ export class AzaleaGymHost{
  leave(){
   this.generation++;try{this.renderer.leave();}finally{try{this.action?.abort(new DOMException('Azalea field unloaded','AbortError'));this.finishJob(new DOMException('Azalea field unloaded','AbortError'));this.release();}finally{this.currentRiders=null;this.busy=false;const owner=this.mapOwner;this.mapOwner=null;this.mapScope=null;this.mapID=-1;owner?.abort();}}
  }
- async dispose(){if(this.disposed)return;this.leave();this.disposed=true;if(this.world.azaleaGym===this)this.world.azaleaGym=null;if(this.resources)disposeAzaleaGymResources(await this.resources);this.resources=null;}
+ async dispose(){if(this.disposed)return;this.leave();this.disposed=true;if(this.world.azaleaGym===this)this.world.azaleaGym=null;const pending=this.resources;this.resources=null;const resources=pending&&await pending.catch(()=>null);if(resources)disposeAzaleaGymResources(resources);}
 }

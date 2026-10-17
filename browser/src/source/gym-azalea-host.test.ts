@@ -30,7 +30,7 @@ async function setup(withFollower=true){
  const world={scene:new THREE.Scene(),fieldMapID:180,azaleaGym:null,setAzaleaCameraOffset:(_owner:AzaleaGymHost,value:number)=>events.push({camera:value,tick:clock.tick})}as AzaleaGymHostWorld;
  const clock=new NativeFieldClock({field:()=>({map:world.fieldMapID,mapRunning:true}),onError:error=>{events.push({error});}});
  let followerMoving=false,activePlayer:AzaleaFieldActor,activeFollower:AzaleaFieldActor|null;
- function actor(role:string,p:AzaleaFieldPoint):AzaleaFieldActor{let facing=0;return{position:()=>({...p}),facing:()=>facing,place:next=>{Object.assign(p,next);events.push({role,place:{...p},tick:clock.tick});},settle:next=>{Object.assign(p,next);events.push({role,settle:{...p},tick:clock.tick});},face:next=>{facing=next;},movement:value=>{events.push({role,movement:value,tick:clock.tick});}};}
+ function actor(role:string,p:AzaleaFieldPoint):AzaleaFieldActor{let facing=0;return{position:()=>({...p}),facing:()=>facing,place:next=>{Object.assign(p,next);events.push({role,place:{...p},tick:clock.tick});},settle:next=>{Object.assign(p,next);events.push({role,settle:{...p},tick:clock.tick});},face:next=>{facing=next;events.push({role,face:next,tick:clock.tick,phase:clock.phase});},movement:value=>{events.push({role,movement:value,tick:clock.tick});}};}
  activePlayer=actor('player',{x:state.x,y:0,z:state.z});activeFollower=withFollower?actor('follower',{x:state.x,y:0,z:state.z+1}):null;
  const audio:AzaleaGymAudio={prepare:async(ids,signal)=>{signal.throwIfAborted();events.push({prepare:ids});},switch1561:async signal=>{signal.throwIfAborted();events.push('switch1561');return{kind:'voice'};},robot2171:owner=>{events.push({robot:true,owner,tick:clock.tick});return{kind:'voice'};},stop2171:(owner,fade)=>{events.push({robot:false,owner,fade,tick:clock.tick});}};
  const ports={actors:()=>({player:activePlayer,follower:activeFollower}),followerMoving:()=>followerMoving,audio};
@@ -60,6 +60,7 @@ test('shared clock publishes every actual route frame with follower, endpoint sa
   assert.deepEqual(endpoint,{puzzle:{kind:'azalea',spiders:[4,1,2,7],switches:0},logical:[3.5,31.5],vector:{x:9.5,y:0,z:24.5}},'source endpoint saves puzzle before the following docking tick updates logical tile coords');
   const steps=h.events.filter(e=>e.role==='player'&&e.movement);assert.equal(steps.length,16);assert.deepEqual(steps.slice(0,8).map(e=>e.movement.step),[0,1,2,3,4,5,6,7]);assert.equal(robotStop.tick-robotStart.tick,209);assert.equal(robotStop.fade,1);assert.equal(robotStop.owner,robotStart.owner);
   assert.deepEqual(logicalSamples[0],{vector:32.375,logical:31.5},'MapObject_StartWalkMovement changes current coordinates before its eight vector offsets');assert.deepEqual(steps[0].movement.previous,{x:3.5,y:0,z:32.5});assert.deepEqual(steps[0].movement.current,{x:3.5,y:0,z:31.5});
+  assert.ok(h.events.filter(e=>e.face!==undefined).every(e=>e.phase==='tasks'),'movement facing changes at first source task tick, not early dispatch');
   assert.equal(h.host.riderPosition,null);assert.equal(h.host.playerHeld,false);assert.equal(h.host.streamingTarget,null);assert.equal(h.host.moving,false);assert.ok(h.events.filter(e=>e.camera!==undefined).some(e=>Math.abs(e.camera)===1/16));
   assert.ok(h.events.some(e=>e.role==='player'&&e.settle?.z===24.5&&e.tick===robotStop.tick+1),'docking updates current/previous coordinates one tick after endpoint');
  }finally{await h.dispose();}
@@ -85,6 +86,14 @@ test('native ignored PlaySE failure permits visual progression with explicit no-
 
 test('abort drains asynchronous sound finalization before the VM-owned action rejects',async()=>{
  const h=await setup(false);try{let soundStarted=false,release!:()=>void,settled=false;h.audio.switch1561=signal=>new Promise((resolve,reject)=>{soundStarted=true;signal.addEventListener('abort',()=>{release=()=>{settled=true;reject(signal.reason);};},{once:true});});const controller=new AbortController(),pending=h.host.flipSwitch(0,{map,signal:controller.signal});let rejected=false;pending.catch(()=>{rejected=true;});for(let i=0;!soundStarted&&i<5;i++)await h.frame();assert.equal(soundStarted,true);controller.abort(new Error('abort sound'));await new Promise<void>(resolve=>setImmediate(resolve));assert.equal(rejected,false);assert.equal(settled,false);release();await assert.rejects(pending,/abort sound/);assert.equal(settled,true);assert.deepEqual(h.state.gymmick,{kind:'azalea',...initialAzaleaGymState()});}finally{await h.dispose();}
+});
+
+test('switch port waits for its entire native sequence player even after this voice ends or cannot start',async()=>{
+ const h=await setup(false);try{let idle!:()=>void,called=false;h.audio.switch1561=()=>{called=true;return new Promise(resolve=>{idle=()=>resolve({kind:'no-voice',detail:'voice rejected, same native player remained occupied'});});};const pending=h.host.flipSwitch(0,h.context);for(let i=0;!called&&i<4;i++)await h.frame();assert.equal(called,true);for(let i=0;i<4;i++)await h.frame();assert.equal(h.host.moving,true,'another sequence on the native player still owns the wait');idle();await h.until(pending);assert.equal(h.host.audioStatus[1561].kind,'no-voice');}finally{await h.dispose();}
+});
+
+test('failed action scope admission does not attach abandoned context or map abort listeners',async()=>{
+ const h=await setup(false);try{let additions=0;const mapSignal=(h.host as any).mapOwner.signal as AbortSignal,signal=h.context.signal;const a=signal.addEventListener.bind(signal),b=mapSignal.addEventListener.bind(mapSignal);signal.addEventListener=(...args:any[])=>{additions++;(a as any)(...args);};mapSignal.addEventListener=(...args:any[])=>{additions++;(b as any)(...args);};h.clock.createScope=()=>{throw Error('scope admission failed');};await assert.rejects(h.host.flipSwitch(0,h.context),/scope admission failed/);assert.equal(additions,0);assert.equal(h.host.moving,false);}finally{await h.dispose();}
 });
 
 test('local abort restores same-map checkpoint and never cancels another admitted field scope',async()=>{
@@ -134,6 +143,14 @@ test('World applies cumulative camera shake to position AND target without orbit
  assert.deepEqual(world.target.toArray(),[4,5,6]);assert.deepEqual(world.camera.position.toArray(),[10,11,12]);assert.deepEqual([world.yaw,world.pitch,world.distance],[1.2,.65,20]);world.setAzaleaCameraOffset({},1);assert.equal(world.target.z,6);
 });
 
+test('World streaming consumes the live rider vector or the native frozen tracking point, scoped to the active map',()=>{
+ const world=Object.create(OriginalWorld.prototype)as any;Object.assign(world,{activeHeader:180,activeMatrix:105,streamRequest:true,azaleaGym:{riderPosition:{x:9.5,y:0,z:24.5},streamingTarget:null}});world.updateStreaming(180,3.5,31.5);assert.deepEqual(world.latestStream,{matrix:105,id:180,x:9.5,z:24.5});world.azaleaGym.streamingTarget={x:3.5,z:29};world.updateStreaming(180,10,20);assert.deepEqual(world.latestStream,{matrix:105,id:180,x:3.5,z:29});world.updateStreaming(1,10,20);assert.deepEqual(world.latestStream,{matrix:105,id:1,x:10,z:20});
+});
+
+test('actual World draw follows rider override rather than stale logical tile and retains orbit',()=>{
+ const world=Object.create(OriginalWorld.prototype)as any,sky:any[]=[];Object.assign(world,{cameraTransition:false,fieldTasks:null,grassTime:0,scene:new THREE.Scene(),camera:new THREE.PerspectiveCamera(),target:new THREE.Vector3(),azaleaGym:{riderPosition:{x:9.5,y:0,z:24.5}},azaleaCameraZ:0,yaw:1.1,pitch:.6,distance:18,cells:new Map(),npcSprites:new Map(),height:()=>0,sky:{update:(...args:any[])=>sky.push(args)},renderer:{render:()=>{}}});world.draw(3.5,31.5,.1,0);const blend=1-Math.exp(-.9);assert.equal(world.target.x,9.5*blend);assert.equal(world.target.z,24.5*blend);assert.deepEqual(sky[0],[.1,9.5,0,24.5]);assert.deepEqual([world.yaw,world.pitch,world.distance],[1.1,.6,18]);
+});
+
 test('actual World streaming suppresses only managed Azalea props when an owning host is installed',async()=>{
  const matrix=JSON.parse((await read('matrices/105.json')).toString());
  async function admitted(key:string,host:boolean){const loaded:string[]=[],world=Object.create(OriginalWorld.prototype)as any,sourceMap={...map,key};Object.assign(world,{matrix,activeMatrix:105,activeHeader:180,generation:0,pending:null,loading:false,cells:new Map(),scene:new THREE.Scene(),index:{maps:{180:sourceMap}},terraces:null,entrances:Promise.resolve({105:[]}),latestStream:{matrix:105,id:180,x:3.5,z:32.5},azaleaGym:host?{}:null});world.map=async()=>sourceMap;world.land=async()=>({permissions:new Array(1024).fill(32768),plates:[]});world.asset=async(path:string)=>{loaded.push(path);return new THREE.Group();};await world.stream(180,3.5,32.5);return loaded;}
@@ -149,4 +166,9 @@ test('real World transition releases Azalea actor/view ownership before globally
 test('a superseded asynchronous room load never publishes an incoming field cart, scope or save',async()=>{
  let release!:(value:AzaleaGymResources)=>void;const sourceResources=await resources(),state={map:180,x:3.5,z:32.5,facing:0}as State,world={scene:new THREE.Scene(),fieldMapID:180,azaleaGym:null,setAzaleaCameraOffset:()=>{}}as AzaleaGymHostWorld,clock=new NativeFieldClock({field:()=>({map:world.fieldMapID,mapRunning:true}),onError:error=>{throw error;}});
  const host=new AzaleaGymHost(world,state,clock,{}as any,()=>new Promise(resolve=>{release=resolve;}));try{const pending=host.enter(map,'warp');host.leave();(world as any).fieldMapID=1;state.map=1;release(sourceResources);await pending;assert.equal(host.active,false);assert.equal(world.scene.children.length,0);assert.equal(state.gymmick,undefined);assert.equal(clock.waiting,0);}finally{await host.dispose();clock.dispose();}
+});
+
+test('failed late resources are quiet for superseded entry and disposal still completes',async()=>{
+ let reject!:(reason:unknown)=>void;const state={map:180,x:3.5,z:32.5,facing:0}as State,world={scene:new THREE.Scene(),fieldMapID:180,azaleaGym:null,setAzaleaCameraOffset:()=>{}}as AzaleaGymHostWorld,clock=new NativeFieldClock({field:()=>({map:world.fieldMapID,mapRunning:true}),onError:error=>{throw error;}}),host=new AzaleaGymHost(world,state,clock,{}as any,()=>new Promise((_resolve,failed)=>{reject=failed;}));
+ const entry=host.enter(map),disposed=host.dispose();reject(Error('native asset IO failed after unload'));await entry;await disposed;assert.equal(world.scene.children.length,0);assert.equal(world.azaleaGym,null);assert.equal(clock.waiting,0);clock.dispose();
 });
