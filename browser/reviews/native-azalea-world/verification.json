@@ -57,6 +57,16 @@
     "originalSource": "fb864a48f93e03930f28e42c76554ee407a4127d",
     "raw": "opus-fb864a48/opus-result.json",
     "adjudication": "review-adjudication.json",
-    "followup": "Actual8f review finished, two low corrections ina93; targeted final follow-up pending"
+    "followup": "Actual8f review completed; its two low findings corrected in a93",
+    "final": {
+      "sourceCommit": "a93c36d34ee50567f6b8cb9f6346829e0e6960c0",
+      "helperSHA256": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46",
+      "model": "claude-opus-5-5",
+      "raw": "opus-a93c36d3/opus-result.json",
+      "rawSHA256": "4d637f0dbd2d68858c566d0929571c823dbc00a6464e7cd6cc5550a091d1d293",
+      "verdict": "Source-only ACCEPT, no reachable high/medium/low in corrected scope; no browser/manual approval",
+      "durationMs": 231806,
+      "allReviewedInputsUnchanged": true
+    }
   }
 }

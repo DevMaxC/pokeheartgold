@@ -101,12 +101,12 @@
       "findings": [
         {
           "id": "D1",
-          "status": "corrected-a93-pending-targeted-review",
+          "status": "corrected-a93-and-actual-targeted-review-accepted",
           "evidence": "Guard synchronous host ports before and after; exact track/dock/commit/pose reentrant leave regressions and no stale switch sound. Previous8fbaseline spawn passes but two remaining-defect fixtures fail; current43Node pass."
         },
         {
           "id": "D2",
-          "status": "corrected-a93-pending-targeted-review",
+          "status": "corrected-a93-and-actual-targeted-review-accepted",
           "evidence": "Literal native material+TEX0 sampling flags match converted GLTF and runtime Three sampler; repeat kept, unsupported clamp mismatch rejects; completed PAT image disposal exactlyonce."
         }
       ],
@@ -115,6 +115,21 @@
         "H2": "Next review snapshot includes g3d_internal.h KEEP_MASK and g3d_draw.c source dispatch plus assembly tables.",
         "H3": "Next snapshot includes MapPropAnimListFile struct and full direct LoadOne caller inventory; current fieldmap creation/initialization order documented. No arbitrary multithread/game-state proof claimed."
       }
+    },
+    {
+      "source": "a93c36d34ee50567f6b8cb9f6346829e0e6960c0",
+      "helperSHA256": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46",
+      "raw": "opus-a93c36d3/opus-result.json",
+      "rawSHA256": "4d637f0dbd2d68858c566d0929571c823dbc00a6464e7cd6cc5550a091d1d293",
+      "model": "claude-opus-5-5",
+      "durationMs": 231806,
+      "verdict": "Source-only release ACCEPT; D1/D2 fixed; no reachable high/medium/low defect found in targeted corrected code",
+      "sourceAndCopiedInputsStable": true,
+      "hostContractNotes": [
+        "Undo setters hold74/soundfalse/camera0/tracktrue must be idempotent: reentrant leave inside an undo may cause nested cleanup.",
+        "Each real do-port must apply its effect before triggering a reentrant unload, or re-check its own owner token before applying an effect after reentrant work. A caller cannot guard inside the host implementation."
+      ],
+      "optionalNoteAdjudication": "The review optional future powers-of-two check is redundant for positive integer FX32 pairs whose exact product is4096^2=2^24: every positive integer divisor is a power of2. Current actual scale-up pairs8/1/8 and4/1/4 are unchanged; no broader fixed-point GPU precision approval follows."
     }
   ]
 }

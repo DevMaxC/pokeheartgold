@@ -1,0 +1,128 @@
+{
+  "115": {
+    "nativeSHA256": "596e7ccfd91f01f24ff0a4e69d6ca45a179e22a78aeb502efe826d3b45791efc",
+    "modelBase": 72,
+    "nativeSbcOffset": 260,
+    "nativeSbcThroughMaterialStartHex": "2600000000060100000201010b240005002b46020000000202010b440005012b01000000",
+    "positionScaleAndInverseFx32": [
+      32768,
+      512
+    ],
+    "materials": [
+      {
+        "name": "g2rope_1",
+        "absoluteOffset": 424,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f20002000001000000010000000024000",
+        "textureImageParamHex": "0x30000"
+      }
+    ]
+  },
+  "116": {
+    "nativeSHA256": "1f87a606326b3c18a6e48bc6f575b9c0078ac58fded4d84b2447c254dbf14548",
+    "modelBase": 72,
+    "nativeSbcOffset": 236,
+    "nativeSbcThroughMaterialStartHex": "2600000000060100000201010b240005002b46020000000202010b440005012b01000000",
+    "positionScaleAndInverseFx32": [
+      32768,
+      512
+    ],
+    "materials": [
+      {
+        "name": "g2rope_2",
+        "absoluteOffset": 400,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f20002000001000000010000000024000",
+        "textureImageParamHex": "0x30000"
+      }
+    ]
+  },
+  "117": {
+    "nativeSHA256": "ad238d8d4e6a3f42c7e5c199dc41d389839234cf1725b74f552c75f22b5dcae5",
+    "modelBase": 72,
+    "nativeSbcOffset": 180,
+    "nativeSbcThroughMaterialStartHex": "060000000200010b040005002b010000",
+    "positionScaleAndInverseFx32": [
+      16384,
+      1024
+    ],
+    "materials": [
+      {
+        "name": "g2switch",
+        "absoluteOffset": 324,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f20002000001000000010000000012800",
+        "textureImageParamHex": "0x30000"
+      }
+    ]
+  },
+  "118": {
+    "nativeSHA256": "1fd210c4a0d9e4caa595fbed02c221a5bec323fb771d488061a4e55303417aac",
+    "modelBase": 72,
+    "nativeSbcOffset": 672,
+    "nativeSbcThroughMaterialStartHex": "26000000000200010b040505030400050104060502040105002b26010000010201010b2404050624030504240205052b6602000001000202010b2404050924030507240205082b6603000001000203010b2404050c2403050a2402050b2b6604000001000204010b2404050f2403050d2402050e2b6605000001000205010b2404051224030510240205112b6606000001000206010b4404051544030513440205142b01",
+    "positionScaleAndInverseFx32": [
+      16384,
+      1024
+    ],
+    "materials": [
+      {
+        "name": "g02lift_body",
+        "absoluteOffset": 1408,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f10001000001000000010000000002c00",
+        "textureImageParamHex": "0x30000"
+      },
+      {
+        "name": "g02lift_body2",
+        "absoluteOffset": 1452,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f10001000001000000010000000002c00",
+        "textureImageParamHex": "0x30000"
+      },
+      {
+        "name": "g02lift_leg1",
+        "absoluteOffset": 1496,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f10001000001000000010000000002c00",
+        "textureImageParamHex": "0x30000"
+      },
+      {
+        "name": "g02lift_leg2",
+        "absoluteOffset": 1540,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f08000800001000000010000000002c00",
+        "textureImageParamHex": "0x30000"
+      },
+      {
+        "name": "g02lift_leg3",
+        "absoluteOffset": 1584,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f08000800001000000010000000002c00",
+        "textureImageParamHex": "0x30000"
+      },
+      {
+        "name": "g02lift_on1",
+        "absoluteOffset": 1628,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f10001000001000000010000000002c00",
+        "textureImageParamHex": "0x30000"
+      },
+      {
+        "name": "g02lift_on2",
+        "absoluteOffset": 1672,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f08000800001000000010000000162002",
+        "textureImageParamHex": "0x30000"
+      }
+    ]
+  },
+  "122": {
+    "nativeSHA256": "5284175d188f1d019dca29cff582e9cf975625e122bde52fa0af85fadc1d35c9",
+    "modelBase": 72,
+    "nativeSbcOffset": 180,
+    "nativeSbcThroughMaterialStartHex": "060000000200010b040005002b010000",
+    "positionScaleAndInverseFx32": [
+      16384,
+      1024
+    ],
+    "materials": [
+      {
+        "name": "g2switch",
+        "absoluteOffset": 324,
+        "bytes48Hex": "00002c0039e700000000000080801f00fff81f3f00000300ffffffff0000ce1f20002000001000000010000000012800",
+        "textureImageParamHex": "0x30000"
+      }
+    ]
+  }
+}
