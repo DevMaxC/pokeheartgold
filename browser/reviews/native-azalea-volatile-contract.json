@@ -176,6 +176,46 @@
       "path": "files/battledata/script/subscript/subscript_0012_UpdateStatStage.s",
       "sha256": "ba9ac6363a1fbff29b678ddd7189f4245bf4b894c6fcdba8d3947b8e62125336",
       "bytes": 1306
+    },
+    {
+      "path": "include/battle/battle.h",
+      "sha256": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972",
+      "bytes": 17444
+    },
+    {
+      "path": "include/battle/battle_system.h",
+      "sha256": "c29fa4c2d0e9ff58ef01ccbc55e94adeac55a110630dd6ee101d50e39e3091b6",
+      "bytes": 10303
+    },
+    {
+      "path": "src/battle/battle_system.c",
+      "sha256": "00bdbdc5d780d7562cfa8f5ab8907d8e2cbc1b2e0d563c7b3e236d88ac96cdc4",
+      "bytes": 75182
+    },
+    {
+      "path": "browser/public/source/items.json",
+      "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab",
+      "bytes": 663829
+    },
+    {
+      "path": "files/battledata/script/subscript/subscript_0010_ShowParty.s",
+      "sha256": "d0844a25ceb19c48c0128aede85ff442536d1a45aea216cb5ec198e6a0db8cbb",
+      "bytes": 725
+    },
+    {
+      "path": "files/battledata/script/subscript/subscript_0002_UpdateHp.s",
+      "sha256": "c02a6c456535ebdfc2b317ba87163ddcdaab9f1b8b9ab7a43617e5b922c3ea44",
+      "bytes": 804
+    },
+    {
+      "path": "files/battledata/script/subscript/subscript_0099_HazardsCheck.s",
+      "sha256": "639d41b883f4638d9cdf0553a3c7fdc1ddfbf22137d67e4c66631f9c7fd08a9b",
+      "bytes": 2136
+    },
+    {
+      "path": "files/battledata/script/subscript/subscript_0153_Pursuit.s",
+      "sha256": "33b5e5dc99fced31086f1b482146614bc8709719dd68b757b8dd8314351d0c7b",
+      "bytes": 4726
     }
   ],
   "effects": {
@@ -192,6 +232,10 @@
     "No battle.ts/battle-math.ts/main/UI/World changes or newly admitted effects.",
     "No Transform/BatonPass/doubles controller is implemented. Current-type/ability/held-item conditions must be supplied by a native host, not inferred from species alone.",
     "Scoped raw16 RNG distribution/consumption is explicit; global RNG parity is not claimed.",
-    "U-turn is a phase/gate contract only, not an executed pivot. Unsupported remains until every native selected branch is supported."
+    "U-turn is a phase/gate contract only, not an executed pivot. Unsupported remains until every native selected branch is supported.",
+    "MOVE_SUCCEEDED is set by TryMove before accuracy/effect outcome; a later miss or failed effect remains Spite history. Native FAIL includes MISSED via DID_NOT_HIT; timing, not mask exclusion, explains the result.",
+    "nativeMeanLookOnLeave explicitly rejects Attract/Bind bits: this narrow primitive is not the complete native departure pipeline.",
+    "Reflect helper stores logical8 LightClay turns; native packed3bit initial0 is active and decrements to7. Only native donor modifier0/3 is a supported host input.",
+    "Primary scripts and explicit Uturn party-list/Pursuit/hazards/HP callees are pinned; this is not every transitive nested battle subscript."
   ]
 }
