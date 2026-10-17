@@ -1,0 +1,14 @@
+[
+  {
+    "module": "terrace-model",
+    "sourceSHA256": "65375b1a2d33b8663774ec08e4c392454d8becc26d78956202c0ec7af71aadbc",
+    "browserReferenceSHA256": "59261346a2a55882bd191450f6622031691b40ffaeceab437ddc52b8e4a9c574",
+    "change": "Only relative import specifiers relocated; old World imports the pinned old terrace-model sibling."
+  },
+  {
+    "module": "world",
+    "sourceSHA256": "09ba6bdeeacacf239c56484af19f5bc0e21be6f9e2ff4ddd97fc8ec2e9c380e5",
+    "browserReferenceSHA256": "36d2b288e73de6af4d13e349979663a00d1c3f9ff858a6c21fcb9b5b92bd093d",
+    "change": "Only relative import specifiers relocated; old World imports the pinned old terrace-model sibling."
+  }
+]

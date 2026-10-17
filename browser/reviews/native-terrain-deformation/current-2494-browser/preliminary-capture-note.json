@@ -1,0 +1,22 @@
+{
+  "archive": "/tmp/hg-native-terrain-2494-preliminary-6frame",
+  "reason": "The original QA hook draws6frames. Corner camera positions retained about3e-6 interpolation residual from prior poses; later captures below settle via the actual World.draw method with dt4 so old/new camera position matches exactly. No runtime or camera source changes.",
+  "hashes": {
+    "route44-corner-candidate.json": "829bc539629209c57281d097c40381672649caae68ce6059d2615f411777db4d",
+    "route44-side-production.png": "f9d11b9f8953b7b078fb7bccd5f1cb349d311b4ec92acc58616615a15167a5ea",
+    "route44-entry-production.json": "360514c0aee43b541886d990b595ddd58f601d415220071541658e0a4b01422a",
+    "route44-side-candidate.png": "753375f9cf6cb1625167f434d8174bacc1daf4a1101b1341aa3938b278ace1df",
+    "cherrygrove-outdoor-candidate.json": "f0b0cc02f503ed6baf8a3794fac041a88e8f0e7863ec2ad6db7e984a33f000d5",
+    "route44-entry-candidate.json": "384fa277cf6ae435922d8f0218f5e313ca56cb4e5365a7c5d599c5b1a3726d4a",
+    "cherrygrove-outdoor-candidate.png": "4864f1ef1fe2f6751719b61245bb51740e0a0f4d17119e6696257ef4552d928a",
+    "route44-side-production.json": "99a16998f65efb0ec66e807bc2ce53985bf1359e9d368f756b7fa2aa8381c265",
+    "route44-corner-production.json": "ccfeec0d3b383a1ddf6a38edfc0ecd7136b07c2c66e5bce9d774aa0b19695cbf",
+    "route44-entry-production.png": "271a04412b3a5fc04a06080968ac8e43aa71aa4ca6c4cd4fcd1c3a0619c37073",
+    "cherrygrove-outdoor-production.png": "76e70bd517ab6bdafe79594b278edf680a297061d5c8c5268c5dbd47b6c4e89d",
+    "route44-entry-candidate.png": "f135793c7069716a4103f50c622671d8284dfc53b8f1040c3984218f8247cd10",
+    "route44-corner-candidate.png": "b6a892f46df7d8bc6d62a06a0a23390a6f113fe5fa8e8361e0aed24c9451cc9d",
+    "cherrygrove-outdoor-production.json": "a9072641f3184f8dff2aba0ff44e74797b3d27e65d5c6b339e27a1fc2e574763",
+    "route44-side-candidate.json": "ab01574884a992023b9cb0aafe287487a1c3dc6741fa4826cc6fc97928f82bda",
+    "route44-corner-production.png": "82b491b6ddf0b0dd6c48352bce075ca2c5188cf8c0a01a6b6430fc5d8098e28d"
+  }
+}

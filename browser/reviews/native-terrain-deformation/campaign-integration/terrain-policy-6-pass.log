@@ -1,0 +1,48 @@
+TAP version 13
+# (node:13648) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: streaming releases placed terrain repairs once without disposing reusable native assets
+ok 1 - streaming releases placed terrain repairs once without disposing reusable native assets
+  ---
+  duration_ms: 134.232958
+  type: 'test'
+  ...
+# Subtest: terrace deformation keeps legacy backing out of evidence for new solid hill volumes
+ok 2 - terrace deformation keeps legacy backing out of evidence for new solid hill volumes
+  ---
+  duration_ms: 190.844792
+  type: 'test'
+  ...
+# Subtest: one cell releases actual native building and terrain repairs together without freeing cached source resources
+ok 3 - one cell releases actual native building and terrain repairs together without freeing cached source resources
+  ---
+  duration_ms: 484.431375
+  type: 'test'
+  ...
+# Subtest: a superseded delayed cliff donor cannot finalize terrain or request props, and the current generation can retry
+ok 4 - a superseded delayed cliff donor cannot finalize terrain or request props, and the current generation can retry
+  ---
+  duration_ms: 243.725
+  type: 'test'
+  ...
+# Subtest: ordinary campaign streaming keeps released scenery while terrain closure requires explicit audit opt-in
+ok 5 - ordinary campaign streaming keeps released scenery while terrain closure requires explicit audit opt-in
+  ---
+  duration_ms: 128.266333
+  type: 'test'
+  ...
+# Subtest: released forest filler still streams its foundation and releases only placed resources
+ok 6 - released forest filler still streams its foundation and releases only placed resources
+  ---
+  duration_ms: 6.856917
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4097.104125

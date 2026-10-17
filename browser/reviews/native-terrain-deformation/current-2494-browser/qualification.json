@@ -1,0 +1,363 @@
+{
+  "sourceCommit": "bc4177352f91a7e02a3d71f474bffc832239f00d",
+  "runtimeHashes": {
+    "src/source/native-terrain-joints.ts": "249440d6763c0b4e745defc1da85bd39ef66ab150b12130634fc13c045dcded6",
+    "src/source/terrace-model.ts": "37f7cf76d2154bfa73c2b2aa03989a01a791d39d0c5d2be6be0a39f3b7d7f0fd",
+    "src/source/world.ts": "373546cf9bd9f2b2da0037d82da5d222f84052a1647cdf89aa4188a81fd6da73"
+  },
+  "qualifiedAt": "2026-10-17T18:31:23.838934+00:00",
+  "status": "Focused current-source visual comparisons complete; no observed new source geometry defect in these four poses. Root final release checks pending.",
+  "method": "Actual current 2494 and exact production 333 OriginalWorld, WebGL native full stream, no Main/save/actor/music entry. Old/new exact camera positions/targets matched after actual World.draw dt4 settles camera interpolation; this is static visual qualification, not interactive/GPU timing.",
+  "poses": [
+    {
+      "pose": "route44-corner",
+      "sameRequestedAndCamera": true,
+      "candidateMode": "candidate",
+      "productionMode": "production",
+      "walkable": true,
+      "streamedCells": 25,
+      "candidateJoints": 0,
+      "differentPixelsBelowStatus": 188746,
+      "differenceBBoxBelowStatus": [
+        0,
+        0,
+        1280,
+        740
+      ],
+      "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+      "maximumPerChannelDifference": [
+        3,
+        3,
+        2
+      ],
+      "pixelsAbove16ChannelDifference": 0,
+      "pixelsAbove64ChannelDifference": 0
+    },
+    {
+      "pose": "route44-entry",
+      "sameRequestedAndCamera": true,
+      "candidateMode": "candidate",
+      "productionMode": "production",
+      "walkable": true,
+      "streamedCells": 25,
+      "candidateJoints": 0,
+      "differentPixelsBelowStatus": 256653,
+      "differenceBBoxBelowStatus": [
+        0,
+        0,
+        1280,
+        740
+      ],
+      "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+      "maximumPerChannelDifference": [
+        3,
+        3,
+        3
+      ],
+      "pixelsAbove16ChannelDifference": 0,
+      "pixelsAbove64ChannelDifference": 0
+    },
+    {
+      "pose": "route44-side",
+      "sameRequestedAndCamera": true,
+      "candidateMode": "candidate",
+      "productionMode": "production",
+      "walkable": true,
+      "streamedCells": 25,
+      "candidateJoints": 0,
+      "differentPixelsBelowStatus": 334484,
+      "differenceBBoxBelowStatus": [
+        0,
+        0,
+        1280,
+        740
+      ],
+      "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+      "maximumPerChannelDifference": [
+        12,
+        8,
+        8
+      ],
+      "pixelsAbove16ChannelDifference": 0,
+      "pixelsAbove64ChannelDifference": 0
+    },
+    {
+      "pose": "cherrygrove-outdoor",
+      "sameRequestedAndCamera": true,
+      "candidateMode": "candidate",
+      "productionMode": "production",
+      "walkable": true,
+      "streamedCells": 21,
+      "candidateJoints": 0,
+      "differentPixelsBelowStatus": 583297,
+      "differenceBBoxBelowStatus": [
+        0,
+        0,
+        1280,
+        740
+      ],
+      "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+      "maximumPerChannelDifference": [
+        3,
+        3,
+        3
+      ],
+      "pixelsAbove16ChannelDifference": 0,
+      "pixelsAbove64ChannelDifference": 0
+    }
+  ],
+  "captures": [
+    {
+      "metadata": "cherrygrove-outdoor-candidate.json",
+      "png": "cherrygrove-outdoor-candidate.png",
+      "sha256": "37baf7c0def81afba4578d81eca092b90f20d8a753ad0284c8a6e99c8d0e6cc8",
+      "mode": "candidate",
+      "camera": {
+        "distance": 13,
+        "first": null,
+        "pitch": 0.7,
+        "position": [
+          552.5,
+          10.251392434089984,
+          405.44294843469834
+        ],
+        "target": [
+          552.5,
+          1.8765625,
+          395.5
+        ],
+        "yaw": 0
+      },
+      "cells": 21,
+      "walkable": true,
+      "joints": 0
+    },
+    {
+      "metadata": "route44-corner-candidate.json",
+      "png": "route44-corner-candidate.png",
+      "sha256": "c4caaefbde0098cfba99813bc1dd327a806f75742456bfe59cee111898b2887e",
+      "mode": "candidate",
+      "camera": {
+        "distance": 9,
+        "first": null,
+        "pitch": 0.4,
+        "position": [
+          627.1597259497476,
+          11.002421330777855,
+          180.84019674748032
+        ],
+        "target": [
+          632.5,
+          7.49765625,
+          174.5
+        ],
+        "yaw": -0.7
+      },
+      "cells": 25,
+      "walkable": true,
+      "joints": 0
+    },
+    {
+      "metadata": "route44-entry-candidate.json",
+      "png": "route44-entry-candidate.png",
+      "sha256": "cb5106a5d74c8718fe351a1d35f8c8f7b2ef0dd9940aaa21a3dac670f5de6bc2",
+      "mode": "candidate",
+      "camera": {
+        "distance": 13,
+        "first": null,
+        "pitch": 0.4,
+        "position": [
+          633.5,
+          13.368688450012456,
+          182.47379292203752
+        ],
+        "target": [
+          633.5,
+          8.30625,
+          170.5
+        ],
+        "yaw": 0
+      },
+      "cells": 25,
+      "walkable": true,
+      "joints": 0
+    },
+    {
+      "metadata": "route44-side-candidate.json",
+      "png": "route44-side-candidate.png",
+      "sha256": "927e03fa5aa424fb7e7cdd1a696059bd7884e70695919a63f621fbacc05ae982",
+      "mode": "candidate",
+      "camera": {
+        "distance": 13,
+        "first": {
+          "distance": 5.292809088368295,
+          "name": "source-terrace-surface",
+          "point": [
+            622.0625,
+            6.88689819134854,
+            176.27812615655085
+          ]
+        },
+        "pitch": 0.4,
+        "position": [
+          622.3388182982009,
+          6.653247185963352,
+          176.75672348809573
+        ],
+        "target": [
+          624.5,
+          4.82578125,
+          180.5
+        ],
+        "yaw": 3.665191429188092
+      },
+      "cells": 25,
+      "walkable": true,
+      "joints": 0
+    },
+    {
+      "metadata": "cherrygrove-outdoor-production.json",
+      "png": "cherrygrove-outdoor-production.png",
+      "sha256": "9dec2bb44ac7a1eee790fb9343a0548aba5112b3244e114dd89cd7bc02bc1688",
+      "mode": "production",
+      "camera": {
+        "distance": 13,
+        "first": null,
+        "pitch": 0.7,
+        "position": [
+          552.5,
+          10.251392434089984,
+          405.44294843469834
+        ],
+        "target": [
+          552.5,
+          1.8765625,
+          395.5
+        ],
+        "yaw": 0
+      },
+      "cells": 21,
+      "walkable": true,
+      "joints": 0
+    },
+    {
+      "metadata": "route44-corner-production.json",
+      "png": "route44-corner-production.png",
+      "sha256": "9f6d86a9ad62c3a9b622df04fd8c5933e64ec61a5f849ab5a39e78362f99ad24",
+      "mode": "production",
+      "camera": {
+        "distance": 9,
+        "first": null,
+        "pitch": 0.4,
+        "position": [
+          627.1597259497476,
+          11.002421330777855,
+          180.84019674748032
+        ],
+        "target": [
+          632.5,
+          7.49765625,
+          174.5
+        ],
+        "yaw": -0.7
+      },
+      "cells": 25,
+      "walkable": true,
+      "joints": 0
+    },
+    {
+      "metadata": "route44-entry-production.json",
+      "png": "route44-entry-production.png",
+      "sha256": "a1e7ecf9edd7b54eec6f1cb09f5272d0ee8db4ac436f5cd3a4a30ad93e050dcd",
+      "mode": "production",
+      "camera": {
+        "distance": 13,
+        "first": null,
+        "pitch": 0.4,
+        "position": [
+          633.5,
+          13.368688450012456,
+          182.47379292203752
+        ],
+        "target": [
+          633.5,
+          8.30625,
+          170.5
+        ],
+        "yaw": 0
+      },
+      "cells": 25,
+      "walkable": true,
+      "joints": 0
+    },
+    {
+      "metadata": "route44-side-production.json",
+      "png": "route44-side-production.png",
+      "sha256": "95ff76a926c848701daa64cb559c9c3e72810bd3ab8ad0b1660fcc3418b37d9f",
+      "mode": "production",
+      "camera": {
+        "distance": 13,
+        "first": {
+          "distance": 5.292809088368295,
+          "name": "source-terrace-surface",
+          "point": [
+            622.0625,
+            6.88689819134854,
+            176.27812615655085
+          ]
+        },
+        "pitch": 0.4,
+        "position": [
+          622.3388182982009,
+          6.653247185963352,
+          176.75672348809573
+        ],
+        "target": [
+          624.5,
+          4.82578125,
+          180.5
+        ],
+        "yaw": 3.665191429188092
+      },
+      "cells": 25,
+      "walkable": true,
+      "joints": 0
+    }
+  ],
+  "manualFindings": [
+    {
+      "pose": "route44-corner",
+      "result": "PASS focused comparison",
+      "evidence": "Literal corner-wall surface remains continuous; current joints 0, no added duplicate taper strip. Thin cyan line below existing platformrim is present in both baseline and candidate, not a new closure or fixedclaim."
+    },
+    {
+      "pose": "route44-entry",
+      "result": "PASS focused comparison",
+      "evidence": "Native cave mouth remains visibly open, sign and ledge/front artwork retained, no new blocking triangle."
+    },
+    {
+      "pose": "route44-side",
+      "result": "PASS focused comparison",
+      "evidence": "Source wall terraces and ground retain native texture/profile, no newly observed tear or obstruction."
+    },
+    {
+      "pose": "cherrygrove-outdoor",
+      "result": "PASS focused outdoor control",
+      "evidence": "Walkable outdoor road/tree/cliff/building context replaces the old inside-building camera. Visible road/entry gaps retained, no new lid/vertical artifact observed."
+    }
+  ],
+  "sourceGraphPinsStable": 88,
+  "audio": "No media elements or audio resource loads in any capture. No audio context unlock/audition/play action was invoked. Finaltab is parked on source/spawns.json.",
+  "rawPixelDifferences": "Raw differences are preserved in pixel-comparison.json and are not called pixel identity. Manual source/geometry qualification plus exactnative/UP proofs remain separate.",
+  "limits": [
+    "Four bounded views, not all-map camera/solidterrain approval.",
+    "No GPU/mobile performance approval.",
+    "No parkedT2 planner/filler integration or safety transfer.",
+    "ActualOpus sourcePASS unchanged; newvisual observations are agentmanual evidence, not an Opus visualapproval."
+  ],
+  "releaseGates": [
+    "Root independent artifact inspection.",
+    "Root full suite/build/CI and merged/deployed reviewed source."
+  ],
+  "pixelDifferenceRange": "Below the status strip, maximum channel difference is 3 in corner/entry/Cherrygrove and12 in the side view. These nonzero raw differences are preserved, not called pixel identity or a geometry exemption."
+}

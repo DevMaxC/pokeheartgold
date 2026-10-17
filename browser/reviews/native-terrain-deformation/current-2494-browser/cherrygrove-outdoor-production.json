@@ -1,0 +1,249 @@
+{
+  "name": "cherrygrove-outdoor-production",
+  "requested": {
+    "map": 67,
+    "x": 552.5,
+    "z": 395.5,
+    "yaw": 0,
+    "pitch": 0.7,
+    "distance": 13
+  },
+  "audio": {
+    "audioResources": [],
+    "mediaElements": 0
+  },
+  "settling": "actual World.draw dt4 (camera alpha rounds1); visual geometry qualification only",
+  "state": {
+    "camera": {
+      "distance": 13,
+      "first": null,
+      "pitch": 0.7,
+      "position": [
+        552.5,
+        10.251392434089984,
+        405.44294843469834
+      ],
+      "target": [
+        552.5,
+        1.8765625,
+        395.5
+      ],
+      "yaw": 0
+    },
+    "cells": [
+      {
+        "asset": "land/209-0.glb",
+        "x": 15,
+        "z": 11
+      },
+      {
+        "asset": "land/209-0.glb",
+        "x": 15,
+        "z": 12
+      },
+      {
+        "asset": "land/209-0.glb",
+        "x": 15,
+        "z": 13
+      },
+      {
+        "asset": "land/209-0.glb",
+        "x": 16,
+        "z": 13
+      },
+      {
+        "asset": "land/209-0.glb",
+        "x": 15,
+        "z": 14
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 17,
+        "z": 13
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 18,
+        "z": 10
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 18,
+        "z": 13
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 15,
+        "z": 10
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 16,
+        "z": 10
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 16,
+        "z": 11
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 19,
+        "z": 13
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 18,
+        "z": 11
+      },
+      {
+        "asset": "land/5-2.glb",
+        "x": 17,
+        "z": 12
+      },
+      {
+        "asset": "land/4-2.glb",
+        "x": 16,
+        "z": 12
+      },
+      {
+        "asset": "land/1-2.glb",
+        "x": 18,
+        "z": 12
+      },
+      {
+        "asset": "land/2-2.glb",
+        "x": 19,
+        "z": 12
+      },
+      {
+        "asset": "land/8-2.glb",
+        "x": 17,
+        "z": 11
+      },
+      {
+        "asset": "land/7-2.glb",
+        "x": 17,
+        "z": 10
+      },
+      {
+        "asset": "land/114-9.glb",
+        "x": 19,
+        "z": 11
+      },
+      {
+        "asset": "land/113-9.glb",
+        "x": 19,
+        "z": 10
+      }
+    ],
+    "headers": [
+      46,
+      0,
+      89,
+      47,
+      67,
+      34,
+      48,
+      33
+    ],
+    "height": 0.9765625,
+    "joints": [],
+    "limit": "Actual full streaming/rendered World. The comparison adds only native deformation joints; it does not close missing geological shells or certify the T2 filler.",
+    "map": 67,
+    "mode": "production",
+    "nativeLandIDs": [
+      101,
+      102,
+      103,
+      210,
+      104,
+      108,
+      105,
+      109,
+      106,
+      107,
+      208,
+      209,
+      4,
+      5,
+      7,
+      113,
+      1,
+      114,
+      8,
+      2
+    ],
+    "renderer": {
+      "memory": {
+        "geometries": 309,
+        "textures": 282
+      },
+      "render": {
+        "calls": 261,
+        "frame": 58,
+        "lines": 0,
+        "points": 240,
+        "triangles": 939224
+      }
+    },
+    "templateAssets": [
+      "land/101-8.glb",
+      "land/102-8.glb",
+      "land/103-8.glb",
+      "land/210-0.glb",
+      "land/104-9.glb",
+      "land/108-9.glb",
+      "land/105-9.glb",
+      "land/109-9.glb",
+      "land/106-9.glb",
+      "land/107-9.glb",
+      "land/208-0.glb",
+      "props/1-31-8.glb",
+      "props/1-139-8.glb",
+      "props/1-16-8.glb",
+      "props/1-33-8.glb",
+      "props/1-40-8.glb",
+      "props/1-15-8.glb",
+      "props/1-132-8.glb",
+      "props/1-133-8.glb",
+      "props/1-29-8.glb",
+      "props/1-39-8.glb",
+      "props/1-34-8.glb",
+      "props/1-234-8.glb",
+      "props/1-235-8.glb",
+      "props/1-32-7.glb",
+      "props/1-126-8.glb",
+      "props/1-32-8.glb",
+      "props/1-31-7.glb",
+      "land/209-0.glb",
+      "land/4-2.glb",
+      "land/5-2.glb",
+      "land/7-2.glb",
+      "land/113-9.glb",
+      "land/1-2.glb",
+      "land/114-9.glb",
+      "land/8-2.glb",
+      "land/2-2.glb",
+      "props/1-29-0.glb",
+      "props/1-30-0.glb",
+      "props/1-39-0.glb",
+      "props/1-15-0.glb",
+      "props/1-40-0.glb",
+      "props/1-37-0.glb",
+      "props/1-50-0.glb",
+      "props/1-38-0.glb",
+      "props/1-52-0.glb",
+      "land/10-2.glb",
+      "props/1-32-0.glb",
+      "props/1-35-0.glb"
+    ],
+    "terrainField": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+    "walkable": true,
+    "x": 552.5,
+    "z": 395.5
+  },
+  "screenshotPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcqcdjj-e4ca4a78.png",
+  "screenshotSHA256": "9dec2bb44ac7a1eee790fb9343a0548aba5112b3244e114dd89cd7bc02bc1688",
+  "capturedAt": "2026-10-17T18:28:24.144237+00:00"
+}

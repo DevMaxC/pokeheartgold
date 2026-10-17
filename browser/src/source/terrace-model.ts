@@ -7,18 +7,16 @@ import type {Cell,Land} from './types.ts';
 /** wall01_d contains stacked soil rims; a single raised ledge needs cliff01. */
 export function terraceCliffMaterial(root:THREE.Object3D){let cliff:THREE.MeshBasicMaterial|undefined;root.traverse(o=>{if(o instanceof THREE.Mesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m.name==='cliff01')cliff=m as THREE.MeshBasicMaterial;});return cliff;}
 
-type Vertex={p:THREE.Vector3;uv:THREE.Vector2;color:THREE.Color;root?:THREE.Vector3};
-function clip(vertices:Vertex[],distance:(v:Vertex)=>number){
- const out:Vertex[]=[];for(let i=0;i<vertices.length;i++){const a=vertices[i],b=vertices[(i+1)%vertices.length],da=distance(a),db=distance(b),inside=da>=-1e-8;if(inside)out.push(a);if((da>1e-8&&db< -1e-8)||(da< -1e-8&&db>1e-8)){const t=da/(da-db);out.push({p:a.p.clone().lerp(b.p,t),uv:a.uv.clone().lerp(b.uv,t),color:a.color.clone().lerp(b.color,t)});}}return out;
-}
+import {clip,nativeWallPlans,splitNativeWall,type Vertex} from './native-terrain-joints.ts';
 
 /** Bake cell-local copies of the visible ground. Split at original tile edges
  * and the height field's diagonal so actors and rendered surfaces agree. Shared
  * imported geometry, UVs, materials and native X/Z coordinates stay intact. */
 export async function terraceModel(root:THREE.Group,terraces:Terraces,isCurrent:()=>boolean=()=>true){
  const pause=async()=>{let pending:Promise<void>|null;while((pending=terrainPause())){await pending;if(!isCurrent())return false;}return isCurrent();};
- let work=0;
+ let work=0,activeSourceFace=-1;
  root.updateWorldMatrix(true,false);root.updateMatrixWorld(true);const inverse=root.matrixWorld.clone().invert(),meshes:THREE.Mesh[]=[];root.traverseVisible(o=>{if(o instanceof THREE.Mesh)meshes.push(o);});
+ const shared=await nativeWallPlans(meshes,inverse,terraces,pause);if(!shared)return false;
  for(const mesh of meshes){
   if(!await pause())return false;
   if(mesh instanceof THREE.InstancedMesh){const matrix=new THREE.Matrix4();for(let i=0;i<mesh.count;i++){mesh.getMatrixAt(i,matrix);const point=new THREE.Vector3().setFromMatrixPosition(matrix).applyMatrix4(mesh.matrixWorld),authored=mesh.userData.sceneryRoots?.[i] as number[]|undefined,anchor=authored?new THREE.Vector3().fromArray(authored).applyMatrix4(mesh.matrixWorld):point,offset=terraces.height(anchor.x,anchor.z);point.y+=offset;point.applyMatrix4(mesh.matrixWorld.clone().invert());matrix.setPosition(point);mesh.setMatrixAt(i,matrix);}mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingSphere();continue;}
@@ -30,12 +28,13 @@ export async function terraceModel(root:THREE.Group,terraces:Terraces,isCurrent:
    const join=(a:number,b:number)=>{parent[find(a)]=find(b);};points.forEach((p,i)=>{const key=pointKey(p),prior=seen.get(key);if(prior!==undefined)join(i,prior);seen.set(key,i);});for(let i=0;i<(index?.count??position.count);i+=3){const a=index?index.getX(i):i;join(a,index?index.getX(i+1):i+1);join(a,index?index.getX(i+2):i+2);}
    const bounds=new Map<number,THREE.Box3>();points.forEach((p,i)=>{const id=find(i),box=bounds.get(id)??new THREE.Box3();box.expandByPoint(p);bounds.set(id,box);});points.forEach((p,i)=>{const centre=bounds.get(find(i))!.getCenter(new THREE.Vector3());rigid.set(pointKey(p),terraces.height(centre.x,centre.z));});
   }
-  const add=(polygon:Vertex[],slot:number,tx?:number,tz?:number,override?:number)=>{const data=attributes[slot];for(let i=1;i<polygon.length-1;i++){const triangle=[polygon[0],polygon[i],polygon[i+1]];if(new THREE.Vector3().subVectors(triangle[1].p,triangle[0].p).cross(new THREE.Vector3().subVectors(triangle[2].p,triangle[0].p)).lengthSq()<1e-14)continue;for(const v of triangle){const p=v.p.clone();let offset:number;if(override!==undefined)offset=override;else if(v.root)offset=terraces.height(v.root.x,v.root.z);else if(rigid.size)offset=rigid.get(pointKey(p))!;else if(tx===undefined||tz===undefined)offset=terraces.height(p.x,p.z);else offset=terraces.sample(Math.floor(tx),Math.floor(tz),p.x,p.z);p.y+=offset;p.applyMatrix4(inverse);data.positions.push(...p.toArray());data.uvs.push(...v.uv.toArray());data.colors.push(...v.color.toArray());}}};
+  const add=(polygon:Vertex[],slot:number,tx?:number,tz?:number,override?:number|((v:Vertex)=>number))=>{const data=attributes[slot];for(let i=1;i<polygon.length-1;i++){const triangle=[polygon[0],polygon[i],polygon[i+1]];if(new THREE.Vector3().subVectors(triangle[1].p,triangle[0].p).cross(new THREE.Vector3().subVectors(triangle[2].p,triangle[0].p)).lengthSq()<1e-14)continue;for(const v of triangle){const p=v.p.clone();let offset:number;if(override!==undefined)offset=typeof override==='number'?override:override(v);else if(v.root)offset=terraces.height(v.root.x,v.root.z);else if(rigid.size)offset=rigid.get(pointKey(p))!;else if(tx===undefined||tz===undefined)offset=terraces.height(p.x,p.z);else offset=terraces.sample(Math.floor(tx),Math.floor(tz),p.x,p.z);p.y+=offset;p.applyMatrix4(inverse);const stored=v.stored??shared.storedUpVertex(mesh,activeSourceFace,v.p,p);if(stored)p.copy(stored);data.positions.push(...p.toArray());data.uvs.push(...v.uv.toArray());data.colors.push(...v.color.toArray());}}};
   const total=index?.count??position.count,slots=new Uint32Array(Math.ceil(total/3));slots.fill(0xffffffff);
   for(const g of geometry.groups)for(let t=Math.ceil(g.start/3);t*3<Math.min(total,g.start+g.count);t++)if(slots[t]===0xffffffff)slots[t]=g.materialIndex??0;
   const start=geometry.drawRange.start,end=Math.min(total,start+geometry.drawRange.count);
-  for(let i=start;i+2<end;i+=3){if((++work&31)===0&&!await pause())return false;const value=slots[Math.floor(i/3)],slot=value===0xffffffff?0:value,triangle=[0,1,2].map(j=>vertex(index?index.getX(i+j):i+j));
+  for(let i=start;i+2<end;i+=3){activeSourceFace=i;if((++work&31)===0&&!await pause())return false;const value=slots[Math.floor(i/3)],slot=value===0xffffffff?0:value,triangle:Vertex[]=[0,1,2].map(j=>({...vertex(index?index.getX(i+j):i+j),bary:new THREE.Vector3().setComponent(j,1)}));
    const minX=Math.min(...triangle.map(v=>v.p.x)),maxX=Math.max(...triangle.map(v=>v.p.x)),minZ=Math.min(...triangle.map(v=>v.p.z)),maxZ=Math.max(...triangle.map(v=>v.p.z));
+   const joint=shared.plans.get(mesh)?.get(i);if(joint){for(const polygon of splitNativeWall(joint))add(polygon,slot,undefined,undefined,v=>joint.offset(v.p[joint.axis]));continue;}
    // Water artwork can overhang its collision tile. Keep the native waterline
    // fixed even where that overhang reaches displaced land.
    if(/^(?:sea|water|pond|river)(?:\d|_|$)/i.test(materials[slot].name)){add(triangle,slot,undefined,undefined,0);continue;}
@@ -52,7 +51,12 @@ export async function terraceModel(root:THREE.Group,terraces:Terraces,isCurrent:
   if(!await pause())return false;
   const output=new THREE.BufferGeometry(),positions:number[]=[],uvs:number[]=[],colors:number[]=[];attributes.forEach((data,slot)=>{output.addGroup(positions.length/3,data.positions.length/3,slot);for(const n of data.positions)positions.push(n);for(const n of data.uvs)uvs.push(n);for(const n of data.colors)colors.push(n);});output.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));if(uv)output.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));if(color)output.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));output.computeVertexNormals();output.computeBoundingSphere();
   const replacement=new THREE.Mesh(output,mesh.material);replacement.name='source-terrace-surface';replacement.userData.terrainSceneryCoverageOnly=Boolean(mesh.userData.terrainSceneryCoverageOnly)||/^(?:solid-original-terrain|textured-terrain-back)$/.test(mesh.name);root.add(replacement);mesh.visible=false;
- }return true;
+ }
+ // These are explicit deformation joins, not positive geological source
+ // authority. Their native material stays shared with the original asset.
+ const stripsByMaterial=new Map<THREE.Material,typeof shared.reliefStrips>();for(const strip of shared.reliefStrips)stripsByMaterial.set(strip.material,[...stripsByMaterial.get(strip.material)??[],strip]);
+ for(const[material,strips]of stripsByMaterial){const geometry=new THREE.BufferGeometry(),vertices=strips.flatMap(s=>s.vertices);geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices.flatMap(v=>v.p.toArray()),3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(vertices.flatMap(v=>v.uv.toArray()),2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(vertices.flatMap(v=>v.color.toArray()),3));geometry.computeVertexNormals();geometry.computeBoundingSphere();const join=new THREE.Mesh(geometry,material);join.name='source-terrace-joint';join.userData.terrainSceneryCoverageOnly=true;root.add(join);}
+ return true;
 }
 
 /** Opaque, two-sided native-textured cliff faces between the split ground edges. */

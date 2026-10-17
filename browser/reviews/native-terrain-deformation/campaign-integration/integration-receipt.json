@@ -1,0 +1,90 @@
+{
+  "campaignBaseCommit": "5298dc0c1824bc2e45298dc88bf4002caae69020",
+  "acceptedNativeCandidate": "23b052e9c78fceb725b3ac0e51afe7479b86859d",
+  "newWorktree": "/Users/maxchurch/Documents/pokeheartgold-native-terrain-campaign",
+  "branch": "fix/native-terrain-campaign-integration",
+  "createdAt": "2026-10-17T18:40:21.878042+00:00",
+  "sourceHashes": {
+    "src/source/native-terrain-joints.ts": "249440d6763c0b4e745defc1da85bd39ef66ab150b12130634fc13c045dcded6",
+    "src/source/terrace-model.ts": "37f7cf76d2154bfa73c2b2aa03989a01a791d39d0c5d2be6be0a39f3b7d7f0fd",
+    "src/source/world.ts": "f9fd0e75a55c95a9f4baac426aa8b2ab25cb5e137b3cf3131c0e9806d726d79d",
+    "src/source/main.ts": "6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee",
+    "src/source/terrain-scenery.ts": "3fddad2d92f4977d411ea7ebb90b07d53307599c6f1d859d3c73494c5868b2e9",
+    "src/source/terrain-world.test.ts": "c4ce75051c5e928cfd9a6e90470196fa3c2f1a226aa9d2b45a0979745246d3f3",
+    "public/source/terraces/0.json": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+    "public/source/entrances.json": "04495b657c173f1b618b1bbf6bfd0ab7349d1576c83f99f2df8365f02b789d9a",
+    "scripts/production-terrain-test-support.ts": "37e8c385d28dd6d88090fc8d8e774c4ef1bc8eb297140d9c73ef51f74b7ca495",
+    "src/source/native-terrain-world.test.ts": "e9cde914eed0b563c7f8962d2b4f2482ccedb6c6b151b4572169718334a98b9f"
+  },
+  "worldBeforeSHA256": "ca0699f0b3a544a8c48cbfdc375087e771700470d7c84e78581e7bab0c37ebdd",
+  "deformerBeforeSHA256": "d4b0754f0603ac83ce4bcd2dbef9b286cb70a8a09239830e166cc8d1f5d568dc",
+  "nativeHelperAndDeformerByteIdenticalToAccepted": true,
+  "worldOnlyTwoLifecycleSubstitutions": true,
+  "productionTerraceWallsSuffixByteIdentical": true,
+  "unchangedContracts": [
+    "Native Main exact6f486487. No Main/UI/public/audio edits.",
+    "Default terrainSceneryEnabled=false and opt-in-only terrain planner remain exactly as base.",
+    "Released owner0/land208 raised forest foundation branch is retained.",
+    "Violet Gym, scripted camera, native field task cancellation and paper actor ownership are byte-identical to the campaign base.",
+    "Current native source/permission field277bac and indexed entrance bytes are unchanged."
+  ],
+  "tests": {
+    "native": "50/50 PASS",
+    "terrainWorldAndDefaultOffPolicy": "6/6 PASS",
+    "TSC": "PASS",
+    "actualCampaignWorld": "4/4 PASS against exact5298 preintegration World/deformer; currentUP/finite-ray/camera records match acceptedNative333result"
+  },
+  "review": "PENDING narrow actual immutable Opus on new campaign World context; sourceheld",
+  "limits": [
+    "No parked T2 closure approval or default opt-in.",
+    "Prior fresh8frame qualification applies to identical native helper/deformer on333; new campaign World context is being tested separately, not treated as a new all-campaign browser approval.",
+    "No Vite/build/browser/audio call performed during this integration; all previews remain parked/silent.",
+    "Root owns fullsuite/build/CI/final merge/deployment."
+  ],
+  "actualWorldCounts": [
+    {
+      "cell": [
+        19,
+        5
+      ],
+      "asset": "land/103-8.glb",
+      "upwardTriangles": 36654,
+      "upwardBufferSHA256": "416cf264907c5c94558a01f80caf6ef812d1566c4dd8683673e20713b8c2d82a",
+      "floorRays": 1024,
+      "entryRays": 24,
+      "cameraRays": 864,
+      "jointTriangles": 0,
+      "terrainSceneryEnabled": false
+    },
+    {
+      "cell": [
+        17,
+        12
+      ],
+      "asset": "land/5-2.glb",
+      "upwardTriangles": 7968,
+      "upwardBufferSHA256": "5c0618f87d502eae3228e492acfb6009999b5275c036da5717d7c91b6809f073",
+      "floorRays": 723,
+      "entryRays": 120,
+      "cameraRays": 864,
+      "jointTriangles": 0,
+      "terrainSceneryEnabled": false
+    },
+    {
+      "cell": [
+        21,
+        10
+      ],
+      "asset": "land/210-0.glb",
+      "upwardTriangles": 2200,
+      "upwardBufferSHA256": "3783b4c86dbd517ef22c901998c2846a7f701d18cf975566c8dd1896b16867c9",
+      "floorRays": 1024,
+      "entryRays": 0,
+      "cameraRays": 0,
+      "jointTriangles": 0,
+      "terrainSceneryEnabled": false
+    }
+  ],
+  "actualWorldStrictCameraChanges": 1,
+  "acceptedNativeWorldUPAndRayReceiptsIdentical": true
+}
