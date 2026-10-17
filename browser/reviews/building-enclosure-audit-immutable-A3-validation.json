@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "verifiedAt": "2026-10-17T07:17:42.635214+00:00",
+  "candidateCommit": "3d09340dcfc9ca72e1c5eadbc01810e1a98ba330",
+  "status": "Committed immutable exterior-audit input evidence; final visual approval and live deployment remain separate.",
+  "audit": "/tmp/hg-immutable-A3-355-dense-audit.json",
+  "auditSHA256": "b8b7b9048928898c047c804677824bcca41253bcfe668f3eaccc3ff91f0584b2",
+  "auditProvenanceStatus": "committed-source snapshot; finite ray evidence, separate visual approval required",
+  "sourceRevisionBefore": "3d09340dcfc9ca72e1c5eadbc01810e1a98ba330",
+  "sourceRevisionAfter": "3d09340dcfc9ca72e1c5eadbc01810e1a98ba330",
+  "codeSnapshotStable": true,
+  "sourceWorkingTreeChanges": [],
+  "inputsVerifiedAgainstCurrentFilesAndCommitBlobs": {
+    "uniqueFiles": 585,
+    "groups": {
+      "auditCodeAndRegistry": 27,
+      "sourceJSON": 115,
+      "nativeAssets": 444
+    },
+    "filesystemMismatches": [],
+    "committedBlobMismatches": [],
+    "missingCommittedInputs": []
+  },
+  "geometryComparison": {
+    "baseline": "/tmp/hg-current-provisional-A3-355-dense-before-commit.json",
+    "baselineSHA256": "f3d5fa86c0e1e2ce41426fe2cd6f1c917cc27a1e333359bf368837ef26fe1234",
+    "canonicalBundleSHA256": "c4c8b6209cd99a36b3f58bf24d72c78e76082c77ab79b76ef041074dbde348e2",
+    "byteEqual": true,
+    "fields": [
+      "summary",
+      "classificationSummary",
+      "assetSummary",
+      "candidates without builder timings",
+      "placements without builder timings",
+      "sourceHashes",
+      "sourceDataHashes",
+      "sourceAssets"
+    ],
+    "excluded": [
+      "generated timestamps",
+      "commit/provenance metadata",
+      "builder wall-clock measurements"
+    ]
+  },
+  "inventory": {
+    "placements": 355,
+    "assets": 220,
+    "canonicalModels": 157,
+    "sampledRays": 2796873,
+    "nativeAssetHashMismatches": 0
+  },
+  "results": {
+    "candidatePlacements": 977,
+    "majorPlacements": 355,
+    "uniqueAssets": 220,
+    "canonicalModels": 157,
+    "matrices": [
+      0,
+      5,
+      8,
+      27,
+      56,
+      67,
+      86,
+      153,
+      178,
+      211,
+      224,
+      230,
+      240,
+      277,
+      281
+    ],
+    "confidentPlacements": 327,
+    "rawUnexpectedEscapePlacements": 34,
+    "rawUnexpectedRays": 1647,
+    "closedBuildingPlacements": 253,
+    "closedBuildingPlacementsWithoutCore": 0,
+    "closedBuildingSampledRays": 2253741,
+    "closedBuildingDiagnosticEdgeWitnesses": 39,
+    "closedBuildingEscapePlacements": 16,
+    "closedBuildingUnexpectedRays": 39,
+    "closedBuildingUnexpectedRaysWithoutDiagnosticWitness": 0,
+    "unclassified": 0,
+    "totalSampledRays": 2796873,
+    "exactNoTriangleRays": 8758,
+    "alphaOnlyMissRays": 144,
+    "nativeRecessAllowances": 4761,
+    "physicalCanopyAllowances": 282,
+    "sourceShrineApertureAllowances": 284,
+    "nativePorchAllowances": 40,
+    "nativeProfiledDoorAllowances": 495,
+    "measuredApertureAllowances": 1158,
+    "eventCorridorAllowances": 15,
+    "repairedPassageAllowances": 220,
+    "diagnosticEdgeWitnesses": 69,
+    "unexpectedDiagnosticEdgeWitnesses": 69,
+    "edgeToleranceHits": 0,
+    "invalidCorePlacements": 28
+  },
+  "capturePlanSHA256": "94ab91043d5e9bb3d657443c9b3903075c5f087d688bbd0290c095d23734df79",
+  "limitations": [
+    "This verifies the inputs and finite ray evidence of the exterior geometry audit, not the entire game or final render appearance.",
+    "Raw strict edge misses remain counted; nearby opaque edge witnesses are not silently treated as exact seals.",
+    "Open-air props and intentional arches do not receive closed-room approval.",
+    "Final manual captures, runtime review and deployment verification remain independent."
+  ]
+}
