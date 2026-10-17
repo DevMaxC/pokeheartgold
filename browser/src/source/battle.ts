@@ -87,13 +87,13 @@ export class Battle{
     if(abilities.includes(monAbility(this.data,defender)))throw Error('Unsupported native U-turn on-hit ability');
     for(const mon of[attacker,defender])if(['ABILITY_UNBURDEN','ABILITY_PRESSURE'].includes(monAbility(this.data,mon)))throw Error('Unsupported native U-turn ability/item lifecycle');
     const reserves=playerSide?this.state.party:this.enemies;for(const mon of reserves)if(isUsableBattler(mon))this.assertItemScope(mon,mon);for(const mon of reserves)if(isUsableBattler(mon)&&['ABILITY_INTIMIDATE','ABILITY_DOWNLOAD','ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING','ABILITY_ANTICIPATION','ABILITY_FOREWARN','ABILITY_FRISK'].includes(monAbility(this.data,mon)))throw Error('Unsupported native U-turn entry ability');
-    const foe=playerSide?this.enemy:this.player,foes=playerSide?this.enemies:this.state.party;
+    const foe=playerSide?this.enemy:this.player;
     // TryPursuit reads the still-unresolved selected action, not the party's
     // learned moves. Sleeping/frozen, already-used or no-PP actions cannot
-    // intercept. A failed pivot/guaranteed opposing blackout skips0175 too.
+    // intercept. A failed pivot or guaranteed KO of that user cannot intercept.
     if(this.pendingMoves.get(foe)===this.data.constants.MOVE_PURSUIT&&foe.hp>0&&!['SLP','FRZ'].includes(foe.status)&&foe.moves.some(slot=>slot.pp>0&&slot.id===this.data.constants.MOVE_PURSUIT)&&reserves.some(mon=>mon!==attacker&&isUsableBattler(mon))){
       const lowerBound=moveDamage(this.data,attacker,foe,move,playerSide?this.playerStages:this.enemyStages,playerSide?this.enemyStages:this.playerStages,85,false,this.identified.has(foe),{roosting:this.roosting.has(foe),reflect:!!this.reflectTurns[playerSide?1:0]}).damage;
-      if(foes.filter(isUsableBattler).length!==1||lowerBound<foe.hp)throw Error('Unsupported native U-turn Pursuit phase');
+      if(lowerBound<foe.hp)throw Error('Unsupported native U-turn Pursuit phase');
     }
   }
   private async checkConfusion(mon:Mon,stages:Stages,playerSide:boolean,selected:MoveData){
@@ -378,7 +378,7 @@ export class Battle{
     let total=move.effect===41?40:move.effect===87?attacker.level:move.effect===40?Math.max(1,Math.floor(defender.hp/2)):damage;
     if(effectiveness===0)total=0;total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));
-    if(effectiveness===0)await this.say('It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
+    if(effectiveness===0)await this.say(monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER'&&monAbility(this.data,defender)==='ABILITY_LEVITATE'&&move.type===this.data.constants.TYPE_GROUND?`${defender.name} makes Ground moves miss by using Levitate!`:'It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
     if(effectiveness===0)break;
     let pivoted=false;
     if(total>0){landed++;if(move.effect===228)pivoted=await this.pivot(playerSide,attacker,defender,move);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
