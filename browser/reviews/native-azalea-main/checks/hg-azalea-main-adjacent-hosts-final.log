@@ -1,0 +1,356 @@
+TAP version 13
+# (node:15002) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ordinary Passerby trainer admission does not request the special first-battle critical suppression
+ok 1 - ordinary Passerby trainer admission does not request the special first-battle critical suppression
+  ---
+  duration_ms: 1693.168042
+  type: 'test'
+  ...
+# Subtest: actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+ok 2 - actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+  ---
+  duration_ms: 544.098166
+  type: 'test'
+  ...
+# main SHA256 0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef; extracted bindings SHA256 03f98495d9af24de45930383215b16f7a3f0964734fecbfbad484e57ee8af97f
+# Subtest: blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+ok 3 - blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+  ---
+  duration_ms: 886.777292
+  type: 'test'
+  ...
+# Subtest: actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+ok 4 - actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+  ---
+  duration_ms: 1298.612167
+  type: 'test'
+  ...
+# Subtest: eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+ok 5 - eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+  ---
+  duration_ms: 707.371625
+  type: 'test'
+  ...
+# Subtest: Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+ok 6 - Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+  ---
+  duration_ms: 282.791667
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays the captured movement/date once and awards only the successful hatch
+ok 7 - explicit Retry replays the captured movement/date once and awards only the successful hatch
+  ---
+  duration_ms: 106.167167
+  type: 'test'
+  ...
+# Subtest: actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+ok 8 - actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+  ---
+  duration_ms: 935.90425
+  type: 'test'
+  ...
+# Subtest: actual AST pagehide callback aborts Bag input, resets both controllers and saves only an idle stable field
+ok 9 - actual AST pagehide callback aborts Bag input, resets both controllers and saves only an idle stable field
+  ---
+  duration_ms: 177.7135
+  type: 'test'
+  ...
+# Subtest: actual render freezes provisional replacement follower through hatch and post-view source tail
+ok 10 - actual render freezes provisional replacement follower through hatch and post-view source tail
+  ---
+  duration_ms: 120.147209
+  type: 'test'
+  ...
+# Subtest: actual wild admission runs after step commit and completed catch survives failed field resume
+ok 11 - actual wild admission runs after step commit and completed catch survives failed field resume
+  ---
+  duration_ms: 328.362125
+  type: 'test'
+  ...
+# Subtest: actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+ok 12 - actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+  ---
+  duration_ms: 535.063458
+  type: 'test'
+  ...
+# Subtest: actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+ok 13 - actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+  ---
+  duration_ms: 258.537166
+  type: 'test'
+  ...
+# Subtest: actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+ok 14 - actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+  ---
+  duration_ms: 37.279583
+  type: 'test'
+  ...
+# Subtest: actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+ok 15 - actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+  ---
+  duration_ms: 465.809916
+  type: 'test'
+  ...
+# Subtest: actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+ok 16 - actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+  ---
+  duration_ms: 283.251792
+  type: 'test'
+  ...
+# Subtest: actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+ok 17 - actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+  ---
+  duration_ms: 170.415042
+  type: 'test'
+  ...
+# Subtest: actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+ok 18 - actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+  ---
+  duration_ms: 1631.821459
+  type: 'test'
+  ...
+# Subtest: actual native scenes reset only active rings and answer respects trainer/UI admission
+ok 19 - actual native scenes reset only active rings and answer respects trainer/UI admission
+  ---
+  duration_ms: 169.915542
+  type: 'test'
+  ...
+# Subtest: actual HUD and answer keep unsupported forced callers explicit and unconsumed
+ok 20 - actual HUD and answer keep unsupported forced callers explicit and unconsumed
+  ---
+  duration_ms: 214.670084
+  type: 'test'
+  ...
+# Subtest: actual due empty admission resets its interval once; a later hatch waits for the next native minute
+ok 21 - actual due empty admission resets its interval once; a later hatch waits for the next native minute
+  ---
+  duration_ms: 47.258667
+  type: 'test'
+  ...
+# Subtest: actual selected random caller retains its native active interval until the hatch scene resets it
+ok 22 - actual selected random caller retains its native active interval until the hatch scene resets it
+  ---
+  duration_ms: 307.013542
+  type: 'test'
+  ...
+# Subtest: actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+ok 23 - actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+  ---
+  duration_ms: 182.015416
+  type: 'test'
+  ...
+# Subtest: actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+ok 24 - actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+  ---
+  duration_ms: 600.477417
+  type: 'test'
+  ...
+# Subtest: ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+ok 25 - ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+  ---
+  duration_ms: 880.203
+  type: 'test'
+  ...
+# Subtest: retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+ok 26 - retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+  ---
+  duration_ms: 256.479
+  type: 'test'
+  ...
+# Subtest: Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+ok 27 - Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+  ---
+  duration_ms: 47.928292
+  type: 'test'
+  ...
+# Subtest: actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+ok 28 - actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+  ---
+  duration_ms: 258.164291
+  type: 'test'
+  ...
+# Subtest: actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+ok 29 - actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+  ---
+  duration_ms: 194.132083
+  type: 'test'
+  ...
+# (node:15003) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:15003) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+ok 30 - native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+  ---
+  duration_ms: 4.492959
+  type: 'test'
+  ...
+# actual main SHA256 0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef; native field_warp_tasks SHA256 78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea
+# Subtest: actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+ok 31 - actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+  ---
+  duration_ms: 11.174208
+  type: 'test'
+  ...
+# Subtest: actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+ok 32 - actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+  ---
+  duration_ms: 16.433084
+  type: 'test'
+  ...
+# Subtest: actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+ok 33 - actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+  ---
+  duration_ms: 9.665875
+  type: 'test'
+  ...
+# Subtest: actual Continue passes saved Violet height/lift into World entry without the warp initializer
+ok 34 - actual Continue passes saved Violet height/lift into World entry without the warp initializer
+  ---
+  duration_ms: 426.3365
+  type: 'test'
+  ...
+# Subtest: actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+ok 35 - actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+  ---
+  duration_ms: 10.892333
+  type: 'test'
+  ...
+# Subtest: actual existing connection call keeps native transition-only entry without a warp spawn reset
+ok 36 - actual existing connection call keeps native transition-only entry without a warp spawn reset
+  ---
+  duration_ms: 4.719792
+  type: 'test'
+  ...
+# (node:15004) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+ok 37 - unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+  ---
+  duration_ms: 449.964583
+  type: 'test'
+  ...
+# Subtest: actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+ok 38 - actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+  ---
+  duration_ms: 449.649167
+  type: 'test'
+  ...
+# Subtest: actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+ok 39 - actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+  ---
+  duration_ms: 42.634791
+  type: 'test'
+  ...
+# (node:15005) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual interact/runScript saves one real item, hides the correct rendered object and allows re-entry to keep it collected
+ok 40 - actual interact/runScript saves one real item, hides the correct rendered object and allows re-entry to keep it collected
+  ---
+  duration_ms: 208.999458
+  type: 'test'
+  ...
+# {"mainSha256":"0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef","actualBindingsSha256":"08afbe98bfd36a9e2ef5c0715afc7cddfa59f7772bae39ecde8e349c53deac86","worldSha256":"3455ea9842202ef121470fc472ce83e04a356c2b22897c6a0631f27de929847e","npcScalingBindingSha256":"f1933611cec67e02610ef40d304cc5bac69383bfb6f957922ed94150df483fd3"}
+# Subtest: a post-VM HUD failure followed by Return restores State/live actors and saves no reward or hide flag
+ok 41 - a post-VM HUD failure followed by Return restores State/live actors and saves no reward or hide flag
+  ---
+  duration_ms: 39.277625
+  type: 'test'
+  ...
+# Subtest: actual Retry replays the restored pickup once and commits exactly one item after a late message failure
+ok 42 - actual Retry replays the restored pickup once and commits exactly one item after a late message failure
+  ---
+  duration_ms: 9.467166
+  type: 'test'
+  ...
+# Subtest: the actual full-bag host shows native failure without deleting/rewarding the ball or opening recovery UI
+ok 43 - the actual full-bag host shows native failure without deleting/rewarding the ball or opening recovery UI
+  ---
+  duration_ms: 4.204667
+  type: 'test'
+  ...
+# Subtest: actual local Lake of Rage and Mt. Moon interactions enter the same main transaction despite having no7000+ script ID
+ok 44 - actual local Lake of Rage and Mt. Moon interactions enter the same main transaction despite having no7000+ script ID
+  ---
+  duration_ms: 13.361833
+  type: 'test'
+  ...
+# Subtest: a failed recovery refresh blocks save and all field controls until actual Retry succeeds, without duplicating its provisional item
+ok 45 - a failed recovery refresh blocks save and all field controls until actual Retry succeeds, without duplicating its provisional item
+  ---
+  duration_ms: 7.186917
+  type: 'test'
+  ...
+# Subtest: an interrupted refresh-failure prompt fails closed: the actual post-catch save, step, interaction, menu and camera stay blocked
+ok 46 - an interrupted refresh-failure prompt fails closed: the actual post-catch save, step, interaction, menu and camera stay blocked
+  ---
+  duration_ms: 5.393167
+  type: 'test'
+  ...
+# Subtest: the actual automatic frame gate also stays closed after failed item hydration and an interrupted recovery prompt
+ok 47 - the actual automatic frame gate also stays closed after failed item hydration and an interrupted recovery prompt
+  ---
+  duration_ms: 5.485083
+  type: 'test'
+  ...
+# Subtest: the actual World.updateNPCs binding calibrates only the original16px ball to1unit beside2unit hero and1.4unit follower
+ok 48 - the actual World.updateNPCs binding calibrates only the original16px ball to1unit beside2unit hero and1.4unit follower
+  ---
+  duration_ms: 0.729208
+  type: 'test'
+  ...
+# (node:15006) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual party panel owns Summary then returns focus to the selected slot until Back
+ok 49 - actual party panel owns Summary then returns focus to the selected slot until Back
+  ---
+  duration_ms: 199.613667
+  type: 'test'
+  ...
+# main SHA256 0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef; bindings SHA256 85ab94287933635fc847c7f1e7d42849d26288fe9b8d4e7b3556c24e6881f09a
+# Subtest: real gift/hatch then actual field switch persists whole records, refreshes follower and enables native Elm reward
+ok 50 - real gift/hatch then actual field switch persists whole records, refreshes follower and enables native Elm reward
+  ---
+  duration_ms: 107.019375
+  type: 'test'
+  ...
+# Subtest: Cancel, source slot and owned Escape preserve whole party records and gate saves during selection
+ok 51 - Cancel, source slot and owned Escape preserve whole party records and gate saves during selection
+  ---
+  duration_ms: 355.601792
+  type: 'test'
+  ...
+# Subtest: external UI replacement and post-swap failure recover instead of being mistaken for owned cancel
+ok 52 - external UI replacement and post-swap failure recover instead of being mistaken for owned cancel
+  ---
+  duration_ms: 10.844042
+  type: 'test'
+  ...
+# Subtest: actual capture/restore rehydrates live actors, phone, orbit and follower after a one-shot post-swap HUD failure
+ok 53 - actual capture/restore rehydrates live actors, phone, orbit and follower after a one-shot post-swap HUD failure
+  ---
+  duration_ms: 30.437459
+  type: 'test'
+  ...
+# main SHA256 0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef; actual capture/restore bindings SHA256 85ab94287933635fc847c7f1e7d42849d26288fe9b8d4e7b3556c24e6881f09a
+# Subtest: actual native partner-room exception omits Switch; other rooms retain it, including Eggs
+ok 54 - actual native partner-room exception omits Switch; other rooms retain it, including Eggs
+  ---
+  duration_ms: 173.578959
+  type: 'test'
+  ...
+# Subtest: actual follower render distinguishes same-species identities, preserves position and removes an absent lead once
+ok 55 - actual follower render distinguishes same-species identities, preserves position and removes an absent lead once
+  ---
+  duration_ms: 1.677209
+  type: 'test'
+  ...
+1..55
+# tests 55
+# suites 0
+# pass 55
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18969.64475

@@ -1,0 +1,21 @@
+...E
+======================================================================
+ERROR: test_pinned_renderer_reproduces_all_exported_bytes (__main__.NativeAzaleaAudioTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/scripts/test_azalea_audio_resources.py", line 84, in test_pinned_renderer_reproduces_all_exported_bytes
+    module.export(output, Path('/tmp/hg-dualrip-native-audio'))
+  File "/Users/maxchurch/Documents/pokeheartgold-azalea-main/browser/scripts/export_azalea_audio.py", line 19, in export
+    assert importlib.metadata.version('ndspy') == '4.2.0'
+  File "/Applications/Xcode-26.6.0.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/metadata.py", line 551, in version
+    return distribution(distribution_name).version
+  File "/Applications/Xcode-26.6.0.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/metadata.py", line 524, in distribution
+    return Distribution.from_name(distribution_name)
+  File "/Applications/Xcode-26.6.0.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/metadata.py", line 187, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: ndspy
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.087s
+
+FAILED (errors=1)
