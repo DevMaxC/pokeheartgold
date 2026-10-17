@@ -15,14 +15,14 @@ const deferred=<T>()=>{let resolve!:(value:T)=>void,reject!:(error:unknown)=>voi
 const arrayBuffer=(bytes:Buffer)=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)as ArrayBuffer;
 
 // Explicit WebAudio port only: no real Context, output device or audition.
-function fixture(options:{loader?:(signal:AbortSignal)=>Promise<NativeAzaleaAudioResources>;metadataTimeoutMs?:number;report?:(status:AzaleaAudioStatus)=>void}={}){
+function fixture(options:{loader?:(signal:AbortSignal)=>Promise<NativeAzaleaAudioResources>;metadataTimeoutMs?:number;report?:(status:AzaleaAudioStatus)=>void;outputError?:()=>Error|undefined}={}){
  const lifetime=new AbortController(),nodes:any[]=[],statuses:AzaleaAudioStatus[]=[],field={map:180,mapRunning:true};let outputReads=0,loads=0;
  const context={state:'running',sampleRate:32768,addEventListener(){},removeEventListener(){},
   async decodeAudioData(value:ArrayBuffer){const wav=Buffer.from(value);let channels=0,rate=0,bits=0,data=0;for(let at=12;at+8<=wav.length;){const size=wav.readUInt32LE(at+4),tag=wav.toString('ascii',at,at+4);if(tag==='fmt '){channels=wav.readUInt16LE(at+10);rate=wav.readUInt32LE(at+12);bits=wav.readUInt16LE(at+22);}if(tag==='data')data=size;at+=8+size+(size&1);}return{numberOfChannels:channels,duration:data/(channels*bits/8)/rate};},
   createBufferSource(){const node={buffer:null,onended:null as null|(()=>void),loop:false,loopStart:0,loopEnd:0,starts:0,stops:0,connect(){},disconnect(){},start(){node.starts++;},stop(){node.stops++;},end(){node.onended?.();}};nodes.push(node);return node;},
  };
  const clock=new NativeFieldClock({field:()=>field,onError:error=>{throw error;}}),output={context:context as unknown as AudioContext,output:{context}as unknown as AudioNode,signal:lifetime.signal};
- const sound=new AzaleaFieldSound({clock,signal:lifetime.signal,output:()=>{outputReads++;return output;},report:status=>{statuses.push(status);options.report?.(status);},loadMetadata:signal=>{loads++;return options.loader?options.loader(signal):Promise.resolve(structuredClone(metadata));},fetchBytes:async url=>arrayBuffer(await readFile(new URL(url.split('/').at(-1)!,root))),metadataTimeoutMs:options.metadataTimeoutMs});
+ const sound=new AzaleaFieldSound({clock,signal:lifetime.signal,output:()=>{outputReads++;const error=options.outputError?.();if(error)throw error;return output;},report:status=>{statuses.push(status);options.report?.(status);},loadMetadata:signal=>{loads++;return options.loader?options.loader(signal):Promise.resolve(structuredClone(metadata));},fetchBytes:async url=>arrayBuffer(await readFile(new URL(url.split('/').at(-1)!,root))),metadataTimeoutMs:options.metadataTimeoutMs});
  const frame=async()=>{clock.frame(1/30);await clock.settled();};
  return{sound,clock,lifetime,field,nodes,statuses,context,frame,outputReads:()=>outputReads,loads:()=>loads,dispose(){sound.dispose();clock.dispose();}};
 }
@@ -57,6 +57,16 @@ test('actual voice end settles PLAYER idle only at the shared post-task sound up
 test('locked shared output is diagnosed no-voice, while malformed source metadata remains explicit',async()=>{
  const h=fixture();try{h.context.state='suspended';await h.sound.audio.prepare([1561,2171],new AbortController().signal);assert.equal(h.sound.audio.robot2171({}).kind,'no-voice');assert.ok(h.statuses.some(value=>value.stage==='no-voice'));assert.equal(h.nodes.length,0);}finally{h.dispose();}
  const broken=fixture({loader:async()=>({...structuredClone(metadata),version:99})as unknown as NativeAzaleaAudioResources});try{await assert.rejects(broken.sound.audio.prepare([1561,2171],new AbortController().signal),UnsupportedNativeAzaleaAudio);assert.equal(broken.nodes.length,0);}finally{broken.dispose();}
+});
+
+test('a real-style throwing shared output after preparation still preempts PLAYER3 and admits technical no-voice',async()=>{
+ let unavailable=false;const h=fixture({outputError:()=>unavailable?Error('Shared native audio Context is not running'):undefined});
+ try{
+  await h.sound.audio.prepare([1561,2171],new AbortController().signal);assert.equal(h.sound.audio.robot2171({}).kind,'voice');
+  const player=await h.sound.preparePlayer(new AbortController().signal);assert.equal(player.isPlaying(2171),true);unavailable=true;
+  const outcome=await h.sound.audio.switch1561(new AbortController().signal);
+  assert.ok(outcome.kind==='no-voice');assert.match(outcome.detail,/Context is not running/);assert.equal(h.nodes.length,1,'no late replacement source is created');assert.equal(h.nodes[0].stops,1,'equal priority admission preempts before the shared output failure');assert.equal(player.isPlaying(1561),false);
+ }finally{h.dispose();}
 });
 
 test('root disposal removes the global callback and rejects pending source admission without unlocking',async()=>{

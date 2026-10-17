@@ -14,7 +14,12 @@ import {NativeFieldClock} from './native-field-clock.ts';
 import {OriginalWorld} from './world.ts';
 import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
 import {SourceActionRecovery,SourceTriggerGate,runRecoverableSourceAction} from './script-recovery.ts';
-import {TrainerAttemptLatch} from './trainer-encounters.ts';
+import {TrainerAttemptLatch,trainerEventPriority,fieldTrainerCollision,findTrainerEncounter,MissingTrainerPartner} from './trainer-encounters.ts';
+import {furnitureBlocksStep} from './furniture-collision.ts';
+import {findCoordinateTrigger} from './coordinate-triggers.ts';
+import {doorwayEntry} from './terrain.ts';
+import {ledgeDirection,jumpHeight} from './ledges.ts';
+import {pushWarp,stepWarpFacing} from './field-transitions.ts';
 import {FieldObjects} from './objects.ts';
 import {FieldPhoneHost} from './phone-field-host.ts';
 import {loadData,newState,createMon} from './data.ts';
@@ -32,7 +37,8 @@ import type {AzaleaGymResources,AzaleaResourceManifest} from './gym-azalea-world
 
 // Exercise actual host statements. The renderer/GPU is an explicit port;
 // route vectors and logical boarding coordinates come from the native plan.
-const source=await readFile(new URL('./main.ts',import.meta.url),'utf8');
+const mainInput=process.env.HG_AZALEA_MAIN_REVIEW_MAIN??new URL('./main.ts',import.meta.url);
+const source=await readFile(mainInput,'utf8');
 const sourceSHA=createHash('sha256').update(source).digest('hex');
 const ast=ts.createSourceFile('main.ts',source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
 const functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node]));
@@ -47,7 +53,7 @@ function renderStatement(condition:string){
 
 const sourceRoot=new URL('../../public/source/',import.meta.url),originalFetch=globalThis.fetch;
 globalThis.fetch=async input=>{const name=String(input).replace(/^.*\/source\//,'');try{const bytes=await readFile(new URL(name,sourceRoot));return{ok:true,status:200,json:async()=>JSON.parse(bytes.toString()),arrayBuffer:async()=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)}as Response;}catch{return{ok:false,status:404}as Response;}};
-after(()=>{globalThis.fetch=originalFetch;});
+after(async()=>{globalThis.fetch=originalFetch;assert.equal(createHash('sha256').update(await readFile(mainInput)).digest('hex'),sourceSHA,'Main source changed during actual binding tests');});
 const data=await loadData(),nativeMap=JSON.parse((await readFile(new URL('maps/180.json',sourceRoot))).toString())as SourceMap;
 
 async function nativeResources():Promise<AzaleaGymResources>{
@@ -68,7 +74,7 @@ class ActualHostWithGPUResources extends AzaleaGymHost{
 }
 
 async function fixture(withFollower=true){
- const dom=installUIDOM(),ui=new UI(),state=newState(data,'Gold','boy'),lifetime=new AbortController(),writes:any[]=[],events:any[]=[];
+ const dom=installUIDOM(),ui=new UI(),raf:(()=>void)[]=[],state=newState(data,'Gold','boy'),lifetime=new AbortController(),writes:any[]=[],events:any[]=[];
  Object.assign(state,{map:180,x:3.5,z:32.5,facing:0});if(withFollower)state.party=[createMon(data,155,5,state.name)];
  const player={group:new THREE.Group()},follower=withFollower?{group:new THREE.Group()}:null;player.group.position.set(state.x,0,state.z);follower?.group.position.set(state.x,0,state.z+1);
  const world=Object.assign(Object.create(OriginalWorld.prototype)as OriginalWorld,{
@@ -79,6 +85,7 @@ async function fixture(withFollower=true){
  });
  // The production shared player stays genuinely locked. No Context exists;
  // real source assets/configuration still admit diagnosed technical no-voice.
+ let milliseconds=0;
  const music=createNativeFieldMusicPlayer({enabled:false,volume:0,createContext:()=>{assert.fail('unit tests must never unlock a real audio Context');}});
  const objects=new FieldObjects(data,state);objects.load(nativeMap.events.objects);
  const prefs={...defaultInterfacePreferences,music:false,volume:0},fieldPhone=new FieldPhoneHost(JSON.parse((await readFile(new URL('phone-triggers.json',sourceRoot))).toString()),0,12);
@@ -88,23 +95,25 @@ async function fixture(withFollower=true){
   started:true,ready:true,transitioning:false,connecting:false,walking:false,hatching:false,battleSoundOwned:false,recoveryPrompt:false,sourceSceneOwners:0,ordinaryInputOwners:0,preservedControlScripts:0,
   followerSuppressed:false,followerFacing:0,followerMoving:false,followerStep:-1,followerPrevious:null,playerDirectionLocked:false,playerTweenY:undefined,stepFrame:-1,previousStepJump:false,restoringGym:false,
   battle:{active:false},activeBagUse:null,fieldPolling:false,lastWarp:'',lastCoord:'',lastError:'',musicKey:'',musicRequestSerial:0,musicPreferencePending:0,npcTweenY:new Map(),activeTrainerEncounter:null,trainerApproachTasks:new Map(),
+  keys:new Set(),touch:{read:()=>({horizontal:0,forward:0,run:false})},trainerEventPriority,fieldTrainerCollision,findTrainerEncounter,MissingTrainerPartner,furnitureBlocksStep,findCoordinateTrigger,doorwayEntry,ledgeDirection,jumpHeight,pushWarp,stepWarpFacing,performance:{now:()=>milliseconds},requestAnimationFrame:(callback:()=>void)=>{raf.push(callback);},deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],
   firstFollowerMon,gymFieldEntry,fieldEntryScripts,mapWeather,AbortController,DOMException,structuredClone,
   refreshNPCs(){events.push('refresh');},updateHUD(){events.push('hud');},resetFieldInput(){events.push('reset-input');},syncMusic(){events.push('sync-music');},musicChanged(){},musicFailed(error:unknown){events.push(['music-error',error]);},
   reportNativeFieldFailure(error:unknown){events.push(['field-error',error]);},console:{warn(...args:unknown[]){events.push(['warn',...args]);},error(...args:unknown[]){events.push(['error',...args]);}},
-  encounterChecks:{reset(){events.push('reset-encounter');}},mapBlackoutSpawn:async()=>null,save(){if(c.sourceActions?.busy)return false;writes.push(structuredClone(state));return true;},
+  encounterChecks:{reset(){events.push('reset-encounter');},step(){events.push('completed-step');}},mapBlackoutSpawn:async()=>null,save(){if(c.sourceActions?.busy)return false;writes.push(structuredClone(state));return true;},
   $:(id:string)=>dom.ids.get(id)??dom.document.createElement('div'),followMon:state.party[0]??null,followSpecies:state.party[0]?.species??0,
  };
  createContext(c);
- const names=['initializeNativeField','installAzaleaField','abortBagUse','captureField','restoreField','executeSourceAction','runScript','runFieldEntry','enterMap','checkFrameTriggers','fieldControlsAvailable','menu','save','updatePreferences','step','interact','tryTrainerEncounter','pollFieldInput','answerPhone','refreshPhoneIndicator','useBagItem'];
+ const names=['initializeNativeField','installAzaleaField','abortBagUse','captureField','restoreField','executeSourceAction','runScript','runFieldEntry','enterMap','checkFrameTriggers','fieldControlsAvailable','menu','save','updatePreferences','step','interact','tryTrainerEncounter','pollFieldInput','answerPhone','refreshPhoneIndicator','useBagItem','running','tween','tweenPlayer','checkEvents','trainerCollision','retainFieldInput'];
  // Save is a real binding too; its storage/field ownership gates must remain.
  const prefStore=new Map<string,string>();Object.assign(c,{writeInterfacePreferences,preferenceStorage:{getItem:(key:string)=>prefStore.get(key)??null,setItem:(key:string,value:string)=>prefStore.set(key,value)},SAVE_KEY:'azalea-unit-save',localStorage:{setItem(_key:string,value:string){writes.push(JSON.parse(value));}}});
  runInContext(compile(names.map(name=>{assert.ok(functions.has(name),name);return functions.get(name)!.getText(ast);}).join('\n')),c);
+ for(const cell of nativeMap.cells){const land=JSON.parse((await readFile(new URL('lands/'+cell.land+'.json',sourceRoot))).toString());world.cells.set(cell.x+','+cell.z,{cell,land,map:nativeMap,group:new THREE.Group(),furniture:[]});}
  c.initializeNativeField();await c.installAzaleaField();
  let hooksExpression:ts.Expression|undefined;function hook(node:ts.Node){if(ts.isNewExpression(node)&&node.expression.getText(ast)==='ScriptVM'&&node.arguments?.[2]&&ts.isObjectLiteralExpression(node.arguments[2])){const property=node.arguments[2].properties.find(value=>value.name?.getText(ast)==='azaleaGym')as ts.PropertyAssignment|undefined;if(property)hooksExpression=property.initializer;}ts.forEachChild(node,hook);}hook(functions.get('begin')!);assert.ok(hooksExpression,'actual Main source gym hook');
  const unsupported=()=>{throw Error('Unexpected unrelated VM command in native gym fixture');};
  const hooks:ScriptHooks={message:async()=>unsupported(),choice:async()=>unsupported(),move:async()=>unsupported(),position:unsupported,face:unsupported,visible:unsupported,chooseStarter:async()=>unsupported(),nickname:async()=>unsupported(),refresh:async()=>{},battle:async()=>unsupported(),warp:async()=>unsupported(),azaleaGym:runInContext(compile('('+hooksExpression.getText(ast)+')'),c)};
  c.vm=new ScriptVM(data,state,hooks);c.sourceActions=new SourceActionRecovery(state,{capture:c.captureField,restore:c.restoreField});
- const frame=async()=>{c.fieldClock.frame(1/30);await c.fieldClock.settled();await new Promise<void>(resolve=>setImmediate(resolve));};
+ const frame=async()=>{milliseconds+=1000/30;for(const callback of raf.splice(0))callback();c.fieldClock.frame(1/30);await c.fieldClock.settled();await new Promise<void>(resolve=>setImmediate(resolve));};
  const renderCode=compile(renderStatement('player')+'\n'+renderStatement('follower'));
  const render=()=>{c.lead=firstFollowerMon(state.party);runInContext(renderCode,c);};
  async function until<T>(pending:Promise<T>,onFrame?:()=>void){let done=false,value:T|undefined,error:unknown;pending.then(result=>{value=result;done=true;},reason=>{error=reason;done=true;});for(let tick=0;!done&&tick<1200;tick++){await frame();render();onFrame?.();}assert.ok(done,'actual Main source action did not settle');if(error!==undefined)throw error;return value!;}
@@ -237,4 +246,29 @@ test('native cart ownership blocks independent field actions without relying on 
   assert.deepEqual(h.state,checkpoint);assert.equal(h.writes.length,writes);assert.equal(h.ui.panelOpen,false);assert.equal(h.fieldPolling,false);
   Reflect.set(h.world.azaleaGym,'busy',false);assert.equal(h.fieldControlsAvailable(),true,'positive control: idle native host releases field admission');
  }finally{Reflect.set(h.world.azaleaGym,'busy',false);await h.dispose();}
+});
+
+
+test('eight source walking ticks map to one Paper walk cycle for player and follower',()=>{
+ const paper=()=>({group:new THREE.Group(),texture:new THREE.Texture(),sprite:new THREE.Mesh(),info:{frames:16,columns:4,rows:4}}),player=paper(),follower=paper(),state={x:3.5,z:32.5,facing:0};
+ let step=0;const columns:number[][]=[[],[]],world={azaleaGym:{riderPosition:null,playerHeld:false},violetGym:{riderHeight:undefined},height:()=>0,yaw:0,animate:OriginalWorld.prototype.animate};
+ const c=createContext({world,state,player,follower,lead:{},followerSuppressed:false,followerFacing:0,followerMoving:false,walking:false,stepFrame:-1,playerTweenY:undefined,fieldActors:{movement:()=>({direction:0,step})}});
+ const draw=compile(renderStatement('player')+'\n'+renderStatement('follower'));
+ for(step=0;step<8;step++){runInContext(draw,c);columns[0].push(player.texture.offset.x*4);columns[1].push(follower.texture.offset.x*4);}
+ for(const frames of columns)assert.deepEqual(frames,[0,0,1,1,2,2,3,3],'source displacement ticks are not atlas column indices');
+});
+
+test('actual ordinary step enters the native coordinate ride and whole-step Return or Retry restores its original tile',async()=>{
+ for(const retry of[false,true]){const h=await fixture();try{
+  Object.assign(h.state,{x:3.5,z:33.5});h.player.group.position.set(3.5,0,33.5);h.follower.group.position.set(3.5,0,34.5);await h.enter('continue');h.follower.group.position.set(3.5,0,34.5);
+  assert.equal(h.world.permission(3.5,32.5),0,'literal native land249 boarding permission');assert.equal(h.world.walkable(3.5,32.5,3.5,33.5,0),true);
+  const before=h.captureField(),writes=h.writes.length,puzzle=structuredClone(h.state.gymmick);let cancelled=false,prompted=false;
+  const pending=h.step(0);
+  await h.until(pending,()=>{
+   if(!cancelled&&h.world.azaleaGym.riderPosition?.x>4.5){cancelled=true;h.vm.cancel(Error('coordinate ride interrupted'));}
+   if(h.ui.panelOpen&&h.dom.ids.get('panel-content')?.innerHTML.includes('Return to field')){prompted=true;assert.deepEqual([h.state.x,h.state.z],[3.5,33.5],'outer step checkpoint precedes entering coordinate3,32');assert.deepEqual(h.follower.group.position.toArray(),before.followerPosition);assert.deepEqual(h.state.gymmick,puzzle);assert.equal(h.world.azaleaGym.moving,false);assert.equal(h.save(),false);h.dom.buttons[retry?0:1].click();}
+  });
+  assert.equal(cancelled,true,'actual coordinate matcher and VM must start the ride');assert.equal(prompted,true);assert.equal(h.writes.length,writes+1,'the ordinary step and nested ride commit once together');assert.equal(h.events.filter((event:any)=>event==='completed-step').length,retry?2:1);
+  assert.deepEqual([h.state.x,h.state.z],retry?[9.5,23.5]:[3.5,33.5]);assert.deepEqual(h.state.gymmick,retry?{kind:'azalea',spiders:[4,1,2,7],switches:0}:puzzle);assert.equal(h.sourceActions.busy,false);
+ }finally{await h.dispose();}}
 });
