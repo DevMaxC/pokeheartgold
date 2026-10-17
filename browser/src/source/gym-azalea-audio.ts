@@ -51,7 +51,7 @@ export class NativeSEPlayer3{
    // Native allocation/preemption precedes the bank/sequence load attempt.
    this.clear();this.guard();let voice:NativeSEVoice;
    try{voice=start();if(!voice||typeof voice.stop!=='function'||typeof voice.ended?.then!=='function')throw Error('Native SE transport admitted no owned voice');}
-   catch(error){this.report(error);this.notify();return{kind:'no-voice',detail:detail(error)};}
+   catch(error){this.notify();if(error instanceof UnsupportedNativeAzaleaAudio)throw error;this.report(error);return{kind:'no-voice',detail:detail(error)};}
    if(this.closed||this.signal.aborted){void Promise.resolve(voice.ended).catch(error=>this.report(error));try{voice.stop();}finally{this.guard();}}
    const entry:Playing={id,owner,priority:meta.playerPriority,voice,finished:false,fade:0};this.playing=entry;
    void voice.ended.then(()=>{entry.finished=true;},error=>{entry.finished=true;this.report(error);});return{kind:'voice'};
@@ -77,10 +77,10 @@ export function createNativeAzaleaAudio(resources:NativeAzaleaAudioResources,por
  const status=(id:1561|2171,stage:AzaleaAudioStatus['stage'],message?:string,asynchronous=false)=>{try{ports.report({id,stage,...message===undefined?{}:{detail:message}});}catch(error){failureError??=new UnsupportedNativeAzaleaAudio('Azalea audio status port failed: '+detail(error));rejectFailure(failureError);if(!asynchronous)throw failureError;}};
  const read=ports.fetchBytes??fetchBytes;
  async function prepareOne(id:1561|2171,signal:AbortSignal){
-  check(signal);guard();if(prepared.has(id)&&prepared.get(id)===null)return;const {context}=output(),asset=resources.sounds[id],controller=new AbortController(),combined=AbortSignal.any([signal,lifetime.signal,ports.player.signal,controller.signal]);let timer:ReturnType<typeof setTimeout>|undefined;
+  check(signal);guard();if(prepared.has(id)&&prepared.get(id)===null)return;const asset=resources.sounds[id],controller=new AbortController(),combined=AbortSignal.any([signal,lifetime.signal,ports.player.signal,controller.signal]);let timer:ReturnType<typeof setTimeout>|undefined;
   try{
    timer=setTimeout(()=>controller.abort(Error('Original Azalea sound preparation timed out')),ports.ioTimeoutMs??4000);
-   const bytes=await observe(()=>read(ROOT+asset.file,combined),combined);await checksum(bytes,asset.wavSHA256,combined);
+   const bytes=await observe(()=>read(ROOT+asset.file,combined),combined);await checksum(bytes,asset.wavSHA256,combined);const {context}=output();
    const buffer=await observe(()=>context.decodeAudioData(bytes),combined);check(combined);guard();
    if(buffer.numberOfChannels!==2||Math.abs(buffer.duration-asset.frames/asset.sampleRate)>1/asset.sampleRate+1/context.sampleRate)throw new UnsupportedNativeAzaleaAudio('Original Azalea decoded sound timing changed');
    buffers.set(id,buffer);prepared.set(id,null);status(id,'prepared');
@@ -91,9 +91,9 @@ export function createNativeAzaleaAudio(resources:NativeAzaleaAudioResources,por
  }
  function start(id:1561|2171,owner:object,signal:AbortSignal):AzaleaSEOutcome{
   guard();check(signal);if(!prepared.has(id))throw new UnsupportedNativeAzaleaAudio('Original Azalea SE must be prepared before dispatch');
-  const {context,output:destination,signal:shared}=output(),token={};owners.set(owner,{id,token,stopping:false});
+  const token={};owners.set(owner,{id,token,stopping:false});
   const outcome=ports.player.play(id,owner,()=>{
-   const buffer=buffers.get(id);if(!buffer)throw Error(prepared.get(id)??'Original Azalea audio admitted no decoded voice');if(context.state!=='running')throw Error('Shared native audio Context is not running');
+   const buffer=buffers.get(id);if(!buffer)throw Error(prepared.get(id)??'Original Azalea audio admitted no decoded voice');const {context,output:destination,signal:shared}=output();if(context.state!=='running')throw Error('Shared native audio Context is not running');
    const node=context.createBufferSource();let done=false,resolve!:()=>void;const ended=new Promise<void>(yes=>{resolve=yes;});
    const finish=()=>{if(done)return;done=true;node.onended=null;signal.removeEventListener('abort',abort);shared.removeEventListener('abort',abort);lifetime.signal.removeEventListener('abort',abort);try{node.stop();}catch{}try{node.disconnect();}finally{resolve();if(owners.get(owner)?.token===token)owners.delete(owner);}status(id,'ended',undefined,true);};
    const abort=()=>{ports.player.cancelOwner(owner);finish();};signal.addEventListener('abort',abort,{once:true});shared.addEventListener('abort',abort,{once:true});lifetime.signal.addEventListener('abort',abort,{once:true});

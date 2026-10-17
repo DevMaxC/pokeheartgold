@@ -11,9 +11,9 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
 function deferred<T=void>(){let resolve!:(value:T)=>void,reject!:(error:unknown)=>void;const promise=new Promise<T>((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};}
 function voice(){const done=deferred();let stops=0;return{ended:done.promise,stop(){stops++;done.resolve();},done,get stops(){return stops;}};}
 function wavDuration(data:ArrayBuffer){const v=new DataView(data);for(let at=12;at+8<v.byteLength;){const size=v.getUint32(at+4,true);if(String.fromCharCode(...new Uint8Array(data,at,4))==='data')return size/4/32768;at+=8+size+(size%2);}throw Error('No WAV data');}
-function fixture(options:{timeout?:number;decode?:(data:ArrayBuffer)=>Promise<any>;read?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;report?:(value:AzaleaAudioStatus)=>void}={}){
+function fixture(options:{outputError?:Error;timeout?:number;decode?:(data:ArrayBuffer)=>Promise<any>;read?:(url:string,signal:AbortSignal)=>Promise<ArrayBuffer>;report?:(value:AzaleaAudioStatus)=>void}={}){
  const shared=signal(),nodes:any[]=[],statuses:AzaleaAudioStatus[]=[],destination={name:'fieldGain'},events=new EventTarget(),context:any={addEventListener:events.addEventListener.bind(events),removeEventListener:events.removeEventListener.bind(events),dispatchEvent:events.dispatchEvent.bind(events),state:'running',sampleRate:32768,decodeAudioData:options.decode??(async(data:ArrayBuffer)=>({numberOfChannels:2,duration:wavDuration(data)})),createBufferSource(){const node:any={onended:null,loop:false,stops:0,disconnects:0,start(){},stop(){node.stops++;},connect(to:unknown){assert.equal(to,destination);},disconnect(){node.disconnects++;},end(){node.onended?.();}};nodes.push(node);return node;}};
- const player=new NativeSEPlayer3(resources,shared.signal),audio=createNativeAzaleaAudio(resources,{player,output:()=>({context,output:destination,signal:shared.signal}),report:options.report??(value=>statuses.push(value)),fetchBytes:options.read??(async url=>bytes(url.split('/').at(-1)!)),ioTimeoutMs:options.timeout??4000});
+ const player=new NativeSEPlayer3(resources,shared.signal),audio=createNativeAzaleaAudio(resources,{player,output:()=>{if(options.outputError)throw options.outputError;return{context,output:destination,signal:shared.signal};},report:options.report??(value=>statuses.push(value)),fetchBytes:options.read??(async url=>bytes(url.split('/').at(-1)!)),ioTimeoutMs:options.timeout??4000});
  return{audio,player,shared,nodes,statuses,context};
 }
 
@@ -105,4 +105,14 @@ test('reentrant native admission from old-voice stop cannot leak an overwritten 
 });
 test('shared registry disposal inside transport admission stops the just-created voice',()=>{
  const p=new NativeSEPlayer3(resources,signal().signal),v=voice();assert.throws(()=>p.play(2171,{},()=>{p.dispose();return v;}),/disposed/);assert.equal(v.stops,1);
+});
+
+test('real sharedAudioOutput getter unavailable is technical no-voice after source verification',async()=>{
+ const f=fixture({outputError:Error('Tap or press a key to unlock native game sound')});await f.audio.prepare([1561,2171],signal().signal);assert.equal(f.statuses.filter(row=>row.stage==='no-voice'&&row.detail?.includes('unlock')).length,2);assert.equal((await f.audio.switch1561(signal().signal)).kind,'no-voice');assert.equal(f.audio.robot2171({}).kind,'no-voice');assert.equal(f.nodes.length,0);f.audio.dispose();f.player.dispose();
+});
+test('unavailable shared Context never masks a missing or corrupt original source WAV',async()=>{
+ const f=fixture({outputError:Error('Not unlocked'),read:async()=>new ArrayBuffer(4)});await assert.rejects(f.audio.prepare([1561,2171],signal().signal),UnsupportedNativeAzaleaAudio);f.audio.dispose();f.player.dispose();
+});
+test('typed source/config absence during native admission rejects explicitly after native preemption',()=>{
+ const p=new NativeSEPlayer3(resources,signal().signal),old=voice();p.play(1610,{},()=>old);assert.throws(()=>p.play(1561,{},()=>{throw new UnsupportedNativeAzaleaAudio('Missing source');}),/Missing source/);assert.equal(old.stops,1);assert.equal(p.isPlaying(1561),false);p.dispose();
 });

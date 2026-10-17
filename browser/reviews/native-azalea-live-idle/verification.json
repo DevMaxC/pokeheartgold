@@ -1,5 +1,5 @@
 {
-  "status": "distinct source follow-up awaiting new narrow review",
+  "status": "actual shared getter correction awaiting distinct narrow review",
   "oldHostRuntime": "3dad8b6611dea414eb15b3e5eb6dcffbae310744",
   "audioOriginal": "d6a61e5a",
   "audioHardeningOriginal": "93acce92",
@@ -7,16 +7,17 @@
   "files": {
     "browser/src/source/gym-azalea-host.ts": "36e3e33c404b586c18970ea3bcb22c343d975d5418835b174e8ece586e785c6f",
     "browser/src/source/gym-azalea-host.test.ts": "9c5fea421ecbe3fdf025223f51faf19d7b2465dabb59fcd2275ee04474e004bc",
-    "browser/src/source/gym-azalea-audio.ts": "9cb584bc8fa7f60921e4f1f8ea8b5adb6e2f7f6d184c2d8b5b31269c2470f7b2",
-    "browser/src/source/gym-azalea-audio.test.ts": "d0ae362e0c1294ca56508395622607cbabbf185147162ca5f16fcd1b39d3c9f0",
+    "browser/src/source/gym-azalea-audio.ts": "1fd8e02bf6264b6e69ce534e74d30c5200c7eef1aed5c7d9af10c0e31dcb6c14",
+    "browser/src/source/gym-azalea-audio.test.ts": "689017f41196226d63de5ee3b3fdac8078fc74c87bf4bcd408ec3c4fde438f6f",
     "browser/src/source/azalea-audio-data.ts": "1e124adc767c2faddee567a661cc96ecc2a1625f2d1ca7ecbc186c2123580b59",
     "browser/src/source/native-field-clock.ts": "7202dc98d46c46b2655c24f441d1b5ace51e687214b2e3a4cf1152def575f962",
     "browser/src/source/gym-azalea-world.ts": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46"
   },
   "tests": {
     "oldHostNewSequenceControl": "FAIL expected",
-    "currentHostAudioClock": "63/63 PASS",
-    "tsc": "PASS"
+    "currentHostAudioClock": "66/66 PASS",
+    "tsc": "PASS",
+    "old9dGetterControls": "3/3 FAIL expected"
   },
   "unchanged": [
     "World",
@@ -30,5 +31,10 @@
     "build",
     "hardware listening",
     "deployment"
-  ]
+  ],
+  "observedSharedGetter": {
+    "path": "/Users/maxchurch/Documents/pokeheartgold-native-interface/browser/src/source/field-music.ts",
+    "sha256": "c2d0467dde783fc7a1ec91c33429b5d196e43978116e8a1ac2c2da89a3e5c89c",
+    "contract": "actualContext() rejects unavailable/not-unlocked Context before sharedAudioOutput can return"
+  }
 }
