@@ -36,7 +36,7 @@ export class UI{
   private hidePanel(){clearTimeout(this.focusTimer);this.focusTimer=undefined;if(this.replacingPanel)return;++this.panelVersion;this.panelOpen=false;this.panelCancel=null;this.canDismiss=true;$('panel').hidden=true;for(const entry of this.panelInert)entry.element.inert=entry.previous;this.panelInert=[];const target=this.returnFocus;this.returnFocus=null;if(target?.isConnected&&target.tabIndex>=0&&!(target as HTMLButtonElement).disabled&&!target.closest('[hidden],[inert]'))target.focus();else $('original-world').focus();}
   close(){if(this.panelTask)this.panelTask.cancel(replaced());else this.hidePanel();}
   private focusables(){return Array.from($('panel-content').querySelectorAll<HTMLElement>('button,input,select,textarea,a[href],[tabindex]')).filter(element=>!(element as HTMLButtonElement).disabled&&element.tabIndex>=0&&element.getAttribute('aria-disabled')!=='true'&&!element.closest('[hidden],[inert]')&&(typeof element.getClientRects!=='function'||element.getClientRects().length>0));}
-  private focusPanel(){const first=this.focusables()[0];if(first)first.focus();else{$('panel-content').tabIndex=-1;$('panel-content').focus();}}
+  private focusPanel(){const controls=this.focusables(),first=controls.find(element=>element.getAttribute('data-panel-focus')!==null)??controls[0];if(first)first.focus();else{$('panel-content').tabIndex=-1;$('panel-content').focus();}}
   private editable(element:HTMLElement|null){return !!element&&(['INPUT','TEXTAREA','SELECT'].includes(element.tagName)||element.isContentEditable);}
   private keydown(event:KeyboardEvent){
     if(event.defaultPrevented||event.ctrlKey||event.metaKey||event.altKey)return;

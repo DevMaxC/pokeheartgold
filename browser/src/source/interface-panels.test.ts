@@ -59,6 +59,14 @@ test('owned menu and Bag return through their parents with keyboard Back and con
   }finally{f.restore();}
 });
 
+test('owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket',async()=>{
+ const f=fixture();try{
+  f.state!.party=[{species:155,gender:'male',name:'Cyndaquil',level:5,hp:12,maxHP:20,status:''}as Mon];
+  const menu=f.panels.menu();f.clock.flush();assert.equal(f.d.document.activeElement.dataset.action,'party');f.d.key('KeyF');await tick();assert.match(f.html(),/Your party/);assert.equal(f.ui.panelOpen,true);f.d.key('Escape');await tick();f.d.key('Escape');await menu;
+  f.state!.bag={ITEM_POTION:2,ITEM_POKE_BALL:5};const bag=f.panels.bag();f.clock.flush();assert.equal(f.d.document.activeElement.dataset.action,'pocket:0');f.action('pocket:1').click();await tick();f.clock.flush();assert.equal(f.d.document.activeElement.dataset.action,'pocket:1');f.d.key('Enter');await tick();assert.match(f.html(),/Your Bag/);assert.equal(f.ui.panelOpen,true);f.d.key('Escape');await bag;
+ }finally{f.restore();}
+});
+
 test('native menu unlocks hide unavailable panels and empty party while missing state opens nothing',async()=>{
   const f=fixture();try{
     f.state!.flags={};const pending=f.panels.menu();assert.deepEqual(f.node('panel-content').querySelectorAll('[data-action]').map(button=>button.dataset.action),['back','back']);
@@ -115,6 +123,33 @@ test('title settings avoid game-state save and keep range/editor keys native whi
     // A native text editor embedded by a future control retains text/IME keys.
     const editor=f.d.document.createElement('input');editor.id='settings-editor';f.node('panel-content').appendChild(editor);editor.focus();for(const code of['KeyB','KeyF','Space','ArrowLeft'])assert.equal(f.d.key(code).defaultPrevented,false,code);assert.equal(f.d.key('Enter',{isComposing:true}).defaultPrevented,false);
     range.focus();assert.equal(f.d.key('KeyB').defaultPrevented,true);await pending;assert.equal(f.saves,0);assert.equal(readInterfacePreferences(f.storage).volume,0);
+  }finally{f.restore();}
+});
+
+test('Settings exposes explicit music retry, disables duplicate requests and follows owned playback status',async()=>{
+  const f=fixture();try{
+    let status={pending:true,message:'',canRetry:false},retryCalls=0,release!:()=>void,unsubscribed=0;
+    const listeners=new Set<()=>void>(),notify=()=>{for(const listener of listeners)listener();};
+    Object.assign(f.ports,{musicStatus:()=>status,retryMusic:()=>{retryCalls++;return new Promise<void>(resolve=>{release=resolve;});},watchMusic:(listener:()=>void)=>{listeners.add(listener);return()=>{unsubscribed++;listeners.delete(listener);};}});
+    const pending=f.panels.settings();f.clock.flush();assert.equal(f.d.document.activeElement.id,'setting-music');
+    const retry=f.node('setting-music-retry');assert.equal(retry.disabled,true);assert.equal(f.node('setting-music-status').textContent,'Loading original music…');assert.equal(listeners.size,1);
+    status={pending:false,message:'Music could not load. Retry when ready.',canRetry:true};notify();assert.equal(retry.disabled,false);assert.equal(f.node('setting-music-status').textContent,status.message);
+    retry.click();assert.equal(retryCalls,1);assert.equal(retry.disabled,true);assert.equal(f.node('setting-music-status').textContent,'Loading original music…');retry.click();retry.dispatchEvent({type:'click'});assert.equal(retryCalls,1,'even synthetic duplicate clicks respect the disabled owned control');
+    status={pending:false,message:'',canRetry:false};release();await tick();assert.equal(retry.disabled,true);assert.equal(f.node('setting-music-status').textContent,'Music is on.');
+    status={pending:false,message:'This original music is unavailable.',canRetry:false};notify();assert.equal(retry.disabled,true);assert.equal(f.node('setting-music-status').textContent,status.message);retry.click();assert.equal(retryCalls,1,'unsupported music is not presented as retryable');
+    f.node('setting-music').click();assert.equal(f.node('setting-music-status').textContent,'Music is off.');assert.equal(retry.disabled,true);
+    f.d.key('Escape');await pending;assert.equal(unsubscribed,1);assert.equal(listeners.size,0);assert.equal(f.ev.handlers(retry,'click').length,0);
+  }finally{f.restore();}
+});
+
+test('a pending Settings music retry releases exact handlers and subscription without altering its replacement',async()=>{
+  const f=fixture();try{
+    let release!:()=>void,unsubscribed=0,retries=0;
+    const listeners=new Set<()=>void>();
+    Object.assign(f.ports,{musicStatus:()=>({pending:false,message:'Retry when ready.',canRetry:true}),retryMusic:()=>{retries++;return new Promise<void>(resolve=>{release=resolve;});},watchMusic:(listener:()=>void)=>{listeners.add(listener);return()=>{unsubscribed++;listeners.delete(listener);};}});
+    const pending=f.panels.settings(),rejected=assert.rejects(pending,{name:'AbortError'}),retry=f.node('setting-music-retry'),oldListener=[...listeners][0],oldHandler=f.ev.handlers(retry,'click')[0];
+    retry.click();assert.equal(retries,1);const replacement=f.ui.choose('Keep this question',['Continue']);await rejected;assert.equal(unsubscribed,1);assert.equal(listeners.size,0);assert.equal(f.ev.handlers(retry,'click').length,0);
+    const before=f.html();oldHandler.call(retry,{type:'click'});oldListener();release();await tick();assert.equal(retries,1);assert.equal(f.html(),before);assert.equal(f.saves,0);assert.equal(f.ui.panelOpen,true);f.d.buttons[0].click();await replacement;
   }finally{f.restore();}
 });
 

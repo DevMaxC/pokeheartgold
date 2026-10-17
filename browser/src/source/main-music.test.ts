@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createContext,runInContext,runInNewContext} from 'node:vm';
 import ts from 'typescript';
-import {createNativeFieldMusicPlayer,type EffectiveMusic} from './field-music.ts';
+import {createNativeFieldMusicPlayer,UnsupportedNativeMusic,type EffectiveMusic} from './field-music.ts';
 import {nativeBattleMusic} from './battle-music.ts';
 import {readInterfacePreferences,writeInterfacePreferences,INTERFACE_PREFERENCES_KEY} from './interface-preferences.ts';
 import {fieldInput,fieldInputFacing} from './field-input.ts';
@@ -16,7 +16,7 @@ const parse=(text:string)=>ts.createSourceFile('fixture.ts',text,ts.ScriptTarget
 const compile=(text:string)=>ts.transpileModule(text,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
 const read=(name:string)=>readFileSync(new URL(name,import.meta.url),'utf8');
 const source=read('main.ts'),ast=parse(source),functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node.getText(ast)]));
-const names=['retryMusicRestores','unlockSound','syncMusic','resetFieldInput','syncInputContext','save','checkFrameTriggers','withBattleMusic','startBattle','step','menu','interact'];
+const names=['musicChanged','watchMusic','musicFailed','clearMusicFailure','musicStatus','musicDeadline','retryMusic','retryMusicRestores','unlockSound','syncMusic','resetFieldInput','syncInputContext','save','checkFrameTriggers','withBattleMusic','startBattle','step','menu','interact'];
 for(const name of names)assert.ok(functions.has(name),'Main music binding moved: '+name);
 function initializer(name:string){for(const statement of ast.statements)if(ts.isVariableStatement(statement))for(const declaration of statement.declarationList.declarations)if(declaration.name.getText(ast)===name)return declaration.initializer!;throw Error('Main initializer moved: '+name);}
 const cameraPorts=(initializer('camera')as ts.NewExpression).arguments![1].getText(ast),touchActions=(initializer('touch')as ts.NewExpression).arguments![1].getText(ast);
@@ -42,6 +42,13 @@ const selectorFixture=fixtureDeclarations(read('battle-music.test.ts'),['text','
 const native=runInNewContext(compile(selectorFixture+'\n({catalog,ids});'),{readFileSync,URL,root:new URL('../../../',import.meta.url)});
 const flush=()=>new Promise<void>(resolve=>setImmediate(resolve));
 function deferred(){let resolve!:(value?:any)=>void,reject!:(error:unknown)=>void;const promise=new Promise<any>((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};}
+function deadlineClock(c:any){
+ const originalSet=globalThis.setTimeout,originalClear=globalThis.clearTimeout,tasks=new Map<number,{at:number;run:()=>void}>();let now=0,serial=0;
+ const set=((run:(...args:any[])=>void,delay=0,...args:any[])=>{const id=++serial;tasks.set(id,{at:now+Number(delay),run:()=>run(...args)});return id;})as unknown as typeof setTimeout;
+ const clear=((id:number)=>{tasks.delete(Number(id));})as unknown as typeof clearTimeout;
+ globalThis.setTimeout=set;globalThis.clearTimeout=clear;c.setTimeout=set;c.clearTimeout=clear;
+ return{async advance(ms:number){const end=now+ms;for(;;){const first=[...tasks].sort((a,b)=>a[1].at-b[1].at)[0];if(!first||first[1].at>end)break;now=first[1].at;tasks.delete(first[0]);first[1].run();await flush();}now=end;await flush();},restore(){globalThis.setTimeout=originalSet;globalThis.clearTimeout=originalClear;c.setTimeout=originalSet;c.clearTimeout=originalClear;},get pending(){return tasks.size;}};
+}
 function map(id=60){return{id,events:{objects:[],coords:[],warps:[],bgs:[]},initTriggers:[],fields:{}};}
 function mon(species=155,hp=10){return{species,hp,name:'Fixture',gender:'male',level:5};}
 function fixture(){
@@ -49,16 +56,16 @@ function fixture(){
  f.catalog.battle=native.catalog.battle;
  // Distinct native cue IDs/paths use the adapter's checksummed synthetic audio.
  const sample=f.catalog.tracks['1019'];for(const {cue}of native.catalog.battle.parameters){if(f.catalog.tracks[cue.id])continue;f.catalog.tracks[cue.id]={...structuredClone(sample),...cue,formats:sample.formats.map((format:any)=>{const file=cue.id+'-'+cue.key+(format.codec==='aac'?'.m4a':'.mp3');f.files.set('/source/music/'+file,f.files.get('/source/music/'+format.file));return{...format,file};})};}
- const realPlayMap=music.playMap.bind(music);music.playMap=async(m:any,s:any)=>{log.push(['map-music',m.id]);if(controls.playMap)return controls.playMap(m,s);return realPlayMap(m,s);};
- const session=music.createCueSession.bind(music);music.createCueSession=()=>{const owned=session();return{start(cue:any,signal:AbortSignal){log.push(['cue',cue]);return owned.start(cue,signal);},restore(){log.push(['restore',c.map.id]);return owned.restore();}};};
+ const realPlayMap=music.playMap.bind(music);music.playMap=async(m:any,s:any,signal?:AbortSignal)=>{log.push(['map-music',m.id]);if(controls.playMap)return controls.playMap(m,s,signal);return realPlayMap(m,s,signal);};
+ const session=music.createCueSession.bind(music);music.createCueSession=()=>{const owned=session();return{start(cue:any,signal:AbortSignal){log.push(['cue',cue]);return owned.start(cue,signal);},restore(signal?:AbortSignal){log.push(['restore',c.map.id]);return owned.restore(signal);}};};
  const suspend=music.field.suspend.bind(music.field);music.field.suspend=async(snapshot:EffectiveMusic)=>{log.push(['suspend',snapshot]);return suspend(snapshot);};
  const preferences=readInterfacePreferences(null),state:any={name:'Ethan',map:60,x:10.5,z:10.5,facing:1,runningShoes:true,money:3000,badges:[],party:[mon()],flags:{},vars:{},bag:{},options:{sound:false,textSpeed:0,battleStyle:'shift'}};
- const c:any={music,preferences,state,map:map(),data:{constants:native.ids,trainers:[{class:'TRAINERCLASS_LEADER_FALKNER'},{class:'TRAINERCLASS_PASSERBY'}]},musicKey:'',musicError:'',soundUnlocked:false,unlockPending:null,battleSoundOwned:false,musicRequestPending:null,musicRequestSerial:0,pendingMusicRestores:new Set(),pickupRecoveryBlocked:false,started:true,ready:true,walking:false,transitioning:false,connecting:false,keys:new Set(),lastError:'',lastWarp:'',deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],preferenceStorage:null,
+ const c:any={music,preferences,state,map:map(),data:{constants:native.ids,trainers:[{class:'TRAINERCLASS_LEADER_FALKNER'},{class:'TRAINERCLASS_PASSERBY'}]},musicKey:'',musicError:'',musicNotice:'',musicRetryable:true,musicPreferencePending:0,musicListeners:new Set(),MUSIC_WAIT_MS:Number(initializer('MUSIC_WAIT_MS').getText(ast)),soundUnlocked:false,unlockPending:null,battleSoundOwned:false,musicRequestPending:null,musicRequestSerial:0,pendingMusicRestores:new Set(),pickupRecoveryBlocked:false,started:true,ready:true,walking:false,transitioning:false,connecting:false,keys:new Set(),lastError:'',lastWarp:'',deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],preferenceStorage:null,
   ui:{busy:false,dialogueOpen:false,panelOpen:false,toast(text:string){log.push(['toast',text]);},choose:async()=>1,input:async()=> 'Name',message:async()=>{}},world:{yaw:0,pitch:.5,distance:10,fieldTransitionActive:false,sky:{currentWeather:3},npcSprites:new Map(),permission:()=>0,terrainWalkable:()=>true,walkable:()=>true},vm:{busy:false,value:()=>0},camera:{reset(){log.push('camera-reset');},sync(){}},touch:{reset(){log.push('touch-reset');},setContext(value:any){log.push(['touch-context',value]);},read:()=>({horizontal:1,forward:0,run:false})},objects:{save:()=>({map:state.map,actors:[]})},SAVE_KEY:'test-save',localStorage:{setItem(_key:string,value:string){writes.push(JSON.parse(value));}},$:()=>({dataset:{}}),panels:{async menu(){log.push('menu');}},
   battle:{active:false,async start(enemies:any,trainer:any,options:any){log.push(['battle',enemies,trainer,options]);this.active=true;controls.battleEntered?.resolve();try{await controls.battleGate?.promise;if(controls.battleError)throw controls.battleError;return controls.result??'won';}finally{this.active=false;}}},
   nativeBattleMusic(catalog:any,setup:any){log.push(['setup',structuredClone(setup)]);return nativeBattleMusic(catalog,setup);},encounterChecks:{reset(){log.push('encounter-reset');},step(){}},async tweenPlayer(){log.push('step');},running:()=>false,ledgeDirection:()=>null,pushWarp:()=>false,doorwayEntry:()=>false,
   async whiteOut(){log.push('blackout');controls.blackoutEntered?.resolve();await controls.blackoutGate?.promise;state.map=73;c.map=map(73);if(controls.blackoutTrigger)c.map.initTriggers=[{var:'0',value:0,script:90}];},healParty(){log.push('heal');},battleMoneyLoss:()=>10,trainerPrize:async()=>0,async runFieldEntry(kind:string){log.push(['entry',kind,c.battleSoundOwned]);},async runScript(script:any){log.push(['script',script,c.battleSoundOwned]);},updateHUD(){},reportInputError(error:unknown){log.push(['error',String(error)]);},fieldInput,fieldInputFacing,writeInterfacePreferences,
-  catchingTutorialState:()=>({state:{...state,gender:'girl'},enemy:mon(19)}),Battle:class{async start(enemies:any,trainer:any,options:any){log.push(['tutorial-battle',enemies,trainer,options]);controls.tutorialEntered?.resolve();await controls.tutorialGate?.promise;if(controls.tutorialError)throw controls.tutorialError;return'won';}},WorldBattleView:class{},player:{group:{position:{y:0}}},follower:null,displayMapName:()=> 'New Bark',console:{warn(error:any){log.push(['warn',String(error)]);},error(){}},DOMException,AbortController,Date:class extends Date{getHours(){return 12;}},
+  catchingTutorialState:()=>({state:{...state,gender:'girl'},enemy:mon(19)}),Battle:class{async start(enemies:any,trainer:any,options:any){log.push(['tutorial-battle',enemies,trainer,options]);controls.tutorialEntered?.resolve();await controls.tutorialGate?.promise;if(controls.tutorialError)throw controls.tutorialError;return'won';}},WorldBattleView:class{},player:{group:{position:{y:0}}},follower:null,displayMapName:()=> 'New Bark',console:{warn(error:any){log.push(['warn',String(error)]);},error(){}},DOMException,AbortController,UnsupportedNativeMusic,setTimeout,clearTimeout,Date:class extends Date{getHours(){return 12;}},
   addEventListener(type:string,handler:any){listeners.set(type,handler);},document:{addEventListener(){}},
  };
  createContext(c);runInContext(compile(bindings+events),c);c.cameraAllowed=runInContext(compile('('+cameraPorts+').allowed'),c);c.touchActions=runInContext(compile('('+touchActions+')'),c);
@@ -82,13 +89,35 @@ test('actual map music synchronization deduplicates intent and suppresses failur
  }finally{await c.dispose();}
 });
 
+test('ordinary field gestures and key repeats do not retry a failed song or repeat its error toast',async()=>{
+ const c=fixture();try{await c.prepare();let requests=0;c.controls.playMap=async()=>{requests++;throw Error('Network offline');};c.syncMusic();await c.musicRequestPending;assert.equal(requests,1);
+  for(let i=0;i<20;i++){c.listeners.get('keydown')({code:'KeyW',repeat:i>0,preventDefault(){}});await c.musicRequestPending;}
+  c.touchActions.interact();await c.musicRequestPending;assert.equal(requests,1,'unlocked field gestures must not become implicit song retries');assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,1);
+ }finally{await c.dispose();}
+});
+
+test('a resumed Context with a failed initial song remains unlocked without gesture retries and recovers through Settings Retry',async()=>{
+ const c=fixture();try{
+  await c.music.playMap(c.map,{hour:12,flags:{}});c.f.controls.badDuration=true;c.unlockSound();assert.equal(c.f.contexts.length,1);assert.equal(c.f.contexts[0].state,'running');const initial=c.unlockPending;await assert.rejects(initial,/None of/);await flush();assert.equal(c.music.isUnlocked(),true);assert.equal(c.soundUnlocked,true);assert.equal(c.f.sources.length,0);const requests=c.f.requests.length,resumes=c.f.log.filter((value:string)=>value==='resume').length;
+  for(let i=0;i<5;i++)c.unlockSound();await flush();assert.equal(c.f.requests.length,requests);assert.equal(c.f.log.filter((value:string)=>value==='resume').length,resumes);assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,1);
+  c.f.controls.badDuration=false;await c.retryMusic();assert.equal(c.f.sources.length,1);assert.equal(c.musicError,'');assert.equal(c.musicStatus().canRetry,false);
+ }finally{await c.dispose();}
+});
+
+test('text/camera preferences do not touch audio, and explicit Retry exposes observable retryability',async()=>{
+ const c=fixture();try{await c.prepare();let preferences=0,requests=0;const original=c.music.setPreferences.bind(c.music);c.music.setPreferences=(value:any)=>{preferences++;return original(value);};c.controls.playMap=async()=>{requests++;throw Error('offline');};c.updatePreferencesActual({...c.preferences,textSpeed:2,cameraSensitivity:1.3});await flush();assert.equal(preferences,0);assert.equal(requests,0);assert.equal(c.state.options.textSpeed,2);
+  const statuses:any[]=[],unwatch=c.watchMusic(()=>statuses.push({...c.musicStatus()}));c.syncMusic();await c.musicRequestPending;assert.equal(c.musicStatus().canRetry,true);assert.equal(c.musicStatus().pending,false);assert.ok(statuses.some(s=>s.pending));const notices=c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length;await c.retryMusic();assert.equal(requests,2);assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,notices);unwatch();const length=statuses.length;await c.retryMusic();assert.equal(statuses.length,length);
+  c.musicFailed(new UnsupportedNativeMusic('Source cue unavailable'));assert.equal(c.musicStatus().canRetry,false);const before=requests;await c.retryMusic();assert.equal(requests,before);
+ }finally{await c.dispose();}
+});
+
 test('late map success cannot erase a newer map failure diagnostic',async()=>{
  const c=fixture();try{const old=deferred(),latest=deferred();c.controls.playMap=(m:any)=>m.id===60?old.promise:latest.promise;c.syncMusic();c.state.map=73;c.map=map(73);c.syncMusic();latest.reject(Error('current map unavailable'));await flush();assert.match(c.musicError,/current map unavailable/);old.resolve({status:'playing'});await flush();assert.match(c.musicError,/current map unavailable/);assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,1);
  }finally{await c.dispose();}
 });
 
-test('a preference retry of the same map ignores the superseded request even when its content key is unchanged',async()=>{
- const c=fixture();try{const old=deferred(),latest=deferred();let requests=0;c.controls.playMap=()=>++requests===1?old.promise:latest.promise;c.syncMusic();c.updatePreferencesActual({...c.preferences,textSpeed:2});await flush();assert.equal(requests,2,'one preference update launches one replacement map request');latest.resolve({status:'playing'});await c.musicRequestPending;old.reject(Error('same-map request replaced'));await flush();assert.equal(c.musicError,'');assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,0);
+test('rapid volume changes ignore a superseded request even when the final content key is unchanged',async()=>{
+ const c=fixture();try{await c.prepare();const old=deferred(),latest=deferred();let requests=0;c.controls.playMap=()=>++requests===1?old.promise:latest.promise;c.syncMusic();c.updatePreferencesActual({...c.preferences,volume:.2});c.updatePreferencesActual({...c.preferences,volume:.55});await flush();assert.ok(requests>=2);assert.equal(c.preferences.volume,.55);latest.resolve({status:'playing'});await c.musicRequestPending;old.reject(Error('same-map request replaced'));await flush();assert.equal(c.musicError,'');assert.equal(c.log.filter((v:any)=>Array.isArray(v)&&v[0]==='toast').length,0);
  }finally{await c.dispose();}
 });
 
@@ -100,6 +129,27 @@ test('actual battle setup uses the source trainer class, first living wild speci
 test('awaited cue preparation locks movement, menu, save, source frames and keyboard/drag camera before Battle.active',async()=>{
  const c=fixture();try{await c.prepare();const gate=deferred(),fetchEntered=deferred(),actualFetch=c.f.files;c.f.controls.fetch=async(url:string)=>{fetchEntered.resolve();await gate.promise;return actualFetch.get(url).slice(0);};c.controls.battleGate=deferred();c.controls.battleEntered=deferred();const pending=c.startBattle([mon(16)]);await fetchEntered.promise;assert.equal(c.battle.active,false);assert.equal(c.battleSoundOwned,true);c.keys.add('KeyQ');c.keys.add('KeyW');const yaw=c.world.yaw;c.syncInputContext();c.renderInputActual(.02);await c.step(3);await c.menu();assert.equal(c.save(),false);c.map.initTriggers=[{var:'0',value:0,script:90}];assert.equal(await c.checkFrameTriggers(),false);assert.equal(c.cameraAllowed(),false);c.listeners.get('keydown')({code:'KeyE',preventDefault(){}});assert.equal(c.keys.has('KeyE'),false);assert.equal(c.world.yaw,yaw);assert.equal(c.log.some((v:any)=>v==='menu'||v==='step'||Array.isArray(v)&&v[0]==='script'),false);assert.equal(c.log.findLast((v:any)=>Array.isArray(v)&&v[0]==='touch-context')[1].movement,false);c.map.initTriggers=[];gate.resolve();await c.controls.battleEntered.promise;assert.equal(c.battle.active,true);assert.equal(c.battleSoundOwned,true);c.controls.battleGate.resolve();await pending;assert.equal(c.battleSoundOwned,false);assert.equal(c.cameraAllowed(),true);assert.equal((c.music.capture()as any).positionSeconds,6);assert.equal(c.f.sources.at(-1).offset,6);
  }finally{await c.dispose();}
+});
+
+test('a stalled shared catalog yields to the battle deadline without starting a late cue',async()=>{
+ const c=fixture(),gate=deferred(),entered=deferred();let clock:ReturnType<typeof deadlineClock>|undefined,pending:Promise<any>|undefined;
+ try{await c.music.unlock();clock=deadlineClock(c);c.f.controls.load=()=>{entered.resolve();return gate.promise;};c.controls.battleGate=deferred();pending=c.startBattle([mon(16)]);await entered.promise;await clock.advance(1500);assert.equal(c.battle.active,true);assert.equal(c.f.sources.length,0);gate.resolve(c.f.catalog);await flush();assert.equal(c.f.sources.length,0,'the shared catalog may finish, but its cancelled battle caller cannot start a cue');c.controls.battleGate.resolve();await pending;assert.equal(c.battleSoundOwned,false);assert.equal((c.music.capture()as any).cue.id,1018);
+ }finally{gate.resolve(c.f.catalog);c.controls.battleGate?.resolve();try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
+});
+
+for(const stage of['fetch','decode']as const)test('a stalled '+stage+' cannot delay battle past the preparation deadline or start a late cue',async()=>{
+ const c=fixture(),gate=deferred(),entered=deferred();let clock:ReturnType<typeof deadlineClock>|undefined,pending:Promise<any>|undefined;
+ try{await c.prepare();clock=deadlineClock(c);c.controls.battleGate=deferred();
+  if(stage==='fetch')c.f.controls.fetch=async(url:string)=>{entered.resolve();await gate.promise;return c.f.files.get(url).slice(0);};else c.f.controls.decode=async()=>{entered.resolve();await gate.promise;return{numberOfChannels:2,duration:10};};
+  pending=c.startBattle([mon(16)]);await entered.promise;await clock.advance(1499);assert.equal(c.battle.active,false);await clock.advance(1);assert.equal(c.battle.active,true,'optional music preparation must yield to the battle at1500ms');assert.equal(c.f.sources.length,1);gate.resolve();await flush();assert.equal(c.f.sources.length,1,'late preparation cannot publish a battle voice');c.f.controls.fetch=undefined;c.f.controls.decode=undefined;c.controls.battleGate.resolve();await pending;assert.equal(c.battleSoundOwned,false);assert.equal((c.music.capture()as any).cue.id,1018);
+ }finally{gate.resolve();c.controls.battleGate?.resolve();c.f.controls.fetch=undefined;c.f.controls.decode=undefined;try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
+});
+
+test('a stalled blackout restore releases gameplay at the return deadline and late bytes cannot beat a newer map',async()=>{
+ const c=fixture(),gate=deferred(),entered=deferred();let clock:ReturnType<typeof deadlineClock>|undefined,pending:Promise<any>|undefined;
+ try{await c.prepare();clock=deadlineClock(c);c.controls.result='lost';const blackout=c.whiteOut;c.whiteOut=async()=>{await blackout();c.f.controls.fetch=async(url:string)=>{entered.resolve();await gate.promise;return c.f.files.get(url).slice(0);};};pending=c.startBattle([mon(16)]);await entered.promise;assert.equal(c.battleSoundOwned,true);assert.equal(c.f.sources[1].stopped,true);await clock.advance(1500);assert.equal(c.battleSoundOwned,false,'return music must not hold gameplay beyond1500ms');await pending;await c.menu();assert.ok(c.log.includes('menu'));assert.ok(c.pendingMusicRestores.size);
+  await clock.advance(4000);await c.musicRequestPending;c.f.controls.fetch=undefined;c.state.map=61;c.map=map(61);c.syncMusic();await c.musicRequestPending;assert.equal((c.music.capture()as any).cue.id,1018);const voices=c.f.sources.length;gate.resolve();await flush();assert.equal(c.f.sources.length,voices);assert.equal((c.music.capture()as any).cue.id,1018);assert.equal(c.pendingMusicRestores.size,0);
+ }finally{gate.resolve();c.f.controls.fetch=undefined;try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
 });
 
 test('failed cue decoding still runs the battle with old field phase paused, then restores it',async()=>{
@@ -117,9 +167,9 @@ test('blackout retains music ownership until the desired spawn map is known, the
  }finally{await c.dispose();}
 });
 
-test('retained destination restore ownership recovers from Settings, a fresh gesture, or a newer map intent',async()=>{
- for(const retry of['settings','gesture','new-map']){const c=fixture();try{await c.prepare();c.controls.result='lost';const blackout=c.whiteOut;c.whiteOut=async()=>{await blackout();c.f.controls.badDuration=true;};await c.startBattle([mon(16)]);await c.musicRequestPending;assert.ok(c.pendingMusicRestores.size);assert.notEqual(c.musicError,'');c.f.controls.badDuration=false;
-   if(retry==='settings'){c.updatePreferencesActual({...c.preferences});await flush();}else if(retry==='gesture')c.unlockSound();else{c.state.map=61;c.map=map(61);c.syncMusic();}
+test('retained destination restore ownership recovers only through explicit Retry or a newer map intent',async()=>{
+ for(const retry of['explicit-retry','new-map']){const c=fixture();try{await c.prepare();c.controls.result='lost';const blackout=c.whiteOut;c.whiteOut=async()=>{await blackout();c.f.controls.badDuration=true;};await c.startBattle([mon(16)]);await c.musicRequestPending;assert.ok(c.pendingMusicRestores.size);assert.notEqual(c.musicError,'');c.f.controls.badDuration=false;
+   c.unlockSound();assert.ok(c.pendingMusicRestores.size,'ordinary gestures do not retry the failed song');if(retry==='explicit-retry')await c.retryMusic();else{c.state.map=61;c.map=map(61);c.syncMusic();}
    await c.musicRequestPending;assert.equal((c.music.capture()as any).cue?.id,retry==='new-map'?1018:1019,'retry must resume the current intended cue');assert.equal(c.pendingMusicRestores.size,0);assert.equal(c.musicError,'');
   }finally{await c.dispose();}
  }
