@@ -1,0 +1,843 @@
+TAP version 13
+# (node:20078) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual native opening confirms the remembered choice before any deferred focus task
+not ok 1 - actual native opening confirms the remembered choice before any deferred focus task
+  ---
+  duration_ms: 252.610875
+  type: 'test'
+  location: '/private/tmp/hg-opening-interface-before/browser/src/source/opening-interface.test.ts:32:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected "actual" to be reference-equal to "expected":
+    + actual - expected
+    
+    + <ref *2> Element {
+    - <ref *8> Element {
+        attributes: Map(2) {
+    +     'id' => 'original-world',
+    +     'tabindex' => '0'
+    -     'class' => 'opening-selected',
+    -     'data-opening-choice' => '1'
+        },
+    +   children: [],
+    +   className: '',
+    +   dataset: {},
+    -   children: [
+    -     Element {
+    -       attributes: Map(2) {
+    -         'alt' => '',
+    -         'src' => '/source/opening/girl-choice.png'
+    -       },
+    -       children: [],
+    -       className: '',
+    -       dataset: {},
+    -       disabled: false,
+    -       hidden: false,
+    -       html: '',
+    -       identifier: '',
+    -       inert: false,
+    -       isContentEditable: false,
+    -       onclick: null,
+    -       onsubmit: null,
+    -       parentElement: [Circular *8],
+    -       tagName: 'IMG',
+    -       textContent: '',
+    -       value: ''
+    -     }
+    -   ],
+    -   classList: {
+    -     toggle: [Function: toggle]
+    -   },
+    -   className: 'opening-selected',
+    -   dataset: {
+    -     openingChoice: '1'
+    -   },
+        disabled: false,
+    -   focus: [Function (anonymous)],
+        hidden: false,
+        html: '',
+    +   identifier: 'original-world',
+    +   inert: true,
+    -   identifier: '',
+    -   inert: false,
+        isContentEditable: false,
+        onclick: null,
+        onsubmit: null,
+    +   parentElement: <ref *1> Element {
+    -   parentElement: <ref *6> Element {
+          attributes: Map(1) {
+    +       'id' => 'game'
+    -       'class' => 'opening-character-choices'
+          },
+          children: [
+    +       [Circular *2],
+    +       <ref *3> Element {
+    -       <ref *7> Element {
+              attributes: Map(1) {
+    +           'id' => 'game-hud'
+    -           'data-opening-choice' => '0'
+              },
+              children: [
+                Element {
+    +             attributes: Map(1) {
+    +               'id' => 'open-menu'
+    -             attributes: Map(2) {
+    -               'alt' => '',
+    -               'src' => '/source/opening/boy-choice.png'
+                  },
+                  children: [],
+                  className: '',
+                  dataset: {},
+                  disabled: false,
+                  hidden: false,
+                  html: '',
+    +             identifier: 'open-menu',
+    -             identifier: '',
+                  inert: false,
+                  isContentEditable: false,
+                  onclick: null,
+                  onsubmit: null,
+    +             parentElement: [Circular *3],
+    +             tagName: 'BUTTON',
+    -             parentElement: [Circular *7],
+    -             tagName: 'IMG',
+                  textContent: '',
+                  value: ''
+                }
+              ],
+    +         className: '',
+    +         dataset: {},
+    +         disabled: false,
+    +         hidden: false,
+    +         html: '',
+    +         identifier: 'game-hud',
+    +         inert: true,
+    +         isContentEditable: false,
+    +         onclick: null,
+    +         onsubmit: null,
+    +         parentElement: [Circular *1],
+    +         tagName: 'HEADER',
+    +         textContent: '',
+    +         value: ''
+    +       },
+    +       Element {
+    +         attributes: Map(1) {
+    +           'id' => 'touch-pad'
+    -         classList: {
+    -           toggle: [Function: toggle]
+              },
+    +         children: [],
+              className: '',
+    +         dataset: {},
+    -         dataset: {
+    -           openingChoice: '0'
+    -         },
+              disabled: false,
+    -         focus: [Function (anonymous)],
+              hidden: false,
+              html: '',
+    +         identifier: 'touch-pad',
+    +         inert: true,
+    -         identifier: '',
+    -         inert: false,
+              isContentEditable: false,
+              onclick: null,
+              onsubmit: null,
+    +         parentElement: [Circular *1],
+    +         tagName: 'DIV',
+    -         parentElement: [Circular *6],
+    -         tagName: 'BUTTON',
+              textContent: '',
+              value: ''
+            },
+    +       <ref *4> Element {
+    -       [Circular *8]
+    -     ],
+    -     className: 'opening-character-choices',
+    -     dataset: {},
+    -     disabled: false,
+    -     hidden: false,
+    -     html: '',
+    -     identifier: '',
+    -     inert: false,
+    -     isContentEditable: false,
+    -     onclick: null,
+    -     onsubmit: null,
+    -     parentElement: <ref *5> Element {
+    -       attributes: Map(1) {
+    -         'id' => 'panel-content'
+    -       },
+    -       children: [
+    -         Element {
+    -           attributes: Map(1) {
+    -             'class' => 'eyebrow'
+    -           },
+    -           children: [],
+    -           className: 'eyebrow',
+    -           dataset: {},
+    -           disabled: false,
+    -           hidden: false,
+    -           html: '',
+    -           identifier: '',
+    -           inert: false,
+    -           isContentEditable: false,
+    -           onclick: null,
+    -           onsubmit: null,
+    -           parentElement: [Circular *5],
+    -           tagName: 'SPAN',
+    -           textContent: '',
+    -           value: ''
+    -         },
+    -         Element {
+    -           attributes: Map(0) {},
+    -           children: [],
+    -           className: '',
+    -           dataset: {},
+    -           disabled: false,
+    -           hidden: false,
+    -           html: '',
+    -           identifier: '',
+    -           inert: false,
+    -           isContentEditable: false,
+    -           onclick: null,
+    -           onsubmit: null,
+    -           parentElement: [Circular *5],
+    -           tagName: 'H2',
+    -           textContent: '',
+    -           value: ''
+    -         },
+    -         [Circular *6]
+    -       ],
+    -       className: '',
+    -       dataset: {},
+    -       disabled: false,
+    -       hidden: false,
+    -       html: '<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Are you a boy? Or are you a girl?</h2><div class="opening-character-choices"><button data-opening-choice="0"><img src="/source/opening/boy-choice.png" alt="">Boy</button><button data-opening-choice="1" class="opening-selected"><img src="/source/opening/girl-choice.png" alt="">Girl</button></div>',
+    -       identifier: 'panel-content',
+    -       inert: false,
+    -       isContentEditable: false,
+    -       onclick: null,
+    -       onsubmit: null,
+    -       parentElement: <ref *4> Element {
+              attributes: Map(1) {
+    +           'id' => 'dialogue'
+    -           'id' => 'panel'
+              },
+              children: [
+    +           Element {
+    +             attributes: Map(1) {
+    +               'id' => 'dialogue-speaker'
+    +             },
+    +             children: [],
+    +             className: '',
+    +             dataset: {},
+    +             disabled: false,
+    +             hidden: false,
+    +             html: '',
+    +             identifier: 'dialogue-speaker',
+    +             inert: false,
+    +             isContentEditable: false,
+    +             onclick: null,
+    +             onsubmit: null,
+    +             parentElement: [Circular *4],
+    +             tagName: 'DIV',
+    +             textContent: '',
+    +             value: ''
+    +           },
+    +           Element {
+    +             attributes: Map(1) {
+    +               'id' => 'dialogue-text'
+    +             },
+    +             children: [],
+    +             className: '',
+    +             dataset: {},
+    +             disabled: false,
+    +             hidden: false,
+    +             html: '',
+    +             identifier: 'dialogue-text',
+    +             inert: false,
+    +             isContentEditable: false,
+    +             onclick: null,
+    +             onsubmit: null,
+    +             parentElement: [Circular *4],
+    +             tagName: 'DIV',
+    +             textContent: '',
+    +             value: ''
+    +           },
+    +           Element {
+    +             attributes: Map(1) {
+    +               'id' => 'dialogue-next'
+    +             },
+    +             children: [],
+    +             className: '',
+    +             dataset: {},
+    +             disabled: false,
+    +             hidden: false,
+    +             html: '',
+    +             identifier: 'dialogue-next',
+    +             inert: false,
+    +             isContentEditable: false,
+    +             onclick: [Function (anonymous)],
+    +             onsubmit: null,
+    +             parentElement: [Circular *4],
+    +             tagName: 'BUTTON',
+    +             textContent: '',
+    +             value: ''
+    +           }
+    -           [Circular *5]
+              ],
+              className: '',
+    +         dataset: {},
+    -         dataset: {
+    -           view: 'default'
+    -         },
+              disabled: false,
+    +         hidden: true,
+    -         hidden: false,
+              html: '',
+    +         identifier: 'dialogue',
+    -         identifier: 'panel',
+              inert: false,
+              isContentEditable: false,
+              onclick: null,
+              onsubmit: null,
+    +         parentElement: [Circular *1],
+    +         tagName: 'DIV',
+    +         textContent: '',
+    +         value: ''
+    +       },
+    +       <ref *5> Element {
+    +         attributes: Map(1) {
+    +           'id' => 'panel'
+    +         },
+    +         children: [
+    +           <ref *6> Element {
+    +             attributes: Map(1) {
+    +               'id' => 'panel-content'
+    -         parentElement: <ref *1> Element {
+    -           attributes: Map(1) {
+    -             'id' => 'game'
+    -           },
+    -           children: [
+    -             Element {
+    -               attributes: Map(2) {
+    -                 'id' => 'original-world',
+    -                 'tabindex' => '0'
+    -               },
+    -               children: [],
+    -               className: '',
+    -               dataset: {},
+    -               disabled: false,
+    -               hidden: false,
+    -               html: '',
+    -               identifier: 'original-world',
+    -               inert: true,
+    -               isContentEditable: false,
+    -               onclick: null,
+    -               onsubmit: null,
+    -               parentElement: [Circular *1],
+    -               tagName: 'CANVAS',
+    -               textContent: '',
+    -               value: ''
+                  },
+    +             children: [
+    +               Element {
+    +                 attributes: Map(1) {
+    +                   'class' => 'eyebrow'
+    -             <ref *2> Element {
+    -               attributes: Map(1) {
+    -                 'id' => 'game-hud'
+    -               },
+    -               children: [
+    -                 Element {
+    -                   attributes: Map(1) {
+    -                     'id' => 'open-menu'
+    -                   },
+    -                   children: [],
+    -                   className: '',
+    -                   dataset: {},
+    -                   disabled: false,
+    -                   hidden: false,
+    -                   html: '',
+    -                   identifier: 'open-menu',
+    -                   inert: false,
+    -                   isContentEditable: false,
+    -                   onclick: null,
+    -                   onsubmit: null,
+    -                   parentElement: [Circular *2],
+    -                   tagName: 'BUTTON',
+    -                   textContent: '',
+    -                   value: ''
+                      },
+    +                 children: [],
+    +                 className: 'eyebrow',
+    +                 dataset: {},
+    +                 disabled: false,
+    +                 hidden: false,
+    +                 html: '',
+    +                 identifier: '',
+    +                 inert: false,
+    +                 isContentEditable: false,
+    +                 onclick: null,
+    +                 onsubmit: null,
+    +                 parentElement: [Circular *6],
+    +                 tagName: 'SPAN',
+    +                 textContent: '',
+    +                 value: ''
+    -               ],
+    -               className: '',
+    -               dataset: {},
+    -               disabled: false,
+    -               hidden: false,
+    -               html: '',
+    -               identifier: 'game-hud',
+    -               inert: true,
+    -               isContentEditable: false,
+    -               onclick: null,
+    -               onsubmit: null,
+    -               parentElement: [Circular *1],
+    -               tagName: 'HEADER',
+    -               textContent: '',
+    -               value: ''
+    -             },
+    -             Element {
+    -               attributes: Map(1) {
+    -                 'id' => 'touch-pad'
+                    },
+    +               Element {
+    +                 attributes: Map(0) {},
+    +                 children: [],
+    +                 className: '',
+    +                 dataset: {},
+    +                 disabled: false,
+    +                 hidden: false,
+    +                 html: '',
+    +                 identifier: '',
+    +                 inert: false,
+    +                 isContentEditable: false,
+    +                 onclick: null,
+    +                 onsubmit: null,
+    +                 parentElement: [Circular *6],
+    +                 tagName: 'H2',
+    +                 textContent: '',
+    +                 value: ''
+    -               children: [],
+    -               className: '',
+    -               dataset: {},
+    -               disabled: false,
+    -               hidden: false,
+    -               html: '',
+    -               identifier: 'touch-pad',
+    -               inert: true,
+    -               isContentEditable: false,
+    -               onclick: null,
+    -               onsubmit: null,
+    -               parentElement: [Circular *1],
+    -               tagName: 'DIV',
+    -               textContent: '',
+    -               value: ''
+    -             },
+    -             <ref *3> Element {
+    -               attributes: Map(1) {
+    -                 'id' => 'dialogue'
+                    },
+    +               <ref *7> Element {
+    +                 attributes: Map(1) {
+    +                   'class' => 'opening-character-choices'
+    -               children: [
+    -                 Element {
+    -                   attributes: Map(1) {
+    -                     'id' => 'dialogue-speaker'
+    -                   },
+    -                   children: [],
+    -                   className: '',
+    -                   dataset: {},
+    -                   disabled: false,
+    -                   hidden: false,
+    -                   html: '',
+    -                   identifier: 'dialogue-speaker',
+    -                   inert: false,
+    -                   isContentEditable: false,
+    -                   onclick: null,
+    -                   onsubmit: null,
+    -                   parentElement: [Circular *3],
+    -                   tagName: 'DIV',
+    -                   textContent: '',
+    -                   value: ''
+                      },
+    +                 children: [
+    +                   <ref *8> Element {
+    +                     attributes: Map(1) {
+    +                       'data-opening-choice' => '0'
+    +                     },
+    +                     children: [
+    +                       Element {
+    +                         attributes: Map(2) {
+    +                           'alt' => '',
+    +                           'src' => '/source/opening/boy-choice.png'
+    +                         },
+    +                         children: [],
+    +                         className: '',
+    +                         dataset: {},
+    +                         disabled: false,
+    +                         hidden: false,
+    +                         html: '',
+    +                         identifier: '',
+    +                         inert: false,
+    +                         isContentEditable: false,
+    +                         onclick: null,
+    +                         onsubmit: null,
+    +                         parentElement: [Circular *8],
+    +                         tagName: 'IMG',
+    +                         textContent: '',
+    +                         value: ''
+    +                       }
+    +                     ],
+    +                     classList: {
+    +                       toggle: [Function: toggle]
+    +                     },
+    +                     className: '',
+    +                     dataset: {
+    +                       openingChoice: '0'
+    +                     },
+    +                     disabled: false,
+    +                     focus: [Function (anonymous)],
+    +                     hidden: false,
+    +                     html: '',
+    +                     identifier: '',
+    +                     inert: false,
+    +                     isContentEditable: false,
+    +                     onclick: null,
+    +                     onsubmit: null,
+    +                     parentElement: [Circular *7],
+    +                     tagName: 'BUTTON',
+    +                     textContent: '',
+    +                     value: ''
+    -                 Element {
+    -                   attributes: Map(1) {
+    -                     'id' => 'dialogue-text'
+                        },
+    +                   <ref *9> Element {
+    +                     attributes: Map(2) {
+    +                       'class' => 'opening-selected',
+    +                       'data-opening-choice' => '1'
+    +                     },
+    +                     children: [
+    +                       Element {
+    +                         attributes: Map(2) {
+    +                           'alt' => '',
+    +                           'src' => '/source/opening/girl-choice.png'
+    +                         },
+    +                         children: [],
+    +                         className: '',
+    +                         dataset: {},
+    +                         disabled: false,
+    +                         hidden: false,
+    +                         html: '',
+    +                         identifier: '',
+    +                         inert: false,
+    +                         isContentEditable: false,
+    +                         onclick: null,
+    +                         onsubmit: null,
+    +                         parentElement: [Circular *9],
+    +                         tagName: 'IMG',
+    +                         textContent: '',
+    +                         value: ''
+    +                       }
+    +                     ],
+    +                     classList: {
+    +                       toggle: [Function: toggle]
+    +                     },
+    +                     className: 'opening-selected',
+    +                     dataset: {
+    +                       openingChoice: '1'
+    +                     },
+    +                     disabled: false,
+    +                     focus: [Function (anonymous)],
+    +                     hidden: false,
+    +                     html: '',
+    +                     identifier: '',
+    +                     inert: false,
+    +                     isContentEditable: false,
+    +                     onclick: null,
+    +                     onsubmit: null,
+    +                     parentElement: [Circular *7],
+    +                     tagName: 'BUTTON',
+    +                     textContent: '',
+    +                     value: ''
+    -                   children: [],
+    -                   className: '',
+    -                   dataset: {},
+    -                   disabled: false,
+    -                   hidden: false,
+    -                   html: '',
+    -                   identifier: 'dialogue-text',
+    -                   inert: false,
+    -                   isContentEditable: false,
+    -                   onclick: null,
+    -                   onsubmit: null,
+    -                   parentElement: [Circular *3],
+    -                   tagName: 'DIV',
+    -                   textContent: '',
+    -                   value: ''
+    -                 },
+    -                 Element {
+    -                   attributes: Map(1) {
+    -                     'id' => 'dialogue-next'
+                        },
+    +                 ],
+    +                 className: 'opening-character-choices',
+    +                 dataset: {},
+    +                 disabled: false,
+    +                 hidden: false,
+    +                 html: '',
+    +                 identifier: '',
+    +                 inert: false,
+    +                 isContentEditable: false,
+    +                 onclick: null,
+    +                 onsubmit: null,
+    +                 parentElement: [Circular *6],
+    +                 tagName: 'DIV',
+    +                 textContent: '',
+    +                 value: ''
+    -                   children: [],
+    -                   className: '',
+    -                   dataset: {},
+    -                   disabled: false,
+    -                   hidden: false,
+    -                   html: '',
+    -                   identifier: 'dialogue-next',
+    -                   inert: false,
+    -                   isContentEditable: false,
+    -                   onclick: [Function (anonymous)],
+    -                   onsubmit: null,
+    -                   parentElement: [Circular *3],
+    -                   tagName: 'BUTTON',
+    -                   textContent: '',
+    -                   value: ''
+    -                 }
+    -               ],
+    -               className: '',
+    -               dataset: {},
+    -               disabled: false,
+    -               hidden: true,
+    -               html: '',
+    -               identifier: 'dialogue',
+    -               inert: false,
+    -               isContentEditable: false,
+    -               onclick: null,
+    -               onsubmit: null,
+    -               parentElement: [Circular *1],
+    -               tagName: 'DIV',
+    -               textContent: '',
+    -               value: ''
+    -             },
+    -             [Circular *4],
+    -             Element {
+    -               attributes: Map(1) {
+    -                 'id' => 'loading'
+                    },
+    -               children: [],
+    -               className: '',
+    -               dataset: {},
+    -               disabled: false,
+    -               hidden: true,
+    -               html: '',
+    -               identifier: 'loading',
+    -               inert: false,
+    -               isContentEditable: false,
+    -               onclick: null,
+    -               onsubmit: null,
+    -               parentElement: [Circular *1],
+    -               tagName: 'DIV',
+    -               textContent: '',
+    -               value: ''
+    -             }
+    -           ],
+    -           className: '',
+    -           dataset: {},
+    -           disabled: false,
+    -           hidden: false,
+    -           html: '',
+    -           identifier: 'game',
+    -           inert: false,
+    -           isContentEditable: false,
+    -           onclick: null,
+    -           onsubmit: null,
+    -           parentElement: Element {
+    -             attributes: Map(0) {},
+    -             children: [
+    -               [Circular *1]
+                  ],
+                  className: '',
+                  dataset: {},
+                  disabled: false,
+                  hidden: false,
+    +             html: '<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Are you a boy? Or are you a girl?</h2><div class="opening-character-choices"><button data-opening-choice="0"><img src="/source/opening/boy-choice.png" alt="">Boy</button><button data-opening-choice="1" class="opening-selected"><img src="/source/opening/girl-choice.png" alt="">Girl</button></div>',
+    +             identifier: 'panel-content',
+    -             html: '',
+    -             identifier: '',
+                  inert: false,
+                  isContentEditable: false,
+                  onclick: null,
+                  onsubmit: null,
+    +             parentElement: [Circular *5],
+    +             tagName: 'DIV',
+    -             parentElement: null,
+    -             tagName: 'BODY',
+                  textContent: '',
+                  value: ''
+                },
+    +         ],
+    +         className: '',
+    +         dataset: {
+    +           view: 'default'
+    -           tagName: 'MAIN',
+    -           textContent: '',
+    -           value: ''
+              },
+    +         disabled: false,
+    +         hidden: false,
+    +         html: '',
+    +         identifier: 'panel',
+    +         inert: false,
+    +         isContentEditable: false,
+    +         onclick: null,
+    +         onsubmit: null,
+    +         parentElement: [Circular *1],
+              tagName: 'SECTION',
+              textContent: '',
+              value: ''
+            },
+    +       Element {
+    +         attributes: Map(1) {
+    +           'id' => 'loading'
+    +         },
+    +         children: [],
+    +         className: '',
+    +         dataset: {},
+    +         disabled: false,
+    +         hidden: true,
+    +         html: '',
+    +         identifier: 'loading',
+    +         inert: false,
+    +         isContentEditable: false,
+    +         onclick: null,
+    +         onsubmit: null,
+    +         parentElement: [Circular *1],
+    +         tagName: 'DIV',
+    +         textContent: '',
+    +         value: ''
+    +       }
+    +     ],
+    +     className: '',
+    +     dataset: {},
+    +     disabled: false,
+    +     hidden: false,
+    +     html: '',
+    +     identifier: 'game',
+    +     inert: false,
+    +     isContentEditable: false,
+    +     onclick: null,
+    +     onsubmit: null,
+    +     parentElement: Element {
+    +       attributes: Map(0) {},
+    +       children: [
+    +         [Circular *1]
+    +       ],
+    +       className: '',
+    +       dataset: {},
+    +       disabled: false,
+    +       hidden: false,
+    +       html: '',
+    +       identifier: '',
+    +       inert: false,
+    +       isContentEditable: false,
+    +       onclick: null,
+    +       onsubmit: null,
+    +       parentElement: null,
+    +       tagName: 'BODY',
+    -       tagName: 'DIV',
+            textContent: '',
+            value: ''
+          },
+    +     tagName: 'MAIN',
+    -     tagName: 'DIV',
+          textContent: '',
+          value: ''
+        },
+    +   tagName: 'CANVAS',
+    -   tagName: 'BUTTON',
+        textContent: '',
+        value: ''
+      }
+    
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: actual modal capture and native cursor move once per arrow and keep focus selection aligned
+not ok 2 - actual modal capture and native cursor move once per arrow and keep focus selection aligned
+  ---
+  duration_ms: 105.866708
+  type: 'test'
+  location: '/private/tmp/hg-opening-interface-before/browser/src/source/opening-interface.test.ts:39:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    ArrowRight
+    + actual - expected
+    
+      [
+    +   undefined,
+    +   undefined
+    -   true,
+    -   false
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: true
+    1: false
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-opening-interface-before/browser/src/source/opening-interface.test.ts:43:94)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: native opening retains pointer selection and mandatory Back behavior under modal ownership
+not ok 3 - native opening retains pointer selection and mandatory Back behavior under modal ownership
+  ---
+  duration_ms: 5.949292
+  type: 'test'
+  location: '/private/tmp/hg-opening-interface-before/browser/src/source/opening-interface.test.ts:48:1'
+  failureType: 'testCodeFailure'
+  error: 'window is not defined'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ReferenceError'
+  stack: |-
+    chooseOpeningButton (/private/tmp/hg-opening-interface-before/browser/src/source/opening-input.ts:4:102)
+    ActualOpeningChoice.choose (evalmachine.<anonymous>:6:29)
+    TestContext.<anonymous> (/private/tmp/hg-opening-interface-before/browser/src/source/opening-interface.test.ts:50:26)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Error: Test "actual native opening confirms the remembered choice before any deferred focus task" at browser/src/source/opening-interface.test.ts:32:1 generated asynchronous activity after the test ended. This activity created the error "ReferenceError: window is not defined" and would have caused the test to fail, but instead triggered an unhandledRejection event.
+# Error: Test "actual modal capture and native cursor move once per arrow and keep focus selection aligned" at browser/src/source/opening-interface.test.ts:39:1 generated asynchronous activity after the test ended. This activity created the error "ReferenceError: window is not defined" and would have caused the test to fail, but instead triggered an unhandledRejection event.
+1..3
+# tests 3
+# suites 0
+# pass 0
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2277.15875
