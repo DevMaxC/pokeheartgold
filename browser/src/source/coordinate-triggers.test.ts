@@ -73,7 +73,7 @@ test('actual Ilex stick script changes the blind spot and first-Farfetchd catch 
   f.state.x=25.5;f.state.z=66.5;const stick=f.find();assert.ok(stick);assert.equal(stick.scriptId,'_EV_scr_seq_D36R0101_farfetchd1_sticks1 + 1');await f.vm.run(f.map,stick.scriptId);
   assert.equal(f.vm.value('VAR_TEMP_x4002',f.map),1);assert.equal(f.vm.value('VAR_FARFETCHD1_STICKS1',f.map),2);assert.equal(f.find(),undefined,'deactivated sticks do not retrigger underfoot');assert.ok(f.messages.some(text=>text.includes('noticed you')));
   f.state.x=25.5;f.state.z=61.5;f.state.facing=1;await f.vm.run(f.map,bird.scriptId,bird.id);
-  assert.equal(f.vm.lastUnsupported,null);assert.equal(f.state.flags.FLAG_FOUND_FIRST_FARFETCHD,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_LOST,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_FOUND,false);assert.equal(f.objects.get(bird.id)!.shown,false);assert.equal(f.state.flags.FLAG_FOUND_SECOND_FARFETCHD,undefined);assert.equal(f.state.flags.FLAG_GOT_HM01,undefined);
+  assert.equal(f.vm.lastUnsupported,null);assert.equal(f.state.flags.FLAG_FOUND_FIRST_FARFETCHD,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_LOST,true);assert.equal(f.state.flags.FLAG_HIDE_FARFETCHD_1_FOUND,false);assert.equal(f.objects.snapshot().find(object=>object.id===bird.id)!.visible,false);assert.equal(f.objects.get(bird.id)!.shown,undefined);assert.equal(f.state.flags.FLAG_FOUND_SECOND_FARFETCHD,undefined);assert.equal(f.state.flags.FLAG_GOT_HM01,undefined);
   assert.deepEqual(f.warps,[{map:117,x:15,z:65,facing:data.constants.DIR_NORTH}]);assert.deepEqual([f.state.map,f.state.x,f.state.z,f.state.facing],[117,15.5,65.5,0]);
 });
 

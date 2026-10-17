@@ -35,13 +35,13 @@ function walkGraph(blockObjects:boolean,flags:Record<string,boolean>={}){
 // ledge/door/actor priority. Only animation/event/audio leaves are replaced.
 function hostStep(x:number,z:number,flags:Record<string,boolean>={}){
  const text=fs.readFileSync(path.join(repository,'browser/src/source/main.ts'),'utf8');
- const start=text.indexOf('async function step(facing:number)'),end=text.indexOf('\nfunction menu()',start);
+ const start=text.indexOf('async function step(facing:number)'),end=text.indexOf('\nasync function menu()',start);
  assert.ok(start>=0&&end>start,'Actual main.ts step binding must be reviewed if its declaration changes');
  const world=fixture.world,actors=originalObjects(fixture.maps,flags).filter(o=>o.visible);
  world.npcSprites.clear();for(const actor of actors)world.npcSprites.set(actor.id,{group:{visible:true,position:{x:actor.x+.5,z:actor.z+.5}}} as never);
  const state={map:world.cell(x+.5,z+.5)!.map.id,x:x+.5,z:z+.5,facing:0,runningShoes:false};
  const movement:{x:number;z:number;jump:boolean}[]=[],events:boolean[]=[],warps:number[]=[];
- const context=vm.createContext({state,world,map:fixture.maps.get(state.map),walking:false,transitioning:false,vm:{busy:false},ui:{busy:false},battle:{active:false},deltas:directions.map(([x,z])=>({x,z})),player:{group:{position:{y:world.height(state.x,state.z)}}},keys:new Set(),pushWarp,ledgeDirection,doorwayEntry,
+ const context=vm.createContext({sourceActions:{busy:false},recoveryPrompt:false,executeSourceAction:async action=>({ok:true,value:await action()}),wildEncounter:async()=>false,state,world,map:fixture.maps.get(state.map),walking:false,transitioning:false,vm:{busy:false},ui:{busy:false},battle:{active:false},deltas:directions.map(([x,z])=>({x,z})),player:{group:{position:{y:world.height(state.x,state.z)}}},keys:new Set(),pushWarp,ledgeDirection,doorwayEntry,
   tweenPlayer:async(x:number,z:number,_seconds:number,jump=false)=>{movement.push({x,z,jump});state.x=x;state.z=z;},
   encounterChecks:{step(){}},checkEvents:async(door=false)=>events.push(door),warp:async(index:number)=>warps.push(index),save(){}});
  vm.runInContext(stripTypeScriptTypes(text.slice(start,end),{mode:'transform'})+';globalThis.actualStep=step;',context);
