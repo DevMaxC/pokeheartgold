@@ -98,7 +98,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
   const cancel=()=>controller.abort(signal?reason(signal):new Error('Native music cancelled'));if(signal?.aborted)cancel();else signal?.addEventListener('abort',cancel,{once:true});
   try{
    check(controller.signal);if(!desired){current?.voice.stop();current=null;return{status:'silence'};}
-   const selection={cue:{...desired.cue},source:desired.source};validCue(selection.cue);
+   const selection={cue:{...desired.cue},source:desired.source};validCue(selection.cue);if(current&&same(current.selection,selection))current.selection.source=selection.source;
    if(!enabled){current?.voice.pause();return{status:'muted',cue:selection.cue};}
    if(!unlocked)return{status:'locked',cue:selection.cue};
    if(interrupted)return{status:'muted',cue:selection.cue};
@@ -123,7 +123,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    // Map/recovery ownership may deliberately request a different actual cue
    // while suspended. Never resurrect an old voice over that newer intent.
    if(saved.kind==='playing'&&current?.identity===saved.identity&&same(current.selection,desired)){if(enabled)current.voice.resume();return;}
-   try{await reconcile();}catch(error){interrupted=true;throw error;}
+   const pending=reconcile(),ownedGeneration=generation;try{await pending;}catch(error){if(generation===ownedGeneration){interrupted=true;throw error;}/* Newer playback intent now owns its own result. */}
   },
  };
 
@@ -137,7 +137,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    if(!context){context=(options.createContext??(()=>{const Constructor=globalThis.AudioContext??(globalThis as unknown as{webkitAudioContext:typeof AudioContext}).webkitAudioContext;if(!Constructor)throw Error('Native music requires WebAudio');return new Constructor();}))();gain=context.createGain();gain.gain.value=enabled?volume:0;gain.connect(context.destination);}
    const ctx=context;const resumed=ctx.resume();
    let timer:ReturnType<typeof setTimeout>|undefined,cancel!:()=>void;
-   try{await Promise.race([resumed,new Promise<never>((_yes,no)=>{cancel=()=>no(reason(lifetime.signal));lifetime.signal.addEventListener('abort',cancel,{once:true});timer=setTimeout(()=>no(Error('Tap again to allow original game music')),options.unlockTimeoutMs??2000);})]);assertOpen();if(ctx.state!=='running')throw Error('Native music was not allowed to start');unlocked=true;if(cueSession?.preferences)await cueSession.preferences();await reconcile();}
+   try{await Promise.race([resumed,new Promise<never>((_yes,no)=>{cancel=()=>no(reason(lifetime.signal));lifetime.signal.addEventListener('abort',cancel,{once:true});timer=setTimeout(()=>no(Error('Tap again to allow original game music')),options.unlockTimeoutMs??2000);})]);assertOpen();if(ctx.state!=='running')throw Error('Native music was not allowed to start');unlocked=true;if(cueSession?.preferences)await cueSession.preferences();await(pendingPlayback??reconcile());}
    finally{clearTimeout(timer);lifetime.signal.removeEventListener('abort',cancel);}
   },
   async playMap(map:Pick<SourceMap,'id'>,state:FieldMusicState,signal?:AbortSignal){assertOpen();if(signal)check(signal);const request=++intent,id=map.id,inputs=structuredClone(state),native=await getCatalog();if(signal)check(signal);if(request!==intent)throw Error('Native music map intent replaced');try{desired=nativeFieldMusic(native,{id},inputs);}catch(error){desired=null;await reconcile();throw error;}return reconcile(signal);},
@@ -151,7 +151,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    let started=false,closed=false,restored=false,restoring:Promise<void>|undefined,preparing:Promise<void>|undefined;
    let detach=()=>{};
    const update=async()=>{
-    if(closed||!saved||!track)return;
+    if(closed||abort.signal.aborted||!saved||!track||!unlocked||context?.state!=='running')return;
     if(!enabled){owned?.pause();return;}
     if(owned&&!owned.isStopped()){owned.resume();return;}
     if(track.status==='silence')return;
@@ -172,8 +172,8 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
       const loop=track.loopFrames;if(loop&&(!loop.every(Number.isInteger)||loop[0]<0||loop[1]<=loop[0]||loop[1]>track.frames!))throw Error('Invalid measured native session loop');
       // Prepare while field music still plays; interruption snapshots actual
       // phase after this latency. Muted encounters request no song bytes.
-      if(enabled&&track.status==='ready')await decodeTrack(track,abort.signal);
-      check(signal);check(abort.signal);assertOpen();if(closed)throw Error('Native cue session closed');saved=await field.suspend(snapshot());await update();
+      if(enabled&&unlocked&&track.status==='ready')await decodeTrack(track,abort.signal);
+      check(signal);check(abort.signal);assertOpen();if(closed)throw Error('Native cue session closed');const paused=field.suspend(snapshot());saved=snapshot();await paused;check(abort.signal);if(closed)throw Error('Native cue session restored');await update();
      }catch(error){detach();if(cueSession===owner)cueSession=undefined;throw error;}
     },
     restore(){
