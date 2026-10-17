@@ -93,7 +93,7 @@ test('source evolution move summary preserves a legally taught HM and rejects a 
 
 test('owned move UI aborts and drains before technical rollback; a late choice cannot teach a restored mon',async()=>{
  const f=fixture([mon(19,20)]),before=structuredClone(f.state);let learned:Promise<void>|undefined,settled=false,signalSeen:AbortSignal|undefined;
- f.ports.moveLearning.choose=(_request,signal)=>new Promise((_resolve,reject)=>{signalSeen=signal;signal.addEventListener('abort',()=>{queueMicrotask(()=>{settled=true;reject(signal.reason);});},{once:true});});
+ f.ports.moveLearning.choose=(_request,signal)=>new Promise((_resolve,reject)=>{signalSeen=signal;signal.addEventListener('abort',()=>{setImmediate(()=>{settled=true;reject(signal.reason);});},{once:true});});
  f.ports.present=async(_scene,cb)=>{cb.evolve();cb.register();learned=cb.learnMoves();throw Error('scene lost its context');};
  await assert.rejects(f.queue.run(data,f.state,f.record,f.ports),/lost its context/);assert.equal(signalSeen!.aborted,true);assert.equal(settled,true);await assert.rejects(learned!);assert.deepEqual(f.state,before);assert.equal(f.queue.pending(f.record),1);
 });
