@@ -15,8 +15,10 @@ const view=ast.statements.find(ts.isClassDeclaration)!;
 const method=view.members.find(member=>member.name?.getText(ast)==='choose')!;
 function fixture(){
  const dom=installUIDOM(),clock=installUIClock(),ui=new UI();
+ const priorWindow=Object.getOwnPropertyDescriptor(globalThis,'window');
  const handlers=new Map<EventListenerOrEventListenerObject,{active:boolean}>();
  const window={addEventListener(type:string,handler:(event:KeyboardEvent)=>void){const owner={active:true};handlers.set(handler,owner);dom.listen(type,event=>{if(owner.active)handler(event);});},removeEventListener(_type:string,handler:EventListenerOrEventListenerObject){const owner=handlers.get(handler);if(owner)owner.active=false;}};
+ Object.defineProperty(globalThis,'window',{value:window,configurable:true});
  const panel=ui.panel.bind(ui);ui.panel=(html,autoFocus)=>{
   panel(html,autoFocus);
   for(const button of dom.document.querySelectorAll('[data-opening-choice]')){
@@ -27,7 +29,7 @@ function fixture(){
  const context=createContext({document:dom.document,window,chooseOpeningButton,esc:escapeHTML,source:'/source/opening/'});
  const code=ts.transpileModule('class ActualOpeningChoice {'+method.getText(ast)+'}\nglobalThis.Choice=ActualOpeningChoice;',{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
  runInContext(code,context);const choice=new (context as any).Choice();choice.ui=ui;
- return{dom,clock,ui,choice,buttons:()=>dom.document.querySelectorAll('[data-opening-choice]'),restore(){clock.restore();dom.restore();}};
+ return{dom,clock,ui,choice,buttons:()=>dom.document.querySelectorAll('[data-opening-choice]'),restore(){if(priorWindow)Object.defineProperty(globalThis,'window',priorWindow);else Reflect.deleteProperty(globalThis,'window');clock.restore();dom.restore();}};
 }
 test('actual native opening confirms the remembered choice before any deferred focus task',async()=>{
  for(const code of['Enter','Space','KeyF']){const f=fixture();try{
