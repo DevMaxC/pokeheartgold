@@ -2,6 +2,16 @@ import type {GameData,Mon,MoveData} from './types.ts';
 export type Stages={atk:number;def:number;spatk:number;spdef:number;speed:number;accuracy:number;evasion:number};
 export function freshStages():Stages{return {atk:0,def:0,spatk:0,spdef:0,speed:0,accuracy:0,evasion:0};}
 export function stageMultiplier(stage:number,accuracy=false){stage=Math.max(-6,Math.min(6,stage));const base=accuracy?3:2;return stage>=0?(base+stage)/base:base/(base-stage);}
+// battle_controller_player.c:sHitChanceTable / BattleSystem_CheckMoveHit.
+// The native percentages are rounded table entries, not the ordinary stat
+// stage formula. Its u16 hitChance truncates before the 1..100 hit roll.
+const hitChanceStages=[[33,100],[36,100],[43,100],[50,100],[60,100],[75,100],[1,1],[133,100],[166,100],[2,1],[233,100],[133,50],[3,1]] as const;
+export function stageHitChance(accuracy:number,attackerAccuracy:number,targetEvasion:number,identified=false){
+  const evasion=identified?Math.min(0,targetEvasion):targetEvasion;
+  const stage=Math.max(-6,Math.min(6,attackerAccuracy-evasion));
+  const [numerator,denominator]=hitChanceStages[stage+6];
+  return Math.floor(accuracy*numerator/denominator);
+}
 export function typeEffectiveness(data:Pick<GameData,'constants'|'personal'|'typeChart'>,moveType:number,species:number,identified=false,roosting=false){let factor=1;for(const type of new Set(data.personal[species].types)){const id=data.constants[type];if(roosting&&id===data.constants.TYPE_FLYING)continue;if(identified&&id===data.constants.TYPE_GHOST&&[data.constants.TYPE_NORMAL,data.constants.TYPE_FIGHTING].includes(moveType))continue;const row=data.typeChart.find(r=>r[0]===moveType&&r[1]===id);if(row)factor*=row[2];}return factor;}
 export function monAbility(data:Pick<GameData,'personal'>,mon:Mon){const abilities=data.personal[mon.species].abilities;return abilities[mon.personality%2]!=='ABILITY_NONE'?abilities[mon.personality%2]:abilities[0];}
 export type BattleWeather='clear'|'rain'|'hail'|'sandstorm'|'fog'|'sun';
