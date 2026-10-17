@@ -21,13 +21,13 @@ function untilAbort(signal:AbortSignal,started:()=>void){return new Promise<neve
 
 test('the real standard2021 awaits its EggHatchAnim port and preserves the original Oh intro',async()=>{
  const {state}=fixture(),entered=deferred(),release=deferred(),messages:string[]=[];
- const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>false,warp:async()=>{},eggHatchAnim:async()=>{entered.resolve();await release.promise;}};
+ const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>false,warp:async()=>{},eggHatchAnim:async()=>{entered.resolve();await release.promise;}};
  const vm=new ScriptVM(data,state,hooks);let settled=false;const pending=vm.run(map,data.constants.std_hatch_egg).then(()=>{settled=true;});await entered.promise;
  assert.equal(vm.busy,true);assert.equal(settled,false);assert.ok(messages.some(text=>text.includes('Oh?')));release.resolve();await pending;assert.equal(vm.busy,false);assert.equal(vm.lastUnsupported,null);
 });
 
 test('the real standard2021 propagates a failed awaited hatch instead of finishing its script',async()=>{
- const {state}=fixture(),failure=new Error('view interrupted'),hooks:ScriptHooks={message:async()=>{},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>false,warp:async()=>{},eggHatchAnim:async()=>{throw failure;}};
+ const {state}=fixture(),failure=new Error('view interrupted'),hooks:ScriptHooks={message:async()=>{},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>false,warp:async()=>{},eggHatchAnim:async()=>{throw failure;}};
  const vm=new ScriptVM(data,state,hooks);await assert.rejects(vm.run(map,data.constants.std_hatch_egg),error=>error===failure);assert.equal(vm.busy,false);assert.equal(state.party[1].isEgg,true);
 });
 

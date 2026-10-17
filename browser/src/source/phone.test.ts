@@ -10,7 +10,7 @@ import {sourceJSON,type SourceMap} from './types.ts';
 let failPhone=false,phoneLoads=0;
 globalThis.fetch=async input=>{const path=String(input);assert.ok(path.startsWith('/source/'));if(path==='/source/phone.json'){phoneLoads++;if(failPhone){failPhone=false;return new Response('',{status:503});}}try{return new Response(await readFile(new URL('../../public'+path,import.meta.url)));}catch{return new Response('',{status:404});}};
 const data=await loadData(),map=await sourceJSON<SourceMap>('maps/61.json'),elm=map.events.objects.find(n=>n.id==='obj_T20R0101_doctor')!,bank=await sourceJSON<Record<string,string>>('messages/716.json'),rules=await sourceJSON<PhoneTriggerRules>('phone-triggers.json');
-const hooks=(message:ScriptHooks['message']=async()=>{}):ScriptHooks=>({message,choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>false,warp:async()=>{}});
+const hooks=(message:ScriptHooks['message']=async()=>{}):ScriptHooks=>({message,choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>false,warp:async()=>{}});
 function fixture(){const state=newState(data,'Ethan','boy',()=>.5);state.map=60;state.flags.FLAG_SYS_HATCHED_TOGEPI_EGG=true;for(const flag of['FLAG_GOT_ELMS_PANIC_CALL','FLAG_GAVE_RIVAL_NAME_TO_OFFICER','FLAG_GOT_PICK_UP_EGG_CALL_FROM_ELM','FLAG_GOT_EGG_FROM_ELMS_ASSISTANT'])state.flags[flag]=true;return state;}
 
 test('a transient phone-definition503 is retryable and does not poison every later call',async()=>{

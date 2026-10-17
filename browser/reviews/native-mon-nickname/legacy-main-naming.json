@@ -1,0 +1,11 @@
+{
+  "sourceCommit": "41493524d78b6d62ff5b0a3656bb1fcce0bee985",
+  "sourcePath": "browser/src/source/main.ts",
+  "sourceSHA256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+  "fieldHookBody": "const mon=state.party[i];if(mon)mon.name=await ui.input('Pok\u00e9mon nickname',10,mon.name);",
+  "fieldHookBodySHA256": "da98e53c0d56b3c3ce48a9def6dd742ad0bc3568a0e76696f13845f87604b3a9",
+  "vmPath": "browser/src/source/script.ts",
+  "vmSHA256": "fd3971a5ec460a36333b835191226201bc03ae5b292f63bc2be175a867a8022e",
+  "vmInstruction": "if(cmd==='NicknameInput'){await this.hooks.nickname(v(a[0]));this.set(a[1],0);continue;}",
+  "qualification": "Historical exact unbound Main/VM control only. This leaf does not edit either runtime binding."
+}

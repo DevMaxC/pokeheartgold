@@ -22,7 +22,7 @@ function fixture(){
       if(id==='obj_player'){state.facing=action.facing;state.x+=dx*distance;state.z+=dz*distance;}
       else if(id!=='obj_partner_poke'){const actor=objects.get(id);assert.ok(actor,id);actor.facingDirection=action.facing;actor.x+=dx*distance;actor.z+=dz*distance;}
     }
-  },position:(id,x,z,facing)=>{objects.position(id,x,z,facing);},face:()=>{},visible:(id,visible)=>objects.show(id,visible),chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>{throw Error('No battle belongs to this source branch');},warp:async(id,x,z,facing)=>{warps.push({map:id,x,z,facing});state.map=id;state.x=x+.5;state.z=z+.5;if(facing!==undefined)state.facing=facing;},coordinates:id=>{const actor=objects.get(id);assert.ok(actor,id);return{x:Math.floor(actor.x),z:Math.floor(actor.z)};}};
+  },position:(id,x,z,facing)=>{objects.position(id,x,z,facing);},face:()=>{},visible:(id,visible)=>objects.show(id,visible),chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>{throw Error('No battle belongs to this source branch');},warp:async(id,x,z,facing)=>{warps.push({map:id,x,z,facing});state.map=id;state.x=x+.5;state.z=z+.5;if(facing!==undefined)state.facing=facing;},coordinates:id=>{const actor=objects.get(id);assert.ok(actor,id);return{x:Math.floor(actor.x),z:Math.floor(actor.z)};}};
   const vm=new ScriptVM(data,state,hooks),find=(x=state.x,z=state.z)=>findCoordinateTrigger(map,x,z,token=>vm.value(token,map),data.constants);
   return{map,state,objects,messages,warps,vm,find};
 }

@@ -7,6 +7,7 @@ import {stripTypeScriptTypes} from 'node:module';
 import {createContext,runInContext} from 'node:vm';
 import * as THREE from 'three';
 import {loadData,newState} from './data.ts';
+import {migrateLegacyBrowserNicknames} from './mon-nickname.ts';
 import {runOpeningSession} from './opening.ts';
 import {fieldEntryScripts} from './field-transitions.ts';
 import {gymFieldEntry} from './gym-violet.ts';
@@ -20,6 +21,7 @@ globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('.
 const data=await loadData(),main=await readFile(new URL('./main.ts',import.meta.url),'utf8');
 const section=(start,end)=>{const a=main.indexOf(start),b=main.indexOf(end,a);assert.ok(a>=0&&b>a,'Actual main binding '+start);return main.slice(a,b);};
 const enterSource=section('async function runFieldEntry(','async function checkFrameTriggers('),titleSource=section('async function title(){','async function scriptWarp('),beginSource=section('async function begin(','async function boot(){');
+const admissionSource=section('function admitNicknameMetadata(',"async function begin(");
 const compile=source=>stripTypeScriptTypes(source,{mode:'transform'});
 const unexpected=()=>{throw Error('Unexpected host operation in bounded entry fixture');};
 const copied=value=>JSON.parse(JSON.stringify(value));
@@ -101,12 +103,12 @@ test('actual Continue passes saved Violet height/lift into World entry without t
 
 test('actual begin forwards explicit entry mode separately from actor restoration and saves only after entry',async()=>{
  for(const mode of['continue','warp']){
-  const state=newState(data,'Case','boy',()=>.5),calls=[];let finishInstall,enteredInstall;const entered=new Promise(resolve=>{enteredInstall=resolve;}),install=new Promise(resolve=>{finishInstall=resolve;}),gymPorts={init:unexpected,spinarak:unexpected,switch:unexpected},c={preferences:{music:false,textSpeed:1},state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
+  const state=newState(data,'Case','boy',()=>.5),calls=[];let finishInstall,enteredInstall;const entered=new Promise(resolve=>{enteredInstall=resolve;}),install=new Promise(resolve=>{finishInstall=resolve;}),gymPorts={init:unexpected,spinarak:unexpected,switch:unexpected},c={migrateLegacyBrowserNicknames,nicknameAdmission:null,console,preferences:{music:false,textSpeed:1},state,data,ui:{},world:{paper:()=>({group:new THREE.Group()})},fieldRTCObservation:()=>({seconds:1000,hour:12}),sourceJSON,FieldPhoneHost,FieldObjects,ScriptVM,SourceActionRecovery,
    Battle:class{},WorldBattleView:class{},async installAzaleaField(){calls.push(['install-azalea']);assert.equal(c.started,false);enteredInstall();await install;c.world.azaleaGym={scriptPorts:gymPorts};},captureField(){return{};},restoreField:unexpected,started:false,ready:false,
    beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,scriptWarp:unexpected,
    enterMap:async(...args)=>{calls.push(['enter',...args]);assert.equal(c.started,true);},save(){calls.push(['save']);},$:()=>({focus(){calls.push(['focus']);}}),
   };
-  createContext(c);runInContext(compile(beginSource)+';globalThis.actualBegin=begin;',c);const pending=c.actualBegin(mode);await entered;assert.deepEqual(calls,[['install-azalea']]);assert.equal(c.started,false);finishInstall();await pending;assert.equal(c.vm.hooks.azaleaGym,gymPorts);
+  createContext(c);runInContext(compile(admissionSource+beginSource)+';globalThis.actualBegin=begin;',c);const pending=c.actualBegin(mode);await entered;assert.deepEqual(calls,[['install-azalea']]);assert.equal(c.started,false);finishInstall();await pending;assert.equal(c.vm.hooks.azaleaGym,gymPorts);
   assert.deepEqual(calls[1],['enter',state.map,state.x,state.z,true,mode==='continue',false,false,mode]);assert.deepEqual(calls.slice(2),[['save'],['focus']]);assert.equal(c.ready,true);
  }
 });

@@ -21,7 +21,7 @@ function fixture(row=example){
  const state=newState(data,'Ethan','boy');state.map=row.map.id;state.bag={};delete state.flags[row.event.eventFlag];
  const objects=new FieldObjects(data,state);objects.load(row.map.events.objects);const trace:any[]=[],controls:{message?:()=>void;refresh?:()=>void}={};
  const refresh=async()=>{objects.snapshot();trace.push(['refresh']);controls.refresh?.();};
- const hooks={message:async(text:string)=>{trace.push(['message',text]);controls.message?.();},choice:async()=>0,move:async()=>{},position(){},face:(name:string)=>{trace.push(['face',name]);const actor=objects.get(name);if(actor)actor.facingDirection=1;},visible:(name:string,value:boolean)=>{trace.push(['visible',name,value]);objects.show(name,value);objects.snapshot();},chooseStarter:async()=>{},nickname:async()=>{},refresh,battle:async()=>false,warp:async()=>{throw Error('An item pickup must never warp');}};
+ const hooks={message:async(text:string)=>{trace.push(['message',text]);controls.message?.();},choice:async()=>0,move:async()=>{},position(){},face:(name:string)=>{trace.push(['face',name]);const actor=objects.get(name);if(actor)actor.facingDirection=1;},visible:(name:string,value:boolean)=>{trace.push(['visible',name,value]);objects.show(name,value);objects.snapshot();},chooseStarter:async()=>{},nickname:async()=>1,refresh,battle:async()=>false,warp:async()=>{throw Error('An item pickup must never warp');}};
  // Deliberately no objectName hook: nested common banks must retain the real
  // source map identity themselves, including event0 and nonzero object IDs.
  const vm=new ScriptVM(data,state,hooks),run=()=>runItemBallPickup(state,objects,()=>vm.run(row.map,row.event.scriptId,row.event.id),refresh);

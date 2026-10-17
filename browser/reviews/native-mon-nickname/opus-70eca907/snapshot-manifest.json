@@ -1,0 +1,235 @@
+{
+  "sourceCommit": "70eca907ed6d600a44f5f98d4d2582d05aa98017",
+  "base": "41493524d78b6d62ff5b0a3656bb1fcce0bee985",
+  "previousReview": "f51b01533be5ca46ff88947689b6abfbdd51d005",
+  "files": [
+    {
+      "path": "browser/package.json",
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+    },
+    {
+      "path": "browser/public/source/constants.json",
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+    },
+    {
+      "path": "browser/public/source/names.json",
+      "sha256": "c14bc3f85810a0b6a66882362d1edfe08f0dc0a99012c2eff5fbfe73694ab922"
+    },
+    {
+      "path": "browser/public/source/pokemon.json",
+      "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/BINDINGS.md",
+      "sha256": "22eb428aac94b20adaf92d9f076830894a30af79dd113ae052ff5402761a0679"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/README.md",
+      "sha256": "93358b421957367793a1df3839187051eaad2112bf20322053d1fccf1a6bae4f"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/focused-tests.log.gz",
+      "sha256": "903dd8c48ed27d9cee459219d188952e7d8215f3b275d96044f4483c67dad7cb"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/hardening-focused-tests.log.gz",
+      "sha256": "97ca95ee761ea75ba029ae0f2db6859408f0c17641b515619d1774b8096e5784"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/hardening-original-c-tests.log.gz",
+      "sha256": "3fc811c093fcd1decaff05481b6960f5119d596fc4e4153683b3967c3d380b5d"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/hardening-tsc.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/legacy-main-naming.json",
+      "sha256": "f87953187fd4d2e5954ba01a4f2581ddf13f0d4cb57293fc1c368ae0fe5f52a7"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/old-factory-fail.log.gz",
+      "sha256": "e5b79257d78a13d61c78104b164383ae9c0065826a426e3e6d864313b7173eda"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/old-marker-fail.log.gz",
+      "sha256": "e836688d0912bd1a254db1de58f17009f2bcdd795987ba9a001d48ff560a28a9"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/opus-f51b0153/adjudication.json",
+      "sha256": "10793ced50e6202f42ecf3b0322b132a40400181ee677441d76258f3c5b57b83"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/opus-f51b0153/patch.diff.gz",
+      "sha256": "b8c30dde8874a0fe672a09a404db2438d7595315883645de04d26e0804c3c1be"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/opus-f51b0153/prompt.txt",
+      "sha256": "29245d8a795c9e8a9ec7a677876e2fb739036c2f234df91b35bd5ed3b229ecea"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/opus-f51b0153/raw-result.json",
+      "sha256": "16ef6b8189831c21292ec8e38a44e73a056887e86c59d7c109556e310a10a84e"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/opus-f51b0153/snapshot-manifest.json",
+      "sha256": "7e4c7a5172665d31fd5fd13e72de314957ef29f00a9c0dc274cbfc9397b24178"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/opus-f51b0153/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/original-c-tests.log.gz",
+      "sha256": "248bf0fb855eaf1d3a96be13fdcbfab49c84c05ac59fc81f52345eb9132c975d"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/sparse-missing-fixtures-first.log.gz",
+      "sha256": "e5fa63cd44f2a25cd1ea848bfd8a160c6405e1d60138cafb2e7c008391f85325"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/sparse-missing-fixtures-second.log.gz",
+      "sha256": "902521a82f69a84584505b7309523d9537b96c8aa06b3e98e5cec01304ea03af"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/tsc.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/validation-hardening.json",
+      "sha256": "9fe2a7d7385863ede3e4e701b8720e5759dc2a7435852a698bfc0d7a13ad1500"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/validation.json",
+      "sha256": "a353c1a018b453034d2f50e5ca66d0a43267d45afc27f29a1753abc34233c95b"
+    },
+    {
+      "path": "browser/scripts/export_nickname_data.py",
+      "sha256": "8f1d0b7c68c4b4381600162160ee8ec6d91fa41d89c658c926cedd0cb0b4986e"
+    },
+    {
+      "path": "browser/scripts/test_mon_nickname.py",
+      "sha256": "15cb97fe4b2349165e7254ee1576f006395d2826b1ac07a12d55f9b47ae399ee"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "6440446e47ea254bfec0234443d2a1bd5d434d980118616c10ebb0350c9d9524"
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "sha256": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23"
+    },
+    {
+      "path": "browser/src/source/evolution-native.ts",
+      "sha256": "9dbd45631fac97e52f687523be8a417c283643d7d89edd24f37fabec2a8bc968"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538"
+    },
+    {
+      "path": "browser/src/source/mon-nickname.test.ts",
+      "sha256": "0afd36fd7313c8e870150f0bb2e6827868df86a6dbc31a4cdcfb42e3d00370f9"
+    },
+    {
+      "path": "browser/src/source/mon-nickname.ts",
+      "sha256": "9c092a075e923b245f69ec12b30702fc5965ef448b0d65205a53267855ba97bb"
+    },
+    {
+      "path": "browser/src/source/nickname-data.ts",
+      "sha256": "472acc983877b58d104e409b12bbc1481f7baeeced895252874b6193abc99376"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "fd3971a5ec460a36333b835191226201bc03ae5b292f63bc2be175a867a8022e"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "84e549244f6ba7cac2e8bfbf00006ba9ef77133cb6b16c638847d472ab23e9be"
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "sha256": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4"
+    },
+    {
+      "path": "browser/tsconfig.json",
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0"
+    },
+    {
+      "path": "charmap.txt",
+      "sha256": "58861d34f40623fd2a9b29c10a79ee2ec872182285a288381759a3b251412ded"
+    },
+    {
+      "path": "files/msgdata/msg/msg_0237.gmm",
+      "sha256": "abd54693a9ad8e3e5f49d3ada0ba038085e83b2ff14b8101eb2f2ee2656d2aae"
+    },
+    {
+      "path": "hardening.diff",
+      "sha256": "7a811052a5245964cdb27d29b21e170ffe71e56f88e50aa4597bd633a16397ab"
+    },
+    {
+      "path": "include/constants/charcode.h",
+      "sha256": "82b62438a985729619e3be22bf2ae0c343449704bb7656f8d6c97b78c46e5fec"
+    },
+    {
+      "path": "include/constants/global.h",
+      "sha256": "40eefe14cdec8507effe5b624bc035afb6d234ada97eae50f3c88ef8b26c07ee"
+    },
+    {
+      "path": "include/constants/pokemon.h",
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+    },
+    {
+      "path": "include/pm_string.h",
+      "sha256": "6b9f116698c7e5918962559bc87139ad8a4a79735263fa7949084bc34b311977"
+    },
+    {
+      "path": "patch.diff",
+      "sha256": "a78277593bfb4a79e5fdf54b5622077ade0b3371b944a0a2cda00542a227712b"
+    },
+    {
+      "path": "src/battle/battle_command.c",
+      "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"
+    },
+    {
+      "path": "src/hatch_egg_task.c",
+      "sha256": "a7e11e65c90fe15112e7052429c61b3badac720ea02b7634832674e11a7dcf01"
+    },
+    {
+      "path": "src/launch_application.c",
+      "sha256": "9b000a1361f54f0019ba246e3eca8cd12c3afbab49b4184f1a96253b6a324c75"
+    },
+    {
+      "path": "src/msgdata.c",
+      "sha256": "2fcd674561c88d39615407f204d21fab4420b5de9506e4fc78651b1c67a1c8d2"
+    },
+    {
+      "path": "src/naming_screen.c",
+      "sha256": "b696ec482028ffee4f439e9802c7e5cf32aa97ba3571647dfa8fd55148f3c65c"
+    },
+    {
+      "path": "src/npc_trade.c",
+      "sha256": "f331e080ef87eed6dccbb3e8d710fbf057db658d7c7e1201868fbd3ecb4af8f7"
+    },
+    {
+      "path": "src/pm_string.c",
+      "sha256": "051bd1380bec7d261c8d5772a0ae77cdb46a7531d74c5d0be4a5f6cb90433e82"
+    },
+    {
+      "path": "src/pokemon.c",
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    },
+    {
+      "path": "src/scrcmd_c.c",
+      "sha256": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4"
+    },
+    {
+      "path": "src/string_util.c",
+      "sha256": "c303949daa7fa544253e80773bca9667eff502e9112c77aeec20ad400d8d6721"
+    }
+  ]
+}

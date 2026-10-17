@@ -2,6 +2,7 @@ import {findCoordinateTrigger} from './coordinate-triggers.ts';
 import {findInteractedBackgroundEvent,backgroundFlagSet} from './background-events.ts';
 import './style.css';
 import {loadData,newState,titleCase,speciesName,createMon,giveMon,healParty,itemName,moveName} from './data.ts';
+import {applyNativeFieldNicknameInput,applyNativeNicknameResult,resolveNativeNicknameInput,migrateLegacyBrowserNicknames,UnsupportedNativeNickname,type NativeNicknameInputCode,type NativeNicknameResult,type BrowserNicknameMigrationReceipt} from './mon-nickname.ts';
 import {OriginalWorld} from './world.ts';
 import {mapWeather} from './atmosphere.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
@@ -57,6 +58,7 @@ const encounterChecks=new EncounterChecks();
 const frameTriggerGate=new SourceTriggerGate();
 const phoneAdmissionGate=new SourceTriggerGate();
 let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data:GameData,objects:FieldObjects;
+let nicknameAdmission:BrowserNicknameMigrationReceipt|null=null;
 let ready=false,transitioning=false,connecting=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
 let openingView:OpeningView|null=null;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
@@ -273,7 +275,7 @@ async function hatchEgg(){
     phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),
     message:(text,signal)=>ui.printMessage(text,(state.options.textSpeed===0?8:state.options.textSpeed===1?4:1)*1000/60,signal),
     choose:(text,options,signal)=>ui.choose(text,options,'',signal),
-    nickname:(scene,signal)=>ui.input('Pokémon nickname',10,scene.speciesName,signal),
+    nickname:async(scene,signal)=>{const result=await requestNativeNickname(scene.speciesName,()=>signal.throwIfAborted(),signal);return result.kind==='no-input'?null:result.name;},
     resumeField:async()=>{refreshNPCs();updateHUD();resetFieldInput();},
   });}finally{hatching=false;musicKey='';syncMusic();}
 }
@@ -480,7 +482,7 @@ async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false)
         }
         return result;
       });
-      if(result==='caught'){const mon=attempt[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
+      if(result==='caught')await nicknameCapturedMon(attempt[0]);
       if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!${sentToMom?'\nSent some to Mom!':''}`,textDelay());}
       if(result!=='lost')settleMoney();
       updateHUD();return result==='won';
@@ -598,12 +600,54 @@ async function title(){
   }
 }
 async function scriptWarp(id:number,x:number,z:number,facing?:number){if(facing!==undefined)state.facing=facing;await enterMap(id,x+.5,z+.5);}
+// Input validation is local to the naming task. It must not undo an already
+// completed catch/starter scene; ownership, UI and configuration errors still
+// escape to their real recovery owner.
+async function requestNativeNickname(initial:string,current:()=>void,signal?:AbortSignal):Promise<NativeNicknameResult>{
+  for(;;){
+    signal?.throwIfAborted();current();
+    const input=await ui.input('Pokémon nickname',10,initial,signal);
+    signal?.throwIfAborted();current();
+    if(typeof input!=='string')throw new UnsupportedNativeNickname('Naming UI did not return an explicit string');
+    try{return resolveNativeNicknameInput(input);}catch(error){
+      if(!(error instanceof UnsupportedNativeNickname))throw error;
+    }
+    await ui.message('That name contains a character unavailable in the original naming alphabet. Please choose another name.',textDelay(),signal);
+    signal?.throwIfAborted();current();
+  }
+}
+// A field naming task returns the original noInput0/1 ABI. Its subject must
+// still be the same party slot after the owned UI finishes.
+async function nicknamePartyMon(index:number):Promise<NativeNicknameInputCode>{
+  const owner=state,field=state.map,mon=state.party[index];
+  if(!Number.isInteger(index)||index<0||!mon)throw new UnsupportedNativeNickname('Missing native party naming subject');
+  const current=()=>{if(state!==owner||state.map!==field||owner.party[index]!==mon)throw new UnsupportedNativeNickname('Native party naming subject changed');};
+  const result=await requestNativeNickname(mon.name,current);current();
+  return applyNativeFieldNicknameInput(data,mon,result.kind==='no-input'?null:result.name);
+}
+async function nicknameCapturedMon(mon:Mon){
+  const owner=state,field=state.map;
+  const current=()=>{if(state!==owner||state.map!==field||!owner.party.includes(mon)&&!owner.boxes.includes(mon))throw new UnsupportedNativeNickname('Native capture naming subject changed');};
+  current();const choice=await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No']);current();
+  if(choice!==0&&choice!==1)throw new UnsupportedNativeNickname('Native capture naming choice was not resolved');
+  if(choice===0){const result=await requestNativeNickname(mon.name,current);current();applyNativeNicknameResult(data,mon,result);}
+}
+// Persist legacy admission before constructing any recovery owner/checkpoint.
+// Marked saves perform no further inference; actual unresolved slots remain
+// unsupported rather than receiving manufactured false metadata.
+function admitNicknameMetadata(entryMode:'warp'|'continue'){
+  const receipt=migrateLegacyBrowserNicknames(data,state,{origin:'local-browser-v2'});
+  if(receipt.unresolved.length)console.warn('Saved nickname metadata remains unsupported',receipt.unresolved);
+  if(entryMode==='continue'&&receipt.admission==='migrated')try{localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Nickname admission could not yet be saved');}
+  return receipt;
+}
 async function begin(entryMode:'warp'|'continue'='warp'){
   state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
+  nicknameAdmission=admitNicknameMetadata(entryMode);
   const rtc=fieldRTCObservation();fieldPhone=new FieldPhoneHost(await sourceJSON<PhoneAdmissionRules>('phone-triggers.json'),rtc.seconds,rtc.hour);
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
   await installAzaleaField();
-  vm=new ScriptVM(data,state,{azaleaGym:world.azaleaGym?.scriptPorts,eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text,textDelay());},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{resetFieldInput();const demo=catchingTutorialState(data,state),demoBattle=new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));await withBattleMusic([demo.enemy],null,()=>demoBattle.start([demo.enemy],null,{tutorial:true}),1<<10);resetFieldInput();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:scriptWarp});
+  vm=new ScriptVM(data,state,{azaleaGym:world.azaleaGym?.scriptPorts,eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text,textDelay());},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{resetFieldInput();const demo=catchingTutorialState(data,state),demoBattle=new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));await withBattleMusic([demo.enemy],null,()=>demoBattle.start([demo.enemy],null,{tutorial:true}),1<<10);resetFieldInput();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>nicknamePartyMon(i),refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:scriptWarp});
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){

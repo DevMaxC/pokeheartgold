@@ -64,7 +64,7 @@ function scene(options:{species?:number;choice?:number;badge?:boolean;active?:bo
  const request=(context:ScriptFieldMoveContext)=>{assert.equal(context.map.id,map.id);assert.equal(context.object,tree.id);assert.ok(context.signal instanceof AbortSignal);};
  const hooks:ScriptHooks={
   message:async text=>{record('message',text);},choice:async()=>{record('choice');return options.choice??0;},move:async()=>{},position:(id,x,z)=>objects.position(id,x,z),face:id=>{record('face',id);},
-  visible:(id,shown)=>{record('visible',{id,shown});objects.show(id,shown);},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{record('refresh');},battle:async()=>true,warp:async()=>{},followerActive:()=>options.active??false,
+  visible:(id,shown)=>{record('visible',{id,shown});objects.show(id,shown);},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{record('refresh');},battle:async()=>true,warp:async()=>{},followerActive:()=>options.active??false,
   fieldMoves:{
    cutIn:async(index,context)=>{request(context);record('cutIn',index);},
    startEffect:(kind,context)=>{request(context);record('effectStart',kind);effectStarted=true;return clock.wait(options.effectFrames??12,context.signal).then(()=>{if(options.failEffect)throw Error('Native Cut effect failed');effectFinished=true;record('effectFinished');}).finally(()=>record('effectReleased'));},

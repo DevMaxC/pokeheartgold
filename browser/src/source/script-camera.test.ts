@@ -21,7 +21,7 @@ function scene(source:SourceMap=structuredClone(native)){
  const target=new ScriptCameraTarget((_x,z)=>2+z/10),positions:{x:number;y:number;z:number}[]=[],moves:string[]=[],messages:string[]=[];
  const tween:ScriptCameraTween=async(seconds,update)=>immediate(seconds,progress=>{update(progress);const point=target.position;if(point)positions.push(point);});
  const host={createScriptCameraTarget:(map:number,x:number,z:number)=>target.create(map,x,z),clearScriptCameraTarget:()=>target.clear(),moveScriptCameraTarget:(map:SourceMap,label:string,animate:ScriptCameraTween)=>target.move(map,label,animate)};
- const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>true,warp:async()=>{},face:()=>{},position:()=>{},visible:(id,value)=>objects.show(id,value),
+ const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>true,warp:async()=>{},face:()=>{},position:()=>{},visible:(id,value)=>objects.show(id,value),
    // Deliberately hostile: reserved 241 must win over ordinary NPC lookup.
    objectName:id=>id===241?source.events.objects[0].id:undefined,
    cameraTarget:point=>setScriptCameraTarget(host,state.map,point),

@@ -9,7 +9,7 @@ globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('.
 const data=await loadData();
 function fixture(){
   const state=newState(data,'Case','girl'),warps:number[][]=[],battles:number[]=[];let won=true;
-  const hooks:ScriptHooks={message:async()=>{},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async id=>{battles.push(id);return won;},warp:async(map,x,z,facing)=>{warps.push([map,x,z,facing!]);},whiteOut:async()=>{}};
+  const hooks:ScriptHooks={message:async()=>{},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async id=>{battles.push(id);return won;},warp:async(map,x,z,facing)=>{warps.push([map,x,z,facing!]);},whiteOut:async()=>{}};
   return{state,hooks,warps,battles,vm:new ScriptVM(data,state,hooks),lose:()=>{won=false;}};
 }
 
