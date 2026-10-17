@@ -4,6 +4,7 @@ import {catchShakes,fieldBattleWeather,freshStages,monAbility,moveDamage,multiHi
 import {UI,$,escapeHTML as esc} from './ui.ts';
 import {takeBagItem,isCaptureBall} from './bag.ts';
 import type {BattleView} from './battle-view.ts';
+import {isUsableBattler,firstUsableBattlerIndex} from './eggs.ts';
 
 type Result='won'|'lost'|'caught'|'ran';
 type Action={kind:'move';slot:number}|{kind:'switch';index:number}|{kind:'item';item:string}|{kind:'run'};
@@ -20,11 +21,12 @@ export class Battle{
   constructor(data:GameData,state:State,ui:UI,rng:()=>number=Math.random,view?:BattleView){this.data=data;this.state=state;this.ui=ui;this.rng=rng;this.view=view;}
   get player(){return this.state.party[this.playerIndex];}get enemy(){return this.enemies[this.enemyIndex];}
   async start(enemies:Mon[],trainer:number|null=null,options:{tutorial?:boolean;noCritical?:boolean;weather?:number}={}):Promise<Result>{
+    const lead=firstUsableBattlerIndex(this.state.party);if(lead<0)throw Error('No Pokémon is able to battle.');
     this.tutorial=!!options.tutorial;this.noCritical=this.tutorial||!!options.noCritical;
     // Capture the native field weather once; sky animation and later map
     // changes never decide healing amounts during a battle.
     this.weather=fieldBattleWeather(options.weather??0);this.roosting.clear();this.raging.clear();this.selectedMoveSlots.clear();
-    this.active=true;this.enemies=enemies;this.trainer=trainer;this.playerIndex=Math.max(0,this.state.party.findIndex(m=>m.hp>0));this.enemyIndex=0;this.playerStages=freshStages();this.enemyStages=freshStages();this.turns=0;this.fleeAttempts=0;
+    this.active=true;this.enemies=enemies;this.trainer=trainer;this.playerIndex=lead;this.enemyIndex=0;this.playerStages=freshStages();this.enemyStages=freshStages();this.turns=0;this.fleeAttempts=0;
     this.identified.clear();this.curled.clear();$('battle-screen').hidden=false;$('game-hud').hidden=true;$('touch-pad').hidden=true;
     const before=structuredClone({party:this.state.party,boxes:this.state.boxes,bag:this.state.bag,seen:this.state.seen,caught:this.state.caught});
     let fail:(error:unknown)=>void;const complete=new Promise<Result>((resolve,reject)=>{this.resolve=resolve;fail=reject;});
@@ -61,8 +63,8 @@ export class Battle{
     document.querySelectorAll<HTMLButtonElement>('[data-item]').forEach(b=>b.onclick=()=>this.actions?.({kind:'item',item:b.dataset.item!}));$('battle-back').onclick=()=>this.menu();
   }
   private partyMenu(forced:boolean){
-    $('battle-actions').innerHTML=this.state.party.map((mon,i)=>`<button data-party="${i}" ${mon.hp<=0||i===this.playerIndex?'disabled':''}>${esc(mon.name)}<small>Lv.${mon.level} · ${mon.hp}/${mon.maxHP}</small></button>`).join('')+(!forced?'<button id="battle-back">Back</button>':'');
-    document.querySelectorAll<HTMLButtonElement>('[data-party]').forEach(b=>b.onclick=()=>this.actions?.({kind:'switch',index:Number(b.dataset.party)}));if(!forced)$('battle-back').onclick=()=>this.menu();
+    $('battle-actions').innerHTML=this.state.party.map((mon,i)=>{const details=mon.isEgg?'':`<small>Lv.${mon.level} · ${mon.hp}/${mon.maxHP}</small>`;return `<button data-party="${i}" ${!isUsableBattler(mon)||i===this.playerIndex?'disabled':''}>${esc(mon.name)}${details}</button>`;}).join('')+(!forced?'<button id="battle-back">Back</button>':'');
+    document.querySelectorAll<HTMLButtonElement>('[data-party]').forEach(b=>b.onclick=()=>{const index=Number(b.dataset.party);if(isUsableBattler(this.state.party[index])&&index!==this.playerIndex)this.actions?.({kind:'switch',index});});if(!forced)$('battle-back').onclick=()=>this.menu();
   }
   private async nextAction():Promise<Action>{
     if(!this.tutorial)return new Promise<Action>(resolve=>{this.actions=resolve;this.menu();});
@@ -73,7 +75,7 @@ export class Battle{
   }
   private async loop(){while(this.active){
     this.roosting.clear(); // Native turnData.roostFlag lasts only this turn.
-    const action=await this.nextAction();this.actions=null;this.turns++;this.flinch=false;
+    const action=await this.nextAction();this.actions=null;if(action.kind==='switch'&&(!isUsableBattler(this.state.party[action.index])||action.index===this.playerIndex))continue;this.turns++;this.flinch=false;
     if(action.kind==='run'){
       if(this.trainer!==null){await this.say('No! There’s no running from a Trainer battle!');continue;}
       this.prepareRageTurn(this.player);
@@ -91,7 +93,7 @@ export class Battle{
     if(!this.active)break;
     for(const playerSide of [true,false]){const mon=playerSide?this.player:this.enemy;if(mon.hp>0&&['PSN','TOX','BRN'].includes(mon.status)){const damage=Math.max(1,Math.floor(mon.maxHP/(mon.status==='BRN'?8:8)));mon.hp=Math.max(0,mon.hp-damage);await this.say(`${mon.name} is hurt by ${mon.status==='BRN'?'its burn':'poison'}!`);}}
     if(this.enemy.hp<=0){await this.say(`${this.enemy.name} fainted!`);await this.gainExperience();if(this.enemyIndex+1>=this.enemies.length){await this.say(this.trainer!==null?'You defeated the opposing Trainer!':'You won the battle!');this.finish('won');break;}this.raging.delete(this.enemy);this.roosting.delete(this.enemy);this.selectedMoveSlots.delete(this.enemy);this.enemyIndex++;this.enemyStages=freshStages();await this.say(`The opposing Trainer sent out ${this.enemy.name}!`);}
-    if(this.player.hp<=0){await this.say(`${this.player.name} fainted!`);if(!this.state.party.some(m=>m.hp>0)){await this.say(`${this.state.name} has no Pokémon left to fight!`);this.finish('lost');break;}
+    if(this.player.hp<=0){await this.say(`${this.player.name} fainted!`);if(!this.state.party.some(isUsableBattler)){await this.say(`${this.state.name} has no Pokémon left to fight!`);this.finish('lost');break;}
       const next=await new Promise<Action>(resolve=>{this.actions=resolve;this.partyMenu(true);});this.actions=null;if(next.kind==='switch')await this.switch(next.index);
     }
   }}
@@ -107,7 +109,7 @@ export class Battle{
   }
   private chooseEnemyMove(){const slots=this.enemy.moves.map((m,i)=>m.pp>0?i:-1).filter(i=>i>=0);return slots.length?slots[Math.floor(this.rng()*slots.length)]:-1;}
   private async enemyTurn(){if(this.enemy.hp>0&&this.player.hp>0){const slot=this.chooseEnemyMove();this.prepareRageTurn(this.enemy,slot);await this.attack(false,slot);}}
-  private async switch(index:number){await this.say(`${this.player.name}, that’s enough! Come back!`);this.identified.delete(this.player);this.curled.delete(this.player);this.raging.delete(this.player);this.roosting.delete(this.player);this.selectedMoveSlots.delete(this.player);this.playerIndex=index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);}
+  private async switch(index:number){if(!isUsableBattler(this.state.party[index])||index===this.playerIndex)return;await this.say(`${this.player.name}, that’s enough! Come back!`);this.identified.delete(this.player);this.curled.delete(this.player);this.raging.delete(this.player);this.roosting.delete(this.player);this.selectedMoveSlots.delete(this.player);this.playerIndex=index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);}
   private async attack(playerSide:boolean,slot:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
     if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
@@ -185,6 +187,7 @@ export class Battle{
     takeBagItem(this.state.bag,item,1);await this.say(`${this.state.name} used ${itemName(this.data,item)}!`);return true;
   }
   private async gainExperience(){
+    if(!isUsableBattler(this.player)||this.player.level>=100)return;
     const base=this.data.personal[this.enemy.species],gain=Math.floor(Math.floor(base.expYield*this.enemy.level/7)*(this.trainer===null?1:1.5));const mon=this.player;mon.exp+=gain;await this.say(`${mon.name} gained ${gain} Exp. Points!`);
     const yields=['hp_yield','atk_yield','def_yield','speed_yield','spatk_yield','spdef_yield'];for(let i=0;i<6;i++){const total=mon.evs.reduce((a,b)=>a+b,0);mon.evs[i]+=Math.max(0,Math.min(Number(base[yields[i]])||0,255-mon.evs[i],510-total));}
     const growth=this.data.growth[this.data.personal[mon.species].growthRate];while(mon.level<100&&mon.exp>=growth[mon.level+1]){

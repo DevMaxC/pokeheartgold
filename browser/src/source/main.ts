@@ -22,6 +22,8 @@ import {mapBlackoutSpawn} from './spawns.ts';
 import {originalTrainerParty,battleMoneyLoss,trainerPrize} from './trainers.ts';
 import {catchingTutorialState} from './tutorial.ts';
 import {gymFieldEntry} from './gym-violet.ts';
+import {isUsableBattler,firstFollowerMon,NATIVE_EGG_ICON} from './eggs.ts';
+import {partyHUD,partyRow,partySummary} from './party-display.ts';
 import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
 
 const SAVE_KEY=new URLSearchParams(location.search).has('qa')?'heartgold-3d-v2-qa':'heartgold-3d-v2';
@@ -45,7 +47,7 @@ function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_
 function displayMapName(m:SourceMap){const names:Record<string,string>={T20:'New Bark Town',T20R0202:'Your room',T20R0201:'Home',T20R0101:'Professor Elm’s Lab',T20R0102:'Elm’s home',T21:'Cherrygrove City',T22:'Violet City'};if(names[m.code])return names[m.code];return m.key.replace('MAP_','').split('_').map(word=>/^\d+$/.test(word)?word:word[0]+word.slice(1).toLowerCase()).join(' ');}
 function updateHUD(){
   $('map-name').textContent=displayMapName(map);$('map-detail').textContent=state.name?`${state.name} · ${state.badges.length} Badges · ₽${state.money.toLocaleString()}`:'';
-  $('party-hud').innerHTML=state.party.map(m=>`<img src="/source/pokemon/${m.species}-${m.gender}-front.png" alt="${esc(m.name)} Level ${m.level}, ${m.hp} HP">`).join('');
+  $('party-hud').innerHTML=state.party.map(mon=>partyHUD(mon,NATIVE_EGG_ICON)).join('');
 }
 function refreshNPCs(){world.updateNPCs(objects.snapshot());for(const[id,y]of npcTweenY){const actor=world.npcSprites.get(id);if(actor)actor.group.position.y=y;}}
 function showPerson(object:string,value:boolean){objects.show(object,value);refreshNPCs();}
@@ -144,7 +146,7 @@ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unkno
     lastWarp=snapshot.lastWarp;lastCoord=snapshot.lastCoord;player.group.visible=snapshot.playerVisible;player.group.position.set(state.x,world.height(state.x,state.z,snapshot.playerHeight),state.z);
     // A failed starter/gift can have created a follower for a now-absent species.
     if(follower){world.scene.remove(follower.group);follower=null;followSpecies=0;}
-    const lead=state.party.find(mon=>mon.hp>0),key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';
+    const lead=firstFollowerMon(state.party),key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';
     if(lead&&data.sprites[key]){follower=world.paper(key,1.5);followSpecies=lead.species;if(snapshot.followerPosition)follower.group.position.fromArray(snapshot.followerPosition);else follower.group.position.copy(player.group.position);follower.group.visible=!followerSuppressed;}
     // Discard private child buffers, pending phone state and battle result too.
     vm=new ScriptVM(data,state,vm.hooks);if(error instanceof UnsupportedScript)vm.lastUnsupported={map:error.map,command:error.command,pc:error.pc};
@@ -256,7 +258,7 @@ async function checkEvents(enteredDoor=false){
   if(outcome.ok&&outcome.value)await wildEncounter();
 }
 async function wildEncounter(){
-  if(!state.party.some(m=>m.hp>0))return;
+  if(!state.party.some(isUsableBattler))return;
   const behavior=world.permission(state.x,state.z)&255;if(![2,3,8].includes(behavior))return;
   const bank=map.fields.wildEncounterBank?.replace('ENCDATA_',''),encounter=data.encounters.find(e=>e.map===bank);if(!encounter?.land.rate||!encounterChecks.roll(encounter.land.rate,state.facing,!!state.runningShoes&&keys.has('ShiftLeft'),behavior===3))return;
   const slot=landSlot();
@@ -320,8 +322,8 @@ async function menu(){if(!started||sourceActions?.busy||recoveryPrompt||transiti
   ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span><h2>Menu</h2><div class="menu-list">${entries.filter(([key])=>key==='party'?state.party.length:!unlocks[key]||state.flags[unlocks[key]]).map(([key,label,detail])=>`<button data-menu="${key}">${esc(label)}<small>${esc(detail)}</small></button>`).join('')}</div>`);
   document.querySelectorAll<HTMLButtonElement>('[data-menu]').forEach(b=>b.onclick=async()=>{const key=b.dataset.menu;ui.close();if(key==='party')partyMenu();if(key==='bag')bagMenu();if(key==='trainer')trainerCard();if(key==='save'){save();await ui.message(`${state.name} saved the game!`);}if(key==='options')optionsMenu();});
 }
-function partyMenu(){ui.panel(`<button class="close-panel" id="close-party" aria-label="Close">×</button><span class="eyebrow">POKÉMON</span><h2>Your party</h2>${state.party.map((mon,i)=>`<div class="list-row"><img src="/source/pokemon/${mon.species}-${mon.gender}-front.png" alt=""><div><b>${esc(mon.name)}</b><p>Lv.${mon.level} · ${mon.hp}/${mon.maxHP} HP ${mon.status}</p><span class="hp-bar"><i style="width:${mon.hp/mon.maxHP*100}%"></i></span></div><button data-summary="${i}">Summary</button></div>`).join('')}`);$('close-party').onclick=()=>ui.close();document.querySelectorAll<HTMLButtonElement>('[data-summary]').forEach(b=>b.onclick=()=>summary(Number(b.dataset.summary)));}
-function summary(index:number){const m=state.party[index],base=data.personal[m.species];ui.panel(`<button class="close-panel" id="summary-back" aria-label="Back">×</button><span class="eyebrow">POKÉMON SUMMARY</span><h2>${esc(m.name)} <small>Lv.${m.level}</small></h2><img class="intro-portrait" src="/source/pokemon/${m.species}-${m.gender}-front.png" alt="${esc(m.name)}"><p>${base.types.filter((t,i,a)=>a.indexOf(t)===i).map(titleCase).join(' / ')} · OT ${esc(m.ot)}<br>HP ${m.hp}/${m.maxHP} · Attack ${m.stats.atk} · Defense ${m.stats.def}<br>Sp. Atk ${m.stats.spatk} · Sp. Def ${m.stats.spdef} · Speed ${m.stats.speed}</p>${m.moves.map(slot=>`<div class="move-row"><span>${moveName(data,slot.id)}</span><span>PP ${slot.pp}/${slot.maxPP}</span></div>`).join('')}`);$('summary-back').onclick=partyMenu;}
+function partyMenu(){ui.panel(`<button class="close-panel" id="close-party" aria-label="Close">×</button><span class="eyebrow">POKÉMON</span><h2>Your party</h2>${state.party.map((mon,i)=>partyRow(mon,i,NATIVE_EGG_ICON)).join('')}`);$('close-party').onclick=()=>ui.close();document.querySelectorAll<HTMLButtonElement>('[data-summary]').forEach(b=>b.onclick=()=>summary(Number(b.dataset.summary)));}
+function summary(index:number){const mon=state.party[index];if(!mon)return;ui.panel(`<button class="close-panel" id="summary-back" aria-label="Back">×</button><span class="eyebrow">POKÉMON SUMMARY</span>${partySummary(data,mon,NATIVE_EGG_ICON,data.eggSummary)}`);$('summary-back').onclick=partyMenu;}
 function bagMenu(){const pockets=new Map<string,[string,number][]>();for(const [key,count]of Object.entries(state.bag)){if(count<=0)continue;const item=data.items.find(i=>i.item===key),pocket=titleCase((item?.fieldPocket||'POCKET_KEY_ITEMS').replace('POCKET_',''));if(!pockets.has(pocket))pockets.set(pocket,[]);pockets.get(pocket)!.push([key,count]);}
   ui.panel(`<button class="close-panel" id="close-bag" aria-label="Close">×</button><span class="eyebrow">BAG</span><h2>Your belongings</h2>${[...pockets].map(([pocket,items])=>`<h3>${pocket}</h3>${items.map(([key,count])=>`<div class="list-row"><b>${esc(itemName(data,key))}</b><span style="margin-left:auto">× ${count}</span></div>`).join('')}`).join('')||'<p>Your Bag is empty.</p>'}`);$('close-bag').onclick=()=>ui.close();
 }
@@ -348,7 +350,7 @@ async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;if(!started){openingView?.draw(dt);return;}
     state.playSeconds+=dt;if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
-    const lead=state.party.find(m=>m.hp>0);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
+    const lead=firstFollowerMon(state.party);if(lead&&followSpecies!==lead.species){if(follower)world.scene.remove(follower.group);const key='SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species;if(data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(player.group.position);followSpecies=lead.species;}}
     if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
     if(!world.fieldTransitionActive){if(keys.has('KeyQ'))world.yaw+=dt*1.4;if(keys.has('KeyE'))world.yaw-=dt*1.4;}
     if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);
