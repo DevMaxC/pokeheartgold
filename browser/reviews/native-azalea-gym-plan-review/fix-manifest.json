@@ -1,0 +1,114 @@
+{
+  "commit": "12d176cfe18c7733d7eaaaec25b33e3fc6444245",
+  "files": [
+    {
+      "path": "browser/src/source/gym-azalea-plan.ts",
+      "sha256": "35f411f42dc34c22b07f14a14d5cf715a2274d3c4b0758ea65d44e38d4559730",
+      "bytes": 7542,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/gym-azalea-plan.test.ts",
+      "sha256": "f9e5623ff9443ca0c1d8e89c0524fb0cbe3a8ac0e557bf0e044682e2287a2526",
+      "bytes": 11526,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/azalea-gym-rules.ts",
+      "sha256": "ec3a989daf8865f8b84b4ba098b43ab5286b5bce2196a567f9fa977aefdbf5ff",
+      "bytes": 3504,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "browser/scripts/export_azalea_gym.py",
+      "sha256": "1b4f8c98b1cf002ae3bab3cd7336cdb436ecc83034998304ed68425fa2c2a53b",
+      "bytes": 5288,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "browser/public/source/azalea-gym-fixtures.json",
+      "sha256": "2255e79f19f475d8a772fb001d56428562288e8feacdfea65beb9773a5639739",
+      "bytes": 6052,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "browser/reviews/native-azalea-gym-plan.md",
+      "sha256": "155f52e01b6f215a1935bfc3f54a7875346b6b240455bc6624221c9aa683f837",
+      "bytes": 5039,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "src/field/gymmick/azalea.c",
+      "sha256": "85394e2b3cdf72c667220e11a051c7e2af3168c3c8dba696b94579e46025e83e",
+      "bytes": 29589,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "src/gymmick_init.c",
+      "sha256": "b57b7db020c3fb7dfc9783c1ebe45fc53180ffa37eee5d1947d5974dbc0c4ec1",
+      "bytes": 5036,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "include/gymmick.h",
+      "sha256": "08c0f0cb6fcfea0322fbd0c5e9f552af7a0e12074b6a092fbe9b49927a5d8ddf",
+      "bytes": 1256,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "src/save_gymmick.c",
+      "sha256": "52f83c6519b9b03835d3684fab0e7cf27c4634840f8ffe4402354bbbfc2a8b09",
+      "bytes": 527,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "src/field_warp_tasks.c",
+      "sha256": "78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea",
+      "bytes": 39555,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "src/main.c",
+      "sha256": "5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc",
+      "bytes": 10320,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "src/scrcmd_c.c",
+      "sha256": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4",
+      "bytes": 181697,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "lib/NitroSDK/src/fx/fx_vec_normalize.c",
+      "sha256": "d6926b6c71bcbcd7dc36f1c59aa9e534c07b4c33aa8605750015fc791aa05a1a",
+      "bytes": 1739,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "lib/NitroSDK/src/fx/fx_vec_mult_add.c",
+      "sha256": "3d350a0396d2bdb56ad771393cd6db3b3143c9854cfebd9ebed8677b2fecc26c",
+      "bytes": 938,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0869_T23GYM0102.s",
+      "sha256": "3abe8694f61aa90bec4119b227f38e33ad7a977ca6c107fb3b75628c2d5fa254",
+      "bytes": 3351,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "browser/src/source/gym-violet.ts",
+      "sha256": "9cc7ddacbafe03144a1c9b53b81e02cb617e9664e5adfaf49181c865ac86e055",
+      "bytes": 7324,
+      "exactCommittedBlob": true
+    },
+    {
+      "path": "files/fielddata/script/scr_seq/scr_seq_0642_T23GYM0102_hdr.s",
+      "sha256": "83a582f2306c3c83ac9d71715fe8de6437950910eb706ef1dbf140edeced50a6",
+      "bytes": 303,
+      "exactCommittedBlob": true
+    }
+  ],
+  "scope": "followup of connection lifecycle finding; pure layer only"
+}
