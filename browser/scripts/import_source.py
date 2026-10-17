@@ -10,6 +10,7 @@ from ndspy.narc import NARC
 from ndspy.texture import NSBTX,renderTextureDataAsImage
 from ndspy.color import prepareLUTs,pack
 from PIL import Image
+from native_shoreline_srt import tag_glb
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'browser/public/source';OUT.mkdir(parents=True,exist_ok=True)
 APICULA=ROOT/'.local-tools/apicula/target/release/apicula'
 CACHE=ROOT/'.local-tools/source-import';CACHE.mkdir(exist_ok=True)
@@ -188,14 +189,18 @@ def pack_glb(path):
 
 def convert(name,model,texture):
  target=OUT/name
- if target.exists():return
+ if target.exists():
+  if name.startswith('land/'):
+   before=target.read_bytes();after=tag_glb(before,model)
+   if after!=before:target.write_bytes(after)
+  return
  target.parent.mkdir(exist_ok=True)
  with tempfile.TemporaryDirectory(dir=CACHE) as folder:
   folder=Path(folder);(folder/'model.nsbmd').write_bytes(model);(folder/'texture.nsbtx').write_bytes(texture)
   result=subprocess.run([str(APICULA),'convert','-f=glb',str(folder/'model.nsbmd'),str(folder/'texture.nsbtx'),'-o',str(folder/'out')],capture_output=True,text=True)
   glbs=list((folder/'out').glob('*.glb'))
   if result.returncode or len(glbs)!=1:raise RuntimeError(f'{name}: {result.stderr[-500:]} {result.stdout[-500:]}')
-  target.write_bytes(pack_glb(glbs[0]))
+  data=pack_glb(glbs[0]);target.write_bytes(tag_glb(data,model) if name.startswith('land/') else data)
 
 if '--data-only' not in sys.argv:
  for i,(model,texid) in enumerate(land_jobs):
