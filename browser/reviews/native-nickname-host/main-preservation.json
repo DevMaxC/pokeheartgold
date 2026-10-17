@@ -1,0 +1,287 @@
+{
+  "base": "6262bfac42497c01f92143df899d7a274a7207d4",
+  "scope": [
+    "begin",
+    "hatchEgg",
+    "startBattle"
+  ],
+  "unchangedCommonFunctions": [
+    {
+      "name": "reportNativeFieldFailure",
+      "SHA256": "6a4d2b6d099ed2d6f2c5599e68ec6728b2dafbb975a0b2814a01d6fed8b86adc"
+    },
+    {
+      "name": "initializeNativeField",
+      "SHA256": "dcb7aaf24206aa3e395330091b361c415f34d4ec7440366ba99368ad9d1a05dd"
+    },
+    {
+      "name": "installAzaleaField",
+      "SHA256": "7e607153c790a138e07c6890b0b18ee22b681095f9993837980ce7e246958a2b"
+    },
+    {
+      "name": "reportInputError",
+      "SHA256": "c3a2145e5326c7bd64b37a649439282e0faa51ee69795efc91a4ce6610c9d86e"
+    },
+    {
+      "name": "musicChanged",
+      "SHA256": "93644adc4535d1d2784e14ec4c8db0541cbb769ce21462f69e5f0fd6ee362f38"
+    },
+    {
+      "name": "watchMusic",
+      "SHA256": "9ea433e76e74026dc0c6d9df7583eed24816782e88a2fbf3c6207e5a9f1a346e"
+    },
+    {
+      "name": "musicFailed",
+      "SHA256": "28176ff9e9ec98af78d7b65d754f030d820879977ed578b66aec8e095f3b2d82"
+    },
+    {
+      "name": "clearMusicFailure",
+      "SHA256": "9f1f7f56a019b57b72f18e9ea3e7246e3f2dfbc9bbf4c99d5fa35b63355d56ea"
+    },
+    {
+      "name": "musicStatus",
+      "SHA256": "a9d1851d77e35ff946b608e2a5e2f3b0b06d2616b80143a2c50386bbb930ec36"
+    },
+    {
+      "name": "retryMusicRestores",
+      "SHA256": "68c8f67497b61169416cde25b780ed3348b36f4e5ecd50417e3a41b9d4beb97c"
+    },
+    {
+      "name": "musicDeadline",
+      "SHA256": "a2e45b7b1c38846a3568ac8b8639fdfb0957aa86711c5a2f6a17d4936eff24c9"
+    },
+    {
+      "name": "finishMusicUnlock",
+      "SHA256": "c529fd1f16384a287d2313f5cfceae3cc0e52947b4a148d5cb4e8ec9aa274f2d"
+    },
+    {
+      "name": "unlockSound",
+      "SHA256": "4c77c14b90b3a92ec23e97bf14b00d5d742283b8f35fa85e9278ea3471113d0b"
+    },
+    {
+      "name": "retryMusic",
+      "SHA256": "a471b7e1d48c1a2caf38073cb8fa0c177581619f15c6b0f0f9f3892da24420b9"
+    },
+    {
+      "name": "syncMusic",
+      "SHA256": "469dcc3a57fa57a4c07bee197e9da5c92e86eb7b40e8809f5dbaa8151c8e7997"
+    },
+    {
+      "name": "updatePreferences",
+      "SHA256": "10f524adca43837b35efd2ac579a4811ac19dac9b2d7c08d9b54e0ad32ead1ae"
+    },
+    {
+      "name": "textDelay",
+      "SHA256": "1f2fb1b6cc3498410b1d7b9d96dabf5b63c52d18f67c5839ee375519b4f9fb6b"
+    },
+    {
+      "name": "fieldControlsAvailable",
+      "SHA256": "f83158cf350bf81ee4c880748e39b88ca36506e0256d949c1c00bf8a193f630f"
+    },
+    {
+      "name": "resetFieldInput",
+      "SHA256": "fd677c381d4226a6ed5cd413f5345372abbcae91cffa72de730e848c46e2bb9e"
+    },
+    {
+      "name": "syncInputContext",
+      "SHA256": "1bc9aa49dcd6138183dbb6be3a63909f3ad2c004bd86667352300407f4a207af"
+    },
+    {
+      "name": "running",
+      "SHA256": "cd06faa855cbf0b224dba8c3515464aff6c2c4be48828ef64613ec8878f0fc84"
+    },
+    {
+      "name": "retainFieldInput",
+      "SHA256": "9c4111a7da8416c52d47845ba1a45df78846b49ffcf363c1656066851eba3882"
+    },
+    {
+      "name": "save",
+      "SHA256": "12f28faef8e6a9eca95dafcd4956f08467b3132ef14f40b77b247b31d5ca88ad"
+    },
+    {
+      "name": "readSave",
+      "SHA256": "f50b2c18e54a19c23e2802ffdd2df93509968c004decb7da4ae725c7e4ae9019"
+    },
+    {
+      "name": "displayMapName",
+      "SHA256": "6e40d82c8b31f0050d41f01a529270d9522512d7c49ff3421a1c3aa81d3372db"
+    },
+    {
+      "name": "updateHUD",
+      "SHA256": "290f60461549b333f266045d09d9bcb233eb67db82cff59c2fc0c7f47760fc57"
+    },
+    {
+      "name": "refreshNPCs",
+      "SHA256": "80d74f2e16e01f23a6b7e5075a2c3cd622cbea52115d388e687f31d42d2de6f8"
+    },
+    {
+      "name": "showPerson",
+      "SHA256": "cdbaa418ab8d5af66cd680f89548ba123eb66aab78e86c840b0498597316e291"
+    },
+    {
+      "name": "trainerCollision",
+      "SHA256": "2cf62de8345cfcdc7904ebc247f2cf48b9d36b9927f24abeb05e5c1823710048"
+    },
+    {
+      "name": "tryTrainerEncounter",
+      "SHA256": "0a238df21792b2dffb95edf255e96d7c4ad178c8020d7fe218cf0d12d83e815e"
+    },
+    {
+      "name": "trainerNotice",
+      "SHA256": "f19ce02b6dd84b57b04013bb27bbf7f0995d196d444228ea8a56cc9d6942839d"
+    },
+    {
+      "name": "beginTrainerPath",
+      "SHA256": "76edd836622f0c000ca98c543dbafeb0765b8da5461108038a787473ab6d2e6b"
+    },
+    {
+      "name": "finishTrainerPath",
+      "SHA256": "36c428b1dbae995295bc118ad3808b4a4083be52f5ec2d825a9e21bc7a3d9ae9"
+    },
+    {
+      "name": "fieldRTCObservation",
+      "SHA256": "a72432ec95083b260c18252eeb83d8f6768113225dfce9a5ea9986b96f18be91"
+    },
+    {
+      "name": "pollPhoneAdmission",
+      "SHA256": "b7d226d63749b73d8cc3e8a162d7c60198345e38441701b39f83ee21fd7f2e98"
+    },
+    {
+      "name": "pollFieldInput",
+      "SHA256": "5d7ad83b391ca2f808957fb1d4a3dcf43b08cc5db105c10f3727d3d97930e060"
+    },
+    {
+      "name": "refreshPhoneIndicator",
+      "SHA256": "71ecedca88b4ff4f63d7a69e694745f24c50063c9850feb8352ecf0fe8439b59"
+    },
+    {
+      "name": "answerPhone",
+      "SHA256": "e94c40e2c5a72eefa18efd2e630e9c2cf51ad0430642bdd9c26938c0b4105402"
+    },
+    {
+      "name": "tweenNPC",
+      "SHA256": "32254d40326ee7466be72df285059d53b6a817a5cea72d1c31a94bafca9985dc"
+    },
+    {
+      "name": "moveActor",
+      "SHA256": "075e7c02473ed3410644a57b60101ed89768a41797c18069c84bafcb712a5a58"
+    },
+    {
+      "name": "tween",
+      "SHA256": "286b6141c1db060372f6b262065c49a45c4fe0d7a17a966c1484115c57ecc6e7"
+    },
+    {
+      "name": "tweenPlayer",
+      "SHA256": "bbf676eadb9d4b04c1d59e8f980c220a2d04b7a30284175608b49a2339ae2559"
+    },
+    {
+      "name": "face",
+      "SHA256": "79f11ef256c8084280d55145a252d0cc4dc38b448421a44b4dddb46de6ca391d"
+    },
+    {
+      "name": "setPosition",
+      "SHA256": "ac3926850a58b97a47296583350cd8a3a91e57476eb99410d00ebfed56b0a498"
+    },
+    {
+      "name": "chooseStarter",
+      "SHA256": "6156abbe8dfc66d2ecec2a638ae4632f8ae65ffca37cd34da05121a1c5c3e351"
+    },
+    {
+      "name": "captureField",
+      "SHA256": "8c8bcbd60a4754df7f41b24ad99ffb7894f03c2edb3d1e9de9c9ee52520fffc2"
+    },
+    {
+      "name": "restoreField",
+      "SHA256": "a479631056eaf32f321a5d6b62baae3ee20e712129ff339cc57eade2d8481e37"
+    },
+    {
+      "name": "executeSourceAction",
+      "SHA256": "384922cb56db5c0a68bca89f203c4138146b337cc50bf2fe3bad8e586a7c5991"
+    },
+    {
+      "name": "runScript",
+      "SHA256": "ead473e044af32c1dfa687ede71a8ba6d691d9537e4b262edb6be2dbefd0cd89"
+    },
+    {
+      "name": "runFieldEntry",
+      "SHA256": "2b148ba131b7b09be2bc6fd3949bf618ea2480883ca00bd470a075d37dc91c8d"
+    },
+    {
+      "name": "enterMap",
+      "SHA256": "b15fd9af95c8fa964e38cf694a52a47204eb66c1928a436ab2d7d3e1977c3c0f"
+    },
+    {
+      "name": "checkFrameTriggers",
+      "SHA256": "4c06fe95fba814a0d46a338776ede5d05d1134e92a55fe0d6364c39a0fb4d2e9"
+    },
+    {
+      "name": "warp",
+      "SHA256": "96cdb45b8ce2e68efa6a5be96c9c81aff525ca0c28497fa6101be52e2304727e"
+    },
+    {
+      "name": "checkEvents",
+      "SHA256": "5cfcabc2e26822e38ab7e82ef65e622191dfef9b9ab3f4392cf016bdc0de811d"
+    },
+    {
+      "name": "wildEncounter",
+      "SHA256": "0a8b010e6301e5865f9ecda27af2949246b82c0f0c1e2653555a8cb356ad0693"
+    },
+    {
+      "name": "whiteOut",
+      "SHA256": "f9610b81bd4f616873d661be92f8d20979707b640c313205e05c3fdc99b8f397"
+    },
+    {
+      "name": "withBattleMusic",
+      "SHA256": "0a70c1ade7a9663a1981ccf04d5e174afdeb80fb37a0acd918cc8324cdff80bd"
+    },
+    {
+      "name": "trainerBattle",
+      "SHA256": "c7506eaa828204304bfda73dac7296c5c901891efa5d32ea357c66b20e3d6a91"
+    },
+    {
+      "name": "interact",
+      "SHA256": "0c076055bdff51cff67babcb08fce1ac5f7e3e6ea62310ed69a84b27256263f6"
+    },
+    {
+      "name": "step",
+      "SHA256": "ec93c7e7b5de84f27753bf6d8e6a682364d522ef68b85c4a616f5b6987d815a6"
+    },
+    {
+      "name": "menu",
+      "SHA256": "0ce86ce6907b5d740a06283b8c45ca75b766252a2f12354fe946a1356c2702e0"
+    },
+    {
+      "name": "abortBagUse",
+      "SHA256": "83e7ffd4718d8601d70dac8923f179c3af621b5ac6791ba00fa89c1a2fc95cb5"
+    },
+    {
+      "name": "useBagItem",
+      "SHA256": "51b0faa8b3052e14ad410a42536812f21bec0e08c103a972f92c0aa104455cb0"
+    },
+    {
+      "name": "partyMenu",
+      "SHA256": "809930bc29aa18ecabc235df1c5074ed51b4d9855ff6b964cc3cb1c3e85f9952"
+    },
+    {
+      "name": "choosePartyAction",
+      "SHA256": "5b666730c6907bd48b7f28944ac798b45a3af072b7f453d50d4a4831b20c5e44"
+    },
+    {
+      "name": "summary",
+      "SHA256": "74e00458602d4f22731a5cc8afb92c641745be6d51bad5ff8c0fee2915b50d04"
+    },
+    {
+      "name": "title",
+      "SHA256": "5b28b592a3211849724dca2607f8f8bcf2ed41963759c002b82ab3c605baea7c"
+    },
+    {
+      "name": "scriptWarp",
+      "SHA256": "45fa6e17e9a535b089f8145ad8c2b5c786cd1cd9992e83e0947665d774b7aaad"
+    },
+    {
+      "name": "boot",
+      "SHA256": "1298c03884b17ddfbd5fd69abde10b3035e7aac2ddda1aabe66ae25c9a44fcca"
+    }
+  ],
+  "unexpectedChanges": []
+}

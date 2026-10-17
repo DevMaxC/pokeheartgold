@@ -8,6 +8,7 @@ import {pathToFileURL} from 'node:url';
 import ts from 'typescript';
 import * as THREE from 'three';
 import {loadData,newState,createMon,giveMon} from './data.ts';
+import {Battle as ProductionBattle} from './battle.ts';
 import {ScriptVM,UnsupportedScript} from './script.ts';
 import {SourceActionRecovery,runFieldBattleAction} from './script-recovery.ts';
 import {FieldPhoneHost} from './phone-field-host.ts';
@@ -33,13 +34,13 @@ function deferred(){let resolve,reject;const promise=new Promise((yes,no)=>{reso
 function fixture(){
  const state=newState(data,'Case','boy',()=>.5);state.map=native.id;state.party=[createMon(data,155,14,state.name,()=>.5)];
  const log=[],writes=[],errors=[],control={input:'Cinder',choice:0};
- const ui={input:async(...args)=>{log.push(['input',...args]);return control.inputGate?control.inputGate.promise:control.input;},choose:async()=>control.choice,message:async()=>{}};
+ const ui={input:async(...args)=>{log.push(['input',...args]);if(control.inputError)throw control.inputError;return control.inputGate?control.inputGate.promise:control.inputs?.length?control.inputs.shift():control.input;},choose:async()=>control.choice,message:async(...args)=>{log.push(['message',...args]);await control.messageGate?.promise;}};
  const no=()=>{},asyncNo=async()=>{},world={paper:()=>({group:new THREE.Group()}),sky:{currentWeather:0},violetGym:{}};
  class Recovery extends SourceActionRecovery{constructor(state,ports){log.push(['recovery-created',copy(state.nicknameMetadata??null),state.party.map(mon=>mon.hasNickname)]);super(state,ports);}}
  const c={data,state,map:structuredClone(native),vm:null,world,ui,log,writes,errors,control,nicknameAdmission:null,preferences:{music:false,textSpeed:1},player:null,follower:null,objects:null,battle:null,sourceActions:null,started:false,ready:false,restoringGym:false,fieldPhone:{resetForSourceEvent(){},triggerQueued(){}},SAVE_KEY:'nickname-test',
   applyNativeFieldNicknameInput,applyNativeNicknameResult,resolveNativeNicknameInput,migrateLegacyBrowserNicknames,UnsupportedNativeNickname,
   ScriptVM,UnsupportedScript,SourceActionRecovery:Recovery,FieldPhoneHost,sourceJSON,fieldRTCObservation:()=>({seconds:1000,hour:12}),
-  Battle:class{constructor(){this.start=async enemies=>{giveMon(c.state,enemies[0]);return'caught';};}},WorldBattleView:class{},FieldObjects:class{},
+  Battle:class{constructor(){this.start=async enemies=>{log.push(['battle-start']);if(control.actualCapture){const native=new ProductionBattle(data,c.state,ui,()=>0);native.enemies=enemies;native.trainer=null;native.say=async()=>{};let result;native.finish=value=>{result=value;};assert.equal(await native.item('ITEM_POKE_BALL'),true);assert.equal(result,'caught');return result;}giveMon(c.state,enemies[0]);return'caught';};}},WorldBattleView:class{},FieldObjects:class{},
   captureField:()=>({}),restoreField:async()=>{},enterMap:async()=>{},save:()=>{writes.push(copy(c.state));return true;},$:()=>({focus:no}),
   localStorage:{setItem(key,value){log.push(['persist',key]);writes.push(JSON.parse(value));}},console:{warn:(...args)=>log.push(['warn',...args]),error:no},
   installAzaleaField:asyncNo,hatchEgg:asyncNo,setScriptCameraTarget:no,SCRIPT_CAMERA_ACTOR:241,beginTrainerPath:asyncNo,finishTrainerPath:asyncNo,whiteOut:asyncNo,setPosition:no,face:no,showPerson:no,chooseStarter:asyncNo,trainerBattle:asyncNo,scriptWarp:asyncNo,moveActor:asyncNo,refreshNPCs:no,updateHUD:no,textDelay:()=>0,
@@ -47,7 +48,7 @@ function fixture(){
  };
  c.executeSourceAction=async action=>{try{return{ok:true,value:await c.sourceActions.run(action)};}catch(error){errors.push(error);return{ok:false};}};
  createContext(c);
- const wanted=['nicknamePartyMon','nicknameCapturedMon','admitNicknameMetadata','begin','startBattle'];
+ const wanted=['requestNativeNickname','nicknamePartyMon','nicknameCapturedMon','admitNicknameMetadata','begin','startBattle'];
  runInContext(compile(wanted.filter(name=>functions.has(name)).map(name=>functions.get(name)).join('\n')+'\nvm='+vmSource+';'),c);
  c.sourceActions=new SourceActionRecovery(c.state,{capture:()=>({}),restore:async()=>{}});c.started=true;c.ready=true;c.battle=new c.Battle();
  c.hatchNickname=runInContext(compile('('+hatchNickname+')'),c);
@@ -70,7 +71,7 @@ test('VM preserves actual unchanged noInput1 and applied0, rejects void/other co
 
 test('field missing/Bug Contest subject and invalid input are explicit; late UI cannot mutate replacement party/field',async()=>{
  const c=fixture();for(const index of[-1,2,255])await assert.rejects(c.vm.hooks.nickname(index),/naming subject/);assert.equal(c.log.filter(row=>row[0]==='input').length,0);
- c.control.input='😀';const before=copy(c.state);await assert.rejects(c.vm.hooks.nickname(0),/glyph/);assert.deepEqual(copy(c.state),before);
+ c.control.inputs=['😀','Cinder'];assert.equal(await c.vm.hooks.nickname(0),0);assert.equal(c.state.party[0].name,'Cinder');assert.equal(c.log.filter(row=>row[0]==='input').length,2);assert.equal(c.log.filter(row=>row[0]==='message').length,1);
  for(const kind of['party','map']){const f=fixture(),old=f.state.party[0];f.control.inputGate=deferred();const work=f.vm.hooks.nickname(0);if(kind==='party')f.state.party[0]=structuredClone(old);else f.state.map++;
   f.control.inputGate.resolve('Later');await assert.rejects(work,/subject changed/);assert.equal(old.name,'CYNDAQUIL');assert.equal(old.hasNickname,false);
  }
@@ -113,5 +114,26 @@ test('actual begin retains unknown/foreign/corrupt/Egg exclusions, and tolerates
 
 test('actual hatch Main port uses general native input rules without a premature Mon mutation',async()=>{
  const c=fixture(),before=copy(c.state);for(const[name,expected]of[['TOGEPI','TOGEPI'],['Pip','Pip'],['   ',null]]){c.control.input=name;assert.equal(await c.hatchNickname({speciesName:'TOGEPI'},new AbortController().signal),expected);}
- c.control.input='😀';await assert.rejects(c.hatchNickname({speciesName:'TOGEPI'},new AbortController().signal),/glyph/);assert.deepEqual(copy(c.state),before);
+ c.control.inputs=['😀','Pip'];assert.equal(await c.hatchNickname({speciesName:'TOGEPI'},new AbortController().signal),'Pip');assert.deepEqual(copy(c.state),before);
+});
+
+
+test('invalid ASCII-apostrophe capture input reprompts without replaying actual capture, Ball use or Pokédex commit',async()=>{
+ const c=fixture();c.control.actualCapture=true;c.state.bag.ITEM_POKE_BALL=2;c.control.inputs=["Bob's",'Bob’s'];
+ await c.startBattle([createMon(data,161,5,'',()=>.5)]);
+ assert.deepEqual(c.errors,[]);assert.equal(c.log.filter(row=>row[0]==='battle-start').length,1);assert.equal(c.state.bag.ITEM_POKE_BALL,1);
+ assert.equal(c.state.party.length,2);assert.equal(c.state.party[1].species,161);assert.equal(c.state.party[1].name,'Bob’s');assert.equal(c.state.party[1].hasNickname,true);
+ assert.ok(c.state.seen.includes(161));assert.ok(c.state.caught.includes(161));assert.equal(c.log.filter(row=>row[0]==='input').length,2);assert.equal(c.log.filter(row=>row[0]==='message').length,1);
+});
+
+test('reprompt catches only validation: stale subjects, rejected UI, missing source rows and hatch abort still fail',async()=>{
+ const stale=fixture(),old=stale.state.party[0];stale.control.input='😀';stale.control.messageGate=deferred();const pending=stale.vm.hooks.nickname(0);
+ for(let i=0;i<20;i++)await Promise.resolve();assert.equal(stale.log.filter(row=>row[0]==='message').length,1);stale.state.party[0]=structuredClone(old);stale.control.messageGate.resolve();
+ await assert.rejects(pending,/subject changed/);assert.equal(stale.log.filter(row=>row[0]==='input').length,1);assert.equal(old.name,'CYNDAQUIL');
+ const completed=fixture(),prior=completed.state.party[0],request=completed.requestNativeNickname;completed.requestNativeNickname=async(...args)=>{const result=await request(...args);completed.state.party[0]=structuredClone(prior);return result;};await assert.rejects(completed.vm.hooks.nickname(0),/subject changed/);assert.equal(prior.name,'CYNDAQUIL');
+ const technical=fixture();technical.control.inputError=Error('input device failed');await assert.rejects(technical.vm.hooks.nickname(0),/input device failed/);assert.equal(technical.log.filter(row=>row[0]==='message').length,0);
+ const invalidPort=fixture();invalidPort.control.input=null;await assert.rejects(invalidPort.vm.hooks.nickname(0),/explicit string/);assert.equal(invalidPort.log.filter(row=>row[0]==='message').length,0);
+ const config=fixture();config.data={...data,names:{...data.names,species:{...data.names.species}}};delete config.data.names.species[155];await assert.rejects(config.vm.hooks.nickname(0),/original English species-name/);assert.equal(config.log.filter(row=>row[0]==='input').length,1);assert.equal(config.log.filter(row=>row[0]==='message').length,0);
+ const hatch=fixture(),signal=new AbortController();hatch.control.input='😀';hatch.control.messageGate=deferred();const naming=hatch.hatchNickname({speciesName:'TOGEPI'},signal.signal);
+ for(let i=0;i<20;i++)await Promise.resolve();signal.abort(new DOMException('hatch cancelled','AbortError'));hatch.control.messageGate.resolve();await assert.rejects(naming,/hatch cancelled/);assert.equal(hatch.log.filter(row=>row[0]==='input').length,1);
 });

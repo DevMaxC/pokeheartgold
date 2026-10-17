@@ -1,0 +1,19 @@
+{
+  "reviewedHead": "ef358dbc",
+  "rawSHA256": "f66d2b152480d8cfefdd440ffdf1265226aa085c5d5827171dc489ea65c89da4",
+  "durationMs": 282131,
+  "models": [
+    "claude-haiku-4-5-20251001",
+    "claude-opus-5-5"
+  ],
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "medium",
+      "accepted": true,
+      "trigger": "unsupported character from unrestricted UI rolls completed capture back",
+      "correction": "owned local validation reprompt, do not swallow subject or configuration errors"
+    }
+  ]
+}

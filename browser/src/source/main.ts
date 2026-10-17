@@ -2,7 +2,7 @@ import {findCoordinateTrigger} from './coordinate-triggers.ts';
 import {findInteractedBackgroundEvent,backgroundFlagSet} from './background-events.ts';
 import './style.css';
 import {loadData,newState,titleCase,speciesName,createMon,giveMon,healParty,itemName,moveName} from './data.ts';
-import {applyNativeFieldNicknameInput,applyNativeNicknameResult,resolveNativeNicknameInput,migrateLegacyBrowserNicknames,UnsupportedNativeNickname,type NativeNicknameInputCode,type BrowserNicknameMigrationReceipt} from './mon-nickname.ts';
+import {applyNativeFieldNicknameInput,applyNativeNicknameResult,resolveNativeNicknameInput,migrateLegacyBrowserNicknames,UnsupportedNativeNickname,type NativeNicknameInputCode,type NativeNicknameResult,type BrowserNicknameMigrationReceipt} from './mon-nickname.ts';
 import {OriginalWorld} from './world.ts';
 import {mapWeather} from './atmosphere.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
@@ -275,7 +275,7 @@ async function hatchEgg(){
     phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),
     message:(text,signal)=>ui.printMessage(text,(state.options.textSpeed===0?8:state.options.textSpeed===1?4:1)*1000/60,signal),
     choose:(text,options,signal)=>ui.choose(text,options,'',signal),
-    nickname:async(scene,signal)=>{const result=resolveNativeNicknameInput(await ui.input('Pokémon nickname',10,scene.speciesName,signal));return result.kind==='no-input'?null:result.name;},
+    nickname:async(scene,signal)=>{const result=await requestNativeNickname(scene.speciesName,()=>signal.throwIfAborted(),signal);return result.kind==='no-input'?null:result.name;},
     resumeField:async()=>{refreshNPCs();updateHUD();resetFieldInput();},
   });}finally{hatching=false;musicKey='';syncMusic();}
 }
@@ -600,21 +600,37 @@ async function title(){
   }
 }
 async function scriptWarp(id:number,x:number,z:number,facing?:number){if(facing!==undefined)state.facing=facing;await enterMap(id,x+.5,z+.5);}
+// Input validation is local to the naming task. It must not undo an already
+// completed catch/starter scene; ownership, UI and configuration errors still
+// escape to their real recovery owner.
+async function requestNativeNickname(initial:string,current:()=>void,signal?:AbortSignal):Promise<NativeNicknameResult>{
+  for(;;){
+    signal?.throwIfAborted();current();
+    const input=await ui.input('Pokémon nickname',10,initial,signal);
+    signal?.throwIfAborted();current();
+    if(typeof input!=='string')throw new UnsupportedNativeNickname('Naming UI did not return an explicit string');
+    try{return resolveNativeNicknameInput(input);}catch(error){
+      if(!(error instanceof UnsupportedNativeNickname))throw error;
+    }
+    await ui.message('That name contains a character unavailable in the original naming alphabet. Please choose another name.',textDelay(),signal);
+    signal?.throwIfAborted();current();
+  }
+}
 // A field naming task returns the original noInput0/1 ABI. Its subject must
 // still be the same party slot after the owned UI finishes.
 async function nicknamePartyMon(index:number):Promise<NativeNicknameInputCode>{
   const owner=state,field=state.map,mon=state.party[index];
   if(!Number.isInteger(index)||index<0||!mon)throw new UnsupportedNativeNickname('Missing native party naming subject');
-  const input=await ui.input('Pokémon nickname',10,mon.name);
-  if(state!==owner||state.map!==field||owner.party[index]!==mon)throw new UnsupportedNativeNickname('Native party naming subject changed');
-  return applyNativeFieldNicknameInput(data,mon,input);
+  const current=()=>{if(state!==owner||state.map!==field||owner.party[index]!==mon)throw new UnsupportedNativeNickname('Native party naming subject changed');};
+  const result=await requestNativeNickname(mon.name,current);current();
+  return applyNativeFieldNicknameInput(data,mon,result.kind==='no-input'?null:result.name);
 }
 async function nicknameCapturedMon(mon:Mon){
   const owner=state,field=state.map;
   const current=()=>{if(state!==owner||state.map!==field||!owner.party.includes(mon)&&!owner.boxes.includes(mon))throw new UnsupportedNativeNickname('Native capture naming subject changed');};
   current();const choice=await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No']);current();
   if(choice!==0&&choice!==1)throw new UnsupportedNativeNickname('Native capture naming choice was not resolved');
-  if(choice===0){const input=await ui.input('Pokémon nickname',10,mon.name);current();applyNativeNicknameResult(data,mon,resolveNativeNicknameInput(input));}
+  if(choice===0){const result=await requestNativeNickname(mon.name,current);current();applyNativeNicknameResult(data,mon,result);}
 }
 // Persist legacy admission before constructing any recovery owner/checkpoint.
 // Marked saves perform no further inference; actual unresolved slots remain
