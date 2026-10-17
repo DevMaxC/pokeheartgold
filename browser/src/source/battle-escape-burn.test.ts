@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {Battle} from './battle.ts';
-import {freshStages,moveDamage} from './battle-math.ts';
+import {freshStages,monAbility,moveDamage} from './battle-math.ts';
 import {createMon,loadData,newState} from './data.ts';
 import type {UI} from './ui.ts';
 import type {BattleView} from './battle-view.ts';
@@ -14,7 +14,7 @@ globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'
 const data=await loadData(),native=await readFile(new URL('../../../src/battle/battle_util.c',import.meta.url),'utf8');
 const nativeContext=await readFile(new URL('../../../include/battle/battle.h',import.meta.url),'utf8');
 assert.match(nativeContext,/\bu8 runAttempts;/,'the native attempt counter is also an unsigned byte');
-function blockAt(start:number){let depth=0;const brace=native.indexOf('{',start);for(let i=brace;i<native.length;i++){if(native[i]==='{')depth++;if(native[i]==='}'&&!--depth)return native.slice(start,i+1);}throw Error('Native block is incomplete');}
+function blockAt(start:number){assert.ok(start>=0,'native extraction marker must exist');let depth=0;const brace=native.indexOf('{',start);assert.ok(brace>=0,'native extraction block must exist');for(let i=brace;i<native.length;i++){if(native[i]==='{')depth++;if(native[i]==='}'&&!--depth)return native.slice(start,i+1);}throw Error('Native block is incomplete');}
 const tryRun=blockAt(native.indexOf('BOOL BattleTryRun(')),range=blockAt(native.indexOf('int ApplyDamageRange('));
 const physical=blockAt(native.indexOf('if (moveCategory == CATEGORY_PHYSICAL) {\n        if (crit > 1)'));
 const table=native.match(/(?:static )?const u8 sStatChangeTable\[\d*\]\[2\]\s*=\s*\{[\s\S]*?\n\};/)?.[0];
@@ -73,6 +73,7 @@ function nativeRows(rows:string[]){return execFileSync(binary,[],{input:rows.joi
 function mon(species:number,level:number){return createMon(data,species,level,'Ethan',()=>.5);}
 function dom(){const elements=new Map<string,{innerHTML:string;hidden:boolean}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}}as unknown as Document;}
 async function runCase(player:ReturnType<typeof mon>,enemy:ReturnType<typeof mon>,attempts:number,roll:number,trainer:number|null=null,staged=false){
+ if(trainer===null){assert.notEqual(monAbility(data,player),'ABILITY_RUN_AWAY','the ordinary native C path excludes Run Away');assert.equal(player.heldItem,null,'the ordinary native C path excludes escape items');}
  dom();const state=newState(data,'Ethan','boy',()=>.5);state.party=[player];let draws=0,enemyTurns=0,selections=0,atNext:number|undefined;
  const messages:string[]=[],battle=new Battle(data,state,{}as UI,()=>{draws++;return(roll+.001)/256;}),stop=Error('observed next Run menu');
  Reflect.set(battle,'say',async(text:string)=>messages.push(text));Reflect.set(battle,'draw',()=>{});Reflect.set(battle,'enemyTurn',async()=>{enemyTurns++;});
@@ -82,7 +83,7 @@ async function runCase(player:ReturnType<typeof mon>,enemy:ReturnType<typeof mon
 }
 
 test('equal and faster legal raw speeds guarantee escape without consuming RNG',async()=>{
- for(const [player,enemy]of[[mon(19,5),mon(19,5)],[mon(19,6),mon(19,5)]]){
+ for(const [player,enemy]of[[mon(16,5),mon(16,5)],[mon(16,6),mon(16,5)]]){
   const [[escaped,attempts,draws]]=nativeRows([`R ${player.stats.speed} ${enemy.stats.speed} 0 255`]),actual=await runCase(player,enemy,0,255);
   assert.equal(escaped,1);assert.equal(actual.result,'ran');assert.equal(actual.attempts,attempts);assert.equal(actual.draws,draws);assert.equal(actual.enemyTurns,0);
  }
@@ -99,7 +100,7 @@ test('slower Run uses the old attempt count, exact byte odds and post-roll byte 
 
 test('Run retains native raw-speed and status ordering rather than using staged/paralyzed Fight speed',async()=>{
  for(const status of['PAR','SLP','FRZ']){
-  const equal=mon(19,5),enemy=mon(19,5);equal.status=status;equal.sleepTurns=2;
+  const equal=mon(16,5),enemy=mon(16,5);equal.status=status;equal.sleepTurns=2;
   const actual=await runCase(equal,enemy,0,255,null,true);assert.equal(actual.result,'ran');assert.equal(actual.draws,0);
   const slower=mon(152,5),faster=mon(16,5);slower.status=status;slower.sleepTurns=2;
   const [[escaped,next,draws]]=nativeRows([`R ${slower.stats.speed} ${faster.stats.speed} 0 127`]),changed=await runCase(slower,faster,0,127,null,true);
