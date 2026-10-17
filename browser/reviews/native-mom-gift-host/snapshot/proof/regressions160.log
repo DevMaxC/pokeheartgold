@@ -1,0 +1,998 @@
+TAP version 13
+# (node:6619) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual standard10000 matches native dispatch and Wait7 phases before hiding and polling completion
+ok 1 - actual standard10000 matches native dispatch and Wait7 phases before hiding and polling completion
+  ---
+  duration_ms: 45.973542
+  type: 'test'
+  ...
+# Subtest: native no-move/no-badge/Egg/BadEgg/No branches do not request effect ports or remove the source gate
+ok 2 - native no-move/no-badge/Egg/BadEgg/No branches do not request effect ports or remove the source gate
+  ---
+  duration_ms: 2.66125
+  type: 'test'
+  ...
+# Subtest: the first fainted zero-PP Cut user is selected while the follower query independently selects a living non-Egg
+ok 3 - the first fainted zero-PP Cut user is selected while the follower query independently selects a living non-Egg
+  ---
+  duration_ms: 3.261
+  type: 'test'
+  ...
+# Subtest: the actual active-follower branch swaps, uses native Grass mood/hops and cry, then starts effect3
+ok 4 - the actual active-follower branch swaps, uses native Grass mood/hops and cry, then starts effect3
+  ---
+  duration_ms: 3.259458
+  type: 'test'
+  ...
+# Subtest: actual menu10007 resets follower movement, preserves the literal target and follows the same delayed HidePerson
+ok 5 - actual menu10007 resets follower movement, preserves the literal target and follows the same delayed HidePerson
+  ---
+  duration_ms: 2.709
+  type: 'test'
+  ...
+# Subtest: missing or non-Promise effect ports remain explicit errors before a cut-in or fabricated completion
+ok 6 - missing or non-Promise effect ports remain explicit errors before a cut-in or fabricated completion
+  ---
+  duration_ms: 3.498125
+  type: 'test'
+  ...
+# Subtest: a failed real effect restores source flags, actor state and a follower swap before returning control
+ok 7 - a failed real effect restores source flags, actor state and a follower swap before returning control
+  ---
+  duration_ms: 208.925708
+  type: 'test'
+  ...
+# Subtest: cancellation drains even an uncooperative effect and blocks its completion write before recovery
+ok 8 - cancellation drains even an uncooperative effect and blocks its completion write before recovery
+  ---
+  duration_ms: 12.908375
+  type: 'test'
+  ...
+# Subtest: an external map replacement cannot write a delayed Cut completion into the destination field
+ok 9 - an external map replacement cannot write a delayed Cut completion into the destination field
+  ---
+  duration_ms: 3.174083
+  type: 'test'
+  ...
+# Subtest: query operands, raw buffer bytes, checksum policy and source form/plate types are exact
+ok 10 - query operands, raw buffer bytes, checksum policy and source form/plate types are exact
+  ---
+  duration_ms: 1.83925
+  type: 'test'
+  ...
+# Subtest: long native effect polling yields without exhausting a synchronous instruction budget
+ok 11 - long native effect polling yields without exhausting a synchronous instruction budget
+  ---
+  duration_ms: 505.992041
+  type: 'test'
+  ...
+# Subtest: a same-instance nested script retains its parent controller, busy ownership and later writes
+ok 12 - a same-instance nested script retains its parent controller, busy ownership and later writes
+  ---
+  duration_ms: 0.356291
+  type: 'test'
+  ...
+# Subtest: Cut-only ports cannot partially execute the actual Rock Smash or Flash standards
+ok 13 - Cut-only ports cannot partially execute the actual Rock Smash or Flash standards
+  ---
+  duration_ms: 2.233917
+  type: 'test'
+  ...
+# Subtest: native TaskManager child completion resumes Cut swap and jump continuations in the same tick
+ok 14 - native TaskManager child completion resumes Cut swap and jump continuations in the same tick
+  ---
+  duration_ms: 3.135542
+  type: 'test'
+  ...
+# (node:6620) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an original gift emits its synchronous accelerated trigger after memo/flag/pending and before Dex, optional naming or resume
+ok 15 - an original gift emits its synchronous accelerated trigger after memo/flag/pending and before Dex, optional naming or resume
+  ---
+  duration_ms: 10.193917
+  type: 'test'
+  ...
+# Subtest: an already-set original gift flag and pending bit never suppress a new actual hatch trigger
+ok 16 - an already-set original gift flag and pending bit never suppress a new actual hatch trigger
+  ---
+  duration_ms: 2.304125
+  type: 'test'
+  ...
+# Subtest: a nonoriginal Togepi hatch emits no original-gift phone event
+ok 17 - a nonoriginal Togepi hatch emits no original-gift phone event
+  ---
+  duration_ms: 1.005875
+  type: 'test'
+  ...
+# Subtest: a throwing trigger callback rolls back the inner mon, RNG, flag, pending bit and Dex writes
+ok 18 - a throwing trigger callback rolls back the inner mon, RNG, flag, pending bit and Dex writes
+  ---
+  duration_ms: 1.32825
+  type: 'test'
+  ...
+# Subtest: the presentation host forwards exactly one fresh event before nickname and coherent field resume
+ok 19 - the presentation host forwards exactly one fresh event before nickname and coherent field resume
+  ---
+  duration_ms: 2.256541
+  type: 'test'
+  ...
+# Subtest: a presentation failure after the forwarded event remains State-atomic without relying on outer rollback
+ok 20 - a presentation failure after the forwarded event remains State-atomic without relying on outer rollback
+  ---
+  duration_ms: 3.161333
+  type: 'test'
+  ...
+# Subtest: callback and later presentation failures restore State while the outer field checkpoint restores the fresh timer boost and preceding step
+ok 21 - callback and later presentation failures restore State while the outer field checkpoint restores the fresh timer boost and preceding step
+  ---
+  duration_ms: 3.525334
+  type: 'test'
+  ...
+# Subtest: Continue of a saved completed hatch does not replay its pending trigger or accelerate a fresh ring manager
+ok 22 - Continue of a saved completed hatch does not replay its pending trigger or accelerate a fresh ring manager
+  ---
+  duration_ms: 229.957875
+  type: 'test'
+  ...
+# (node:6621) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a failed original item standard503 is evicted so the same VM/context retries and picks up the intended event
+ok 23 - a failed original item standard503 is evicted so the same VM/context retries and picks up the intended event
+  ---
+  duration_ms: 50.734584
+  type: 'test'
+  ...
+# Subtest: a failed TM move-name asset after Hide/Give rolls back State and actor overrides, and retries from the source without duplicate items
+ok 24 - a failed TM move-name asset after Hide/Give rolls back State and actor overrides, and retries from the source without duplicate items
+  ---
+  duration_ms: 9.119292
+  type: 'test'
+  ...
+# Subtest: all255 literal item definitions and the explicit shared tail execute real0141 scripts, with success and native full-stack no-hide paths
+ok 25 - all255 literal item definitions and the explicit shared tail execute real0141 scripts, with success and native full-stack no-hide paths
+  ---
+  duration_ms: 2902.682667
+  type: 'test'
+  ...
+# {"literalDefinitions":255,"successes":255,"fullBag":255,"tmDefinitions":37,"sharedTail":1}
+# Subtest: all257 exported mapped item balls hide only themselves, persist their source flags on re-entry/Continue and preserve full bags
+ok 26 - all257 exported mapped item balls hide only themselves, persist their source flags on re-entry/Continue and preserve full bags
+  ---
+  duration_ms: 2721.449917
+  type: 'test'
+  ...
+# 257 success +257 full-bag mapped actions, all source hide flags and event IDs covered;254 distinct standard IDs
+# Subtest: the actual saturated native Items pocket rejects a new source item without deleting its ball or altering existing stacks
+ok 27 - the actual saturated native Items pocket rejects a new source item without deleting its ball or altering existing stacks
+  ---
+  duration_ms: 1.826667
+  type: 'test'
+  ...
+# Subtest: all four local source pickups also support success, persistence, full bag and late failure/retry; Oak script0 balls stay displays
+ok 28 - all four local source pickups also support success, persistence, full bag and late failure/retry; Oak script0 balls stay displays
+  ---
+  duration_ms: 21.29025
+  type: 'test'
+  ...
+# All264 source ball objects classified:261 genuine pickups (257 standard +4 local),3 script0 Oak starter displays
+# Subtest: late message/final-refresh failures restore the whole State and exact preexisting shown/facing/position records before retry
+ok 29 - late message/final-refresh failures restore the whole State and exact preexisting shown/facing/position records before retry
+  ---
+  duration_ms: 8.811792
+  type: 'test'
+  ...
+# Subtest: recovery refresh failure preserves restored State and reports both errors instead of silently declaring a pickup complete
+ok 30 - recovery refresh failure preserves restored State and reports both errors instead of silently declaring a pickup complete
+  ---
+  duration_ms: 0.451
+  type: 'test'
+  ...
+# Subtest: all100 generated TM/HM entries match literal native item.c order and inclusive command boundaries
+ok 31 - all100 generated TM/HM entries match literal native item.c order and inclusive command boundaries
+  ---
+  duration_ms: 190.92975
+  type: 'test'
+  ...
+# Subtest: item script/fanfare reachable closure contains no warp, object creation or movement and uses only the declared native item source
+ok 32 - item script/fanfare reachable closure contains no warp, object creation or movement and uses only the declared native item source
+  ---
+  duration_ms: 2.11625
+  type: 'test'
+  ...
+# Subtest: HidePerson sets real delete flags, retains FLAG_NOTHING local hiding and leaves broader ShowPerson flag behavior unchanged
+ok 33 - HidePerson sets real delete flags, retains FLAG_NOTHING local hiding and leaves broader ShowPerson flag behavior unchanged
+  ---
+  duration_ms: 0.4985
+  type: 'test'
+  ...
+# Subtest: only the exact16px item-ball family receives source-relative sizing; other NPC and follower sizes remain unchanged
+ok 34 - only the exact16px item-ball family receives source-relative sizing; other NPC and follower sizes remain unchanged
+  ---
+  duration_ms: 0.32475
+  type: 'test'
+  ...
+# (node:6622) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal delivery ABI and all exported deliverymen run real COMMON0144→std2033 once per package
+ok 35 - literal delivery ABI and all exported deliverymen run real COMMON0144→std2033 once per package
+  ---
+  duration_ms: 413.918416
+  type: 'test'
+  ...
+# Subtest: real full-stack and five-berry overflow branches keep the complete queue and pending call
+ok 36 - real full-stack and five-berry overflow branches keep the complete queue and pending call
+  ---
+  duration_ms: 1.618375
+  type: 'test'
+  ...
+# Subtest: every awaited delivery message and final refresh failure restore State and live object/phone snapshots
+ok 37 - every awaited delivery message and final refresh failure restore State and live object/phone snapshots
+  ---
+  duration_ms: 88.160042
+  type: 'test'
+  ...
+# Subtest: failed source delivery Return grants nothing; explicit Retry grants/pop exactly once after acknowledgement
+ok 38 - failed source delivery Return grants nothing; explicit Retry grants/pop exactly once after acknowledgement
+  ---
+  duration_ms: 3.805292
+  type: 'test'
+  ...
+# Subtest: cancellation and controlled bag/head changes between source phases never discard or duplicate a package
+ok 39 - cancellation and controlled bag/head changes between source phases never discard or duplicate a package
+  ---
+  duration_ms: 5.6415
+  type: 'test'
+  ...
+# Subtest: transient delivery-bank fetch retries and shared MysteryGift init remains explicitly unsupported
+ok 40 - transient delivery-bank fetch retries and shared MysteryGift init remains explicitly unsupported
+  ---
+  duration_ms: 78.845333
+  type: 'test'
+  ...
+# Subtest: Mother trigger12 rings as exact script27, is not inferred on Continue, and answering never awards a gift
+ok 41 - Mother trigger12 rings as exact script27, is not inferred on Continue, and answering never awards a gift
+  ---
+  duration_ms: 9.242084
+  type: 'test'
+  ...
+# Subtest: Mother incoming local priority, exact genders and unsupported callers stay source bounded
+ok 42 - Mother incoming local priority, exact genders and unsupported callers stay source bounded
+  ---
+  duration_ms: 72.168834
+  type: 'test'
+  ...
+# Subtest: Mother failed fetch/dialogue Return and explicit Retry restore same pinned call and queue without reselection
+ok 43 - Mother failed fetch/dialogue Return and explicit Retry restore same pinned call and queue without reselection
+  ---
+  duration_ms: 3.540625
+  type: 'test'
+  ...
+# Subtest: Mother answer owns admission through pending UI and cancellation; tampered calls never launch
+ok 44 - Mother answer owns admission through pending UI and cancellation; tampered calls never launch
+  ---
+  duration_ms: 0.545083
+  type: 'test'
+  ...
+# Subtest: Mom queue check/peek outputs and pop order match literal C for every compact queue size; reads do not mutate saves
+ok 45 - Mom queue check/peek outputs and pop order match literal C for every compact queue size; reads do not mutate saves
+  ---
+  duration_ms: 669.163375
+  type: 'test'
+  ...
+# (node:6623) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle settlement matches literal native C across capped prize, loss/zero and baseline saved profiles
+ok 46 - battle settlement matches literal native C across capped prize, loss/zero and baseline saved profiles
+  ---
+  duration_ms: 228.657208
+  type: 'test'
+  ...
+# Subtest: all17 source berry choices use one raw16-bit modulo draw, including16/17/65535 and multi-tier gains
+ok 47 - all17 source berry choices use one raw16-bit modulo draw, including16/17/65535 and multi-tier gains
+  ---
+  duration_ms: 8.990541
+  type: 'test'
+  ...
+# Subtest: a partial given mask skips bought gifts and reaches the next native gift, including the final free queue slot
+ok 48 - a partial given mask skips bought gifts and reaches the next native gift, including the final free queue slot
+  ---
+  duration_ms: 7.611334
+  type: 'test'
+  ...
+# Subtest: full queues block eligible normal/berry purchases while a fourth berry queue entry allows exactly one more
+ok 49 - full queues block eligible normal/berry purchases while a fourth berry queue entry allows exactly one more
+  ---
+  duration_ms: 8.007125
+  type: 'test'
+  ...
+# Subtest: normal gifts retain source ordering/costs and capacity; a zero-gain battle still purchases without a berry draw
+ok 50 - normal gifts retain source ordering/costs and capacity; a zero-gain battle still purchases without a berry draw
+  ---
+  duration_ms: 13.624
+  type: 'test'
+  ...
+# Subtest: full-bank display is captured separately; purchases can free space but never retroactively enlarge this deposit
+ok 51 - full-bank display is captured separately; purchases can free space but never retroactively enlarge this deposit
+  ---
+  duration_ms: 5.594458
+  type: 'test'
+  ...
+# Subtest: the native setup message bit depends on saving policy/bank cap, including a full wallet with zero actual deposit
+ok 52 - the native setup message bit depends on saving policy/bank cap, including a full wallet with zero actual deposit
+  ---
+  duration_ms: 0.118041
+  type: 'test'
+  ...
+# Subtest: native zero/partial initialization, toggle and JSON reload preserve funds/gift identity without inferred fresh events
+ok 53 - native zero/partial initialization, toggle and JSON reload preserve funds/gift identity without inferred fresh events
+  ---
+  duration_ms: 0.088875
+  type: 'test'
+  ...
+# Subtest: the existing actual Mother phone choice toggles only saving policy, retaining purchased gifts, funds and pending calls
+ok 54 - the existing actual Mother phone choice toggles only saving policy, retaining purchased gifts, funds and pending calls
+  ---
+  duration_ms: 4.011208
+  type: 'test'
+  ...
+# Subtest: a fresh purchase reports phone12 even if its bit is already set, and returned/read objects cannot mutate saved gifts
+ok 55 - a fresh purchase reports phone12 even if its bit is already set, and returned/read objects cannot mutate saved gifts
+  ---
+  duration_ms: 1.149666
+  type: 'test'
+  ...
+# Subtest: invalid/missing RNG, malformed stored data and missing source items fail before ANY state write
+ok 56 - invalid/missing RNG, malformed stored data and missing source items fail before ANY state write
+  ---
+  duration_ms: 62.39775
+  type: 'test'
+  ...
+# Subtest: the actual outer source checkpoint restores funds/gifts/phone manager after a later host failure; Retry commits once
+ok 57 - the actual outer source checkpoint restores funds/gifts/phone manager after a later host failure; Retry commits once
+  ---
+  duration_ms: 25.538541
+  type: 'test'
+  ...
+# (node:6624) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: RTC bridge retains the native whole-minute anchor and discards remainder only after a whole batch
+ok 58 - RTC bridge retains the native whole-minute anchor and discards remainder only after a whole batch
+  ---
+  duration_ms: 1.4715
+  type: 'test'
+  ...
+# Subtest: Continue does not boost saved pending flags, and native first long catchup is ignored exactly once
+ok 59 - Continue does not boost saved pending flags, and native first long catchup is ignored exactly once
+  ---
+  duration_ms: 26.0835
+  type: 'test'
+  ...
+# Subtest: only explicit fresh events accelerate, exact Elm lab61 is excluded while New Bark60 rings
+ok 60 - only explicit fresh events accelerate, exact Elm lab61 is excluded while New Bark60 rings
+  ---
+  duration_ms: 0.821459
+  type: 'test'
+  ...
+# Subtest: render reads and repeated polls retain one optional Elm token without new random draws
+ok 61 - render reads and repeated polls retain one optional Elm token without new random draws
+  ---
+  duration_ms: 0.965541
+  type: 'test'
+  ...
+# Subtest: a missed ring uses its first positive RTC tick and expires strictly after30 seconds without consuming flags
+ok 62 - a missed ring uses its first positive RTC tick and expires strictly after30 seconds without consuming flags
+  ---
+  duration_ms: 7.609792
+  type: 'test'
+  ...
+# Subtest: a backward RTC anchor update skips duration handling until the next positive tick
+ok 63 - a backward RTC anchor update skips duration handling until the next positive tick
+  ---
+  duration_ms: 0.298166
+  type: 'test'
+  ...
+# Subtest: source-event reset keeps the RTC anchor/first-minute guard and snapshot/restore copies both directions
+ok 64 - source-event reset keeps the RTC anchor/first-minute guard and snapshot/restore copies both directions
+  ---
+  duration_ms: 0.406125
+  type: 'test'
+  ...
+# Subtest: native ResetIfActive preserves a fresh inactive boost through unrelated source events
+ok 65 - native ResetIfActive preserves a fresh inactive boost through unrelated source events
+  ---
+  duration_ms: 0.294167
+  type: 'test'
+  ...
+# Subtest: incoming-disabled maps consume no RNG and chance-rejected fallback ends its interval
+ok 66 - incoming-disabled maps consume no RNG and chance-rejected fallback ends its interval
+  ---
+  duration_ms: 0.605917
+  type: 'test'
+  ...
+# Subtest: a fresh hatch after an empty phone interval boosts to9 and waits for the next native minute
+ok 67 - a fresh hatch after an empty phone interval boosts to9 and waits for the next native minute
+  ---
+  duration_ms: 7.193084
+  type: 'test'
+  ...
+# Subtest: selected random caller stays explicitly unsupported through stable polling and fresh Elm enqueue until native timeout
+ok 68 - selected random caller stays explicitly unsupported through stable polling and fresh Elm enqueue until native timeout
+  ---
+  duration_ms: 0.47725
+  type: 'test'
+  ...
+# Subtest: source reset ends a selected random ring without history add or pending-bit loss, then a fresh event boosts normally
+ok 69 - source reset ends a selected random ring without history add or pending-bit loss, then a fresh event boosts normally
+  ---
+  duration_ms: 6.370584
+  type: 'test'
+  ...
+# Subtest: due admission is pure and history-clearing selection participates in actual outer rollback/Retry
+ok 70 - due admission is pure and history-clearing selection participates in actual outer rollback/Retry
+  ---
+  duration_ms: 1.786041
+  type: 'test'
+  ...
+# Subtest: Buena filtering uses the stored RTC anchor hour through subminute ticks and restores it with snapshots
+ok 71 - Buena filtering uses the stored RTC anchor hour through subminute ticks and restores it with snapshots
+  ---
+  duration_ms: 0.264667
+  type: 'test'
+  ...
+# Subtest: generic, forced and other Elm calls stay explicit and cannot enter Elm13 delivery or consume pending bits
+ok 72 - generic, forced and other Elm calls stay explicit and cannot enter Elm13 delivery or consume pending bits
+  ---
+  duration_ms: 2.872
+  type: 'test'
+  ...
+# Subtest: the exact actual Elm13 incoming text completes atomically and keeps other calls and hatch progress
+ok 73 - the exact actual Elm13 incoming text completes atomically and keeps other calls and hatch progress
+  ---
+  duration_ms: 87.569791
+  type: 'test'
+  ...
+# Subtest: failed UI Return restores state/party/inventory and the active call before committing the recovered field
+ok 74 - failed UI Return restores state/party/inventory and the active call before committing the recovered field
+  ---
+  duration_ms: 0.78225
+  type: 'test'
+  ...
+# Subtest: explicit Retry pins the same call across recovery without draws and holds admission through the prompt
+ok 75 - explicit Retry pins the same call across recovery without draws and holds admission through the prompt
+  ---
+  duration_ms: 1.7835
+  type: 'test'
+  ...
+# Subtest: RTC elapsed during a successful answer is caught up once after its source action releases admission
+ok 76 - RTC elapsed during a successful answer is caught up once after its source action releases admission
+  ---
+  duration_ms: 0.228375
+  type: 'test'
+  ...
+# Subtest: the answer lock survives hydration retries, then always releases after executor failure
+ok 77 - the answer lock survives hydration retries, then always releases after executor failure
+  ---
+  duration_ms: 0.530791
+  type: 'test'
+  ...
+# Subtest: a stale or tampered token cannot silently launch another call or recreate a cleared bit
+ok 78 - a stale or tampered token cannot silently launch another call or recreate a cleared bit
+  ---
+  duration_ms: 0.330459
+  type: 'test'
+  ...
+# Subtest: caller-owned rules cannot change a constructed field host
+ok 79 - caller-owned rules cannot change a constructed field host
+  ---
+  duration_ms: 0.157125
+  type: 'test'
+  ...
+# (node:6625) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: random admission exports all75 exact native book IDs/types/groups/maps, literal recent chunks and pinned sources
+ok 80 - random admission exports all75 exact native book IDs/types/groups/maps, literal recent chunks and pinned sources
+  ---
+  duration_ms: 190.479333
+  type: 'test'
+  ...
+# Subtest: native chance rejects strictly above50 without LC or caller selection; accepted empty category resets after one LC
+ok 81 - native chance rejects strictly above50 without LC or caller selection; accepted empty category resets after one LC
+  ---
+  duration_ms: 0.583791
+  type: 'test'
+  ...
+# Subtest: LC modulo1000 thresholds499/500/799/800 determine random category, independent of current clock hour
+ok 82 - LC modulo1000 thresholds499/500/799/800 determine random category, independent of current clock hour
+  ---
+  duration_ms: 0.397417
+  type: 'test'
+  ...
+# Subtest: random caller pick preserves registered order and native MT modulo(numCallers*100)/100 weighting
+ok 83 - random caller pick preserves registered order and native MT modulo(numCallers*100)/100 weighting
+  ---
+  duration_ms: 0.438291
+  type: 'test'
+  ...
+# Subtest: the native eligible caller families include type14 Irwin and exclude type6 Kenji despite registration
+ok 84 - the native eligible caller families include type14 Irwin and exclude type6 Kenji despite registration
+  ---
+  duration_ms: 0.33725
+  type: 'test'
+  ...
+# Subtest: map and recent exclusions preserve the original category candidate count in the selected token
+ok 85 - map and recent exclusions preserve the original category candidate count in the selected token
+  ---
+  duration_ms: 0.204541
+  type: 'test'
+  ...
+# Subtest: full recent rotation clears only its literal4/2/2 chunk BEFORE map filters and never adds an unanswered caller
+ok 86 - full recent rotation clears only its literal4/2/2 chunk BEFORE map filters and never adds an unanswered caller
+  ---
+  duration_ms: 0.302
+  type: 'test'
+  ...
+# Subtest: native recent Count scans past255 holes while Contains stops at the first255
+ok 87 - native recent Count scans past255 holes while Contains stops at the first255
+  ---
+  duration_ms: 0.116417
+  type: 'test'
+  ...
+# Subtest: Buena is blocked on exact password hours or takeover2..4, including numeric VM variable alias precedence
+ok 88 - Buena is blocked on exact password hours or takeover2..4, including numeric VM variable alias precedence
+  ---
+  duration_ms: 0.518083
+  type: 'test'
+  ...
+# Subtest: contest exclusion uses the exact NationalPark map and source flag, accepting named/numeric stored aliases
+ok 89 - contest exclusion uses the exact NationalPark map and source flag, accepting named/numeric stored aliases
+  ---
+  duration_ms: 0.497541
+  type: 'test'
+  ...
+# Subtest: no remaining callers resets, while active/early polls consume no RNG or history
+ok 90 - no remaining callers resets, while active/early polls consume no RNG or history
+  ---
+  duration_ms: 0.196666
+  type: 'test'
+  ...
+# Subtest: invalid RNG/hour/contact/history inputs fail explicitly instead of silently completing unknown callers
+ok 91 - invalid RNG/hour/contact/history inputs fail explicitly instead of silently completing unknown callers
+  ---
+  duration_ms: 0.242916
+  type: 'test'
+  ...
+# (node:6626) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the13 actual native trigger rows and timing defaults retain verified C/phonebook source provenance
+ok 92 - the13 actual native trigger rows and timing defaults retain verified C/phonebook source provenance
+  ---
+  duration_ms: 11.924375
+  type: 'test'
+  ...
+# Subtest: a fresh hatched-Egg trigger accelerates to9 minutes and rings only after the next explicit RTC minute
+ok 93 - a fresh hatched-Egg trigger accelerates to9 minutes and rings only after the next explicit RTC minute
+  ---
+  duration_ms: 0.427083
+  type: 'test'
+  ...
+# Subtest: Elm is excluded only from exact lab61, can ring in New Bark60, and has no invented registration predicate
+ok 94 - Elm is excluded only from exact lab61, can ring in New Bark60, and has no invented registration predicate
+  ---
+  duration_ms: 0.118416
+  type: 'test'
+  ...
+# Subtest: trigger selection scans native bit order, consumes one supplied u16 draw and respects each force-pickup flag
+ok 95 - trigger selection scans native bit order, consumes one supplied u16 draw and respects each force-pickup flag
+  ---
+  duration_ms: 0.14125
+  type: 'test'
+  ...
+# Subtest: the source daycare exception requires its registered number and permits the caller map only for that exception
+ok 96 - the source daycare exception requires its registered number and permits the caller map only for that exception
+  ---
+  duration_ms: 0.190917
+  type: 'test'
+  ...
+# Subtest: missed optional calls expire after30 seconds, retain pending flags and become eligible again after the interval
+ok 97 - missed optional calls expire after30 seconds, retain pending flags and become eligible again after the interval
+  ---
+  duration_ms: 0.230292
+  type: 'test'
+  ...
+# Subtest: backward ring time resets only the ephemeral manager and preserves its initialized minute guard
+ok 98 - backward ring time resets only the ephemeral manager and preserves its initialized minute guard
+  ---
+  duration_ms: 0.168875
+  type: 'test'
+  ...
+# Subtest: Continue keeps persistent pending bits but does not invent a fresh enqueue or persist an old ring manager
+ok 99 - Continue keeps persistent pending bits but does not invent a fresh enqueue or persist an old ring manager
+  ---
+  duration_ms: 0.121834
+  type: 'test'
+  ...
+# Subtest: zero-minute host polls cannot consume the native first whole-minute catch-up guard
+ok 100 - zero-minute host polls cannot consume the native first whole-minute catch-up guard
+  ---
+  duration_ms: 0.379167
+  type: 'test'
+  ...
+# Subtest: an eligible interval with no trigger is distinguished from blocked polling for the future random-call branch
+ok 101 - an eligible interval with no trigger is distinguished from blocked polling for the future random-call branch
+  ---
+  duration_ms: 0.440417
+  type: 'test'
+  ...
+# Subtest: timing acceleration never reduces an existing interval and the first large minute batch preserves its prior boost
+ok 102 - timing acceleration never reduces an existing interval and the first large minute batch preserves its prior boost
+  ---
+  duration_ms: 0.154209
+  type: 'test'
+  ...
+# Subtest: answering clears exactly the selected bit at launch, resets ringing and leaves other pending calls intact
+ok 103 - answering clears exactly the selected bit at launch, resets ringing and leaves other pending calls intact
+  ---
+  duration_ms: 0.418333
+  type: 'test'
+  ...
+# Subtest: RTC deltas, pending bits and injected RNG draws fail explicitly without silently picking a caller
+ok 104 - RTC deltas, pending bits and injected RNG draws fail explicitly without silently picking a caller
+  ---
+  duration_ms: 0.180917
+  type: 'test'
+  ...
+# (node:6627) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a transient phone-definition503 is retryable and does not poison every later call
+ok 105 - a transient phone-definition503 is retryable and does not poison every later call
+  ---
+  duration_ms: 117.577458
+  type: 'test'
+  ...
+# Subtest: native incoming Elm3 selects actual script13 regardless of outgoing-local or story-selection conditions
+ok 106 - native incoming Elm3 selects actual script13 regardless of outgoing-local or story-selection conditions
+  ---
+  duration_ms: 4.391291
+  type: 'test'
+  ...
+# Subtest: outgoing Elm local dialogue applies only inside exact lab61, while scripted2 keeps its native map-script lookup
+ok 107 - outgoing Elm local dialogue applies only inside exact lab61, while scripted2 keeps its native map-script lookup
+  ---
+  duration_ms: 1.567833
+  type: 'test'
+  ...
+# Subtest: actual VM SetPhoneCallTrigger always sets the bit and reports arg2 only as timer acceleration
+ok 108 - actual VM SetPhoneCallTrigger always sets the bit and reports arg2 only as timer acceleration
+  ---
+  duration_ms: 2.54675
+  type: 'test'
+  ...
+# Subtest: a failed VM timing hook rolls back both its newly pending flag and ephemeral interval boost
+ok 109 - a failed VM timing hook rolls back both its newly pending flag and ephemeral interval boost
+  ---
+  duration_ms: 0.80325
+  type: 'test'
+  ...
+# Subtest: failed incoming dialogue restores its consumed pending bit and ring snapshot before same-call explicit replay
+ok 110 - failed incoming dialogue restores its consumed pending bit and ring snapshot before same-call explicit replay
+  ---
+  duration_ms: 1.683958
+  type: 'test'
+  ...
+# Subtest: the real Elm lab script asks for the hatched Pokémon as lead and grants its native Everstone once
+ok 111 - the real Elm lab script asks for the hatched Pokémon as lead and grants its native Everstone once
+  ---
+  duration_ms: 9.939709
+  type: 'test'
+  ...
+# (node:6628) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a transient native common-bank fetch can be retried by a fresh VM without duplicating the item gift
+ok 112 - a transient native common-bank fetch can be retried by a fresh VM without duplicating the item gift
+  ---
+  duration_ms: 118.631375
+  type: 'test'
+  ...
+# Subtest: a transient native trainer phone-table fetch is evicted rather than poisoning future retries
+ok 113 - a transient native trainer phone-table fetch is evicted rather than poisoning future retries
+  ---
+  duration_ms: 50.919792
+  type: 'test'
+  ...
+# (node:6629) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:6629) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: actual Sprout Tower 3F failure restores both scene-variable aliases and remains explicitly retryable
+ok 114 - actual Sprout Tower 3F failure restores both scene-variable aliases and remains explicitly retryable
+  ---
+  duration_ms: 13.440708
+  type: 'test'
+  ...
+# Subtest: inventory, starter, visibility and live actor coordinates roll back even when objectEvents was stale
+ok 115 - inventory, starter, visibility and live actor coordinates roll back even when objectEvents was stale
+  ---
+  duration_ms: 2.9465
+  type: 'test'
+  ...
+# Subtest: failure after GiveItem in actual shared script2033 unwinds parent and child without a partial save
+ok 116 - failure after GiveItem in actual shared script2033 unwinds parent and child without a partial save
+  ---
+  duration_ms: 4.109084
+  type: 'test'
+  ...
+# Subtest: rollback waits for pending source movement before restoring actors and input state
+ok 117 - rollback waits for pending source movement before restoring actors and input state
+  ---
+  duration_ms: 4.905375
+  type: 'test'
+  ...
+# Subtest: nested warp and multiple entry scripts share one checkpoint including spawn, Flash, weather and NPC map
+ok 118 - nested warp and multiple entry scripts share one checkpoint including spawn, Flash, weather and NPC map
+  ---
+  duration_ms: 3.3655
+  type: 'test'
+  ...
+# Subtest: an earlier committed battle stays committed; a battle in a later failed trainer scene rolls back with its flags and phone offer
+ok 119 - an earlier committed battle stays committed; a battle in a later failed trainer scene rolls back with its flags and phone offer
+  ---
+  duration_ms: 2.613125
+  type: 'test'
+  ...
+# Subtest: successful nested actions unlock one outer commit and preserve shared State identity
+ok 120 - successful nested actions unlock one outer commit and preserve shared State identity
+  ---
+  duration_ms: 1.214375
+  type: 'test'
+  ...
+# Subtest: failed field hydration keeps saves and new actions blocked until explicit recovery retry succeeds
+ok 121 - failed field hydration keeps saves and new actions blocked until explicit recovery retry succeeds
+  ---
+  duration_ms: 4.5635
+  type: 'test'
+  ...
+# Subtest: restoring in place deletes newly created optional keys and does not alias the reusable checkpoint
+ok 122 - restoring in place deletes newly created optional keys and does not alias the reusable checkpoint
+  ---
+  duration_ms: 0.625542
+  type: 'test'
+  ...
+# Subtest: automatic frame failures stay paused across steps; explicit retry and changing maps re-enable the scene
+ok 123 - automatic frame failures stay paused across steps; explicit retry and changing maps re-enable the scene
+  ---
+  duration_ms: 3.955417
+  type: 'test'
+  ...
+# Subtest: field snapshots are detached at capture so later live-field mutation cannot corrupt recovery
+ok 124 - field snapshots are detached at capture so later live-field mutation cannot corrupt recovery
+  ---
+  duration_ms: 0.431375
+  type: 'test'
+  ...
+# Subtest: a nested destination trigger cannot overwrite the failed source trigger location on unwind
+ok 125 - a nested destination trigger cannot overwrite the failed source trigger location on unwind
+  ---
+  duration_ms: 0.086292
+  type: 'test'
+  ...
+# Subtest: a failed Continue entry can return to its hydrated field and save only after the error prompt closes
+ok 126 - a failed Continue entry can return to its hydrated field and save only after the error prompt closes
+  ---
+  duration_ms: 2.355167
+  type: 'test'
+  ...
+# Subtest: explicit retry replays a nested actual gift once from its checkpoint; children never prompt or save independently
+ok 127 - explicit retry replays a nested actual gift once from its checkpoint; children never prompt or save independently
+  ---
+  duration_ms: 2.275791
+  type: 'test'
+  ...
+# Subtest: the recovery controller retries hydration without replaying source code, then offers a return and one coherent save
+ok 128 - the recovery controller retries hydration without replaying source code, then offers a return and one coherent save
+  ---
+  duration_ms: 0.968625
+  type: 'test'
+  ...
+# Subtest: play time never rewinds across failed scenes or repeated hydration attempts
+ok 129 - play time never rewinds across failed scenes or repeated hydration attempts
+  ---
+  duration_ms: 1.5045
+  type: 'test'
+  ...
+# Subtest: a persistence callback failure does not falsely report an already completed source action as rolled back
+ok 130 - a persistence callback failure does not falsely report an already completed source action as rolled back
+  ---
+  duration_ms: 0.563583
+  type: 'test'
+  ...
+# Subtest: a completed standalone wild catch is retained when its unrelated map-resume script fails
+ok 131 - a completed standalone wild catch is retained when its unrelated map-resume script fails
+  ---
+  duration_ms: 3.764916
+  type: 'test'
+  ...
+# Subtest: a standalone blackout retains healed party, money loss and destination when its destination entry script fails
+ok 132 - a standalone blackout retains healed party, money loss and destination when its destination entry script fails
+  ---
+  duration_ms: 2.533125
+  type: 'test'
+  ...
+# Subtest: trainer battle and resume failures remain inside their parent quest checkpoint
+ok 133 - trainer battle and resume failures remain inside their parent quest checkpoint
+  ---
+  duration_ms: 4.798167
+  type: 'test'
+  ...
+# Subtest: retrying an unrelated NPC action retains a previously paused frame trigger
+ok 134 - retrying an unrelated NPC action retains a previously paused frame trigger
+  ---
+  duration_ms: 1.418375
+  type: 'test'
+  ...
+# Subtest: retrying the failing frame action reopens that frame while preserving other paused scenes
+ok 135 - retrying the failing frame action reopens that frame while preserving other paused scenes
+  ---
+  duration_ms: 0.301709
+  type: 'test'
+  ...
+# Subtest: actual main Return restores an earlier map pause after a failed cross-map visit
+ok 136 - actual main Return restores an earlier map pause after a failed cross-map visit
+  ---
+  duration_ms: 4.664916
+  type: 'test'
+  ...
+# Subtest: actual main Return retains newly paused triggers when recovery stays on the same map
+ok 137 - actual main Return retains newly paused triggers when recovery stays on the same map
+  ---
+  duration_ms: 1.998334
+  type: 'test'
+  ...
+# Subtest: actual main Return merges old and new pauses after a failed A to B to A excursion
+ok 138 - actual main Return merges old and new pauses after a failed A to B to A excursion
+  ---
+  duration_ms: 3.05275
+  type: 'test'
+  ...
+# Subtest: actual main successful map visits keep normal pause clearing rather than restoring failure snapshots
+ok 139 - actual main successful map visits keep normal pause clearing rather than restoring failure snapshots
+  ---
+  duration_ms: 34.978375
+  type: 'test'
+  ...
+# Subtest: actual main explicit Retry restores both pre-outer frame and trainer gates before replay
+ok 140 - actual main explicit Retry restores both pre-outer frame and trainer gates before replay
+  ---
+  duration_ms: 210.776667
+  type: 'test'
+  ...
+# (node:6635) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native trainer script banks decode the same trainer and reject ordinary scripts/approach
+ok 141 - native trainer script banks decode the same trainer and reject ordinary scripts/approach
+  ---
+  duration_ms: 1.043958
+  type: 'test'
+  ...
+# Subtest: manual Wade introduction, win and phone acceptance run the actual shared trainer script
+ok 142 - manual Wade introduction, win and phone acceptance run the actual shared trainer script
+  ---
+  duration_ms: 98.314209
+  type: 'test'
+  ...
+# Subtest: defeated Wade gives source after-battle dialogue and never fights again without a rematch
+ok 143 - defeated Wade gives source after-battle dialogue and never fights again without a rematch
+  ---
+  duration_ms: 8.863708
+  type: 'test'
+  ...
+# Subtest: phone refusal is respected and a later conversation uses the native second offer
+ok 144 - phone refusal is respected and a later conversation uses the native second offer
+  ---
+  duration_ms: 9.882792
+  type: 'test'
+  ...
+# Subtest: loss calls whiteout without defeating the trainer or offering a phone number
+ok 145 - loss calls whiteout without defeating the trainer or offering a phone number
+  ---
+  duration_ms: 1.110125
+  type: 'test'
+  ...
+# Subtest: failed battle host work cannot advance source victory flags
+ok 146 - failed battle host work cannot advance source victory flags
+  ---
+  duration_ms: 1.668
+  type: 'test'
+  ...
+# Subtest: Sprout Tower sage and both Violet Gym trainers complete their non-phone standard paths
+ok 147 - Sprout Tower sage and both Violet Gym trainers complete their non-phone standard paths
+  ---
+  duration_ms: 2.781709
+  type: 'test'
+  ...
+# Subtest: both native double-trainer partners reject one usable Pokémon with their own message
+ok 148 - both native double-trainer partners reject one usable Pokémon with their own message
+  ---
+  duration_ms: 1.603625
+  type: 'test'
+  ...
+# Subtest: double-trainer partner banks retain the proper intro/after message and shared defeat flag
+ok 149 - double-trainer partner banks retain the proper intro/after message and shared defeat flag
+  ---
+  duration_ms: 0.627042
+  type: 'test'
+  ...
+# Subtest: trainer movement mutation is an explicit field host contract
+ok 150 - trainer movement mutation is an explicit field host contract
+  ---
+  duration_ms: 0.816959
+  type: 'test'
+  ...
+# Subtest: hidden-trainer reveal movement resolves last-talked identity in the originating map, not the common bank
+ok 151 - hidden-trainer reveal movement resolves last-talked identity in the originating map, not the common bank
+  ---
+  duration_ms: 4.596791
+  type: 'test'
+  ...
+# Subtest: native explicit trainer flag branches, clearing, and boolean comparison retain source semantics
+ok 152 - native explicit trainer flag branches, clearing, and boolean comparison retain source semantics
+  ---
+  duration_ms: 0.841542
+  type: 'test'
+  ...
+# Subtest: last-interacted flag commands use the native object event identity rather than substituting its trainer number
+ok 153 - last-interacted flag commands use the native object event identity rather than substituting its trainer number
+  ---
+  duration_ms: 0.855042
+  type: 'test'
+  ...
+# Subtest: native phone contacts, gifts and rematch order come from the source tables
+ok 154 - native phone contacts, gifts and rematch order come from the source tables
+  ---
+  duration_ms: 5.109291
+  type: 'test'
+  ...
+# Subtest: a queued native phone gift is consumed once and delivered through the source item script
+ok 155 - a queued native phone gift is consumed once and delivered through the source item script
+  ---
+  duration_ms: 6.487416
+  type: 'test'
+  ...
+# Subtest: an unlocked requested rematch keeps the original trainer context while flagging the new team
+ok 156 - an unlocked requested rematch keeps the original trainer context while flagging the new team
+  ---
+  duration_ms: 4.22775
+  type: 'test'
+  ...
+# Subtest: sight approach consumes explicit field context and awaits the supplied trainer path
+ok 157 - sight approach consumes explicit field context and awaits the supplied trainer path
+  ---
+  duration_ms: 26.0785
+  type: 'test'
+  ...
+# Subtest: approach cannot pretend pathfinding or follower state is implemented without its host hooks
+ok 158 - approach cannot pretend pathfinding or follower state is implemented without its host hooks
+  ---
+  duration_ms: 4.594042
+  type: 'test'
+  ...
+# Subtest: approach context rejects a mismatched source trainer before executing commands
+ok 159 - approach context rejects a mismatched source trainer before executing commands
+  ---
+  duration_ms: 0.996917
+  type: 'test'
+  ...
+# Subtest: the Morty candle operation remains explicit while source guarded no-ops work elsewhere
+ok 160 - the Morty candle operation remains explicit while source guarded no-ops work elsewhere
+  ---
+  duration_ms: 1.18575
+  type: 'test'
+  ...
+1..160
+# tests 160
+# suites 0
+# pass 160
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8290.1295

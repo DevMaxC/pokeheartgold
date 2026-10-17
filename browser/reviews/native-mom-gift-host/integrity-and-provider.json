@@ -1,0 +1,43 @@
+{
+  "verifiedAtUTC": "2026-10-17T16:10:50.362938+00:00",
+  "filesVerified": 1752,
+  "changedOrMissing": [],
+  "extraFiles": [],
+  "sourceIntegrityPassed": true,
+  "actualModelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1739,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001814,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 68,
+      "outputTokens": 15772,
+      "cacheReadInputTokens": 2083399,
+      "cacheCreationInputTokens": 97765,
+      "webSearchRequests": 0,
+      "costUSD": 1.2212168,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 7649,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "isError": false,
+  "turns": 43,
+  "durationMs": 195763,
+  "permissionDenials": [],
+  "rawResultSha256": "eb59eb726be6d73e9a19e302d5a6704487ab0e0113c3ac7340e63a9bf088f0e3",
+  "manifestSha256": "e9ba7abaa5a8379ace75b8830a00bf64b5cafb80b0e82e9ad048ad05308d282c"
+}
