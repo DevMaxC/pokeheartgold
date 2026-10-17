@@ -1,0 +1,11 @@
+Read-only narrow FOLLOWUP of the test-only correction commit99c833c24799dbd856453d527695b69c5fc5afa4, parentdc1e777. Use onlyRead/Grep/Glob. No execution, compiler/test/build/browser or edits.
+CWD is the immutable bounded copied snapshot /tmp/hg-opus-escape-burn-fixture-review/snapshot. Input manifest one directory above pins every provided file and tracked Git blob. All current browser source/tests, relevant nativebattle source/header/constants, relevant original Pokemon/move data and prior exact rawreview are present. before-production contains exactc4 before-runtime source copies. No outside liveworktree input is needed.
+
+Actual previous Opus review (prior-dc1-review.json) found no runtime bug and closed both scoped escape/burn findings, but found an evenPID Rattata RunAway mismatch in the equal/faster C fixture. Inspect actual newtest versus native/personality/data:
+- equal/faster now uses Pidgey, nativeabilityslot0KeenEye, notRunAway;
+- every ordinary runCase explicitly asserts notRunAway and heldItemnull;
+- source extraction now rejects missingmarkers;
+- both runtime files remain byteidentical to dc1 (manifest/receipt pins hashes463cdc... and7ca568...); no ability/helditem/newruntime expansion.
+- New unchanged-final-fixture run against actualc4runtime stillfails5of6; currentbattle-wide run112of112 passes; oldreview/originallogs retained unchanged. Inspect new browser/reviews/native-escape-burn-fixture-correction/ and new fixture actual call chain. Do not claimyouexecutedtests.
+
+Verify the previous confirmed test flaw is actually closed, that all new ordinary fixtures genuinely satisfy the neutral source branch, and that the test-only changes introduce no masking/provenance error. Report any concrete newdefect with exactfile/line and legalnativewitness; separate preexisting unsupported mechanics. If none, stateboundedno newfinding and explicitlyclose/leaveopen originaltestflaw. This does not approve Mom/UI/laterchanges or general battle parity. Preserve honest scope limits. Prior runtime review is context, not automatic approval for new test bytes.

@@ -1,0 +1,13 @@
+{
+  "status": "Runtime scope closed; test-only finding accepted and corrected in separate followup.",
+  "details": "Original evenPID Rattata has RunAway, unlike neutral native stub. Pidgey equal/faster fixture and explicit ability/item guards correct the witness. Original reviewed runtime bytes do not change. Literal extraction guard improved. Raw reviewer findings remain unmodified.",
+  "runtimeFiles": {
+    "browser/src/source/battle.ts": "463cdc3bf01ef959c582d5b5f1de046b1bb06595c61d91f0d97e33df2108766e",
+    "browser/src/source/battle-math.ts": "7ca568cc1242dd36fb38acc83c40662ab71dd3fce13c6b6b18ad254fdf9ce6db"
+  },
+  "limitations": [
+    "Full23,669 tracked dc1 inputs verified unchanged; original temporary before-runtime copies were referenced outside manifest by reviewer. Their committed sourcehash receipt remains available and originals have not been edited.",
+    "No tests/builds/browser performed by Opus. Agent separately ran corrected negative and112tests/TSC.",
+    "Mom savings and later volatility/UI features are not covered."
+  ]
+}

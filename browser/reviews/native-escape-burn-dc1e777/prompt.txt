@@ -1,0 +1,21 @@
+Perform an independent READ-ONLY narrow correctness review of commit dc1e777aec8e379a23fed7b92e749f1d6f195f48 against production base c4c627e1622a9ce70843d55110ac7f66c1dfc76f. Use Read/Grep/Glob only. Do not edit files, execute tests/builds/compiler commands, browse, or assume previous review approval applies.
+
+EXACT INPUT
+Your working directory is /Users/maxchurch/Documents/pokeheartgold-opus-escape-burn-dc1e777, a clean detached copy of exact dc1e777. All tracked native/browser code and data are available. Regular tracked files are non-writable. Full per-file Git blob/SHA256 manifest and invocation metadata are in /tmp/hg-opus-escape-burn-dc1e777-review/.
+
+PATCH/SCOPE
+- Runtime changes only browser/src/source/battle.ts and battle-math.ts: ordinary wild escape ordering/unsigned byte arithmetic and physical burn-before-final+2.
+- New browser/src/source/battle-escape-burn.test.ts compiles literal extracted native C branches using neutral stubs and exercises actual Battle.start/attack. It is a host-C oracle fixture, not full original NDS execution.
+- Committed browser/reviews/native-escape-burn/{receipt.json,before.json,after.log,battle-suite.log} preserves exact production-negative5/6fail, fixed6/6pass and battle-wide112/112 provenance. before.json stores the exact raw TAP stdout as a JSON string to avoid whitespace-only diff failures. You cannot rerun tests with your restricted tools; inspect the fixture/provenance for validity.
+- The previous broad actual Opus review on f21d568 identified the two defects. That review is neither approval nor proof for this new commit. Do not preconclude the fix correct.
+- No Mom savings, rival crit, gender, UI/main/World, new volatile state, new moves/abilities/items or Unsupported guard changes belong to this patch. Later branches are not reviewed here.
+
+REVIEW QUESTIONS
+1. Check actual original src/battle/battle_util.c BattleTryRun and include/battle/battle.h runAttempts storage. Verify equal/faster raw speed versus effective speed, source attempt increment timing, byte wrap of BOTH local odds and saved counter, random draw consumption/branch order, trainer refusal, and whether the fix changes any other actual supported path.
+2. Check original CalcMoveDamage's physical burn division, integer truncation and final+2 in the supported neutral-modifier case. Verify unchanged unburned/special and downstream critical/random/STAB/type paths remain so. Distinguish existing unported Guts/screens/weather mechanics from defects introduced or misfixed here; do not demand new unsupported features under this narrow patch.
+3. Inspect actual Battle.start/loop/attack call chains and relevant existing tests for turn-phase/action-end/Rage/XP/view-callback regressions. Avoid shallow helper-only reasoning.
+4. Inspect the native-C oracle itself: literal extraction, C type widths, neutral stubs, legal exported Pokemon/move fixtures, RNG boundaries, rollback-on-observation test behavior, before/fixed file hashes and test claims. Is it testing the actual port path and native behavior, or could a fixture mask a real defect? Flag concrete flaws with consequences.
+5. Treat broader completeness limits honestly. No new general native battle parity claim is made. No browser or original ROM was used. Do not infer live/visual performance or release readiness from these tests.
+
+OUTPUT
+Prioritized CONFIRMED findings with exact file/line, reachable legal witness, expected native source evidence, and a focused fix/verification. Separately label plausible concerns needing execution and existing out-of-scope gaps. If no new defects are confirmed, state that plainly but bound the conclusion to actual read files and exact dc1e777. Include a coverage/limits paragraph and whether the two original findings are closed, partially closed, or still open with concrete evidence. Never claim you ran tests.
