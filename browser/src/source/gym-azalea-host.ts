@@ -30,6 +30,9 @@ export type AzaleaGymAudio={
   * on the next task poll at which that native player is idle.
   * Source/config absence belongs to prepare's error. */
  switch1561:(signal:AbortSignal)=>Promise<AzaleaSEOutcome>;
+ /** Literal IsSEPlaying samples the whole native PLAYER at EACH scripts
+  * poll. A resolved Promise cannot latch an earlier idle interval. */
+ isPlayerIdle:(id:1561)=>boolean;
  robot2171:(owner:object)=>AzaleaSEOutcome;stop2171:(owner:object,fade:1)=>void;
 };
 export type AzaleaGymFieldPorts={
@@ -117,13 +120,13 @@ export class AzaleaGymHost{
   return new Promise<void>((resolve,reject)=>{const abort=()=>this.finishJob(reason(signal));this.job={count,index:0,frame,signal,resolve,reject,detach:()=>signal.removeEventListener('abort',abort)};signal.addEventListener('abort',abort,{once:true});if(signal.aborted)abort();});
  };
  private riders(){if(typeof this.ports?.actors!=='function'||typeof this.ports.followerMoving!=='function')throw Error('Azalea requires original actor/follower admission');const riders=this.ports.actors();requireActor(riders.player);if(riders.follower)requireActor(riders.follower);return riders;}
- private audio(){const audio=this.ports?.audio;if(!audio||['prepare','switch1561','robot2171','stop2171'].some(key=>typeof audio[key as keyof AzaleaGymAudio]!=='function'))throw Error('Azalea requires native SE1561/2171 audio transport');return audio;}
+ private audio(){const audio=this.ports?.audio;if(!audio||['prepare','switch1561','isPlayerIdle','robot2171','stop2171'].some(key=>typeof audio[key as keyof AzaleaGymAudio]!=='function'))throw Error('Azalea requires native SE1561/2171 audio transport');return audio;}
  private soundResult(id:1561|2171,outcome:AzaleaSEOutcome){if(!outcome||outcome.kind!=='voice'&&(outcome.kind!=='no-voice'||typeof outcome.detail!=='string'||!outcome.detail.trim()))throw Error('Native Azalea audio must report voice or diagnosed technical no-voice');this.soundResults.set(id,{...outcome});}
  private async switchSound(audio:AzaleaGymAudio,scope:NativeFieldTaskScope,signal:AbortSignal,ownerSignal:AbortSignal){
-  check(signal);let done=false,outcome:AzaleaSEOutcome|undefined,error:unknown,failed=false;
-  const sound=Promise.resolve(audio.switch1561(signal)).then(value=>{outcome=value;done=true;},reason=>{error=reason;failed=true;done=true;});
+  check(signal);const completionOwner=new AbortController(),soundSignal=AbortSignal.any([signal,completionOwner.signal]);let done=false,outcome:AzaleaSEOutcome|undefined,error:unknown,failed=false;
+  const sound=Promise.resolve(audio.switch1561(soundSignal)).then(value=>{outcome=value;done=true;},reason=>{error=reason;failed=true;done=true;});
   const pending=this.external.get(ownerSignal);if(!pending)throw Error('Unowned Azalea audio completion');pending.add(sound);
-  try{do{await scope.waitFrames(1,signal);check(signal);}while(!done);if(failed)throw error;this.soundResult(1561,outcome!);}finally{await sound;pending.delete(sound);}
+  try{for(;;){await scope.waitFrames(1,signal);check(signal);const idle=audio.isPlayerIdle(1561);check(signal);if(typeof idle!=='boolean')throw Error('Native Azalea audio requires a live PLAYER idle boolean');if(failed)throw error;if(done&&idle)break;}this.soundResult(1561,outcome!);}catch(error){completionOwner.abort(error);throw error;}finally{await sound;pending.delete(sound);}
  }
  private sameRiders(riders:Riders){if(!this.active)return false;const now=this.ports.actors();return this.active&&now.player===riders.player&&now.follower===riders.follower;}
  private assertRiders(riders:Riders,signal:AbortSignal){this.assertCurrent(signal);if(!this.sameRiders(riders))throw Error('Azalea live rider identities changed');}

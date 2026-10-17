@@ -32,7 +32,7 @@ async function setup(withFollower=true){
  let followerMoving=false,activePlayer:AzaleaFieldActor,activeFollower:AzaleaFieldActor|null;
  function actor(role:string,p:AzaleaFieldPoint):AzaleaFieldActor{let facing=0;return{position:()=>({...p}),facing:()=>facing,place:next=>{Object.assign(p,next);events.push({role,place:{...p},tick:clock.tick});},settle:next=>{Object.assign(p,next);events.push({role,settle:{...p},tick:clock.tick});},face:next=>{facing=next;events.push({role,face:next,tick:clock.tick,phase:clock.phase});},movement:value=>{events.push({role,movement:value,tick:clock.tick});}};}
  activePlayer=actor('player',{x:state.x,y:0,z:state.z});activeFollower=withFollower?actor('follower',{x:state.x,y:0,z:state.z+1}):null;
- const audio:AzaleaGymAudio={prepare:async(ids,signal)=>{signal.throwIfAborted();events.push({prepare:ids});},switch1561:async signal=>{signal.throwIfAborted();events.push('switch1561');return{kind:'voice'};},robot2171:owner=>{events.push({robot:true,owner,tick:clock.tick});return{kind:'voice'};},stop2171:(owner,fade)=>{events.push({robot:false,owner,fade,tick:clock.tick});}};
+ const audio:AzaleaGymAudio={isPlayerIdle:()=>true,prepare:async(ids,signal)=>{signal.throwIfAborted();events.push({prepare:ids});},switch1561:async signal=>{signal.throwIfAborted();events.push('switch1561');return{kind:'voice'};},robot2171:owner=>{events.push({robot:true,owner,tick:clock.tick});return{kind:'voice'};},stop2171:(owner,fade)=>{events.push({robot:false,owner,fade,tick:clock.tick});}};
  const ports={actors:()=>({player:activePlayer,follower:activeFollower}),followerMoving:()=>followerMoving,audio};
  const host=new AzaleaGymHost(world,state,clock,ports,resources);await host.enter(map,'warp');
  const context={map,signal:new AbortController().signal};
@@ -171,4 +171,20 @@ test('a superseded asynchronous room load never publishes an incoming field cart
 test('failed late resources are quiet for superseded entry and disposal still completes',async()=>{
  let reject!:(reason:unknown)=>void;const state={map:180,x:3.5,z:32.5,facing:0}as State,world={scene:new THREE.Scene(),fieldMapID:180,azaleaGym:null,setAzaleaCameraOffset:()=>{}}as AzaleaGymHostWorld,clock=new NativeFieldClock({field:()=>({map:world.fieldMapID,mapRunning:true}),onError:error=>{throw error;}}),host=new AzaleaGymHost(world,state,clock,{}as any,()=>new Promise((_resolve,failed)=>{reject=failed;}));
  const entry=host.enter(map),disposed=host.dispose();reject(Error('native asset IO failed after unload'));await entry;await disposed;assert.equal(world.scene.children.length,0);assert.equal(world.azaleaGym,null);assert.equal(clock.waiting,0);clock.dispose();
+});
+
+test('live PLAYER3 is sampled every scripts poll when a new sequence starts after completion promise resolves',async()=>{
+ const h=await setup(false);try{let complete!:(value:any)=>void,called=false,idle=true;const polls:{tick:number;phase:string;idle:boolean}[]=[];h.audio.switch1561=()=>{called=true;return new Promise(resolve=>{complete=resolve;});};(h.audio as any).isPlayerIdle=(id:number)=>{assert.equal(id,1561);polls.push({tick:h.clock.tick,phase:h.clock.phase,idle});return idle;};const pending=h.host.flipSwitch(0,h.context);pending.catch(()=>{});for(let i=0;!called&&i<5;i++)await h.frame();assert.equal(called,true);complete({kind:'voice'});for(let i=0;i<5;i++)await Promise.resolve();idle=false;await h.frame();await h.frame();assert.equal(h.host.moving,true,'a new PLAYER3 sequence after promise resolution MUST retain source WaitSE');assert.ok(polls.some(value=>value.idle===false));assert.ok(polls.every(value=>value.phase==='scripts'));idle=true;await h.until(pending);assert.equal(h.host.moving,false);assert.ok(polls.at(-1)!.idle);assert.equal(new Set(polls.map(value=>value.tick)).size,polls.length);
+ }finally{await h.dispose();}
+});
+
+test('missing live native PLAYER query rejects before source switch mutation',async()=>{
+ const h=await setup(false);try{const before=clone(h.state.gymmick);delete(h.audio as any).isPlayerIdle;await assert.rejects(h.host.flipSwitch(0,h.context),/SE1561\/2171/);assert.deepEqual(h.state.gymmick,before);}finally{await h.dispose();}
+});
+test('invalid live PLAYER query is explicit and rolls back; unload during query cannot complete stale switch',async()=>{
+ const h=await setup(false);try{(h.audio as any).isPlayerIdle=()=>undefined;await assert.rejects(h.until(h.host.flipSwitch(0,h.context)),/idle boolean/);assert.deepEqual(h.state.gymmick,{kind:'azalea',...initialAzaleaGymState()});h.audio.isPlayerIdle=()=>{h.host.leave();return true;};await assert.rejects(h.until(h.host.flipSwitch(0,h.context)));assert.equal(h.host.moving,false);}finally{await h.dispose();}
+});
+
+test('throwing live query aborts and drains still-pending sound before rejecting action',async()=>{
+ const h=await setup(false);try{let started=false,cancelled=false,release!:(()=>void),rejected=false;h.audio.switch1561=signal=>new Promise((_resolve,reject)=>{started=true;signal.addEventListener('abort',()=>{cancelled=true;release=()=>reject(signal.reason);},{once:true});});h.audio.isPlayerIdle=()=>{throw Error('Live query failed');};const pending=h.host.flipSwitch(0,h.context);pending.catch(()=>{rejected=true;});for(let i=0;!cancelled&&i<8;i++)await h.frame();assert.equal(started,true);assert.equal(cancelled,true);assert.equal(rejected,false,'sound finalizer is still explicitly owned');release();await assert.rejects(pending,/Live query failed/);assert.equal(h.host.moving,false);assert.deepEqual(h.state.gymmick,{kind:'azalea',...initialAzaleaGymState()});}finally{await h.dispose();}
 });
