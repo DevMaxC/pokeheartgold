@@ -11,10 +11,14 @@ export function actorActive(actor:TrainerActor,state:State){return actor.shown??
 function sightType(actor:TrainerActor){const type=actor.type??0;return type>=4&&type<=8?1:type;}
 function trainerScript(data:GameData,map:SourceMap,actor:TrainerActor){const script=String(actor.scriptId),match=script.match(/^std_trainer(_2)?\((\w+)\)$/);return match?(map.constants[match[2]]??data.constants[match[2]])-1+(match[1]?5000:3000):Number(actor.scriptId);}
 export class MissingTrainerPartner extends Error{constructor(readonly object:string){super(`Missing native double-trainer partner for ${object}`);}}
+export type TrainerAttemptSnapshot=Readonly<{location:string;attempts:readonly string[]}>;
 /** Failure suppression is field runtime state, deliberately outside saves and
- * rollback. A broken source encounter reports once, then permits walking out. */
+ * automatic rollback. A broken source encounter reports once, then permits
+ * walking out. Only explicit Retry restores the pre-outer-action snapshot. */
 export class TrainerAttemptLatch{
  private location='';private attempts=new Set<string>();
+ snapshot():TrainerAttemptSnapshot{return Object.freeze({location:this.location,attempts:Object.freeze([...this.attempts])});}
+ restore(snapshot:TrainerAttemptSnapshot){this.location=snapshot.location;this.attempts=new Set(snapshot.attempts);}
  observe(state:Pick<State,'map'|'x'|'z'>){const location=`${state.map}:${Math.floor(state.x)},${Math.floor(state.z)}`;if(location!==this.location){this.location=location;this.attempts.clear();}}
  admit(state:Pick<State,'map'|'x'|'z'>,key:string){this.observe(state);if(this.attempts.has(key))return false;this.attempts.add(key);return true;}
 }
