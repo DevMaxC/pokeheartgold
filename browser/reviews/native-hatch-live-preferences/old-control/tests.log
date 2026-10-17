@@ -1,0 +1,91 @@
+TAP version 13
+# (node:885) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: live preference read: muted preparation admits no delayed BGM; later unmute admits original cry and prepared fanfare
+not ok 1 - live preference read: muted preparation admits no delayed BGM; later unmute admits original cry and prepared fanfare
+  ---
+  duration_ms: 4.214
+  type: 'test'
+  location: '/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:143:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:146:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: live preference read: mute during original cry decode prevents late start without cancelling subsequent phases
+not ok 2 - live preference read: mute during original cry decode prevents late start without cancelling subsequent phases
+  ---
+  duration_ms: 2205.394208
+  type: 'test'
+  location: '/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:151:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:153:296)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: live preference read: hatch begun muted can admit its future original fanfare after unmute without replaying BGM
+not ok 3 - live preference read: hatch begun muted can admit its future original fanfare after unmute without replaying BGM
+  ---
+  duration_ms: 0.7645
+  type: 'test'
+  location: '/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:157:1'
+  failureType: 'testCodeFailure'
+  error: 'later unmuted fanfare completed before its fixture barrier'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    <anonymous> (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:22:69)
+    async admitted (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:22:13)
+    async TestContext.<anonymous> (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:159:58)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: live preference read: recovery retry while muted releases hatch ownership without reviving field over a later battle
+not ok 4 - live preference read: recovery retry while muted releases hatch ownership without reviving field over a later battle
+  ---
+  duration_ms: 13.022125
+  type: 'test'
+  location: '/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:180:1'
+  failureType: 'testCodeFailure'
+  error: 'Tap or press a key to unlock native game sound'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    actualContext (/private/tmp/hg-live-hatch-old-control/browser/src/source/field-music.ts:78:103)
+    Object.sharedAudioOutput (/private/tmp/hg-live-hatch-old-control/browser/src/source/field-music.ts:158:62)
+    Object.sharedAudioOutput (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:181:216)
+    <anonymous> (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio-old.ts:78:234)
+    Array.retryRestore (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio-old.ts:78:703)
+    TestContext.<anonymous> (/private/tmp/hg-live-hatch-old-control/browser/src/source/hatch-host-audio.test.ts:182:272)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2916.381458

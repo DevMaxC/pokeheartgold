@@ -1,0 +1,88 @@
+{
+  "cells": [
+    {
+      "cell": [
+        19,
+        5
+      ],
+      "asset": "land/103-8.glb",
+      "upwardTriangles": 36654,
+      "upwardBytesIdentical": true,
+      "floorRays": 1024,
+      "entryRays": 24,
+      "cameraRays": 864,
+      "jointTriangles": 0
+    },
+    {
+      "cell": [
+        17,
+        12
+      ],
+      "asset": "land/5-2.glb",
+      "upwardTriangles": 7968,
+      "upwardBytesIdentical": true,
+      "floorRays": 723,
+      "entryRays": 120,
+      "cameraRays": 864,
+      "jointTriangles": 0
+    },
+    {
+      "cell": [
+        21,
+        10
+      ],
+      "asset": "land/210-0.glb",
+      "upwardTriangles": 2200,
+      "upwardBytesIdentical": true,
+      "floorRays": 1024,
+      "entryRays": 0,
+      "cameraRays": 0,
+      "jointTriangles": 0
+    }
+  ],
+  "strictCameraChanges": [
+    {
+      "origin": [
+        624.5,
+        4.82578125,
+        180.5
+      ],
+      "direction": [
+        -0.46053049700144266,
+        0.3894183423086505,
+        -0.797662219241445
+      ],
+      "before": {
+        "mesh": "source-terrace-surface",
+        "distance": 5.292809088368295,
+        "point": [
+          622.0625,
+          6.886898191348539,
+          176.27812615655085
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ]
+      },
+      "after": {
+        "mesh": "source-terrace-surface",
+        "distance": 5.292809088368294,
+        "point": [
+          622.0625,
+          6.886898191348538,
+          176.27812615655085
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ]
+      },
+      "classification": "changed native vertical source deformation; exact rays retained, not a blanket regression exemption"
+    }
+  ],
+  "strictChangeCount": 1,
+  "interpretation": "One strict floating-point point difference on the same X622.0625 source-wall plane; both normals [1,0,0]. Raw strict count remains1, not zero. This bounded sample does not establish global camera invariance."
+}

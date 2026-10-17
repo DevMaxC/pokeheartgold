@@ -1,0 +1,98 @@
+[
+  {
+    "pose": "route44-corner",
+    "sameRequestedAndCamera": true,
+    "candidateMode": "candidate",
+    "productionMode": "production",
+    "walkable": true,
+    "streamedCells": 25,
+    "candidateJoints": 0,
+    "differentPixelsBelowStatus": 188746,
+    "differenceBBoxBelowStatus": [
+      0,
+      0,
+      1280,
+      740
+    ],
+    "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+    "maximumPerChannelDifference": [
+      3,
+      3,
+      2
+    ],
+    "pixelsAbove16ChannelDifference": 0,
+    "pixelsAbove64ChannelDifference": 0
+  },
+  {
+    "pose": "route44-entry",
+    "sameRequestedAndCamera": true,
+    "candidateMode": "candidate",
+    "productionMode": "production",
+    "walkable": true,
+    "streamedCells": 25,
+    "candidateJoints": 0,
+    "differentPixelsBelowStatus": 256653,
+    "differenceBBoxBelowStatus": [
+      0,
+      0,
+      1280,
+      740
+    ],
+    "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+    "maximumPerChannelDifference": [
+      3,
+      3,
+      3
+    ],
+    "pixelsAbove16ChannelDifference": 0,
+    "pixelsAbove64ChannelDifference": 0
+  },
+  {
+    "pose": "route44-side",
+    "sameRequestedAndCamera": true,
+    "candidateMode": "candidate",
+    "productionMode": "production",
+    "walkable": true,
+    "streamedCells": 25,
+    "candidateJoints": 0,
+    "differentPixelsBelowStatus": 334484,
+    "differenceBBoxBelowStatus": [
+      0,
+      0,
+      1280,
+      740
+    ],
+    "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+    "maximumPerChannelDifference": [
+      12,
+      8,
+      8
+    ],
+    "pixelsAbove16ChannelDifference": 0,
+    "pixelsAbove64ChannelDifference": 0
+  },
+  {
+    "pose": "cherrygrove-outdoor",
+    "sameRequestedAndCamera": true,
+    "candidateMode": "candidate",
+    "productionMode": "production",
+    "walkable": true,
+    "streamedCells": 21,
+    "candidateJoints": 0,
+    "differentPixelsBelowStatus": 583297,
+    "differenceBBoxBelowStatus": [
+      0,
+      0,
+      1280,
+      740
+    ],
+    "limits": "Pixel differences are a diagnostic only, not a geometry or GPU performance approval.",
+    "maximumPerChannelDifference": [
+      3,
+      3,
+      3
+    ],
+    "pixelsAbove16ChannelDifference": 0,
+    "pixelsAbove64ChannelDifference": 0
+  }
+]

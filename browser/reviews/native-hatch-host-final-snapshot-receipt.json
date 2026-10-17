@@ -1,0 +1,29 @@
+{
+  "parentCommit": "624ba1493d233aadee276895d5a4ea02f74af363",
+  "snapshot": "/tmp/hg-hatch-host-final-review-624ba14",
+  "inputCount": 240,
+  "allSourceBeforeAfterAndCopyHashesVerified": true,
+  "nativeMusicWaveformAndArchiveHashesVerified": true,
+  "nativeSequenceBankWaveSlicesVerified": 6,
+  "criticalHashes": {
+    "browser/src/source/main.ts": "0acddf79996e4f998fbc80b2fca6145e54a967324e55706b916955acae3935c7",
+    "browser/src/source/script.ts": "fa6a547e776f91dc5921b5c1f97f9ac78ab1d94db874efe210c2e74e8b3142e0",
+    "browser/src/source/egg-hatch-presentation.ts": "d21b35dc2af31e062755ff567af45a7eca522c8f970cae7618e2d1becb12269d",
+    "browser/src/source/egg-field-main.test.ts": "c048e769cc7f73da73e794ff58da4524e1ccedd99daec2fb13f11b55e1a32504",
+    "browser/src/source/egg-hatch-integration.test.ts": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+    "browser/src/source/egg-hatching.ts": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905",
+    "browser/src/source/egg-hatch-view.ts": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+    "browser/src/source/ui.ts": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+    "browser/src/source/script-recovery.ts": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+    "browser/src/source/hatch-music.ts": "f5d07a88c34cf13b60b685a7a3c56b552f38591551e9202d57deffb10462c531",
+    "browser/src/source/hatch-music.test.ts": "cf1211a8074556e7abea70dd3f94b6bb4cf6aa131e076ed2978477c48c971939"
+  },
+  "qualifications": [
+    "Review actual root host F1/F2 fix and enabled/muted factory/ownership/cancellation against frozen f69 module.",
+    "Current root factory supplies no field music port; effective state is no preexisting track. General field/radio/surf music not implemented.",
+    "Known dormant FUTURE injected-field identity-change cleanup branch has separate tiny owner fix pending; not approved by this snapshot. Later module fingerprint needs separate qualification/review.",
+    "Later phone-core ScriptVM or host edits after this copy are NOT approved.",
+    "Native music is emulated SSEQ/bank/sample rendering, not hardware/DAC bit-exact output. Renderer-engine review is separately owned; do not transfer that approval.",
+    "No browser/build/live audio listening by this agent. Parent reports55target+TSC pass at624ba14."
+  ]
+}

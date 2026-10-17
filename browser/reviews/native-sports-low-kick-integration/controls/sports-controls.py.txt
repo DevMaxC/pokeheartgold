@@ -1,0 +1,25 @@
+from pathlib import Path
+import shutil,subprocess,json,hashlib,datetime
+root=Path('/Users/maxchurch/Documents/pokeheartgold-azalea-battles');frozen=Path('/tmp/hg-battle-sports-review-a169413d');manifest=json.loads((frozen/'manifest.json').read_text());results=[]
+for kind in ['old-aeb','no-power-halving','wrong-Blaze-order','no-leave-cleanup']:
+ out=Path('/tmp/hg-battle-sports-control-v2-'+kind);out.mkdir(exist_ok=False)
+ for row in manifest['inputs']:
+  if row.get('evidenceOnly'): continue
+  rel=row['path'];q=out/rel;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((frozen/rel).read_bytes())
+ extra=out/'browser/public/source/messages/302.json';extra.parent.mkdir(parents=True,exist_ok=True);extra.write_bytes(subprocess.check_output(['git','show','a169413d:browser/public/source/messages/302.json'],cwd=root))
+ p=out/'browser/src/source/battle.ts';m=out/'browser/src/source/battle-math.ts'
+ if kind=='old-aeb':
+  for rel in ['browser/src/source/battle.ts','browser/src/source/battle-math.ts']:(out/rel).write_bytes(subprocess.check_output(['git','show','aeb61e0e:'+rel],cwd=root))
+ elif kind=='no-power-halving':
+  s=m.read_text();s=s.replace('if(move.type===data.constants.TYPE_ELECTRIC&&context.mudSport||move.type===data.constants.TYPE_FIRE&&context.waterSport)power=Math.floor(power/2);','');m.write_text(s)
+ elif kind=='wrong-Blaze-order':
+  s=m.read_text();line='  if(move.type===data.constants.TYPE_ELECTRIC&&context.mudSport||move.type===data.constants.TYPE_FIRE&&context.waterSport)power=Math.floor(power/2);\n';assert s.count(line)==1;s=s.replace(line,'');anchor='  let damage=Math.floor(Math.floor((Math.floor(attacker.level*2/5)+2)*power*attack/defense)/50);';s=s.replace(anchor,line+anchor);m.write_text(s)
+ elif kind=='no-leave-cleanup':
+  s=p.read_text().replace('this.mudSport.delete(mon);this.waterSport.delete(mon);','');p.write_text(s)
+ run=subprocess.run(['node','--experimental-transform-types','--test','browser/src/source/battle-sports.test.ts'],cwd=out,capture_output=True,text=True);log=Path('/tmp/hg-battle-sports-control-v2-'+kind+'.log');log.write_text(run.stdout+run.stderr)
+ result={'control':kind,'exitCode':run.returncode,'log':str(log),'logSha256':hashlib.sha256(log.read_bytes()).hexdigest(),'expectedFailureDetected':run.returncode!=0};results.append(result)
+ assert run.returncode!=0,kind+' unexpectedly survived'
+ assert 'ENOENT' not in run.stdout+run.stderr and 'ERR_MODULE_NOT_FOUND' not in run.stdout+run.stderr,kind+' infrastructure error'
+ assert '# pass 0' not in run.stdout,kind+' did not execute meaningful tests'
+ print(json.dumps(result),flush=True)
+Path('/tmp/hg-battle-sports-controlled-regressions-v2.json').write_text(json.dumps({'sourceCommit':manifest['commit'],'createdAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'qualification':'Same new13 source/action tests against literal previous aeb engine or one controlled incorrect algorithm. These are failing negative controls, not current defects. No global gameplay RNG or production claim.','controls':results},indent=2)+'\n')

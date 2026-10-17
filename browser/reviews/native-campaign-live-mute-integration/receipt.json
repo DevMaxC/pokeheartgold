@@ -1,0 +1,20 @@
+{
+  "head": "3e5ca022",
+  "runId": 39059267640,
+  "result": {
+    "tests": 1414,
+    "pass": 1409,
+    "fail": 5,
+    "cancelled": 0
+  },
+  "rawLogSHA256": "7b1313aee5a8139796c2be4755e2d22f6952223c9b798dcfc7cd4edac22814a1",
+  "diagnosis": [
+    "Egg fixture enabled only State.options.sound while the live source uses global preferences; it also compared the new getter as a boolean.",
+    "Violet and party recovery fixtures omitted the now-required preferences global.",
+    "Item pickup fixture provided text speed but omitted music, producing undefined in its synthetic context."
+  ],
+  "correction": "Only fixture globals updated to actual preference getter contract; no runtime gate, State expectation or recovery assertion weakened. Native World.enter stays its reviewed six-argument API in this campaign baseline.",
+  "correctedTarget": "48/48 actual Main Egg/Violet/item/party tests pass; immutable log retained",
+  "runtimeMain": "6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee",
+  "laterReleaseValidation": "Final combined suite/CI/build still required after reviewed canonical terrain dependency."
+}

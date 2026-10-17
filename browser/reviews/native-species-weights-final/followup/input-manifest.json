@@ -1,0 +1,281 @@
+{
+  "base": "405d0c32f1e2ba61bded3813f5c7b2c67452ab60",
+  "scope": [
+    "browser/scripts/export_species_weights.py",
+    "browser/src/source/battle-weight.ts",
+    "browser/src/source/battle-weight.test.ts",
+    "browser/src/source/species-weights-data.ts",
+    "browser/src/source/data.ts",
+    "browser/src/source/types.ts"
+  ],
+  "previousManifestSHA256": "b26a36b7bdedd6e766154210f052d70dc74da7aac32050b3d2f7e819441529dc",
+  "snapshotRoot": "/tmp/hg-opus-native-weights-followup/snapshot",
+  "createdUTC": "2026-10-17T17:20:41.658005+00:00",
+  "files": [
+    {
+      "path": "asm/overlay_12_battle_command.s",
+      "bytes": 16186,
+      "sha256": "607de6521413ab1f319186b6c4cce09d399107ff1e3db1a09ff34bfab5ec777d"
+    },
+    {
+      "path": "browser/package.json",
+      "bytes": 462,
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251"
+    },
+    {
+      "path": "browser/public/source/constants.json",
+      "bytes": 456675,
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+    },
+    {
+      "path": "browser/public/source/encounters.json",
+      "bytes": 294629,
+      "sha256": "7aa85c587bc597a5c7744e73b50fd9fd4b30eeee7497597ac438880d1ece6789"
+    },
+    {
+      "path": "browser/public/source/growth.json",
+      "bytes": 5089,
+      "sha256": "bb55edcd45f93b88cf2f2ea73586a734969ec3ccf20a803a54e2d1d57991f34c"
+    },
+    {
+      "path": "browser/public/source/index.json",
+      "bytes": 99556,
+      "sha256": "8b1ef89441ecdcb3b55f44c882019753bb5c30cdefe44a69cb2a8e25af1f0f95"
+    },
+    {
+      "path": "browser/public/source/initial-state.json",
+      "bytes": 5622,
+      "sha256": "2f7cebdd8dea69d12849c7c58c323e2291805e93503488954c4a9d3f2c70ac64"
+    },
+    {
+      "path": "browser/public/source/intro-messages.json",
+      "bytes": 5146,
+      "sha256": "8c0d3283ebf62c6cc1ecf5b68832311f64284197d5b15eccde9d6f4a0559479f"
+    },
+    {
+      "path": "browser/public/source/items.json",
+      "bytes": 663829,
+      "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab"
+    },
+    {
+      "path": "browser/public/source/learnsets.json",
+      "bytes": 158647,
+      "sha256": "b3364190eb81d410021602c6ee963fd2fc0849448b954ef7fe345b7e35887d00"
+    },
+    {
+      "path": "browser/public/source/messages/302.json",
+      "bytes": 8527,
+      "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+    },
+    {
+      "path": "browser/public/source/moves.json",
+      "bytes": 72416,
+      "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb"
+    },
+    {
+      "path": "browser/public/source/names.json",
+      "bytes": 78183,
+      "sha256": "c14bc3f85810a0b6a66882362d1edfe08f0dc0a99012c2eff5fbfe73694ab922"
+    },
+    {
+      "path": "browser/public/source/pokemon.json",
+      "bytes": 310681,
+      "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d"
+    },
+    {
+      "path": "browser/public/source/sprites.json",
+      "bytes": 109079,
+      "sha256": "d9f9a472f53b935cdde6e6e6f310001d99d2588aa4b2864c7033d0a2bf522955"
+    },
+    {
+      "path": "browser/public/source/trainers.json",
+      "bytes": 611888,
+      "sha256": "da80e4f5746d0ed0d49caeae63a35f70b96b7b32f5fdc929b006c46cdb94d7e2"
+    },
+    {
+      "path": "browser/public/source/type-chart.json",
+      "bytes": 1228,
+      "sha256": "bd67a8c53c54cc682d4008c73dfdfce2551234ec0933a6ae39e0430256895e66"
+    },
+    {
+      "path": "browser/scripts/export_species_weights.py",
+      "bytes": 6506,
+      "sha256": "33e5c9098c8d58d5a2fdcd9d413ef7c62d29be40f647d693e4db305d1d5cd225"
+    },
+    {
+      "path": "browser/scripts/import_source.py",
+      "bytes": 17214,
+      "sha256": "0aa744773f0cf7e2498e2cadb02384e3e666b8bae1e1141676b38d2238556820"
+    },
+    {
+      "path": "browser/src/source/battle-weight.test.ts",
+      "bytes": 13299,
+      "sha256": "9132660b14ac610bd26224a0b1a037a25a0d3e81f3ac11ed594e4c3797baa830"
+    },
+    {
+      "path": "browser/src/source/battle-weight.ts",
+      "bytes": 4039,
+      "sha256": "85040d93469f6dc25c21d1b679c314e7cfe5a4c06aefaa78c7b920eef4af2ba1"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "bytes": 5051,
+      "sha256": "28bc41b2f0f63478863ad6d54ebb62b2cbdd3f003a731e21097e28dff9dc7174"
+    },
+    {
+      "path": "browser/src/source/gender.ts",
+      "bytes": 909,
+      "sha256": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6"
+    },
+    {
+      "path": "browser/src/source/mystery-gifts.ts",
+      "bytes": 2673,
+      "sha256": "7f08092031440aea353d43bba36351b5e545beff1d2a064a4f58073e793d97e4"
+    },
+    {
+      "path": "browser/src/source/native-rng.ts",
+      "bytes": 686,
+      "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e"
+    },
+    {
+      "path": "browser/src/source/species-weights-data.ts",
+      "bytes": 14943,
+      "sha256": "62a55af2a84085f0c30399675429317f0a670d0410da4782f0dbd6c6ed31bb05"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "bytes": 5537,
+      "sha256": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378"
+    },
+    {
+      "path": "browser/tsconfig.json",
+      "bytes": 249,
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0"
+    },
+    {
+      "path": "files/application/zukanlist/zkn_data/zukan_data.json",
+      "bytes": 533651,
+      "sha256": "c870dd6d4f15830c6e07b3eef69b8934d5d11eb1dac19e9e989b5a24f61826f5"
+    },
+    {
+      "path": "files/application/zukanlist/zkn_data/zukan_data.json.txt",
+      "bytes": 3724,
+      "sha256": "350a4ccaa76569d32af31f2a40963a9f6323b8c2bf4827824ae9655787aeccb9"
+    },
+    {
+      "path": "files/application/zukanlist/zkn_data/zukan_data.mk",
+      "bytes": 744,
+      "sha256": "95a4b9f0b6e054f1462486c59ccad8ba92975012acb16f681bbef1dddada0389"
+    },
+    {
+      "path": "files/poketool/personal/personal.json",
+      "bytes": 649411,
+      "sha256": "8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"
+    },
+    {
+      "path": "filesystem.mk",
+      "bytes": 17558,
+      "sha256": "ecaf98935a35a5993cf4a752be66fdbf588f3346c5b816c51c1fc83816a99394"
+    },
+    {
+      "path": "include/battle/battle.h",
+      "bytes": 17444,
+      "sha256": "9c2756995e70841638e06052751e46693518b86a4904e9ccaa7e37d1da3dd972"
+    },
+    {
+      "path": "include/constants/pokemon.h",
+      "bytes": 19409,
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+    },
+    {
+      "path": "include/constants/species.h",
+      "bytes": 16128,
+      "sha256": "a72ce01027d83aabd9ff61dc8f3afbbf43eee30b25c39b6e23ed42c5ac587732"
+    },
+    {
+      "path": "include/dex_mon_measures.h",
+      "bytes": 1667,
+      "sha256": "eb07c2565271868e63e40cd7d8f902ef562de579d80260955e8ebbe3ccf22949"
+    },
+    {
+      "path": "include/filesystem_files_def.h",
+      "bytes": 11879,
+      "sha256": "871b6abe3fb53e5ff810bb0b0680f2e305daff9670565e4d3eb9c13aebc3c5cf"
+    },
+    {
+      "path": "src/battle/battle_command.c",
+      "bytes": 318338,
+      "sha256": "f4e6587c24277140e2173a5939fa73b0f4dd103a1096a50332bbf88b5d91378e"
+    },
+    {
+      "path": "src/battle/battle_util.c",
+      "bytes": 274735,
+      "sha256": "8e88210f8a26b256e6440482e7a2ac71741ef4bcda0fdff1cd62c9c99ff68949"
+    },
+    {
+      "path": "src/dex_mon_measures.c",
+      "bytes": 5132,
+      "sha256": "bd5dcc14c16e8268e867d108a46151ddbcb0d1f6cb68d615a284e597721cf855"
+    },
+    {
+      "path": "previous-candidate/browser/scripts/export_species_weights.py",
+      "bytes": 5380,
+      "sha256": "164602eec529739184709602a46443059a06719436c5ccec72f650aae4806ad7"
+    },
+    {
+      "path": "previous-candidate/browser/src/source/battle-weight.ts",
+      "bytes": 3797,
+      "sha256": "6ea2cafdadc6ab3d3f6457704aa0faa8bf65585a085a1186820fd51fd82c51e2"
+    },
+    {
+      "path": "previous-candidate/browser/src/source/battle-weight.test.ts",
+      "bytes": 12551,
+      "sha256": "e9aad8dfbfa4cea20b80e50bdbdd607341e47358f1cf420b6892c403bca843e3"
+    },
+    {
+      "path": "previous-candidate/browser/src/source/species-weights-data.ts",
+      "bytes": 14628,
+      "sha256": "e93916c4b2b032e35928b90884e27c0708dd5f00cb5374d753e5acbfa110c5b9"
+    },
+    {
+      "path": "previous-candidate/browser/src/source/data.ts",
+      "bytes": 5051,
+      "sha256": "28bc41b2f0f63478863ad6d54ebb62b2cbdd3f003a731e21097e28dff9dc7174"
+    },
+    {
+      "path": "previous-candidate/browser/src/source/types.ts",
+      "bytes": 5537,
+      "sha256": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378"
+    },
+    {
+      "path": "evidence/tests.log",
+      "bytes": 2394,
+      "sha256": "30229b2102521081f22007472dbbeff8a2daeb8815d28d0ddb54cf68ad2702c7"
+    },
+    {
+      "path": "evidence/tsc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/integration-contract.md",
+      "bytes": 3459,
+      "sha256": "e571e262147a7497b32c32f4f5d89ee58f76a53aba53bdf0d30b85e672fa0f7e"
+    },
+    {
+      "path": "evidence/initial-review.json",
+      "bytes": 7061,
+      "sha256": "9fefae244f2e5c6b89d060f847835529c6c2f1dcc7d40d94da4f9784c7f7fe8d"
+    },
+    {
+      "path": "evidence/initial-input-manifest.json",
+      "bytes": 7687,
+      "sha256": "b26a36b7bdedd6e766154210f052d70dc74da7aac32050b3d2f7e819441529dc"
+    },
+    {
+      "path": "evidence/followup.diff",
+      "bytes": 42267,
+      "sha256": "cd82ca12bc22af77478917fdb032ffcd2c9bda351afd96161a16d66f1c912b76"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+TAP version 13
+# (node:61860) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all 493 weights plus NONE match original JSON, personal indices and exact source pins
+ok 1 - all 493 weights plus NONE match original JSON, personal indices and exact source pins
+  ---
+  duration_ms: 16.358458
+  type: 'test'
+  ...
+# Subtest: exporter is deterministic with Python optimization and does not rewrite public source bytes
+ok 2 - exporter is deterministic with Python optimization and does not rewrite public source bytes
+  ---
+  duration_ms: 344.778791
+  type: 'test'
+  ...
+# Subtest: exporter rejects invalid source weights even under Python optimization
+ok 3 - exporter rejects invalid source weights even under Python optimization
+  ---
+  duration_ms: 242.3245
+  type: 'test'
+  ...
+# Subtest: inclusive source thresholds retain actual legal species witnesses and adjacent positive integer boundaries
+ok 4 - inclusive source thresholds retain actual legal species witnesses and adjacent positive integer boundaries
+  ---
+  duration_ms: 0.392125
+  type: 'test'
+  ...
+# Subtest: compiled literal native weight command agrees for 10000 positive inputs, all species/banks and s32 upper bound
+ok 5 - compiled literal native weight command agrees for 10000 positive inputs, all species/banks and s32 upper bound
+  ---
+  duration_ms: 430.124125
+  type: 'test'
+  ...
+# Subtest: compiled native bank setter/getters preserve every species and the counterintuitive Giratina form choice
+ok 6 - compiled native bank setter/getters preserve every species and the counterintuitive Giratina form choice
+  ---
+  duration_ms: 4.684625
+  type: 'test'
+  ...
+# Subtest: literal native Transform prefix includes live weight: future engine must copy, not recompute
+ok 7 - literal native Transform prefix includes live weight: future engine must copy, not recompute
+  ---
+  duration_ms: 6.155708
+  type: 'test'
+  ...
+# Subtest: missing/mixed data, NONE/Egg/extended personal indices and uninitialized live weights fail explicitly
+ok 8 - missing/mixed data, NONE/Egg/extended personal indices and uninitialized live weights fail explicitly
+  ---
+  duration_ms: 39.793125
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2127.526667

@@ -1,0 +1,135 @@
+TAP version 13
+# (node:28878) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: real Bugsy U-turn triggers Route32 Mareep Static before withdrawing, exactly once on the outgoing Scyther
+not ok 1 - real Bugsy U-turn triggers Route32 Mareep Static before withdrawing, exactly once on the outgoing Scyther
+  ---
+  duration_ms: 15.585041
+  type: 'test'
+  location: '/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:180:1'
+  failureType: 'testCodeFailure'
+  error: 'Unsupported native U-turn on-hit ability'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Battle.assertActionScope (/private/tmp/hg-azalea-static-before-control/browser/src/source/battle.ts:83:65)
+    Battle.attack (/private/tmp/hg-azalea-static-before-control/browser/src/source/battle.ts:313:10)
+    async action (/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:25:58)
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:181:242)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: native Static can trigger from a naturally fainted provider and does not exempt Ground/Electric recipients
+not ok 2 - native Static can trigger from a naturally fainted provider and does not exempt Ground/Electric recipients
+  ---
+  duration_ms: 237.373375
+  type: 'test'
+  location: '/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:183:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    '' !== 'PAR'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'PAR'
+  actual: ''
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:184:457)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Static coin is skipped for existing status/noncontact but consumed before Limber immunity
+not ok 3 - Static coin is skipped for existing status/noncontact but consumed before Limber immunity
+  ---
+  duration_ms: 453.253959
+  type: 'test'
+  location: '/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:186:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 4
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 4
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:189:264)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a first-hit Static cure can allow another native coin on the second DoubleKick hit
+not ok 4 - a first-hit Static cure can allow another native coin on the second DoubleKick hit
+  ---
+  duration_ms: 302.477125
+  type: 'test'
+  location: '/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:191:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'ITEM_CHERI_BERRY'
+    - null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  actual: 'ITEM_CHERI_BERRY'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:192:373)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native NaturalCure clears U-turn Static before awaited party choice without consuming its unused Cheri
+not ok 5 - native NaturalCure clears U-turn Static before awaited party choice without consuming its unused Cheri
+  ---
+  duration_ms: 0.637875
+  type: 'test'
+  location: '/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:194:1'
+  failureType: 'testCodeFailure'
+  error: 'Unsupported native U-turn on-hit ability'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Battle.assertActionScope (/private/tmp/hg-azalea-static-before-control/browser/src/source/battle.ts:83:65)
+    Battle.attack (/private/tmp/hg-azalea-static-before-control/browser/src/source/battle.ts:313:10)
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:196:499)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native Static is not suppressed by attacker MoldBreaker, while active sunlight LeafGuard prevents its status after the coin
+not ok 6 - native Static is not suppressed by attacker MoldBreaker, while active sunlight LeafGuard prevents its status after the coin
+  ---
+  duration_ms: 151.905083
+  type: 'test'
+  location: '/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:198:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    '' !== 'PAR'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'PAR'
+  actual: ''
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-static-before-control/browser/src/source/azalea-battle-integration.test.ts:199:273)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 0
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2128.807458

@@ -1,0 +1,29 @@
+{
+  "commit": "88822998",
+  "base": "13cfb634ebb9768bf377eeb9f47e47a9f4c23457",
+  "files": {
+    "browser/public/source/hatching/audio.json": "758009e4299dd0ee1ea3427a9cabb87e4101a927ac1cd2179c85b5bfac11b214",
+    "browser/public/source/hatching/music/manifest.json": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+    "browser/reviews/native-muted-fanfare-timer/README.md": "473d993c79b774e66f39d290e3066ceaba3f1bf656367f9eec5beaeaf6511934",
+    "browser/reviews/native-muted-fanfare-timer/before/hatch-host-audio.ts": "21e192026d3b27b3a55386272f9b3a9fdc0b7016cb34c00ca44ada56eee1aa7e",
+    "browser/reviews/native-muted-fanfare-timer/before/receipt.json": "56479076d04422c46355e0bc6cadd95a1e23d9a178852b96aedc5b313267d414",
+    "browser/reviews/native-muted-fanfare-timer/before/tests.log": "e5ba5187e2fc1ac818ac23c62e9be01937161a0bdf29fe404cc7575cdd1def98",
+    "browser/reviews/native-muted-fanfare-timer/native-oracle.log": "2ffec77a229f8a522f8633de9d42a536cecf42991c32bb3172a521644d2891ed",
+    "browser/reviews/native-muted-fanfare-timer/source-pins.json": "2c8b4866f752e220d31d0041fd249f6e7f22de79bf058effa6e12bc7fbe8bf54",
+    "browser/reviews/native-muted-fanfare-timer/tests.log": "7bb60428e3c31fc88908b7c8ae6f7f331c12def14904f08f2fa8328b344f2563",
+    "browser/reviews/native-muted-fanfare-timer/tsc.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "browser/scripts/test_hatch_fanfare_timer.py": "a8dfaa53d90fc4ac534733211f8afd877b283616b093faa808563f717963db54",
+    "browser/src/source/egg-hatch-presentation.ts": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f",
+    "browser/src/source/egg-hatching.ts": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23",
+    "browser/src/source/field-music.ts": "045d75d3f3fdf38e545ccb31777b42d9e1c5b2ef36e00ebc47359797f5da6268",
+    "browser/src/source/hatch-host-audio.test.ts": "c8d942d92bef55d92b750d52c0ad4e2ee98a0541185843c4796951bea96233e0",
+    "browser/src/source/hatch-host-audio.ts": "167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396",
+    "browser/src/source/hatch-music.ts": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860",
+    "browser/src/source/types.ts": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378",
+    "changed-files.json": "87644c2be737e90516818f9d24972e1c774633290c65b968e8a780e37670bc54",
+    "source.diff": "44d11b94e5e7c42e08a3602b353e333722fc883f1672943be8c06ec4c883fc3e",
+    "src/hatch_egg_app.c": "3f4bce5d67911457a6979baf23c7d5d3596d290102dfcef2602f5fb17403d1ee",
+    "src/sound_playback.c": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb"
+  },
+  "scope": "Narrow fanfare phase timer fix; no Main,World,Azalea,clock,cry,resources changes;silent offline tests"
+}

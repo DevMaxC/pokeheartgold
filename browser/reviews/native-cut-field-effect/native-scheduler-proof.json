@@ -1,0 +1,77 @@
+{
+  "sourceBase": "5c39d05d32b56aa5aeb848d61f4c6e089299b1ce",
+  "files": [
+    {
+      "path": "src/script.c",
+      "sha256": "5a602396907c4dd0de4b5c2537ab9aab2c8f9f2678e8ccac5f2cc819fa561a31"
+    },
+    {
+      "path": "src/script_manager.c",
+      "sha256": "939c23feda6b7bb554147011ce47defa3b2a39f9ec1a5d587f467aae8925d6aa"
+    },
+    {
+      "path": "src/task.c",
+      "sha256": "19aec87aa80b10766bda6ff057a28431d75487439f16ce584dc4f59015780f63"
+    },
+    {
+      "path": "src/main.c",
+      "sha256": "5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc"
+    },
+    {
+      "path": "src/field_system.c",
+      "sha256": "0a95627586f4388c42cc885def5fd8b59d75cd0ef72a14e82971fbea9eca496b"
+    },
+    {
+      "path": "src/sys_task.c",
+      "sha256": "9ef0caac3b9c0f869e50e5df5278e4de50f65b0b76813ea4ecd533acc5bc767a"
+    },
+    {
+      "path": "src/field/field_3d_object_task.c",
+      "sha256": "135a8c4abea576abf824f11b114a2204b5122f81b225369e797f9b5dd898d8b1"
+    },
+    {
+      "path": "include/field/field_3d_object_task.h",
+      "sha256": "81d1a0415f24ee9df82f55b58605c1769b5513e4ca06214fb3864f68b0fd1624"
+    },
+    {
+      "path": "src/field/field_move_effects.c",
+      "sha256": "42bf11e37e472133e9707f41f71e9e60628629f3e10ed3dc31b5c9129cb2ba7f"
+    },
+    {
+      "path": "asm/field_move_effects_data.s",
+      "sha256": "5ec2d4c8f66c94c1a564fefb25b3ff619db743fa634f37b21135f44e6d9a8f23"
+    }
+  ],
+  "verifiedRules": {
+    "bytecode": "script.c45-89: bytecode stops at first TRUE command; native callback switches mode but returns without dispatching bytecode",
+    "taskCompletion": "task.c54-71: TaskManager_Call child TRUE is popped and parent invoked same field tick",
+    "reset": "scrcmd_c4570: synchronous reset returnsTRUE, yielding one dispatch tick",
+    "queueOrdering": "main.c107-110 overlay/field script runs before mainqueue; sys_task.c126 ascending priorities; new tasks inserted outside queue getrunNowFALSE",
+    "effectPriorities": "wrapper effects.c1120 priority0; Cut update asmfield_move_effects_data.s2127/2148 firstword0x400=1024 (header field is taskPriority)",
+    "nativeCutQueuePasses": "pass1..45 advance models, pass45 hides/setsfinished; pass46 wrapper observesfinished and incrementsstate; pass47 wrapper deletes/releases/setsdone before removed model update",
+    "startAlignment": "If created in regular fieldscript phase before same-tick mainqueue, pass1 is in dispatch tick0; modelhide dispatch+44, resources/done dispatch+46. Host queue-pass API must explicitly align creation/current tick before claiming wall-clock phase."
+  },
+  "tailReference": {
+    "effectStartDispatch": 0,
+    "wait7Setup": 1,
+    "timerCallbacks": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "hideAndWait1Setup": 9,
+    "firstDoneCompare": 11,
+    "doneComparePeriod": 2,
+    "exampleDoneVarSetAt": 12,
+    "exampleObservedAt": 13
+  },
+  "limits": [
+    "This is source-order evidence, not proof the future browser host clock uses this alignment.",
+    "Native30Hz or browser wall-clock duration not established by these dispatcher counts alone.",
+    "Effect queuepass completion API47 is unambiguous; same-dispatch starting pass must be tested in actual host."
+  ]
+}

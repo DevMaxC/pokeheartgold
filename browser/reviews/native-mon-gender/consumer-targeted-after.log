@@ -1,0 +1,1610 @@
+TAP version 13
+# (node:61136) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all native accuracy stages use literal source ratios and integer truncation
+ok 1 - all native accuracy stages use literal source ratios and integer truncation
+  ---
+  duration_ms: 59.650958
+  type: 'test'
+  ...
+# Subtest: legal Tackle modifiers truncate71.25 to71 and combined57 exactly on either side
+ok 2 - legal Tackle modifiers truncate71.25 to71 and combined57 exactly on either side
+  ---
+  duration_ms: 908.901375
+  type: 'test'
+  ...
+# Subtest: SweetScent lowers actual evasion before SleepPowder uses native133/100 rather than4/3
+ok 3 - SweetScent lowers actual evasion before SleepPowder uses native133/100 rather than4/3
+  ---
+  duration_ms: 0.694042
+  type: 'test'
+  ...
+# Subtest: Foresight ignores only raised evasion and combines remaining accuracy changes before truncating
+ok 4 - Foresight ignores only raised evasion and combines remaining accuracy changes before truncating
+  ---
+  duration_ms: 151.083209
+  type: 'test'
+  ...
+# Subtest: accuracy-zero, always-hit effects and tutorial retain existing no-draw bypasses
+ok 5 - accuracy-zero, always-hit effects and tutorial retain existing no-draw bypasses
+  ---
+  duration_ms: 301.580125
+  type: 'test'
+  ...
+# (node:61137) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+ok 6 - a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+  ---
+  duration_ms: 461.445625
+  type: 'test'
+  ...
+# Subtest: an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+ok 7 - an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+  ---
+  duration_ms: 151.890917
+  type: 'test'
+  ...
+# Subtest: the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+ok 8 - the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+  ---
+  duration_ms: 455.0425
+  type: 'test'
+  ...
+# Subtest: enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+ok 9 - enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+  ---
+  duration_ms: 151.411042
+  type: 'test'
+  ...
+# Subtest: the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+ok 10 - the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+  ---
+  duration_ms: 151.921959
+  type: 'test'
+  ...
+# Subtest: a learned unsupported opponent effect still completes native no-target processing without running the effect
+ok 11 - a learned unsupported opponent effect still completes native no-target processing without running the effect
+  ---
+  duration_ms: 151.770417
+  type: 'test'
+  ...
+# Subtest: a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+ok 12 - a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+  ---
+  duration_ms: 150.49375
+  type: 'test'
+  ...
+# Subtest: unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+ok 13 - unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+  ---
+  duration_ms: 453.738417
+  type: 'test'
+  ...
+# Subtest: native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+ok 14 - native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+  ---
+  duration_ms: 302.985625
+  type: 'test'
+  ...
+# Subtest: the source-owned single-battle target matrix bypasses only the native no-target paths
+    # Subtest: RANGE_SINGLE_TARGET
+    ok 1 - RANGE_SINGLE_TARGET
+      ---
+      duration_ms: 0.385333
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_SPECIAL
+    ok 2 - RANGE_SINGLE_TARGET_SPECIAL
+      ---
+      duration_ms: 0.103375
+      type: 'test'
+      ...
+    # Subtest: RANGE_RANDOM_OPPONENT
+    ok 3 - RANGE_RANDOM_OPPONENT
+      ---
+      duration_ms: 0.065333
+      type: 'test'
+      ...
+    # Subtest: RANGE_ADJACENT_OPPONENTS
+    ok 4 - RANGE_ADJACENT_OPPONENTS
+      ---
+      duration_ms: 0.0575
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALL_ADJACENT
+    ok 5 - RANGE_ALL_ADJACENT
+      ---
+      duration_ms: 0.054458
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER
+    ok 6 - RANGE_USER
+      ---
+      duration_ms: 0.072917
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER_SIDE
+    ok 7 - RANGE_USER_SIDE
+      ---
+      duration_ms: 0.063042
+      type: 'test'
+      ...
+    # Subtest: RANGE_FIELD
+    ok 8 - RANGE_FIELD
+      ---
+      duration_ms: 0.064542
+      type: 'test'
+      ...
+    # Subtest: RANGE_OPPONENT_SIDE
+    ok 9 - RANGE_OPPONENT_SIDE
+      ---
+      duration_ms: 0.093292
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALLY
+    ok 10 - RANGE_ALLY
+      ---
+      duration_ms: 0.074583
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_USER_SIDE
+    ok 11 - RANGE_SINGLE_TARGET_USER_SIDE
+      ---
+      duration_ms: 0.081042
+      type: 'test'
+      ...
+    # Subtest: RANGE_FRONT
+    ok 12 - RANGE_FRONT
+      ---
+      duration_ms: 0.055125
+      type: 'test'
+      ...
+    1..12
+ok 15 - the source-owned single-battle target matrix bypasses only the native no-target paths
+  ---
+  duration_ms: 1.515417
+  type: 'test'
+  ...
+# Subtest: the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+    # Subtest: MOVE_EFFECT_BIDE
+    ok 1 - MOVE_EFFECT_BIDE
+      ---
+      duration_ms: 0.166958
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+    ok 2 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+      ---
+      duration_ms: 151.603833
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+    ok 3 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+      ---
+      duration_ms: 150.960042
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_DEF_UP
+    ok 4 - MOVE_EFFECT_CHARGE_TURN_DEF_UP
+      ---
+      duration_ms: 150.295
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_151
+    ok 5 - MOVE_EFFECT_151
+      ---
+      duration_ms: 151.418792
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_FLY
+    ok 6 - MOVE_EFFECT_FLY
+      ---
+      duration_ms: 150.846875
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIVE
+    ok 7 - MOVE_EFFECT_DIVE
+      ---
+      duration_ms: 150.772125
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIG
+    ok 8 - MOVE_EFFECT_DIG
+      ---
+      duration_ms: 150.904208
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_BOUNCE
+    ok 9 - MOVE_EFFECT_BOUNCE
+      ---
+      duration_ms: 151.374709
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_SHADOW_FORCE
+    ok 10 - MOVE_EFFECT_SHADOW_FORCE
+      ---
+      duration_ms: 151.11925
+      type: 'test'
+      ...
+    1..10
+ok 16 - the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+  ---
+  duration_ms: 1360.720875
+  type: 'test'
+  ...
+# Subtest: the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+ok 17 - the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+  ---
+  duration_ms: 151.442708
+  type: 'test'
+  ...
+# Subtest: a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+ok 18 - a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+  ---
+  duration_ms: 150.238292
+  type: 'test'
+  ...
+# Subtest: fainting the last player by recoil stops before a surviving foe spends its selected move PP
+ok 19 - fainting the last player by recoil stops before a surviving foe spends its selected move PP
+  ---
+  duration_ms: 150.971417
+  type: 'test'
+  ...
+# Subtest: a recoil-fainted participant gets no EXP while a living Share holder receives its pool and the gifted Egg stays unchanged
+ok 20 - a recoil-fainted participant gets no EXP while a living Share holder receives its pool and the gifted Egg stays unchanged
+  ---
+  duration_ms: 152.75825
+  type: 'test'
+  ...
+# (node:61138) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle opening chooses a clear shoulder instead of looking through a nearby building
+ok 21 - battle opening chooses a clear shoulder instead of looking through a nearby building
+  ---
+  duration_ms: 89.41925
+  type: 'test'
+  ...
+# Subtest: a roof hiding one fighter is detected even when the battle midpoint is visible
+ok 22 - a roof hiding one fighter is detected even when the battle midpoint is visible
+  ---
+  duration_ms: 1.367791
+  type: 'test'
+  ...
+# Subtest: unobstructed camera orbit stays unchanged and portrait framing retains enough distance
+ok 23 - unobstructed camera orbit stays unchanged and portrait framing retains enough distance
+  ---
+  duration_ms: 1.20825
+  type: 'test'
+  ...
+# (node:61139) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual battle switches retain living participants and split Route29 Pidgey experience11+11
+ok 24 - actual battle switches retain living participants and split Route29 Pidgey experience11+11
+  ---
+  duration_ms: 307.461792
+  type: 'test'
+  ...
+# Subtest: actual held Exp. Share receives its native pool while both participants receive theirs
+ok 25 - actual held Exp. Share receives its native pool while both participants receive theirs
+  ---
+  duration_ms: 302.576083
+  type: 'test'
+  ...
+# Subtest: each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+ok 26 - each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+  ---
+  duration_ms: 454.487375
+  type: 'test'
+  ...
+# Subtest: level100 participants count in the split but get no experience or effort award
+ok 27 - level100 participants count in the split but get no experience or effort award
+  ---
+  duration_ms: 301.869042
+  type: 'test'
+  ...
+# Subtest: a recipient near level100 caps cumulative EXP at its own native growth limit
+ok 28 - a recipient near level100 caps cumulative EXP at its own native growth limit
+  ---
+  duration_ms: 151.458917
+  type: 'test'
+  ...
+# (node:61140) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Route29 PidgeyLv3 splits11+11 between two living explicitly flagged participants
+ok 29 - actual Route29 PidgeyLv3 splits11+11 between two living explicitly flagged participants
+  ---
+  duration_ms: 122.9415
+  type: 'test'
+  ...
+# Subtest: native ExpShare item effects split pools and participating holders receive both before bonuses
+ok 30 - native ExpShare item effects split pools and participating holders receive both before bonuses
+  ---
+  duration_ms: 0.997916
+  type: 'test'
+  ...
+# Subtest: Eggs and fainted members do not dilute either pool; living level100 members do
+ok 31 - Eggs and fainted members do not dilute either pool; living level100 members do
+  ---
+  duration_ms: 0.777291
+  type: 'test'
+  ...
+# Subtest: a living nonparticipant ExpShare holder receives its half even after all flagged participants faint
+ok 32 - a living nonparticipant ExpShare holder receives its half even after all flagged participants faint
+  ---
+  duration_ms: 0.65475
+  type: 'test'
+  ...
+# Subtest: new-enemy mask reset removes previous participants and planner never guesses an active slot
+ok 33 - new-enemy mask reset removes previous participants and planner never guesses an active slot
+  ---
+  duration_ms: 0.554
+  type: 'test'
+  ...
+# Subtest: actual LuckyEgg effect and explicit traded ownership apply separately to each planned recipient
+ok 34 - actual LuckyEgg effect and explicit traded ownership apply separately to each planned recipient
+  ---
+  duration_ms: 0.70475
+  type: 'test'
+  ...
+# Subtest: whole-party planning is pure and rejects a late bad item/ownership/mask before any mutation
+ok 35 - whole-party planning is pure and rejects a late bad item/ownership/mask before any mutation
+  ---
+  duration_ms: 21.882959
+  type: 'test'
+  ...
+# (node:61141) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual early wild and Trainer teams produce native one-participant awards
+ok 36 - actual early wild and Trainer teams produce native one-participant awards
+  ---
+  duration_ms: 72.666583
+  type: 'test'
+  ...
+# Subtest: LuckyEgg, Trainer and domestic/international trade bonuses truncate in native order
+ok 37 - LuckyEgg, Trainer and domestic/international trade bonuses truncate in native order
+  ---
+  duration_ms: 0.406541
+  type: 'test'
+  ...
+# Subtest: explicit ExpShare split floors both halves before divisors and sums a participating holder before bonuses
+ok 38 - explicit ExpShare split floors both halves before divisors and sums a participating holder before bonuses
+  ---
+  duration_ms: 0.793833
+  type: 'test'
+  ...
+# Subtest: fainted, Egg, empty, level100 and disabled EXP contexts receive no reward
+ok 39 - fainted, Egg, empty, level100 and disabled EXP contexts receive no reward
+  ---
+  duration_ms: 0.759958
+  type: 'test'
+  ...
+# Subtest: native minimum-one pool rule and inconsistent or unknown divisor context stay explicit
+ok 40 - native minimum-one pool rule and inconsistent or unknown divisor context stay explicit
+  ---
+  duration_ms: 0.5835
+  type: 'test'
+  ...
+# Subtest: helper is pure and leaves current EXP, level, EVs and held items to the integration host
+ok 41 - helper is pure and leaves current EXP, level, EVs and held items to the integration host
+  ---
+  duration_ms: 0.176584
+  type: 'test'
+  ...
+# Subtest: native held-effect contract rejects item keys and no-award validation remains explicit
+ok 42 - native held-effect contract rejects item keys and no-award validation remains explicit
+  ---
+  duration_ms: 0.502208
+  type: 'test'
+  ...
+# (node:61142) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle figures choose a continuous terrace rather than straddling a ledge
+ok 43 - battle figures choose a continuous terrace rather than straddling a ledge
+  ---
+  duration_ms: 34.334416
+  type: 'test'
+  ...
+# Subtest: battle figures preserve the player floor under or above a bridge
+ok 44 - battle figures preserve the player floor under or above a bridge
+  ---
+  duration_ms: 5.019166
+  type: 'test'
+  ...
+# Subtest: narrow battle space reduces spacing instead of moving figures into solid walls
+ok 45 - narrow battle space reduces spacing instead of moving figures into solid walls
+  ---
+  duration_ms: 0.4815
+  type: 'test'
+  ...
+# Subtest: trainer figures stay on their Pokémon terrace when the preferred shoulder position crosses a cliff
+ok 46 - trainer figures stay on their Pokémon terrace when the preferred shoulder position crosses a cliff
+  ---
+  duration_ms: 0.707708
+  type: 'test'
+  ...
+# Subtest: battle presentation cannot relocate across a narrow lower strip to another terrace
+ok 47 - battle presentation cannot relocate across a narrow lower strip to another terrace
+  ---
+  duration_ms: 0.598667
+  type: 'test'
+  ...
+# Subtest: battle presentation avoids placing either Pokémon inside a solid canopy
+ok 48 - battle presentation avoids placing either Pokémon inside a solid canopy
+  ---
+  duration_ms: 1.695708
+  type: 'test'
+  ...
+# (node:61143) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native gift and battle/field consumers share canonical eligibility after saved-party reload
+ok 49 - native gift and battle/field consumers share canonical eligibility after saved-party reload
+  ---
+  duration_ms: 3.520333
+  type: 'test'
+  ...
+# Subtest: reloaded production party starts with its first usable non-Egg and awards no Egg EXP or EVs
+ok 50 - reloaded production party starts with its first usable non-Egg and awards no Egg EXP or EVs
+  ---
+  duration_ms: 155.340833
+  type: 'test'
+  ...
+# Subtest: a party containing only Eggs and fainted Pokémon cannot start a battle
+ok 51 - a party containing only Eggs and fainted Pokémon cannot start a battle
+  ---
+  duration_ms: 0.982417
+  type: 'test'
+  ...
+# Subtest: an injected Egg switch spends no turn, makes no participation bit and leaves the current actor in place
+ok 52 - an injected Egg switch spends no turn, makes no participation bit and leaves the current actor in place
+  ---
+  duration_ms: 151.786166
+  type: 'test'
+  ...
+# Subtest: fainting the last usable actor loses even when a positive-HP Egg remains
+ok 53 - fainting the last usable actor loses even when a positive-HP Egg remains
+  ---
+  duration_ms: 152.181833
+  type: 'test'
+  ...
+# (node:61144) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a final action KO grants EXP/EVs and ends battle before poison can damage the winner
+ok 54 - a final action KO grants EXP/EVs and ends battle before poison can damage the winner
+  ---
+  duration_ms: 165.700042
+  type: 'test'
+  ...
+# Subtest: a nonfinal KO levels the active Pokémon before poison and delays the next sendout until afterward
+ok 55 - a nonfinal KO levels the active Pokémon before poison and delays the next sendout until afterward
+  ---
+  duration_ms: 150.813916
+  type: 'test'
+  ...
+# Subtest: Struggle recoil fainting remains ineligible for EXP even though final-foe EXP precedes residuals
+ok 56 - Struggle recoil fainting remains ineligible for EXP even though final-foe EXP precedes residuals
+  ---
+  duration_ms: 151.80375
+  type: 'test'
+  ...
+# Subtest: each poison faint is adjudicated immediately in speed order rather than poisoning both last battlers
+ok 57 - each poison faint is adjudicated immediately in speed order rather than poisoning both last battlers
+  ---
+  duration_ms: 1.135166
+  type: 'test'
+  ...
+# Subtest: equal-speed residuals use a fresh native low-bit tie instead of reusing the Fight tie
+ok 58 - equal-speed residuals use a fresh native low-bit tie instead of reusing the Fight tie
+  ---
+  duration_ms: 1.211875
+  type: 'test'
+  ...
+# Subtest: native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie
+ok 59 - native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie
+  ---
+  duration_ms: 150.505958
+  type: 'test'
+  ...
+# (node:61145) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an unsupported battle effect rejects and restores party, inventory and capture records
+ok 60 - an unsupported battle effect rejects and restores party, inventory and capture records
+  ---
+  duration_ms: 126.822125
+  type: 'test'
+  ...
+# Subtest: winning against the final opponent keeps its sprite available through the victory message
+ok 61 - winning against the final opponent keeps its sprite available through the victory message
+  ---
+  duration_ms: 1.30425
+  type: 'test'
+  ...
+# Subtest: 3D presentation preserves turn results, damage, PP and EXP
+ok 62 - 3D presentation preserves turn results, damage, PP and EXP
+  ---
+  duration_ms: 303.012125
+  type: 'test'
+  ...
+# (node:61146) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native multi-hit sampling has GenIV probabilities and SkillLink consumes no count draw
+ok 63 - native multi-hit sampling has GenIV probabilities and SkillLink consumes no count draw
+  ---
+  duration_ms: 1.229125
+  type: 'test'
+  ...
+# Subtest: FuryAttack spends one PP and accuracy check, recalculating critical damage per hit
+ok 64 - FuryAttack spends one PP and accuracy check, recalculating critical damage per hit
+  ---
+  duration_ms: 605.422625
+  type: 'test'
+  ...
+# Subtest: missed FuryAttack rolls no count or damage, and fainting stops remaining hits
+ok 65 - missed FuryAttack rolls no count or damage, and fainting stops remaining hits
+  ---
+  duration_ms: 150.900792
+  type: 'test'
+  ...
+# Subtest: SkillLink makes five hits; Ghost immunity stops without a hit-count message
+ok 66 - SkillLink makes five hits; Ghost immunity stops without a hit-count message
+  ---
+  duration_ms: 903.626334
+  type: 'test'
+  ...
+# Subtest: native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit
+ok 67 - native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit
+  ---
+  duration_ms: 451.310667
+  type: 'test'
+  ...
+# Subtest: DoubleKick builds surviving Rage once for each native hit
+ok 68 - DoubleKick builds surviving Rage once for each native hit
+  ---
+  duration_ms: 752.697583
+  type: 'test'
+  ...
+# Subtest: Roost heals half rounded down and suppresses only Flying matchups without changing species
+ok 69 - Roost heals half rounded down and suppresses only Flying matchups without changing species
+  ---
+  duration_ms: 0.595042
+  type: 'test'
+  ...
+# Subtest: faster Roost changes the later Ground hit, while slower or failed Roost does not
+ok 70 - faster Roost changes the later Ground hit, while slower or failed Roost does not
+  ---
+  duration_ms: 452.689833
+  type: 'test'
+  ...
+# Subtest: full-HP recovery spends PP without an attack animation or temporary typing
+ok 71 - full-HP recovery spends PP without an attack animation or temporary typing
+  ---
+  duration_ms: 0.543167
+  type: 'test'
+  ...
+# Subtest: Synthesis uses native battle weather and integer recovery, not daylight or diamond dust
+ok 72 - Synthesis uses native battle weather and integer recovery, not daylight or diamond dust
+  ---
+  duration_ms: 0.640875
+  type: 'test'
+  ...
+# Subtest: living CloudNine/AirLock suppress Synthesis weather, while fainted suppressors do not
+ok 73 - living CloudNine/AirLock suppress Synthesis weather, while fainted suppressors do not
+  ---
+  duration_ms: 1.532959
+  type: 'test'
+  ...
+# Subtest: Battle.start captures weather before asynchronous presentation begins
+ok 74 - Battle.start captures weather before asynchronous presentation begins
+  ---
+  duration_ms: 0.751667
+  type: 'test'
+  ...
+# Subtest: Gust deals ordinary damage and its source Fly modifier doubles power before calculation
+ok 75 - Gust deals ordinary damage and its source Fly modifier doubles power before calculation
+  ---
+  duration_ms: 150.262375
+  type: 'test'
+  ...
+# Subtest: Rage activates on successful hits and builds Attack per surviving damaging hit
+ok 76 - Rage activates on successful hits and builds Attack per surviving damaging hit
+  ---
+  duration_ms: 1053.907542
+  type: 'test'
+  ...
+# Subtest: Rage survives selection and a faster foe, then clears after another move executes
+ok 77 - Rage survives selection and a faster foe, then clears after another move executes
+  ---
+  duration_ms: 1805.142292
+  type: 'test'
+  ...
+# Subtest: Rage persists through successful item use and failed escape, and rejected menu choices
+ok 78 - Rage persists through successful item use and failed escape, and rejected menu choices
+  ---
+  duration_ms: 903.41025
+  type: 'test'
+  ...
+# Subtest: Rage survives inability to act, but a missed or failed different move clears it
+ok 79 - Rage survives inability to act, but a missed or failed different move clears it
+  ---
+  duration_ms: 752.99825
+  type: 'test'
+  ...
+# Subtest: native Rage before-turn masking clears Foresight and DefenseCurl before either side attacks
+ok 80 - native Rage before-turn masking clears Foresight and DefenseCurl before either side attacks
+  ---
+  duration_ms: 1205.239
+  type: 'test'
+  ...
+# Subtest: Rage masks other status2 flags on selection even when the chosen move cannot act
+ok 81 - Rage masks other status2 flags on selection even when the chosen move cannot act
+  ---
+  duration_ms: 301.314
+  type: 'test'
+  ...
+# Subtest: accepted non-Fight actions mask Rage volatiles; rejected menu choices preserve them
+ok 82 - accepted non-Fight actions mask Rage volatiles; rejected menu choices preserve them
+  ---
+  duration_ms: 904.432
+  type: 'test'
+  ...
+# Subtest: native no-PP selection retains the last Rage slot until Struggle actually executes
+ok 83 - native no-PP selection retains the last Rage slot until Struggle actually executes
+  ---
+  duration_ms: 902.221334
+  type: 'test'
+  ...
+# Subtest: switching and battle completion clear Rage/Roost without storing them on Pokémon
+ok 84 - switching and battle completion clear Rage/Roost without storing them on Pokémon
+  ---
+  duration_ms: 149.581417
+  type: 'test'
+  ...
+# Subtest: actual Abe/Falkner moves execute, and starter level-ups learn usable Rage/Synthesis
+ok 85 - actual Abe/Falkner moves execute, and starter level-ups learn usable Rage/Synthesis
+  ---
+  duration_ms: 902.26725
+  type: 'test'
+  ...
+# (node:61147) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the real gifted Egg is skipped for 3D sendout and never receives battle EXP or EVs
+ok 86 - the real gifted Egg is skipped for 3D sendout and never receives battle EXP or EVs
+  ---
+  duration_ms: 155.375792
+  type: 'test'
+  ...
+# Subtest: a party with only a healthy Egg and fainted Pokémon cannot start a battle or mark its foe seen
+ok 87 - a party with only a healthy Egg and fainted Pokémon cannot start a battle or mark its foe seen
+  ---
+  duration_ms: 1.054792
+  type: 'test'
+  ...
+# Subtest: fainting the last usable Pokémon loses the battle even while an Egg has positive HP
+ok 88 - fainting the last usable Pokémon loses the battle even while an Egg has positive HP
+  ---
+  duration_ms: 151.705458
+  type: 'test'
+  ...
+# Subtest: an Egg switch request spends no turn and cannot replace the active battler
+ok 89 - an Egg switch request spends no turn and cannot replace the active battler
+  ---
+  duration_ms: 151.20625
+  type: 'test'
+  ...
+# Subtest: both battle party menus disable the Egg and their click handler rejects it without resolving a switch
+ok 90 - both battle party menus disable the Egg and their click handler rejects it without resolving a switch
+  ---
+  duration_ms: 1.060208
+  type: 'test'
+  ...
+# Subtest: Egg exclusion and the native fainted follower fallback survive JSON save and Continue
+ok 91 - Egg exclusion and the native fainted follower fallback survive JSON save and Continue
+  ---
+  duration_ms: 0.530417
+  type: 'test'
+  ...
+# (node:61148) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+ok 92 - actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+  ---
+  duration_ms: 857.979791
+  type: 'test'
+  ...
+# main SHA256 7da4fe6c3a2dbc464973f540f6ee4c97df2a0484d948da273e63f93f7f8410e6; extracted bindings SHA256 fa9c6920d7868e6dc3bf929ccb6661ad88c05c9306126585dca7e0575c581a36
+# Subtest: blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+ok 93 - blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+  ---
+  duration_ms: 468.289209
+  type: 'test'
+  ...
+# Subtest: actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+ok 94 - actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+  ---
+  duration_ms: 775.207583
+  type: 'test'
+  ...
+# Subtest: eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+ok 95 - eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+  ---
+  duration_ms: 469.650167
+  type: 'test'
+  ...
+# Subtest: Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+ok 96 - Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+  ---
+  duration_ms: 76.586458
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays the captured movement/date once and awards only the successful hatch
+ok 97 - explicit Retry replays the captured movement/date once and awards only the successful hatch
+  ---
+  duration_ms: 24.458958
+  type: 'test'
+  ...
+# Subtest: actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+ok 98 - actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+  ---
+  duration_ms: 501.567125
+  type: 'test'
+  ...
+# Subtest: actual render freezes provisional replacement follower through hatch and post-view source tail
+ok 99 - actual render freezes provisional replacement follower through hatch and post-view source tail
+  ---
+  duration_ms: 144.994791
+  type: 'test'
+  ...
+# Subtest: actual wild admission runs after step commit and completed catch survives failed field resume
+ok 100 - actual wild admission runs after step commit and completed catch survives failed field resume
+  ---
+  duration_ms: 95.307958
+  type: 'test'
+  ...
+# Subtest: actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+ok 101 - actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+  ---
+  duration_ms: 243.894042
+  type: 'test'
+  ...
+# Subtest: actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+ok 102 - actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+  ---
+  duration_ms: 114.115667
+  type: 'test'
+  ...
+# Subtest: actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+ok 103 - actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+  ---
+  duration_ms: 29.922666
+  type: 'test'
+  ...
+# Subtest: actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+ok 104 - actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+  ---
+  duration_ms: 240.395792
+  type: 'test'
+  ...
+# Subtest: actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+ok 105 - actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+  ---
+  duration_ms: 23.396625
+  type: 'test'
+  ...
+# Subtest: actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+ok 106 - actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+  ---
+  duration_ms: 13.390083
+  type: 'test'
+  ...
+# Subtest: actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+ok 107 - actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+  ---
+  duration_ms: 947.020291
+  type: 'test'
+  ...
+# Subtest: actual native scenes reset only active rings and answer respects trainer/UI admission
+ok 108 - actual native scenes reset only active rings and answer respects trainer/UI admission
+  ---
+  duration_ms: 21.324916
+  type: 'test'
+  ...
+# Subtest: actual HUD and answer keep unsupported forced callers explicit and unconsumed
+ok 109 - actual HUD and answer keep unsupported forced callers explicit and unconsumed
+  ---
+  duration_ms: 196.926666
+  type: 'test'
+  ...
+# Subtest: actual due empty admission resets its interval once; a later hatch waits for the next native minute
+ok 110 - actual due empty admission resets its interval once; a later hatch waits for the next native minute
+  ---
+  duration_ms: 163.2035
+  type: 'test'
+  ...
+# Subtest: actual selected random caller retains its native active interval until the hatch scene resets it
+ok 111 - actual selected random caller retains its native active interval until the hatch scene resets it
+  ---
+  duration_ms: 155.662625
+  type: 'test'
+  ...
+# Subtest: actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+ok 112 - actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+  ---
+  duration_ms: 197.979333
+  type: 'test'
+  ...
+# Subtest: actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+ok 113 - actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+  ---
+  duration_ms: 361.089916
+  type: 'test'
+  ...
+# Subtest: ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+ok 114 - ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+  ---
+  duration_ms: 527.614125
+  type: 'test'
+  ...
+# Subtest: retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+ok 115 - retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+  ---
+  duration_ms: 21.516875
+  type: 'test'
+  ...
+# Subtest: Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+ok 116 - Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+  ---
+  duration_ms: 157.384792
+  type: 'test'
+  ...
+# Subtest: actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+ok 117 - actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+  ---
+  duration_ms: 186.266166
+  type: 'test'
+  ...
+# Subtest: actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+ok 118 - actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+  ---
+  duration_ms: 149.402375
+  type: 'test'
+  ...
+# (node:61149) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the real standard2021 awaits its EggHatchAnim port and preserves the original Oh intro
+ok 119 - the real standard2021 awaits its EggHatchAnim port and preserves the original Oh intro
+  ---
+  duration_ms: 11.379875
+  type: 'test'
+  ...
+# Subtest: the real standard2021 propagates a failed awaited hatch instead of finishing its script
+ok 120 - the real standard2021 propagates a failed awaited hatch instead of finishing its script
+  ---
+  duration_ms: 1.093042
+  type: 'test'
+  ...
+# Subtest: the host reveals in3D, joins original cry and text, then names and restores the field before completion
+ok 121 - the host reveals in3D, joins original cry and text, then names and restores the field before completion
+  ---
+  duration_ms: 3.814916
+  type: 'test'
+  ...
+# Subtest: a failed cry aborts and drains pending text before lifecycle rollback and field music cleanup
+ok 122 - a failed cry aborts and drains pending text before lifecycle rollback and field music cleanup
+  ---
+  duration_ms: 1.851208
+  type: 'test'
+  ...
+# Subtest: native fanfare starts after the cry while a slow printer can still be running without a confirm click
+ok 123 - native fanfare starts after the cry while a slow printer can still be running without a confirm click
+  ---
+  duration_ms: 1.373125
+  type: 'test'
+  ...
+# Subtest: failed announcement text aborts and drains its pending cry before lifecycle rollback
+ok 124 - failed announcement text aborts and drains its pending cry before lifecycle rollback
+  ---
+  duration_ms: 1.634542
+  type: 'test'
+  ...
+# Subtest: a failed cry cannot release the source lifecycle before its aborted printer has finished cleanup
+ok 125 - a failed cry cannot release the source lifecycle before its aborted printer has finished cleanup
+  ---
+  duration_ms: 1.474584
+  type: 'test'
+  ...
+# Subtest: a rejected or unresolved nickname decision cannot commit memo, Dex or field control
+ok 126 - a rejected or unresolved nickname decision cannot commit memo, Dex or field control
+  ---
+  duration_ms: 1.827583
+  type: 'test'
+  ...
+# Subtest: failed coherent field resume rolls back the already named mon and Dex while releasing presentation resources
+ok 127 - failed coherent field resume rolls back the already named mon and Dex while releasing presentation resources
+  ---
+  duration_ms: 1.473458
+  type: 'test'
+  ...
+# (node:61150) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an original gift emits its synchronous accelerated trigger after memo/flag/pending and before Dex, optional naming or resume
+ok 128 - an original gift emits its synchronous accelerated trigger after memo/flag/pending and before Dex, optional naming or resume
+  ---
+  duration_ms: 16.206833
+  type: 'test'
+  ...
+# Subtest: an already-set original gift flag and pending bit never suppress a new actual hatch trigger
+ok 129 - an already-set original gift flag and pending bit never suppress a new actual hatch trigger
+  ---
+  duration_ms: 2.682541
+  type: 'test'
+  ...
+# Subtest: a nonoriginal Togepi hatch emits no original-gift phone event
+ok 130 - a nonoriginal Togepi hatch emits no original-gift phone event
+  ---
+  duration_ms: 123.972875
+  type: 'test'
+  ...
+# Subtest: a throwing trigger callback rolls back the inner mon, RNG, flag, pending bit and Dex writes
+ok 131 - a throwing trigger callback rolls back the inner mon, RNG, flag, pending bit and Dex writes
+  ---
+  duration_ms: 8.302791
+  type: 'test'
+  ...
+# Subtest: the presentation host forwards exactly one fresh event before nickname and coherent field resume
+ok 132 - the presentation host forwards exactly one fresh event before nickname and coherent field resume
+  ---
+  duration_ms: 3.966334
+  type: 'test'
+  ...
+# Subtest: a presentation failure after the forwarded event remains State-atomic without relying on outer rollback
+ok 133 - a presentation failure after the forwarded event remains State-atomic without relying on outer rollback
+  ---
+  duration_ms: 5.102
+  type: 'test'
+  ...
+# Subtest: callback and later presentation failures restore State while the outer field checkpoint restores the fresh timer boost and preceding step
+ok 134 - callback and later presentation failures restore State while the outer field checkpoint restores the fresh timer boost and preceding step
+  ---
+  duration_ms: 7.961292
+  type: 'test'
+  ...
+# Subtest: Continue of a saved completed hatch does not replay its pending trigger or accelerate a fresh ring manager
+ok 135 - Continue of a saved completed hatch does not replay its pending trigger or accelerate a fresh ring manager
+  ---
+  duration_ms: 2.158875
+  type: 'test'
+  ...
+# (node:61151) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+ok 136 - hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+  ---
+  duration_ms: 34.959916
+  type: 'test'
+  ...
+# Subtest: standard hatch presentation selects the native nonfemale sprite slot without changing a genderless scene identity
+ok 137 - standard hatch presentation selects the native nonfemale sprite slot without changing a genderless scene identity
+  ---
+  duration_ms: 165.13975
+  type: 'test'
+  ...
+# Subtest: native genderless artwork support does not bypass invalid-scene or unexported Manaphy presentation guards
+ok 138 - native genderless artwork support does not bypass invalid-scene or unexported Manaphy presentation guards
+  ---
+  duration_ms: 0.6645
+  type: 'test'
+  ...
+# Subtest: temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+ok 139 - temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+  ---
+  duration_ms: 4.927417
+  type: 'test'
+  ...
+# Subtest: cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+ok 140 - cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+  ---
+  duration_ms: 1.283292
+  type: 'test'
+  ...
+# Subtest: a field change or failed real cry rejects, restores actors and frees owned effects
+ok 141 - a field change or failed real cry rejects, restores actors and frees owned effects
+  ---
+  duration_ms: 3.32675
+  type: 'test'
+  ...
+# Subtest: an external cancellation during the hatch announcement prevents later successful completion on the same map
+ok 142 - an external cancellation during the hatch announcement prevents later successful completion on the same map
+  ---
+  duration_ms: 2.938209
+  type: 'test'
+  ...
+# Subtest: cancellation at the final render frame wins over a resolved animation before its continuation can commit
+ok 143 - cancellation at the final render frame wins over a resolved animation before its continuation can commit
+  ---
+  duration_ms: 3.641167
+  type: 'test'
+  ...
+# Subtest: World field-effect branch renders the same scene and a real field transition cancels it before loading
+ok 144 - World field-effect branch renders the same scene and a real field transition cancels it before loading
+  ---
+  duration_ms: 0.692875
+  type: 'test'
+  ...
+# Subtest: Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+ok 145 - Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+  ---
+  duration_ms: 7.8315
+  type: 'test'
+  ...
+# Subtest: native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+ok 146 - native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+  ---
+  duration_ms: 10.807916
+  type: 'test'
+  ...
+# (node:61153) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: special cycle dates match the executable native table, including January12 rather than its incorrect January1 comment
+ok 147 - special cycle dates match the executable native table, including January12 rather than its incorrect January1 comment
+  ---
+  duration_ms: 9.319083
+  type: 'test'
+  ...
+# Subtest: the shared native u8 counter persists even with no Eggs and uses exact threshold equality across date changes
+ok 148 - the shared native u8 counter persists even with no Eggs and uses exact threshold equality across date changes
+  ---
+  duration_ms: 2.635042
+  type: 'test'
+  ...
+# Subtest: party Egg plans are pure and an Egg at ten cycles needs eleven complete cycles before a hatch is scheduled
+ok 149 - party Egg plans are pure and an Egg at ten cycles needs eleven complete cycles before a hatch is scheduled
+  ---
+  duration_ms: 2.673375
+  type: 'test'
+  ...
+# Subtest: fainted FlameBody/MagmaArmor accelerate by two, never stack, and Eggs/corrupt companions do not count
+ok 150 - fainted FlameBody/MagmaArmor accelerate by two, never stack, and Eggs/corrupt companions do not count
+  ---
+  duration_ms: 2.376208
+  type: 'test'
+  ...
+# Subtest: native prefix processing and later first-zero rescan select an earlier newly-ready Egg and leave later Eggs untouched
+ok 151 - native prefix processing and later first-zero rescan select an earlier newly-ready Egg and leave later Eggs untouched
+  ---
+  duration_ms: 0.471834
+  type: 'test'
+  ...
+# Subtest: step planning rejects invalid save/RTC/cycle input without committing a partial prefix
+ok 152 - step planning rejects invalid save/RTC/cycle input without committing a partial prefix
+  ---
+  duration_ms: 0.674792
+  type: 'test'
+  ...
+# Subtest: field hatch rewards occur before the standard intro, while direct EggHatchAnim does not invent the field-only Egg count
+ok 153 - field hatch rewards occur before the standard intro, while direct EggHatchAnim does not invent the field-only Egg count
+  ---
+  duration_ms: 2.977708
+  type: 'test'
+  ...
+# Subtest: hatch recreation preserves native identity/moves/IVs but resets level, EVs, status, item and PPUp capacity before the awaited reveal
+ok 154 - hatch recreation preserves native identity/moves/IVs but resets level, EVs, status, item and PPUp capacity before the awaited reveal
+  ---
+  duration_ms: 0.7245
+  type: 'test'
+  ...
+# Subtest: a delayed message asset load uses the current Egg and RNG instead of overwriting them with a stale hatch draft
+ok 155 - a delayed message asset load uses the current Egg and RNG instead of overwriting them with a stale hatch draft
+  ---
+  duration_ms: 180.453
+  type: 'test'
+  ...
+# Subtest: native cry and hatch text begin together and announcement awaits cry before fanfare and the nickname prompt
+ok 156 - native cry and hatch text begin together and announcement awaits cry before fanfare and the nickname prompt
+  ---
+  duration_ms: 0.884458
+  type: 'test'
+  ...
+# Subtest: successful original Togepi hatch writes native memo/OT/Dex/Elm flag and pending trigger before nickname then awaits coherent field resume
+ok 157 - successful original Togepi hatch writes native memo/OT/Dex/Elm flag and pending trigger before nickname then awaits coherent field resume
+  ---
+  duration_ms: 0.660917
+  type: 'test'
+  ...
+# Subtest: the native met date is sampled after the reveal/decision and foreign OT transfers previous met data to Egg provenance
+ok 158 - the native met date is sampled after the reveal/decision and foreign OT transfers previous met data to Egg provenance
+  ---
+  duration_ms: 0.84825
+  type: 'test'
+  ...
+# Subtest: native owner comparison includes the OT name, and nonstandard hatch map sections fall back to MysteryZone
+ok 159 - native owner comparison includes the OT name, and nonstandard hatch map sections fall back to MysteryZone
+  ---
+  duration_ms: 1.099541
+  type: 'test'
+  ...
+# Subtest: known species do not get the unique-caught score twice and Elm trigger zero is not duplicated
+ok 160 - known species do not get the unique-caught score twice and Elm trigger zero is not duplicated
+  ---
+  duration_ms: 1.095542
+  type: 'test'
+  ...
+# Subtest: native nickname cancellation/default name preserves the species name and nickname flag comparison
+ok 161 - native nickname cancellation/default name preserves the species name and nickname flag comparison
+  ---
+  duration_ms: 6.600708
+  type: 'test'
+  ...
+# Subtest: every awaited presentation failure restores provisional lifecycle fields and original mon identity
+ok 162 - every awaited presentation failure restores provisional lifecycle fields and original mon identity
+  ---
+  duration_ms: 5.758333
+  type: 'test'
+  ...
+# Subtest: an early announcement failure cannot finish rollback or permit retry while its owned cry task is still running
+ok 163 - an early announcement failure cannot finish rollback or permit retry while its owned cry task is still running
+  ---
+  duration_ms: 1.195834
+  type: 'test'
+  ...
+# Subtest: unresolved native nickname responses roll back instead of silently accepting or committing a partial hatch
+ok 164 - unresolved native nickname responses roll back instead of silently accepting or committing a partial hatch
+  ---
+  duration_ms: 1.832875
+  type: 'test'
+  ...
+# Subtest: a field change during the awaited reveal is cancelled and the outer source checkpoint restores the complete action
+ok 165 - a field change during the awaited reveal is cancelled and the outer source checkpoint restores the complete action
+  ---
+  duration_ms: 0.641083
+  type: 'test'
+  ...
+# Subtest: root source rollback includes the preceding step and field reward; retry commits one hatch and one set of rewards
+ok 166 - root source rollback includes the preceding step and field reward; retry commits one hatch and one set of rewards
+  ---
+  duration_ms: 1.4755
+  type: 'test'
+  ...
+# Subtest: missing presentation/profile/provenance and unsupported form/reward paths never silently turn the Egg into a Pokémon
+ok 167 - missing presentation/profile/provenance and unsupported form/reward paths never silently turn the Egg into a Pokémon
+  ---
+  duration_ms: 3.3015
+  type: 'test'
+  ...
+# Subtest: Ranger Manaphy uses the native PID-local PRandom anti-shiny loop without extra saved LCG draws
+ok 168 - Ranger Manaphy uses the native PID-local PRandom anti-shiny loop without extra saved LCG draws
+  ---
+  duration_ms: 0.944458
+  type: 'test'
+  ...
+# Subtest: Ranger Manaphy rejects an invalid saved PID before a local reroll can disguise it
+ok 169 - Ranger Manaphy rejects an invalid saved PID before a local reroll can disguise it
+  ---
+  duration_ms: 0.7335
+  type: 'test'
+  ...
+# Subtest: field ordering source places hatch eligibility after trainer/coord/warp/forced/poison/Safari and before wild encounters/repel
+ok 170 - field ordering source places hatch eligibility after trainer/coord/warp/forced/poison/Safari and before wild encounters/repel
+  ---
+  duration_ms: 2.153167
+  type: 'test'
+  ...
+# Subtest: the actual standard hatch script still fails explicitly without the root EggHatchAnim integration port
+ok 171 - the actual standard hatch script still fails explicitly without the root EggHatchAnim integration port
+  ---
+  duration_ms: 4.134417
+  type: 'test'
+  ...
+# (node:61177) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native four-draw seed1 fixture preserves unsigned PID, packed IV order, normal stats, Egg cycles/name and Extrasensory
+ok 172 - native four-draw seed1 fixture preserves unsigned PID, packed IV order, normal stats, Egg cycles/name and Extrasensory
+  ---
+  duration_ms: 2.424167
+  type: 'test'
+  ...
+# Subtest: LCG matches native u32 arithmetic, including high seeds, and browser seeds/profile IDs use the entire uint32 range
+ok 173 - LCG matches native u32 arithmetic, including high seeds, and browser seeds/profile IDs use the entire uint32 range
+  ---
+  duration_ms: 0.422292
+  type: 'test'
+  ...
+# Subtest: gender uses the native31 boundary and native genderless/fixed-sex cases
+ok 174 - gender uses the native31 boundary and native genderless/fixed-sex cases
+  ---
+  duration_ms: 0.109209
+  type: 'test'
+  ...
+# Subtest: full party is an exact non-award: no PC fallback, profile mutation, RNG/date calls or saved gift identity
+ok 175 - full party is an exact non-award: no PC fallback, profile mutation, RNG/date calls or saved gift identity
+  ---
+  duration_ms: 1.454584
+  type: 'test'
+  ...
+# Subtest: legacy saves lazily acquire one persisted trainer ID/seed; subsequent gift draws continue the saved LCG without fresh IDs
+ok 176 - legacy saves lazily acquire one persisted trainer ID/seed; subsequent gift draws continue the saved LCG without fresh IDs
+  ---
+  duration_ms: 0.6865
+  type: 'test'
+  ...
+# Subtest: native gift identity survives save/restore and evolutions but rejects every original OT/language/game/PID/gender mismatch
+ok 177 - native gift identity survives save/restore and evolutions but rejects every original OT/language/game/PID/gender mismatch
+  ---
+  duration_ms: 0.694875
+  type: 'test'
+  ...
+# Subtest: positive Egg HP cannot make it battle-usable, selectable as follower or visible to native party species queries; Pokédex stays untouched
+ok 178 - positive Egg HP cannot make it battle-usable, selectable as follower or visible to native party species queries; Pokédex stays untouched
+  ---
+  duration_ms: 0.45775
+  type: 'test'
+  ...
+# Subtest: real aide acceptance runs native receipt text/flags and moves party5→6 with a saved unhatched Egg
+ok 179 - real aide acceptance runs native receipt text/flags and moves party5→6 with a saved unhatched Egg
+  ---
+  duration_ms: 7.033875
+  type: 'test'
+  ...
+# Subtest: VM Egg queries preserve native species masking, count and recorded gift identity
+ok 180 - VM Egg queries preserve native species masking, count and recorded gift identity
+  ---
+  duration_ms: 1.376209
+  type: 'test'
+  ...
+# Subtest: a failed original gift scene rolls back acquired Egg, saved PID, lazily initialized profile and LCG before retry
+ok 181 - a failed original gift scene rolls back acquired Egg, saved PID, lazily initialized profile and LCG before retry
+  ---
+  duration_ms: 0.667167
+  type: 'test'
+  ...
+# Subtest: native Egg icon export retains original501 source hash,32x32frame and required C/header provenance
+ok 182 - native Egg icon export retains original501 source hash,32x32frame and required C/header provenance
+  ---
+  duration_ms: 158.211875
+  type: 'test'
+  ...
+# (node:61178) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: sprite sex and printed symbol follow native distinctions without converting gameplay gender
+ok 183 - sprite sex and printed symbol follow native distinctions without converting gameplay gender
+  ---
+  duration_ms: 0.647292
+  type: 'test'
+  ...
+# Subtest: all54 genderless base species have source-pinned visible original front/back male-slot resources, including Magnemite and Voltorb
+ok 184 - all54 genderless base species have source-pinned visible original front/back male-slot resources, including Magnemite and Voltorb
+  ---
+  duration_ms: 335.567041
+  type: 'test'
+  ...
+# Subtest: all party views request existing genderless art while preserving genderless identity and hiding Egg details
+ok 185 - all party views request existing genderless art while preserving genderless identity and hiding Egg details
+  ---
+  duration_ms: 68.192167
+  type: 'test'
+  ...
+# Subtest: actual 3D battle sync loads native male-slot front/back artwork for genderless fighters and female-slot artwork for female fighters
+ok 186 - actual 3D battle sync loads native male-slot front/back artwork for genderless fighters and female-slot artwork for female fighters
+  ---
+  duration_ms: 26.117834
+  type: 'test'
+  ...
+# (node:61179) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: gender oracle is compiled from unchanged native function/header and covers every imported native ratio
+ok 187 - gender oracle is compiled from unchanged native function/header and covers every imported native ratio
+  ---
+  duration_ms: 147.953417
+  type: 'test'
+  ...
+# Subtest: ordinary starter Chikorita is male at native PID boundary31
+ok 188 - ordinary starter Chikorita is male at native PID boundary31
+  ---
+  duration_ms: 0.569541
+  type: 'test'
+  ...
+# Subtest: ordinary Pidgey is male at native half-ratio PID boundary127
+ok 189 - ordinary Pidgey is male at native half-ratio PID boundary127
+  ---
+  duration_ms: 0.207709
+  type: 'test'
+  ...
+# Subtest: ordinary Magnemite is genderless at both extreme PID low bytes
+ok 190 - ordinary Magnemite is genderless at both extreme PID low bytes
+  ---
+  duration_ms: 0.144334
+  type: 'test'
+  ...
+# Subtest: ordinary createMon matches the literal native C oracle for all256 PID bytes and all7 source ratios without changing its RNG consumption
+ok 191 - ordinary createMon matches the literal native C oracle for all256 PID bytes and all7 source ratios without changing its RNG consumption
+  ---
+  duration_ms: 163.794667
+  type: 'test'
+  ...
+# Subtest: existing native Egg gender API preserves every source-ratio/PID result including fixed sexes and genderless
+ok 192 - existing native Egg gender API preserves every source-ratio/PID result including fixed sexes and genderless
+  ---
+  duration_ms: 0.820834
+  type: 'test'
+  ...
+# (node:61180) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an unhatched Egg keeps its original icon and conceals species, level, health, gender, stats and moves in all party views
+ok 193 - an unhatched Egg keeps its original icon and conceals species, level, health, gender, stats and moves in all party views
+  ---
+  duration_ms: 1.77725
+  type: 'test'
+  ...
+# Subtest: native Egg Watch thresholds select literal exported messages without advancing the saved hatch cycles
+ok 194 - native Egg Watch thresholds select literal exported messages without advancing the saved hatch cycles
+  ---
+  duration_ms: 0.124375
+  type: 'test'
+  ...
+# Subtest: a hatched Pokémon retains normal party health, level, typing, ownership and move presentation
+ok 195 - a hatched Pokémon retains normal party health, level, typing, ownership and move presentation
+  ---
+  duration_ms: 0.345
+  type: 'test'
+  ...
+# (node:61181) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Wade, Sprout Tower and Violet Gym source objects detect only their native unobstructed sight line
+ok 196 - actual Wade, Sprout Tower and Violet Gym source objects detect only their native unobstructed sight line
+  ---
+  duration_ms: 111.30525
+  type: 'test'
+  ...
+# Subtest: native event flags, explicit show/hide, defeat flags and range all affect sight
+ok 197 - native event flags, explicit show/hide, defeat flags and range all affect sight
+  ---
+  duration_ms: 4.86375
+  type: 'test'
+  ...
+# Subtest: actual twins produce a paired context, never a fabricated single battle, and require two usable Pokémon
+ok 198 - actual twins produce a paired context, never a fabricated single battle, and require two usable Pokémon
+  ---
+  duration_ms: 38.172959
+  type: 'test'
+  ...
+# Subtest: a flag-hidden missing partner is an explicit admission error that can be latched without blocking movement forever
+ok 199 - a flag-hidden missing partner is an explicit admission error that can be latched without blocking movement forever
+  ---
+  duration_ms: 7.461875
+  type: 'test'
+  ...
+# Subtest: outer scene Return retains failed trainer suppression while explicit Retry replays the actual Wade source action
+ok 200 - outer scene Return retains failed trainer suppression while explicit Retry replays the actual Wade source action
+  ---
+  duration_ms: 22.475417
+  type: 'test'
+  ...
+# Subtest: independent trainers retain native object order and only combine when doubles are eligible
+ok 201 - independent trainers retain native object order and only combine when doubles are eligible
+  ---
+  duration_ms: 1.889333
+  type: 'test'
+  ...
+# Subtest: native type two scans cardinal directions while ordinary type one follows live facing
+ok 202 - native type two scans cardinal directions while ordinary type one follows live facing
+  ---
+  duration_ms: 2.1645
+  type: 'test'
+  ...
+# Subtest: sight ignores roaming-range bit one but requires player occupancy at the clear endpoint
+ok 203 - sight ignores roaming-range bit one but requires player occupancy at the clear endpoint
+  ---
+  duration_ms: 1.664709
+  type: 'test'
+  ...
+# Subtest: actual collision adapter rejects terrain, furniture, directional walls and another actor in sight
+ok 204 - actual collision adapter rejects terrain, furniture, directional walls and another actor in sight
+  ---
+  duration_ms: 1.935875
+  type: 'test'
+  ...
+# Subtest: native trainer sight crosses water without checking player Surf eligibility, but obeys its collision attribute
+ok 205 - native trainer sight crosses water without checking player Surf eligibility, but obeys its collision attribute
+  ---
+  duration_ms: 110.095208
+  type: 'test'
+  ...
+# Subtest: a moving object occupies both its current and previous source tile at the matching floor
+ok 206 - a moving object occupies both its current and previous source tile at the matching floor
+  ---
+  duration_ms: 15.985375
+  type: 'test'
+  ...
+# Subtest: trainer constants use the same map-first resolution as the source VM
+ok 207 - trainer constants use the same map-first resolution as the source VM
+  ---
+  duration_ms: 5.173
+  type: 'test'
+  ...
+# Subtest: a live following Pokémon occupies the native sight line on its own floor
+ok 208 - a live following Pokémon occupies the native sight line on its own floor
+  ---
+  duration_ms: 2.364
+  type: 'test'
+  ...
+# Subtest: sight uses native height threshold and does not mistake the player on a different floor for an endpoint
+ok 209 - sight uses native height threshold and does not mistake the player on a different floor for an endpoint
+  ---
+  duration_ms: 1.344792
+  type: 'test'
+  ...
+# Subtest: the shared single-trainer approach moves distance minus one tiles before native dialogue/battle and survives save/Continue
+ok 210 - the shared single-trainer approach moves distance minus one tiles before native dialogue/battle and survives save/Continue
+  ---
+  duration_ms: 19.035625
+  type: 'test'
+  ...
+# Subtest: blocked or stale approach plans stop explicitly instead of teleporting around obstacles
+ok 211 - blocked or stale approach plans stop explicitly instead of teleporting around obstacles
+  ---
+  duration_ms: 117.595792
+  type: 'test'
+  ...
+# Subtest: native event priority runs frame scripts before trainers and defers lower priority step events
+ok 212 - native event priority runs frame scripts before trainers and defers lower priority step events
+  ---
+  duration_ms: 0.503166
+  type: 'test'
+  ...
+# (node:61182) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Irwin party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+ok 213 - actual Irwin party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+  ---
+  duration_ms: 6.134833
+  type: 'test'
+  ...
+# Subtest: actual Jasmine party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+ok 214 - actual Jasmine party retains native PID/IV/move overrides and correctly gives genderless Pokémon no sex
+  ---
+  duration_ms: 0.572375
+  type: 'test'
+  ...
+# Subtest: both trainer genders and every forced-gender/ability case match literal native C selectors for all7 personal ratios
+ok 215 - both trainer genders and every forced-gender/ability case match literal native C selectors for all7 personal ratios
+  ---
+  duration_ms: 75.311333
+  type: 'test'
+  ...
+# Subtest: native PID selector and ability-bit carry across a multi-Pokémon trainer party are retained
+ok 216 - native PID selector and ability-bit carry across a multi-Pokémon trainer party are retained
+  ---
+  duration_ms: 0.617625
+  type: 'test'
+  ...
+# (node:61183) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native trainer script banks decode the same trainer and reject ordinary scripts/approach
+ok 217 - native trainer script banks decode the same trainer and reject ordinary scripts/approach
+  ---
+  duration_ms: 0.393125
+  type: 'test'
+  ...
+# Subtest: manual Wade introduction, win and phone acceptance run the actual shared trainer script
+ok 218 - manual Wade introduction, win and phone acceptance run the actual shared trainer script
+  ---
+  duration_ms: 168.569167
+  type: 'test'
+  ...
+# Subtest: defeated Wade gives source after-battle dialogue and never fights again without a rematch
+ok 219 - defeated Wade gives source after-battle dialogue and never fights again without a rematch
+  ---
+  duration_ms: 70.981666
+  type: 'test'
+  ...
+# Subtest: phone refusal is respected and a later conversation uses the native second offer
+ok 220 - phone refusal is respected and a later conversation uses the native second offer
+  ---
+  duration_ms: 8.38475
+  type: 'test'
+  ...
+# Subtest: loss calls whiteout without defeating the trainer or offering a phone number
+ok 221 - loss calls whiteout without defeating the trainer or offering a phone number
+  ---
+  duration_ms: 1.068584
+  type: 'test'
+  ...
+# Subtest: failed battle host work cannot advance source victory flags
+ok 222 - failed battle host work cannot advance source victory flags
+  ---
+  duration_ms: 1.522375
+  type: 'test'
+  ...
+# Subtest: Sprout Tower sage and both Violet Gym trainers complete their non-phone standard paths
+ok 223 - Sprout Tower sage and both Violet Gym trainers complete their non-phone standard paths
+  ---
+  duration_ms: 2.494583
+  type: 'test'
+  ...
+# Subtest: both native double-trainer partners reject one usable Pokémon with their own message
+ok 224 - both native double-trainer partners reject one usable Pokémon with their own message
+  ---
+  duration_ms: 1.56325
+  type: 'test'
+  ...
+# Subtest: double-trainer partner banks retain the proper intro/after message and shared defeat flag
+ok 225 - double-trainer partner banks retain the proper intro/after message and shared defeat flag
+  ---
+  duration_ms: 1.964666
+  type: 'test'
+  ...
+# Subtest: trainer movement mutation is an explicit field host contract
+ok 226 - trainer movement mutation is an explicit field host contract
+  ---
+  duration_ms: 2.590917
+  type: 'test'
+  ...
+# Subtest: hidden-trainer reveal movement resolves last-talked identity in the originating map, not the common bank
+ok 227 - hidden-trainer reveal movement resolves last-talked identity in the originating map, not the common bank
+  ---
+  duration_ms: 10.108583
+  type: 'test'
+  ...
+# Subtest: native explicit trainer flag branches, clearing, and boolean comparison retain source semantics
+ok 228 - native explicit trainer flag branches, clearing, and boolean comparison retain source semantics
+  ---
+  duration_ms: 1.546292
+  type: 'test'
+  ...
+# Subtest: last-interacted flag commands use the native object event identity rather than substituting its trainer number
+ok 229 - last-interacted flag commands use the native object event identity rather than substituting its trainer number
+  ---
+  duration_ms: 1.722041
+  type: 'test'
+  ...
+# Subtest: native phone contacts, gifts and rematch order come from the source tables
+ok 230 - native phone contacts, gifts and rematch order come from the source tables
+  ---
+  duration_ms: 5.466458
+  type: 'test'
+  ...
+# Subtest: a queued native phone gift is consumed once and delivered through the source item script
+ok 231 - a queued native phone gift is consumed once and delivered through the source item script
+  ---
+  duration_ms: 8.75975
+  type: 'test'
+  ...
+# Subtest: an unlocked requested rematch keeps the original trainer context while flagging the new team
+ok 232 - an unlocked requested rematch keeps the original trainer context while flagging the new team
+  ---
+  duration_ms: 5.894125
+  type: 'test'
+  ...
+# Subtest: sight approach consumes explicit field context and awaits the supplied trainer path
+ok 233 - sight approach consumes explicit field context and awaits the supplied trainer path
+  ---
+  duration_ms: 7.093791
+  type: 'test'
+  ...
+# Subtest: approach cannot pretend pathfinding or follower state is implemented without its host hooks
+ok 234 - approach cannot pretend pathfinding or follower state is implemented without its host hooks
+  ---
+  duration_ms: 1.198625
+  type: 'test'
+  ...
+# Subtest: approach context rejects a mismatched source trainer before executing commands
+ok 235 - approach context rejects a mismatched source trainer before executing commands
+  ---
+  duration_ms: 0.80225
+  type: 'test'
+  ...
+# Subtest: the Morty candle operation remains explicit while source guarded no-ops work elsewhere
+ok 236 - the Morty candle operation remains explicit while source guarded no-ops work elsewhere
+  ---
+  duration_ms: 2.100334
+  type: 'test'
+  ...
+1..236
+# tests 258
+# suites 0
+# pass 258
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13754.53125
+

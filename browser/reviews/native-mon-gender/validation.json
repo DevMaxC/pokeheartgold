@@ -1,0 +1,81 @@
+{
+  "baseCommit": "7539325391af5859176da10aa94a70eb2118c84a",
+  "finding": "P3-3 in immutable native-broad-f21d568; same native ratio defect also confirmed in trainer overrides.",
+  "nativeSources": [
+    {
+      "path": "src/pokemon.c",
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    },
+    {
+      "path": "src/trainer_data.c",
+      "sha256": "2e5232c4989f6f2752087bf46579e8207b90b2e5abf65f04dac72e2b03496803"
+    },
+    {
+      "path": "include/constants/pokemon.h",
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+    },
+    {
+      "path": "files/poketool/personal/personal.json",
+      "sha256": "8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"
+    },
+    {
+      "path": "files/poketool/personal/personal.json.txt",
+      "sha256": "31cc87a0aea4d16d63a2cd010ef161e5383b9ca44481ba7cad80ed326eb93c4e"
+    }
+  ],
+  "helpers": {
+    "nativeGenderRatio": "(ratio:number)=>number, raw0..255 for the source fraction domain",
+    "nativeMonGender": "(ratio:number,personality:number)=>'male'|'female'|'genderless'",
+    "nativeEggGender": "Existing export preserved as alias of nativeMonGender"
+  },
+  "sourceHashes": {
+    "data.ts": "8651684dee9ccc7dcf43999a01dcd074f9d65c7f5a6b203701e1be02267f87ae",
+    "eggs.ts": "8adb4f18df6819d77535bc8e9662da18b70c392558e99147383410f0cdd48a96",
+    "trainers.ts": "155234fdc9988b56ee88b0069a4cc6372dcff8d300091221572fbc32fe7f676d",
+    "gender.ts": "c1a19402547e055d3599745a7a5af0b2353ef6c31dee8d28208b2544b7653dcd",
+    "gender.test.ts": "b1ae47cc98cef4b25b270c0f113db9030dc66f3fd726233d554ee01be77d2a1d",
+    "trainer-gender.test.ts": "6d7aba1de66336982184962c1213fba81852fd4e2e603f3ba2e42ae17646128f"
+  },
+  "before": {
+    "factories": "Exact base75393253 data.ts/eggs.ts/trainers.ts restored together for actual runs; copied as *-before.ts.txt, then final files restored in finally. Tests/oracle unchanged between before and after.",
+    "ordinary": {
+      "tests": 6,
+      "pass": 2,
+      "fail": 4,
+      "log": "ordinary-before.log"
+    },
+    "trainer": {
+      "tests": 4,
+      "pass": 0,
+      "fail": 4,
+      "log": "trainer-before.log"
+    }
+  },
+  "after": {
+    "focused": 10,
+    "targetedIncludingBattleTrainerEggHatch": 240,
+    "projectTypeScriptExit": 0
+  },
+  "coverage": {
+    "nativeRatios": 7,
+    "compiledNativePidCases": 1792,
+    "ordinaryFactoryPidCases": 5376,
+    "eggHelperPidCases": 5376,
+    "compiledNativeTrainerSelectorCases": 441,
+    "trainerGenderAbilityMatrixCases": 126,
+    "realTrainerIds": [
+      7,
+      33
+    ],
+    "multiMonSelectorCarry": true,
+    "ordinaryRngDrawsPerMon": 8,
+    "trainerBrowserFactoryRngDrawsPerMon": 8
+  },
+  "limits": [
+    "Source arithmetic fixture on host C, not a DS ROM/playthrough.",
+    "No native ordinary global RNG/OT/ability/form/capsule or whole-trainer-system parity claim. Existing factory RNG consumption retained.",
+    "Existing saved Mon.gender values are preserved; no schema migration.",
+    "No main/World/UI/battle/script edits, Vite build or browser checks.",
+    "Actual independent follow-up pending copied source review; broad f21d568 review is not transferred to changed source."
+  ]
+}

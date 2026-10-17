@@ -1,0 +1,7 @@
+{
+  "oldControllerCommit": "8f4fb2ad83b146d8d0cf86127ab420403f53fc63",
+  "oldControllerSHA256": "5e8c38cb282ad0c92b8394677d6435b14d20c117fafb6c4cc806b80fa212a7fe",
+  "scope": "Isolate D1/D2 using current native manifest/unchanged GLBs/PNGs. Private metadata adds legacy samplerFlags alias=textureRepeatFlipAdditions0 so old loader ABI accepts equivalent TEX0 data. No current source/assets changed.",
+  "tests": "One baseline spawn positive and two remaining-defect regressions",
+  "expectedExitCode": 1
+}

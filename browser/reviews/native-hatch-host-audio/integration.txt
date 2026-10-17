@@ -1,0 +1,34 @@
+Only the new hatch-host-audio.ts and test are source changes. Main, UI, World, music player, native assets and hatch core remain owned by the root integration.
+
+At hatch admission, BEFORE creating/starting this adapter:
+
+hatching = true;
+const priorMusicWork = [musicRequestPending, unlockPending].filter(Boolean);
+const audio = createHatchHostAudio({
+  enabled: state.options.sound,
+  player: music,
+  sharedAudioOutput: () => music.sharedAudioOutput(),
+  drainFieldWork: () => Promise.allSettled(priorMusicWork).then(() => {}),
+  report: musicFailed,
+  retainRestore: retry => pendingMusicRestores.add(retry),
+  timeoutMs: 1500,
+  preparationTimeoutMs: 4000,
+});
+
+Use audio.music in presentNativeEggHatch. Inject audio.cry(scene, viewSignal) into WorldEggHatchView's cry port. The view's AbortSignal controls that cry. Keep ordinary host hatch admission, source-action rollback, UI and field-resume ownership intact.
+
+The drain callback MUST reference the SAME immutable pre-hatch promise list on every call. Do not read current globals dynamically and do not wait for the restore itself. Main's hatch guard suppresses new map sync, unlock, Settings retry and background restoration while the action owns the field.
+
+The adapter bounds initial drain, then invokes player.field.suspend synchronously even when capture is kind:none. This cancels current player generations and latches interruption before a delayed unlock/catalog continuation can admit a field voice. If the initial drain timed out, restoration first re-drains that same fixed work list; a timeout reports and retains an independent retry while leaving field playback interrupted. The existing before-battle restore path may bounded-fail and use its silent battle fallback; an old catalog completion remains muted. A later map selects the current desired cue before retrying retained restorations.
+
+Enabled restoration of a saved playing voice checks the borrowed output's permission and lifetime first. A suspended AudioContext must not queue the old field node or count as completed restoration. Keep the retry retained until the host's gesture/permission flow resumes the shared Context. This adapter never creates, resumes or closes a Context. Muted and no-track cleanup preserves its explicit no-audio behavior.
+
+sharedAudioOutput returns {context, output, signal}: the already-unlocked player Context, existing preference/master gain, and player-lifetime AbortSignal. Root's shared player dependency supplies this getter. Borrowed lifetime listeners are removed on closure; player disposal stays an explicit cancellation for admitted audio. Stop/disconnect only owned source/gain nodes, never the player's gain or Context.
+
+Music/fanfare retain exact native1011/1188 WAV hashes/loop/completion metadata. Both prepare concurrently under a separate4000ms default; drain/manifest/start/restore use1500ms. Do not force preparation back to the short guard. Technical fetch/hash/decode/context/start/playback failure reports HatchHostAudioFailure (an Error with operation/cause) and leaves no fabricated voice, while actual visual/text/naming/flags proceed. Wrong/missing source or required mechanism, unsupported cue/species/form/Manaphy, and cancellation reject explicitly. A diagnostic callback fault is explicit configuration failure, but physical field cleanup still runs.
+
+The only cry admitted here is standard Togepi175/form0. It uses the original pinned mono5380-frame10512Hz PCM8 WAV and shared output, with linear120/127 gain from generic SEQ_PV volume. No custom Chatot, other species/forms, all-Egg or hardware mixer fidelity claim. Successful cry waits for actual ended; failure/deadline stops owned resources and permits native no-playing progression.
+
+PlayFanfare starts its15-count timer even if admission fails. Failed admission observes the15/30-second presentation counter, with elapsed admission time included. Successful playback waits for actual ended plus the verified completionFrame tail. The injected wait can use the host's native clock; the default is cancellable wall-clock presentation, not proof of browser/native frame alignment.
+
+67 focused tests and TSC pass. The real hatch lifecycle fixture uses mocked visual/text acknowledgements, so it is not a browser playthrough. Actual-player race/phase tests use controlled Context/catalog fixtures and original hatch WAV assets. No Vite build, browser/mobile audio audition, campaign or production verification is claimed by this leaf. Root must cherry source/follow-up/evidence commits, skipping dependency-only5bb8d54d.

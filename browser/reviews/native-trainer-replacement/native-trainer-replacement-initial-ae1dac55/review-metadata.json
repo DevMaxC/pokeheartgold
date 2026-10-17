@@ -1,0 +1,28 @@
+{
+  "baseCommit": "d0900800545927c135760296ab0ee18df7f0c8f6",
+  "manifestSha256": "2c208e86dfe9a975684f5a00bfa54399c3a8536024b919ad379cc8fa577d792c",
+  "promptSha256": "3ef840fe153ebf3f060916819f0dd1b1bbec966d359bcb6983fceb387bbff88b",
+  "runtimeSha256": "ae1dac55d8ff14101c41946461026fe7958903fbbc1fef85a0e8f8b33230a15b",
+  "testSha256": "bb2be3078f368019e0f92a2a0a7b67f7702c7435819d738dca3e55c1ee37c694",
+  "snapshotFiles": 221,
+  "startedAtUTC": "2026-10-17T15:27:16.993420+00:00",
+  "requestedModel": "claude-opus-5-5",
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--setting-sources",
+    "",
+    "--no-session-persistence",
+    "--output-format",
+    "json"
+  ]
+}

@@ -12,7 +12,7 @@ globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'
 const data=await loadData();
 function sequence(values:number[]){let calls=0;return{rng:()=>{assert.ok(calls<values.length,'unexpected gameplay RNG draw');return values[calls++];},get calls(){return calls;}};}
 function moves(mon:Mon,...keys:string[]){mon.moves=keys.map(key=>{const id=data.constants[key],pp=data.moves[id].pp;return{id,pp,maxPP:pp};});}
-function harness(playerSpecies=21,enemySpecies=19,rng:()=>number=()=>.5){
+function harness(playerSpecies=21,enemySpecies=19,rng:()=>number=()=>32769/65536){
   const elements=new Map<string,{innerHTML:string;hidden:boolean;onclick?:()=>void}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}}as unknown as Document;
   const state=newState(data,'Ethan','boy'),player=createMon(data,playerSpecies,20,state.name,()=>.5),enemy=createMon(data,enemySpecies,20,'Opponent',()=>.5);state.party=[player];for(const mon of[player,enemy]){mon.hp=mon.maxHP=200;mon.stats={atk:50,def:50,spatk:50,spdef:50,speed:50};}moves(player,'MOVE_TACKLE');moves(enemy,'MOVE_TACKLE');
   const calls:string[]=[],messages:string[]=[],view:BattleView={location:'Johto',begin:async()=>{calls.push('begin');},sync:()=>{calls.push('sync');},attack:async()=>{calls.push('attack');},hit:async()=>{calls.push('hit');},capture:async()=>{},orbit:()=>{},end:()=>{calls.push('end');}};
@@ -35,7 +35,7 @@ test('native multi-hit sampling has GenIV probabilities and SkillLink consumes n
   const counts=[0,0,0,0,0,0];for(let first=0;first<4;first++)for(let second=0;second<4;second++){const draws=sequence([(first+.1)/4,(second+.1)/4]);counts[multiHitCount(draws.rng)]++;assert.equal(draws.calls,first<2?1:2);}assert.deepEqual(counts.slice(2),[6,6,2,2]);assert.equal(multiHitCount(()=>{throw Error('SkillLink must not roll hit count');},true),5);
 });
 test('FuryAttack spends one PP and accuracy check, recalculating critical damage per hit',async()=>{
-  const draws=sequence([0,.75,.5,0,0,.5,.9999,.5,0,.5,0]),h=harness(21,19,draws.rng);moves(h.player,'MOVE_FURY_ATTACK');const pp=h.player.moves[0].pp;
+  const draws=sequence([0,.75,.5,0,0,32769/65536,.9999,32769/65536,0,32769/65536,0]),h=harness(21,19,draws.rng);moves(h.player,'MOVE_FURY_ATTACK');const pp=h.player.moves[0].pp;
   await attack(h);assert.equal(h.enemy.hp,169,'native base5: critical85%=12, ordinary100%=7,85%=6+6');assert.equal(h.player.moves[0].pp,pp-1);assert.equal(draws.calls,11);assert.equal(h.calls.filter(x=>x==='attack').length,4);assert.equal(h.calls.filter(x=>x==='hit').length,4);assert.equal(h.messages.filter(x=>x.includes('used Fury Attack')).length,1);assert.equal(h.messages.filter(x=>x==='A critical hit!').length,1);assert.ok(h.messages.includes('Hit 4 times!'));
 });
 test('missed FuryAttack rolls no count or damage, and fainting stops remaining hits',async()=>{
@@ -47,9 +47,9 @@ test('SkillLink makes five hits; Ghost immunity stops without a hit-count messag
   const immune=harness(21,92);moves(immune.player,'MOVE_FURY_ATTACK');await attack(immune);assert.equal(immune.enemy.hp,200);assert.equal(immune.calls.filter(x=>x==='hit').length,0);assert.ok(!immune.messages.some(x=>/^Hit \d/.test(x)));
 });
 test('native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit',async()=>{
-  const draws=sequence([0,0,0,.5,.9999]),h=harness(29,19,draws.rng);moves(h.player,'MOVE_DOUBLE_KICK');const pp=h.player.moves[0].pp;
+  const draws=sequence([0,0,0,32769/65536,.9999]),h=harness(29,19,draws.rng);moves(h.player,'MOVE_DOUBLE_KICK');const pp=h.player.moves[0].pp;
   await attack(h);assert.equal(h.enemy.hp,158,'base8: critical85% against Normal=26, ordinary100%=16');assert.equal(h.player.moves[0].pp,pp-1);assert.equal(draws.calls,5,'no random hit-count draw');assert.equal(h.calls.filter(x=>x==='attack').length,2);assert.equal(h.calls.filter(x=>x==='hit').length,2);assert.equal(h.messages.filter(x=>x==='A critical hit!').length,1);assert.ok(h.messages.includes('Hit 2 times!'));
-  const koDraws=sequence([0,.5,0]),ko=harness(29,19,koDraws.rng);moves(ko.player,'MOVE_DOUBLE_KICK');ko.enemy.hp=1;await attack(ko);assert.equal(ko.enemy.hp,0);assert.equal(koDraws.calls,3,'fainting skips the second critical/damage rolls');assert.equal(ko.calls.filter(x=>x==='attack').length,1);assert.ok(ko.messages.includes('Hit 1 time!'));
+  const koDraws=sequence([0,32769/65536,0]),ko=harness(29,19,koDraws.rng);moves(ko.player,'MOVE_DOUBLE_KICK');ko.enemy.hp=1;await attack(ko);assert.equal(ko.enemy.hp,0);assert.equal(koDraws.calls,3,'fainting skips the second critical/damage rolls');assert.equal(ko.calls.filter(x=>x==='attack').length,1);assert.ok(ko.messages.includes('Hit 1 time!'));
 });
 test('DoubleKick builds surviving Rage once for each native hit',async()=>{
   const h=harness(158,29);moves(h.player,'MOVE_RAGE');moves(h.enemy,'MOVE_DOUBLE_KICK');await attack(h);h.player.hp=200;await attack(h,false);assert.equal(stages(h).atk,2);assert.equal(h.messages.filter(x=>x.includes('rage is building')).length,2);assert.ok(h.messages.includes('Hit 2 times!'));stages(h).atk=5;await attack(h,false);assert.equal(stages(h).atk,6,'the two hits still respect the native stat cap');

@@ -1,0 +1,54 @@
+TAP version 13
+# (node:42203) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native40/41/87 direct effect scripts never call critical or ranged damage, and halfHP uses DamageDivide
+ok 1 - native40/41/87 direct effect scripts never call critical or ranged damage, and halfHP uses DamageDivide
+  ---
+  duration_ms: 15.994875
+  type: 'test'
+  ...
+# Subtest: natural Rattata SuperFang ignores FocusEnergy, burn, Reflect and resistance without critical/range draws
+ok 2 - natural Rattata SuperFang ignores FocusEnergy, burn, Reflect and resistance without critical/range draws
+  ---
+  duration_ms: 1208.084125
+  type: 'test'
+  ...
+# Subtest: natural Dratini DragonRage deals40 through Steel resistance and has only its accuracy draw
+ok 3 - natural Dratini DragonRage deals40 through Steel resistance and has only its accuracy draw
+  ---
+  duration_ms: 150.473875
+  type: 'test'
+  ...
+# Subtest: natural Gastly NightShade uses level damage against super-effective/resisted types but keeps Normal immunity
+ok 4 - natural Gastly NightShade uses level damage against super-effective/resisted types but keeps Normal immunity
+  ---
+  duration_ms: 451.917417
+  type: 'test'
+  ...
+# Subtest: actual Hoothoot Foresight persists across player switch and lets natural Machop SeismicToss hit Ghosts
+ok 5 - actual Hoothoot Foresight persists across player switch and lets natural Machop SeismicToss hit Ghosts
+  ---
+  duration_ms: 301.853125
+  type: 'test'
+  ...
+# Subtest: fixed contact SuperFang still draws Static after accuracy and can paralyze its user
+ok 6 - fixed contact SuperFang still draws Static after accuracy and can paralyze its user
+  ---
+  duration_ms: 152.463042
+  type: 'test'
+  ...
+# Subtest: native WonderGuard retains its type-permission check for fixed damage without multiplying the amount
+ok 7 - native WonderGuard retains its type-permission check for fixed damage without multiplying the amount
+  ---
+  duration_ms: 301.701584
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3379.83025

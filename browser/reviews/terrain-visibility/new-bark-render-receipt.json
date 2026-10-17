@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "sourceBase": "081c5ec8da0ae36812f2fc6741e687d138fad27b",
+  "helperSHA256": "1dce13209ea72dc1e7044523de1d6181b59269d3710c9131a8b6332352a55271",
+  "map": 60,
+  "position": {
+    "x": 693.5,
+    "y": 1,
+    "z": 397.5
+  },
+  "camera": [
+    693.5,
+    9.098255452980343,
+    424.55891938776637
+  ],
+  "target": [
+    693.5,
+    1.9,
+    397.5
+  ],
+  "yaw": 0,
+  "pitch": 0.26,
+  "distance": 28,
+  "viewport": [
+    1100,
+    740
+  ],
+  "output": [
+    780,
+    525
+  ],
+  "images": [
+    "new-bark-native.jpg",
+    "new-bark-candidate.jpg"
+  ],
+  "comparison": "same placed scene and valid orbit; new terrain-scenery meshes hidden only, old removed208foundation not reconstructed",
+  "note": "Actual T3 WebGL renders from an isolated QA session; same scene and valid orbit, only new terrain repair mesh visibility differs. Independent native movement/camera witnesses are in terrain-new-bark-regression.json. This is not full-map visual approval.",
+  "runtimeSHA256": {
+    "src/source/world.ts": "bf17f3132d2cfdc5afd16956756d64020cb5de8311f28ceb3e352de571fa1107",
+    "src/source/terrain-scenery.ts": "1dce13209ea72dc1e7044523de1d6181b59269d3710c9131a8b6332352a55271",
+    "src/source/terrace-model.ts": "8517b3fda9e8d8cc7f678b34a4f29f40071de99d040370ca215ae4fde19f3632",
+    "src/source/render-repair.ts": "aa95d94ec1a2a514df5929f78be53766104d594812d83713abae02e1a37b95a7",
+    "src/source/sky.ts": "2243d41a90a16462d9da75b9896adb16131b6cb7e081c43952e7814926c56381",
+    "src/source/ledges.ts": "a3712230b8133173ce0b4692b85f3c132270143275ec928762d061477afeaa8d",
+    "src/source/building-footing.ts": "e5afe47a932db5518a6625bf7789ff27629d98b1fc8092962a5562b6b6b12074"
+  },
+  "imageSHA256": {
+    "new-bark-native.jpg": "f4e3be7587939a7524ff1113de40bf5e016813bd01774480921a369b4a55075f",
+    "new-bark-candidate.jpg": "4e2876bb770737830a5123be0d3f47e447537f84a46594d20e93eefd53ffdbba"
+  },
+  "status": "Historical actual-render comparison at helper1dce1320; final source now differs. Fresh current-source visual checks remain pending disconnected preview host."
+}

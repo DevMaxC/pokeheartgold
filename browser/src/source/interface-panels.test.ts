@@ -191,6 +191,15 @@ test('a stale Save callback cannot save, unlock sound, navigate, or resolve a re
   }finally{f.restore();}
 });
 
+test('modern party and summary use the native male sprite slot for genderless Pokémon without changing identity',async()=>{
+ const f=fixture();try{
+  const mon={species:81,gender:'genderless',name:'Magnemite',level:5,hp:15,maxHP:20,status:'',ot:'Ethan',stats:{atk:8,def:9,spatk:10,spdef:7,speed:8},moves:[]}as Mon;
+  f.state!.party=[mon];const before=structuredClone(mon),party=f.panels.party();
+  assert.match(f.html(),/81-male-front\.png/);assert.doesNotMatch(f.html(),/genderless-front|[♂♀]/);
+  f.action('0').click();await tick();assert.match(f.html(),/81-male-front\.png/);assert.doesNotMatch(f.html(),/genderless-front|[♂♀]/);
+  f.action('back').click();await tick();f.action('back').click();await party;assert.deepEqual(mon,before);
+ }finally{f.restore();}
+});
 
 test('open Settings follows the global mute and cross-tab volume changes without replacing its owned panel',async()=>{
  const f=fixture();try{const listeners=new Set<()=>void>();Object.assign(f.ports,{watchMusic:(listener:()=>void)=>{listeners.add(listener);return()=>{listeners.delete(listener);};}});const pending=f.panels.settings();f.ports.updatePreferences({...f.prefs,music:false,volume:.17});for(const listener of listeners)listener();assert.equal(f.node('setting-music').textContent,'Off');assert.equal(f.node('setting-music').getAttribute('aria-pressed'),'false');assert.equal(f.node('setting-volume').value,'17');assert.equal(f.node('setting-volume-value').textContent,'17%');assert.equal(f.ui.panelOpen,true);f.node('setting-music').click();assert.equal(f.prefs.music,true);f.node('settings-done').click();await pending;assert.equal(listeners.size,0);

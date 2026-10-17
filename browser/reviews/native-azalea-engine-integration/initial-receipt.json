@@ -1,0 +1,45 @@
+{
+  "implementationCommit": "ce7258cfa21cbe519e80568da42e15e892cc9e2a",
+  "createdAt": "2026-10-17T15:49:50.970391+00:00",
+  "branch": "feat/native-azalea-battle-effects",
+  "base": "d0900800545927c135760296ab0ee18df7f0c8f6",
+  "dependencies": {
+    "85183783": "e8966bdf823cfe0198b6222619f4baa55efe0647",
+    "393a5581": "866dc829854702c6e77f67b368836cd02a965091",
+    "c81d7525": "8cbd4f1d3341dd937f71b63ab10d0f9df7abaed7"
+  },
+  "currentFiles": {
+    "browser/src/source/battle.ts": "56b914997131d978cfe6df2323106100e93f632f5026ac03a5b4677dd3a98eb9",
+    "browser/src/source/battle-math.ts": "788b76ffb4ced043152606993ad2303fe44ddb65fb9ae39d2fc3cf29036a1dcb",
+    "browser/src/source/azalea-battle-integration.test.ts": "3187d3c4c1b84d9aec6204e90c7325df6c831986a3351c3fef1fc47f9c8c0644",
+    "browser/src/source/battle-replacement.ts": "10aba7042db71a4f97c70b358d90abb20f70db05a40f198afe480e2e8deb16c1",
+    "browser/src/source/gender.ts": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6",
+    "browser/src/source/trainers.ts": "155234fdc9988b56ee88b0069a4cc6372dcff8d300091221572fbc32fe7f676d"
+  },
+  "tests": {
+    "affected": {
+      "command": "node --experimental-transform-types --test src/source/battle*.test.ts src/source/early-battle-effects.test.ts src/source/azalea-battle-integration.test.ts src/source/gender*.test.ts src/source/trainer-gender.test.ts",
+      "log": "/tmp/hg-azalea-engine-final-tests.log",
+      "pass": 170,
+      "fail": 0
+    },
+    "tsc": {
+      "command": "./node_modules/.bin/tsc --noEmit",
+      "log": "/tmp/hg-azalea-engine-final-tsc.log",
+      "exitCode": 0
+    }
+  },
+  "qualifications": [
+    "Ordinary Gen IV single Azalea team/move scope; current host rejects doubles.",
+    "No full game/campaign or browser/render/production approval. No build or browser performed.",
+    "Injected unit RNG only. New critical/confusion/ShedSkin use raw-u16 bridge; old accuracy/range/enemy-move RNG conventions remain; no global native LCG stream parity claim.",
+    "Replacement selector separately reviewed; earlier neutral-port tests do not prove current host callbacks. Engine review pending.",
+    "Main/UI/World and saved Mon/State schema unchanged by engine commit.",
+    "Prior native-azalea-volatile-contract describes the earlier unhosted primitive checkpoint. Runtime helpers unchanged; engine host now admits source-guarded effects.",
+    "Historical runtime adapter hash is checked against preserved pre-gender source. All native/data contract hashes still checked.",
+    "Old .5 noncritical tape assumption is invalid for native raw32768 modulo16. Old test sources/logs preserved; intended noncritical draws now use raw32769.",
+    "Pinsir naturally knows Harden; old status fixture Metapod now has source-correct ShedSkin at residual ability phase. LightScreen replaces newly supported Reflect as the unported side-target probe.",
+    "Enemy move selection retains the preexisting uniform available-slot policy; native trainer item AI and full native move-choice AI are outside this patch. Only replacement choice now uses the separately reviewed native selector.",
+    "Full real Bugsy win is a source team/action fixture, not a natural field walking, VM campaign, visual or production approval."
+  ]
+}

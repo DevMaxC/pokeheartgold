@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {Battle} from './battle.ts';
 import {createMon,loadData,newState} from './data.ts';
+import {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
+import {giveTogepiEgg,isOriginalTogepiGift,firstFollowerMon,isUsableBattler as eggIsUsableBattler,firstUsableBattlerIndex as eggFirstUsableBattlerIndex} from './eggs.ts';
 import type {Mon} from './types.ts';
 import type {UI} from './ui.ts';
 globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
@@ -14,12 +16,23 @@ function egg(){return{...mon(175,1),isEgg:true,name:'Egg'};}
 function fixture(party:Mon[]){
   const elements=new Map<string,{innerHTML:string;hidden:boolean}>();
   globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}} as unknown as Document;
-  const state=newState(data,'Ethan','boy');state.party=party;
+  const state=newState(data,'Ethan','boy',()=>.5);state.party=party;
   const messages:string[]=[],battle=new Battle(data,state,{choose:async()=>4} as unknown as UI,()=>.5);
   Reflect.set(battle,'say',async(text:string)=>messages.push(text));
   return{state,battle,messages};
 }
 function tackle(target:Mon){const id=data.constants.MOVE_TACKLE,pp=data.moves[id].pp;target.moves=[{id,pp,maxPP:pp}];}
+
+test('native gift and battle/field consumers share canonical eligibility after saved-party reload',()=>{
+  assert.equal(eggIsUsableBattler,isUsableBattler);assert.equal(eggFirstUsableBattlerIndex,firstUsableBattlerIndex);
+  const state=newState(data,'Ethan','boy',()=>.5),fighter=mon();state.party=[fighter];state.nativeEggSeed=1;
+  assert.equal(giveTogepiEgg(data,state,{now:()=>new Date(2026,9,17)}),true);
+  const gift=state.party.pop()!;state.party.unshift(gift);
+  const saved=JSON.parse(JSON.stringify(state)) as typeof state,before=structuredClone(saved.party[0]);
+  assert.equal(saved.party[0].isEgg,true);assert.ok(saved.party[0].hp>0);assert.equal(isOriginalTogepiGift(data,saved,saved.party[0]),true);
+  assert.equal(isUsableBattler(saved.party[0]),false);assert.equal(firstUsableBattlerIndex(saved.party),1);assert.equal(eggFirstUsableBattlerIndex(saved.party),1);assert.equal(firstFollowerMon(saved.party),saved.party[1]);
+  assert.deepEqual(saved.party[0],before);
+});
 
 test('reloaded production party starts with its first usable non-Egg and awards no Egg EXP or EVs',async()=>{
   const fighter=mon(155,20);tackle(fighter);

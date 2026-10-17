@@ -1,0 +1,18 @@
+{
+  "runtimeCommit": "d31b7a2e",
+  "dependencyReconciliation": "85b78ce9",
+  "base": "9e99dbac",
+  "modelRequested": "claude-opus-5-5",
+  "modelUsageKeys": [
+    "claude-haiku-4-5-20251001",
+    "claude-opus-5-5"
+  ],
+  "verdict": "ACCEPT",
+  "duration_ms": 405908,
+  "rawSHA256": "458a01762ca860e01d098344b078b5ed63eaf4f6eddf461cd8140dbd604624b6",
+  "manifestSHA256": "d8f7666b8ef6ed9eab0cb67e9967ac35e822d0260e1643ccca869613e15c79d7",
+  "snapshotUnchanged": true,
+  "liveSourcePinsUnchanged": true,
+  "scope": "Read-only source/log review,210 silent focused tests and TSC; no browser/audition/build/merge/deployment/Azalea/sound-clock approval",
+  "qualification": "Inherited before-admission mute skips cry/fanfare waits and background pause; active admitted waits remain live. Lazy future fanfare preparation is bounded. Full review limitations retained verbatim."
+}

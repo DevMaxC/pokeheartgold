@@ -1,0 +1,287 @@
+{
+  "name": "newbark-control-candidate",
+  "requested": {
+    "map": 60,
+    "x": 675.5,
+    "z": 355.5,
+    "yaw": 0,
+    "pitch": 0.6,
+    "distance": 18
+  },
+  "state": {
+    "camera": {
+      "distance": 18,
+      "first": null,
+      "pitch": 0.6,
+      "position": [
+        675.5000010874913,
+        12.063559750154328,
+        370.3560318161016
+      ],
+      "target": [
+        675.5,
+        1.9,
+        355.5
+      ],
+      "yaw": 0
+    },
+    "cells": [
+      {
+        "asset": "land/208-0.glb",
+        "x": 19,
+        "z": 13
+      },
+      {
+        "asset": "land/113-9.glb",
+        "x": 19,
+        "z": 10
+      },
+      {
+        "asset": "land/114-9.glb",
+        "x": 19,
+        "z": 11
+      },
+      {
+        "asset": "land/2-2.glb",
+        "x": 19,
+        "z": 12
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 22,
+        "z": 11
+      },
+      {
+        "asset": "land/209-0.glb",
+        "x": 22,
+        "z": 13
+      },
+      {
+        "asset": "land/209-0.glb",
+        "x": 23,
+        "z": 13
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 21,
+        "z": 11
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 21,
+        "z": 13
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 20,
+        "z": 11
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 21,
+        "z": 10
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 20,
+        "z": 13
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 23,
+        "z": 11
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 19,
+        "z": 9
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 21,
+        "z": 9
+      },
+      {
+        "asset": "land/3-2.glb",
+        "x": 20,
+        "z": 12
+      },
+      {
+        "asset": "land/112-9.glb",
+        "x": 20,
+        "z": 10
+      },
+      {
+        "asset": "land/111-9.glb",
+        "x": 20,
+        "z": 9
+      },
+      {
+        "asset": "land/0-2.glb",
+        "x": 21,
+        "z": 12
+      },
+      {
+        "asset": "land/11-2.glb",
+        "x": 22,
+        "z": 12
+      },
+      {
+        "asset": "land/12-2.glb",
+        "x": 23,
+        "z": 12
+      }
+    ],
+    "headers": [
+      46,
+      0,
+      89,
+      47,
+      67,
+      34,
+      48,
+      33,
+      60,
+      31
+    ],
+    "height": 1,
+    "joints": [
+      {
+        "material": "grass01",
+        "position": [
+          624,
+          0,
+          368
+        ],
+        "triangles": 4
+      },
+      {
+        "material": "grass01gs_lm1",
+        "position": [
+          752,
+          0,
+          400
+        ],
+        "triangles": 4
+      }
+    ],
+    "limit": "Actual full streaming/rendered World. The comparison adds only native deformation joints; it does not close missing geological shells or certify the T2 filler.",
+    "map": 60,
+    "mode": "candidate",
+    "nativeLandIDs": [
+      101,
+      102,
+      103,
+      210,
+      104,
+      108,
+      105,
+      109,
+      106,
+      107,
+      208,
+      209,
+      4,
+      5,
+      7,
+      113,
+      1,
+      8,
+      114,
+      2,
+      111,
+      112,
+      3,
+      0,
+      11,
+      12
+    ],
+    "renderer": {
+      "memory": {
+        "geometries": 189,
+        "textures": 221
+      },
+      "render": {
+        "calls": 172,
+        "frame": 30,
+        "lines": 0,
+        "points": 240,
+        "triangles": 372340
+      }
+    },
+    "templateAssets": [
+      "land/101-8.glb",
+      "land/102-8.glb",
+      "land/103-8.glb",
+      "land/210-0.glb",
+      "land/104-9.glb",
+      "land/108-9.glb",
+      "land/105-9.glb",
+      "land/109-9.glb",
+      "land/106-9.glb",
+      "land/107-9.glb",
+      "land/208-0.glb",
+      "props/1-31-8.glb",
+      "props/1-139-8.glb",
+      "props/1-16-8.glb",
+      "props/1-33-8.glb",
+      "props/1-32-7.glb",
+      "props/1-40-8.glb",
+      "props/1-15-8.glb",
+      "props/1-132-8.glb",
+      "props/1-133-8.glb",
+      "props/1-29-8.glb",
+      "props/1-39-8.glb",
+      "props/1-34-8.glb",
+      "props/1-234-8.glb",
+      "props/1-235-8.glb",
+      "props/1-32-8.glb",
+      "props/1-126-8.glb",
+      "props/1-31-7.glb",
+      "land/209-0.glb",
+      "land/4-2.glb",
+      "land/5-2.glb",
+      "land/7-2.glb",
+      "land/113-9.glb",
+      "land/1-2.glb",
+      "land/8-2.glb",
+      "land/114-9.glb",
+      "land/2-2.glb",
+      "props/1-29-0.glb",
+      "props/1-30-0.glb",
+      "props/1-39-0.glb",
+      "props/1-15-0.glb",
+      "props/1-40-0.glb",
+      "props/1-37-0.glb",
+      "props/1-50-0.glb",
+      "props/1-38-0.glb",
+      "props/1-52-0.glb",
+      "land/10-2.glb",
+      "props/1-32-0.glb",
+      "props/1-35-0.glb",
+      "land/111-9.glb",
+      "land/112-9.glb",
+      "land/3-2.glb",
+      "land/0-2.glb",
+      "land/11-2.glb",
+      "land/12-2.glb",
+      "props/1-21-0.glb",
+      "props/1-26-0.glb",
+      "props/1-27-0.glb",
+      "props/1-28-0.glb",
+      "props/1-20-0.glb",
+      "props/1-24-0.glb",
+      "props/1-22-0.glb",
+      "props/1-25-0.glb",
+      "props/1-31-0.glb",
+      "props/1-41-0.glb"
+    ],
+    "terrainField": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+    "walkable": false,
+    "x": 675.5,
+    "z": 355.5
+  },
+  "screenshotPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcor9jw-e09cb9fb.png",
+  "sha256": "0db6af4fd28609369dd7a0f18a325ef5d05d15a5e8d9097c584ee1d43e2da748",
+  "capturedAt": "2026-10-17T17:43:59.629796+00:00"
+}

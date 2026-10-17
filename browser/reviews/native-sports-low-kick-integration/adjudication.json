@@ -1,0 +1,52 @@
+{
+  "runtimeFindings": [],
+  "sportsFixtureGaps": [
+    {
+      "issue": "Onix fifthmove",
+      "fix": "replace Bindslot; exactlyfour moves"
+    },
+    {
+      "issue": "Fainted caster beforeStage2",
+      "fix": "actual loopKO flips score choice1vs2"
+    },
+    {
+      "issue": "No unhalved hit after allcastersleave",
+      "fix": "exact power40 Ember HPdelta"
+    },
+    {
+      "issue": "PID/nature/stats inconsistency",
+      "fix": "createMon seeds establish ability without posthocPID mutation"
+    }
+  ],
+  "lowKickFixtureGaps": [
+    {
+      "issue": "Rain scoring canfallbacksamemon",
+      "fix": "three-slot controller picks2, fallbackwould1; callback rejectioncontrols"
+    },
+    {
+      "issue": "No exact rainHPdelta",
+      "fix": "actualAnthony\u2192Chikorita64/power20"
+    },
+    {
+      "issue": "Missing weatherguard/suppressioncontrols",
+      "fix": "fourweatherreject +CloudNine/AirLockadmit"
+    },
+    {
+      "issue": "No realreplacementweightconsumption",
+      "fix": "naturalfaint/forcedswitch +Uturn/pendingLowKick consumes250/power40"
+    }
+  ],
+  "finalActualReview": "AllfourLowKickgapsCLOSED/no new scoped defect ataa7; see rawresult and sourcequalification corrections.",
+  "postReviewTestOnlyQualification": "NativeRayquaza50 correction and nativeSeadra15\u201325 proof;14PASS; no runtime change.",
+  "partial": [
+    "ordinarynormalizedhit/rangetape",
+    "critical-before-hit scheduling",
+    "globalLCG",
+    "nativeordinaryenemy movechoice",
+    "broaderweather/abilities/items",
+    "forms/Transform",
+    "BatonPass",
+    "doubles"
+  ],
+  "invalidControlAttempt": "FirstSportcopy omitted302 fixture resource. Preserved asINVALID; corrected v2 controls execute meaningful nativeaction/algorithm assertions. No runtimefix needed."
+}

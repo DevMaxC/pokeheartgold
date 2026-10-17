@@ -1,0 +1,176 @@
+TAP version 13
+# (node:95500) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native export contains all8 polylines/12stations/48switch slots and exact committed C/SDK source hashes
+ok 1 - native export contains all8 polylines/12stations/48switch slots and exact committed C/SDK source hashes
+  ---
+  duration_ms: 13.631666
+  type: 'test'
+  ...
+# Subtest: all36 actual usable station/switch routes replay independent Python SDK fixtures with exact directed nodes/ticks/poses
+ok 2 - all36 actual usable station/switch routes replay independent Python SDK fixtures with exact directed nodes/ticks/poses
+  ---
+  duration_ms: 9.040584
+  type: 'test'
+  ...
+# Subtest: the12 native NULL routes and unoccupied/invalid station preconditions reject without modifying saved state
+ok 3 - the12 native NULL routes and unoccupied/invalid station preconditions reject without modifying saved state
+  ---
+  duration_ms: 0.424458
+  type: 'test'
+  ...
+# Subtest: forward and reverse rides preserve source boarding/disembark offsets and exact native segment timings
+ok 4 - forward and reverse rides preserve source boarding/disembark offsets and exact native segment timings
+  ---
+  duration_ms: 0.127625
+  type: 'test'
+  ...
+# Subtest: switches toggle their native bits and select the actual upper routes without teleporting other spiders
+ok 5 - switches toggle their native bits and select the actual upper routes without teleporting other spiders
+  ---
+  duration_ms: 0.134042
+  type: 'test'
+  ...
+# Subtest: Continue retains saved stations, while native OnTransition reinitializes both connection and warp entries
+ok 6 - Continue retains saved stations, while native OnTransition reinitializes both connection and warp entries
+  ---
+  duration_ms: 2.080458
+  type: 'test'
+  ...
+# Subtest: stale switch/station plans and invalid ticks fail before commit; partial ride frames never mutate saved positions
+ok 7 - stale switch/station plans and invalid ticks fail before commit; partial ride frames never mutate saved positions
+  ---
+  duration_ms: 3.81175
+  type: 'test'
+  ...
+# Subtest: authored docking waits retain native postincrement ticks and camera offsets return to zero without an orbit reset
+ok 8 - authored docking waits retain native postincrement ticks and camera offsets return to zero without an orbit reset
+  ---
+  duration_ms: 0.337125
+  type: 'test'
+  ...
+# Subtest: every native directed diagonal reaches tick48 without freezing and snaps both axes together on49
+ok 9 - every native directed diagonal reaches tick48 without freezing and snaps both axes together on49
+  ---
+  duration_ms: 15.062208
+  type: 'test'
+  ...
+# (node:95501) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: lift constants and correct room asset are traced to original Violet gym source
+ok 10 - lift constants and correct room asset are traced to original Violet gym source
+  ---
+  duration_ms: 26.571917
+  type: 'test'
+  ...
+# Subtest: native lift waits for follower, moves all riders through29height steps, then updates the plate
+ok 11 - native lift waits for follower, moves all riders through29height steps, then updates the plate
+  ---
+  duration_ms: 3.167125
+  type: 'test'
+  ...
+# Subtest: World asset loading preserves the original platform and shaft instead of inferring building/furniture repairs
+ok 12 - World asset loading preserves the original platform and shaft instead of inferring building/furniture repairs
+  ---
+  duration_ms: 1.199
+  type: 'test'
+  ...
+# Subtest: dynamic height uses literal3×3tile coverage and native nearest-floor/tie rules
+ok 13 - dynamic height uses literal3×3tile coverage and native nearest-floor/tie rules
+  ---
+  duration_ms: 0.380875
+  type: 'test'
+  ...
+# Subtest: real gym collision prevents bypassing the lift and permits the upper native walkway route
+ok 14 - real gym collision prevents bypassing the lift and permits the upper native walkway route
+  ---
+  duration_ms: 77.955625
+  type: 'test'
+  ...
+# Subtest: Continue restores both lift levels before camera/actor hydration and preserves orbit
+ok 15 - Continue restores both lift levels before camera/actor hydration and preserves orbit
+  ---
+  duration_ms: 1.826916
+  type: 'test'
+  ...
+# Subtest: field-entry adapter preserves Continue/connection state and clears native gymmick only on a real warp
+ok 16 - field-entry adapter preserves Continue/connection state and clears native gymmick only on a real warp
+  ---
+  duration_ms: 0.766792
+  type: 'test'
+  ...
+# Subtest: real map exit and reentry rederive floor height and reset down; old saves are safe
+ok 17 - real map exit and reentry rederive floor height and reset down; old saves are safe
+  ---
+  duration_ms: 13.924292
+  type: 'test'
+  ...
+# Subtest: a failed platform load retries with saved upper height and no camera snap before success
+ok 18 - a failed platform load retries with saved upper height and no camera snap before success
+  ---
+  duration_ms: 1.260833
+  type: 'test'
+  ...
+# Subtest: malformed saved lift values fall back to native DOWN instead of an endless load retry
+ok 19 - malformed saved lift values fall back to native DOWN instead of an endless load retry
+  ---
+  duration_ms: 2.340625
+  type: 'test'
+  ...
+# Subtest: native coordinate elevator script awaits actual ride and unsupported hosts fail explicitly
+ok 20 - native coordinate elevator script awaits actual ride and unsupported hosts fail explicitly
+  ---
+  duration_ms: 3.8135
+  type: 'test'
+  ...
+# Subtest: actual native entry resets machinery and requires real downstream phone commands
+ok 21 - actual native entry resets machinery and requires real downstream phone commands
+  ---
+  duration_ms: 6.758792
+  type: 'test'
+  ...
+# Subtest: map unloading aborts an in-flight ride without touching incoming actors or keeping pending state
+ok 22 - map unloading aborts an in-flight ride without touching incoming actors or keeping pending state
+  ---
+  duration_ms: 1.121208
+  type: 'test'
+  ...
+# Subtest: animation failure restores stationary platform, riders and saved lift state
+ok 23 - animation failure restores stationary platform, riders and saved lift state
+  ---
+  duration_ms: 0.505916
+  type: 'test'
+  ...
+# Subtest: unloading while follower movement is pending releases the awaited native command
+ok 24 - unloading while follower movement is pending releases the awaited native command
+  ---
+  duration_ms: 0.54725
+  type: 'test'
+  ...
+# Subtest: late asset completion cannot resurrect a lift in another map
+ok 25 - late asset completion cannot resurrect a lift in another map
+  ---
+  duration_ms: 0.12775
+  type: 'test'
+  ...
+# Subtest: placed lift animation/disposal preserves shared native geometry, material and sibling skeleton ownership
+ok 26 - placed lift animation/disposal preserves shared native geometry, material and sibling skeleton ownership
+  ---
+  duration_ms: 1.645292
+  type: 'test'
+  ...
+# Subtest: default animation uses elapsed time and cancels outstanding RAF work on abort
+ok 27 - default animation uses elapsed time and cancels outstanding RAF work on abort
+  ---
+  duration_ms: 0.345917
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2254.652917

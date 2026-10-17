@@ -1,0 +1,86 @@
+TAP version 13
+# (node:70546) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all native type scores match actual C, including duplicated mono-types
+ok 1 - all native type scores match actual C, including duplicated mono-types
+  ---
+  duration_ms: 261.352375
+  type: 'test'
+  ...
+# Subtest: Stage1 preserves u8 offensive-score overflow, mono-own-type double-counting, and party-order ties
+ok 2 - Stage1 preserves u8 offensive-score overflow, mono-own-type double-counting, and party-order ties
+  ---
+  duration_ms: 18.549541
+  type: 'test'
+  ...
+# Subtest: Stage1 repeatedly discards best matchup without an SE move before evaluating next reserve
+ok 3 - Stage1 repeatedly discards best matchup without an SE move before evaluating next reserve
+  ---
+  duration_ms: 16.278792
+  type: 'test'
+  ...
+# Subtest: actual native flag helpers include candidate ability, target held effect, charge state and source ordering
+not ok 4 - actual native flag helpers include candidate ability, target held effect, charge state and source ordering
+  ---
+  duration_ms: 57.64
+  type: 'test'
+  location: '/private/tmp/hg-trainer-replacement-mutation-fixture/browser/src/source/battle-replacement.test.ts:141:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 8
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 8
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-trainer-replacement-mutation-fixture/browser/src/source/battle-replacement.test.ts:146:151)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native move-type overrides use source item/IV order and active weather precedence
+ok 5 - native move-type overrides use source item/IV order and active weather precedence
+  ---
+  duration_ms: 5.532292
+  type: 'test'
+  ...
+# Subtest: Stage2 makes separate byte assignments before/after type application and reuses skipped-move score
+ok 6 - Stage2 makes separate byte assignments before/after type application and reuses skipped-move score
+  ---
+  duration_ms: 43.225833
+  type: 'test'
+  ...
+# Subtest: Task preselection, active/partner exclusions and firstHP fallback match literal source
+ok 7 - Task preselection, active/partner exclusions and firstHP fallback match literal source
+  ---
+  duration_ms: 21.334125
+  type: 'test'
+  ...
+# Subtest: real Bugsy21 living Scyther/Kakuna/Metapod reserves use moves/types, not first-living order
+ok 8 - real Bugsy21 living Scyther/Kakuna/Metapod reserves use moves/types, not first-living order
+  ---
+  duration_ms: 27.5975
+  type: 'test'
+  ...
+# Subtest: context and damage are not mutated; illegal indices/noninteger damage remain explicit
+ok 9 - context and damage are not mutated; illegal indices/noninteger damage remain explicit
+  ---
+  duration_ms: 12.212916
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 8
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1275.5185

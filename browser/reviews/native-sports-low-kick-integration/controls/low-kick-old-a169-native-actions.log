@@ -1,0 +1,44 @@
+TAP version 13
+# (node:77926) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native NoGuard clears a drawn miss in either direction, including a MoldBreaker attacker; ordinary control still misses
+not ok 1 - native NoGuard clears a drawn miss in either direction, including a MoldBreaker attacker; ordinary control still misses
+  ---
+  duration_ms: 6.123792
+  type: 'test'
+  location: '/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle-low-kick.test.ts:42:1'
+  failureType: 'testCodeFailure'
+  error: 'Unported original move effect 196: MOVE_LOW_KICK'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Battle.attack (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle.ts:353:71)
+    async TestContext.<anonymous> (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle-low-kick.test.ts:44:389)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: actual Anthony party resolves through legal actions in Route33 rain, including its native NoGuard LowKick
+not ok 2 - actual Anthony party resolves through legal actions in Route33 rain, including its native NoGuard LowKick
+  ---
+  duration_ms: 400.19975
+  type: 'test'
+  location: '/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle-low-kick.test.ts:67:1'
+  failureType: 'testCodeFailure'
+  error: 'Unsupported native trainer replacement damage weather'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Object.currentActorDamage (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle.ts:176:78)
+    nativePostKOTrainerReplacement (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle-replacement.ts:119:26)
+    nativeTrainerReplacement (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle-replacement.ts:135:18)
+    Battle.chooseEnemyReplacement (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle.ts:174:12)
+    Battle.loop (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle.ts:309:47)
+    async <anonymous> (/private/tmp/hg-low-kick-control-old-a169-native-actions/browser/src/source/battle.ts:222:5)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1545.997

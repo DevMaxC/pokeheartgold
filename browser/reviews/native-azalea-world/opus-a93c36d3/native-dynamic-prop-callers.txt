@@ -1,0 +1,8 @@
+src/scrcmd_c.c:4783:        MapPropManager_LoadOne(fieldSystem->mapPropManager, 0x8D, &ballCoords[i], 0, fieldSystem->mapPropAnimationManager);
+src/field/gymmick/violet.c:54:    MapPropManager_LoadOne(fieldSystem->mapPropManager, 111, &propPos, 0, fieldSystem->mapPropAnimationManager);
+src/field/gymmick/blackthorn.c:171:        localData->platforms[i].mapPropID = MapPropManager_LoadOne(fieldSystem->mapPropManager, modelIDs[i], &positionVec, &rotationVec, fieldSystem->mapPropAnimationManager);
+src/field/gymmick/azalea.c:259:        localData->spinarakMapPropIds[i] = MapPropManager_LoadOne(fieldSystem->mapPropManager, 118, &spinarakPos, 0, fieldSystem->mapPropAnimationManager);
+src/field/gymmick/ecruteak.c:52:        localData->candleMapProps[i] = MapPropManager_LoadOne(fieldSystem->mapPropManager, 128, &objectPos, NULL, fieldSystem->mapPropAnimationManager);
+src/field/map_prop_manager.c:297:u8 MapPropManager_LoadOne(MapPropManager *mapPropManager, int modelID, const VecFx32 *position, const VecFx32 *rotation, MapPropAnimationManager *mapPropAnimationManager) {
+src/field/map_prop_anims.c:104:        anim->ballProps[anim->ballIndex] = MapPropManager_LoadOne(fieldSystem->mapPropManager, MAP_PROP_HEALING_POKE_BALL, &pos, &rotation, fieldSystem->mapPropAnimationManager);
+src/field/field_move_effects.c:286:        env->ballProps[env->numPlaced] = MapPropManager_LoadOne(fieldSystem->mapPropManager, HALL_OF_FAME_BALL, &pos, &rotation, fieldSystem->mapPropAnimationManager);

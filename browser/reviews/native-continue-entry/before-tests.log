@@ -1,0 +1,172 @@
+TAP version 13
+# (node:64670) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:64670) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+ok 1 - native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+  ---
+  duration_ms: 4.635709
+  type: 'test'
+  ...
+# actual main SHA256 a4611559dcdc385671b12516e0b54aa8722e8a0c4a42b43ea0778d27d7e1a7fd; native field_warp_tasks SHA256 78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea
+# Subtest: actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+not ok 2 - actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+  ---
+  duration_ms: 4.157
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:68:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'continue'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'continue'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:70:55)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+not ok 3 - actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+  ---
+  duration_ms: 9.791709
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:75:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Original T20 OnTransition resets this variable and must not run on Continue
+    
+    0 !== 77
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 77
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:78:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+not ok 4 - actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+  ---
+  duration_ms: 10.712709
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:85:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+    +   '_EV_scr_seq_T03_008 + 1',
+        '_EV_scr_seq_T03_013 + 1',
+        '_EV_scr_seq_T03_011 + 1'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: '_EV_scr_seq_T03_013 + 1'
+    1: '_EV_scr_seq_T03_011 + 1'
+  actual:
+    0: '_EV_scr_seq_T03_008 + 1'
+    1: '_EV_scr_seq_T03_013 + 1'
+    2: '_EV_scr_seq_T03_011 + 1'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:89:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual Continue passes saved Violet height/lift into World entry without the warp initializer
+not ok 5 - actual Continue passes saved Violet height/lift into World entry without the warp initializer
+  ---
+  duration_ms: 3.697459
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:95:1'
+  failureType: 'testCodeFailure'
+  error: 'Unported source command VioletGymInit at T22GYM0101:0'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    ScriptVM.run (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/script.ts:160:93)
+    c.runScript (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:42:76)
+    evalmachine.<anonymous>:3:87
+    SourceActionRecovery.run (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/script-recovery.ts:49:28)
+    c.executeSourceAction (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:44:46)
+    runFieldEntry (evalmachine.<anonymous>:2:11)
+    evalmachine.<anonymous>:67:33
+    async SourceActionRecovery.run (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/script-recovery.ts:53:20)
+    async Object.enterMap (evalmachine.<anonymous>:7:5)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:97:2)
+  ...
+# Subtest: actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+not ok 6 - actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+  ---
+  duration_ms: 7.088792
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:101:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        'enter',
+        64,
+        6.5,
+        6.5,
+        true,
+        true,
+    -   false,
+    -   false,
+    -   'continue'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'enter'
+    1: 64
+    2: 6.5
+    3: 6.5
+    4: true
+    5: true
+    6: false
+    7: false
+    8: 'continue'
+  actual:
+    0: 'enter'
+    1: 64
+    2: 6.5
+    3: 6.5
+    4: true
+    5: true
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-continue-entry/browser/src/source/field-entry-main.test.ts:109:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual existing connection call keeps native transition-only entry without a warp spawn reset
+ok 7 - actual existing connection call keeps native transition-only entry without a warp spawn reset
+  ---
+  duration_ms: 120.244959
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 2
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 934.19325

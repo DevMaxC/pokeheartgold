@@ -1,0 +1,3 @@
+OpeningView mounts its native remembered cursor before the next browser task. The native bubble handler now respects defaultPrevented after the modal capture handler, keeping one arrow movement per key. Actual view method + UI capture + native cursor are tested together; no artwork or story changes.
+
+Identical corrected controls fail2/3 against the original integration and pass3/3 after; the initial missing-global-window fixture error is retained explicitly as invalid evidence. Final combined static review is separate and pending. Browser/device/native-hardware fidelity is not established by this DOM fixture.

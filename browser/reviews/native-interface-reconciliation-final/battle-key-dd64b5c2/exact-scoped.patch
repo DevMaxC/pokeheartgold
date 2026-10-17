@@ -1,0 +1,48 @@
+diff --git a/browser/src/source/main-native-interface.test.ts b/browser/src/source/main-native-interface.test.ts
+index 96bada0f..18e3ed53 100644
+--- a/browser/src/source/main-native-interface.test.ts
++++ b/browser/src/source/main-native-interface.test.ts
+@@ -15,7 +15,8 @@ import {defaultInterfacePreferences,writeInterfacePreferences} from './interface
+ import {chooseFieldPartySwitchTarget,swapFieldPartySlots} from './party-order.ts';
+ import {useFieldBagItem} from './field-bag-actions.ts';
+ import {partyRow,partySummary} from './party-display.ts';
+-import {loadData,newState} from './data.ts';
++import {loadData,newState,createMon} from './data.ts';
++import {Battle} from './battle.ts';
+ import {ScriptVM,UnsupportedScript} from './script.ts';
+ import {FieldObjects} from './objects.ts';
+ import {NATIVE_EGG_ICON,giveTogepiEgg} from './eggs.ts';
+@@ -295,3 +296,18 @@ test('Bag lifecycle abort in final leaf handback restores acknowledged provision
+   d.buttons[0].click();await flush();clock.flush();assert.match(d.ids.get('panel-content')!.innerHTML,/Scene not completed/);assert.equal(c.state.party[0].hp,10);assert.equal(c.state.bag.ITEM_POTION,2);assert.equal(c.writes.length,0);d.buttons[1].click();await pending;assert.equal(c.writes.length,1);assert.equal(c.writes[0].bag.ITEM_POTION,2);assert.equal(c.writes[0].party[0].hp,10);assert.equal(c.activeBagUse,null);
+  }finally{globalThis.fetch=priorFetch;c.dispose();clock.restore();d.restore();}
+ });
++
++// Native battle commands are ordinary buttons, outside UI's owned panels.
++// Exercise their REAL menu/move/back handlers and the actual field gate; the
++// DOM fixture supplies the browser's default button click only when unhandled.
++test('focused real battle Fight/move/Back retain Enter and Space defaults while field HUD and owned UI keep key ownership',async()=>{
++ const d=installUIDOM(),clock=installUIClock(),c=fixture(),priorFetch=globalThis.fetch;globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
++ try{const data=await loadData(),state=newState(data,'Gold','boy',()=>.5);state.party=[createMon(data,155,5,state.name,()=>.5)];c.ui=new UI();c.$=(id:string)=>d.ids.get(id);c.document={...d.document,addEventListener(){}};c.addEventListener=(type:string,handler:any,options:any)=>d.listen(type,handler,!!options?.capture);const fieldActions:string[]=[];c.unlockSound=()=>{};c.interact=async()=>{fieldActions.push('interact');};c.menu=async()=>{fieldActions.push('menu');};c.reportInputError=(error:any)=>{throw error;};
++  const screen=d.document.createElement('section');screen.id='battle-screen';d.document.body.appendChild(screen);const battle:any=new Battle(data,state,c.ui);battle.enemies=[createMon(data,19,3,'',()=>.5)];battle.active=true;c.battle=battle;const actions:any[]=[];battle.actions=(action:any)=>actions.push(action);runInContext(compile(events),c);
++  const activate=(button:any,code:string)=>{assert.ok(button);button.focus();const event=d.key(code);assert.equal(event.defaultPrevented,false,code+' must retain native battle button activation');if(!event.defaultPrevented)button.click();return event;};
++  for(const code of['Enter','Space']){battle.menu();assert.equal(c.ui.busy,false);assert.equal(c.fieldControlsAvailable(),false);activate(screen.querySelector('[data-action="fight"]'),code);assert.ok(screen.querySelector('[data-move="0"]'),'Fight opens actual move menu');activate(screen.querySelector('[data-move="0"]'),code);assert.deepEqual(actions.at(-1),{kind:'move',slot:0});activate(d.ids.get('battle-back'),code);assert.ok(screen.querySelector('[data-action="fight"]'),'Back returns to actual battle command menu');assert.deepEqual(fieldActions,[]);assert.equal(c.keys.size,0);}
++  // A stale focused HUD button is still field-owned once the battle ends.
++  battle.active=false;let hudClicks=0;const hud=d.ids.get('open-menu')!;hud.onclick=()=>{hudClicks++;};hud.focus();const field=d.key('Enter');if(!field.defaultPrevented)hud.click();assert.equal(field.defaultPrevented,true);assert.equal(hudClicks,0);assert.deepEqual(fieldActions,['interact']);c.keys.clear();
++  battle.active=true;for(const code of['Enter','Space']){const owned=c.ui.choose('Required battle choice',['Yes','No']);clock.flush();const event=d.key(code);assert.equal(event.defaultPrevented,true);assert.equal(await owned,0);assert.deepEqual(fieldActions,['interact']);assert.equal(c.keys.size,0);}assert.equal(c.writes.length,0);
++ }finally{globalThis.fetch=priorFetch;c.dispose();clock.restore();d.restore();}
++});
+diff --git a/browser/src/source/main.ts b/browser/src/source/main.ts
+index 72b15063..da7360d7 100644
+--- a/browser/src/source/main.ts
++++ b/browser/src/source/main.ts
+@@ -598,8 +598,9 @@ addEventListener('keydown',e=>{if(!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey)u
+ addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
+   if(e.code==='KeyR'&&!e.repeat){e.preventDefault();void answerPhone().catch(reportInputError);return;}
+   if(e.code==='Escape'){e.preventDefault();if(!e.repeat)void menu().catch(reportInputError);return;}
++  if(!fieldControlsAvailable())return;
+   if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','KeyF','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(e.code))e.preventDefault();
+-  if(!fieldControlsAvailable())return;keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat)void interact().catch(reportInputError);
++  keys.add(e.code);if(['KeyF','Enter'].includes(e.code)&&!e.repeat)void interact().catch(reportInputError);
+ });
+ addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',resetFieldInput);addEventListener('pagehide',()=>{abortBagUse();resetFieldInput();save();});
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){abortBagUse();resetFieldInput();soundUnlocked=false;}});

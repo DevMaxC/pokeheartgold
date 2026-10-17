@@ -1,0 +1,79 @@
+{
+  "candidateCommit": "866dc829854702c6e77f67b368836cd02a965091",
+  "manifestSHA256": "7b5abe450dc3c1da496f314d5ecc5ec96af320acaac5a28f85944d23cedb322a",
+  "snapshotFileCount": 486,
+  "reviewScope": "Native gender core plus party/stage/hatch presentation consumers; exact copied866dc829 graph.",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2457,
+      "outputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.002562,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 70,
+      "outputTokens": 16931,
+      "cacheReadInputTokens": 2502193,
+      "cacheCreationInputTokens": 103333,
+      "webSearchRequests": 0,
+      "costUSD": 1.3560036000000004,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 7627,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "durationMS": 203876,
+  "isError": false,
+  "runtimeVerdict": "No confirmed runtime defect in scoped leaf. Runtime hashes remain byte-identical after evidence corrections.",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "LOW",
+      "kind": "Evidence coverage wording",
+      "status": "corrected wording, no art-cache coverage claimed",
+      "correction": "Test comment and README say whole loadArt is replaced; only sync/key reuse/visibility execute. No new cache or disposal behavior claimed."
+    },
+    {
+      "id": "F2",
+      "severity": "INFO",
+      "kind": "Verification utility proof write",
+      "status": "corrected default to comparison-only; explicit --regenerate mode writes proof JSON only",
+      "evidence": [
+        "consumer-verifier-default-check.log",
+        "consumer-verifier-negative-regenerate.log"
+      ]
+    }
+  ],
+  "unchangedReviewedRuntimeHashes": {
+    "browser/src/source/gender.ts": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6",
+    "browser/src/source/party-display.ts": "95641d15503f2585e3ea2206389071198900663a32847d66799e5a37ca7f1499",
+    "browser/src/source/battle-stage.ts": "52cc7835ec0ca1341ef9f7c2ef30a28a96dcb56e43b532338d7e7088d2ba9f71",
+    "browser/src/source/egg-hatch-view.ts": "ba11e722a9d56af1974cfe21111331bd59df0ed52aaa6c5d179010b6afa7a60d",
+    "browser/src/source/data.ts": "8651684dee9ccc7dcf43999a01dcd074f9d65c7f5a6b203701e1be02267f87ae",
+    "browser/src/source/eggs.ts": "8adb4f18df6819d77535bc8e9662da18b70c392558e99147383410f0cdd48a96",
+    "browser/src/source/trainers.ts": "155234fdc9988b56ee88b0069a4cc6372dcff8d300091221572fbc32fe7f676d"
+  },
+  "unreleasedIntegrationRequirements": [
+    "Other owner Battle.image/status must import spriteGender/genderSymbol and retain native Egg/Nidoran hide rules.",
+    "Root-only InterfacePanels UI consumer wiring and integrated graph validation remain parent-owned.",
+    "No production release/merge/deployment is claimed by this local branch."
+  ],
+  "limits": [
+    "Actual independent model only read files; author ran tests/compiler/pixel comparisons.",
+    "No full native global RNG, form/shiny/breeding/game parity or actual browser/build claim.",
+    "Hatch cries remain Togepi-only; Manaphy-specific presentation remains unavailable.",
+    "Old saved genders preserved without migration.",
+    "Evidence/comment/utility corrections postdate the model snapshot; unchanged reviewed runtime hashes are explicitly proven, not approval transferred to changed runtime."
+  ]
+}

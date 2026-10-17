@@ -1,0 +1,20 @@
+{
+  "commands": [
+    {
+      "command": "node --experimental-transform-types --test src/source/mom-savings.test.ts",
+      "cwd": "browser",
+      "result": "exit0,12pass0fail"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "cwd": "browser",
+      "result": "exit0,0byteoutput"
+    },
+    {
+      "command": "git diff --cached --check",
+      "result": "exit0"
+    }
+  ],
+  "scope": "Agent execution provenance; reviewer may inspect but cannot independently execute with read-only tools.",
+  "moduleSha256": "22d0c6b133a6446ef55d5a5cad3e2102aa48c796e25410a1c5a06da67fdeb39a"
+}

@@ -1,0 +1,90 @@
+TAP version 13
+# (node:34244) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: contract pins full relevant native C/subscript/data files and all7 selected upcoming unsupported effects
+ok 1 - contract pins full relevant native C/subscript/data files and all7 selected upcoming unsupported effects
+  ---
+  duration_ms: 32.908
+  type: 'test'
+  ...
+# Subtest: native status2 bits and Rage masking retain only Rage before a non-Rage selection
+ok 2 - native status2 bits and Rage masking retain only Rage before a non-Rage selection
+  ---
+  duration_ms: 1.440291
+  type: 'test'
+  ...
+# Subtest: Supersonic duration uses raw modulo and attacker confusion decrements before a50percent low-bit check
+ok 3 - Supersonic duration uses raw modulo and attacker confusion decrements before a50percent low-bit check
+  ---
+  duration_ms: 0.497625
+  type: 'test'
+  ...
+# Subtest: FocusEnergy boosts native critical stage by2 without stacking and armor still consumes the critical draw
+ok 4 - FocusEnergy boosts native critical stage by2 without stacking and armor still consumes the critical draw
+  ---
+  duration_ms: 0.909833
+  type: 'test'
+  ...
+# Subtest: Spite targets the first native matching TryMove-recorded move, caps at remaining PP and preserves other slot data
+ok 5 - Spite targets the first native matching TryMove-recorded move, caps at remaining PP and preserves other slot data
+  ---
+  duration_ms: 0.59275
+  type: 'test'
+  ...
+# Subtest: MeanLook retains native single-battler provenance and its switch versus escape bypasses differ
+ok 6 - MeanLook retains native single-battler provenance and its switch versus escape bypasses differ
+  ---
+  duration_ms: 0.342958
+  type: 'test'
+  ...
+# Subtest: actual rival Ghost Curse uses current types, integer half sacrifice and quarter residual with MagicGuard immunity
+ok 7 - actual rival Ghost Curse uses current types, integer half sacrifice and quarter residual with MagicGuard immunity
+  ---
+  duration_ms: 0.26425
+  type: 'test'
+  ...
+# Subtest: Reflect activation counts its own turn, never refreshes and modifies the physical pre+2 intermediate
+ok 8 - Reflect activation counts its own turn, never refreshes and modifies the physical pre+2 intermediate
+  ---
+  duration_ms: 0.22825
+  type: 'test'
+  ...
+# Subtest: actual Bugsy Uturn has usable reserves but its pure gate does not claim an executed pivot or victory
+ok 9 - actual Bugsy Uturn has usable reserves but its pure gate does not claim an executed pivot or victory
+  ---
+  duration_ms: 0.503083
+  type: 'test'
+  ...
+# Subtest: Spite history records native MOVE_SUCCEEDED before later miss/effect failure, with FAIL mask provenance kept exact
+ok 10 - Spite history records native MOVE_SUCCEEDED before later miss/effect failure, with FAIL mask provenance kept exact
+  ---
+  duration_ms: 3.691167
+  type: 'test'
+  ...
+# Subtest: both additional actual Azalea rival variants contain the source volatile move set
+ok 11 - both additional actual Azalea rival variants contain the source volatile move set
+  ---
+  duration_ms: 0.376459
+  type: 'test'
+  ...
+# Subtest: actual3bit Reflect packing and sole LightClay modifier match logical5/8turn expiry and reject refresh
+ok 12 - actual3bit Reflect packing and sole LightClay modifier match logical5/8turn expiry and reject refresh
+  ---
+  duration_ms: 0.974292
+  type: 'test'
+  ...
+# Subtest: all15 pivot protocol phases follow the pinned native0175 and ShowParty010 source sequence
+ok 13 - all15 pivot protocol phases follow the pinned native0175 and ShowParty010 source sequence
+  ---
+  duration_ms: 1.132792
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 634.724

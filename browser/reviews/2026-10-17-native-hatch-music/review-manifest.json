@@ -1,0 +1,576 @@
+{
+  "schemaVersion": 1,
+  "scope": "Read-only evidence for native hatch music module/assets/exporter; no root host, build, browser, live audibility or full-game approval.",
+  "assembledAtUTC": "2026-10-17T12:38:26.317602+00:00",
+  "finalReviewedSourceRevision": "71598bfa9925900133352f62464353d61fb1456b",
+  "sourceRevisions": [
+    {
+      "commit": "d86d91baab502ee859cc54fff8186c2549664447",
+      "rootCherryPick": "02808474fd847379bcd50edba659808292a29004",
+      "sourceHashes": {
+        "browser/src/source/hatch-music.ts": "859bf05e35e3e086d5dca0f80db5b9335e78b656c3701a6506fc937ce652eb7f",
+        "browser/src/source/hatch-music.test.ts": "d5ac2ef03266df0c865cbf5a36758cfae11c5bf1692c3a96e6737591920c25ee",
+        "browser/scripts/export_hatch_music.py": "385042d2add220f7dcdb070716192e8ed6b0851e6840a84224da0c4ece87a989",
+        "browser/public/source/hatching/music/manifest.json": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+        "browser/public/source/hatching/music/1011-SEQ_GS_SHINKA.wav": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+        "browser/public/source/hatching/music/1188-SEQ_ME_SHINKAOME.wav": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea"
+      }
+    },
+    {
+      "commit": "f69bb430e893b90ef37228eadab90ffc91b5ced2",
+      "rootCherryPick": "355e288c4ad11a6e224efb530d635ad0118e6aa6",
+      "sourceHashes": {
+        "browser/src/source/hatch-music.ts": "f5d07a88c34cf13b60b685a7a3c56b552f38591551e9202d57deffb10462c531",
+        "browser/src/source/hatch-music.test.ts": "cf1211a8074556e7abea70dd3f94b6bb4cf6aa131e076ed2978477c48c971939",
+        "browser/scripts/export_hatch_music.py": "5c356935e40b0c0a379ab6deaa1867a4a8335fceb08db6ed1871f8f7b9938e76",
+        "browser/public/source/hatching/music/manifest.json": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+        "browser/public/source/hatching/music/1011-SEQ_GS_SHINKA.wav": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+        "browser/public/source/hatching/music/1188-SEQ_ME_SHINKAOME.wav": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea"
+      }
+    },
+    {
+      "commit": "71598bfa9925900133352f62464353d61fb1456b",
+      "rootCherryPick": "b049af3d827220223be8ec7e6468373ea1725cf0",
+      "sourceHashes": {
+        "browser/src/source/hatch-music.ts": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860",
+        "browser/src/source/hatch-music.test.ts": "53577f4c20e7c974bb695c890c5dabc7f4943a29bac3dbbdbb99bf80f0781631",
+        "browser/scripts/export_hatch_music.py": "fb0cfa36c61fe669847c1358469c8991b9d75fabf5ac00cf2bf326ffac645219",
+        "browser/public/source/hatching/music/manifest.json": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+        "browser/public/source/hatching/music/1011-SEQ_GS_SHINKA.wav": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+        "browser/public/source/hatching/music/1188-SEQ_ME_SHINKAOME.wav": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea"
+      }
+    }
+  ],
+  "finalSourceHashes": {
+    "browser/src/source/hatch-music.ts": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860",
+    "browser/src/source/hatch-music.test.ts": "53577f4c20e7c974bb695c890c5dabc7f4943a29bac3dbbdbb99bf80f0781631",
+    "browser/scripts/export_hatch_music.py": "fb0cfa36c61fe669847c1358469c8991b9d75fabf5ac00cf2bf326ffac645219",
+    "browser/public/source/hatching/music/manifest.json": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+    "browser/public/source/hatching/music/1011-SEQ_GS_SHINKA.wav": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+    "browser/public/source/hatching/music/1188-SEQ_ME_SHINKAOME.wav": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea"
+  },
+  "nativeSourceHashes": {
+    "files/data/sound/gs_sound_data.sdat": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+    "include/constants/sndseq.h": "8d6b246a5eca81b8711a410aa260cf5d87f4c33286955f6d0d0155ef3f28dca1",
+    "src/hatch_egg_app.c": "3f4bce5d67911457a6979baf23c7d5d3596d290102dfcef2602f5fb17403d1ee",
+    "src/sound_playback.c": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
+    "src/field_bgm.c": "62b1c3543e83a6f59f4a9da032d37ba558f06ba5dd827a346b9ddab67d83d082",
+    "src/launch_application.c": "9b000a1361f54f0019ba246e3eca8cd12c3afbab49b4184f1a96253b6a324c75",
+    "src/main.c": "5bda9fcdcde42d9bfbcaeed969361d6b42b5841116b2bae407283abacf7018dc",
+    "src/sound_system.c": "87225f374d36440d2c413dc42c88508fabf6456318f0f72ce84b892504443323",
+    "lib/NitroSDK/src/snd/snd_interface.c": "bcc8bda26670c75eb1b77720ec0775b8e78047468906775181d5d6afba4c66c3"
+  },
+  "reviews": [
+    {
+      "stage": "initial",
+      "reviewedRevision": "d86d91baab502ee859cc54fff8186c2549664447",
+      "files": {
+        "rawResult": {
+          "path": "artifacts/hg-hatch-music-opus-review.json",
+          "bytes": 8380,
+          "sha256": "ea9e21eeebff56df6df6b5094f782d5e7ddcec8fa5141924938730442dcd534f"
+        },
+        "prompt": {
+          "path": "artifacts/hg-hatch-music-opus-prompt.txt",
+          "bytes": 2096,
+          "sha256": "5897b372de2c9b8f7a4cc3a6a047a9b9cf742701fcefb0b8fe9b069e6f9a7f3f"
+        },
+        "stderr": {
+          "path": "artifacts/hg-hatch-music-opus-review.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "command": {
+        "cwd": "/Users/maxchurch/Documents/pokeheartgold-native-hatch-music",
+        "argv": [
+          "claude",
+          "-p",
+          "--model",
+          "opus",
+          "--safe-mode",
+          "--restricted",
+          "--strict-mcp-config",
+          "--mcp-config",
+          "{\"mcpServers\":{}}",
+          "--tools",
+          "Read,Grep,Glob",
+          "--allowedTools",
+          "Read,Grep,Glob",
+          "--permission-mode",
+          "plan",
+          "--no-session-persistence",
+          "--output-format",
+          "json"
+        ],
+        "stdin": "hg-hatch-music-opus-prompt.txt",
+        "stdout": "hg-hatch-music-opus-review.json",
+        "stderr": "hg-hatch-music-opus-review.stderr"
+      },
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1518,
+          "outputTokens": 18,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001608,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 20,
+          "outputTokens": 19699,
+          "cacheReadInputTokens": 278375,
+          "cacheCreationInputTokens": 48281,
+          "webSearchRequests": 0,
+          "costUSD": 0.6911399999999999,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 15360,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "isError": false,
+      "permissionDenials": [
+        {
+          "tool_name": "Grep",
+          "tool_use_id": "toolu_01N1SSTK2TGd9Xg4c5YtbqHA",
+          "tool_input": {
+            "pattern": "def estimate_end_sample|loop_passes|loop_marks|def write_wav",
+            "path": "/tmp/hg-dualrip-native-audio/dualrip",
+            "output_mode": "content",
+            "-n": true
+          }
+        }
+      ],
+      "resultSHA256": "520fd74cfdb149c393d8672c5e362d92d136f06de16904c904219b117f9836d7",
+      "resultFileModificationTimeUTC": "2026-10-17T12:20:48.837312+00:00"
+    },
+    {
+      "stage": "followup",
+      "reviewedRevision": "f69bb430e893b90ef37228eadab90ffc91b5ced2",
+      "files": {
+        "rawResult": {
+          "path": "artifacts/hg-hatch-music-opus-followup-review.json",
+          "bytes": 6386,
+          "sha256": "9aae8afc27bedb9879ebacf032bcd196b0b08938fe4b3218d29663592c5df88e"
+        },
+        "prompt": {
+          "path": "artifacts/hg-hatch-music-opus-followup-prompt.txt",
+          "bytes": 2251,
+          "sha256": "3a370a018601072f2cb84e913a3cb845db9e40abad0ae6f1c64b49c1416291b7"
+        },
+        "stderr": {
+          "path": "artifacts/hg-hatch-music-opus-followup-review.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "command": {
+        "cwd": "/Users/maxchurch/Documents/pokeheartgold-native-hatch-music",
+        "argv": [
+          "claude",
+          "-p",
+          "--model",
+          "opus",
+          "--safe-mode",
+          "--restricted",
+          "--add-dir",
+          "/tmp/hg-dualrip-native-audio",
+          "--strict-mcp-config",
+          "--mcp-config",
+          "{\"mcpServers\":{}}",
+          "--tools",
+          "Read,Grep,Glob",
+          "--allowedTools",
+          "Read,Grep,Glob",
+          "--permission-mode",
+          "plan",
+          "--no-session-persistence",
+          "--output-format",
+          "json"
+        ],
+        "stdin": "hg-hatch-music-opus-followup-prompt.txt",
+        "stdout": "hg-hatch-music-opus-followup-review.json",
+        "stderr": "hg-hatch-music-opus-followup-review.stderr"
+      },
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1681,
+          "outputTokens": 19,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001776,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 16,
+          "outputTokens": 6717,
+          "cacheReadInputTokens": 206749,
+          "cacheCreationInputTokens": 41876,
+          "webSearchRequests": 0,
+          "costUSD": 0.3851338000000001,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 3775,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "isError": false,
+      "permissionDenials": [
+        {
+          "tool_name": "Read",
+          "tool_use_id": "toolu_01887J6yCQd8vLTwcc4gGQaa",
+          "tool_input": {
+            "file_path": "/tmp/hg-hatch-music-opus-review.json"
+          }
+        }
+      ],
+      "resultSHA256": "b2cc7514abf33976368b657ac237a62a318748eadeacb625fe9a8936fe43fbe6",
+      "resultFileModificationTimeUTC": "2026-10-17T12:27:28.386432+00:00"
+    },
+    {
+      "stage": "final",
+      "reviewedRevision": "71598bfa9925900133352f62464353d61fb1456b",
+      "files": {
+        "rawResult": {
+          "path": "artifacts/hg-hatch-music-opus-last-review.json",
+          "bytes": 4687,
+          "sha256": "944bdffee8cee5815bdb45dee0cdc286418dcdf2464c3e5cf8aea3fa7c577091"
+        },
+        "prompt": {
+          "path": "artifacts/hg-hatch-music-opus-last-prompt.txt",
+          "bytes": 1455,
+          "sha256": "99f6c194cd60b8cae7ae962b772c15540ef3ac2ebf9d1603726f0ea3a7c2c454"
+        },
+        "stderr": {
+          "path": "artifacts/hg-hatch-music-opus-last-review.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "command": {
+        "cwd": "/Users/maxchurch/Documents/pokeheartgold-native-hatch-music",
+        "argv": [
+          "claude",
+          "-p",
+          "--model",
+          "opus",
+          "--safe-mode",
+          "--restricted",
+          "--strict-mcp-config",
+          "--mcp-config",
+          "{\"mcpServers\":{}}",
+          "--tools",
+          "Read,Grep,Glob",
+          "--allowedTools",
+          "Read,Grep,Glob",
+          "--permission-mode",
+          "plan",
+          "--no-session-persistence",
+          "--output-format",
+          "json"
+        ],
+        "stdin": "hg-hatch-music-opus-last-prompt.txt",
+        "stdout": "hg-hatch-music-opus-last-review.json",
+        "stderr": "hg-hatch-music-opus-last-review.stderr"
+      },
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1345,
+          "outputTokens": 20,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001445,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 8,
+          "outputTokens": 2468,
+          "cacheReadInputTokens": 40581,
+          "cacheCreationInputTokens": 14485,
+          "webSearchRequests": 0,
+          "costUSD": 0.1299332,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 960,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "isError": false,
+      "permissionDenials": [],
+      "resultSHA256": "1f1783d74a1ca404f98afc59594563f74ddba05ad16e9892b04a3271b7f83ddc",
+      "resultFileModificationTimeUTC": "2026-10-17T12:32:26.088586+00:00"
+    }
+  ],
+  "renderer": {
+    "repository": "https://github.com/TetraSsky/DualRip",
+    "commit": "80f878b0ebf100f391028bcef69f7c5743473770",
+    "license": "MIT",
+    "numpy": "2.2.6",
+    "ndspy": "4.2.0",
+    "files": {
+      "dualrip/engine/sdat/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dualrip/engine/sdat/channel.py": "dcbbb8eaf78a2813fd10f176388da6d6239a701da6195191ed784775b530ca16",
+      "dualrip/engine/sdat/cprims.py": "4ec0d314bfd17bebf6a551a97315e9f74ef3b567d05897694735e79385e0d1e9",
+      "dualrip/engine/sdat/render.py": "34aa705379e3023e7c3be004dd293fbda59af3263a22c76c12714cb0e27eba6c",
+      "dualrip/engine/sdat/sequencer.py": "d67c36e6c547e4d84154232d408eb0bfa753660369e810fd46b959232b3daf40",
+      "dualrip/engine/sdat/tables.py": "f02a82985b96916293fba8dbf2204f27396a14ea118638410040e848c0d9dd0f",
+      "dualrip/formats/sdat/__init__.py": "02c53df2796c85cb34a9ea53201cdea7607a7da13e2f32ae26418bdb2337a6d0",
+      "dualrip/formats/sdat/common.py": "372c9ee925e44e64ef299e4f27068fc2efa90f726337ecdaa5bcee143289ac81",
+      "dualrip/formats/sdat/rom.py": "58c75448fbcd1dd526107e584afda3c0f32097b543f6820d84f850ddadf5f065",
+      "dualrip/formats/sdat/sbnk.py": "07971e00df2262877ebfc293f11a2f4609d5fe2aceee458c80fee6274d384d94",
+      "dualrip/formats/sdat/sdat.py": "26ed84b07711c5bc877fe4ddbb6315eb2752a9874fda292b92de36930284eebf",
+      "dualrip/formats/sdat/swar.py": "d729a9eb33000fbe97472a55795de29d4326f5ff5537444aeabeb3bf06704cf1"
+    }
+  },
+  "exportOutputHashes": {
+    "1011-SEQ_GS_SHINKA.wav": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+    "1188-SEQ_ME_SHINKAOME.wav": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea",
+    "manifest.json": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e"
+  },
+  "exportRuns": [
+    {
+      "run": "initial",
+      "exporterSourceRevision": "d86d91baab502ee859cc54fff8186c2549664447",
+      "exporterSHA256": "385042d2add220f7dcdb070716192e8ed6b0851e6840a84224da0c4ece87a989",
+      "pythonOptimized": false,
+      "originalOutputDirectory": "/Users/maxchurch/Documents/pokeheartgold-native-hatch-music/browser/public/source/hatching/music",
+      "originalLog": "artifacts/hg-hatch-music-export.log",
+      "commandArgv": [
+        "/tmp/hg-hatch-music-export-venv/bin/python",
+        "browser/scripts/export_hatch_music.py",
+        "--renderer",
+        "/tmp/hg-dualrip-native-audio"
+      ],
+      "comparedFiles": {
+        "1011-SEQ_GS_SHINKA.wav": {
+          "bytes": 6181024,
+          "sha256": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+          "byteEqualToCommitted": true
+        },
+        "1188-SEQ_ME_SHINKAOME.wav": {
+          "bytes": 544252,
+          "sha256": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea",
+          "byteEqualToCommitted": true
+        },
+        "manifest.json": {
+          "bytes": 6032,
+          "sha256": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+          "byteEqualToCommitted": true
+        }
+      },
+      "comparisonRecheckedAtUTC": "2026-10-17T12:38:26.317602+00:00"
+    },
+    {
+      "run": "duplicate-normal",
+      "exporterSourceRevision": "d86d91baab502ee859cc54fff8186c2549664447",
+      "exporterSHA256": "385042d2add220f7dcdb070716192e8ed6b0851e6840a84224da0c4ece87a989",
+      "pythonOptimized": false,
+      "originalOutputDirectory": "/tmp/hg-hatch-music-reexport",
+      "originalLog": "artifacts/hg-hatch-music-reexport.log",
+      "commandArgv": [
+        "/tmp/hg-hatch-music-export-venv/bin/python",
+        "browser/scripts/export_hatch_music.py",
+        "--renderer",
+        "/tmp/hg-dualrip-native-audio",
+        "--output",
+        "/tmp/hg-hatch-music-reexport"
+      ],
+      "comparedFiles": {
+        "1011-SEQ_GS_SHINKA.wav": {
+          "bytes": 6181024,
+          "sha256": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+          "byteEqualToCommitted": true
+        },
+        "1188-SEQ_ME_SHINKAOME.wav": {
+          "bytes": 544252,
+          "sha256": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea",
+          "byteEqualToCommitted": true
+        },
+        "manifest.json": {
+          "bytes": 6032,
+          "sha256": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+          "byteEqualToCommitted": true
+        }
+      },
+      "comparisonRecheckedAtUTC": "2026-10-17T12:38:26.317602+00:00"
+    },
+    {
+      "run": "optimized-f69",
+      "exporterSourceRevision": "f69bb430e893b90ef37228eadab90ffc91b5ced2",
+      "exporterSHA256": "5c356935e40b0c0a379ab6deaa1867a4a8335fceb08db6ed1871f8f7b9938e76",
+      "pythonOptimized": true,
+      "originalOutputDirectory": "/tmp/hg-hatch-music-optimized-export",
+      "originalLog": "artifacts/hg-hatch-music-optimized-export.log",
+      "commandArgv": [
+        "/tmp/hg-hatch-music-export-venv/bin/python",
+        "-O",
+        "browser/scripts/export_hatch_music.py",
+        "--renderer",
+        "/tmp/hg-dualrip-native-audio",
+        "--output",
+        "/tmp/hg-hatch-music-optimized-export"
+      ],
+      "comparedFiles": {
+        "1011-SEQ_GS_SHINKA.wav": {
+          "bytes": 6181024,
+          "sha256": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+          "byteEqualToCommitted": true
+        },
+        "1188-SEQ_ME_SHINKAOME.wav": {
+          "bytes": 544252,
+          "sha256": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea",
+          "byteEqualToCommitted": true
+        },
+        "manifest.json": {
+          "bytes": 6032,
+          "sha256": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+          "byteEqualToCommitted": true
+        }
+      },
+      "comparisonRecheckedAtUTC": "2026-10-17T12:38:26.317602+00:00"
+    },
+    {
+      "run": "final-optimized-715",
+      "exporterSourceRevision": "71598bfa9925900133352f62464353d61fb1456b",
+      "exporterSHA256": "fb0cfa36c61fe669847c1358469c8991b9d75fabf5ac00cf2bf326ffac645219",
+      "pythonOptimized": true,
+      "originalOutputDirectory": "/tmp/hg-hatch-music-final-export",
+      "originalLog": "artifacts/hg-hatch-music-final-export.log",
+      "commandArgv": [
+        "/tmp/hg-hatch-music-export-venv/bin/python",
+        "-O",
+        "browser/scripts/export_hatch_music.py",
+        "--renderer",
+        "/tmp/hg-dualrip-native-audio",
+        "--output",
+        "/tmp/hg-hatch-music-final-export"
+      ],
+      "comparedFiles": {
+        "1011-SEQ_GS_SHINKA.wav": {
+          "bytes": 6181024,
+          "sha256": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+          "byteEqualToCommitted": true
+        },
+        "1188-SEQ_ME_SHINKAOME.wav": {
+          "bytes": 544252,
+          "sha256": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea",
+          "byteEqualToCommitted": true
+        },
+        "manifest.json": {
+          "bytes": 6032,
+          "sha256": "b97e219ab6260048eb0ffa50855295ad85211f6479be529bcec77a4f1f5d4d4e",
+          "byteEqualToCommitted": true
+        }
+      },
+      "comparisonRecheckedAtUTC": "2026-10-17T12:38:26.317602+00:00"
+    }
+  ],
+  "environmentReadAtAssembly": {
+    "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:11:29) [Clang 20.1.8 ]",
+    "numpy": "2.2.6",
+    "ndspy": "4.2.0",
+    "rendererHEAD": "80f878b0ebf100f391028bcef69f7c5743473770",
+    "rendererTrackedTreeClean": true
+  },
+  "priorExecutionReceipts": {
+    "scopedTests": {
+      "cwd": "browser",
+      "argv": [
+        "node",
+        "--experimental-transform-types",
+        "--test",
+        "src/source/hatch-music.test.ts",
+        "src/source/egg-hatching.test.ts",
+        "src/source/eggs.test.ts",
+        "src/source/egg-hatch-view.test.ts"
+      ],
+      "observedExitCode": 0,
+      "tests": 59,
+      "pass": 59,
+      "fail": 0,
+      "log": "artifacts/hg-hatch-music-scoped.log",
+      "rerunForThisMetadataCommit": false
+    },
+    "typescript": {
+      "cwd": "browser",
+      "argv": [
+        "npx",
+        "tsc",
+        "--noEmit"
+      ],
+      "observedExitCode": 0,
+      "log": "artifacts/hg-hatch-music-tsc.log",
+      "note": "Empty log is preserved; exit status was observed in the original tool result, not inferred from an empty file.",
+      "rerunForThisMetadataCommit": false
+    },
+    "loopInstrumentation": {
+      "script": "artifacts/hg-native-loop-proof.py",
+      "trace": "native-loop-proof.json",
+      "rendererFilesEdited": false,
+      "method": "Temporary in-memory Player.mark_loop wrapper; original historical script with local paths preserved, portable equivalent in reproduce-evidence.py.",
+      "rerunForThisMetadataCommit": false
+    }
+  },
+  "limitations": [
+    "Emulated native SSEQ and native sample-bank render, not bit-exact Nintendo DS hardware/DAC/shared-channel DSP capture.",
+    "Only hatch music1011 and fanfare1188 exported; no general field/radio/surf BGM player. Default actual effective field track is none; future override port tests are injected contracts, not implemented world playback.",
+    "Repeated normal and optimized Python exports on this local environment matched exactly; no cross-CPU or cross-platform determinism claim.",
+    "No browser playback, Safari gesture-unlock verification, audible loop listening, full playthrough, application build or deployment in this evidence task.",
+    "Opus reviews were read-only static reviews and did not run tests, renders, builds or browsers; execution receipts are separate agent tool results.",
+    "First review could not read external renderer. Followup did read pinned renderer but could not read the original review JSON outside its directory allowance; it used prompt summary. Final review was narrow and did not re-review external engine or whole root host."
+  ],
+  "metadataValidation": {
+    "command": [
+      "/tmp/hg-hatch-music-export-venv/bin/python",
+      "browser/reviews/2026-10-17-native-hatch-music/reproduce-evidence.py",
+      "--repo",
+      "/Users/maxchurch/Documents/pokeheartgold-native-hatch-music",
+      "--renderer",
+      "/tmp/hg-dualrip-native-audio",
+      "--compare-export",
+      "/tmp/hg-hatch-music-reexport",
+      "--compare-export",
+      "/tmp/hg-hatch-music-optimized-export",
+      "--compare-export",
+      "/tmp/hg-hatch-music-final-export"
+    ],
+    "invokedFrom": "/tmp using the absolute script path",
+    "observedExitCode": 0,
+    "checks": [
+      "All bundle SHA256SUMS entries",
+      "All final reviewed source and native source hashes",
+      "All pinned renderer file hashes, HEAD and clean tracked tree",
+      "Both original FAT event byte slices equal actual renderer parser payloads",
+      "All three surviving duplicate/optimized output directories byte-identical to committed assets"
+    ],
+    "renderLoopRerun": false,
+    "applicationTestsRerun": false,
+    "applicationBuildRun": false,
+    "browserUsed": false
+  }
+}

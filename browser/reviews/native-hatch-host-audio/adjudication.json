@@ -1,0 +1,220 @@
+{
+  "nativeBase": "0d6ddf9c0cb1bc0bc181abf1ea7e68c25bf4db7b",
+  "sourceCommits": [
+    "91259c72d75438783b68e17b4513a2844bbf45c5",
+    "5e925570c927f26bb8fa3022fba637ee817c2bbe"
+  ],
+  "skipDependencyOnlyCommit": "5bb8d54dd608346a421a4279db97996c04a263da",
+  "dependency": {
+    "commit": "1f9277ce771ebb07aed14239d507d7ac0026456c",
+    "playerGitBlob": "6797555ed52e2e2fb4002b63f3a673bfbeefbca4",
+    "playerTestGitBlob": "1106ac42c71ecc5aeff4c53facbb83f411bafebf",
+    "sha256": {
+      "browser/src/source/field-music.test.ts": "e5a3d23bc45290fa23cc749a4ce048ebebeb4ee5e561da48d5a5cd513a2c4803",
+      "browser/src/source/field-music.ts": "c2d0467dde783fc7a1ec91c33429b5d196e43978116e8a1ac2c2da89a3e5c89c"
+    }
+  },
+  "finalSourceSha256": {
+    "browser/src/source/hatch-host-audio.test.ts": "1e29b83ed2fc082eb74f20bba72446876986e1d72f52dacc887b0f39a3ed5518",
+    "browser/src/source/hatch-host-audio.ts": "4c7ff4ea48a9732073bad5a95688a7821437b423e9a965d638814a7bf449986c"
+  },
+  "reviews": [
+    {
+      "directory": "review-initial",
+      "sourceCommit": "91259c72d75438783b68e17b4513a2844bbf45c5",
+      "resultSha256": "50a0ddcde9bac269cd68e89c015118dd2ada0734d678d7f613ea8b05165983b8",
+      "manifestSha256": "651859bf317b64c752da532d3b4dcf28b39b69a552d78c188fd3092841926231",
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1881,
+          "outputTokens": 17,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001966,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 28,
+          "outputTokens": 28943,
+          "cacheReadInputTokens": 617967,
+          "cacheCreationInputTokens": 93240,
+          "webSearchRequests": 0,
+          "costUSD": 1.1687654,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 24159,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permissionDenials": [],
+      "isError": false,
+      "durationMs": 314178,
+      "scope": "Read/Grep/Glob only. Supplied logs were read; reviewer did not run tests, browser, audio audition or build."
+    },
+    {
+      "directory": "review-final-5e925570",
+      "sourceCommit": "5e925570c927f26bb8fa3022fba637ee817c2bbe",
+      "resultSha256": "be4c4f02921cbb0fd356e8c1f707efbbeac165ccfd2eb24232a7c7d207085ad8",
+      "manifestSha256": "1804d09bb22903d443288a17a5b1dccf17521635fa780f89e4d20891a895740b",
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1824,
+          "outputTokens": 18,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.0019140000000000001,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 14,
+          "outputTokens": 8719,
+          "cacheReadInputTokens": 165334,
+          "cacheCreationInputTokens": 50411,
+          "webSearchRequests": 0,
+          "costUSD": 0.4595578,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 5865,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permissionDenials": [],
+      "isError": false,
+      "durationMs": 100967,
+      "scope": "Read/Grep/Glob only. Supplied logs were read; reviewer did not run tests, browser, audio audition or build."
+    }
+  ],
+  "initialReviewAdjudication": [
+    {
+      "severity": "Medium availability",
+      "finding": "1500ms cold admission for 6.18MB native hatch BGM",
+      "resolution": "Separate bounded preparationTimeoutMs default4000 matching existing player I/O budget; both original cues prepare concurrently. Control deadline remains1500. No every-network playback guarantee."
+    },
+    {
+      "severity": "Latent/Low",
+      "finding": "Restore closes owner during drain before capture",
+      "resolution": "Owner rechecked before capture/suspend; exact regression."
+    },
+    {
+      "severity": "Latent/Low",
+      "finding": "Throwing report callback blocked physical field cleanup",
+      "resolution": "Restoration does not apply diagnostic guard before physical cleanup; error remains explicit afterward; exact regression."
+    },
+    {
+      "severity": "Latent/Low",
+      "finding": "Player disposal after output admission treated as technical",
+      "resolution": "Borrowed player lifetime abort binds to action owner; later phases explicitly cancel. Pre-admission disposal remains technical because no borrowed lifetime has been admitted."
+    },
+    {
+      "severity": "Latent/Low",
+      "finding": "Incomplete drain retained cleanup even before suspension",
+      "resolution": "Re-drain only after actual suspension; source ownership guard preserved."
+    }
+  ],
+  "finalReviewAdjudication": {
+    "confirmedDeltaDefects": 0,
+    "conditionalLow": "Captured enabled versus live player enabled if hotmute allowed while hatching",
+    "disposition": "Unreachable in current host, supported by independent current main inspection and owner supplied actual-main AST-bound regression. See host-conditional-adjudication/receipt.json. Future live mute remains conditional risk."
+  },
+  "verification": {
+    "commands": [
+      {
+        "command": "node --experimental-transform-types --test browser/src/source/field-music.test.ts browser/src/source/hatch-host-audio.test.ts",
+        "exitCode": 0,
+        "tests": 67,
+        "playerTests": 45,
+        "adapterTests": 22,
+        "log": "tests.log"
+      },
+      {
+        "command": "browser/node_modules/.bin/tsc --noEmit -p browser/tsconfig.json",
+        "exitCode": 0,
+        "log": "tsc.log",
+        "emptyOutputIsSuccessfulExitNotAnIndependentResult": true
+      }
+    ],
+    "sourceUnchangedAfterReview": true,
+    "testScope": "Real production player bound to controlled AudioContext/catalog fixtures and original native WAVs; real hatch lifecycle uses mocked visual/text acknowledgements. No browser playthrough claim."
+  },
+  "sourceContracts": {
+    "src/hatch_egg_app.c": {
+      "sha256": "3f4bce5d67911457a6979baf23c7d5d3596d290102dfcef2602f5fb17403d1ee",
+      "lines": [
+        629,
+        656,
+        665
+      ],
+      "meaning": "Native hatch advances without checking failed BGM, cry or fanfare admission."
+    },
+    "src/sound_playback.c": {
+      "sha256": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
+      "meaning": "PlayFanfare starts15-count wait before admission; no admitted cry has no playing voice to await. Adapter uses15/30 seconds for existing presentation cadence."
+    }
+  },
+  "unchangedAssets": {
+    "sdatSha256": "3b63b5b7aa7714a1906320be106beecebae89f8daf3988be699d41d4309454e6",
+    "bgm1011": {
+      "key": "SEQ_GS_SHINKA",
+      "wavSha256": "a2ca7fc26226a26c46b234b508c1782fc5d6b5f2149d7bd96be72584a5af493e",
+      "sampleRate": 32768,
+      "frames": 1545228,
+      "loop": [
+        1030038,
+        1529353
+      ]
+    },
+    "fanfare1188": {
+      "key": "SEQ_ME_SHINKAOME",
+      "wavSha256": "b369b375025613d99821685203ee43a1d6b12fa7d3d3c554200d42746b7c83ea",
+      "sampleRate": 32768,
+      "frames": 136052,
+      "sequenceEndFrame": 123078,
+      "completionFrame": 139462
+    },
+    "cry175": {
+      "wavSha256": "dac18e8e3d950a7952eb2294210c969ef0dad0155f60b14452026f7d39339ecd",
+      "channels": 1,
+      "encoding": "unsigned PCM8 WAV, original native signed PCM source",
+      "frames": 5380,
+      "sampleRate": 10512,
+      "sdatPcmOffset": 3537548,
+      "nativeSignedPcmSha256": "62cf4110fa208505221b087df57c40afc67a47b83fd2413894e58525161562cf",
+      "linearGain": "120/127"
+    }
+  },
+  "limits": [
+    "No main/UI/World/player/assets changes in adapter source commits; integration remains separately owned.",
+    "No browser/mobile audition, Vite build, deployment verification or full-campaign claim.",
+    "Standard Togepi175/form0 only; unsupported species/forms/Manaphy explicitly reject, even when muted.",
+    "Native emulated sequence/sample export and linear cry playback do not claim full DS logarithmic mixer, envelope/interpolation or bit-exact hardware DSP.",
+    "Default fanfare15-count timing is30Hz wall-clock presentation; native/browser scheduler alignment is not established.",
+    "Muted deliberate skips do not wait for cry or fanfare audio.",
+    "Worst-case bounded previsual admission can approach10s; parallel4s preparation improves availability without guaranteeing audio.",
+    "Player disposal before borrowed output admission is reported as technical; disposal after admission explicitly cancels. Restoring a disposed player can retain a retry that cannot succeed.",
+    "Main must invoke retained restoration retries after permission returns and use a fixed prior-work drain; leaf alone cannot prove combined host or production behavior."
+  ],
+  "packagedInputNotes": {
+    "review-final-5e925570/delta.patch.gz": {
+      "encoding": "gzip, mtime0",
+      "decodedInput": "delta.patch",
+      "decodedSha256": "35b9eb224c9aa4663b293d706a536c9813e895968c185b67fe9d22215cfbc195",
+      "reason": "Preserves the exact reviewed patch, including original whitespace, without introducing whitespace-only findings in the metadata commit."
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "testedCommit": "fc32d2b85a101b6b67bc0b55e0271f2a1c92938a",
+  "checks": {
+    "nodePassed": 850,
+    "nodeFailed": 0,
+    "nodeSkipped": 0,
+    "typecheck": "pass",
+    "build": "pass"
+  },
+  "scope": "Current combined native progression source, including Ilex coordinate literals/Warp ABI, Kurt Apricorn core, item pickups, pure Cut/teaching and Azalea planner, traversal fixtures.",
+  "notComplete": [
+    "Cut visual/VM/Bag teaching host not wired",
+    "Azalea gym renderer/source hooks not wired",
+    "wild escape/burn fixes pending integration",
+    "full game parity",
+    "held terrain physical/visual audit",
+    "browser natural-play check while host disconnected"
+  ],
+  "earlierFailedCombinedRun": {
+    "log": "/tmp/hg-native-current-full-tests.log",
+    "passed": 847,
+    "failed": 3,
+    "reason": "three stale host fixtures: source HidePerson uses event flag/effective visibility; step fixture needed current async menu boundary and SourceActionRecovery ports",
+    "fixedAt": "fc32d2b85a101b6b67bc0b55e0271f2a1c92938a"
+  }
+}

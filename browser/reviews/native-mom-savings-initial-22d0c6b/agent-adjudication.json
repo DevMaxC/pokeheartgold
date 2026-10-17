@@ -1,0 +1,16 @@
+{
+  "status": "No confirmed module bug; two native-branch coverage holes accepted for test-only correction.",
+  "moduleSha256": "22d0c6b133a6446ef55d5a5cad3e2102aa48c796e25410a1c5a06da67fdeb39a",
+  "acceptedTestGaps": [
+    "No eligible purchase behind full queue guard in original360baselineprofiles; berries had only emptyqueue initial cases.",
+    "No partial normalgiven mask proves continue skips a boughtgift and reaches next eligible one."
+  ],
+  "correctionScope": "Onlytest changes. Add fullnormalqueue/berry4\u21925/full5crossing, partialmask1/3/15, and displayflagoff/fullwallet cases; baseline sweep explicitly namedbaselineprofiles. Hostbug remains open until separate root integration.",
+  "checksAtSnapshot": {
+    "command": "node --experimental-transform-types --test src/source/mom-savings.test.ts",
+    "result": "9pass0fail",
+    "tscCommand": "npx tsc --noEmit",
+    "tscResult": "exit0, empty output"
+  },
+  "scopeLimits": "Raw provider report unchanged; no automatic approval transfer to later test/host/UI changes."
+}

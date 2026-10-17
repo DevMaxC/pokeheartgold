@@ -1,0 +1,240 @@
+(node:79106) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "trainers": 46,
+  "wildProfiles": 149,
+  "sources": 53,
+  "unsupportedEffects": [
+    {
+      "effect": 153,
+      "moves": [
+        "MOVE_TELEPORT"
+      ],
+      "witnesses": 6,
+      "first": {
+        "kind": "trainer",
+        "map": 40,
+        "code": "R36",
+        "trainer": 395,
+        "key": "TRAINER_PSYCHIC_M_MARK",
+        "species": 63,
+        "level": 14,
+        "move": "MOVE_TELEPORT",
+        "mandatoryClassification": "local-trainer-not-proved-unavoidable",
+        "routeWindow": "optional Route36 branch"
+      }
+    },
+    {
+      "effect": 76,
+      "moves": [
+        "MOVE_CONFUSION",
+        "MOVE_PSYBEAM"
+      ],
+      "witnesses": 2,
+      "first": {
+        "kind": "trainer",
+        "map": 40,
+        "code": "R36",
+        "trainer": 395,
+        "key": "TRAINER_PSYCHIC_M_MARK",
+        "species": 64,
+        "level": 16,
+        "move": "MOVE_CONFUSION",
+        "mandatoryClassification": "local-trainer-not-proved-unavoidable",
+        "routeWindow": "optional Route36 branch"
+      }
+    },
+    {
+      "effect": 42,
+      "moves": [
+        "MOVE_BIND",
+        "MOVE_WRAP"
+      ],
+      "witnesses": 3,
+      "first": {
+        "kind": "trainer",
+        "map": 99,
+        "code": "D25R0101",
+        "trainer": 384,
+        "key": "TRAINER_HIKER_DANIEL",
+        "species": 95,
+        "level": 11,
+        "move": "MOVE_BIND",
+        "mandatoryClassification": "local-trainer-not-proved-unavoidable",
+        "routeWindow": "first-two-gym source corridor"
+      }
+    },
+    {
+      "effect": 28,
+      "moves": [
+        "MOVE_ROAR"
+      ],
+      "witnesses": 3,
+      "first": {
+        "kind": "trainer",
+        "map": 99,
+        "code": "D25R0101",
+        "trainer": 390,
+        "key": "TRAINER_FIREBREATHER_RAY",
+        "species": 37,
+        "level": 9,
+        "move": "MOVE_ROAR",
+        "mandatoryClassification": "local-trainer-not-proved-unavoidable",
+        "routeWindow": "first-two-gym source corridor"
+      }
+    },
+    {
+      "effect": 187,
+      "moves": [
+        "MOVE_YAWN"
+      ],
+      "witnesses": 3,
+      "first": {
+        "kind": "trainer",
+        "map": 99,
+        "code": "D25R0101",
+        "trainer": 23,
+        "key": "TRAINER_POKE_MANIAC_LARRY",
+        "species": 79,
+        "level": 11,
+        "move": "MOVE_YAWN",
+        "mandatoryClassification": "local-trainer-not-proved-unavoidable",
+        "routeWindow": "first-two-gym source corridor"
+      }
+    },
+    {
+      "effect": 150,
+      "moves": [
+        "MOVE_STOMP"
+      ],
+      "witnesses": 2,
+      "first": {
+        "kind": "trainer",
+        "map": 113,
+        "code": "D24R0101",
+        "trainer": 42,
+        "key": "TRAINER_PSYCHIC_M_NATHAN",
+        "species": 203,
+        "level": 26,
+        "move": "MOVE_STOMP",
+        "mandatoryClassification": "local-trainer-not-proved-unavoidable",
+        "routeWindow": "optional Ruins exterior/sourcebank may include areas gated outside this survey"
+      }
+    },
+    {
+      "effect": 127,
+      "moves": [
+        "MOVE_BATON_PASS"
+      ],
+      "witnesses": 1,
+      "first": {
+        "kind": "trainer",
+        "map": 113,
+        "code": "D24R0101",
+        "trainer": 42,
+        "key": "TRAINER_PSYCHIC_M_NATHAN",
+        "species": 203,
+        "level": 26,
+        "move": "MOVE_BATON_PASS",
+        "mandatoryClassification": "local-trainer-not-proved-unavoidable",
+        "routeWindow": "optional Ruins exterior/sourcebank may include areas gated outside this survey"
+      }
+    },
+    {
+      "effect": 159,
+      "moves": [
+        "MOVE_UPROAR"
+      ],
+      "witnesses": 2,
+      "first": {
+        "kind": "wild",
+        "map": 40,
+        "code": "R36",
+        "key": "SPECIES_HOOTHOOT",
+        "species": 163,
+        "level": 13,
+        "move": "MOVE_UPROAR",
+        "method": "land",
+        "routeWindow": "optional Route36 branch"
+      }
+    },
+    {
+      "effect": 240,
+      "moves": [
+        "MOVE_LUCKY_CHANT"
+      ],
+      "witnesses": 4,
+      "first": {
+        "kind": "wild",
+        "map": 113,
+        "code": "D24R0101",
+        "key": "SPECIES_NATU",
+        "species": 177,
+        "level": 20,
+        "move": "MOVE_LUCKY_CHANT",
+        "method": "land",
+        "routeWindow": "optional Ruins exterior/sourcebank may include areas gated outside this survey"
+      }
+    },
+    {
+      "effect": 216,
+      "moves": [
+        "MOVE_MIRACLE_EYE"
+      ],
+      "witnesses": 4,
+      "first": {
+        "kind": "wild",
+        "map": 113,
+        "code": "D24R0101",
+        "key": "SPECIES_NATU",
+        "species": 177,
+        "level": 20,
+        "move": "MOVE_MIRACLE_EYE",
+        "method": "land",
+        "routeWindow": "optional Ruins exterior/sourcebank may include areas gated outside this survey"
+      }
+    },
+    {
+      "effect": 241,
+      "moves": [
+        "MOVE_ME_FIRST"
+      ],
+      "witnesses": 3,
+      "first": {
+        "kind": "wild",
+        "map": 113,
+        "code": "D24R0101",
+        "key": "SPECIES_NATU",
+        "species": 177,
+        "level": 20,
+        "move": "MOVE_ME_FIRST",
+        "method": "land",
+        "routeWindow": "optional Ruins exterior/sourcebank may include areas gated outside this survey"
+      }
+    },
+    {
+      "effect": 95,
+      "moves": [
+        "MOVE_SKETCH"
+      ],
+      "witnesses": 2,
+      "first": {
+        "kind": "wild",
+        "map": 113,
+        "code": "D24R0101",
+        "key": "SPECIES_SMEARGLE",
+        "species": 235,
+        "level": 20,
+        "move": "MOVE_SKETCH",
+        "method": "land",
+        "routeWindow": "optional Ruins exterior/sourcebank may include areas gated outside this survey"
+      }
+    }
+  ],
+  "doubles": [
+    {
+      "trainer": "TRAINER_TWINS_AMY_AND_MIMI",
+      "map": 180
+    }
+  ]
+}

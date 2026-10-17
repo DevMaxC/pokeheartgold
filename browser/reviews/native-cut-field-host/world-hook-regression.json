@@ -1,0 +1,19 @@
+{
+  "command": "node --experimental-transform-types --test --test-name-pattern 'World field task hook' cut-field-host.test.ts",
+  "baselineCommit": "0d6ddf9c0cb1bc0bc181abf1ea7e68c25bf4db7b",
+  "baselineWorldSHA256": "39bba7b40582f99ca0e83982e507dad74db1980ee8b9cbdf7cc1990cd0bcdbf6",
+  "testSHA256": "a1a1ecaecb8b6848a4c6b08d586afb1b5dddeb6a1ee466d3ed66d3f9030ea3fc",
+  "candidateWorldSHA256": "92f9895045caff1aa5e42f2caf75ca4b6a449b4b2b3055b319162938b872f014",
+  "baselineResult": {
+    "exitCode": 1,
+    "expected": 1,
+    "actual": 0,
+    "assertion": "fieldTasks.frame invoked by World.draw"
+  },
+  "candidateResult": {
+    "exitCode": 0,
+    "pass": 1,
+    "fail": 0
+  },
+  "method": "identical current test in isolated temporary source copy; exact baseline git World blob versus candidate World, other dependencies unchanged"
+}

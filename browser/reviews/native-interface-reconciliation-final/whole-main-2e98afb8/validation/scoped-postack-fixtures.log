@@ -1,0 +1,371 @@
+TAP version 13
+# (node:40021) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+ok 1 - actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+  ---
+  duration_ms: 386.883167
+  type: 'test'
+  ...
+# main SHA256 fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14; selected actual bindings 7fab150315a6bb2dcc76d63b9935eb9868f86eaf4175433ba7f24845046881dd
+# Subtest: actual source script, room entry, menu and battle release all held field inputs before awaited work
+ok 2 - actual source script, room entry, menu and battle release all held field inputs before awaited work
+  ---
+  duration_ms: 699.033
+  type: 'test'
+  ...
+# Subtest: room warp resets touch/camera immediately even when destination metadata rejects before entry
+ok 3 - room warp resets touch/camera immediately even when destination metadata rejects before entry
+  ---
+  duration_ms: 153.726833
+  type: 'test'
+  ...
+# Subtest: touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+ok 4 - touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+  ---
+  duration_ms: 500.269167
+  type: 'test'
+  ...
+# Subtest: actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+ok 5 - actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+  ---
+  duration_ms: 8.173041
+  type: 'test'
+  ...
+# Subtest: field Enter prevents the restored HUD button default from reopening a menu after it closes
+ok 6 - field Enter prevents the restored HUD button default from reopening a menu after it closes
+  ---
+  duration_ms: 88.808666
+  type: 'test'
+  ...
+# Subtest: actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+ok 7 - actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+  ---
+  duration_ms: 206.9865
+  type: 'test'
+  ...
+# Subtest: actual context sync disables held input for UI, script, battle, transition and source recovery locks
+ok 8 - actual context sync disables held input for UI, script, battle, transition and source recovery locks
+  ---
+  duration_ms: 690.900417
+  type: 'test'
+  ...
+# Subtest: keyboard admission and Q/E camera polling respect the same source recovery lock as touch and drag
+ok 9 - keyboard admission and Q/E camera polling respect the same source recovery lock as touch and drag
+  ---
+  duration_ms: 196.073
+  type: 'test'
+  ...
+# Subtest: frame scenes cannot start during a source recovery or another owned modal action
+ok 10 - frame scenes cannot start during a source recovery or another owned modal action
+  ---
+  duration_ms: 24.653125
+  type: 'test'
+  ...
+# Subtest: actual save reports blocked or unavailable persistence without replacing the existing slot
+ok 11 - actual save reports blocked or unavailable persistence without replacing the existing slot
+  ---
+  duration_ms: 156.676375
+  type: 'test'
+  ...
+# Subtest: title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+ok 12 - title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+  ---
+  duration_ms: 192.946375
+  type: 'test'
+  ...
+# Subtest: Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+ok 13 - Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+  ---
+  duration_ms: 26.892417
+  type: 'test'
+  ...
+# Subtest: confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+ok 14 - confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+  ---
+  duration_ms: 264.96
+  type: 'test'
+  ...
+# Subtest: live preference update uses actual normalization/persistence callback and keeps battle style intact
+ok 15 - live preference update uses actual normalization/persistence callback and keeps battle style intact
+  ---
+  duration_ms: 81.096458
+  type: 'test'
+  ...
+# Subtest: actual SourceActionRecovery running and hydration phases both block held input and durable saves
+ok 16 - actual SourceActionRecovery running and hydration phases both block held input and durable saves
+  ---
+  duration_ms: 244.202167
+  type: 'test'
+  ...
+# (node:40066) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native transaction retains joystick + camera across completed steps and seamless OnLoad
+ok 17 - native transaction retains joystick + camera across completed steps and seamless OnLoad
+  ---
+  duration_ms: 367.379292
+  type: 'test'
+  ...
+# combined main SHA256 fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14
+# Subtest: native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+ok 18 - native scene/room/menu and failed action release held input while same-step entry priorities stay ordered
+  ---
+  duration_ms: 718.930875
+  type: 'test'
+  ...
+# Subtest: touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+ok 19 - touch run uses native shoes for .14 walking and encounter admission; ledge counts exactly once after priorities
+  ---
+  duration_ms: 428.360833
+  type: 'test'
+  ...
+# Subtest: priority coordinate scene consumes a completed step before Egg/wild/phone admission
+ok 20 - priority coordinate scene consumes a completed step before Egg/wild/phone admission
+  ---
+  duration_ms: 215.320125
+  type: 'test'
+  ...
+# Subtest: Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+ok 21 - Continue hydrates saved height/lift/actors, resumes without Init/Flash/spawn mutation
+  ---
+  duration_ms: 137.603667
+  type: 'test'
+  ...
+# Subtest: failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+ok 22 - failed nested source action restores State/live actors/orbit/phone/lift and discards pending camera/VM
+  ---
+  duration_ms: 120.431417
+  type: 'test'
+  ...
+# Subtest: nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+ok 23 - nested trainer failure rolls battle rewards back while an earlier committed wild fight survives failed resume
+  ---
+  duration_ms: 191.057083
+  type: 'test'
+  ...
+# Subtest: loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+ok 24 - loss/whiteout remains within audio ownership; native deferred warp entry runs after its release
+  ---
+  duration_ms: 71.118791
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+ok 25 - explicit Retry replays fresh copied enemies and exact gates rather than stale fight mutation
+  ---
+  duration_ms: 141.761416
+  type: 'test'
+  ...
+# Subtest: Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+ok 26 - Return unions prior and new same-map failed-frame pauses after an A→B→A excursion
+  ---
+  duration_ms: 190.931625
+  type: 'test'
+  ...
+# Subtest: menu waits for native party child to finish and resets active phone only for the four real child actions
+ok 27 - menu waits for native party child to finish and resets active phone only for the four real child actions
+  ---
+  duration_ms: 137.1815
+  type: 'test'
+  ...
+# Subtest: actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+ok 28 - actual onChild dispatch excludes Save/back and includes Bag/Trainer/Settings exactly once
+  ---
+  duration_ms: 4.308666
+  type: 'test'
+  ...
+# Subtest: owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+ok 29 - owned native party Summary, switch including Eggs, and Back resolve only after their complete child flow
+  ---
+  duration_ms: 142.490084
+  type: 'test'
+  ...
+# Subtest: modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+ok 30 - modern title Continue skips intro; New uses the actual complete native Oak draft before any begin/save
+  ---
+  duration_ms: 323.321708
+  type: 'test'
+  ...
+# Subtest: field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+ok 31 - field keyboard preserves R, prevents HUD Enter default, and does not leak through owned native prompts
+  ---
+  duration_ms: 3.559125
+  type: 'test'
+  ...
+# Subtest: hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+ok 32 - hatch owner blocks music sync/retry/restores and field admission without consuming optional audio work
+  ---
+  duration_ms: 118.2685
+  type: 'test'
+  ...
+# Subtest: real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+ok 33 - real exported item standard commits once; post-VM failure Return restores its live ball and exact bag
+  ---
+  duration_ms: 613.19775
+  type: 'test'
+  ...
+# Subtest: Bag host keeps native Potion provisional until final acknowledgement, then commits one use
+ok 34 - Bag host keeps native Potion provisional until final acknowledgement, then commits one use
+  ---
+  duration_ms: 322.539958
+  type: 'test'
+  ...
+# Subtest: Bag lifecycle interruption rolls provisional party/bag back; explicit Retry owns a fresh signal and does not double consume
+ok 35 - Bag lifecycle interruption rolls provisional party/bag back; explicit Retry owns a fresh signal and does not double consume
+  ---
+  duration_ms: 176.249417
+  type: 'test'
+  ...
+# Subtest: title Settings and cancelled replacement retain the exact saved adventure and call native Continue once
+ok 36 - title Settings and cancelled replacement retain the exact saved adventure and call native Continue once
+  ---
+  duration_ms: 185.565291
+  type: 'test'
+  ...
+# Subtest: native party Escape cancels only its owned prompt/target, keeps whole records, and removes its abort listener
+ok 37 - native party Escape cancels only its owned prompt/target, keeps whole records, and removes its abort listener
+  ---
+  duration_ms: 342.981375
+  type: 'test'
+  ...
+# Subtest: field music cannot admit a failed-map cue while source hydration is incomplete
+ok 38 - field music cannot admit a failed-map cue while source hydration is incomplete
+  ---
+  duration_ms: 130.088542
+  type: 'test'
+  ...
+# Subtest: ordinary native Cherrygrove PASSERBY battle never requests the prototype noCritical override
+ok 39 - ordinary native Cherrygrove PASSERBY battle never requests the prototype noCritical override
+  ---
+  duration_ms: 287.503375
+  type: 'test'
+  ...
+# Subtest: actual battle host settles Mom against capped wallets and pre-battle message snapshot on win/cap/full-bank/zero/loss
+ok 40 - actual battle host settles Mom against capped wallets and pre-battle message snapshot on win/cap/full-bank/zero/loss
+  ---
+  duration_ms: 829.2715
+  type: 'test'
+  ...
+# Subtest: fresh Mom purchase accelerates even with pending12; reading/zero-event settlement never reboosts
+ok 41 - fresh Mom purchase accelerates even with pending12; reading/zero-event settlement never reboosts
+  ---
+  duration_ms: 220.7585
+  type: 'test'
+  ...
+# Subtest: late Mom host failure Return restores wallet/store/pending/manager; explicit Retry purchases exactly once
+ok 42 - late Mom host failure Return restores wallet/store/pending/manager; explicit Retry purchases exactly once
+  ---
+  duration_ms: 374.023791
+  type: 'test'
+  ...
+# Subtest: actual Mother indicator/answer pins27, rejects unsupported contexts, and rolls back late call failure before Retry
+ok 43 - actual Mother indicator/answer pins27, rejects unsupported contexts, and rolls back late call failure before Retry
+  ---
+  duration_ms: 427.22925
+  type: 'test'
+  ...
+# Subtest: Mom berry admission receives an exact raw16 draw and Retry reuses it without another selection
+ok 44 - Mom berry admission receives an exact raw16 draw and Retry reuses it without another selection
+  ---
+  duration_ms: 238.146833
+  type: 'test'
+  ...
+# Subtest: captured hatch mute cannot be changed by keyboard, touch, HUD or stale menu admission
+ok 45 - captured hatch mute cannot be changed by keyboard, touch, HUD or stale menu admission
+  ---
+  duration_ms: 150.212375
+  type: 'test'
+  ...
+# Subtest: actual hatch host fixes prior music jobs before ownership, forwards shared audio and retains failed restores
+ok 46 - actual hatch host fixes prior music jobs before ownership, forwards shared audio and retains failed restores
+  ---
+  duration_ms: 141.751542
+  type: 'test'
+  ...
+# Subtest: hatch factory configuration failure always releases the main owner and reaches source recovery
+ok 47 - hatch factory configuration failure always releases the main owner and reaches source recovery
+  ---
+  duration_ms: 129.762791
+  type: 'test'
+  ...
+# Subtest: native hatch core/presenter with actual shared adapter survives technical no-voice admission and commits real Togepi/phone flags
+ok 48 - native hatch core/presenter with actual shared adapter survives technical no-voice admission and commits real Togepi/phone flags
+  ---
+  duration_ms: 240.459209
+  type: 'test'
+  ...
+# Subtest: Bag lifecycle abort in final leaf handback restores acknowledged provisional item before save
+ok 49 - Bag lifecycle abort in final leaf handback restores acknowledged provisional item before save
+  ---
+  duration_ms: 250.621458
+  type: 'test'
+  ...
+# (node:40079) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual party panel owns Summary then returns focus to the selected slot until Back
+ok 50 - actual party panel owns Summary then returns focus to the selected slot until Back
+  ---
+  duration_ms: 116.247292
+  type: 'test'
+  ...
+# main SHA256 fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14; bindings SHA256 f0dab0877a2d3e6e8c2f3446ff0b743d63361ad72728e833d74bef29c5bd8978
+# Subtest: real gift/hatch then actual field switch persists whole records, refreshes follower and enables native Elm reward
+ok 51 - real gift/hatch then actual field switch persists whole records, refreshes follower and enables native Elm reward
+  ---
+  duration_ms: 179.485333
+  type: 'test'
+  ...
+# Subtest: Cancel, source slot and owned Escape preserve whole party records and gate saves during selection
+ok 52 - Cancel, source slot and owned Escape preserve whole party records and gate saves during selection
+  ---
+  duration_ms: 74.054541
+  type: 'test'
+  ...
+# Subtest: external UI replacement and post-swap failure recover instead of being mistaken for owned cancel
+ok 53 - external UI replacement and post-swap failure recover instead of being mistaken for owned cancel
+  ---
+  duration_ms: 142.797334
+  type: 'test'
+  ...
+# Subtest: actual capture/restore rehydrates live actors, phone, orbit and follower after a one-shot post-swap HUD failure
+ok 54 - actual capture/restore rehydrates live actors, phone, orbit and follower after a one-shot post-swap HUD failure
+  ---
+  duration_ms: 18.537917
+  type: 'test'
+  ...
+# main SHA256 fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14; actual capture/restore bindings SHA256 f0dab0877a2d3e6e8c2f3446ff0b743d63361ad72728e833d74bef29c5bd8978
+# Subtest: actual native partner-room exception omits Switch; other rooms retain it, including Eggs
+ok 55 - actual native partner-room exception omits Switch; other rooms retain it, including Eggs
+  ---
+  duration_ms: 84.7915
+  type: 'test'
+  ...
+# Subtest: actual follower render distinguishes same-species identities, preserves position and removes an absent lead once
+ok 56 - actual follower render distinguishes same-species identities, preserves position and removes an absent lead once
+  ---
+  duration_ms: 2.939459
+  type: 'test'
+  ...
+# (node:40080) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual main global Escape runs before the party abort listener while REAL UI.choose owns a nondismissible panel
+ok 57 - actual main global Escape runs before the party abort listener while REAL UI.choose owns a nondismissible panel
+  ---
+  duration_ms: 20.537625
+  type: 'test'
+  ...
+# main SHA256 fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14; global/party bindings SHA256 84f6daf9c7c7ccaee854ba48e09be77b7753c81717ca920fb31152e06d6567f2
+# Subtest: global Escape and stale party abort/button callbacks leave the REAL recovery choice owned and usable after external replacement
+ok 58 - global Escape and stale party abort/button callbacks leave the REAL recovery choice owned and usable after external replacement
+  ---
+  duration_ms: 5.9265
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 58
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 12390.731833

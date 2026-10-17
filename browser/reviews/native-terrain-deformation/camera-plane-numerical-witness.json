@@ -1,0 +1,74 @@
+{
+  "rawStrictChangeCount": 1,
+  "sharedObservedPlane": {
+    "axis": "x",
+    "value": 622.0625,
+    "beforeNormal": [
+      1,
+      0,
+      0
+    ],
+    "afterNormal": [
+      1,
+      0,
+      0
+    ]
+  },
+  "singleIdealRayPlaneParameter": {
+    "n": "1688849860263936",
+    "d": "319083842259761"
+  },
+  "singleIdealPoint": [
+    {
+      "n": "9953",
+      "d": "16"
+    },
+    {
+      "n": "1237081360797546386674578965053",
+      "d": "179628234137625720491377426432"
+    },
+    {
+      "n": "899960028806130001",
+      "d": "5105341476156176"
+    }
+  ],
+  "before": {
+    "mesh": "source-terrace-surface",
+    "distance": 5.292809088368295,
+    "point": [
+      622.0625,
+      6.886898191348539,
+      176.27812615655085
+    ],
+    "normal": [
+      1,
+      0,
+      0
+    ]
+  },
+  "after": {
+    "mesh": "source-terrace-surface",
+    "distance": 5.292809088368294,
+    "point": [
+      622.0625,
+      6.886898191348538,
+      176.27812615655085
+    ],
+    "normal": [
+      1,
+      0,
+      0
+    ]
+  },
+  "floatDifferences": {
+    "point": [
+      0.0,
+      -8.881784197001252e-16,
+      0.0
+    ],
+    "distance": -8.881784197001252e-16,
+    "yDifferenceExactlyOneULP": true,
+    "distanceDifferenceExactlyOneULP": true
+  },
+  "scope": "Numerical witness for this one observed finite ray on matching axis-aligned source-wall planes. Raw strict1 retained. No global epsilon, no all-map or whole-domain promotion."
+}

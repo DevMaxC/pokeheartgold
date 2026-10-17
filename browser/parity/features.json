@@ -2,26 +2,26 @@
   {
     "id": "P01-001",
     "group": "Opening and identity",
-    "feature": "New Game and Continue with independent saved games",
+    "feature": "New Game and Continue with explicit save-replacement rules",
     "source": "src/intro.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Single browser save slot. New Game requires explicit replacement confirmation; Continue and incomplete/failed identity drafts preserve the existing save. Native New Game-with-save disables saving, whereas the browser replaces its slot after character creation; this adaptation and pending rendered checks are recorded in reviews/2026-10-17-opening-sequence.md. No independent save slots or whole-requirement parity claimed."
   },
   {
     "id": "P01-002",
     "group": "Opening and identity",
     "feature": "Original title and introduction sequence",
     "source": "src/intro.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Native Ho-Oh model/joint animation, source title artwork/camera and cry are implemented. Five-scene boot movie, title material/pattern effects, idle return, native BGM and hardware menus remain missing. opening-art/opening-view fixtures and reviews/2026-10-17-opening-sequence.md are offline evidence; rendered title parity is pending."
   },
   {
     "id": "P01-003",
     "group": "Opening and identity",
     "feature": "Professor Oak introduction and Pok\u00e9mon demonstration",
     "source": "src/intro.c",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Original Oak topic/control/adventure branches, five RTC greetings and awaited ball/Marill demonstration use native messages, OAM/NANR artwork and original cries. opening.test.ts/opening-art.test.ts/opening-view.test.ts cover the leaf behavior. Oak BGM, exact DS timing/layout and fresh browser validation remain pending; see reviews/2026-10-17-opening-sequence.md."
   },
   {
     "id": "P01-004",
@@ -29,7 +29,7 @@
     "feature": "Boy/girl player selection and matching overworld sprites",
     "source": "src/intro.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Native boy/girl portraits, gender confirmation/rejection loops and remembered cursor feed the matching field identity; opening*.test.ts covers draft selection and field handoff. Browser-rendered framing, input and full identity playthrough remain unverified; see reviews/2026-10-17-opening-sequence.md."
   },
   {
     "id": "P01-005",
@@ -37,7 +37,7 @@
     "feature": "Character naming, length limits, confirmation and name substitutions",
     "source": "src/intro.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Player naming uses the native English mapped glyph set, seven-glyph limit, imported gendered defaults, case/spaces and source confirmation/rejection loops. opening-input.test.ts/opening.test.ts and the actual startup-save fixture cover leaf behavior. Browser navigation and general Pokemon/name-rater constraints are separate incomplete requirements."
   },
   {
     "id": "P01-006",
@@ -77,7 +77,7 @@
     "feature": "Correct initial money, inventory, flags and Pok\u00e9dex locks",
     "source": "src/intro.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "newState plus original opening scripts initialize the implemented money/bag/menu/Pokedex locks; trainer ID/native Egg RNG are persisted when required by the gift path. Complete native save initialization, flag960, fishing/RTC/system records and PC mail remain gaps documented in reviews/2026-10-17-opening-sequence.md. This is not a full startup-equivalence claim."
   },
   {
     "id": "P02-001",
@@ -245,7 +245,7 @@
     "feature": "Route 31 arrival and Violet progression",
     "source": "files/fielddata/script/scr_seq",
     "status": "pending",
-    "verification": null
+    "verification": "Source Route31/Violet maps are imported and shared trainer fixtures cover real Route31, Sprout and Gym definitions, but a natural Route31-to-Violet/Sprout/Falkner traversal is not established. Isolated trainer, lift and reward fixtures do not verify this combined story arrival."
   },
   {
     "id": "P03-001",
@@ -253,23 +253,23 @@
     "feature": "Sprout Tower trainers, elder, rival and rewards",
     "source": "files/fielddata/script/scr_seq",
     "status": "pending",
-    "verification": null
+    "verification": "trainer-scripts.test.ts/trainer-encounters.test.ts exercise actual Sprout Tower sage Nico through the generic source single-trainer path. The complete tower traversal, elder, rival cutscene and rewards have not been verified together; this combined requirement stays Pending."
   },
   {
     "id": "P03-002",
     "group": "Johto story",
     "feature": "Violet Gym puzzle, trainers and Falkner badge/TM",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Native map135 VioletGymInit/Elevator drives original dynamic model111, 3x3 collision plate, 2-to-31 height ride, player/follower, Continue/warp/recovery and free camera; gym-violet*.test.ts includes actual main/VM/World hooks. Actual0859 Falkner reward fixtures cover badge, +30 score, TM51 full-bag retry and persistence; battle outcomes are supplied by the fixture. Natural rendered Gym traversal/combat and complete campaign parity remain unverified."
   },
   {
     "id": "P03-003",
     "group": "Johto story",
     "feature": "Elm aide Egg delivery and Togepi hatching progression",
     "source": "files/fielddata/script/scr_seq",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Actual Violet aide script gives the native level1 Togepi Egg with PID/IV/OT/met data and Extrasensory. Saved step cycles, ability modifiers, awaited 3D field hatch, original cry, native1011/1188 audio, nickname/memo/Dex/Elm flags and rollback are implemented and covered by eggs/egg-hatching/egg-field-main/party-field-main fixtures. Triggered Elm call selection exists as a core; incoming field delivery and full hatch-to-call-to-lab browser playthrough are pending at536758a. Breeding/inheritance is not included."
   },
   {
     "id": "P03-004",
@@ -781,7 +781,7 @@
     "feature": "Original moving/elevator/warp-panel puzzles",
     "source": "src/field/map_load_manager.c",
     "status": "pending",
-    "verification": null
+    "verification": "Violet lift is implemented with native model111, source grid/plate height selection, rider animation, save/Continue and unload/failure cleanup (gym-violet*.test.ts). Other native moving/elevator/warp-panel puzzles are not established; the all-world requirement remains Pending."
   },
   {
     "id": "P05-012",
@@ -853,7 +853,7 @@
     "feature": "Follower positioning, sprite, dialogue and restrictions",
     "source": "src/field/map_load_manager.c",
     "status": "pending",
-    "verification": null
+    "verification": "Continuous following and Egg/usable-mon selection are implemented. Field party switching refreshes distinct same-species follower identity/appearance and keeps native fainted fallback (party-field-main.test.ts/egg-consumers.test.ts). Complete source follower dialogue, restrictions and all contexts remain pending."
   },
   {
     "id": "P05-021",
@@ -940,8 +940,8 @@
     "group": "NPCs and scripts",
     "feature": "Trainer vision, approach, battle and defeat persistence",
     "source": "src/scrcmd.c",
-    "status": "pending",
-    "verification": null
+    "status": "implemented",
+    "verification": "Source single-trainer sight/approach uses live facing, native ranges/type1/type2 and normalized4-8 behavior, terrain/directional/height/actor/follower occupancy, distance-minus-one movement and defeat persistence. Actual Wade/Sprout/Abe/Rod fixtures cover win/loss/repeat and save; battle outcomes are fixture ports. Double/multi combat and hidden51-54 emergence remain explicitly unsupported. See reviews/native-trainer-encounters-opus-adjudication.json; natural browser encounters remain unverified."
   },
   {
     "id": "P06-008",
@@ -989,23 +989,23 @@
     "feature": "Event item, Pok\u00e9mon and money grants",
     "source": "src/scrcmd.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original opening grants, Falkner badge/TM51 full-bag retry and native Togepi Egg gift execute through source scripts with capacity/flags/persistence fixtures. These implemented leaves do not establish every event item/Pokemon/money grant or complete campaign command coverage."
   },
   {
     "id": "P06-014",
     "group": "NPCs and scripts",
     "feature": "NPC phone registration and call outcomes",
     "source": "src/scrcmd.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Current native e945ef04 has FieldPhoneHost RTC/admission, Elm/Mom incoming-ring display and answer bindings, source registration/rematch state, connection-preserved rings and failed-admission Return suppression. phone-field-host/main-native-interface fixtures and reviews/native-phone-field-host-integration/ qualify b3463c8b and later Main wiring. Generic random/forced/Safari dialogue, ring audio, saved native RTC/global RNG and a natural hatch-to-call campaign remain incomplete; the536758a no-host statement is historical."
   },
   {
     "id": "P06-015",
     "group": "NPCs and scripts",
     "feature": "Multi-character cutscene timing and camera events",
     "source": "src/scrcmd.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Native virtual camera actor241 Create/RemoveCameraTarget and scripted movement preserve free orbit; Violet lift awaits player/follower animation. Source-action recovery restores actors/height/camera after failure (script-camera.test.ts/gym-violet-integration.test.ts). Full multi-character cutscene/movement-command coverage and rendered campaign timing remain pending."
   },
   {
     "id": "P06-016",
@@ -1053,7 +1053,7 @@
     "feature": "Trainer ID, secret ID, personality and shiny calculation",
     "source": "src/pokemon.c",
     "status": "pending",
-    "verification": null
+    "verification": "Native gift/hatch paths persist trainer ID, personality, OT/provenance and native Egg RNG; native gender/PID bounds and Ranger anti-shiny leaf have source fixtures. Whole-game ID/secret-ID/shiny/global-RNG equivalence for every acquisition path remains pending."
   },
   {
     "id": "P07-005",
@@ -1085,15 +1085,15 @@
     "feature": "Six-member party limit and party order",
     "source": "src/pokemon.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Native field Summary/Switch/Cancel exchanges whole occupied Mon records, including Eggs and fainted leads; source-slot/Cancel preserves order. Actual main binding saves the swap, returns target focus and refreshes same-species follower identity. party-order.test.ts and party-field-main.test.ts cover gift/hatch/reorder/Elm reward, save/Continue, abort and recovery. Native Battle Tower partner-room Switch exception is retained. Browser interaction remains unverified."
   },
   {
     "id": "P07-009",
     "group": "Pok\u00e9mon data and ownership",
     "feature": "Pok\u00e9mon summary with stats, moves, ability, nature and ownership",
     "source": "src/pokemon.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Normal party summary and native Egg Watch presentation exist; Egg species/level/HP/gender/stats/moves remain concealed until hatching. party-display.test.ts covers native thresholds and normal-summary restoration. Complete original summary pages, forms and ownership presentation are not verified."
   },
   {
     "id": "P07-010",
@@ -1133,7 +1133,7 @@
     "feature": "Nicknames, name rater and language/length constraints",
     "source": "src/pokemon.c",
     "status": "pending",
-    "verification": null
+    "verification": "Opening player naming and source starter/hatch nickname prompts are implemented; actual native187 hatch text/choices have fixtures. All Pokemon nickname glyph/language constraints and the original name-rater service remain incomplete."
   },
   {
     "id": "P07-015",
@@ -1157,7 +1157,7 @@
     "feature": "Egg generation, steps, hatching and inherited data",
     "source": "src/pokemon.c",
     "status": "pending",
-    "verification": null
+    "verification": "Native gifted Togepi Egg, persistent shared step counter/cycle order, special dates, Flame Body/Magma Armor modifier and awaited field hatching/memo/Dex/OT lifecycle are implemented. eggs/egg-hatching/egg-field-main fixtures cover source order and transactional failure/retry. Breeding, inherited data, global RTC-penalty detection, generic forced/poison/Safari step systems, alternate-form/Jirachi rewards and full cry coverage remain gaps; the combined requirement stays Pending."
   },
   {
     "id": "P07-018",
@@ -1165,7 +1165,7 @@
     "feature": "Original starter/gift/trade/static encounter acquisition",
     "source": "src/pokemon.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original starter acquisition and actual Violet aide Togepi Egg gift are implemented, including capacity/non-award behavior and persistent identity. Source fixtures do not establish all gifts, trades, static encounters or complete acquisition parity."
   },
   {
     "id": "P07-019",
@@ -1764,16 +1764,16 @@
     "group": "Interface, saves and settings",
     "feature": "Party menu, summary, reorder and field moves",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Native Main 6f486487 connects Summary/Switch/Cancel, whole-Mon reorder/save, Egg/fainted handling and follower identity; the Bag now teaches source-compatible TM/HM moves with replacement/consumption safeguards. General party field-move execution, all summary/native party contexts and natural campaign use remain incomplete. party-field-main/main-native-interface/field-bag-actions fixtures are offline integration evidence, not full-game or browser parity."
   },
   {
     "id": "P11-004",
     "group": "Interface, saves and settings",
     "feature": "Bag menu item selection and target selection",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "The owned Bag exposes original pockets, Use and party/move targets; supported HP/status/PP medicine and TM/HM teaching await confirmation/final acknowledgement inside SourceActionRecovery. Eggs, no-effect/capacity, stale selection, abort and Retry/Return have actual Main/UI fixtures. Unsupported item effects, general Key Item/field use and all native Bag contexts remain explicit gaps; see field-bag-actions.test.ts and native-interface-reconciliation-final/."
   },
   {
     "id": "P11-005",
@@ -1788,8 +1788,8 @@
     "group": "Interface, saves and settings",
     "feature": "Pok\u00e9gear phone, map, radio and cards",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Current Main integrates RTC-driven FieldPhoneHost, Elm/Mom ring indicator/answer, due admission, source reset ordering, connection retention and transactional failure/retry. Pok\u00e9gear acquisition/contacts and selected native calls exist. General random/forced callers, full phone UI, map/radio/cards, ring/no-signal presentation, native saved RTC and Safari delivery remain incomplete. Historical 536758a lacked the later host; current evidence is reviews/native-phone-field-host-integration/ and native-interface-reconciliation-final/."
   },
   {
     "id": "P11-007",
@@ -1797,7 +1797,7 @@
     "feature": "Save menu and resumable exact world position/facing",
     "source": "src/save.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Saved position/facing plus fieldHeight/Violet lift state restore through actual Continue/World/main hooks; real warp/reentry resets source lift state. Recovery fixtures preserve actor/follower height and free orbit. Egg counter/provenance and field party order survive JSON restoration. All-map/browser save-resume parity remains unverified."
   },
   {
     "id": "P11-008",
@@ -1805,7 +1805,7 @@
     "feature": "Flags, variables, party, storage, inventory and all progression persist",
     "source": "src/save.c",
     "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "verification": "Flags/vars/inventory/party persistence now includes native Egg profile/seed/cycles/provenance, badge rewards and whole-record party order. Source-action checkpoints block autosave of provisional hatches and restore failed step/script state. Actual binding fixtures cover save gates and Retry/Return; this does not establish every campaign/storage subsystem."
   },
   {
     "id": "P11-009",
@@ -1836,64 +1836,64 @@
     "group": "Interface, saves and settings",
     "feature": "Text speed, battle scene, battle style and sound settings",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Modern Settings exposes persisted sound/volume/text speed, Shift/Set, touch layout/hand and camera sensitivity. Production mute 45ef2147 serves reviewed 84864cb7: global Mute/Unmute, same-origin storage, hidden-page master gain and live Settings. Native Main 6f486487 mirrors current sound/text after rollback; hatch 167d7165 reads live preferences and retains the muted fanfare timer. Battle-scene control/full native settings parity and current candidate browser/device verification remain pending; scoped receipts are global-audio-controls/, native-hatch-live-preferences/ and native-muted-fanfare-timer/."
   },
   {
     "id": "P11-013",
     "group": "Interface, saves and settings",
     "feature": "Keyboard and controller bindings",
     "source": "src/save.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Current native Main binds WASD/arrows, confirm/cancel, camera orbit and trusted gesture ownership; CameraInput supports pointer/trackpad drag/zoom. Actual Main/UI tests preserve Battle Enter/Space activation, modal locks and movement after global-audio-button focus. Gamepad/controller coverage, all source contexts and device/browser parity are not established; native-interface-reconciliation-final/ keeps its original input hashes and limited natural opening check."
   },
   {
     "id": "P11-014",
     "group": "Interface, saves and settings",
     "feature": "Touch equivalents for movement, confirm, cancel and menus",
     "source": "src/save.c",
-    "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "status": "partial",
+    "verification": "TouchControls provides joystick/D-pad, run, interact/menu, left/right placement and cancellation/reset; native Main gates it with current source-action, transition, battle, hatch and UI ownership. Modern prompts provide touch buttons and field Bag/party targets. touch-controls/main-native-interface/UI fixtures cover scoped behavior; complete mobile/device, full campaign and all battle/menu touch routes remain unverified."
   },
   {
     "id": "P11-015",
     "group": "Interface, saves and settings",
     "feature": "Accessible focus, dialogue paging and modal input locking",
     "source": "src/save.c",
-    "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "status": "partial",
+    "verification": "Owned UI implements focus/restore, native text-speed paging, confirmation/cancel and stale-handler cleanup, with field locks through scripts/hatches/recovery. Global mute remains independently focusable without accepting mandatory choices; Enter/Space and battle-button defaults have source-bound regressions. Full screen-reader/device accessibility, every modal and current whole-campaign rendering remain unverified; see ui-framework/main-native-interface and scoped global-audio-controls evidence."
   },
   {
     "id": "P11-016",
     "group": "Interface, saves and settings",
     "feature": "Loading, asset failures and recoverable errors",
     "source": "src/save.c",
-    "status": "implemented",
-    "verification": "Partial implementation in src/source; see VERIFICATION.md for limitations. Whole requirement not yet verified."
+    "status": "partial",
+    "verification": "SourceActionRecovery checkpoints State/actors/phone/camera/Violet height and blocks provisional saves; Retry/Return hydrates without replaying entry scripts. Current global sound/text survive rollback. Music fetch/unlock/restore is bounded, reports no-voice technical failures and retains owned retries without overriding newer battle/map intent; invalid source/config/cancellation remain explicit. Actual native bindings and scoped Opus packets cover these paths, not every campaign asset/error or rendered recovery."
   },
   {
     "id": "P12-001",
     "group": "Audio and presentation",
     "feature": "Original route, town, interior and dungeon music selection",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "A shared native field/Battle/hatch player is integrated in current Main. Source catalog covers 540 map day/night headers and 13 ordered story overrides, selecting 103 native IDs (102 musical renders plus silence), delivered as 168 unique AAC/M4A or MP3 files. Source/codec/cache/player proofs are in native-field-music/. Radio, additional script/bicycle callers, Surf gameplay and all-map/audio-device audibility remain incomplete; source tables and imported files are not campaign verification."
   },
   {
     "id": "P12-002",
     "group": "Audio and presentation",
     "feature": "Time-of-day music variants and transitions",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Main passes actual map/hour/flags to the source day/night/story selector, owns gesture/mute/visibility and restores actual voice identity/phase through battles/hatches while newer map intent wins. The selector has original Surf priority/suppression, but Main does not implement Surf mechanics/radio ownership or every script override. Native RTC penalties, all-map transitions and Safari/mobile listening remain unverified; see field-music/main-music fixtures and native-field-music/."
   },
   {
     "id": "P12-003",
     "group": "Audio and presentation",
     "feature": "Battle music, rival/gym/legendary themes and victory jingles",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Native battle-music selection and owned playback now use the original 32 trainer-class, 11 legendary-species and 45 parameter tables with native map/region rules, rather than only hatch 1011/1188. Source/asset/player and actual Main battle ownership fixtures exist. Victory/encounter jingles, all special callers/modes, double/multi combat and natural complete battle/campaign audio verification remain incomplete. Emulated lossy delivery is not DS hardware/DAC fidelity."
   },
   {
     "id": "P12-004",
@@ -1901,15 +1901,15 @@
     "feature": "Pok\u00e9mon cries by species/form",
     "source": "src/sound.c",
     "status": "pending",
-    "verification": null
+    "verification": "Original PCM cries183/250 serve the opening and175 serves the 3D Togepi hatch, with exact source-byte/rate fixtures. Missing hatch species/form cries reject explicitly rather than substituting. All-species/form cry coverage and audible browser verification remain pending."
   },
   {
     "id": "P12-005",
     "group": "Audio and presentation",
     "feature": "Menu, dialogue, movement, item and field sound effects",
     "source": "src/sound.c",
-    "status": "pending",
-    "verification": null
+    "status": "partial",
+    "verification": "Original opening/hatch cries and native hatch 1011/1188 use shared owned output; live mute suppresses admission without cancelling admitted completion, and the later muted-fanfare leaf preserves its unconditional 15/30s timer/BGM pause. Menu/dialogue/movement/item/general field SFX and broad sound arbitration remain unimplemented in this native Main. Isolated Cut/Azalea sound leaves are not live campaign bindings here; see native-muted-fanfare-timer/ and native-field-music/ for exact scoped limits."
   },
   {
     "id": "P12-006",
@@ -2156,8 +2156,8 @@
     "group": "3D world depth and navigation",
     "feature": "Hill and cliff backs are opaque from newly accessible camera angles",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Shared source renderer and world runtime; 64 automated checks plus targeted Cherrygrove Center, fence/flower, Route 29 backdrop/grass and follower movement browser checks. See VERIFICATION.md. Full world visual audit remains pending."
+    "status": "partial",
+    "verification": "Native campaign policy 8a5cf5c9 defaults draft terrain-scenery closure OFF in ordinary worlds and restores the released forest foundation; audit worlds must explicitly opt in. Historical New Bark 1008 surface/108 opening rays and camera witnesses belong to earlier pinned candidates, not current all-map approval. Full 792-context strict audit, remaining support/encoded-edge diagnostics, caves/bridges and changed-source arbitrary-angle checks remain incomplete; see native-campaign-terrain-policy/ and terrain-visibility-methodology.md."
   },
   {
     "id": "P15-005",
@@ -2189,7 +2189,7 @@
     "feature": "Every world camera angle, terrain boundary and scenery variant receives visual verification",
     "source": "browser/src/source/world.ts",
     "status": "pending",
-    "verification": "Repeated lightmap (_re_lm1) tree art now resolves to the original complete individual image; matching ground-mark families retain per-tree roots. Shared source geometry and repeated/lightmap tree fixtures pass. Complete camera/variant audit remains pending."
+    "verification": "No exhaustive current camera/scenery pass exists. Building A3 has a 355-placement/220-variant/157-ID finite inventory, but final manual approval of all 355 placements from six views remains pending; later roof-art source/candidate captures cover only their three placements. Draft terrain 792-context checks are unfinished and disabled by default in ordinary native worlds. Natural current-campaign QA has reached only the earlier native Cyndaquil opening milestone, not all maps or the current integrated renderer."
   },
   {
     "id": "P15-009",
@@ -2205,15 +2205,15 @@
     "feature": "Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open",
     "source": "browser/src/source/world.ts",
     "status": "partial",
-    "verification": "Family-specific exterior redesign is in progress. The inventory records 355 placed major structures, 220 native texture variants and 157 canonical model IDs. Inside-to-outside alpha-aware rays and six-view manual reviews are separate checks; actual door cards, native entrance recesses and multipart building assemblies must be included. Initial geometry checks did not prove visual quality: copied front doors and plain rear patches require measured native cladding repairs. Full frozen-source placement review, final regression checks and merged deployment remain pending."
+    "verification": "Family-specific native-cladding/exterior fixes replace copied rear doors and retain source fronts/real passages. Immutable A3 covers 355 placements/220 variants/157 IDs with 2,796,873 finite rays and retains 39 strict misses across 16 placements plus separately recorded nearby edge witnesses; those are not exact continuous seals or tolerance passes. Later model 4/217/118 roof-art repairs have separate native proofs/scoped images. Final full-placement manual review and current renderer/campaign checks remain pending; see building-a3-production-readiness/ and native-building-roof-art/."
   },
   {
     "id": "P15-011",
     "group": "3D world depth and navigation",
     "feature": "Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Native 56/57/58/59 directional two-tile jumps and continuous player/follower/scripted jump arcs. Matrix 0 adds source-anchored synthetic relief at 1,453 ledges, with opaque original-textured faces, smooth intact edges and flat water. Source terrain, actors, grass and individually rooted trees share the same half-tile height sampling; props/rocks retain rigid shapes. All ledge midpoint drops, water tiles and intact cell edges have fixtures; actual Route 29 jump, reverse blocking and follower arc checked in isolated browser storage. Other matrices and broader scenery/progression visual checks remain pending."
+    "status": "partial",
+    "verification": "Source directional 56/57/58/59 ledge jumps, continuous actor/follower arcs and matrix 0 synthetic relief at 1,453 source ledges are implemented. Native geometry, half-tile terrain sampling and selected shared-edge/corner regressions have scoped evidence, while water remains flat and rigid props retain shape. Other matrices, every ledge/corner/bridge interaction and natural full-campaign visual/progression checks remain incomplete; historical Route 29 checks do not approve all current views."
   },
   {
     "id": "P15-012",
@@ -2236,16 +2236,16 @@
     "group": "3D world depth and navigation",
     "feature": "Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Native behaviours 33/23 select backing below the original beach surface; blocked tiles and deep water remain excluded. Actual Cherrygrove shoreline model rendered from close side and elevated views."
+    "status": "partial",
+    "verification": "Released native shore translation restores original MAT texture transforms on 27 affected GLB variants with importer/material ownership and original PNG/UV/source-byte proofs. Existing sand/shallow backing remains bounded by native behaviours, not a global sand raise or deep-water fill. Focused original island/shore source sampling and scoped review do not establish every coast/foam/corner/camera; see shoreline-native-translation/ and shoreline-native.test.ts."
   },
   {
     "id": "P15-015",
     "group": "3D world depth and navigation",
     "feature": "Raised background forests and authored forest platforms have opaque terrain sides",
     "source": "browser/src/source/world.ts",
-    "status": "implemented",
-    "verification": "Matrix-altitude filler steps and elevated tree-ground patches receive cliff sides. Actual Route 30 land/7-2 forest platform at y=5 over y=1 ground identified and rendered in streamed Cherrygrove context."
+    "status": "partial",
+    "verification": "Current ordinary native World restores the released owner 0 forest foundation and keeps draft boundary/top closure opt-in, with actual streaming/disposal regressions at policy 8a5cf5c9. Earlier New Bark raised-sheet candidate proofs remain historical; they do not prove all raised native platforms are opaque. Full 792-context support/portal/alpha audit, remaining Route 44 diagnostics and final changed-source views remain incomplete; see native-campaign-terrain-policy/."
   },
   {
     "id": "P15-016",
@@ -2285,7 +2285,7 @@
     "feature": "Map connections, rebuilds and battle returns select their original entry script phases",
     "source": "browser/src/source/world.ts",
     "status": "implemented",
-    "verification": "Connections run OnTransition only; rebuilds run OnTransition, OnLoad, OnResume; battle/demo returns run OnLoad then OnResume. Warp frame scenes wait until arrival placement. Fresh mother scene completes and grants original four menu unlocks. Other menu-overlay and special-transition details remain pending."
+    "verification": "Connections run OnTransition; rebuilds use OnTransition/OnLoad/OnResume and battle/demo returns OnLoad/OnResume. Native Violet entry/lift hooks and real trainer-phone commands complete in offline actual-main fixtures. A consuming connection frame event precedes Egg/wild processing exactly once (egg-field-main.test.ts). All special/menu transitions and natural rendered playthrough remain pending."
   },
   {
     "id": "P15-021",

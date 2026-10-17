@@ -1,0 +1,24 @@
+{
+  "candidateCommit": "866dc829854702c6e77f67b368836cd02a965091",
+  "snapshotCopy": "/tmp/hg-native-gender-final-consumer-before",
+  "testHashes": {
+    "browser/src/source/gender-presentation.test.ts": "825afd45330b0541a65d2d2c17d303fa341d722bdb1eeec7920ff2688935e3d8",
+    "browser/src/source/egg-hatch-view.test.ts": "bf209f248deb7f2216cbbcffcdfdd7f902713212cfd110f15dba42d855976693",
+    "browser/reviews/native-mon-gender/sprite-resources.json": "cf3b2625d0e0a88c704198306d1402e6f39f9502a69058cd58387b0ae6f558e2"
+  },
+  "command": [
+    "node",
+    "--experimental-transform-types",
+    "--test",
+    "--test-name-pattern=^sprite sex|^all54|^all party|^actual 3D battle sync|^standard hatch presentation|^native genderless artwork",
+    "src/source/gender-presentation.test.ts",
+    "src/source/egg-hatch-view.test.ts"
+  ],
+  "expected": {
+    "tests": 6,
+    "pass": 3,
+    "fail": 3,
+    "skipped": 0
+  },
+  "scope": "Same final frozen tests and fixture bytes, three exact consumer files restored to e896; six relevant checks selected by name. No live/review-snapshot runtime changes."
+}

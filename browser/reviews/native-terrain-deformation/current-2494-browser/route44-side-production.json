@@ -1,0 +1,277 @@
+{
+  "name": "route44-side-production",
+  "requested": {
+    "map": 46,
+    "x": 624.5,
+    "z": 180.5,
+    "yaw": 3.665191429188092,
+    "pitch": 0.4,
+    "distance": 13
+  },
+  "audio": {
+    "audioResources": [],
+    "mediaElements": 0
+  },
+  "settling": "actual World.draw dt4 (camera alpha rounds1); visual geometry qualification only",
+  "state": {
+    "camera": {
+      "distance": 13,
+      "first": {
+        "distance": 5.292809088368295,
+        "name": "source-terrace-surface",
+        "point": [
+          622.0625,
+          6.88689819134854,
+          176.27812615655085
+        ]
+      },
+      "pitch": 0.4,
+      "position": [
+        622.3388182982009,
+        6.653247185963352,
+        176.75672348809573
+      ],
+      "target": [
+        624.5,
+        4.82578125,
+        180.5
+      ],
+      "yaw": 3.665191429188092
+    },
+    "cells": [
+      {
+        "asset": "land/210-0.glb",
+        "x": 18,
+        "z": 3
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 19,
+        "z": 3
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 20,
+        "z": 3
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 18,
+        "z": 4
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 18,
+        "z": 6
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 18,
+        "z": 7
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 17,
+        "z": 3
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 17,
+        "z": 6
+      },
+      {
+        "asset": "land/208-0.glb",
+        "x": 17,
+        "z": 7
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 21,
+        "z": 3
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 19,
+        "z": 4
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 17,
+        "z": 4
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 19,
+        "z": 6
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 21,
+        "z": 7
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 21,
+        "z": 6
+      },
+      {
+        "asset": "land/210-0.glb",
+        "x": 19,
+        "z": 7
+      },
+      {
+        "asset": "land/102-8.glb",
+        "x": 18,
+        "z": 5
+      },
+      {
+        "asset": "land/104-9.glb",
+        "x": 20,
+        "z": 4
+      },
+      {
+        "asset": "land/107-9.glb",
+        "x": 21,
+        "z": 5
+      },
+      {
+        "asset": "land/106-9.glb",
+        "x": 20,
+        "z": 5
+      },
+      {
+        "asset": "land/101-8.glb",
+        "x": 17,
+        "z": 5
+      },
+      {
+        "asset": "land/105-9.glb",
+        "x": 21,
+        "z": 4
+      },
+      {
+        "asset": "land/109-9.glb",
+        "x": 20,
+        "z": 7
+      },
+      {
+        "asset": "land/108-9.glb",
+        "x": 20,
+        "z": 6
+      },
+      {
+        "asset": "land/103-8.glb",
+        "x": 19,
+        "z": 5
+      }
+    ],
+    "headers": [
+      46,
+      0,
+      89,
+      47,
+      67,
+      34,
+      48,
+      33
+    ],
+    "height": 3.92578125,
+    "joints": [],
+    "limit": "Actual full streaming/rendered World. The comparison adds only native deformation joints; it does not close missing geological shells or certify the T2 filler.",
+    "map": 46,
+    "mode": "production",
+    "nativeLandIDs": [
+      101,
+      102,
+      103,
+      210,
+      104,
+      108,
+      105,
+      109,
+      106,
+      107,
+      208,
+      209,
+      4,
+      5,
+      7,
+      113,
+      1,
+      114,
+      8,
+      2
+    ],
+    "renderer": {
+      "memory": {
+        "geometries": 503,
+        "textures": 299
+      },
+      "render": {
+        "calls": 224,
+        "frame": 51,
+        "lines": 0,
+        "points": 240,
+        "triangles": 313918
+      }
+    },
+    "templateAssets": [
+      "land/101-8.glb",
+      "land/102-8.glb",
+      "land/103-8.glb",
+      "land/210-0.glb",
+      "land/104-9.glb",
+      "land/108-9.glb",
+      "land/105-9.glb",
+      "land/109-9.glb",
+      "land/106-9.glb",
+      "land/107-9.glb",
+      "land/208-0.glb",
+      "props/1-31-8.glb",
+      "props/1-139-8.glb",
+      "props/1-16-8.glb",
+      "props/1-33-8.glb",
+      "props/1-40-8.glb",
+      "props/1-15-8.glb",
+      "props/1-132-8.glb",
+      "props/1-133-8.glb",
+      "props/1-29-8.glb",
+      "props/1-39-8.glb",
+      "props/1-34-8.glb",
+      "props/1-234-8.glb",
+      "props/1-235-8.glb",
+      "props/1-32-7.glb",
+      "props/1-126-8.glb",
+      "props/1-32-8.glb",
+      "props/1-31-7.glb",
+      "land/209-0.glb",
+      "land/4-2.glb",
+      "land/5-2.glb",
+      "land/7-2.glb",
+      "land/113-9.glb",
+      "land/1-2.glb",
+      "land/114-9.glb",
+      "land/8-2.glb",
+      "land/2-2.glb",
+      "props/1-29-0.glb",
+      "props/1-30-0.glb",
+      "props/1-39-0.glb",
+      "props/1-15-0.glb",
+      "props/1-40-0.glb",
+      "props/1-37-0.glb",
+      "props/1-50-0.glb",
+      "props/1-38-0.glb",
+      "props/1-52-0.glb",
+      "land/10-2.glb",
+      "props/1-32-0.glb",
+      "props/1-35-0.glb"
+    ],
+    "terrainField": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+    "walkable": true,
+    "x": 624.5,
+    "z": 180.5
+  },
+  "screenshotPath": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcqcc96-bdc78cd1.png",
+  "screenshotSHA256": "95ff76a926c848701daa64cb559c9c3e72810bd3ab8ad0b1660fcc3418b37d9f",
+  "capturedAt": "2026-10-17T18:28:22.510044+00:00"
+}

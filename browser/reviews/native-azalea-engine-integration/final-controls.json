@@ -1,0 +1,72 @@
+{
+  "pairedControls": [
+    {
+      "label": "followup-low",
+      "beforeCommit": "2e396ca028ecac96c8b8bc7a3afbbd0bff6c9cad",
+      "afterCommit": "13a8317e20a7832589235e9df36fbc4f0f254ee5",
+      "fixture": "azalea-battle-integration.test.ts",
+      "fixtureSha256": "ae4212a310fdafa0e13228dddf83db2699e50fa1f6920e4452e5463a3b82fef6",
+      "identicalFixtureToAfterCommit": true,
+      "beforePassedNativeProtocolTests": 0,
+      "beforeFailedBehaviorTests": 2,
+      "qualification": "Exact earlier runtime copied into temporary control; same new fixture/native data. Native protocol test is independent of old/new runtime, hence it stillpasses in fixed-damage control.",
+      "runtime": [
+        {
+          "path": "browser/src/source/battle.ts",
+          "sha256": "3acd1a7a298593297c030fbccf6b8539ade1a7326abc0ffb596d88ce948ae6b3",
+          "equalsBeforeCommit": true
+        },
+        {
+          "path": "browser/src/source/battle-math.ts",
+          "sha256": "bb29855c76b8633f72130db6cab6b3a6eaf24e34f20ed4550bc4438bee0fd7b8",
+          "equalsBeforeCommit": true
+        }
+      ]
+    },
+    {
+      "label": "fixed-damage",
+      "beforeCommit": "13a8317e20a7832589235e9df36fbc4f0f254ee5",
+      "afterCommit": "b6caf5a26278de6754e5ece994253ee67c54cf9f",
+      "fixture": "fixed-damage-battle.test.ts",
+      "fixtureSha256": "d6db89779a206720e43badc5aa2b6256171df19f04e4c3b3483032d59459b5d9",
+      "identicalFixtureToAfterCommit": true,
+      "beforePassedNativeProtocolTests": 1,
+      "beforeFailedBehaviorTests": 6,
+      "qualification": "Exact earlier runtime copied into temporary control; same new fixture/native data. Native protocol test is independent of old/new runtime, hence it stillpasses in fixed-damage control.",
+      "runtime": [
+        {
+          "path": "browser/src/source/battle.ts",
+          "sha256": "5189e631475ab036110a8c849739756c5ce8b3fd5342465629f77343f771bb20",
+          "equalsBeforeCommit": true
+        },
+        {
+          "path": "browser/src/source/battle-math.ts",
+          "sha256": "bb29855c76b8633f72130db6cab6b3a6eaf24e34f20ed4550bc4438bee0fd7b8",
+          "equalsBeforeCommit": true
+        }
+      ]
+    }
+  ],
+  "negativeControls": [
+    {
+      "label": "fixed immunity bypass",
+      "mutatedSourceSha256": "cd7e5b0186ac573675e290745eb9d080ddeb33ba90640d56a00bf8f648132fb0",
+      "log": "hg-fixed-immunity-negative.log",
+      "logSha256": "a1ed6defcae9f1f6a05e0b9114c2510e7ca299b0ba55c7e936a7818e3b9e0a90",
+      "tests": 2,
+      "pass": 0,
+      "fail": 2,
+      "qualification": "Deliberate copied negative control, not a product bug or production source. Runtime source worktree unchanged."
+    },
+    {
+      "label": "Spite old100accuracy fixture",
+      "mutatedSourceSha256": "2aef4818a0619d0086aed8b50eb200edd73691ebced8b7290cffe902943e500b",
+      "log": "hg-spite-miss-negative.log",
+      "logSha256": "94c1de327b0f3100a78ceb530ca6f2a1ac3713ee2a9b8cee4c5791ddad884cf6",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "qualification": "Deliberate copied negative control, not a product bug or production source. Runtime source worktree unchanged."
+    }
+  ]
+}

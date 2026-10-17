@@ -1,0 +1,72 @@
+{
+  "status": "Isolated source/resource/controller checkpoint, not a playable host or visual approval",
+  "base": "5c39d05d32b56aa5aeb848d61f4c6e089299b1ce",
+  "plannerDependencies": [
+    "a1f68482bc90407ede22243a062ad085a248c4ff",
+    "12d176cfe18c7733d7eaaaec25b33e3fc6444245"
+  ],
+  "checks": {
+    "nodeTests": 43,
+    "nodeFailures": 0,
+    "pythonTests": 5,
+    "pythonFailures": 0,
+    "sdkOriginalCRotationSamples": 180,
+    "nativePATPixels": 4096,
+    "typescript": "PASS",
+    "deterministicResourceFiles": 10,
+    "resourceRegenerationByteIdentical": true,
+    "sdkOriginalCFullPerFramePath": true,
+    "normalizationHardwareResults": "Exact integer DIV/SQRT replay on CPU, original C getRotData_ body",
+    "nativeRigidWeightSamples": 8544,
+    "nativeSbcDraws": 28,
+    "nativeMaterialSamplerAgreement": "REPEAT/REPEAT10497, retained material bits0x30000, TEX0 additions0"
+  },
+  "sourceSHA256": {
+    "browser/src/source/gym-azalea-world.ts": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46",
+    "browser/src/source/gym-azalea-world.test.ts": "61a7b05fffa51c350567dff23c1960623ae364084bd9e7ff088d860951d8bc25",
+    "browser/scripts/export_azalea_world.py": "9dbc06a6c47e4e5243770cbac5e6e6e2fa73c304c95ceaf9e0050b74bd80fc2b",
+    "browser/scripts/test_azalea_world_resources.py": "8f3973c65c856e2496d2475b5e0156273ec40e4f13c192439662b3dace556009",
+    "browser/src/source/gym-azalea-plan.ts": "35f411f42dc34c22b07f14a14d5cf715a2274d3c4b0758ea65d44e38d4559730",
+    "browser/src/source/azalea-gym-rules.ts": "ec3a989daf8865f8b84b4ba098b43ab5286b5bce2196a567f9fa977aefdbf5ff",
+    "browser/public/source/azalea-gym/117-23.png": "ea5572c0313593b3ac2f685c702c94c5bc9f9e86b3e434f3c8cef5c93b461145",
+    "browser/public/source/azalea-gym/117-24.png": "a3e616d2dff89f975a9fb020776cc124eb12bd9c6e31eb23b04cf2ca6e270230",
+    "browser/public/source/azalea-gym/122-41.png": "3e9ab6f9361574fd3694e74f4b3e7c7d4d163f01caa427869b45b6e211e41b3b",
+    "browser/public/source/azalea-gym/122-42.png": "36c466f0d3d7b88acd347ffb9187b795234e30582aac417bfba01d0f314f3b17",
+    "browser/public/source/azalea-gym/model-115.glb": "d9e688dde1a26b98ca3d712d037413cdbeb93604799a2383f90a5e3c0ace0f6b",
+    "browser/public/source/azalea-gym/model-116.glb": "2182ebfcffbb14bd0aa1c62471133694adb3086dd60da9d02b42d9ee9587f9f7",
+    "browser/public/source/azalea-gym/model-117.glb": "d4dddf9184eb869ed27d7dc967f51a4f35f1a51228893c81625b8b00e595b29d",
+    "browser/public/source/azalea-gym/model-122.glb": "b4b7fdc06930d9af0995bc04365d3e3cfa4c397a1040b45ea0d4e6f0e1d12ca9",
+    "browser/public/source/azalea-gym/resources.json": "47ff6a8244ee0aba75beeb74e69d33ffb714d7cc13ef6d3ed5171da2567b4d38",
+    "browser/public/source/props/0-118-27.glb": "bb223d02b4e5cc699d80cd547c9a68626469577e4753566e8a22c10c6125069b"
+  },
+  "logs": {
+    "tests.tap": "ac6b5230628f444759e133b83a42e6ee1e53e5ab2c28d47e1283a3df74e0db05",
+    "native-resource-tests.txt": "b2fe1efffc8c6f97c1f89b86de88daff7a4dfa043dd42d0dbbb82f76d0d88872",
+    "typecheck.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "regeneration.json": "67212574ca4381a442e9e79f7a293fee6610f70bdc83389136ca5fa50007332b"
+  },
+  "limitations": [
+    "No existing World/main/ScriptVM/State/collision/audio files changed.",
+    "Host ports, source SE assets/admission and production gameplay integration remain unported here.",
+    "No browser, build, GPU/manual view or deployment performed.",
+    "Literal local SDK matrices do not establish bit-identical DS GPU vertex arithmetic.",
+    "Converter model/skin data is retained; actual final perspective appearance remains unreviewed."
+  ],
+  "testedSourceCommit": "a93c36d34ee50567f6b8cb9f6346829e0e6960c0",
+  "actualReview": {
+    "originalSource": "fb864a48f93e03930f28e42c76554ee407a4127d",
+    "raw": "opus-fb864a48/opus-result.json",
+    "adjudication": "review-adjudication.json",
+    "followup": "Actual8f review completed; its two low findings corrected in a93",
+    "final": {
+      "sourceCommit": "a93c36d34ee50567f6b8cb9f6346829e0e6960c0",
+      "helperSHA256": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46",
+      "model": "claude-opus-5-5",
+      "raw": "opus-a93c36d3/opus-result.json",
+      "rawSHA256": "4d637f0dbd2d68858c566d0929571c823dbc00a6464e7cd6cc5550a091d1d293",
+      "verdict": "Source-only ACCEPT, no reachable high/medium/low in corrected scope; no browser/manual approval",
+      "durationMs": 231806,
+      "allReviewedInputsUnchanged": true
+    }
+  }
+}

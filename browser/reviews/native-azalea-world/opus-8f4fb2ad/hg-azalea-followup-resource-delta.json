@@ -1,0 +1,453 @@
+{
+  "beforeCommit": "fb864a48f93e03930f28e42c76554ee407a4127d",
+  "currentSource": "8f4fb2ad83b146d8d0cf86127ab420403f53fc63",
+  "scope": "Five GLBs/fourPNG hashes unchanged; existing rail poses/PAT bindings unchanged; spider per-frame pivot row2 normalization is corrected as listed. New manifest adds rest/scaling/sampling proof. No browser/bit-exact GPU claim.",
+  "models": [
+    {
+      "model": 115,
+      "glbSHA256": "d9e688dde1a26b98ca3d712d037413cdbeb93604799a2383f90a5e3c0ace0f6b",
+      "animationData": [
+        {
+          "archive": 25,
+          "frameCount": 3,
+          "correctedNativeFrames": []
+        },
+        {
+          "archive": 26,
+          "frameCount": 3,
+          "correctedNativeFrames": []
+        }
+      ],
+      "addedScalingRule": 0,
+      "restJointCount": 3
+    },
+    {
+      "model": 116,
+      "glbSHA256": "2182ebfcffbb14bd0aa1c62471133694adb3086dd60da9d02b42d9ee9587f9f7",
+      "animationData": [
+        {
+          "archive": 27,
+          "frameCount": 3,
+          "correctedNativeFrames": []
+        },
+        {
+          "archive": 28,
+          "frameCount": 3,
+          "correctedNativeFrames": []
+        }
+      ],
+      "addedScalingRule": 0,
+      "restJointCount": 3
+    },
+    {
+      "model": 117,
+      "glbSHA256": "d4dddf9184eb869ed27d7dc967f51a4f35f1a51228893c81625b8b00e595b29d",
+      "animationData": [
+        {
+          "archive": 23,
+          "frameCount": 2,
+          "correctedNativeFrames": []
+        },
+        {
+          "archive": 24,
+          "frameCount": 2,
+          "correctedNativeFrames": []
+        }
+      ],
+      "addedScalingRule": 0,
+      "restJointCount": 1
+    },
+    {
+      "model": 118,
+      "glbSHA256": "bb223d02b4e5cc699d80cd547c9a68626469577e4753566e8a22c10c6125069b",
+      "animationData": [
+        {
+          "archive": 43,
+          "frameCount": 30,
+          "correctedNativeFrames": [
+            {
+              "frame": 3,
+              "node": 4,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    -3228,
+                    0,
+                    2522,
+                    0,
+                    4096,
+                    0,
+                    -2522,
+                    0,
+                    -3228
+                  ],
+                  "after": [
+                    -3228,
+                    0,
+                    2522,
+                    0,
+                    4096,
+                    0,
+                    -2522,
+                    0,
+                    -3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 3,
+              "node": 6,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    -3474,
+                    0,
+                    -2171,
+                    0,
+                    4096,
+                    0,
+                    2171,
+                    0,
+                    -3474
+                  ],
+                  "after": [
+                    -3474,
+                    0,
+                    -2171,
+                    0,
+                    4096,
+                    0,
+                    2171,
+                    0,
+                    -3473
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 4,
+              "node": 4,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    -3228,
+                    0,
+                    2522,
+                    0,
+                    4096,
+                    0,
+                    -2522,
+                    0,
+                    -3228
+                  ],
+                  "after": [
+                    -3228,
+                    0,
+                    2522,
+                    0,
+                    4096,
+                    0,
+                    -2522,
+                    0,
+                    -3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 4,
+              "node": 6,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    -3474,
+                    0,
+                    -2171,
+                    0,
+                    4096,
+                    0,
+                    2171,
+                    0,
+                    -3474
+                  ],
+                  "after": [
+                    -3474,
+                    0,
+                    -2171,
+                    0,
+                    4096,
+                    0,
+                    2171,
+                    0,
+                    -3473
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 14,
+              "node": 3,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3228
+                  ],
+                  "after": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 15,
+              "node": 3,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3228
+                  ],
+                  "after": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 16,
+              "node": 3,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3228
+                  ],
+                  "after": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 17,
+              "node": 3,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3228
+                  ],
+                  "after": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 18,
+              "node": 3,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3228
+                  ],
+                  "after": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 19,
+              "node": 3,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3228
+                  ],
+                  "after": [
+                    3228,
+                    0,
+                    -2522,
+                    0,
+                    4096,
+                    0,
+                    2522,
+                    0,
+                    3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 29,
+              "node": 4,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    -3228,
+                    0,
+                    2522,
+                    0,
+                    4096,
+                    0,
+                    -2522,
+                    0,
+                    -3228
+                  ],
+                  "after": [
+                    -3228,
+                    0,
+                    2522,
+                    0,
+                    4096,
+                    0,
+                    -2522,
+                    0,
+                    -3227
+                  ]
+                }
+              }
+            },
+            {
+              "frame": 29,
+              "node": 6,
+              "changedFields": {
+                "rotationFx32": {
+                  "before": [
+                    -3474,
+                    0,
+                    -2171,
+                    0,
+                    4096,
+                    0,
+                    2171,
+                    0,
+                    -3474
+                  ],
+                  "after": [
+                    -3474,
+                    0,
+                    -2171,
+                    0,
+                    4096,
+                    0,
+                    2171,
+                    0,
+                    -3473
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "addedScalingRule": 0,
+      "restJointCount": 7
+    },
+    {
+      "model": 122,
+      "glbSHA256": "b4b7fdc06930d9af0995bc04365d3e3cfa4c397a1040b45ea0d4e6f0e1d12ca9",
+      "animationData": [
+        {
+          "archive": 41,
+          "frameCount": 2,
+          "correctedNativeFrames": []
+        },
+        {
+          "archive": 42,
+          "frameCount": 2,
+          "correctedNativeFrames": []
+        }
+      ],
+      "addedScalingRule": 0,
+      "restJointCount": 1
+    }
+  ]
+}

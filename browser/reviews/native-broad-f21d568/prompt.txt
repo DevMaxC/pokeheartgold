@@ -1,0 +1,38 @@
+You are conducting an independent, broad READ-ONLY correctness and completeness review of a Pokemon HeartGold browser port. Review code and native source; do not edit files, run commands, build, use browsers, or fetch unrelated external sources. Your tools are restricted to Read, Grep and Glob.
+
+EXACT IMMUTABLE INPUT
+- Working directory: /Users/maxchurch/Documents/pokeheartgold-opus-broad-f21d568
+- Detached commit: f21d56866643e055efde7566afd2106129b841c6
+- All tracked files are present, including original native C/headers/assembly and original assets. Tracked regular files have been made non-writable.
+- Full exact file/blob/SHA256 inventory: /tmp/hg-broad-opus-f21d568-review/input-manifest.json
+- Browser source file inventory: /tmp/hg-broad-opus-f21d568-review/runtime-inventory.json
+- Metadata: /tmp/hg-broad-opus-f21d568-review/review-metadata.json
+- This review does NOT cover later UI/interface/mobile controls, field-item pickup fixes in another branch, shoreline/T2 changes, or any later work. Review the exact commit on its own merits. Do not infer that later fixes exist in this snapshot.
+
+SCOPE
+This is a BROAD codebase review, not a review of one patch or a pickup-only review. Start by inventorying ALL browser/src/source runtime modules (tests are available as supporting evidence, not proof). Build a coverage map and inspect the important runtime paths and their cross-module contracts. The whole browser/public/source data tree and original src/, include/, files/, asm/, lib/ and tools/ trees are available. Follow actual source scripts, exported maps, event objects and data to distinguish legal reachable gameplay from hypotheticals. You may consult browser/reviews and parity ledgers to understand explicit limits, but do not inherit prior approvals or preconclude that a path is correct.
+
+Priorities to review independently:
+1. Native progression and ScriptVM semantics: dispatch/arguments, standard-bank context, object identity, flags/vars, message/choice resolution, supported quest chains, trainer manual/sight battles, phone calls and save/Continue behavior. Trace real native scripts/events and command implementations.
+2. State transactions and lifecycle: root/nested action recovery, Retry versus Return, frame/warp/connection triggers, movement admission, save gating, input ownership, cancellation/draining and provisional versus committed effects. Look for duplication, rollback gaps, ghost actors, permanently blocked input, accidental progression or unhandled failures.
+3. Party/battle/Egg systems: supported battle mechanics and integer ordering, reward/experience allocation, switching/participation, win/loss flags, field items/medicine, growth/evolution or explicit gaps; Egg identity/eligibility, counters, hatch presentation/audio/phone timing and rollback. Do not invent mechanics not supported by these inputs.
+4. World/camera/collision/render-resource integration: source transforms, field height, tiles/ledges/map borders and warps, native passage preservation, cell rebuild lifecycle, actor/sprite identity, follower/camera transitions, disposal ownership, performance hazards that can be substantiated from code rather than speculative GPU claims.
+5. UI/input/save: supported interactions, focus/modal gates, keyboard/button ordering and cancellation, persistence schema and load migration/validation where relevant, data availability and failures. Review the snapshot's actual existing interface, not later UI work.
+
+FINDING STANDARD
+- Report concrete defects in implemented/reachable behavior with exact browser file path and line(s), what triggers them, impact, and a minimal reproducible gameplay/source fixture. Show the full relevant call chain and state transitions, not a name-based suspicion.
+- For native fidelity claims, cite the exact original native file/line or source script/map/data evidence and explain the semantic difference. Verify legal values and stage/order/bounds before claiming a battle or VM bug.
+- Known explicit UnsupportedScript/unsupported engine guards and documented unimplemented features are not silently successful implemented paths. Separate honest remaining feature limitations from defects. If a normal intended progression route reaches a guard, explain its real route/extent as a completeness limit; do not mislabel it as corrupted success or an unsupported mechanic bug.
+- Distinguish CONFIRMED static findings from plausible concerns needing runtime/visual verification. Do not fabricate executed tests, browser checks, rendered defects, exhaustive coverage, or performance timings. Tools are read-only, so static review cannot prove absence of all bugs.
+- A prior test/review pass is not proof; inspect actual implementation and native contracts. Conversely do not remove native art, native openings, rounding, or deliberate source behavior merely because it appears unusual.
+- Do not report hypothetical regulation/security/compliance/style issues or broad rewrites without an actual correctness/progression witness. Do not request edits or execute fixes.
+
+OUTPUT
+Provide:
+A. Prioritized confirmed findings (P0/P1/P2/P3 as appropriate), each with title, exact path/line, reachable trigger/witness, observed-by-code behavior, expected native behavior/evidence, affected scope and suggested focused verification/fix direction.
+B. Separate unconfirmed concerns requiring runtime or visual evidence (if any), with what evidence is missing.
+C. Explicit completeness limitations of this exact port supported by source paths, separate from bugs.
+D. Coverage map of actual modules/subsystems inspected, important native/data evidence read, and scope left shallow/unreviewed. Be candid if this broad request exceeds what you actually inspected.
+E. Overall assessment bounded to exact f21d568 input, without an automatic release approval or approval transfer to any later commit.
+
+Take the time needed for a meaningful broad independent review. Do not stop after the first subsystem or first finding. Return findings honestly, including no confirmed finding in a subsystem when that is the result of actual inspection.

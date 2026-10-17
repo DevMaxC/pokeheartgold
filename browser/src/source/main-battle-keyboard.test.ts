@@ -10,7 +10,8 @@ import {loadData,newState,createMon} from './data.ts';
 import {UI} from './ui.ts';
 import {installUIDOM,installUIClock} from './ui-test-dom.ts';
 
-// Bind the actual production Main callback, not a copied condition. A separate
+// Bind the actual Main callback and native field gate, when present. The
+// production inline gate and native campaign helper both execute their own code. A separate
 // original-source override supplies the literal before-fix negative control.
 const mainURL=process.env.HG_PRODUCTION_KEYBOARD_MAIN?pathToFileURL(process.env.HG_PRODUCTION_KEYBOARD_MAIN):new URL('./main.ts',import.meta.url);
 const main=await readFile(mainURL,'utf8'),hash=(text:string)=>createHash('sha256').update(text).digest('hex'),mainHash=hash(main);
@@ -22,7 +23,8 @@ const callbacks=ast.statements.flatMap(statement=>{
   const callback=call.arguments[1];return callback&&ts.isArrowFunction(callback)&&callback.getText(ast).includes('keys.add(e.code)')?[callback.getText(ast)]:[];
 });
 assert.equal(callbacks.length,1,'one actual production field keydown callback');
-const callback=callbacks[0],compiled=ts.transpileModule(`globalThis.fieldKeydown=(${callback});`,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
+const fieldGate=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='fieldControlsAvailable')?.getText(ast)??'';
+const callback=callbacks[0],compiled=ts.transpileModule(fieldGate+`\nglobalThis.fieldKeydown=(${callback});`,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
 after(async()=>assert.equal(hash(await readFile(mainURL,'utf8')),mainHash,'production Main changed during fixture'));
 const priorFetch=globalThis.fetch;
 globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
@@ -35,7 +37,7 @@ function fixture(){
   const battle=new Battle(data,state,ui);Reflect.set(battle,'enemies',[createMon(data,19,3,'Opponent',()=>.5)]);
   const fieldActions:string[]=[],actions:unknown[]=[];
   Reflect.set(battle,'actions',(action:unknown)=>actions.push(action));
-  const context:any={ui,battle,started:true,pickupRecoveryBlocked:false,battleSoundOwned:false,transitioning:false,connecting:false,vm:{busy:false},keys:new Set<string>(),unlockSound(){},async interact(){fieldActions.push('interact');},async menu(){fieldActions.push('menu');},reportInputError(error:unknown){throw error;}};
+  const context:any={ui,battle,world:{fieldTransitionActive:false},ready:true,recoveryPrompt:false,sourceActions:null,hatching:false,sourceSceneOwners:0,preservedControlScripts:0,ordinaryInputOwners:0,started:true,pickupRecoveryBlocked:false,battleSoundOwned:false,transitioning:false,connecting:false,vm:{busy:false},keys:new Set<string>(),unlockSound(){},async interact(){fieldActions.push('interact');},async menu(){fieldActions.push('menu');},reportInputError(error:unknown){throw error;}};
   createContext(context);runInContext(compiled,context);dom.listen('keydown',context.fieldKeydown);
   // Real browsers supply default button activation only when no listener
   // prevents it. This headless fixture supplies that default; it is not a

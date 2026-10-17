@@ -1,0 +1,26 @@
+{
+  "baseCommit": "333423a4d3110ad7e8c01c10496fc78488b7b5d1",
+  "scope": "Native deformation only. No T2 scenery planner/filler. Production terraceWalls suffix unchanged; World diff only shared-material joint geometry disposal.",
+  "hashes": {
+    "src/source/native-terrain-joints.ts": "249440d6763c0b4e745defc1da85bd39ef66ab150b12130634fc13c045dcded6",
+    "src/source/terrace-model.ts": "37f7cf76d2154bfa73c2b2aa03989a01a791d39d0c5d2be6be0a39f3b7d7f0fd",
+    "src/source/world.ts": "373546cf9bd9f2b2da0037d82da5d222f84052a1647cdf89aa4188a81fd6da73",
+    "src/source/ledges.ts": "126b80dfa767b2e7b20e0d14b731a63b374ad661a67cd8a8ebaf94dc08d94966",
+    "src/source/terrain-work.ts": "7c5f5ca96fbae174a82b8a952c76c71de2ab4312126f8738ca09528dd354a9b2",
+    "src/source/native-terrain-joints-source.test.ts": "03efb5dbfacf390810081c27dd48b53d065d220df179ae6cb747e33259635b52",
+    "src/source/native-terrain-world.test.ts": "92e1e1b366ac76b50ea7fd803a7b230c8e83c5e289870f80ab1c846aaa5d9977",
+    "src/source/native-upward-relief-joints.test.ts": "cdda48740ef8c5c58adbab6fac9eaf1c37a061e665c4ab2f57dfef7143290dcd",
+    "public/source/terraces/0.json": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
+    "public/source/land/103-8.glb": "cabad6f59a6c73ecb57b38465f1cfe98afb3eeef57d6c5ce14fa96fc50c60eea",
+    "public/source/land/5-2.glb": "f13f55da99a495d50cfcdaa5c8c36e43e8179f40f1dcd29fa51dcb06d63f7371",
+    "public/source/land/210-0.glb": "ed5036caec6fdacdd3a463d3e6c6b542eb457b80aa1d885ae8a860d6f347bcab",
+    "public/source/matrices/0.json": "1a2e88994928d0480136e04a2783401e6da6b85203b8f8eaa2deac2a70a53b69",
+    "public/source/entrances.json": "04495b657c173f1b618b1bbf6bfd0ab7349d1576c83f99f2df8365f02b789d9a"
+  },
+  "historicalHelperSHA256": "e0a2015920c13274d2716f98961cd3b13f7213f0e9c6463aa7c782c2b65e969c",
+  "helperDelta": "Coverage reads production explicit nativeCornerEdges as well as nativeEdges; exact full-triangle coverage, actual owning cell, finite six heights, proper per-kind keys.",
+  "currentNative42": "All42 exact LOCAL ground/wall partitions agree. UP position/UV/color/material output remains byte-identical;36 old partition mismatches include27 exact chord-gap witnesses.",
+  "historicalFour": "Four ideal source strips remain nonvacuously checked but all4 are already fully covered by production native corner walls, so current actual Route44 stream adds0 duplicates. Historical four-world proof omitted new wall matrix refresh; it is not production approval.",
+  "browser": "Current2494 actual old/new fullWorld8frames/fourposes complete after rootexplicit reconnect. Exactcamera matches,88graph/inputpins stable, noaudio/media, tab_s parkedJSON. Focusedmanual qualification only; root independent/final release checks pending.",
+  "reviewStatus": "Actual immutable Opus5.5 sourcePASS unchanged; current-source focusedbrowser qualificationcomplete; rootfullsuite/build/CI/releasepending."
+}

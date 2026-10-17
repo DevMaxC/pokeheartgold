@@ -1,0 +1,25 @@
+from pathlib import Path
+import shutil,subprocess,json,hashlib,datetime
+root=Path('/Users/maxchurch/Documents/pokeheartgold-azalea-battles');frozen=Path('/tmp/hg-sports-low-kick-review-293ff9d8');manifest=json.loads((frozen/'manifest.json').read_text());results=[]
+for kind in ['old-a169-native-actions','flat-power40','lost-NoGuard','missing-switch-weight']:
+ out=Path('/tmp/hg-low-kick-control-'+kind);out.mkdir(exist_ok=False)
+ for row in manifest['inputs']:
+  if row.get('evidenceOnly'):continue
+  q=out/row['path'];q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((frozen/row['path']).read_bytes())
+ p=out/'browser/src/source/battle.ts';m=out/'browser/src/source/battle-math.ts';t=out/'browser/src/source/battle-low-kick.test.ts';pattern=None
+ if kind=='old-a169-native-actions':
+  for rel in ['browser/src/source/battle.ts','browser/src/source/battle-math.ts']:(out/rel).write_bytes(subprocess.check_output(['git','show','a169413d:'+rel],cwd=root))
+  s=t.read_text();old="for(const active of[party[0],enemies[0]])Reflect.get(battle,'initializeWeight').call(battle,active);";assert s.count(old)==1;s=s.replace(old,"for(const active of[party[0],enemies[0]])if(Reflect.has(battle,'initializeWeight'))Reflect.get(battle,'initializeWeight').call(battle,active);");t.write_text(s);pattern='actual Anthony party resolves|native NoGuard clears'
+ elif kind=='flat-power40':
+  s=m.read_text();old='move.effect===196?nativeWeightBasedPower(context.targetWeight!):move.power';assert s.count(old)==1;m.write_text(s.replace(old,'move.effect===196?40:move.power'))
+ elif kind=='lost-NoGuard':
+  s=p.read_text();old="if(missed&&monAbility(this.data,attacker)!=='ABILITY_NO_GUARD'&&monAbility(this.data,defender)!=='ABILITY_NO_GUARD')";assert s.count(old)==1;p.write_text(s.replace(old,'if(missed)'))
+ else:
+  s=p.read_text();s=s.replace('this.initializeWeight(this.enemy);','').replace('this.playerIndex=index;this.initializeWeight(this.player);','this.playerIndex=index;');p.write_text(s)
+ argv=['node','--experimental-transform-types','--test'];
+ if pattern:argv+=['--test-name-pattern='+pattern]
+ argv+=['browser/src/source/battle-low-kick.test.ts'];run=subprocess.run(argv,cwd=out,capture_output=True,text=True);text=run.stdout+run.stderr;log=Path('/tmp/hg-low-kick-control-'+kind+'.log');log.write_text(text)
+ assert run.returncode!=0,kind+' survived';assert 'ENOENT' not in text and 'ERR_MODULE_NOT_FOUND' not in text and 'TypeError' not in text,kind+' infrastructure failure';assert '# pass 0' not in text or kind=='old-a169-native-actions',kind+' did not execute meaningful fixtures'
+ if kind=='old-a169-native-actions':assert 'Unported original move effect 196' in text and 'Unsupported native trainer replacement damage weather' in text
+ result={'control':kind,'exitCode':run.returncode,'log':str(log),'logSha256':hashlib.sha256(log.read_bytes()).hexdigest(),'expectedSemanticFailureDetected':True};results.append(result);print(json.dumps(result),flush=True)
+Path('/tmp/hg-low-kick-controlled-regressions.json').write_text(json.dumps({'sourceCommit':manifest['commit'],'createdAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'qualification':'Same new native action fixtures on literal olda169 Battle/Math (with weight dependency data available) or one controlled erroneous algorithm. Onlyold harness adapter skips nonexistent weight initialization; no action/assertion/native code weakened. Old source actually rejects effect196 and actualAnthony replacement rain. No globalRNG/AI/campaign approval.','controls':results},indent=2)+'\n')

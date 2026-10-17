@@ -1,0 +1,22 @@
+{
+  "sourceCommit": "88822998cc550d596e18d32a935d68e23d4011ad",
+  "base": "13cfb634ebb9768bf377eeb9f47e47a9f4c23457",
+  "modelRequested": "claude-opus-5-5",
+  "modelUsageKeys": [
+    "claude-haiku-4-5-20251001",
+    "claude-opus-5-5"
+  ],
+  "verdict": "ACCEPT",
+  "durationMs": 104552,
+  "rawSHA256": "41ca3b5ce7edc2812cf52ad92904e93fa09c8b5beeedd969378e4be7c375426a",
+  "manifestSHA256": "82b4821f190ed2e91c3e40ed071e656f36837a1882dbeffa0ae4a1eb11973bc8",
+  "snapshotUnchanged": true,
+  "liveSourcePinsUnchanged": true,
+  "scope": "Narrow source/log review only;251 silent Node tests+2 original-C tests+TSC. No Main,World,Azalea,clock,cry,resource change; no browser,audition,build,merge or deployment approval",
+  "remainingLimits": [
+    "Accepted bounded lazy preparation precedes phase timer",
+    "Default wait is cancellable wall-clock15/30 mapping",
+    "Admitted fanfare verified completion tail unchanged",
+    "Cry admission unchanged; no fixed cry wait invented"
+  ]
+}

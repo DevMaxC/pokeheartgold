@@ -1,0 +1,70 @@
+{
+  "reviewCommit": "2e98afb82f89529758cd78481a7eed91c5a3a9e6",
+  "reviewMainSHA256": "fafdfaad1d0f34fadde25f709084e321b7a20c0500537bdebb60d332e48c0b14",
+  "rawResultSHA256": "49ae0c22b35cb00244aea032b5e318c389fc87ffe323698fedbd6f76a078f6a3",
+  "actualModelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2942,
+      "outputTokens": 21,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0030470000000000002,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 162,
+      "outputTokens": 71100,
+      "cacheReadInputTokens": 12734378,
+      "cacheCreationInputTokens": 281720,
+      "webSearchRequests": 0,
+      "costUSD": 5.3781236,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 57189,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "runtimeChangesSinceReview": "none by reviewer",
+  "verdict": "Opus PASS required contracts1-7; one concrete Low keyboard battle-button activation regression requires closure before final approval.",
+  "finding": {
+    "severity": "Low",
+    "file": "browser/src/source/main.ts",
+    "line": 601,
+    "description": "Global handler prevents Enter/Space before checking field ownership; plain battle DOM buttons cannot use native default keyboard activation.",
+    "adjudication": "Plausible and source-confirmed; reported root for concrete regression/fix, no source edit by reviewer yet."
+  },
+  "conditional": [
+    {
+      "description": "Changed-map fight failure may temporarily select failed destination cue",
+      "status": "Reviewer labels currently unreachable; preserve as future scenario."
+    },
+    {
+      "description": "Mom raw16 tape scope is one startBattle invocation, not entire rerun scene",
+      "status": "Policy qualification: nested scene retry reruns whole battle and randomness. Root must explicitly adjudicate whether stronger scene-stable draw is intended."
+    },
+    {
+      "description": "Platform AudioContext re-unlock can request prior failed cue",
+      "status": "Leaf/platform lifecycle conditional; no browser audio approval claimed."
+    }
+  ],
+  "validationQualification": "Raw reviewer says it did not locate controlled negative logs. Files DO exist in packet/validation and hashes in validation-manifest.json; externally executed58+34 tests/TSC remain operator evidence, not reviewer execution/verification.",
+  "sourceIntegrity": {
+    "verifiedUTC": "2026-10-17T17:12:54.967656+00:00",
+    "files": 9086,
+    "graphSHA256": "5f73676d17891742aea312999917bc795857046c65a79835f9865ebf1c9acee5",
+    "changed": [],
+    "unexpected": [],
+    "missing": [],
+    "sourceManifestUnchanged": true,
+    "promptUnchanged": true
+  },
+  "limits": "Source-only. Browser smoke separate; no GPU/art/full campaign/production release approval. Parent fullsuite and release remain independent."
+}

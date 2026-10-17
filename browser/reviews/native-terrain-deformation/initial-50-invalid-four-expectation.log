@@ -1,0 +1,330 @@
+TAP version 13
+# (node:81055) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal UP↔UP authority admits an exact gap and rejects outside area/plane and prior opaque coverage
+ok 1 - literal UP↔UP authority admits an exact gap and rejects outside area/plane and prior opaque coverage
+  ---
+  duration_ms: 5.08675
+  type: 'test'
+  ...
+# Subtest: foreign asset cannot lend native gap authority
+ok 2 - foreign asset cannot lend native gap authority
+  ---
+  duration_ms: 0.121458
+  type: 'test'
+  ...
+# Subtest: foreign sourceSHA256 cannot lend native gap authority
+ok 3 - foreign sourceSHA256 cannot lend native gap authority
+  ---
+  duration_ms: 0.071333
+  type: 'test'
+  ...
+# Subtest: foreign placement cannot lend native gap authority
+ok 4 - foreign placement cannot lend native gap authority
+  ---
+  duration_ms: 0.059083
+  type: 'test'
+  ...
+# Subtest: foreign mesh cannot lend native gap authority
+ok 5 - foreign mesh cannot lend native gap authority
+  ---
+  duration_ms: 0.268291
+  type: 'test'
+  ...
+# Subtest: foreign material cannot lend native gap authority
+ok 6 - foreign material cannot lend native gap authority
+  ---
+  duration_ms: 0.076083
+  type: 'test'
+  ...
+# Subtest: same-side, alpha, incomplete, shifted and ambiguous source branches cannot admit a strip
+ok 7 - same-side, alpha, incomplete, shifted and ambiguous source branches cannot admit a strip
+  ---
+  duration_ms: 0.519792
+  type: 'test'
+  ...
+# Subtest: strict rational coverage keeps a tiny positive external strip and a tiny native overlap
+ok 8 - strict rational coverage keeps a tiny positive external strip and a tiny native overlap
+  ---
+  duration_ms: 1.179625
+  type: 'test'
+  ...
+# (node:81056) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ownership-only source tracing changes no emitted position/UV/color/group/material on either actual full native pipeline
+ok 9 - ownership-only source tracing changes no emitted position/UV/color/group/material on either actual full native pipeline
+  ---
+  duration_ms: 1038.391541
+  type: 'test'
+  ...
+# Subtest: every actual upward original face remains byte-identical under the current production277bac field
+ok 10 - every actual upward original face remains byte-identical under the current production277bac field
+  ---
+  duration_ms: 1383.368083
+  type: 'test'
+  ...
+# Subtest: all literal native axis-aligned ground/wall joins reuse exact stored LOCAL Float32 segments, including actual before-gap witnesses
+ok 11 - all literal native axis-aligned ground/wall joins reuse exact stored LOCAL Float32 segments, including actual before-gap witnesses
+  ---
+  duration_ms: 141.248209
+  type: 'test'
+  ...
+# Subtest: all changed native wall vertices retain their original face UV/color interpolation without borrowing ground artwork
+ok 12 - all changed native wall vertices retain their original face UV/color interpolation without borrowing ground artwork
+  ---
+  duration_ms: 127.063584
+  type: 'test'
+  ...
+# Subtest: actual repaired GLB103 UP↔UP joins have independent exact strip authority and overlap no pre-existing opaque native facet
+not ok 13 - actual repaired GLB103 UP↔UP joins have independent exact strip authority and overlap no pre-existing opaque native facet
+  ---
+  duration_ms: 29943.306583
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-native-terrain-deformation/browser/src/source/native-terrain-joints-source.test.ts:52:1'
+  failureType: 'testCodeFailure'
+  error: 'the actual source pair must generate measured joins, not vacuously pass'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-native-terrain-deformation/browser/src/source/native-terrain-joints-source.test.ts:57:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# (node:81057) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: adjoining native ground and wall share exact LOCAL Float32 edge segments while original upward buffers and materials stay intact
+ok 14 - adjoining native ground and wall share exact LOCAL Float32 edge segments while original upward buffers and materials stay intact
+  ---
+  duration_ms: 173.104208
+  type: 'test'
+  ...
+# Subtest: native wall UVs/colors use their own affine source coordinates rather than the upward-face donor
+ok 15 - native wall UVs/colors use their own affine source coordinates rather than the upward-face donor
+  ---
+  duration_ms: 2.434625
+  type: 'test'
+  ...
+# Subtest: standalone geometry does not borrow unproven native edge authority
+ok 16 - standalone geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 18.013542
+  type: 'test'
+  ...
+# Subtest: foreign geometry does not borrow unproven native edge authority
+ok 17 - foreign geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 2.060875
+  type: 'test'
+  ...
+# Subtest: water geometry does not borrow unproven native edge authority
+ok 18 - water geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 0.718541
+  type: 'test'
+  ...
+# Subtest: wall-water geometry does not borrow unproven native edge authority
+ok 19 - wall-water geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 1.063042
+  type: 'test'
+  ...
+# Subtest: mask geometry does not borrow unproven native edge authority
+ok 20 - mask geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 1.833541
+  type: 'test'
+  ...
+# Subtest: blend geometry does not borrow unproven native edge authority
+ok 21 - blend geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 52.943708
+  type: 'test'
+  ...
+# Subtest: rooted geometry does not borrow unproven native edge authority
+ok 22 - rooted geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 1.383416
+  type: 'test'
+  ...
+# Subtest: rigid geometry does not borrow unproven native edge authority
+ok 23 - rigid geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 1.668458
+  type: 'test'
+  ...
+# Subtest: legacy geometry does not borrow unproven native edge authority
+ok 24 - legacy geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 1.565167
+  type: 'test'
+  ...
+# Subtest: generated-wall geometry does not borrow unproven native edge authority
+ok 25 - generated-wall geometry does not borrow unproven native edge authority
+  ---
+  duration_ms: 0.760375
+  type: 'test'
+  ...
+# Subtest: two unrelated meshes with coincident raw positions cannot lend each other native source edges
+ok 26 - two unrelated meshes with coincident raw positions cannot lend each other native source edges
+  ---
+  duration_ms: 1.902667
+  type: 'test'
+  ...
+# Subtest: a real one-sided ledge discontinuity keeps both native upward heights and cannot borrow one canonical branch
+ok 27 - a real one-sided ledge discontinuity keeps both native upward heights and cannot borrow one canonical branch
+  ---
+  duration_ms: 5.509292
+  type: 'test'
+  ...
+# Subtest: a stale native edge prepass cannot hide or replace the shared source
+ok 28 - a stale native edge prepass cannot hide or replace the shared source
+  ---
+  duration_ms: 0.507791
+  type: 'test'
+  ...
+# Subtest: an upward branch cannot lift an unattached wall bottom across a one-sided relief jump
+ok 29 - an upward branch cannot lift an unattached wall bottom across a one-sided relief jump
+  ---
+  duration_ms: 2.594625
+  type: 'test'
+  ...
+# (node:81058) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a literal native UP↔UP edge closes only the exact stored relief strip with both original branches and own artwork preserved
+ok 30 - a literal native UP↔UP edge closes only the exact stored relief strip with both original branches and own artwork preserved
+  ---
+  duration_ms: 34.491375
+  type: 'test'
+  ...
+# Subtest: foreign cannot supply new upward relief-strip authority
+ok 31 - foreign cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 6.270417
+  type: 'test'
+  ...
+# Subtest: mask cannot supply new upward relief-strip authority
+ok 32 - mask cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 4.83575
+  type: 'test'
+  ...
+# Subtest: water cannot supply new upward relief-strip authority
+ok 33 - water cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 0.646125
+  type: 'test'
+  ...
+# Subtest: front-only cannot supply new upward relief-strip authority
+ok 34 - front-only cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 2.186542
+  type: 'test'
+  ...
+# Subtest: same-side cannot supply new upward relief-strip authority
+ok 35 - same-side cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 2.056208
+  type: 'test'
+  ...
+# Subtest: third-face cannot supply new upward relief-strip authority
+ok 36 - third-face cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 119.732583
+  type: 'test'
+  ...
+# Subtest: rotated cannot supply new upward relief-strip authority
+ok 37 - rotated cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 45.662709
+  type: 'test'
+  ...
+# Subtest: scaled cannot supply new upward relief-strip authority
+ok 38 - scaled cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 14.409625
+  type: 'test'
+  ...
+# Subtest: rooted cannot supply new upward relief-strip authority
+ok 39 - rooted cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 2.440166
+  type: 'test'
+  ...
+# Subtest: a continuous field has no missing strip and cannot create an internal wall
+ok 40 - a continuous field has no missing strip and cannot create an internal wall
+  ---
+  duration_ms: 0.928083
+  type: 'test'
+  ...
+# Subtest: release disposes a shared placed relief-join geometry once while preserving original template materials/maps/buffers
+ok 41 - release disposes a shared placed relief-join geometry once while preserving original template materials/maps/buffers
+  ---
+  duration_ms: 2.553625
+  type: 'test'
+  ...
+# Subtest: only complete explicit native coverage in the actual owning cell suppresses a redundant strip
+ok 42 - only complete explicit native coverage in the actual owning cell suppresses a redundant strip
+  ---
+  duration_ms: 88.021625
+  type: 'test'
+  ...
+# Subtest: a large foreign native-ledge inventory yields and cancels before hiding the original source
+ok 43 - a large foreign native-ledge inventory yields and cancels before hiding the original source
+  ---
+  duration_ms: 4.625125
+  type: 'test'
+  ...
+# Subtest: actual native UV endpoint bits survive a tiny atlas coordinate opposite a unit coordinate
+ok 44 - actual native UV endpoint bits survive a tiny atlas coordinate opposite a unit coordinate
+  ---
+  duration_ms: 1.90825
+  type: 'test'
+  ...
+# Subtest: a sloped branch with unmatched interior cuts is declined rather than approximated by a nearby Float32 sample
+ok 45 - a sloped branch with unmatched interior cuts is declined rather than approximated by a nearby Float32 sample
+  ---
+  duration_ms: 7.098209
+  type: 'test'
+  ...
+# Subtest: production native corner walls fully covering a future strip have the same suppression authority as main ledges
+ok 46 - production native corner walls fully covering a future strip have the same suppression authority as main ledges
+  ---
+  duration_ms: 2.934333
+  type: 'test'
+  ...
+# Subtest: production corner partial cannot suppress an uncovered native strip
+ok 47 - production corner partial cannot suppress an uncovered native strip
+  ---
+  duration_ms: 2.606541
+  type: 'test'
+  ...
+# Subtest: production corner foreign cannot suppress an uncovered native strip
+ok 48 - production corner foreign cannot suppress an uncovered native strip
+  ---
+  duration_ms: 2.16175
+  type: 'test'
+  ...
+# Subtest: production corner missing-profile cannot suppress an uncovered native strip
+ok 49 - production corner missing-profile cannot suppress an uncovered native strip
+  ---
+  duration_ms: 125.447583
+  type: 'test'
+  ...
+# Subtest: production corner main-profile-key cannot suppress an uncovered native strip
+ok 50 - production corner main-profile-key cannot suppress an uncovered native strip
+  ---
+  duration_ms: 5.8075
+  type: 'test'
+  ...
+1..50
+# tests 50
+# suites 0
+# pass 49
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 38183.170167

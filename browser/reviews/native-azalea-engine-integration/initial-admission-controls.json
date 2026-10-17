@@ -1,0 +1,23 @@
+{
+  "qualification": "Controlled before-engine fixture: literal d090 battle.ts/math.ts with SAME reviewed gender/replacement dependencies and current integration tests/data. Not a claim of full old-branch test parity. Public inputs read only from source worktree; no runtime edits.",
+  "oldEngine": [
+    {
+      "path": "browser/src/source/battle.ts",
+      "base": "d0900800545927c135760296ab0ee18df7f0c8f6",
+      "sha256": "463cdc3bf01ef959c582d5b5f1de046b1bb06595c61d91f0d97e33df2108766e"
+    },
+    {
+      "path": "browser/src/source/battle-math.ts",
+      "base": "d0900800545927c135760296ab0ee18df7f0c8f6",
+      "sha256": "7ca568cc1242dd36fb38acc83c40662ab71dd3fce13c6b6b18ad254fdf9ce6db"
+    }
+  ],
+  "newTests": "3187d3c4c1b84d9aec6204e90c7325df6c831986a3351c3fef1fc47f9c8c0644",
+  "dataManifest": "/tmp/hg-azalea-engine-review-ce7258cf/manifest.json",
+  "sourceOnlyProbe": {
+    "path": "/tmp/hg-azalea-before-engine-control/browser/src/source/azalea-before-after-probe.test.ts",
+    "sha256": "32707d4cd95f847ef44c026c17b47ba7ca7c90b337be4e686f288dc4970412e7",
+    "afterPath": "/tmp/hg-azalea-after-engine-control",
+    "qualification": "Identical separate8-test native action admission/Struggle probes. Earlier21-test attempt did not load on old engine because its new math exports were missing; preserve as invalid control, no behavior result claimed."
+  }
+}

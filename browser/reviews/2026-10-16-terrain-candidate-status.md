@@ -1,0 +1,11 @@
+# Terrain scenery candidate status
+
+Draft candidate stacked on building-exterior commit e1bbb254.354tests, TypeScript and production build pass. This is not all-map closure or final visual approval.
+
+The original New Bark background hill uses an elevated horizontal native land sheet without its corresponding sides. The replacement planner finds exposed native opaque boundaries in placed/deformed coordinates, proves lower support from collision floors and neighboring cells, subtracts literal existing wall coverage, and generates owned textured closure geometry. It retains exact functional entrance squares, dry/Surf passages, nested holes and explicitly unsupported cave/bridge/unknown-support cases. Legacy synthetic backing can provide coverage but cannot establish a new native hill volume. All shared native materials, textures and geometry remain reusable.
+
+The terrain stage runs after native terrace deformation and before building props. Combined lifecycle tests use actual native hill and house assets; late cliff-donor cancellation performs no stale terrain finalization or prop construction. Shared work-budget checks execute the synchronous finalization/build in the same continuation.
+
+Current source-stable focused checks cover1008New Bark surface rays (513side/495top), two reachable native-camera baseline hole witnesses and108opening rays including the actual Route44 IcePath functional entrance. They find no New Bark candidate surface gap, new blocked opening or regression. The focused Route44 surface scan still has2388side-band misses and explicit unsupported domains; it is not a whole-volume pass. The full792-context audit is prepared with atomic compressed per-context chunks, SHA validation and strict resume checks. Its release run is held until the known102/237 house-roof corrections are integrated into the actual static-prop occlusion pipeline.
+
+The included JPEG comparison is a historical actual T3 WebGL render at helper1dce1320, with exact source/image hashes and a valid player camera. It predates the final opening guards, scheduler and building integration, and does not count as final-source approval. Fresh changed-source images, after-fix browser latency and terrain-footing interaction checks await preview-host reconnection. Native source/script/gameplay parity remains unfinished.

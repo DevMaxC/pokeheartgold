@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "attestedAtUTC": "2026-10-17T12:53:09.229071+00:00",
+  "snapshotRoot": "/tmp/hg-native-party-integration-snapshot-62d966d-20261017",
+  "manifestSHA256": "f83750bcb210671cb56e64a707296cff58713b9c953076820053abd8ab98480f",
+  "initialParentCommit": "62d966d5a1cb59bbb05342b293bed4162a39dece",
+  "exactCopiedSourceCommit": "536758a553891a934e5cbfca29473b3cbe77a647",
+  "fileCount": 6833,
+  "sourceStableDuringCopy": true,
+  "committedBlobMismatches": [],
+  "missingCommittedPaths": [],
+  "snapshotMismatches": [],
+  "note": "Parent committed the held unchanged bytes while snapshot copy ran. Original manifest correctly records536758a; directory name and launch prompt mention its prior62d966d base. Empty diff reflects clean committed source, not omitted changes. Review consumes complete actual snapshot files. No original snapshot bytes changed."
+}

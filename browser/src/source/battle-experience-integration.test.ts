@@ -11,7 +11,7 @@ function mon(species:number,level=5){const result=createMon(data,species,level,'
 function fixture(party:ReturnType<typeof mon>[]){
   const elements=new Map<string,{innerHTML:string;hidden:boolean}>();
   globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}} as unknown as Document;
-  const state=newState(data,'Ethan','boy');state.party=party;
+  const state=newState(data,'Ethan','boy',()=>.5);state.party=party;
   const messages:string[]=[],battle=new Battle(data,state,{choose:async()=>4} as unknown as UI,()=>0);
   Reflect.set(battle,'say',async(text:string)=>messages.push(text));let turn=0;
   Reflect.set(battle,'nextAction',async()=>++turn===1&&party.length>1?{kind:'switch',index:1}:{kind:'move',slot:0});

@@ -1,0 +1,23 @@
+{
+  "commit": "e8966bdf823cfe0198b6222619f4baa55efe0647",
+  "manifestSHA256": "b27d8844e27eb9a7054364efbb2c1f861e7e1853e855e97cf637c2cf27a118ae",
+  "model": "claude-opus-5-5",
+  "result": "No confirmed core arithmetic/ownership defect; consumer risk independently confirmed after review, so this is not release approval.",
+  "adjudication": [
+    {
+      "finding": "Raw genderless filenames might be absent; consumers could fail.",
+      "status": "confirmed",
+      "proof": "Exporter only writes male/female. Native pokemon.c2269/2358 uses male art for any nonfemale. Consumer fix and independent follow-up required."
+    },
+    {
+      "finding": "441 selector fixture includes121/137 but reviewer said unused.",
+      "status": "reviewer statement corrected",
+      "proof": "Actual Irwin/Jasmine expected() lookup requires selector137/121; tests replay actual parties. Native ability flags carry selector low bit across party. No logic change required."
+    }
+  ],
+  "qualification": [
+    "Only frozen e896 core bytes reviewed. Consumer follow-up is separate.",
+    "Read-only model did not execute tests/compiler oracle, build or browser.",
+    "No full trainer/global RNG/native form or game parity claim."
+  ]
+}

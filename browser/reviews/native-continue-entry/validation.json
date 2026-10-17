@@ -1,0 +1,62 @@
+{
+  "base": "1a0054b4590317bb3d482623d90b2a4aeb46deb6",
+  "sourceSnapshotStable": true,
+  "changedFiles": [],
+  "ownedFiles": [
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "ee3e44910b493a61359a31fd016e6d16824d7f774b8c0d7c6c4c607f02ee69d9"
+    },
+    {
+      "path": "browser/src/source/field-entry-main.test.ts",
+      "sha256": "e7f79087f21098b9f032166035396f1b2961df0c5af19e82e7b2fdc84848d851"
+    },
+    {
+      "path": "browser/src/source/gym-violet-integration.test.ts",
+      "sha256": "811bb81c2890865aaf9f18e3440a384333f14f7f5ce215924d1ece6d59dc4de7"
+    }
+  ],
+  "unchangedRootFunctions": {
+    "interact": {
+      "unchanged": true,
+      "sha256": "d57799f00d574402704fb45f25cb46b44aaee56903fc6a3b83ca7f00cd78cd0e"
+    },
+    "startBattle": {
+      "unchanged": true,
+      "sha256": "4649f08300e92300d8cc1731889de365620ffbbc46d7a95bdf52ee0e9416f35d"
+    }
+  },
+  "review": {
+    "model": "claude-opus-5-5",
+    "duration_ms": 178045,
+    "verdict": "NO_FINDINGS",
+    "resultSHA256": "65db74609e296f95b26f068c4302808b8d21f4d050c610958b4a14ce52a8b368"
+  },
+  "tests": {
+    "beforeBase": {
+      "passed": 2,
+      "failed": 5
+    },
+    "after": {
+      "passed": 7,
+      "failed": 0
+    },
+    "related": {
+      "passed": 90,
+      "failed": 0
+    },
+    "backgroundRival": {
+      "passed": 33,
+      "failed": 0
+    },
+    "tsc": "PASS"
+  },
+  "limits": [
+    "Ordinary Continue only; Flag966 UnionRoom dynamic exit is unported",
+    "Saved dynamic weather, roamers and bug-contest timer remain broader pre-existing gaps",
+    "No browser, production build, deployment or visual claims"
+  ],
+  "runtimeCommit": "35927aae35b450b104c31682b2266475e14d08d3",
+  "allReviewManifestFilesMatchCommittedBlobs": true,
+  "manifestSHA256": "1b2abc72ee0af1daaefc71673525cb736b1fe54792f515539371f2c4b6c9b5bd"
+}

@@ -1,0 +1,230 @@
+{
+  "commit": "2f37f47d5595b7e9198b7b0fce28b96577ef94b9",
+  "files": [
+    {
+      "path": "browser/index.html",
+      "sha256": "0bfe60a61246a6c8a7a7072b8258a07a38bfef1d78f250021e0d3df8d8483e26",
+      "bytes": 4137
+    },
+    {
+      "path": "browser/original.html",
+      "sha256": "1348320d6e1c30215c4fc1f44d840b856677cbf729143f7c2181fe7510654734",
+      "bytes": 1655
+    },
+    {
+      "path": "browser/package.json",
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251",
+      "bytes": 462
+    },
+    {
+      "path": "browser/reviews/global-audio-controls/README.md",
+      "sha256": "469b03a25a290abe1a9013e04f2b5db7ffcfe026f6651c0a24d66afd5b332845",
+      "bytes": 2186
+    },
+    {
+      "path": "browser/src/source/audio-controls.test.ts",
+      "sha256": "0a8d5e6495e08c0df7f3ac4a4f6d1d233302dbf01b7a6710df558fc72a3f0221",
+      "bytes": 3637
+    },
+    {
+      "path": "browser/src/source/audio-controls.ts",
+      "sha256": "8edc37b6c6c2a11edd94896ecd5d17e7c7c20754d4a576f6b8ae5a96adf5c655",
+      "bytes": 1886
+    },
+    {
+      "path": "browser/src/source/egg-hatch-view.ts",
+      "sha256": "ba11e722a9d56af1974cfe21111331bd59df0ed52aaa6c5d179010b6afa7a60d",
+      "bytes": 15031
+    },
+    {
+      "path": "browser/src/source/field-entry-main.test.ts",
+      "sha256": "29b183a501396c327b211c73cbee7766deb0885612f0ad7a315ad0f7c741cd48",
+      "bytes": 11980
+    },
+    {
+      "path": "browser/src/source/field-music.test.ts",
+      "sha256": "b5eb8789ce3380f0d0650d271632e726c5e21d5800b5394b5e40907a3aa6e98b",
+      "bytes": 35844
+    },
+    {
+      "path": "browser/src/source/field-music.ts",
+      "sha256": "045d75d3f3fdf38e545ccb31777b42d9e1c5b2ef36e00ebc47359797f5da6268",
+      "bytes": 25581
+    },
+    {
+      "path": "browser/src/source/hatch-host-audio.ts",
+      "sha256": "167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396",
+      "bytes": 21530
+    },
+    {
+      "path": "browser/src/source/interface-preferences.ts",
+      "sha256": "fbe1e2adf42cffc3c770b829cb33700a9bbcae860c01f5a03c0e01597fc90114",
+      "bytes": 1656
+    },
+    {
+      "path": "browser/src/source/main-native-interface.test.ts",
+      "sha256": "04818b138874fd155d7038bdef8b4a7da60825231a6dff2cb5d59f2b74742338",
+      "bytes": 63960
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+      "bytes": 65947
+    },
+    {
+      "path": "browser/src/source/opening-art.ts",
+      "sha256": "a8cdfadb04f292f42ccfc3fce482bd3b0ca5e8f0871e6b509260b56bf70b1c96",
+      "bytes": 2337
+    },
+    {
+      "path": "browser/src/source/opening-audio-main.test.ts",
+      "sha256": "2bd1e4e7ecf40a79e9544ebeeef80484cfa6c7ebf8a5708b85cc608d29180e91",
+      "bytes": 1620
+    },
+    {
+      "path": "browser/src/source/opening-audio.test.ts",
+      "sha256": "3bdbfbdd32454168d4ea45d82567a62ed8e010acad5e7c879177d425f933fb43",
+      "bytes": 7290
+    },
+    {
+      "path": "browser/src/source/opening-audio.ts",
+      "sha256": "5768ad5f960540d234d93e004c4960ac3b50965714069f2119cb835b934b1693",
+      "bytes": 2691
+    },
+    {
+      "path": "browser/src/source/opening-input.test.ts",
+      "sha256": "8c3984e8982f16eb7e9a93864796e80fa1b7f59f4584fd30d2e000d14e9f43dd",
+      "bytes": 2041
+    },
+    {
+      "path": "browser/src/source/opening-input.ts",
+      "sha256": "4aa5c21e6acbf3fb3a98d07add3df809430b32abf55b7d3f00df208669320248",
+      "bytes": 1639
+    },
+    {
+      "path": "browser/src/source/opening-interface.test.ts",
+      "sha256": "38a5b999ff594b060db60288c0536dbd0771915cecd69a0019d3961b53215c1a",
+      "bytes": 6114
+    },
+    {
+      "path": "browser/src/source/opening-stage.ts",
+      "sha256": "aab2a990c7f7dfb143c460e007defa96c0dddcc0b24b6b497b5ff4cf685501e4",
+      "bytes": 4550
+    },
+    {
+      "path": "browser/src/source/opening-view-audio.test.ts",
+      "sha256": "5177a4ab997e60886dc433e71f7fc1d9564c5e0a5b892c1f1657a8e4dd20554e",
+      "bytes": 1866
+    },
+    {
+      "path": "browser/src/source/opening-view.ts",
+      "sha256": "6cb5db0a0ca5762cd1de02fae1607b6316a9d5e083f4bd88b691fe1f0f1115e0",
+      "bytes": 9612
+    },
+    {
+      "path": "browser/src/source/opening.css",
+      "sha256": "dd63aa8e158bbbf62e387d00c7cf1ba0ec8da6b85bc7608c3a44dbddc37c96dc",
+      "bytes": 4163
+    },
+    {
+      "path": "browser/src/source/opening.ts",
+      "sha256": "81e1d48700c5ff9211443f16f337949c3507d0ec057bd9d8c0b6baa3f874e72f",
+      "bytes": 7497
+    },
+    {
+      "path": "browser/src/source/style.css",
+      "sha256": "35465053f1778e75a5fbdeccbf5d7a5e474cc0483137e3dce32ae6d65348c6de",
+      "bytes": 46392
+    },
+    {
+      "path": "browser/src/source/ui-test-dom.ts",
+      "sha256": "5ccfad9716e6f42aa32745da67ec407c667fc79790c72ca2b8f03d7be9ca8a52",
+      "bytes": 7543
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "sha256": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4",
+      "bytes": 17996
+    },
+    {
+      "path": "checks/hg-opening-audio-old-callback.log",
+      "sha256": "840b364ada40ac7c4c76663a6a34057032a97ffe550c2a60f8efe924bbca35f7",
+      "bytes": 2706
+    },
+    {
+      "path": "checks/hg-opening-mute-followup-focused-final.log",
+      "sha256": "4de8cb8397c9b3f6f181836d15f29a9c96780fdb730a7a1b80b70b95b890e2f3",
+      "bytes": 5154
+    },
+    {
+      "path": "checks/hg-opening-mute-followup-typecheck-final-exit.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "checks/hg-opening-mute-followup-typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "checks/hg-opening-mute-old-controls.log",
+      "sha256": "46ce74f78650ef59e2e3cba8dc28741813b85cda1e747b1cf453332829598202",
+      "bytes": 3297
+    },
+    {
+      "path": "checks/hg-opening-mute-view-fixture-initial-failure.log",
+      "sha256": "db1ec8e547954910d3ae60fc312a19049a94d0088feed9d9d600cb252c1ffbf8",
+      "bytes": 5440
+    },
+    {
+      "path": "complete.patch",
+      "sha256": "c853682f391036f1b660c55ec7c18aae24a57668abee346159145f71a655bbb8",
+      "bytes": 28825
+    },
+    {
+      "path": "followup.patch",
+      "sha256": "247941751aad7bacbf62cb70ec315bc97460e3a865ea115803e910f0a39a8c40",
+      "bytes": 8391
+    },
+    {
+      "path": "original-review/exit-code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "original-review/inputs.json",
+      "sha256": "e4e8dad2a0380f1834e5dd45e13b066f2e85e806be8e983944787cbb7958110b",
+      "bytes": 6247
+    },
+    {
+      "path": "original-review/prompt.txt",
+      "sha256": "5a03dd00e5c1e10447abc95f86997d177d38118502fcbfa65dc0eed59dcf710f",
+      "bytes": 1847
+    },
+    {
+      "path": "original-review/raw-result.json",
+      "sha256": "72d414955aa92e7044f8381c99b208caceac12a966cfb1ca86464d0a99daa8ea",
+      "bytes": 7719
+    },
+    {
+      "path": "original-review/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "prior-d8-audit/README.md",
+      "sha256": "2229f44e598637772b306c45ade01996ba6c8e317799a06f559c8350a23422ab",
+      "bytes": 4010
+    },
+    {
+      "path": "prior-d8-audit/audit.json",
+      "sha256": "1702380e30fe2c13628911f7371477362b2361e8565d2d93d34b349a8fe63f15",
+      "bytes": 29588
+    },
+    {
+      "path": "prior-d8-audit/reproduce.cjs",
+      "sha256": "fc20ce856b538c1b75791a70b5d1df6aad28a15574103e1281aa210a8eb6c7da",
+      "bytes": 7945
+    }
+  ]
+}

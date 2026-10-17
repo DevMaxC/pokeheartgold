@@ -1,0 +1,214 @@
+TAP version 13
+# (node:60465) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:60465) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: all background directions match the literal compiled native C function
+ok 1 - all background directions match the literal compiled native C function
+  ---
+  duration_ms: 1664.385416
+  type: 'test'
+  ...
+# Subtest: actual Violet Gym plaques require their facing tile and native north-facing direction
+ok 2 - actual Violet Gym plaques require their facing tile and native north-facing direction
+  ---
+  duration_ms: 0.306333
+  type: 'test'
+  ...
+# Subtest: hidden items ignore direction, skip their collected native flag, and retain event source precedence
+ok 3 - hidden items ignore direction, skip their collected native flag, and retain event source precedence
+  ---
+  duration_ms: 6.58475
+  type: 'test'
+  ...
+# Subtest: all 241 imported hidden backgrounds resolve their exact original flag and only the matching flag suppresses them
+ok 4 - all 241 imported hidden backgrounds resolve their exact original flag and only the matching flag suppresses them
+  ---
+  duration_ms: 718.711917
+  type: 'test'
+  ...
+# Subtest: actual main interaction binds native background eligibility after trainer and NPC priority
+ok 5 - actual main interaction binds native background eligibility after trainer and NPC priority
+  ---
+  duration_ms: 2.230917
+  type: 'test'
+  ...
+# (node:60466) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ordinary Passerby trainer admission does not request the special first-battle critical suppression
+ok 6 - ordinary Passerby trainer admission does not request the special first-battle critical suppression
+  ---
+  duration_ms: 848.84075
+  type: 'test'
+  ...
+# Subtest: actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+ok 7 - actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+  ---
+  duration_ms: 272.3605
+  type: 'test'
+  ...
+# main SHA256 a4611559dcdc385671b12516e0b54aa8722e8a0c4a42b43ea0778d27d7e1a7fd; extracted bindings SHA256 a624a46addfd6fc70470706c45247bca00463c073aaeb7c73d788a14016cf86b
+# Subtest: blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+ok 8 - blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+  ---
+  duration_ms: 549.497042
+  type: 'test'
+  ...
+# Subtest: actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+ok 9 - actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+  ---
+  duration_ms: 590.538917
+  type: 'test'
+  ...
+# Subtest: eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+ok 10 - eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+  ---
+  duration_ms: 416.525333
+  type: 'test'
+  ...
+# Subtest: Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+ok 11 - Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+  ---
+  duration_ms: 136.493084
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays the captured movement/date once and awards only the successful hatch
+ok 12 - explicit Retry replays the captured movement/date once and awards only the successful hatch
+  ---
+  duration_ms: 117.738
+  type: 'test'
+  ...
+# Subtest: actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+ok 13 - actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+  ---
+  duration_ms: 553.344958
+  type: 'test'
+  ...
+# Subtest: actual render freezes provisional replacement follower through hatch and post-view source tail
+ok 14 - actual render freezes provisional replacement follower through hatch and post-view source tail
+  ---
+  duration_ms: 78.727292
+  type: 'test'
+  ...
+# Subtest: actual wild admission runs after step commit and completed catch survives failed field resume
+ok 15 - actual wild admission runs after step commit and completed catch survives failed field resume
+  ---
+  duration_ms: 168.665333
+  type: 'test'
+  ...
+# Subtest: actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+ok 16 - actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+  ---
+  duration_ms: 209.580625
+  type: 'test'
+  ...
+# Subtest: actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+ok 17 - actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+  ---
+  duration_ms: 103.888375
+  type: 'test'
+  ...
+# Subtest: actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+ok 18 - actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+  ---
+  duration_ms: 141.499667
+  type: 'test'
+  ...
+# Subtest: actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+ok 19 - actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+  ---
+  duration_ms: 229.389666
+  type: 'test'
+  ...
+# Subtest: actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+ok 20 - actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+  ---
+  duration_ms: 20.000791
+  type: 'test'
+  ...
+# Subtest: actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+ok 21 - actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+  ---
+  duration_ms: 149.892958
+  type: 'test'
+  ...
+# Subtest: actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+ok 22 - actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+  ---
+  duration_ms: 828.334333
+  type: 'test'
+  ...
+# Subtest: actual native scenes reset only active rings and answer respects trainer/UI admission
+ok 23 - actual native scenes reset only active rings and answer respects trainer/UI admission
+  ---
+  duration_ms: 19.983083
+  type: 'test'
+  ...
+# Subtest: actual HUD and answer keep unsupported forced callers explicit and unconsumed
+ok 24 - actual HUD and answer keep unsupported forced callers explicit and unconsumed
+  ---
+  duration_ms: 175.4225
+  type: 'test'
+  ...
+# Subtest: actual due empty admission resets its interval once; a later hatch waits for the next native minute
+ok 25 - actual due empty admission resets its interval once; a later hatch waits for the next native minute
+  ---
+  duration_ms: 97.075084
+  type: 'test'
+  ...
+# Subtest: actual selected random caller retains its native active interval until the hatch scene resets it
+ok 26 - actual selected random caller retains its native active interval until the hatch scene resets it
+  ---
+  duration_ms: 123.179833
+  type: 'test'
+  ...
+# Subtest: actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+ok 27 - actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+  ---
+  duration_ms: 168.480292
+  type: 'test'
+  ...
+# Subtest: actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+ok 28 - actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+  ---
+  duration_ms: 268.273584
+  type: 'test'
+  ...
+# Subtest: ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+ok 29 - ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+  ---
+  duration_ms: 337.578833
+  type: 'test'
+  ...
+# Subtest: retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+ok 30 - retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+  ---
+  duration_ms: 290.606208
+  type: 'test'
+  ...
+# Subtest: Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+ok 31 - Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+  ---
+  duration_ms: 38.374917
+  type: 'test'
+  ...
+# Subtest: actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+ok 32 - actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+  ---
+  duration_ms: 194.042958
+  type: 'test'
+  ...
+# Subtest: actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+ok 33 - actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+  ---
+  duration_ms: 105.342875
+  type: 'test'
+  ...
+1..33
+# tests 33
+# suites 0
+# pass 33
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9652.224542

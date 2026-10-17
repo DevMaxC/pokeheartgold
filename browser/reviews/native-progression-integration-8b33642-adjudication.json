@@ -1,0 +1,46 @@
+{
+  "reviewedCommit": "8b33642d9f07351194f6c5a824fa2811e074f286",
+  "reviewedSnapshot": "/tmp/hg-native-integration-review-8b33642-visual-agent",
+  "manifest": "/tmp/hg-native-integration-review-8b33642-visual-agent/manifest.json",
+  "graphSha256": "437f52d3f828d2c95343a19855e02e9185bb2f1bf58339250f9c264c2b7ae8e8",
+  "postReviewSourceFilesVerifiedAgainstManifestAndGitBlobs": 183,
+  "rawResult": "/tmp/hg-native-integration-review-8b33642-opus-result.json",
+  "rawResultSha256": "cf2d8e4ffab0ffb8102f79cf9ff9bba9748d798a5fbd759c6388fe66fe95633d",
+  "models": [
+    "claude-haiku-4-5-20251001",
+    "claude-opus-5-5"
+  ],
+  "subtype": "success",
+  "is_error": false,
+  "num_turns": 38,
+  "duration_ms": 785730,
+  "permission_denials": [],
+  "manualReview": "/tmp/hg-native-integration-review-8b33642-manual.json",
+  "verdict": "PASS with one LOW finding; no high/medium integration defect",
+  "findings": [
+    {
+      "id": "return_map_gate_pause",
+      "severity": "LOW",
+      "status": "confirmed; sent to root for fix; no edits by reviewer",
+      "files": [
+        "browser/src/source/script-recovery.ts:16",
+        "browser/src/source/main.ts:156",
+        "browser/src/source/main.ts:163",
+        "browser/src/source/main.ts:209"
+      ],
+      "callPath": "Paused frameT_A onA; outeraction visitsB and gate.visit(B) clearsA; source failure rolls State backA; userReturn leaves gateB; nextpoll.visit(A) automatically reopensT_A.",
+      "proposedMinimalFix": "In main failed prompt callback, onlyonReturn, if current gate.snapshot().location!==String(state.map), restore pre-outer triggerState. Keep same-map newlyfailedtrigger pauses.",
+      "regression": "PauseT_A; actionvisitsB/fails; Return; nextA poll stillsuppressed. ExplicitRetry continues to restore pre-outer snapshot."
+    }
+  ],
+  "qualification": {
+    "scopeSameBytesThroughCommit": "3c15b8a",
+    "verifiedSourceDiffSinceReviewedCommit": [
+      "browser/src/source/house-building-shells.test.ts",
+      "browser/src/source/house-building-shells.ts"
+    ],
+    "houseGeometryChangesExcluded": true,
+    "testsBuildBrowser": "Reviewer ran no tests, build or browser. Rootreported503tests/TSC/buildPASSat8b; this is source integration review, not fullgame/browser/visual approval.",
+    "mutations": "No repository edits, pushes, commits, merges or deployments by this review."
+  }
+}

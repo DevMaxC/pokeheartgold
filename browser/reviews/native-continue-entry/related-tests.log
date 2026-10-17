@@ -1,0 +1,571 @@
+TAP version 13
+# (node:65158) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:65158) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: all background directions match the literal compiled native C function
+ok 1 - all background directions match the literal compiled native C function
+  ---
+  duration_ms: 1352.451042
+  type: 'test'
+  ...
+# Subtest: actual Violet Gym plaques require their facing tile and native north-facing direction
+ok 2 - actual Violet Gym plaques require their facing tile and native north-facing direction
+  ---
+  duration_ms: 0.201334
+  type: 'test'
+  ...
+# Subtest: hidden items ignore direction, skip their collected native flag, and retain event source precedence
+ok 3 - hidden items ignore direction, skip their collected native flag, and retain event source precedence
+  ---
+  duration_ms: 6.201833
+  type: 'test'
+  ...
+# Subtest: all 241 imported hidden backgrounds resolve their exact original flag and only the matching flag suppresses them
+ok 4 - all 241 imported hidden backgrounds resolve their exact original flag and only the matching flag suppresses them
+  ---
+  duration_ms: 619.543167
+  type: 'test'
+  ...
+# Subtest: actual main interaction binds native background eligibility after trainer and NPC priority
+ok 5 - actual main interaction binds native background eligibility after trainer and NPC priority
+  ---
+  duration_ms: 44.844
+  type: 'test'
+  ...
+# (node:65159) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ordinary Passerby trainer admission does not request the special first-battle critical suppression
+ok 6 - ordinary Passerby trainer admission does not request the special first-battle critical suppression
+  ---
+  duration_ms: 813.954417
+  type: 'test'
+  ...
+# Subtest: actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+ok 7 - actual production functions/hooks are bound and ordinary/ledge completed movement counts once
+  ---
+  duration_ms: 157.751208
+  type: 'test'
+  ...
+# main SHA256 ee3e44910b493a61359a31fd016e6d16824d7f774b8c0d7c6c4c607f02ee69d9; extracted bindings SHA256 06a77c740465369b229ba73ceb18024d65b9775652f855fba488f099ca97a3cd
+# Subtest: blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+ok 8 - blocked, occupied, exit push and real scripted player/camera movement do not tick daycare
+  ---
+  duration_ms: 489.844541
+  type: 'test'
+  ...
+# Subtest: actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+ok 9 - actual step event arbitration consumes frame, trainer, coordinate and warp before ready Egg/wild
+  ---
+  duration_ms: 730.198
+  type: 'test'
+  ...
+# Subtest: eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+ok 10 - eligible step executes real standard2021 Oh, hatch hook, memo/Dex/Elm and one event award before commit
+  ---
+  duration_ms: 338.086917
+  type: 'test'
+  ...
+# Subtest: Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+ok 11 - Return after hatch failure restores pre-tween position, source state, live actor, height and orbit
+  ---
+  duration_ms: 115.073833
+  type: 'test'
+  ...
+# Subtest: explicit Retry replays the captured movement/date once and awards only the successful hatch
+ok 12 - explicit Retry replays the captured movement/date once and awards only the successful hatch
+  ---
+  duration_ms: 97.691333
+  type: 'test'
+  ...
+# Subtest: actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+ok 13 - actual save/pagehide binding excludes reveal, cry, nickname and resume until source ownership ends
+  ---
+  duration_ms: 478.3015
+  type: 'test'
+  ...
+# Subtest: actual render freezes provisional replacement follower through hatch and post-view source tail
+ok 14 - actual render freezes provisional replacement follower through hatch and post-view source tail
+  ---
+  duration_ms: 60.870666
+  type: 'test'
+  ...
+# Subtest: actual wild admission runs after step commit and completed catch survives failed field resume
+ok 15 - actual wild admission runs after step commit and completed catch survives failed field resume
+  ---
+  duration_ms: 125.832625
+  type: 'test'
+  ...
+# Subtest: actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+ok 16 - actual Return merges trainer pauses only at the restored pre-step tile, preserving new local failures
+  ---
+  duration_ms: 253.242459
+  type: 'test'
+  ...
+# Subtest: actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+ok 17 - actual hatch event boosts fresh phone timing; explicit render RTC then native idle poll rings without immediate dialogue
+  ---
+  duration_ms: 125.205416
+  type: 'test'
+  ...
+# Subtest: actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+ok 18 - actual answer consumes only Elm0 with native incoming13 text and gates save until dialogue commits
+  ---
+  duration_ms: 61.292542
+  type: 'test'
+  ...
+# Subtest: actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+ok 19 - actual failed answer restores ringing/pending and earlier hatch; explicit Retry replays the same call once
+  ---
+  duration_ms: 185.507291
+  type: 'test'
+  ...
+# Subtest: actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+ok 20 - actual post-memo hatch failure rolls back the fresh boost with the whole preceding step
+  ---
+  duration_ms: 142.858958
+  type: 'test'
+  ...
+# Subtest: actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+ok 21 - actual render clock expires only after native30 seconds, leaves pending, and Continue does not freshly boost
+  ---
+  duration_ms: 94.935667
+  type: 'test'
+  ...
+# Subtest: actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+ok 22 - actual idle admission waits behind frame/trainer/coordinate/warp/Egg/wild events, but blocked movement can ring
+  ---
+  duration_ms: 756.099375
+  type: 'test'
+  ...
+# Subtest: actual native scenes reset only active rings and answer respects trainer/UI admission
+ok 23 - actual native scenes reset only active rings and answer respects trainer/UI admission
+  ---
+  duration_ms: 146.840792
+  type: 'test'
+  ...
+# Subtest: actual HUD and answer keep unsupported forced callers explicit and unconsumed
+ok 24 - actual HUD and answer keep unsupported forced callers explicit and unconsumed
+  ---
+  duration_ms: 115.706667
+  type: 'test'
+  ...
+# Subtest: actual due empty admission resets its interval once; a later hatch waits for the next native minute
+ok 25 - actual due empty admission resets its interval once; a later hatch waits for the next native minute
+  ---
+  duration_ms: 73.307458
+  type: 'test'
+  ...
+# Subtest: actual selected random caller retains its native active interval until the hatch scene resets it
+ok 26 - actual selected random caller retains its native active interval until the hatch scene resets it
+  ---
+  duration_ms: 56.971
+  type: 'test'
+  ...
+# Subtest: actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+ok 27 - actual due rotation clearing rolls back on caller selection failure and Retry reuses its earlier draws
+  ---
+  duration_ms: 30.516333
+  type: 'test'
+  ...
+# Subtest: actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+ok 28 - actual New Bark to Route29 connection and native OnTransition retain Elm and random rings
+  ---
+  duration_ms: 240.427875
+  type: 'test'
+  ...
+# Subtest: ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+ok 29 - ordinary warp, NPC/frame/trainer scene admission still resets active rings and failure restores them
+  ---
+  duration_ms: 501.766375
+  type: 'test'
+  ...
+# Subtest: retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+ok 30 - retained Elm ring on a no-reception map launches/consumes without fabricated dialogue
+  ---
+  duration_ms: 89.512834
+  type: 'test'
+  ...
+# Subtest: Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+ok 31 - Return pauses identical failed phone input, while changed input/map re-admit without clearing bad state or timer
+  ---
+  duration_ms: 64.411708
+  type: 'test'
+  ...
+# Subtest: actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+ok 32 - actual checkEvents admits original Ilex STICKS_ACTIVE named literal through the shared matcher
+  ---
+  duration_ms: 170.792375
+  type: 'test'
+  ...
+# Subtest: actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+ok 33 - actual VM warp hook forwards original direction before tile-centered map entry and preserves omitted direction
+  ---
+  duration_ms: 82.154792
+  type: 'test'
+  ...
+# (node:65160) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:65160) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+ok 34 - native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume
+  ---
+  duration_ms: 6.372333
+  type: 'test'
+  ...
+# actual main SHA256 ee3e44910b493a61359a31fd016e6d16824d7f774b8c0d7c6c4c607f02ee69d9; native field_warp_tasks SHA256 78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea
+# Subtest: actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+ok 35 - actual title passes Continue only for the exact saved State; accepted replacement and first New Game pass warp
+  ---
+  duration_ms: 8.994542
+  type: 'test'
+  ...
+# Subtest: actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+ok 36 - actual Continue preserves New Bark transition state, Flash/Defog, blackout destination and saved live actors
+  ---
+  duration_ms: 11.685166
+  type: 'test'
+  ...
+# Subtest: actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+ok 37 - actual warp retains all three entry phases and real entry resets while Continue loads only restoration phases
+  ---
+  duration_ms: 4.088792
+  type: 'test'
+  ...
+# Subtest: actual Continue passes saved Violet height/lift into World entry without the warp initializer
+ok 38 - actual Continue passes saved Violet height/lift into World entry without the warp initializer
+  ---
+  duration_ms: 126.676917
+  type: 'test'
+  ...
+# Subtest: actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+ok 39 - actual begin forwards explicit entry mode separately from actor restoration and saves only after entry
+  ---
+  duration_ms: 6.7805
+  type: 'test'
+  ...
+# Subtest: actual existing connection call keeps native transition-only entry without a warp spawn reset
+ok 40 - actual existing connection call keeps native transition-only entry without a warp spawn reset
+  ---
+  duration_ms: 4.009
+  type: 'test'
+  ...
+# (node:65161) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: south exit mats and side gates require pushing their source direction, not stepping across
+ok 41 - south exit mats and side gates require pushing their source direction, not stepping across
+  ---
+  duration_ms: 2.396375
+  type: 'test'
+  ...
+# Subtest: north entrances, panels, ladders and escalators preserve their native transition facing
+ok 42 - north entrances, panels, ladders and escalators preserve their native transition facing
+  ---
+  duration_ms: 0.085333
+  type: 'test'
+  ...
+# Subtest: connections run transition only while battle returns rebuild through load and resume
+ok 43 - connections run transition only while battle returns rebuild through load and resume
+  ---
+  duration_ms: 0.901666
+  type: 'test'
+  ...
+# Subtest: native north/south ladders warp on directional push even with clear floor ahead
+ok 44 - native north/south ladders warp on directional push even with clear floor ahead
+  ---
+  duration_ms: 0.229916
+  type: 'test'
+  ...
+# Subtest: door arrivals step clear while stairs finish on the anchor facing away from the stair wall
+ok 45 - door arrivals step clear while stairs finish on the anchor facing away from the stair wall
+  ---
+  duration_ms: 0.838125
+  type: 'test'
+  ...
+# (node:65162) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+ok 46 - unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+  ---
+  duration_ms: 330.62625
+  type: 'test'
+  ...
+# Subtest: actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+ok 47 - actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+  ---
+  duration_ms: 93.278625
+  type: 'test'
+  ...
+# Subtest: actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+ok 48 - actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+  ---
+  duration_ms: 132.348375
+  type: 'test'
+  ...
+# (node:65163) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native no-information path orders the greeting, Oak, Marill demonstration, identity and final shrink before returning a draft
+ok 49 - native no-information path orders the greeting, Oak, Marill demonstration, identity and final shrink before returning a draft
+  ---
+  duration_ms: 2.77625
+  type: 'test'
+  ...
+# Subtest: Control Info No repeats its lessons, Yes returns to topics, and Adventure Info also returns before the main introduction
+ok 50 - Control Info No repeats its lessons, Yes returns to topics, and Adventure Info also returns before the main introduction
+  ---
+  duration_ms: 0.360959
+  type: 'test'
+  ...
+# Subtest: gender rejection and name rejection return to character selection with the native remembered cursor
+ok 51 - gender rejection and name rejection return to character selection with the native remembered cursor
+  ---
+  duration_ms: 0.16475
+  type: 'test'
+  ...
+# Subtest: blank names use the actual18-choice HG pools, custom names preserve case/meaningful spaces and have the native seven-character limit
+ok 52 - blank names use the actual18-choice HG pools, custom names preserve case/meaningful spaces and have the native seven-character limit
+  ---
+  duration_ms: 0.52925
+  type: 'test'
+  ...
+# Subtest: Oak greeting uses all five exact source RTC windows rather than the different field clock
+ok 53 - Oak greeting uses all five exact source RTC windows rather than the different field clock
+  ---
+  duration_ms: 0.525875
+  type: 'test'
+  ...
+# Subtest: the demonstration is an awaited effect and cannot start identity or return a completed draft while its reveal is pending
+ok 54 - the demonstration is an awaited effect and cannot start identity or return a completed draft while its reveal is pending
+  ---
+  duration_ms: 2.945917
+  type: 'test'
+  ...
+# Subtest: existing-save Continue and replacement cancellation preserve the actual supplied state and never construct a new adventure
+ok 55 - existing-save Continue and replacement cancellation preserve the actual supplied state and never construct a new adventure
+  ---
+  duration_ms: 0.245125
+  type: 'test'
+  ...
+# Subtest: replacement constructs one new state only after all accepted identity and final shrink effects complete
+ok 56 - replacement constructs one new state only after all accepted identity and final shrink effects complete
+  ---
+  duration_ms: 0.15175
+  type: 'test'
+  ...
+# Subtest: incomplete native dialogue fails visibly instead of inventing substitute messages
+ok 57 - incomplete native dialogue fails visibly instead of inventing substitute messages
+  ---
+  duration_ms: 0.383667
+  type: 'test'
+  ...
+# Subtest: a rejected introduction asset request cannot cross the saved-game replacement gateway
+ok 58 - a rejected introduction asset request cannot cross the saved-game replacement gateway
+  ---
+  duration_ms: 0.301875
+  type: 'test'
+  ...
+# Subtest: leaving or failing during the final shrink keeps the previous save resumable and never constructs the replacement early
+ok 59 - leaving or failing during the final shrink keeps the previous save resumable and never constructs the replacement early
+  ---
+  duration_ms: 0.712083
+  type: 'test'
+  ...
+# (node:65164) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:65164) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+# Subtest: actual Sprout Tower 3F failure restores both scene-variable aliases and remains explicitly retryable
+ok 60 - actual Sprout Tower 3F failure restores both scene-variable aliases and remains explicitly retryable
+  ---
+  duration_ms: 80.25725
+  type: 'test'
+  ...
+# Subtest: inventory, starter, visibility and live actor coordinates roll back even when objectEvents was stale
+ok 61 - inventory, starter, visibility and live actor coordinates roll back even when objectEvents was stale
+  ---
+  duration_ms: 2.679042
+  type: 'test'
+  ...
+# Subtest: failure after GiveItem in actual shared script2033 unwinds parent and child without a partial save
+ok 62 - failure after GiveItem in actual shared script2033 unwinds parent and child without a partial save
+  ---
+  duration_ms: 4.324666
+  type: 'test'
+  ...
+# Subtest: rollback waits for pending source movement before restoring actors and input state
+ok 63 - rollback waits for pending source movement before restoring actors and input state
+  ---
+  duration_ms: 4.564917
+  type: 'test'
+  ...
+# Subtest: nested warp and multiple entry scripts share one checkpoint including spawn, Flash, weather and NPC map
+ok 64 - nested warp and multiple entry scripts share one checkpoint including spawn, Flash, weather and NPC map
+  ---
+  duration_ms: 3.055416
+  type: 'test'
+  ...
+# Subtest: an earlier committed battle stays committed; a battle in a later failed trainer scene rolls back with its flags and phone offer
+ok 65 - an earlier committed battle stays committed; a battle in a later failed trainer scene rolls back with its flags and phone offer
+  ---
+  duration_ms: 2.208375
+  type: 'test'
+  ...
+# Subtest: successful nested actions unlock one outer commit and preserve shared State identity
+ok 66 - successful nested actions unlock one outer commit and preserve shared State identity
+  ---
+  duration_ms: 0.921333
+  type: 'test'
+  ...
+# Subtest: failed field hydration keeps saves and new actions blocked until explicit recovery retry succeeds
+ok 67 - failed field hydration keeps saves and new actions blocked until explicit recovery retry succeeds
+  ---
+  duration_ms: 2.441209
+  type: 'test'
+  ...
+# Subtest: restoring in place deletes newly created optional keys and does not alias the reusable checkpoint
+ok 68 - restoring in place deletes newly created optional keys and does not alias the reusable checkpoint
+  ---
+  duration_ms: 0.695333
+  type: 'test'
+  ...
+# Subtest: automatic frame failures stay paused across steps; explicit retry and changing maps re-enable the scene
+ok 69 - automatic frame failures stay paused across steps; explicit retry and changing maps re-enable the scene
+  ---
+  duration_ms: 3.495083
+  type: 'test'
+  ...
+# Subtest: field snapshots are detached at capture so later live-field mutation cannot corrupt recovery
+ok 70 - field snapshots are detached at capture so later live-field mutation cannot corrupt recovery
+  ---
+  duration_ms: 0.530792
+  type: 'test'
+  ...
+# Subtest: a nested destination trigger cannot overwrite the failed source trigger location on unwind
+ok 71 - a nested destination trigger cannot overwrite the failed source trigger location on unwind
+  ---
+  duration_ms: 0.094875
+  type: 'test'
+  ...
+# Subtest: a failed Continue entry can return to its hydrated field and save only after the error prompt closes
+ok 72 - a failed Continue entry can return to its hydrated field and save only after the error prompt closes
+  ---
+  duration_ms: 3.325625
+  type: 'test'
+  ...
+# Subtest: explicit retry replays a nested actual gift once from its checkpoint; children never prompt or save independently
+ok 73 - explicit retry replays a nested actual gift once from its checkpoint; children never prompt or save independently
+  ---
+  duration_ms: 3.186875
+  type: 'test'
+  ...
+# Subtest: the recovery controller retries hydration without replaying source code, then offers a return and one coherent save
+ok 74 - the recovery controller retries hydration without replaying source code, then offers a return and one coherent save
+  ---
+  duration_ms: 1.547791
+  type: 'test'
+  ...
+# Subtest: play time never rewinds across failed scenes or repeated hydration attempts
+ok 75 - play time never rewinds across failed scenes or repeated hydration attempts
+  ---
+  duration_ms: 1.578167
+  type: 'test'
+  ...
+# Subtest: a persistence callback failure does not falsely report an already completed source action as rolled back
+ok 76 - a persistence callback failure does not falsely report an already completed source action as rolled back
+  ---
+  duration_ms: 0.98175
+  type: 'test'
+  ...
+# Subtest: a completed standalone wild catch is retained when its unrelated map-resume script fails
+ok 77 - a completed standalone wild catch is retained when its unrelated map-resume script fails
+  ---
+  duration_ms: 2.382167
+  type: 'test'
+  ...
+# Subtest: a standalone blackout retains healed party, money loss and destination when its destination entry script fails
+ok 78 - a standalone blackout retains healed party, money loss and destination when its destination entry script fails
+  ---
+  duration_ms: 3.169333
+  type: 'test'
+  ...
+# Subtest: trainer battle and resume failures remain inside their parent quest checkpoint
+ok 79 - trainer battle and resume failures remain inside their parent quest checkpoint
+  ---
+  duration_ms: 2.072708
+  type: 'test'
+  ...
+# Subtest: retrying an unrelated NPC action retains a previously paused frame trigger
+ok 80 - retrying an unrelated NPC action retains a previously paused frame trigger
+  ---
+  duration_ms: 1.309042
+  type: 'test'
+  ...
+# Subtest: retrying the failing frame action reopens that frame while preserving other paused scenes
+ok 81 - retrying the failing frame action reopens that frame while preserving other paused scenes
+  ---
+  duration_ms: 0.105
+  type: 'test'
+  ...
+# Subtest: actual main Return restores an earlier map pause after a failed cross-map visit
+ok 82 - actual main Return restores an earlier map pause after a failed cross-map visit
+  ---
+  duration_ms: 4.978666
+  type: 'test'
+  ...
+# Subtest: actual main Return retains newly paused triggers when recovery stays on the same map
+ok 83 - actual main Return retains newly paused triggers when recovery stays on the same map
+  ---
+  duration_ms: 2.040166
+  type: 'test'
+  ...
+# Subtest: actual main Return merges old and new pauses after a failed A to B to A excursion
+ok 84 - actual main Return merges old and new pauses after a failed A to B to A excursion
+  ---
+  duration_ms: 139.288416
+  type: 'test'
+  ...
+# Subtest: actual main successful map visits keep normal pause clearing rather than restoring failure snapshots
+ok 85 - actual main successful map visits keep normal pause clearing rather than restoring failure snapshots
+  ---
+  duration_ms: 8.952625
+  type: 'test'
+  ...
+# Subtest: actual main explicit Retry restores both pre-outer frame and trainer gates before replay
+ok 86 - actual main explicit Retry restores both pre-outer frame and trainer gates before replay
+  ---
+  duration_ms: 10.076333
+  type: 'test'
+  ...
+# (node:65165) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Proton victory script warps to Kurt at map164 X4 Z5 North before its post-warp flags
+ok 87 - actual Proton victory script warps to Kurt at map164 X4 Z5 North before its post-warp flags
+  ---
+  duration_ms: 394.015709
+  type: 'test'
+  ...
+# Subtest: Proton loss never warps, and a rejected warp host cannot execute its later source flags
+ok 88 - Proton loss never warps, and a rejected warp host cannot execute its later source flags
+  ---
+  duration_ms: 335.626417
+  type: 'test'
+  ...
+# Subtest: all114 exported native Warp rows preserve map/X/Z/facing ABI, including the literal unused7
+ok 89 - all114 exported native Warp rows preserve map/X/Z/facing ABI, including the literal unused7
+  ---
+  duration_ms: 1049.232875
+  type: 'test'
+  ...
+# Subtest: native C and assembler consume the second halfword without selecting an anchor and pass direction into Location
+ok 90 - native C and assembler consume the second halfword without selecting an anchor and pass direction into Location
+  ---
+  duration_ms: 1.691458
+  type: 'test'
+  ...
+1..90
+# tests 90
+# suites 0
+# pass 90
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9308.35375

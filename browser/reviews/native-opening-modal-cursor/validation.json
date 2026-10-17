@@ -1,0 +1,34 @@
+{
+  "sourceCommits": [
+    "bb5bcae1",
+    "ee58c0e1"
+  ],
+  "sourceSHA256": {
+    "opening-input.ts": "0ef75888047a977e267fbfa4232a289fc320f87f079770fe03320eb3e435cb67",
+    "opening-view.ts": "fd32ade2a287c81b8ecae6b897e9a0ef236bf4886b08f7c9077fff3786b3a950",
+    "opening-interface.test.ts": "6be74ce048c3da664765af68a637c92de1419123493a46076bd99a98ede2ae94",
+    "opening-ui.test.ts": "a9dea0be5ac78b3f0dada8a3f66122d4c0096f66b0f3cafd1832c646f50efa0f"
+  },
+  "beforeControl": {
+    "source": "b181dee0 original opening-input/view with current production modal UI",
+    "test": "identical corrected test file used for before/after",
+    "passed": 1,
+    "failed": 2,
+    "failures": [
+      "remembered cursor lacks synchronous focus before confirm",
+      "capture plus native bubble handler advances twice"
+    ],
+    "invalidFirstControl": "default window was absent in Node import realm; first0/3 is not behavior evidence"
+  },
+  "after": {
+    "passed": 3,
+    "failed": 0
+  },
+  "broaderChecks": "initial35 combined host/Bag/opening tests and TSC pass at bb5bcae1; later Main is separate work",
+  "actualStaticReview": "pending final combined Main reconciliation review; no earlier approval inherited",
+  "limitations": [
+    "DOM/event handlers, not browser geometry or device input",
+    "pointer selection and native mandatory Back preserved",
+    "actual OpeningView.choose method extracted, no duplicate host implementation"
+  ]
+}

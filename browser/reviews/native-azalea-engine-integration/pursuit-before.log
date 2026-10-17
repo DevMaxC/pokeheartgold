@@ -1,0 +1,33 @@
+TAP version 13
+# (node:29629) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a real Rattata knowing Pursuit but selecting FocusEnergy does not block Bugsy U-turn
+not ok 1 - a real Rattata knowing Pursuit but selecting FocusEnergy does not block Bugsy U-turn
+  ---
+  duration_ms: 68.94125
+  type: 'test'
+  location: '/private/tmp/hg-azalea-pursuit-before-control/browser/src/source/azalea-battle-integration.test.ts:203:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The validation function is expected to return "true". Received false
+    
+    Caught error:
+    
+    Error: Unsupported native U-turn Pursuit phase
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    async oneTurn (/private/tmp/hg-azalea-pursuit-before-control/browser/src/source/azalea-battle-integration.test.ts:26:337)
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-pursuit-before-control/browser/src/source/azalea-battle-integration.test.ts:204:209)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1275.918416

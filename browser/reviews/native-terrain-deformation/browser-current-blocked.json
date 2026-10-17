@@ -1,0 +1,24 @@
+{
+  "sourceHelperSHA256": "249440d6763c0b4e745defc1da85bd39ef66ab150b12130634fc13c045dcded6",
+  "tab": "tab_s",
+  "port": 5203,
+  "lastRequestedPose": {
+    "map": 67,
+    "x": 552.5,
+    "z": 395.5,
+    "yaw": 0,
+    "pitch": 0.7,
+    "distance": 13
+  },
+  "evaluate": "Preview automation evaluate timed out after 15000ms.",
+  "snapshotError": "Preview snapshot failed: No preview automation host is available for snapshot in environment addd69b3-15f9-41a7-bbf9-31f757f973cd. Preview tools run in a T3 Code desktop app that is open and connected to this environment; a headless server has no browser of its own. Do not retry.",
+  "action": "No browser retries or alternative driver. Current source capture and final tab parking remain pending reconnect. Historical e0 captures do not approve revised source.",
+  "excludedHistoricalViews": [
+    "cherrygrove candidate/production camera is inside a building, so it is not useful exterior terrain visual evidence."
+  ],
+  "limits": [
+    "No GPU/mobile performance claim.",
+    "No T2 scenery closures included.",
+    "No new all-map solidity claim."
+  ]
+}

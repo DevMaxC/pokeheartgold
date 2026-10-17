@@ -1,0 +1,32 @@
+Review this immutable copied Pokémon HeartGold browser source for correctness. You are a read-only reviewer; ONLY Read/Grep/Glob tools are enabled. Do not execute code, commands, tests, agents, network, or alter files. Scope is frozen Git commit866dc829854702c6e77f67b368836cd02a965091, core ancestor e8966bdf. manifest.json lists every exact copied file/hash, including original C, source XML/indexed PNGs, exported PNGs and resource proof. This is an author-created snapshot; distinguish your static source reasoning from the author's actual compiler/test/pixel comparison runs.
+
+Task: review the native gender correction and its new presentation follow-up. Core arithmetic was independently reviewed already (core-opus-result.json), with no confirmed changed-core bug but an unresolved missing genderless art path risk. That risk WAS confirmed: exporter only creates male/female filenames. Do not transfer earlier approval. This new review must reason through the changed consumer lifecycle, preserved true gender identity and native art/symbol proof, as well as obvious core dependencies. Give only concrete actionable findings, otherwise explicitly no confirmed in-scope defect with limitations. List any important residual risk accurately.
+
+Changed runtime in scope:
+- browser/src/source/gender.ts: import-free nativeGenderRatio/nativeMonGender; new spriteGender: female only if actual female, else male; genderSymbol: male/female symbols and empty for genderless.
+- data.ts:createMon, trainers.ts:forced selector/final PID sex, eggs.ts:nativeEggGender alias (core unchanged by follow-up).
+- party-display.ts: portrait path via spriteGender; unhatched Egg presentation still conceals species/stats.
+- battle-stage.ts: actual in-field 3D battle sync/cache path key canonicalized with spriteGender; do not mutate mon.gender.
+- egg-hatch-view.ts: accepts male/female/genderless for standard scene, path canonicalized; compare identity by actual gender, preserve cancellation/restore/cache/cry failure boundaries. Unexported Manaphy presentation must still reject; production native cry adapter intentionally supports only175, and tests of81/100 reveal do not imply their cries are implemented.
+
+Explicit concurrent-owner boundaries: browser/src/source/battle.ts IN THIS snapshot is old unchanged code with known raw mon.gender image filenames and female?female:male symbols; parent assigned its image/status integration to another owner and is holding release. It is not claimed fixed or approved by this leaf. A separate root InterfacePanels UI is not present in this branch and parent owns its spriteGender/genderSymbol integration. Do not treat these documented still-pending handoffs as newly introduced surprise findings; do explicitly retain them as release requirements. All remaining source consumers should be inspected for an additional missed path within this leaf's scope. Player boy/girl gender and deliberate fixed male starter preview before a Mon exists are separate.
+
+Source references:
+- include/constants/pokemon.h356..364 GENDER_RATIO floor(frac*254.75), raw0/31/63/127/191/254/255.
+- src/pokemon.c2094..2113 GetGenderBySpeciesAndPersonality_PreloadedPersonal; fixed sexes/rawPID byte.
+- src/trainer_data.c293..329/438..455: local RNG, selector carry and native raw ±2/abilitybits.
+- src/pokemon.c2269/2358: native sprite slot female iff gender==MON_FEMALE, else male. Species-specific form branches remain prior limitations; no new alternate-form/shiny parity claim.
+- src/party_context_menu.c535..544 and src/battle/battle_party_menu.c1762 onward: only actual male/female print symbols, genderless blank. Exact English original messages300:27/28 and6:16/17 available and pinned.
+- browser/scripts/export_battle_sprites.py: existing normal-palette export, fallback source sex if original empty, species1..493 only.
+
+Proof/tests:
+- gender.test.ts: literal original C compiled oracle,1792 source gender cases,5376 ordinary factory cases+5376 Egg alias cases, all7source ratios/all256lowbytes/highuint32 words, ordinary8draw contract.
+- trainer-gender.test.ts: actual Irwin7/Jasmine33 source parties,126 override matrix and cross-party selectors, BigInt local LCG PID oracle;441 compiled original selector cases. Earlier reviewer said121/137 fixture rows unused, but these actual native trainer parties require them. Verify independently if relevant, do not repeat the inaccurate assertion.
+- verify-sprite-resources.py is read-only and was actually run by author. sprite-resources.json pins54 native genderless base species/108 front-back exports, original indexed sources/normal palette/export bytes, visible pixel counts; actual RGBA comparisons match current original export pipeline. Full proof inputs copied so you can inspect paths/source code, rather than assume nonexistent genderless files.
+- gender-presentation.test.ts: all54 party portraits/true identity, real WorldBattleView.sync/cache/visibility with only asynchronous canvas decoding replaced, female29 negative control, native symbol fixture. egg-hatch-view.test.ts includes actual reveal/finish/cancellation, genderless81/100 path, female case, explicit unsupported cries and Manaphy/invalid scene rejection.
+- consumer-before.log: exact three consumer files restored from e896 AFTER core native gender correction, new tests intact;12pass/3fail (party/stage/hatch).
+- consumer-focused-after.log18pass, consumer-targeted-after.log258pass, consumer-tsc.log0exit. These are author execution evidence, not your reproduced runs. No browser/build check claimed.
+
+Review priorities: Are presentation and gameplay sex cleanly separated? Does canonical cache key introduce race/switch issue? Does allowing genderless art weaken required scene/cry/hatch guards? Any accidental mutation/shared ownership/cycle? Is art proof faithful to source rather than invented assets? Are tests meaningful and do before/after claims match files? Any fixed-sex/boundary/trainer selector regression? No broad full-game, RNG, form, DS rendering, battle, or breeding parity inference.
+
+Return findings with severity, literal source path/line, concrete failing scenario and minimal fix if confirmed. Separate inherited limitations and concurrent-owner known requirements. Explicitly identify actual static-only verification and do not invent test execution or approval of absent integrations.

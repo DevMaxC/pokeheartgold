@@ -1,0 +1,342 @@
+TAP version 13
+# (node:86425) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: RTC bridge retains the native whole-minute anchor and discards remainder only after a whole batch
+ok 1 - RTC bridge retains the native whole-minute anchor and discards remainder only after a whole batch
+  ---
+  duration_ms: 1.458292
+  type: 'test'
+  ...
+# Subtest: Continue does not boost saved pending flags, and native first long catchup is ignored exactly once
+ok 2 - Continue does not boost saved pending flags, and native first long catchup is ignored exactly once
+  ---
+  duration_ms: 1.250791
+  type: 'test'
+  ...
+# Subtest: only explicit fresh events accelerate, exact Elm lab61 is excluded while New Bark60 rings
+ok 3 - only explicit fresh events accelerate, exact Elm lab61 is excluded while New Bark60 rings
+  ---
+  duration_ms: 0.501583
+  type: 'test'
+  ...
+# Subtest: render reads and repeated polls retain one optional Elm token without new random draws
+ok 4 - render reads and repeated polls retain one optional Elm token without new random draws
+  ---
+  duration_ms: 159.289208
+  type: 'test'
+  ...
+# Subtest: a missed ring uses its first positive RTC tick and expires strictly after30 seconds without consuming flags
+ok 5 - a missed ring uses its first positive RTC tick and expires strictly after30 seconds without consuming flags
+  ---
+  duration_ms: 0.481584
+  type: 'test'
+  ...
+# Subtest: a backward RTC anchor update skips duration handling until the next positive tick
+ok 6 - a backward RTC anchor update skips duration handling until the next positive tick
+  ---
+  duration_ms: 0.287458
+  type: 'test'
+  ...
+# Subtest: source-event reset keeps the RTC anchor/first-minute guard and snapshot/restore copies both directions
+ok 7 - source-event reset keeps the RTC anchor/first-minute guard and snapshot/restore copies both directions
+  ---
+  duration_ms: 0.3845
+  type: 'test'
+  ...
+# Subtest: native ResetIfActive preserves a fresh inactive boost through unrelated source events
+ok 8 - native ResetIfActive preserves a fresh inactive boost through unrelated source events
+  ---
+  duration_ms: 0.270166
+  type: 'test'
+  ...
+# Subtest: incoming-disabled maps consume no RNG and chance-rejected fallback ends its interval
+ok 9 - incoming-disabled maps consume no RNG and chance-rejected fallback ends its interval
+  ---
+  duration_ms: 0.586666
+  type: 'test'
+  ...
+# Subtest: a fresh hatch after an empty phone interval boosts to9 and waits for the next native minute
+ok 10 - a fresh hatch after an empty phone interval boosts to9 and waits for the next native minute
+  ---
+  duration_ms: 0.961042
+  type: 'test'
+  ...
+# Subtest: selected random caller stays explicitly unsupported through stable polling and fresh Elm enqueue until native timeout
+ok 11 - selected random caller stays explicitly unsupported through stable polling and fresh Elm enqueue until native timeout
+  ---
+  duration_ms: 0.84975
+  type: 'test'
+  ...
+# Subtest: source reset ends a selected random ring without history add or pending-bit loss, then a fresh event boosts normally
+ok 12 - source reset ends a selected random ring without history add or pending-bit loss, then a fresh event boosts normally
+  ---
+  duration_ms: 0.269708
+  type: 'test'
+  ...
+# Subtest: due admission is pure and history-clearing selection participates in actual outer rollback/Retry
+ok 13 - due admission is pure and history-clearing selection participates in actual outer rollback/Retry
+  ---
+  duration_ms: 1.073917
+  type: 'test'
+  ...
+# Subtest: Buena filtering uses the stored RTC anchor hour through subminute ticks and restores it with snapshots
+ok 14 - Buena filtering uses the stored RTC anchor hour through subminute ticks and restores it with snapshots
+  ---
+  duration_ms: 0.563875
+  type: 'test'
+  ...
+# Subtest: generic, forced and other Elm calls stay explicit and cannot enter Elm13 delivery or consume pending bits
+ok 15 - generic, forced and other Elm calls stay explicit and cannot enter Elm13 delivery or consume pending bits
+  ---
+  duration_ms: 2.439042
+  type: 'test'
+  ...
+# Subtest: the exact actual Elm13 incoming text completes atomically and keeps other calls and hatch progress
+ok 16 - the exact actual Elm13 incoming text completes atomically and keeps other calls and hatch progress
+  ---
+  duration_ms: 47.507459
+  type: 'test'
+  ...
+# Subtest: failed UI Return restores state/party/inventory and the active call before committing the recovered field
+ok 17 - failed UI Return restores state/party/inventory and the active call before committing the recovered field
+  ---
+  duration_ms: 0.912625
+  type: 'test'
+  ...
+# Subtest: explicit Retry pins the same call across recovery without draws and holds admission through the prompt
+ok 18 - explicit Retry pins the same call across recovery without draws and holds admission through the prompt
+  ---
+  duration_ms: 0.58425
+  type: 'test'
+  ...
+# Subtest: RTC elapsed during a successful answer is caught up once after its source action releases admission
+ok 19 - RTC elapsed during a successful answer is caught up once after its source action releases admission
+  ---
+  duration_ms: 0.380291
+  type: 'test'
+  ...
+# Subtest: the answer lock survives hydration retries, then always releases after executor failure
+ok 20 - the answer lock survives hydration retries, then always releases after executor failure
+  ---
+  duration_ms: 0.805375
+  type: 'test'
+  ...
+# Subtest: a stale or tampered token cannot silently launch another call or recreate a cleared bit
+ok 21 - a stale or tampered token cannot silently launch another call or recreate a cleared bit
+  ---
+  duration_ms: 0.528209
+  type: 'test'
+  ...
+# Subtest: caller-owned rules cannot change a constructed field host
+ok 22 - caller-owned rules cannot change a constructed field host
+  ---
+  duration_ms: 0.321083
+  type: 'test'
+  ...
+# (node:86426) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: random admission exports all75 exact native book IDs/types/groups/maps, literal recent chunks and pinned sources
+ok 23 - random admission exports all75 exact native book IDs/types/groups/maps, literal recent chunks and pinned sources
+  ---
+  duration_ms: 13.7675
+  type: 'test'
+  ...
+# Subtest: native chance rejects strictly above50 without LC or caller selection; accepted empty category resets after one LC
+ok 24 - native chance rejects strictly above50 without LC or caller selection; accepted empty category resets after one LC
+  ---
+  duration_ms: 0.522666
+  type: 'test'
+  ...
+# Subtest: LC modulo1000 thresholds499/500/799/800 determine random category, independent of current clock hour
+ok 25 - LC modulo1000 thresholds499/500/799/800 determine random category, independent of current clock hour
+  ---
+  duration_ms: 0.377042
+  type: 'test'
+  ...
+# Subtest: random caller pick preserves registered order and native MT modulo(numCallers*100)/100 weighting
+ok 26 - random caller pick preserves registered order and native MT modulo(numCallers*100)/100 weighting
+  ---
+  duration_ms: 0.385541
+  type: 'test'
+  ...
+# Subtest: the native eligible caller families include type14 Irwin and exclude type6 Kenji despite registration
+ok 27 - the native eligible caller families include type14 Irwin and exclude type6 Kenji despite registration
+  ---
+  duration_ms: 0.272667
+  type: 'test'
+  ...
+# Subtest: map and recent exclusions preserve the original category candidate count in the selected token
+ok 28 - map and recent exclusions preserve the original category candidate count in the selected token
+  ---
+  duration_ms: 0.117833
+  type: 'test'
+  ...
+# Subtest: full recent rotation clears only its literal4/2/2 chunk BEFORE map filters and never adds an unanswered caller
+ok 29 - full recent rotation clears only its literal4/2/2 chunk BEFORE map filters and never adds an unanswered caller
+  ---
+  duration_ms: 0.232667
+  type: 'test'
+  ...
+# Subtest: native recent Count scans past255 holes while Contains stops at the first255
+ok 30 - native recent Count scans past255 holes while Contains stops at the first255
+  ---
+  duration_ms: 0.098542
+  type: 'test'
+  ...
+# Subtest: Buena is blocked on exact password hours or takeover2..4, including numeric VM variable alias precedence
+ok 31 - Buena is blocked on exact password hours or takeover2..4, including numeric VM variable alias precedence
+  ---
+  duration_ms: 0.467
+  type: 'test'
+  ...
+# Subtest: contest exclusion uses the exact NationalPark map and source flag, accepting named/numeric stored aliases
+ok 32 - contest exclusion uses the exact NationalPark map and source flag, accepting named/numeric stored aliases
+  ---
+  duration_ms: 0.415959
+  type: 'test'
+  ...
+# Subtest: no remaining callers resets, while active/early polls consume no RNG or history
+ok 33 - no remaining callers resets, while active/early polls consume no RNG or history
+  ---
+  duration_ms: 0.156
+  type: 'test'
+  ...
+# Subtest: invalid RNG/hour/contact/history inputs fail explicitly instead of silently completing unknown callers
+ok 34 - invalid RNG/hour/contact/history inputs fail explicitly instead of silently completing unknown callers
+  ---
+  duration_ms: 0.215917
+  type: 'test'
+  ...
+# (node:86427) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the13 actual native trigger rows and timing defaults retain verified C/phonebook source provenance
+ok 35 - the13 actual native trigger rows and timing defaults retain verified C/phonebook source provenance
+  ---
+  duration_ms: 164.163417
+  type: 'test'
+  ...
+# Subtest: a fresh hatched-Egg trigger accelerates to9 minutes and rings only after the next explicit RTC minute
+ok 36 - a fresh hatched-Egg trigger accelerates to9 minutes and rings only after the next explicit RTC minute
+  ---
+  duration_ms: 0.515208
+  type: 'test'
+  ...
+# Subtest: Elm is excluded only from exact lab61, can ring in New Bark60, and has no invented registration predicate
+ok 37 - Elm is excluded only from exact lab61, can ring in New Bark60, and has no invented registration predicate
+  ---
+  duration_ms: 0.12575
+  type: 'test'
+  ...
+# Subtest: trigger selection scans native bit order, consumes one supplied u16 draw and respects each force-pickup flag
+ok 38 - trigger selection scans native bit order, consumes one supplied u16 draw and respects each force-pickup flag
+  ---
+  duration_ms: 0.146375
+  type: 'test'
+  ...
+# Subtest: the source daycare exception requires its registered number and permits the caller map only for that exception
+ok 39 - the source daycare exception requires its registered number and permits the caller map only for that exception
+  ---
+  duration_ms: 0.188833
+  type: 'test'
+  ...
+# Subtest: missed optional calls expire after30 seconds, retain pending flags and become eligible again after the interval
+ok 40 - missed optional calls expire after30 seconds, retain pending flags and become eligible again after the interval
+  ---
+  duration_ms: 0.222375
+  type: 'test'
+  ...
+# Subtest: backward ring time resets only the ephemeral manager and preserves its initialized minute guard
+ok 41 - backward ring time resets only the ephemeral manager and preserves its initialized minute guard
+  ---
+  duration_ms: 0.158916
+  type: 'test'
+  ...
+# Subtest: Continue keeps persistent pending bits but does not invent a fresh enqueue or persist an old ring manager
+ok 42 - Continue keeps persistent pending bits but does not invent a fresh enqueue or persist an old ring manager
+  ---
+  duration_ms: 0.107959
+  type: 'test'
+  ...
+# Subtest: zero-minute host polls cannot consume the native first whole-minute catch-up guard
+ok 43 - zero-minute host polls cannot consume the native first whole-minute catch-up guard
+  ---
+  duration_ms: 0.365041
+  type: 'test'
+  ...
+# Subtest: an eligible interval with no trigger is distinguished from blocked polling for the future random-call branch
+ok 44 - an eligible interval with no trigger is distinguished from blocked polling for the future random-call branch
+  ---
+  duration_ms: 0.46825
+  type: 'test'
+  ...
+# Subtest: timing acceleration never reduces an existing interval and the first large minute batch preserves its prior boost
+ok 45 - timing acceleration never reduces an existing interval and the first large minute batch preserves its prior boost
+  ---
+  duration_ms: 0.157917
+  type: 'test'
+  ...
+# Subtest: answering clears exactly the selected bit at launch, resets ringing and leaves other pending calls intact
+ok 46 - answering clears exactly the selected bit at launch, resets ringing and leaves other pending calls intact
+  ---
+  duration_ms: 0.40875
+  type: 'test'
+  ...
+# Subtest: RTC deltas, pending bits and injected RNG draws fail explicitly without silently picking a caller
+ok 47 - RTC deltas, pending bits and injected RNG draws fail explicitly without silently picking a caller
+  ---
+  duration_ms: 0.173542
+  type: 'test'
+  ...
+# (node:86428) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a transient phone-definition503 is retryable and does not poison every later call
+ok 48 - a transient phone-definition503 is retryable and does not poison every later call
+  ---
+  duration_ms: 12.085166
+  type: 'test'
+  ...
+# Subtest: native incoming Elm3 selects actual script13 regardless of outgoing-local or story-selection conditions
+ok 49 - native incoming Elm3 selects actual script13 regardless of outgoing-local or story-selection conditions
+  ---
+  duration_ms: 4.175625
+  type: 'test'
+  ...
+# Subtest: outgoing Elm local dialogue applies only inside exact lab61, while scripted2 keeps its native map-script lookup
+ok 50 - outgoing Elm local dialogue applies only inside exact lab61, while scripted2 keeps its native map-script lookup
+  ---
+  duration_ms: 1.723042
+  type: 'test'
+  ...
+# Subtest: actual VM SetPhoneCallTrigger always sets the bit and reports arg2 only as timer acceleration
+ok 51 - actual VM SetPhoneCallTrigger always sets the bit and reports arg2 only as timer acceleration
+  ---
+  duration_ms: 1.799708
+  type: 'test'
+  ...
+# Subtest: a failed VM timing hook rolls back both its newly pending flag and ephemeral interval boost
+ok 52 - a failed VM timing hook rolls back both its newly pending flag and ephemeral interval boost
+  ---
+  duration_ms: 0.704292
+  type: 'test'
+  ...
+# Subtest: failed incoming dialogue restores its consumed pending bit and ring snapshot before same-call explicit replay
+ok 53 - failed incoming dialogue restores its consumed pending bit and ring snapshot before same-call explicit replay
+  ---
+  duration_ms: 89.539959
+  type: 'test'
+  ...
+# Subtest: the real Elm lab script asks for the hatched Pokémon as lead and grants its native Everstone once
+ok 54 - the real Elm lab script asks for the hatched Pokémon as lead and grants its native Everstone once
+  ---
+  duration_ms: 10.528042
+  type: 'test'
+  ...
+1..54
+# tests 54
+# suites 0
+# pass 54
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 831.283875

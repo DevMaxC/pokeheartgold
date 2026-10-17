@@ -1,0 +1,17 @@
+{
+  "base": "13cfb634ebb9768bf377eeb9f47e47a9f4c23457",
+  "files": {
+    "browser/src/source/hatch-host-audio.ts": "167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396",
+    "browser/src/source/hatch-host-audio.test.ts": "c8d942d92bef55d92b750d52c0ad4e2ee98a0541185843c4796951bea96233e0",
+    "browser/scripts/test_hatch_fanfare_timer.py": "a8dfaa53d90fc4ac534733211f8afd877b283616b093faa808563f717963db54",
+    "src/sound_playback.c": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
+    "src/hatch_egg_app.c": "3f4bce5d67911457a6979baf23c7d5d3596d290102dfcef2602f5fb17403d1ee",
+    "browser/src/source/hatch-music.ts": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860",
+    "browser/src/source/field-music.ts": "045d75d3f3fdf38e545ccb31777b42d9e1c5b2ef36e00ebc47359797f5da6268",
+    "browser/src/source/egg-hatch-presentation.ts": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f",
+    "browser/src/source/main.ts": "6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee",
+    "browser/src/source/World.ts": "ca0699f0b3a544a8c48cbfdc375087e771700470d7c84e78581e7bab0c37ebdd"
+  },
+  "scope": "Only fanfare phase runtime, its tests and original-C timer oracle; Main/World/Azalea/clock/resources/cry unchanged",
+  "silent": true
+}

@@ -1,17 +1,35 @@
 # HeartGold 3D parity ledger
 
-Source baseline: `d7886a5`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.
+Source baseline: `e945ef040a190b546e0d0e776621c8af319a60e3`. This ledger defines the requested full-game destination; it does not declare the current browser build complete. Imported assets/data, implemented behavior, and verified original-game parity are separate states.
 
 Inventory: **295 system requirements, 540 map headers, 832 script/movement command names**. The machine-readable files in `parity/` retain per-map and per-command gaps. Every species, move, item, trainer and encounter remains governed by its original source data, not a hand-picked substitute.
 
 ## Completion standard
 
-- Pending: missing or not audited. Implemented: behavior exists but original-game equivalence is not established. Verified: a repeatable source-backed fixture or gameplay check confirms the behavior. Unsupported: an identified gap; never silently skip it.
+- Pending: missing or not audited. Partial: an implemented subset leaves identified requirement gaps. Implemented: behavior exists but original-game equivalence is not established. Verified: a repeatable source-backed fixture or gameplay check confirms the behavior. Unsupported: an identified gap; never silently skip it.
 - Map parity requires original mesh, textures, tile permissions, elevations, prop transforms, warps, NPC/event coordinates, and story conditions. A recreated town shape is insufficient.
 - Battle parity requires the original turn rules, damage/status/move/item/ability behaviors, trainer teams/AI, and progression consequences. A catch-only screen is insufficient.
 - End-to-end completion requires a fresh save through Red and the listed postgame/special systems, with inventory, party and flags surviving save/reload. Imported content and isolated menus do not satisfy this.
 - Connectivity/hardware-dependent systems must be implemented and tested against an explicit browser equivalent; unavailable original services must stay marked unsupported until that equivalent is agreed and working.
 - Production changes must be committed, merged into the fork default branch, deployed from that commit, and checked on the live site.
+
+## Historical native progression checkpoint
+
+Ledger reconciliation: `536758a553891a934e5cbfca29473b3cbe77a647`. Native opening branches, single-trainer sight/approach, Violet lift/rewards, the real Togepi Egg gift/hatch/audio and field party switching are implemented in scoped source paths. Their offline fixtures and historical review receipts do not establish a fresh-save campaign or browser playthrough.
+
+P03-001 stays Pending for the complete Sprout Tower sequence. P03-002/P03-003 are Implemented with explicit limits; no requirement is promoted to Verified here. Breeding/inheritance, broader puzzles, full battle/audio coverage and incoming phone field delivery at this checkpoint remain incomplete.
+
+See [the reconciliation evidence and boundaries](reviews/2026-10-17-parity-reconciliation.md) and `parity/features.json` for each updated requirement. Historical branch notes retain their original scope; later fixes are qualified in the reconciliation rather than retroactively approved.
+
+## Current native campaign reconciliation
+
+Current source checkpoint: `e945ef040a190b546e0d0e776621c8af319a60e3`. Later authoritative overrides supersede only the listed current feature rows; the 536758a note above remains historical. Native Main SHA256 `6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee` integrates modern owned interfaces, Elm/Mom field phone, map/battle music and live hatch preferences; hatch SHA256 `167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396` includes the muted-fanfare timer correction.
+
+The catalog contains 103 native cue IDs (102 musical renders plus silence) and 168 unique delivery files for 540 map day/night headers, with 13 story overrides. Those source/corpus proofs do not establish radio, Surf mechanics, general SFX, doubles, all-map or full-campaign parity. Current audited broad requirements stay Partial/Pending; no row is promoted to Verified.
+
+Production mute 45ef2147 is serving separately with 675 production checks; those checks are not the combined native suite. At this reconciliation cutoff, native full-suite/build/release validation is still underway and native PR26 is not declared deployed. Actual natural native QA reached the earlier Cyndaquil/five-Potions opening milestone only. Historical reviews, source fixtures, three-placement building images and draft terrain audits retain their original limits.
+
+See [current evidence, exact commits and unchanged-inventory checks](reviews/2026-10-17-native-campaign-parity-reconciliation.md).
 
 ## Implementation sequence
 
@@ -28,9 +46,9 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 
 | ID | Requirement | Status | Source |
 | --- | --- | --- | --- |
-| P01-001 | New Game and Continue with independent saved games | Implemented | `src/intro.c` |
-| P01-002 | Original title and introduction sequence | Pending | `src/intro.c` |
-| P01-003 | Professor Oak introduction and Pokémon demonstration | Pending | `src/intro.c` |
+| P01-001 | New Game and Continue with explicit save-replacement rules | Implemented | `src/intro.c` |
+| P01-002 | Original title and introduction sequence | Partial | `src/intro.c` |
+| P01-003 | Professor Oak introduction and Pokémon demonstration | Implemented | `src/intro.c` |
 | P01-004 | Boy/girl player selection and matching overworld sprites | Implemented | `src/intro.c` |
 | P01-005 | Character naming, length limits, confirmation and name substitutions | Implemented | `src/intro.c` |
 | P01-006 | Original starting bedroom, spawn position and facing | Verified | `src/intro.c` |
@@ -70,8 +88,8 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | ID | Requirement | Status | Source |
 | --- | --- | --- | --- |
 | P03-001 | Sprout Tower trainers, elder, rival and rewards | Pending | `files/fielddata/script/scr_seq` |
-| P03-002 | Violet Gym puzzle, trainers and Falkner badge/TM | Pending | `files/fielddata/script/scr_seq` |
-| P03-003 | Elm aide Egg delivery and Togepi hatching progression | Pending | `files/fielddata/script/scr_seq` |
+| P03-002 | Violet Gym puzzle, trainers and Falkner badge/TM | Implemented | `files/fielddata/script/scr_seq` |
+| P03-003 | Elm aide Egg delivery and Togepi hatching progression | Implemented | `files/fielddata/script/scr_seq` |
 | P03-004 | Ruins of Alph puzzles, Unown and chambers | Pending | `files/fielddata/script/scr_seq` |
 | P03-005 | Union Cave and Route 32/33 progression | Pending | `files/fielddata/script/scr_seq` |
 | P03-006 | Azalea Team Rocket occupation, Kurt and Slowpoke Well | Pending | `files/fielddata/script/scr_seq` |
@@ -170,15 +188,15 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P06-004 | Dialogue pages, confirmations and choice menus | Implemented | `src/scrcmd.c` |
 | P06-005 | Facing and distance requirements for interaction | Implemented | `src/scrcmd.c` |
 | P06-006 | NPC walking routes, movement locks and cutscenes | Implemented | `src/scrcmd.c` |
-| P06-007 | Trainer vision, approach, battle and defeat persistence | Pending | `src/scrcmd.c` |
+| P06-007 | Trainer vision, approach, battle and defeat persistence | Implemented | `src/scrcmd.c` |
 | P06-008 | Coordinate trigger conditions, priority and one-shot behavior | Implemented | `src/scrcmd.c` |
 | P06-009 | Map entry and load scripts | Implemented | `src/scrcmd.c` |
 | P06-010 | Persistent script flags and variables | Implemented | `src/scrcmd.c` |
 | P06-011 | Script calls, branches, comparisons and return stack | Implemented | `src/scrcmd.c` |
 | P06-012 | Inventory/party checks in scripts | Implemented | `src/scrcmd.c` |
 | P06-013 | Event item, Pokémon and money grants | Pending | `src/scrcmd.c` |
-| P06-014 | NPC phone registration and call outcomes | Pending | `src/scrcmd.c` |
-| P06-015 | Multi-character cutscene timing and camera events | Pending | `src/scrcmd.c` |
+| P06-014 | NPC phone registration and call outcomes | Partial | `src/scrcmd.c` |
+| P06-015 | Multi-character cutscene timing and camera events | Partial | `src/scrcmd.c` |
 | P06-016 | Daily, weekly and conditional NPC presence | Pending | `src/scrcmd.c` |
 | P06-017 | Every script command implementation tracked against source | Pending | `src/scrcmd.c` |
 
@@ -194,7 +212,7 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P07-006 | Levels, experience curves and experience totals | Implemented | `src/pokemon.c` |
 | P07-007 | Gender ratios, friendship and obedience | Pending | `src/pokemon.c` |
 | P07-008 | Six-member party limit and party order | Implemented | `src/pokemon.c` |
-| P07-009 | Pokémon summary with stats, moves, ability, nature and ownership | Pending | `src/pokemon.c` |
+| P07-009 | Pokémon summary with stats, moves, ability, nature and ownership | Partial | `src/pokemon.c` |
 | P07-010 | Four move slots, current PP and PP Ups | Implemented | `src/pokemon.c` |
 | P07-011 | Level-up learnsets and move replacement choice | Implemented | `src/pokemon.c` |
 | P07-012 | Held items, giving, taking and effects | Pending | `src/pokemon.c` |
@@ -298,30 +316,30 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | --- | --- | --- | --- |
 | P11-001 | Original menu unlock progression | Implemented | `src/save.c` |
 | P11-002 | Trainer Card, player name, money, play time and badges | Implemented | `src/save.c` |
-| P11-003 | Party menu, summary, reorder and field moves | Pending | `src/save.c` |
-| P11-004 | Bag menu item selection and target selection | Pending | `src/save.c` |
+| P11-003 | Party menu, summary, reorder and field moves | Partial | `src/save.c` |
+| P11-004 | Bag menu item selection and target selection | Partial | `src/save.c` |
 | P11-005 | Pokédex search, habitat and species information | Pending | `src/save.c` |
-| P11-006 | Pokégear phone, map, radio and cards | Pending | `src/save.c` |
+| P11-006 | Pokégear phone, map, radio and cards | Partial | `src/save.c` |
 | P11-007 | Save menu and resumable exact world position/facing | Implemented | `src/save.c` |
 | P11-008 | Flags, variables, party, storage, inventory and all progression persist | Implemented | `src/save.c` |
 | P11-009 | Save schema versioning and safe migration | Pending | `src/save.c` |
 | P11-010 | New Game does not overwrite existing progress without confirmation | Implemented | `src/save.c` |
 | P11-011 | Multiple sessions and corrupt-save recovery | Pending | `src/save.c` |
-| P11-012 | Text speed, battle scene, battle style and sound settings | Pending | `src/save.c` |
-| P11-013 | Keyboard and controller bindings | Pending | `src/save.c` |
-| P11-014 | Touch equivalents for movement, confirm, cancel and menus | Implemented | `src/save.c` |
-| P11-015 | Accessible focus, dialogue paging and modal input locking | Implemented | `src/save.c` |
-| P11-016 | Loading, asset failures and recoverable errors | Implemented | `src/save.c` |
+| P11-012 | Text speed, battle scene, battle style and sound settings | Partial | `src/save.c` |
+| P11-013 | Keyboard and controller bindings | Partial | `src/save.c` |
+| P11-014 | Touch equivalents for movement, confirm, cancel and menus | Partial | `src/save.c` |
+| P11-015 | Accessible focus, dialogue paging and modal input locking | Partial | `src/save.c` |
+| P11-016 | Loading, asset failures and recoverable errors | Partial | `src/save.c` |
 
 ### Audio and presentation
 
 | ID | Requirement | Status | Source |
 | --- | --- | --- | --- |
-| P12-001 | Original route, town, interior and dungeon music selection | Pending | `src/sound.c` |
-| P12-002 | Time-of-day music variants and transitions | Pending | `src/sound.c` |
-| P12-003 | Battle music, rival/gym/legendary themes and victory jingles | Pending | `src/sound.c` |
+| P12-001 | Original route, town, interior and dungeon music selection | Partial | `src/sound.c` |
+| P12-002 | Time-of-day music variants and transitions | Partial | `src/sound.c` |
+| P12-003 | Battle music, rival/gym/legendary themes and victory jingles | Partial | `src/sound.c` |
 | P12-004 | Pokémon cries by species/form | Pending | `src/sound.c` |
-| P12-005 | Menu, dialogue, movement, item and field sound effects | Pending | `src/sound.c` |
+| P12-005 | Menu, dialogue, movement, item and field sound effects | Partial | `src/sound.c` |
 | P12-006 | Original weather and lighting cues | Pending | `src/sound.c` |
 | P12-007 | 3D conversion retains geometry, layout and visibility of interactables | Implemented | `src/sound.c` |
 | P12-008 | Directional character sprite animations and followers | Implemented | `src/sound.c` |
@@ -367,18 +385,18 @@ Inventory: **295 system requirements, 540 map headers, 832 script/movement comma
 | P15-001 | Source fence runs become solid posts and rails, including flat side-on atlas pieces | Implemented | `browser/src/source/world.ts` |
 | P15-002 | Flower bunches have separately rooted crossed artwork with depth from side views | Implemented | `browser/src/source/world.ts` |
 | P15-003 | 3D long-grass clumps stay on original encounter tiles and react to movement | Implemented | `browser/src/source/world.ts` |
-| P15-004 | Hill and cliff backs are opaque from newly accessible camera angles | Implemented | `browser/src/source/world.ts` |
+| P15-004 | Hill and cliff backs are opaque from newly accessible camera angles | Partial | `browser/src/source/world.ts` |
 | P15-005 | Background matrix cells render original scenery instead of exposing empty grey gaps | Implemented | `browser/src/source/world.ts` |
 | P15-006 | Original building door warps, interior return exits and counter interactions work | Implemented | `browser/src/source/world.ts` |
 | P15-007 | Following Pokémon move continuously along the original one-tile trailing path | Implemented | `browser/src/source/world.ts` |
 | P15-008 | Every world camera angle, terrain boundary and scenery variant receives visual verification | Pending | `browser/src/source/world.ts` |
 | P15-009 | Connected outdoor headers preserve camera pose, held movement and follower continuity without entry overlays | Implemented | `browser/src/source/world.ts` |
 | P15-010 | Source entrance positions identify continuous opaque rear walls while real opposing entrances stay open | Partial | `browser/src/source/world.ts` |
-| P15-011 | Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps | Implemented | `browser/src/source/world.ts` |
+| P15-011 | Native ledges have distinct terrain heights, open-path slopes and directional two-tile jumps | Partial | `browser/src/source/world.ts` |
 | P15-012 | Rock cutouts become separately rooted closed boulders retaining original pixel textures | Implemented | `browser/src/source/world.ts` |
 | P15-013 | Generated textured surfaces provide every enabled vertex attribute and remain free of black backing rectangles | Implemented | `browser/src/source/world.ts` |
-| P15-014 | Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea | Implemented | `browser/src/source/world.ts` |
-| P15-015 | Raised background forests and authored forest platforms have opaque terrain sides | Implemented | `browser/src/source/world.ts` |
+| P15-014 | Native sand and shallow shore tiles have solid substrate below surf artwork without filling deep sea | Partial | `browser/src/source/world.ts` |
+| P15-015 | Raised background forests and authored forest platforms have opaque terrain sides | Partial | `browser/src/source/world.ts` |
 | P15-016 | Building entrance direction comes from original tile behaviours across the complete matrix | Implemented | `browser/src/source/world.ts` |
 | P15-017 | Forked tree roots never count as multiple individual trees | Implemented | `browser/src/source/world.ts` |
 | P15-018 | Door mats and warp stairs use original push or step rules and final facing | Implemented | `browser/src/source/world.ts` |

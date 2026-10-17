@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-17T03:53:48.725851+00:00",
+  "baseCommit": "081c5ec",
+  "status": "Isolated implementation and source tests complete; integration and browser QA pending.",
+  "sourceFiles": {
+    "browser/src/source/script-camera.ts": "6c3b312c0aefd3eacf0c2c6ce1b97a73914308f87ad3ea2e0fa3cf4424284914",
+    "browser/src/source/script-camera.test.ts": "9988f42e31a034434e1e305bc3a8fa335ea7f3ccd484436c81e4414926119409",
+    "browser/src/source/script.ts": "ebeb36edb8a7ca15cc9a7fbc9de2410bdc6ee8d23acd0a38eff58cf983468ea9",
+    "browser/src/source/world.ts": "e52b67350c5860da93d1d891b47c46349adb67340b6b2d37996f3675e27b513f",
+    "browser/src/source/main.ts": "91aa54a0c1f88296faa9ff93329c70567101aee384bc3af65f27b397c9408388"
+  },
+  "nativeReferences": {
+    "src/scrcmd_c.c": {
+      "sha256": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4",
+      "lines": [
+        1199,
+        1438
+      ]
+    },
+    "files/fielddata/script/scr_seq/scr_seq_0018_D15R0103.s": {
+      "sha256": "e000aaf22dac6d4ab6bf7e86f3fe38b7815a8ce5b1d019b76c71cdf6492520dc"
+    },
+    "browser/public/source/maps/156.json": {
+      "sha256": "5c3b78a20a78ebf1ef4659fc158b6e97c584f7658614a5210ac4fa2f35c2e7f2"
+    }
+  },
+  "validation": {
+    "command": "node --experimental-transform-types --test src/source/script-camera.test.ts src/source/camera-transition.test.ts src/source/runtime.test.ts",
+    "passingTests": 27,
+    "productionTypecheck": "tsc --noEmit passed",
+    "diffWhitespaceCheck": "passed",
+    "nativeTrace": {
+      "map": 156,
+      "script": 2,
+      "cameraMovement": "5 north then 5 south on virtual actor241",
+      "completion": {
+        "FLAG_UNK_078": true,
+        "VAR_UNK_40A4": 1
+      }
+    },
+    "coverage": [
+      "Source-height interpolation and unchanged player position",
+      "Reserved241 wins over NPC lookup",
+      "Live-field ownership with common-bank movement labels",
+      "Shared production hook/router with real World methods",
+      "Free-camera yaw/pitch/distance preserved during smooth focus and return",
+      "Streaming follows virtual target",
+      "Mapentry/headerchange and unsupported-error cleanup",
+      "Pending VM movement is cancelled after real World.enter, with busy released and no stale writes"
+    ]
+  },
+  "reviews": [
+    {
+      "version": 1,
+      "model": "claude-opus-5-5",
+      "rawResponseSHA256": "e0da46e10cca9449d6ff1c2fa6d9235fa3a660d79d44f58548a8ef99ba5b1dcf",
+      "result": "I found no confirmed correctness regressions on the paths that ship today. There is one latent issue that the trainer origin-map branch will expose, and two places where the tests don't cover the real wiring. Per your instructions I wrote no files (including the plan file plan mode asks for) and used no subagents.\n\n## What checks out\n\n- **Native behaviour:** `ScrCmd_CreateCameraTarget` (`src/scrcmd_c.c:1438-1451`) becomes `world.ts:83-87`. It places the target at the tile centre, gives it the terrain height, points streaming at it, and the camera follows it. There's no sprite or save data. `RemoveCameraTarget` (`scrcmd_c.c:1453-1461`) clears the target, and `draw` (`world.ts:208`) smoothly pans back to the player.\n- **Free camera:** yaw, pitch and distance are never changed, and the tests check this (`script-camera.test.ts:79-80,87`).\n- **241 lookup:** `script.ts:65` checks for 241 before the normal NPC lookup, matching `Script_GetMapObjectByPerson` (`scrcmd_c.c:1203-1205`).\n- **Map156 script2:** it pans 5 tiles north, then 5 south, and ends with Remove (`scr_seq_0018_D15R0103.s:29-56`). It contains no battle or warp, and the music CallStds are skipped at `script.ts:164`.\n- **Cancellation:**\n  - Each `move()` call is tied to one target and its generation counter (`script-camera.ts:24-28`). A Clear, a new Create, or a field change stops it from writing any further positions.\n  - When the VM finishes, it clears the target before waiting on pending moves (`script.ts:178`). A cancelled 241 move goes into `movementFailure` and isn't re-thrown from `finally`.\n  - `enter` always clears the target (`world.ts:94`); `connect` clears it when the header changes (`world.ts:109`).\n- **Streaming:** `updateStreaming` uses the target's position only when it's on the same map (`world.ts:117`). The frame loop skips streaming during transitions (`main.ts:211`). Keeping cells near the target rather than the player (`world.ts:162`) matches native `MapLoadManager_TrackTarget`.\n- **Other actors and the error path:** moves for non-camera actors are unchanged (`main.ts:43-59`). The target is already cleared when the error message appears (`main.ts:85`).\n\n## Integration requirement (latent, not a regression)\n\n**The camera target is tied to the script's map instead of the map the player is on.**\n- `script.ts:98` passes the script's own map. `main.ts:201` forwards `target.map.id`, and `world.ts:84` throws unless that equals `activeHeader`.\n- `script-camera.ts:25` then refuses to move 241 unless the movement script's `map.id` matches the map the target was created on.\n- Native code uses `fieldSystem->location->mapId` (`scrcmd_c.c:1443`), and 241 resolves no matter which script it's in.\n- **Today:** this already breaks inside `CallStd` child VMs, which run with the common script bank as their map (`script.ts:48`). It only matters if a common script uses 241, and I couldn't confirm one in this snapshot.\n- **With the trainer origin-map branch:** any 241 script running with an origin map different from the active header will throw \"inactive source field\" or \"Missing original camera movement object 241\".\n- **Fix:**\n  - Have the main hook create the target on `world.activeHeader` (or `state.map`), not `target.map.id`.\n  - Have `ScriptCameraTarget.move` use the passed map only to look up the movement label.\n  - Replace the `actor.map!==map.id` check with a check against the field map stored at create time.\n\n**Failure-recovery branch:** any recovery path that abandons or replaces a running VM without its `run()` finishing (so `finally` never runs), or resets the field without `world.enter`, must call `world.clearScriptCameraTarget()`. Otherwise the camera and streaming stay on a stale target. A recovery that re-enters the field through `enterMap` is already covered by `world.ts:94`.\n\n## Test gaps\n\n1. **The real wiring is never exercised.** The tests write their own `cameraTarget`/`move` hooks (`script-camera.test.ts:26-28`), so `main.ts:42` (routing moves to the camera target) and the `cameraTarget` hook at `main.ts:201` aren't tested. The latent issue above would show up in exactly that wiring.\n2. **No VM-level test of a field change during a 241 move.** The cancellation test (`script-camera.test.ts:59-66`) runs against `ScriptCameraTarget` directly. Nothing tests the VM case where `world.enter` clears the target while a 241 `ApplyMovement` is pending. That test should check that `run` rejects with the cancellation error, `busy` ends false, and the target stays null.\n\nBrowser QA is still pending, as you noted. I didn't run the tests; the 25 passes are as you reported."
+    },
+    {
+      "version": 2,
+      "model": "claude-opus-5-5",
+      "rawResponseSHA256": "f8965a02ddecd4912af6cc122e6f6367f50c28d745cf897fb55b89e6b1d4790c",
+      "result": "I've finished reading all the changed files. I found nothing that needs fixing. I wrote no files, including the plan file plan mode asks for, ran no commands and used no subagents.\n\n## What I checked\n\n- **The camera target now belongs to the live field.** The hook in `main.ts:202` passes `state.map` instead of the script's own map (`setScriptCameraTarget` at `script-camera.ts:13-15`). `createScriptCameraTarget` (`world.ts:83-87`) still requires that id to match `activeHeader`. Both are set inside `enterMap` or `world.enter`/`connect` before any script can start. This matches native `fieldSystem->location->mapId` (`scrcmd_c.c:1443`).\n- **The script's bank only supplies movement labels.** `ScriptCameraTarget.move` (`script-camera.ts:32-55`) no longer compares the bank's map id. The field check moved to `world.ts:90`, which compares the target's stored field with `activeHeader`. So a common bank with id 999 routes correctly, and the test at `script-camera.test.ts:92-98` covers that.\n- **Main and the tests use the same router.** `moveActor` (`main.ts:42`) and both test hooks call `scriptCameraMovement`. An error thrown synchronously at `world.ts:90` still turns into a rejection, because `moveActor` is async. It then reaches `movementFailure` (`script.ts:100`).\n- **Cancellation:**\n  - The generation and identity checks (`script-camera.ts:36-37,46`) stop a stale tween from writing positions.\n  - `enter` clears the target first thing (`world.ts:94`). `connect` clears it when the header changes (`world.ts:109`).\n  - `enterMap` clears it before the async `world.map` hydration (`main.ts:91`).\n  - The VM's `finally` clears an owned target, then waits for pending moves (`script.ts:178`).\n  - The VM test (`script-camera.test.ts:100-108`) checks this in the right order: the run rejects, `busy` ends false, and the target stays null.\n- **Native lookup:** 241 is resolved before the NPC lookup (`script.ts:65`), matching `scrcmd_c.c:1203-1205`. Remove clears the target and the camera goes back to the player, matching `scrcmd_c.c:1453-1461`.\n- **Streaming:**\n  - Streaming follows the target only when it's on the same field (`world.ts:117`).\n  - Creating a target re-streams around it (`world.ts:86`).\n  - The frame loop skips streaming while `transitioning` (`main.ts:212`).\n  - After a clear, the next frame streams around the player again.\n- **Free camera:** nothing writes yaw, pitch or distance, and the tests assert this (`script-camera.test.ts:80-81,88`).\n- **Error path:** the target is cleared in the VM's `finally` before `runScript` shows the error message (`main.ts:85`).\n\nThe trainer and lift branches are separate integration work, not regressions here, as you said. Browser QA is still pending. I didn't run the tests, so the 27 passes are as you reported."
+    }
+  ],
+  "integrationNotes": [
+    "Failure recovery must call world.clearScriptCameraTarget() synchronously before hydration; normal World.enter/connect and main.enterMap already clear it.",
+    "Preserve trainer origin-map/NPC APIs and Violet lift optional arguments when integrating the small main/script/world changes.",
+    "No rendered camera-focus sprite, persistent actor or user save fields are introduced.",
+    "No production build or browser QA was run in this isolated worktree."
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "sourceCommit": "aa7c886660f37493570eb2f7372d2a94f17b63a0",
+  "tests": {
+    "command": "node --experimental-transform-types --test browser/src/source/battle*.test.ts browser/src/source/early-battle-effects.test.ts browser/src/source/azalea-battle-integration.test.ts browser/src/source/fixed-damage-battle.test.ts browser/src/source/gender*.test.ts browser/src/source/trainer-gender.test.ts",
+    "execSession": 74712,
+    "observedProcessExit": 0,
+    "testCount": 232,
+    "passed": 232,
+    "failed": 0,
+    "log": "affected232-tests.log"
+  },
+  "tsc": {
+    "command": "browser/node_modules/.bin/tsc --noEmit -p browser/tsconfig.json",
+    "execSession": 50673,
+    "observedProcessExit": 0,
+    "log": "tsc-final-fixtures.log",
+    "qualification": "Repository tsconfig excludes *.test.ts; tests were executed with Node transform-types."
+  },
+  "qualification": "No full repository suite, app build, browser, deployment or natural field-traversal validation performed by this leaf. Complete Anthony source party resolves through legal battle actions with an explicit selected enemy action tape, not native move AI parity. Full232/TSC ran ataa7; later test-only encounter qualification has targeted14PASS and byte-identical runtime. No false claim of a full rerun atlaterbytes.",
+  "prior227": {
+    "command": "node --experimental-transform-types --test browser/src/source/battle*.test.ts browser/src/source/early-battle-effects.test.ts browser/src/source/azalea-battle-integration.test.ts browser/src/source/fixed-damage-battle.test.ts browser/src/source/gender*.test.ts browser/src/source/trainer-gender.test.ts",
+    "execSession": 54687,
+    "observedProcessExit": 0,
+    "testCount": 227,
+    "passed": 227,
+    "failed": 0,
+    "log": "affected227-tests.log",
+    "sourceCommit": "293ff9d81d07a5290dce1fb10b4eb8eaf2853f07"
+  },
+  "priorTSC": {
+    "command": "browser/node_modules/.bin/tsc --noEmit -p browser/tsconfig.json",
+    "execSession": 12013,
+    "observedProcessExit": 0,
+    "log": "tsc.log",
+    "qualification": "Repository tsconfig excludes *.test.ts; tests were executed with Node transform-types.",
+    "sourceCommit": "293ff9d81d07a5290dce1fb10b4eb8eaf2853f07"
+  },
+  "latestSourceCommit": "e6623baaed08a90fd62a9f8b1c53699c0384a04b",
+  "latestTargeted": {
+    "command": "node --experimental-transform-types --test browser/src/source/battle-low-kick.test.ts",
+    "execSession": 94555,
+    "observedProcessExit": 0,
+    "testCount": 14,
+    "passed": 14,
+    "failed": 0,
+    "log": "native-level-final14-tests.log"
+  }
+}

@@ -1,0 +1,1286 @@
+{
+  "scope": "Reconcile canonical production battle release into full native progression without dropping Egg/hatch/phone/field features",
+  "firstParent": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+  "mergedProductionCommit": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+  "conflictResolutions": {
+    "browser/src/source/battle.ts": "Canonical production file unchanged; eligibility import uses battle-party.ts.",
+    "browser/src/source/battle-action-end.test.ts": "Exact native-progression fixture retained, including real giveTogepiEgg and deterministic fourth newState argument.",
+    "browser/src/source/battle-experience-integration.test.ts": "Exact native-progression fourth-argument entropy fixture retained.",
+    "browser/src/source/battle-turn-phase.test.ts": "Exact native-progression fourth-argument entropy fixture retained."
+  },
+  "singleOwnership": {
+    "canonical": "browser/src/source/battle-party.ts",
+    "productionFileUnchanged": true,
+    "eggsModuleChange": "Import the exact predicate for firstFollowerMon and re-export both predicates. Delete only the two duplicate declarations.",
+    "identityAndActualGiftReloadTest": "browser/src/source/battle-party.test.ts"
+  },
+  "validation": {
+    "targeted": {
+      "command": "node --experimental-transform-types --test src/source/battle*.test.ts src/source/early-battle-effects.test.ts src/source/egg*.test.ts src/source/hatch*.test.ts src/source/party*.test.ts src/source/native-rng.test.ts",
+      "cwd": "browser",
+      "exitCode": 0,
+      "tests": 232,
+      "topLevel": 210,
+      "sourceOwnedSubcases": 22,
+      "pass": 232,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "logSHA256": "fb632f203b70bc5de4df2e520803eaa6d3cd3d2c9e075f7004020f5089aee9d6"
+    },
+    "typescript": {
+      "command": "npx tsc --noEmit",
+      "cwd": "browser",
+      "exitCode": 0,
+      "logSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "runtimeAndTargetedTestFiles": [
+    {
+      "path": "browser/src/source/battle-party.test.ts",
+      "sha256": "91bf74f1225f267925cbb1a070be60305166f90c1552438bb54f1c21d564eb11"
+    },
+    {
+      "path": "browser/src/source/battle-party.ts",
+      "sha256": "e283c422284a434f3e0fcc563d89ec0771220dcf5ddb79d8434c690a4c498775"
+    },
+    {
+      "path": "browser/src/source/battle.ts",
+      "sha256": "1957f716967008d3380e917f037892b1ddb3f34c3a427fc36a0ae3b0ad44fa90"
+    },
+    {
+      "path": "browser/src/source/eggs.ts",
+      "sha256": "81c460626b186523efc8aa6aae5ac61572e82c1467471d95c2d524c6de042386"
+    }
+  ],
+  "unchangedFromFirstParent": [
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "1a876a0a717a7733af55430efadaf4d9479e26d95df46d9a8322b0840a7db230"
+    },
+    {
+      "path": "browser/src/source/world.ts",
+      "sha256": "403e9435c76809b43b7c952875d203899e95c057a3d62250e8f63091cd34fc8d"
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "sha256": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "116a461bfce1569a4bd694741a394a0be6334b9c1b2487a27eb7e1f6f64edc3b"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0"
+    },
+    {
+      "path": "browser/src/source/battle-action-end.test.ts",
+      "sha256": "2ed5f151eafc9e8ab1cd7c99dab3841d63338b39c4a8d330d9195763314352cd"
+    },
+    {
+      "path": "browser/src/source/battle-experience-integration.test.ts",
+      "sha256": "ab3d1fa95b5b69916e7a60724cbfba2731edc6e63145d741d744c1b0c2631f82"
+    },
+    {
+      "path": "browser/src/source/battle-turn-phase.test.ts",
+      "sha256": "d85deb669fc0bfd03b006e953fd131a3754ab77bcdb9d0ad1452a155e0c39956"
+    }
+  ],
+  "historicalReviewFilesUnchanged": [
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-15-opus-5.5.md",
+      "sha256": "855228e82c572e5474dca540e9fd38d76ca27548df801bb4973c9006dace85db"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-building-candidate-status.md",
+      "sha256": "24db17e09f4a9218c0e6b716d8e999ca834e5565970c5a643d539e753988e6e2"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-building-exteriors-opus-5.5.md",
+      "sha256": "fd30ca14f9333b01e8ad4c682fe7b388f7e744c96e97f02e2c4e507b4e544fb0"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-building-exteriors-opus-followup.md",
+      "sha256": "228b7174de6e3bb62cbdfa920ed550b679d7a4af02251ceb08baa9d6f0f73877"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-building-exteriors-opus-second-pass.md",
+      "sha256": "527a6a83e9b37ed4e4c916feab0ff9551d861c5599a691d16a465325856aa652"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-furniture-collision-opus-5.5.md",
+      "sha256": "df875e5f9d39df2fce14909362f2d52e19f0addd63a04bfec6ddc440503f34be"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-furniture-opus-5.5.md",
+      "sha256": "44f7db831041caecf319f3a08a24ef3d0ba19de67fddfaaf2e3d37f1ab66b04f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-ledge-terrain-opus-5.5.md",
+      "sha256": "6a2c94610ec3791bfd1f203a4a00dfabc0c05ae4612f4aa77f5991d16522692d"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-native-field-opus-5.5.md",
+      "sha256": "6c2db64b7b9e2fac845715baface4c0dcece0f1abc1d63de3ec9df3bf5edcdd3"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-native-trainer-scripts.md",
+      "sha256": "db5b20a02c6562a6b89701352f0472412e2414b7f50215ffa2c8f1e88dde86c3"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-room-camera-opus-5.5.md",
+      "sha256": "7c043ec14fb36b0ca37be56f2890dca1108dbb9d708b527243cda69a4781b498"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-room-camera-resize-runtime.json",
+      "sha256": "135630314891efbc5e0dcd72416699136be3fc65ec6189663630e8187c64dd7a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-room-camera-retry-runtime.json",
+      "sha256": "272a1c64a9bba1a489cb6cf601b91c57f9b646eb82d9d92d13b30c31980d15d1"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-room-camera-runtime.json",
+      "sha256": "aa973e8486f6e92fd368af1fd20dd9b3951cca1ed346426d29df345708c33640"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-scenery-followup-opus-5.5.md",
+      "sha256": "7dcc61dade994deb25ef4258752d539aeb4eead3a44eb21e64188179903f83f2"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-terrain-candidate-status.md",
+      "sha256": "fe3cb2da36b029d13d38a6b30cacad02578235f0b6fcb88432b74df87caeacbd"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-16-tree-volume-opus-5.5.md",
+      "sha256": "a77271fd6b8c11f76a898ceabe7df6271a91d3c91159b039e71b1571ca26411e"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-first-badge-rewards.md",
+      "sha256": "e36773080c656f74cd248d044888916a07406e4fb9a8eb8810d7fa0e38e4ae3d"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-early-battle-effects-opus-5.5.md",
+      "sha256": "dcd4ae63ec8cafe0167891c4bcf0b61fda3cdbfed12485b83937e0fc3c441e0a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-field-party-order.md",
+      "sha256": "c01dd94d3f8516abb725884c10e46240f567438fbf2aeb1133f78072a1d265b8"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/README.md",
+      "sha256": "d12e4454b3b07794abe9b02e8b5ee40a173d61cf2f6d1624ef37e5f17c756ae9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/SHA256SUMS",
+      "sha256": "92d07ae9993be42d7e7a6351842ef29f7a402efebd156935a2e61f81bc0f42a2"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/adjudication.md",
+      "sha256": "21a4ca996f2b76f866a0fb0ec20e7916652933c3cedf9aee262fe5b6172658f5"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-export.log",
+      "sha256": "2b5d3a531db87a37ed915e9c0d334ee5332e8fc15d8236610917605d01fa3ac9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-final-export.log",
+      "sha256": "2b5d3a531db87a37ed915e9c0d334ee5332e8fc15d8236610917605d01fa3ac9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-optimized-export.log",
+      "sha256": "2b5d3a531db87a37ed915e9c0d334ee5332e8fc15d8236610917605d01fa3ac9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-followup-prompt.txt",
+      "sha256": "3a370a018601072f2cb84e913a3cb845db9e40abad0ae6f1c64b49c1416291b7"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-followup-review.json",
+      "sha256": "9aae8afc27bedb9879ebacf032bcd196b0b08938fe4b3218d29663592c5df88e"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-followup-review.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-last-prompt.txt",
+      "sha256": "99f6c194cd60b8cae7ae962b772c15540ef3ac2ebf9d1603726f0ea3a7c2c454"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-last-review.json",
+      "sha256": "944bdffee8cee5815bdb45dee0cdc286418dcdf2464c3e5cf8aea3fa7c577091"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-last-review.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-prompt.txt",
+      "sha256": "5897b372de2c9b8f7a4cc3a6a047a9b9cf742701fcefb0b8fe9b069e6f9a7f3f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-review.json",
+      "sha256": "ea9e21eeebff56df6df6b5094f782d5e7ddcec8fa5141924938730442dcd534f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-opus-review.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-reexport.log",
+      "sha256": "2b5d3a531db87a37ed915e9c0d334ee5332e8fc15d8236610917605d01fa3ac9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-scoped.log",
+      "sha256": "a4a8b54041db0bc7193564b974285b2637787d117ab709b2a1e4389b0fddbcb1"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-hatch-music-tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/artifacts/hg-native-loop-proof.py",
+      "sha256": "d6e185525027916acb3470f9807a62094526e9d93467f3b81d7cf1a135e9c76c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/native-event-payload-proof.json",
+      "sha256": "9da2659fdf605788c2206fe647697139530783b0b6a8455da5c11a7652fb2918"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/native-loop-proof.json",
+      "sha256": "fd219efd902c4a8e5dbe782758053517951e0962581fe24b8abb24c749e96802"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/reproduce-evidence.py",
+      "sha256": "960b1b6c8d095f34064c12f104a3b70a652a45709bdf7ebf1e1c51bdc27f7fa7"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-hatch-music/review-manifest.json",
+      "sha256": "986c30235b6f5fcd583cb6cd1882d9cd41f7fd3ffeaa0740ee41251a18a32678"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-togepi-egg-opus-5.5.json",
+      "sha256": "37b03f873d4b086c1cd8b5c75feb12b0e1ebf77dda2a61e537cdf69d9f9bca12"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-togepi-egg-opus-5.5.md",
+      "sha256": "776b429cd2885205b63d0eecc0fb92657d65d669176c4b8e1c7c9300387f29cd"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-togepi-egg.md",
+      "sha256": "e3cba0898ff5dab0e54b1d720c9335d319d43aa44f70d7d1998c658114c9273f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-trainer-encounters.md",
+      "sha256": "996555126d667eab8c1b7865953bc7a4ca5658c9db848e90316b9554d92e81f8"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-native-trainer-opus-followup.md",
+      "sha256": "ac7f44e3ec353958563d66edcff50b5255729717c9e93ea3a20691a6f8d27763"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-opening-sequence-opus-5.5.json",
+      "sha256": "d1a981699d9a814cedc94644dcbbfb36b76dff862e35ad10029ccbda3079940c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-opening-sequence-opus-5.5.md",
+      "sha256": "799bd646e975bcf9af3c7f7d26503043f71eb005cfefa10bdff5a2b89cc655de"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-opening-sequence.md",
+      "sha256": "89ea8adcce600e05fd2afb163df32cc431ff46b451c83dbc63916be638d47a32"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-parity-reconciliation.md",
+      "sha256": "31af24f4c3ece1b44a3afed79aefff12d5e39735fd4a757bec714d857de8f120"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/2026-10-17-rage-before-turn-adjudication.md",
+      "sha256": "e5919a22a1a49825faf9c0e88b041a9c21089acc2a3d8024d168d88206f91d9c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-broadphase-equivalence.json",
+      "sha256": "0d0ede6df20acb7237eb09d42965d60dab15ef7a3d8359e58051362a70497a12"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-category-triage.json",
+      "sha256": "5d01456293cbee7be7ebb716a37e36e4ae644f6b2c7ecd9a9d09e32ebc297350"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-enclosure-audit-immutable-A3-validation.json",
+      "sha256": "dc6be63c41f6de0b46f8436272a1b1d545a44517588ae293b8d13ba065cde99e"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-enclosure-audit-immutable-A3.json",
+      "sha256": "b8b7b9048928898c047c804677824bcca41253bcfe668f3eaccc3ff91f0584b2"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-enclosure-audit-validation.json",
+      "sha256": "6371e46cb5f4462aef79a8415340d79ae8d6786d6bb1052c207fd005e803896f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-enclosure-audit.json",
+      "sha256": "f3d5fa86c0e1e2ce41426fe2cd6f1c917cc27a1e333359bf368837ef26fe1234"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-enclosure-audit.md",
+      "sha256": "9c835411463ea94614043725d2cc028324f5ae39ffdda0ef226b92bb65038905"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-gallery-plan.json",
+      "sha256": "94ab91043d5e9bb3d657443c9b3903075c5f087d688bbd0290c095d23734df79"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-gallery/lifecycle-diagnostic.json",
+      "sha256": "098aafb97d2ed32666be0efbed07ad60fa2576530972252a01aa6383ca383eda"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-house-numerical-edge-proof-provisional.json",
+      "sha256": "bc0fbb4207c0a80c8dff0651feb6762eea990c36e7b09712759e6c982658667c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-house-roof-envelope-regression-A3.json",
+      "sha256": "253ea56f18308941c40e0df655465347cf71976b527dfaaed86394d8af541774"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-house-roof-geometry-delta-A3.json",
+      "sha256": "294eb1b75308fd8491a2de9b33e4a6041839e126f306dcfa76b12a97490998b5"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-native-collector-gate-A3-attestation.json",
+      "sha256": "61980a414acfde6fcf4a36ca6ff770107b01a84ca64400f5e2d99f7375af416e"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-native-collector-gate-adjudication-2026-10-17-v3.json",
+      "sha256": "c1192d2a01360a8b5bea96a2ffd461d797b875ce26ab2820e61578e2f291ea62"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-native-collector-gate-probe-2026-10-17-v3.mts",
+      "sha256": "5e527faf5b22e04d0d3993631bc847085645b775e532be2e45be3201fce08ad3"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-native-collector-gate-receipt-2026-10-17-v3.json",
+      "sha256": "0e3e4fb4fbc595fde02b4cd1d4cfc3e57acf5b28289c20848db768ad1529be94"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-native-collector-gate-review-2026-10-17-v3.md",
+      "sha256": "7d0d305d883986b1b9e5567e275466ac01d2f989544bdf6da22b0b23a9802775"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-opus-final-snapshot-manifest.json",
+      "sha256": "77681bffbcaf6cb2e8f276b22a93c318e1ed8e6d35389a845908803b4f64a4aa"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-opus-followup-snapshot-manifest.json",
+      "sha256": "74b84907ad5cec21231b21a1330c70f14b404627044f466fd380ccd3e6d26b3a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-opus-native-adjudication.json",
+      "sha256": "53681c3a1959935761f8e3f53c7ac39a11decfea5ff96b849e12c6929bad5f75"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-opus-snapshot-manifest.json",
+      "sha256": "15bfcee1c53f21c535c6250c98ebe7fb71dc2aa8c59955f10266437c625d3908"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-structural-checkpoint-A3.json",
+      "sha256": "e745a5d8ace607c5c78bf330b58f475be5563d5a899aff344c6b1415817b7dcc"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-visual-inventory.json",
+      "sha256": "5d4068d12e7bd0fd453adca26f7a75fa7cb2a909646830b6573f4e5acf4e9415"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-visual-inventory.md",
+      "sha256": "49cf136c26f7ca027530924bb0f06cac237a2e281c0722a938d615a710ca6470"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-world-budget-opus-adjudication.json",
+      "sha256": "d9cc56b7e93bb3a787d9e5223494120ce563d5676b36678ddbe6eea0c5a35e34"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-world-budget-opus-result.json",
+      "sha256": "5cd419299cc2552d5313783fe5ef37a6744fa21d99decfc5858ff6c554ff79a8"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/building-world-budget-regression.json",
+      "sha256": "ecedca31678b8859f3d8305538e48816ec8e3d23c0c1a0a47ac438e9f1ab2688"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.json",
+      "sha256": "b72377e93ede2c70d1151596ecf5cfef3d6f9967492f0b401ea5125ddb8e0097"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.md",
+      "sha256": "d34b3b6e1ad949503f0556f583ad3eebb1d42c72299face66ec97346ab6665ae"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.raw.json",
+      "sha256": "be4751586bcd23ec98453e5f7d9f583dc9dc1de1a776e14a2f75fb389eb4cc82"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.json",
+      "sha256": "ae454c855a7083cd2a0ef279eb310c4144512cc26f1bedf1dd2a2735ab9c4541"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.md",
+      "sha256": "c18a76a766e6357794a4cb6edb1944f0b701924c9004be78fa25bcc46ab7b5b3"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.raw.json",
+      "sha256": "3b7fc15bd80c45b4b57c3ad445782f3e1c6fc1f74990b776b231d4bc6600a5a1"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-opus-5.5.json",
+      "sha256": "9b370ea10836ddf927e9ac9de8fec5b057cb54c40509c92f83d62ebcfad344ff"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-opus-5.5.md",
+      "sha256": "65d631260d8f380490e872f66173d58156fb1792b2893f087c711d41a04ddc61"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-opus-5.5.raw.json",
+      "sha256": "0c4f95830515204f926245f26705046e7d5686ace452582d3eb61008e8c031f4"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-action-end-recoil.md",
+      "sha256": "9eb18f152a1ff2c3ba1f04ce0a9c840e8425fee0dac7e97ec9cf71ea8875cbda"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-accuracy-adjudication.json",
+      "sha256": "a7d12887427ce9ca3f04c058efcfd3bf132514a6e37ea07baedcd11493311249"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-accuracy-opus-result.json",
+      "sha256": "cfc482781e0835e2ef7576742469c59eaab82284a9c3036a3139be5b51528fd6"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-accuracy-review-manifest.json",
+      "sha256": "b5ee43c381252d10cf78075e84bf47be870dbca062d0d75a4492e5d8fca84bad"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-accuracy-scope.md",
+      "sha256": "4eafb369418c50514ef1935e57b4bc0b8cfa76b83487fa76c5bbd1ef210b1b93"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-adjudication.json",
+      "sha256": "859086e3428545322eee224b5940cc086c2f59c4866e88060288c4efeed4c891"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-opus-core-result.json",
+      "sha256": "cd450f160492a8d2f3e4c83448c594df62b2ddf1a433bd0904bd4fb80f028559"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-opus-followup-result.json",
+      "sha256": "88871b4729bc4420ceb45ae036ddea1d79fd952740482865b2974d6d106a58d6"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-phase-adjudication.json",
+      "sha256": "b48d6ffadb92ec773a9d2cff6567e88c71972f46bcd4b4760215bae64b4afd27"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-plan-adjudication.json",
+      "sha256": "e8def5699043ddec8afb03d798e6b8b895d28cf9cc5a7318d6403f209c2b893c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-plan-opus-result.json",
+      "sha256": "f5dc8e535c3b0d48051d602ed2d1a532a592dce675be56a8ad9ceff15fca737d"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-plan-review-manifest.json",
+      "sha256": "f989c753c49b038a1c112ec02c19dd4c3f506e6bd9df650658d443f2f621b113"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-review-manifest.json",
+      "sha256": "90c910b77a1e614d800e8e16f209b99d11a971db2121442320eb0e5b5edf79d7"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-experience-scope.md",
+      "sha256": "ab88bb59fae0554f68287171fa5054b3bb00b141471e4d26ea903efb0f901476"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.json",
+      "sha256": "1ad685725f8dc5ba1df3b18cc95042363d0d148443f10983cc55a90bf93b68e6"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.md",
+      "sha256": "80893ab62432026e8673676d410239d4b11235780908c20260d2c181a3c040f3"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.raw.json",
+      "sha256": "e7a7d7e8c052a1c92fddc7666245107b1e508ba1256b2168881b96bcdae9183a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-early-battle-effects-review-receipt.json",
+      "sha256": "fc832d250edbb747b4f5b041fd04eb957e1ca6658c2fcb62b87636d8ee6eb3cd"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-egg-consumer-514a01e-exp-reproduction.json",
+      "sha256": "d191b0d93cfb72b2e9c59adc66fea47187b44830599ddf5407511151b12ff317"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-egg-consumer-514a01e-opus-5.5.json",
+      "sha256": "78ad6e570477a65108b67f7c4b008ee3daa20edb34c68c00dfa791965c3424bf"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-egg-consumer-514a01e-opus-5.5.md",
+      "sha256": "30c18af532d78c59969437355d6924815eae5b5b1453f07d83e235eb87dc0944"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-egg-hatch-view-review.json",
+      "sha256": "fa11b1eb9576d606909f56beac15c69cef9c4101b2f949341dfe47d8703f8bec"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-elm-phone-dependency-plan.md",
+      "sha256": "6712ab2292b6e2dcbcbd9d3a93971a7ba1ae424608584a14b936978cd62e1973"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-field-integration-eca6778/checkpoint.json",
+      "sha256": "5a6694701d44178ba4579e81086eb4caf440b7cef4c4d701838ec01062abbf6a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-field-integration-eca6778/tests.log",
+      "sha256": "6b676a84e8f12549c7b1ad07652b97372fa6e71f36122c517bd696f8d7869f90"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-field-integration-eca6778/tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-field-party-order-opus.json",
+      "sha256": "b14ee54b3fa432cd0e2dc6de938d42eae36550c8bc7e945c8a2534a8cb502e8b"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-audio-host-checkpoint.json",
+      "sha256": "566e3d55f415f337fae9633ce8e7dfb5cec6e9adc5959fc507284539e3f04c22"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-audio-preload-host-checkpoint.json",
+      "sha256": "2574e84f0104d06a44f523a80b9175b3833636251063044b5f31a5fa592fbe5b"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-connection-fix.json",
+      "sha256": "8db79fed362e4fc51a630111ee6951b01a20ba6d85871ff1631b65c50464769f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-field-step-source-review.md",
+      "sha256": "620f5ec543bc53de3155732562d639bde9734dabe49b0ce616b886be4327fe81"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-F1-regression-evidence.json",
+      "sha256": "d62089c5f5207782251b384c39f0a84b57754ecb7a38b4d05e68b7b0c290c54e"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-adjudication.json",
+      "sha256": "0861e3a786a87ce4b762fdd261ef7bc2e3a230a177d22016760a2828a900d91d"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-final-adjudication.json",
+      "sha256": "915e9d9de2285202b22cba0d3b72458bfae27a399691b2568c1ddfbfbd7406cd"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-final-component-opus-result.json",
+      "sha256": "944bdffee8cee5815bdb45dee0cdc286418dcdf2464c3e5cf8aea3fa7c577091"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-final-function-qualification.json",
+      "sha256": "9e5956b8f1f14f1ab25b5178c451d923a4ed400b9123d1f41737965c21b458d7"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-final-leaf-qualification.json",
+      "sha256": "e6bd2f1ac4253a0d4650ed6e319b3ec1c9b7e6545bad61142ffcda3ca2b1adc2"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-final-opus-result.json",
+      "sha256": "548bda42234452c61a9fa3b3a9e19210f2a1823c2e23822b4cfc0146add9af7d"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-final-review-manifest.json",
+      "sha256": "3dc194655e14df2112a37ec2f4e6bb42924ab4647e68c468219915f7f7faf5cf"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-final-snapshot-receipt.json",
+      "sha256": "366d4a0a06c1c5fbed3243a9fb1f6c7700677d5b5e67fa4f15ef01a9286a5424"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-opus-result.json",
+      "sha256": "34e546892b0dcc81afc0acf0d2ea50ade91402b05694e3e69c46458b0394d62c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-review-manifest.json",
+      "sha256": "fd528e087bef45d8fbb1f56405187676af85801dec4f0165a129d37c684c5682"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-snapshot-receipt.json",
+      "sha256": "248a0bfa50eda7495fe44f0dc102d4c079e8c824a2174038dad396f49e87fb21"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-host-sound-save-history-proof.json",
+      "sha256": "cdd179487256b63412c4e9bf828d592291876fd53b32b75761836904102a91c4"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-ui-cancellation-2c0f760-manifest.json",
+      "sha256": "53457baceb6d7b9d09e52c3213cb54f6a2b4472ef39b8fbb4ab6663bf92d0689"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-ui-cancellation-2c0f760-opus-result.json",
+      "sha256": "1a859a9ca209c1844db86d57cb14a36f0a0a0243d3f431c594f392930e45894c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-ui-printer-4fb650c-manifest.json",
+      "sha256": "3847f2ed0d4bca5ba67194f98d5ed04237b2782742383d3eac0c2b3e8ea8bfc2"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-ui-printer-4fb650c-opus-result.json",
+      "sha256": "1ea1671ea8e9291fd519e1bfb7dedabd7818908221817f31a41881c854e92adc"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-hatch-ui-review-adjudication.json",
+      "sha256": "a9ac7e3321754afee25bc1cc5311b1731bb6e9f51f61111b38308ad08bbded1b"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-no-target-predicate-proof.md",
+      "sha256": "b647cab37e092c71d11c80546947865ed2b62d2a3957c499ef343bef7e26dc88"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-no-target-predicate-source-manifest.json",
+      "sha256": "005bf6c3fb74c225e22bc44878962190504149f27dfdfaf9ed9a90d194b8e5db"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/62d966d-to-536758a.diff",
+      "sha256": "d144350aec11bcd93b58971dccdc385aa5676e44e1852de078a4634a3c3a711c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/README.md",
+      "sha256": "2c8d76be4b9bd442e04995ffc5a47e020910a7a3045f1cc1d9e9a6c5dd38e1c9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/artifacts.json",
+      "sha256": "bf329b6106b7f8d59ad628962075b450917a1a8f54d3025a785b00c569afd0d6"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/committed-diff-provenance.raw.json",
+      "sha256": "2eef9a9233b585c9a0ef4ba18e80ac67b115405db9ca50b94a7757dbc60c7403"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/independent-source-review.raw.json",
+      "sha256": "160d89c324c89ba2ee7db64bd836649041c1dc05a5abafc553241c624b706c36"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/opus-followup-prompt.raw.txt",
+      "sha256": "47d5ffd44736f463bd4cc4e90a365c4882b145c4f4b90c071ccaaff2616e158a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/opus-followup.raw.json",
+      "sha256": "b9b077dbd6289f8d60c64df2940128703bf55967f07c6ed111f3a3f80eebad53"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/opus-initial-prompt.raw.txt",
+      "sha256": "75d4b676dc550713e5606d7d897dcc9560a2aa110ddbf93882a2f8166e666ea6"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/opus-initial.raw.json",
+      "sha256": "9eb1f051c6226dbc319bbe2c0e5a00327391fef1886807708e229cf346bf2a23"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/owner-targeted-tests.raw.log",
+      "sha256": "b9c298c6a2e03caa921479217e9419dc510bb283ac8abd1bc447ee590141ed7b"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/review-receipt.raw.json",
+      "sha256": "b81d1cbd91b93f0ad57195310dbccb1906a0b6f24f9104ec76a4b4e2dc25ed68"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/snapshot-commit-attestation.raw.json",
+      "sha256": "6e7633c1b20022ec62755ac73a9cb744c73c8c5c19a5935d9688cb8ad723a7d7"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-integration/snapshot-manifest.raw.json",
+      "sha256": "f83750bcb210671cb56e64a707296cff58713b9c953076820053abd8ab98480f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-party-field-recovery-tests.json",
+      "sha256": "9d0cf4cc7b7038f6bf9941312292650f958b46d29a97b91b038d8b78c88e4054"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-phone-core-7f869d9-manifest.json",
+      "sha256": "3af31855d3f88e76ac1dc8e8e53f5764017e413678d483fdfce863b04f188b3e"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-phone-core-7f869d9-opus-result.json",
+      "sha256": "55d0db45e736a6217804abda34bef746ed3f31f9f0f1d8f2eced6ed1d1bf52bb"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-phone-core-ca82bbd-manifest.json",
+      "sha256": "aa5ecc1625ee1f4108291094406a611de991b8d956d478b4d50f630b7b0e807f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-phone-core-ca82bbd-opus-result.json",
+      "sha256": "058fd560176cd7e33e5359d6a15a6c8d37cebbf7f646f0a313f9fb5d2360474c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-phone-core-review-adjudication.json",
+      "sha256": "4b5f6e56dca4ed8c0b92d36b681c0676e5a5e8d74c37f37fefbe0e95aed64838"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-egg-consumer-checkpoint.json",
+      "sha256": "adc4aed087a691b2dc42087beaae970630e41dda36e8f75e0e7710934331e6b7"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-hatching-checkpoint.json",
+      "sha256": "c1c55bc5666c20d4340d8fb21ed1080313ca1563ade52267ef1043ab47d4e8ad"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-integration-8b33642-adjudication.json",
+      "sha256": "4a0dbca728391d3232d60904c029863fc1af2125eadeb382ac91dd702e0620b7"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-integration-8b33642-manifest.json",
+      "sha256": "5f4a1d0900a6a745d79db531bbb0d7b12f75144be695f682cd00d414f6630347"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-integration-8b33642-manual.json",
+      "sha256": "cf91170be3be465c325cabea4f0090c008b82ade610f832a78cc89d936b7287f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-integration-8b33642-opus-result.json",
+      "sha256": "cf2d8e4ffab0ffb8102f79cf9ff9bba9748d798a5fbd759c6388fe66fe95633d"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-integration-8b33642-return-gate-fix.json",
+      "sha256": "1a6697b5ec257148c7e7aa727e986b860aed2fd72a40191e32d82da85b27f6cf"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-progression-integration-checkpoint.json",
+      "sha256": "7777b00514e5cdb63f07a334fbfcd2388d60cf682bd5c79bad921c336c5b345a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-script-camera-review.json",
+      "sha256": "7b706017e7effeaa8e2d3111e4086ddd2f5a268ed3815ca9678532c65cb40459"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-single-battle-residual-source-manifest.json",
+      "sha256": "75eb53cdc8784563d1de700660f50d4f47d81151e790dfc89280095674dd70f9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-single-battle-residual-source-proof.md",
+      "sha256": "63241f7f550cc61c01583d994cded5947440fb55187bc9e66801cc03c20de46b"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-trainer-encounters-opus-adjudication.json",
+      "sha256": "84bbb9792149b00c97eaa0ce12e6040b08dcf6fde576a1fe3770cf9a0b8bc8c6"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-trainer-encounters-opus-result.json",
+      "sha256": "520483b5e268c7a350f8dae1ab07244cadec222303175521ae7afcb395a7fc0a"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-trainer-encounters-review-pending.json",
+      "sha256": "1c23e9e4708cde7f555fea7f6ad8c161c14085e7b7bab90369b8189c4a3a7bf9"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-zero-speed-adjudication.json",
+      "sha256": "4e51b72598559bc3636ba4c21245e899277e29e8876771964c884a1d392505bc"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/native-zero-speed-b30324e-reproduction.json",
+      "sha256": "42977f757184fad3de8052eeffa5f428f3af707db2108dd7c2f79acbebbb2ca0"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/terrain-new-bark-regression.chunks/context-0000-c90ba4a6516a.json.gz",
+      "sha256": "a37fea4f135839e49532fb8c0a02d140ad9a6b51bb59e9b0e66443f15d6cd3de"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/terrain-new-bark-regression.chunks/manifest.json",
+      "sha256": "08c6ffcbb5509f6ea5f71b46083ab3f6cba96fe81bbce9754940cf9af443d38c"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/terrain-new-bark-regression.json",
+      "sha256": "5ce243c779cdc729885baa97c657485aa12438ec3c5337e8bf3851b977e801d1"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/terrain-visibility-methodology.md",
+      "sha256": "97860fba144c73dfe1d53c99a362648417148b6c4c214a5cd21653ed29135f5f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/terrain-visibility/new-bark-candidate.jpg",
+      "sha256": "4e2876bb770737830a5123be0d3f47e447537f84a46594d20e93eefd53ffdbba"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/terrain-visibility/new-bark-native.jpg",
+      "sha256": "f4e3be7587939a7524ff1113de40bf5e016813bd01774480921a369b4a55075f"
+    },
+    {
+      "origin": "c39003b1dff9ad589b5f13912357e9f906facb6a",
+      "path": "browser/reviews/terrain-visibility/new-bark-render-receipt.json",
+      "sha256": "8aa8862546b16785858a58093282b9b2f84e9e94232143b1476cd044eff53b0c"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-15-opus-5.5.md",
+      "sha256": "855228e82c572e5474dca540e9fd38d76ca27548df801bb4973c9006dace85db"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-furniture-collision-opus-5.5.md",
+      "sha256": "df875e5f9d39df2fce14909362f2d52e19f0addd63a04bfec6ddc440503f34be"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-furniture-opus-5.5.md",
+      "sha256": "44f7db831041caecf319f3a08a24ef3d0ba19de67fddfaaf2e3d37f1ab66b04f"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-ledge-terrain-opus-5.5.md",
+      "sha256": "6a2c94610ec3791bfd1f203a4a00dfabc0c05ae4612f4aa77f5991d16522692d"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-native-field-opus-5.5.md",
+      "sha256": "6c2db64b7b9e2fac845715baface4c0dcece0f1abc1d63de3ec9df3bf5edcdd3"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-room-camera-opus-5.5.md",
+      "sha256": "7c043ec14fb36b0ca37be56f2890dca1108dbb9d708b527243cda69a4781b498"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-room-camera-resize-runtime.json",
+      "sha256": "135630314891efbc5e0dcd72416699136be3fc65ec6189663630e8187c64dd7a"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-room-camera-retry-runtime.json",
+      "sha256": "272a1c64a9bba1a489cb6cf601b91c57f9b646eb82d9d92d13b30c31980d15d1"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-room-camera-runtime.json",
+      "sha256": "aa973e8486f6e92fd368af1fd20dd9b3951cca1ed346426d29df345708c33640"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-scenery-followup-opus-5.5.md",
+      "sha256": "7dcc61dade994deb25ef4258752d539aeb4eead3a44eb21e64188179903f83f2"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-16-tree-volume-opus-5.5.md",
+      "sha256": "a77271fd6b8c11f76a898ceabe7df6271a91d3c91159b039e71b1571ca26411e"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-17-native-early-battle-effects-opus-5.5.md",
+      "sha256": "dcd4ae63ec8cafe0167891c4bcf0b61fda3cdbfed12485b83937e0fc3c441e0a"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/2026-10-17-rage-before-turn-adjudication.md",
+      "sha256": "e5919a22a1a49825faf9c0e88b041a9c21089acc2a3d8024d168d88206f91d9c"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.json",
+      "sha256": "b72377e93ede2c70d1151596ecf5cfef3d6f9967492f0b401ea5125ddb8e0097"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.md",
+      "sha256": "d34b3b6e1ad949503f0556f583ad3eebb1d42c72299face66ec97346ab6665ae"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-candidate-1-opus-5.5.raw.json",
+      "sha256": "be4751586bcd23ec98453e5f7d9f583dc9dc1de1a776e14a2f75fb389eb4cc82"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.json",
+      "sha256": "ae454c855a7083cd2a0ef279eb310c4144512cc26f1bedf1dd2a2735ab9c4541"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.md",
+      "sha256": "c18a76a766e6357794a4cb6edb1944f0b701924c9004be78fa25bcc46ab7b5b3"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-candidate-2-opus-5.5.raw.json",
+      "sha256": "3b7fc15bd80c45b4b57c3ad445782f3e1c6fc1f74990b776b231d4bc6600a5a1"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-opus-5.5.json",
+      "sha256": "9b370ea10836ddf927e9ac9de8fec5b057cb54c40509c92f83d62ebcfad344ff"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-opus-5.5.md",
+      "sha256": "65d631260d8f380490e872f66173d58156fb1792b2893f087c711d41a04ddc61"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-opus-5.5.raw.json",
+      "sha256": "0c4f95830515204f926245f26705046e7d5686ace452582d3eb61008e8c031f4"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-action-end-recoil.md",
+      "sha256": "9eb18f152a1ff2c3ba1f04ce0a9c840e8425fee0dac7e97ec9cf71ea8875cbda"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-accuracy-adjudication.json",
+      "sha256": "a7d12887427ce9ca3f04c058efcfd3bf132514a6e37ea07baedcd11493311249"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-accuracy-opus-result.json",
+      "sha256": "cfc482781e0835e2ef7576742469c59eaab82284a9c3036a3139be5b51528fd6"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-accuracy-review-manifest.json",
+      "sha256": "b5ee43c381252d10cf78075e84bf47be870dbca062d0d75a4492e5d8fca84bad"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-accuracy-scope.md",
+      "sha256": "4eafb369418c50514ef1935e57b4bc0b8cfa76b83487fa76c5bbd1ef210b1b93"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-adjudication.json",
+      "sha256": "859086e3428545322eee224b5940cc086c2f59c4866e88060288c4efeed4c891"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-opus-core-result.json",
+      "sha256": "cd450f160492a8d2f3e4c83448c594df62b2ddf1a433bd0904bd4fb80f028559"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-opus-followup-result.json",
+      "sha256": "88871b4729bc4420ceb45ae036ddea1d79fd952740482865b2974d6d106a58d6"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-phase-adjudication.json",
+      "sha256": "b48d6ffadb92ec773a9d2cff6567e88c71972f46bcd4b4760215bae64b4afd27"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-plan-adjudication.json",
+      "sha256": "e8def5699043ddec8afb03d798e6b8b895d28cf9cc5a7318d6403f209c2b893c"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-plan-opus-result.json",
+      "sha256": "f5dc8e535c3b0d48051d602ed2d1a532a592dce675be56a8ad9ceff15fca737d"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-plan-review-manifest.json",
+      "sha256": "f989c753c49b038a1c112ec02c19dd4c3f506e6bd9df650658d443f2f621b113"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-review-manifest.json",
+      "sha256": "90c910b77a1e614d800e8e16f209b99d11a971db2121442320eb0e5b5edf79d7"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-experience-scope.md",
+      "sha256": "ab88bb59fae0554f68287171fa5054b3bb00b141471e4d26ea903efb0f901476"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.json",
+      "sha256": "1ad685725f8dc5ba1df3b18cc95042363d0d148443f10983cc55a90bf93b68e6"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.md",
+      "sha256": "80893ab62432026e8673676d410239d4b11235780908c20260d2c181a3c040f3"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-phase-b30324e-opus-5.5.raw.json",
+      "sha256": "e7a7d7e8c052a1c92fddc7666245107b1e508ba1256b2168881b96bcdae9183a"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-production-release-8212c5/build.log",
+      "sha256": "ec947fbac5a38be654785152e26fb662ba253b5a1952a9e814cf17deb6949f85"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-production-release-8212c5/tests.log",
+      "sha256": "f5f5a2b72d84a7cbb2fa5e19de78a5873fc8f9713fd432526f0778fb62f4aeaa"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-production-release-8212c5/validation.json",
+      "sha256": "665d0ca892f6952c3956e5fc351b9cfdd3d2215a44f30f451cea40a33fa62b57"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-production-release-prep.json",
+      "sha256": "648bc47f2589c9c72f811bc73142420ba9481e738721d37d4e3debffa039d50c"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-battle-production-release-prep.md",
+      "sha256": "e40e2b9b88a113b058da73e42355953552a30750f67709dbac780064f976aa59"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-early-battle-effects-review-receipt.json",
+      "sha256": "fc832d250edbb747b4f5b041fd04eb957e1ca6658c2fcb62b87636d8ee6eb3cd"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-egg-consumer-514a01e-exp-reproduction.json",
+      "sha256": "d191b0d93cfb72b2e9c59adc66fea47187b44830599ddf5407511151b12ff317"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-egg-consumer-514a01e-opus-5.5.json",
+      "sha256": "78ad6e570477a65108b67f7c4b008ee3daa20edb34c68c00dfa791965c3424bf"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-egg-consumer-514a01e-opus-5.5.md",
+      "sha256": "30c18af532d78c59969437355d6924815eae5b5b1453f07d83e235eb87dc0944"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-no-target-predicate-proof.md",
+      "sha256": "b647cab37e092c71d11c80546947865ed2b62d2a3957c499ef343bef7e26dc88"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-no-target-predicate-source-manifest.json",
+      "sha256": "005bf6c3fb74c225e22bc44878962190504149f27dfdfaf9ed9a90d194b8e5db"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-single-battle-residual-source-manifest.json",
+      "sha256": "75eb53cdc8784563d1de700660f50d4f47d81151e790dfc89280095674dd70f9"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-single-battle-residual-source-proof.md",
+      "sha256": "63241f7f550cc61c01583d994cded5947440fb55187bc9e66801cc03c20de46b"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-zero-speed-adjudication.json",
+      "sha256": "4e51b72598559bc3636ba4c21245e899277e29e8876771964c884a1d392505bc"
+    },
+    {
+      "origin": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+      "path": "browser/reviews/native-zero-speed-b30324e-reproduction.json",
+      "sha256": "42977f757184fad3de8052eeffa5f428f3af707db2108dd7c2f79acbebbb2ca0"
+    }
+  ],
+  "qualification": "No new provider review or approval transfer. Earlier Opus scopes, source hashes, original findings and later closures remain exactly historical. This merge has targeted tests, reference identity and exact source-delta evidence; root owns full-suite/build and integration.",
+  "notRun": [
+    "Vite build",
+    "Browser verification",
+    "Additional Claude review",
+    "Deployment"
+  ],
+  "remainingGaps": [
+    "Full AI/move/native global battle RNG parity",
+    "Draw and doubles/Trick Room parity",
+    "Charge/lock/hide/recharge engine and broader ability/item effects",
+    "No rendered verification for this reconciliation",
+    "No new phone/opening/field/terrain feature claim; those source files remain first-parent bytes"
+  ]
+}

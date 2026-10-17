@@ -1,0 +1,42 @@
+{
+  "helperSHA256": "c464cb386e4e9b3cdbde6f6b2b467c38b7b0890b0d16c59e91c95c72847e2e5c",
+  "scope": "Exact logical position/UV/color/normal/joint/weight/index and inverse-bind bytes; converter vertex output, not native GPU arithmetic",
+  "models": [
+    {
+      "model": 115,
+      "baseline": "existing static room export",
+      "logicalBuffers": 13,
+      "equal": true,
+      "changed": []
+    },
+    {
+      "model": 116,
+      "baseline": "existing static room export",
+      "logicalBuffers": 13,
+      "equal": true,
+      "changed": []
+    },
+    {
+      "model": 117,
+      "baseline": "existing static room export",
+      "logicalBuffers": 7,
+      "equal": true,
+      "changed": []
+    },
+    {
+      "model": 122,
+      "baseline": "existing static room export",
+      "logicalBuffers": 7,
+      "equal": true,
+      "changed": []
+    },
+    {
+      "model": 118,
+      "baseline": "fresh original model+texture conversion without any animation file",
+      "logicalBuffers": 133,
+      "equal": true,
+      "changed": []
+    }
+  ],
+  "allEqual": true
+}

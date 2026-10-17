@@ -1,0 +1,58 @@
+{
+  "base": "9e99dbac5af7ca62157a700a70203b39bf7b9320",
+  "muteDependency": "66a1858f61bb071139bec3d1c413bf0bb4cc1791",
+  "nativeReconciliation": "85b78ce9",
+  "rootCorrections": [
+    "71b8c5f72a44f753582e203fcadafde85477e130",
+    "82b800a3b52e73c3062fa86a7052f96993d98efa",
+    "84864cb72f650069d72bbd14877ba1bc04b63518"
+  ],
+  "functionDeltaAgainstCampaign": [
+    {
+      "name": "unlockSound",
+      "before": "95f88c3bf3c4100e2c709acdb81c78ab6b8a24cb340609705b7d43aa9562c2a1",
+      "after": "4c77c14b90b3a92ec23e97bf14b00d5d742283b8f35fa85e9278ea3471113d0b"
+    },
+    {
+      "name": "hatchEgg",
+      "before": "7ab65b1e31c6ed3f74368ba14eff7f7303e59c7f1a3ff9699b55e03aea4192de",
+      "after": "4330ef090208762002f6eb5a904ee339a656f51629166a7c29c4962d63428cc4"
+    },
+    {
+      "name": "restoreField",
+      "before": "c3271bea0dc8fa8392471342a1413cbd3ef553e3e79d0a2f2d3e1669b5b400d9",
+      "after": "5a649d155d490e9b5bf4b1c5fa03442c6dc6e6ede4d5dd9ed88330da1ddc6208"
+    },
+    {
+      "name": "boot",
+      "before": "054656226c17b30693b7ea3105daf5b8ed68661f48c99913887ff528ef6878fc",
+      "after": "3413444de45cc01582285f185ddcb49a32fa7de1b276456fc2758ca070c51d9a"
+    },
+    {
+      "name": "updatePreferences",
+      "before": null,
+      "after": "10f524adca43837b35efd2ac579a4811ac19dac9b2d7c08d9b54e0ad32ead1ae"
+    }
+  ],
+  "files": {
+    "browser/src/source/hatch-host-audio.ts": "21e192026d3b27b3a55386272f9b3a9fdc0b7016cb34c00ca44ada56eee1aa7e",
+    "browser/src/source/hatch-host-audio.test.ts": "3fea17e739b2343f37eb717067442290f38e19807f8194c3158e2b21f8241757",
+    "browser/src/source/main.ts": "6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee",
+    "browser/src/source/main-native-interface.test.ts": "04818b138874fd155d7038bdef8b4a7da60825231a6dff2cb5d59f2b74742338",
+    "browser/src/source/main-music.test.ts": "cde4dea06212c6d97f2411be476c3855d64e111d34c98e5e9e5a82497b48d97e",
+    "browser/src/source/interface-panels.ts": "0e59715b39942960e191d791bde714a6c674fbee7e5086bf3ee1aa5ab6ee7c94",
+    "browser/src/source/interface-panels.test.ts": "6c5b23b48b4b167cc9157bdfaf19c8ade331dcef7e9e464b226d46bf02309678",
+    "browser/src/source/main-interface.test.ts": "f559cfc8af9a236b23bf35b6637944f1e81184a2780b19e734a26a2f9b1e73dc",
+    "browser/src/source/main-battle-keyboard.test.ts": "f1b83757b6c107e78d46d34f569bb0865ec859eb3cdb4e3bd1e70e4355854e12",
+    "browser/src/source/ui.ts": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4",
+    "browser/src/source/field-music.ts": "045d75d3f3fdf38e545ccb31777b42d9e1c5b2ef36e00ebc47359797f5da6268",
+    "browser/src/source/field-music.test.ts": "b5eb8789ce3380f0d0650d271632e726c5e21d5800b5394b5e40907a3aa6e98b",
+    "browser/src/source/audio-controls.ts": "8edc37b6c6c2a11edd94896ecd5d17e7c7c20754d4a576f6b8ae5a96adf5c655",
+    "browser/src/source/audio-controls.test.ts": "0a8d5e6495e08c0df7f3ac4a4f6d1d233302dbf01b7a6710df558fc72a3f0221",
+    "src/hatch_egg_app.c": "3f4bce5d67911457a6979baf23c7d5d3596d290102dfcef2602f5fb17403d1ee",
+    "src/sound_playback.c": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
+    "src/script.c": "5a602396907c4dd0de4b5c2537ab9aab2c8f9f2678e8ccac5f2cc819fa561a31",
+    "src/task.c": "19aec87aa80b10766bda6ff057a28431d75487439f16ce584dc4f59015780f63"
+  },
+  "scope": "Silent offline correctness checks; no browser, build, production, Azalea, World or sound-phase edits"
+}

@@ -1,0 +1,138 @@
+TAP version 13
+# (node:80807) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a literal native UP↔UP edge closes only the exact stored relief strip with both original branches and own artwork preserved
+ok 1 - a literal native UP↔UP edge closes only the exact stored relief strip with both original branches and own artwork preserved
+  ---
+  duration_ms: 16.386792
+  type: 'test'
+  ...
+# Subtest: foreign cannot supply new upward relief-strip authority
+ok 2 - foreign cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 120.54075
+  type: 'test'
+  ...
+# Subtest: mask cannot supply new upward relief-strip authority
+ok 3 - mask cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 49.611792
+  type: 'test'
+  ...
+# Subtest: water cannot supply new upward relief-strip authority
+ok 4 - water cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 1.369875
+  type: 'test'
+  ...
+# Subtest: front-only cannot supply new upward relief-strip authority
+ok 5 - front-only cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 2.191209
+  type: 'test'
+  ...
+# Subtest: same-side cannot supply new upward relief-strip authority
+ok 6 - same-side cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 2.182416
+  type: 'test'
+  ...
+# Subtest: third-face cannot supply new upward relief-strip authority
+ok 7 - third-face cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 83.019667
+  type: 'test'
+  ...
+# Subtest: rotated cannot supply new upward relief-strip authority
+ok 8 - rotated cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 5.390167
+  type: 'test'
+  ...
+# Subtest: scaled cannot supply new upward relief-strip authority
+ok 9 - scaled cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 97.452458
+  type: 'test'
+  ...
+# Subtest: rooted cannot supply new upward relief-strip authority
+ok 10 - rooted cannot supply new upward relief-strip authority
+  ---
+  duration_ms: 3.84775
+  type: 'test'
+  ...
+# Subtest: a continuous field has no missing strip and cannot create an internal wall
+ok 11 - a continuous field has no missing strip and cannot create an internal wall
+  ---
+  duration_ms: 1.507375
+  type: 'test'
+  ...
+# Subtest: release disposes a shared placed relief-join geometry once while preserving original template materials/maps/buffers
+ok 12 - release disposes a shared placed relief-join geometry once while preserving original template materials/maps/buffers
+  ---
+  duration_ms: 3.66725
+  type: 'test'
+  ...
+# Subtest: only complete explicit native coverage in the actual owning cell suppresses a redundant strip
+ok 13 - only complete explicit native coverage in the actual owning cell suppresses a redundant strip
+  ---
+  duration_ms: 18.564083
+  type: 'test'
+  ...
+# Subtest: a large foreign native-ledge inventory yields and cancels before hiding the original source
+ok 14 - a large foreign native-ledge inventory yields and cancels before hiding the original source
+  ---
+  duration_ms: 4.055084
+  type: 'test'
+  ...
+# Subtest: actual native UV endpoint bits survive a tiny atlas coordinate opposite a unit coordinate
+ok 15 - actual native UV endpoint bits survive a tiny atlas coordinate opposite a unit coordinate
+  ---
+  duration_ms: 2.570458
+  type: 'test'
+  ...
+# Subtest: a sloped branch with unmatched interior cuts is declined rather than approximated by a nearby Float32 sample
+ok 16 - a sloped branch with unmatched interior cuts is declined rather than approximated by a nearby Float32 sample
+  ---
+  duration_ms: 2.623834
+  type: 'test'
+  ...
+# Subtest: production native corner walls fully covering a future strip have the same suppression authority as main ledges
+ok 17 - production native corner walls fully covering a future strip have the same suppression authority as main ledges
+  ---
+  duration_ms: 3.491208
+  type: 'test'
+  ...
+# Subtest: production corner partial cannot suppress an uncovered native strip
+ok 18 - production corner partial cannot suppress an uncovered native strip
+  ---
+  duration_ms: 2.486667
+  type: 'test'
+  ...
+# Subtest: production corner foreign cannot suppress an uncovered native strip
+ok 19 - production corner foreign cannot suppress an uncovered native strip
+  ---
+  duration_ms: 2.480417
+  type: 'test'
+  ...
+# Subtest: production corner missing-profile cannot suppress an uncovered native strip
+ok 20 - production corner missing-profile cannot suppress an uncovered native strip
+  ---
+  duration_ms: 195.642334
+  type: 'test'
+  ...
+# Subtest: production corner main-profile-key cannot suppress an uncovered native strip
+ok 21 - production corner main-profile-key cannot suppress an uncovered native strip
+  ---
+  duration_ms: 6.915333
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2577.356292

@@ -1,0 +1,1415 @@
+{
+  "parentCommit": "5bc31256",
+  "scope": "ScriptVM native Warp opcode ABI only; main-facing host forwarding pending",
+  "sources": {
+    "src/scrcmd_c.c": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4",
+    "src/field_warp_tasks.c": "78a70129a8736270a2d6ca94d3d72c8b727fb678109d0627c362de641c6451ea",
+    "asm/macros/script.inc": "b70d3bdf0a7944bdbe430c66dc4c3b81e43a161e21a2210d28677d8671ce9f20",
+    "browser/src/source/script.ts": "95a0114b66a01d43679740484786ae51b3d7c15b30261ceb0414a96f2084cb94",
+    "browser/src/source/script-warp.test.ts": "3fde4015f796e70077d5c828034a00dbe1c9850c89f185e01019c4dd3e847275",
+    "browser/src/source/coordinate-triggers.test.ts": "5b5e31350e176cb0a55e69dcec1f01fa26c13b5338694356988054324e8c0bcf",
+    "browser/public/source/maps/117.json": "d2d89c774bfd7ec1da31e9110f6eac83fd3f2d18317ed0b7a8efb98bb26c0af1",
+    "browser/public/source/maps/177.json": "cff11d6ec5e32d9f33db9cae7100656d287eaa57121c82420ad6e7553c94417b"
+  },
+  "exportedWarpRows": [
+    {
+      "file": "browser/public/source/maps/314.json",
+      "code": "D24R0204",
+      "pc": 40,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/314.json",
+      "code": "D24R0204",
+      "pc": 51,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/314.json",
+      "code": "D24R0204",
+      "pc": 80,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/314.json",
+      "code": "D24R0204",
+      "pc": 87,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "25",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/314.json",
+      "code": "D24R0204",
+      "pc": 93,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "25",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/247.json",
+      "code": "D35R0102",
+      "pc": 900,
+      "args": [
+        "MAP_TEAM_ROCKET_HEADQUARTERS_B1F",
+        "0",
+        "50",
+        "4",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/271.json",
+      "code": "D31R0207",
+      "pc": 83,
+      "args": [
+        "MAP_BATTLE_TOWER",
+        "0",
+        "11",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/271.json",
+      "code": "D31R0207",
+      "pc": 96,
+      "args": [
+        "MAP_BATTLE_TOWER_ELEVATOR",
+        "0",
+        "3",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/271.json",
+      "code": "D31R0207",
+      "pc": 283,
+      "args": [
+        "MAP_BATTLE_TOWER_PARTNER_ROOM",
+        "0",
+        "8",
+        "4",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/318.json",
+      "code": "D24R0208",
+      "pc": 40,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "24",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/318.json",
+      "code": "D24R0208",
+      "pc": 51,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "24",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/318.json",
+      "code": "D24R0208",
+      "pc": 80,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "24",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/318.json",
+      "code": "D24R0208",
+      "pc": 87,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "5",
+        "24",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/318.json",
+      "code": "D24R0208",
+      "pc": 93,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "5",
+        "24",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/319.json",
+      "code": "D24R0209",
+      "pc": 70,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "24",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/319.json",
+      "code": "D24R0209",
+      "pc": 77,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "5",
+        "24",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/319.json",
+      "code": "D24R0209",
+      "pc": 83,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "5",
+        "24",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/323.json",
+      "code": "D24R0211",
+      "pc": 44,
+      "args": [
+        "MAP_RUINS_OF_ALPH_RESEARCH_CENTER",
+        "0",
+        "7",
+        "4",
+        "DIR_EAST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/266.json",
+      "code": "D31R0202",
+      "pc": 37,
+      "args": [
+        "MAP_BATTLE_TOWER",
+        "0",
+        "15",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/266.json",
+      "code": "D31R0202",
+      "pc": 44,
+      "args": [
+        "MAP_BATTLE_TOWER",
+        "0",
+        "11",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/266.json",
+      "code": "D31R0202",
+      "pc": 48,
+      "args": [
+        "MAP_BATTLE_TOWER_PARTNER_ROOM",
+        "0",
+        "8",
+        "2",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/266.json",
+      "code": "D31R0202",
+      "pc": 105,
+      "args": [
+        "MAP_BATTLE_TOWER",
+        "0",
+        "19",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/60.json",
+      "code": "T20",
+      "pc": 853,
+      "args": [
+        "MAP_NEW_BARK_ELMS_LAB_2F",
+        "0",
+        "12",
+        "6",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/179.json",
+      "code": "D43R0103",
+      "pc": 152,
+      "args": [
+        "MAP_VICTORY_ROAD_2F",
+        "0",
+        "VAR_TEMP_x4000",
+        "VAR_TEMP_x4001",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/315.json",
+      "code": "D24R0205",
+      "pc": 128,
+      "args": [
+        "MAP_SINJOH_RUINS_MYSTRI_STAGE",
+        "0",
+        "16",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/315.json",
+      "code": "D24R0205",
+      "pc": 228,
+      "args": [
+        "MAP_SINJOH_RUINS_MYSTRI_STAGE",
+        "0",
+        "16",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/102.json",
+      "code": "R35R0201",
+      "pc": 20,
+      "args": [
+        "MAP_NATIONAL_PARK_BUG_CATCHING_CONTEST",
+        "0",
+        "40",
+        "86",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/102.json",
+      "code": "R35R0201",
+      "pc": 197,
+      "args": [
+        "MAP_NATIONAL_PARK_BUG_CATCHING_CONTEST",
+        "0",
+        "40",
+        "86",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/401.json",
+      "code": "T11R0602",
+      "pc": 7,
+      "args": [
+        "MAP_SAFFRON_MAGNET_TRAIN_STATION_1F",
+        "0",
+        "3",
+        "3",
+        "DIR_EAST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/324.json",
+      "code": "D24R0212",
+      "pc": 38,
+      "args": [
+        "MAP_RUINS_OF_ALPH_NORTHEAST_HIDDEN_ROOM",
+        "0",
+        "11",
+        "7",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/298.json",
+      "code": "D45R0102",
+      "pc": 119,
+      "args": [
+        "MAP_ILEX_FOREST",
+        "0",
+        "16",
+        "57",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/298.json",
+      "code": "D45R0102",
+      "pc": 143,
+      "args": [
+        "MAP_ILEX_FOREST",
+        "0",
+        "16",
+        "57",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/109.json",
+      "code": "D10R0101",
+      "pc": 121,
+      "args": [
+        "MAP_FUCHSIA_PAL_PARK_ENTRANCE",
+        "0",
+        "7",
+        "7",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/522.json",
+      "code": "D51R0201",
+      "pc": 553,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "9",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/522.json",
+      "code": "D51R0201",
+      "pc": 561,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "9",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/522.json",
+      "code": "D51R0201",
+      "pc": 569,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "9",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/522.json",
+      "code": "D51R0201",
+      "pc": 577,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "9",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/522.json",
+      "code": "D51R0201",
+      "pc": 583,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "9",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/113.json",
+      "code": "D24R0101",
+      "pc": 208,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "15",
+        "24",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/113.json",
+      "code": "D24R0101",
+      "pc": 216,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "15",
+        "24",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/113.json",
+      "code": "D24R0101",
+      "pc": 224,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "15",
+        "24",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/113.json",
+      "code": "D24R0101",
+      "pc": 232,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "15",
+        "24",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/113.json",
+      "code": "D24R0101",
+      "pc": 238,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "15",
+        "24",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/410.json",
+      "code": "T11GYM0101",
+      "pc": 110,
+      "args": [
+        "MAP_SAFFRON_GYM",
+        "0",
+        "15",
+        "23",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/312.json",
+      "code": "D24R0202",
+      "pc": 41,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/312.json",
+      "code": "D24R0202",
+      "pc": 52,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/312.json",
+      "code": "D24R0202",
+      "pc": 81,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/312.json",
+      "code": "D24R0202",
+      "pc": 88,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "25",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/312.json",
+      "code": "D24R0202",
+      "pc": 94,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "25",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/492.json",
+      "code": "D24R0218",
+      "pc": 67,
+      "args": [
+        "MAP_SINJOH_RUINS_MYSTRI_STAGE",
+        "0",
+        "16",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/492.json",
+      "code": "D24R0218",
+      "pc": 167,
+      "args": [
+        "MAP_SINJOH_RUINS_MYSTRI_STAGE",
+        "0",
+        "16",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/305.json",
+      "code": "T10R0601",
+      "pc": 126,
+      "args": [
+        "MAP_POKEMON_LEAGUE_HALL_OF_FAME",
+        "0",
+        "6",
+        "22",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/27.json",
+      "code": "R22",
+      "pc": 149,
+      "args": [
+        "MAP_TOHJO_FALLS_HIDDEN_ROOM",
+        "0",
+        "6",
+        "8",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/313.json",
+      "code": "D24R0203",
+      "pc": 70,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "6",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/313.json",
+      "code": "D24R0203",
+      "pc": 77,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "25",
+        "6",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/313.json",
+      "code": "D24R0203",
+      "pc": 83,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "25",
+        "6",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/104.json",
+      "code": "R36R0201",
+      "pc": 42,
+      "args": [
+        "MAP_NATIONAL_PARK_BUG_CATCHING_CONTEST",
+        "0",
+        "75",
+        "39",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/104.json",
+      "code": "R36R0201",
+      "pc": 100,
+      "args": [
+        "MAP_NATIONAL_PARK_BUG_CATCHING_CONTEST",
+        "0",
+        "75",
+        "39",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/329.json",
+      "code": "P01R0307",
+      "pc": 109,
+      "args": [
+        "MAP_SS_AQUA_1F_NORTHWEST_ROOMS",
+        "0",
+        "9",
+        "10",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/489.json",
+      "code": "R10R0202",
+      "pc": 24,
+      "args": [
+        "MAP_ROUTE_10_POWER_PLANT_REPAIRED",
+        "0",
+        "13",
+        "7",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/173.json",
+      "code": "D47R0101",
+      "pc": 20,
+      "args": [
+        "MAP_SAFARI_ZONE_ENTRANCE_EXTERIOR",
+        "0",
+        "79",
+        "100",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/173.json",
+      "code": "D47R0101",
+      "pc": 444,
+      "args": [
+        "MAP_SAFARI_ZONE_ENTRANCE_EXTERIOR",
+        "0",
+        "79",
+        "100",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/173.json",
+      "code": "D47R0101",
+      "pc": 763,
+      "args": [
+        "MAP_SAFARI_ZONE_ENTRANCE_EXTERIOR",
+        "0",
+        "79",
+        "100",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/523.json",
+      "code": "D51R0301",
+      "pc": 177,
+      "args": [
+        "MAP_NEW_BARK",
+        "0",
+        "695",
+        "397",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/325.json",
+      "code": "D24R0213",
+      "pc": 38,
+      "args": [
+        "MAP_RUINS_OF_ALPH_SOUTHEAST_HIDDEN_ROOM",
+        "0",
+        "11",
+        "7",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/11.json",
+      "code": "R03",
+      "pc": 16,
+      "args": [
+        "MAP_ROUTE_3",
+        "0",
+        "VAR_SPECIAL_x8006",
+        "VAR_SPECIAL_x8007",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/11.json",
+      "code": "R03",
+      "pc": 50,
+      "args": [
+        "MAP_ROUTE_3",
+        "0",
+        "VAR_SPECIAL_x8006",
+        "VAR_SPECIAL_x8007",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/11.json",
+      "code": "R03",
+      "pc": 88,
+      "args": [
+        "MAP_ROUTE_3",
+        "0",
+        "VAR_SPECIAL_x8006",
+        "VAR_SPECIAL_x8007",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/11.json",
+      "code": "R03",
+      "pc": 118,
+      "args": [
+        "MAP_ROUTE_3",
+        "0",
+        "VAR_SPECIAL_x8006",
+        "VAR_SPECIAL_x8007",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/237.json",
+      "code": "D39R0102",
+      "pc": 41,
+      "args": [
+        "MAP_ICE_PATH_B2F",
+        "0",
+        "VAR_TEMP_x4000",
+        "VAR_TEMP_x4001",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/326.json",
+      "code": "D24R0214",
+      "pc": 38,
+      "args": [
+        "MAP_RUINS_OF_ALPH_NORTHWEST_HIDDEN_ROOM",
+        "0",
+        "11",
+        "14",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/490.json",
+      "code": "D24R0216",
+      "pc": 67,
+      "args": [
+        "MAP_SINJOH_RUINS_MYSTRI_STAGE",
+        "0",
+        "16",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/490.json",
+      "code": "D24R0216",
+      "pc": 167,
+      "args": [
+        "MAP_SINJOH_RUINS_MYSTRI_STAGE",
+        "0",
+        "16",
+        "24",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/445.json",
+      "code": "T11R0703",
+      "pc": 32,
+      "args": [
+        "MAP_SAFFRON_SILPH_CO_HQ",
+        "0",
+        "3",
+        "3",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/445.json",
+      "code": "T11R0703",
+      "pc": 41,
+      "args": [
+        "MAP_SAFFRON_SILPH_CO_ROTOM_ROOM",
+        "0",
+        "7",
+        "3",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/445.json",
+      "code": "T11R0703",
+      "pc": 105,
+      "args": [
+        "MAP_SAFFRON_SILPH_CO_ROTOM_ROOM",
+        "0",
+        "7",
+        "3",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/445.json",
+      "code": "T11R0703",
+      "pc": 114,
+      "args": [
+        "MAP_SAFFRON_SILPH_CO_HQ",
+        "0",
+        "3",
+        "3",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/516.json",
+      "code": "HIROBA",
+      "pc": 47,
+      "args": [
+        "VAR_UNK_4056",
+        "0",
+        "5",
+        "2",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/327.json",
+      "code": "D24R0215",
+      "pc": 38,
+      "args": [
+        "MAP_RUINS_OF_ALPH_SOUTHWEST_HIDDEN_ROOM",
+        "0",
+        "11",
+        "7",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/223.json",
+      "code": "D27R0105",
+      "pc": 15,
+      "args": [
+        "MAP_OLIVINE_LIGHTHOUSE_EXTERIOR",
+        "0",
+        "15",
+        "3",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/479.json",
+      "code": "T08R0201",
+      "pc": 105,
+      "args": [
+        "MAP_PAL_PARK",
+        "0",
+        "24",
+        "47",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/316.json",
+      "code": "D24R0206",
+      "pc": 40,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/316.json",
+      "code": "D24R0206",
+      "pc": 51,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/316.json",
+      "code": "D24R0206",
+      "pc": 80,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/316.json",
+      "code": "D24R0206",
+      "pc": 87,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "5",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/316.json",
+      "code": "D24R0206",
+      "pc": 93,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "5",
+        "42",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/18.json",
+      "code": "R10",
+      "pc": 99,
+      "args": [
+        "MAP_ROUTE_10_POWER_PLANT_BROKEN",
+        "0",
+        "7",
+        "20",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/18.json",
+      "code": "R10",
+      "pc": 115,
+      "args": [
+        "MAP_ROUTE_10_POWER_PLANT_REPAIRED",
+        "0",
+        "7",
+        "20",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/117.json",
+      "code": "D36R0101",
+      "pc": 152,
+      "args": [
+        "MAP_ILEX_FOREST",
+        "0",
+        "15",
+        "65",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/117.json",
+      "code": "D36R0101",
+      "pc": 434,
+      "args": [
+        "MAP_ILEX_FOREST",
+        "0",
+        "15",
+        "65",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/117.json",
+      "code": "D36R0101",
+      "pc": 909,
+      "args": [
+        "MAP_ILEX_FOREST",
+        "0",
+        "15",
+        "65",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/117.json",
+      "code": "D36R0101",
+      "pc": 1692,
+      "args": [
+        "MAP_ROUTE_22",
+        "0",
+        "954",
+        "280",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/38.json",
+      "code": "R34",
+      "pc": 206,
+      "args": [
+        "MAP_ROUTE_34_DAYCARE",
+        "0",
+        "3",
+        "12",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/80.json",
+      "code": "T27GYM0101",
+      "pc": 42,
+      "args": [
+        "MAP_ECRUTEAK",
+        "7",
+        "376",
+        "182",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/80.json",
+      "code": "T27GYM0101",
+      "pc": 110,
+      "args": [
+        "MAP_ECRUTEAK_GYM",
+        "0",
+        "16",
+        "49",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/265.json",
+      "code": "D31R0201",
+      "pc": 371,
+      "args": [
+        "MAP_BATTLE_TOWER_ELEVATOR",
+        "0",
+        "3",
+        "6",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/320.json",
+      "code": "D24R0210",
+      "pc": 70,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "25",
+        "42",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/320.json",
+      "code": "D24R0210",
+      "pc": 77,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "25",
+        "42",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/320.json",
+      "code": "D24R0210",
+      "pc": 83,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "25",
+        "42",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/272.json",
+      "code": "D32",
+      "pc": 635,
+      "args": [
+        "MAP_BATTLE_FRONTIER_BATTLE_HALL",
+        "0",
+        "25",
+        "9",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/272.json",
+      "code": "D32",
+      "pc": 650,
+      "args": [
+        "MAP_BATTLE_FRONTIER_BATTLE_CASTLE",
+        "0",
+        "21",
+        "9",
+        "DIR_WEST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/272.json",
+      "code": "D32",
+      "pc": 665,
+      "args": [
+        "MAP_BATTLE_FRONTIER_BATTLE_ARCADE",
+        "0",
+        "1",
+        "6",
+        "DIR_EAST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/272.json",
+      "code": "D32",
+      "pc": 680,
+      "args": [
+        "MAP_BATTLE_FRONTIER_BATTLE_FACTORY",
+        "0",
+        "1",
+        "7",
+        "DIR_EAST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/177.json",
+      "code": "D26R0102",
+      "pc": 74,
+      "args": [
+        "MAP_AZALEA_KURT_HOUSE",
+        "0",
+        "4",
+        "5",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/198.json",
+      "code": "T25R0502",
+      "pc": 8,
+      "args": [
+        "MAP_GOLDENROD_MAGNET_TRAIN_STATION_1F",
+        "0",
+        "3",
+        "3",
+        "DIR_EAST"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/403.json",
+      "code": "T11R0702",
+      "pc": 128,
+      "args": [
+        "MAP_SAFFRON_SILPH_CO_ROTOM_ROOM",
+        "0",
+        "VAR_SPECIAL_x8006",
+        "VAR_SPECIAL_x8007",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/141.json",
+      "code": "T30GYM0101",
+      "pc": 103,
+      "args": [
+        "MAP_BLACKTHORN_GYM",
+        "0",
+        "8",
+        "83",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/317.json",
+      "code": "D24R0207",
+      "pc": 71,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL",
+        "0",
+        "5",
+        "42",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/317.json",
+      "code": "D24R0207",
+      "pc": 78,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT_2",
+        "0",
+        "5",
+        "42",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/maps/317.json",
+      "code": "D24R0207",
+      "pc": 84,
+      "args": [
+        "MAP_RUINS_OF_ALPH_UNDERGROUND_HALL_SINJOH_EVENT",
+        "0",
+        "5",
+        "42",
+        "VAR_SPECIAL_RESULT"
+      ]
+    },
+    {
+      "file": "browser/public/source/scripts/0262.json",
+      "code": "COMMON_0262",
+      "pc": 64,
+      "args": [
+        "MAP_SAFARI_ZONE_ENTRANCE_INTERIOR",
+        "0",
+        "19",
+        "2",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/scripts/0262.json",
+      "code": "COMMON_0262",
+      "pc": 70,
+      "args": [
+        "MAP_SAFARI_ZONE_ENTRANCE_INTERIOR",
+        "0",
+        "5",
+        "2",
+        "DIR_SOUTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/scripts/0151.json",
+      "code": "COMMON_0151",
+      "pc": 2,
+      "args": [
+        "MAP_NATIONAL_PARK",
+        "0",
+        "46",
+        "50",
+        "DIR_NORTH"
+      ]
+    },
+    {
+      "file": "browser/public/source/scripts/0164.json",
+      "code": "COMMON_0164",
+      "pc": 346,
+      "args": [
+        "MAP_WIFI_PLAZA_WARP_ROOM",
+        "0",
+        "20",
+        "11",
+        "DIR_NORTH"
+      ]
+    }
+  ],
+  "counts": {
+    "allRows": 114,
+    "operandLengths": {
+      "5": 114
+    },
+    "unusedZero": 113,
+    "unusedSeven": 1,
+    "variableFacing": 23
+  },
+  "validation": {
+    "nodeTests": {
+      "passed": 36,
+      "logSha256": "eb26d44af7abb4b3e5eccb589f0ccee74aecdc1ddc7691371087fac5d2ff290f"
+    },
+    "typescript": {
+      "exitCode": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "adjudication": {
+    "unusedOperand": "Native reads operand1 literally and discards it; always passes warpId=-1, including actual Ecruteak source7.",
+    "coordinates": "Operands2 and3 resolve variables; operand4 resolves facing.",
+    "actualIlex": "Source first-bird catch now calls hook(117,15,65,0).",
+    "actualProton": "Source victory calls hook(164,4,5,0), preserves later flags; supplied battle win only.",
+    "failure": "Rejected host prevents later source statements; source action recovery owns restoring earlier mutations."
+  },
+  "pending": [
+    "Root must forward optional fourth facing parameter in main hook, and retain native loaded-map/return-field effects.",
+    "No browser/build/playthrough was run.",
+    "All114 rows are opcode fixtures, not proof all campaign branches reach them."
+  ]
+}
