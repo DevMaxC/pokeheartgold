@@ -3,8 +3,10 @@ import type {State} from './types.ts';
 export type PhoneTriggerRule={id:number;key:string;contact:number;contactKey:string;map:number;script:number;forcePickUp:boolean};
 export type PhoneTriggerRules={callIntervalMinutes:number;maxActiveDurationSeconds:number;triggers:readonly PhoneTriggerRule[]};
 export type TriggeredPhoneCall=Readonly<{trigger:number;contact:number;scripted:3;script:number;forcePickUp:boolean}>;
+export type RandomPhoneCall=Readonly<{contact:number;scripted:0;script:0;forcePickUp:false;category:0|1|2;candidateCount:number}>;
+export type IncomingPhoneCall=TriggeredPhoneCall|RandomPhoneCall;
 /** The native ring manager is ephemeral. Only State.phoneTriggers is saved. */
-export type PhoneRingState=Readonly<{elapsedMinutes:number;minuteAdvanceSeen:boolean;active:TriggeredPhoneCall|null;activeSince:number|null}>;
+export type PhoneRingState=Readonly<{elapsedMinutes:number;minuteAdvanceSeen:boolean;active:IncomingPhoneCall|null;activeSince:number|null}>;
 export const newPhoneRingState=():PhoneRingState=>({elapsedMinutes:0,minuteAdvanceSeen:false,active:null,activeSince:null});
 const triggerCount=13; // constants/phone_constants.h:NUM_CALL_TRIGGERS.
 function triggerId(id:number){if(!Number.isInteger(id)||id<0||id>=triggerCount)throw RangeError('Invalid native phone trigger '+id);}
@@ -54,5 +56,6 @@ export function planTriggeredIncomingCall(ring:PhoneRingState,pending:readonly n
  * wrap this mutation and awaited call UI in one source recovery action. */
 export function launchIncomingCall(state:Pick<State,'phoneTriggers'>,ring:PhoneRingState){
   if(!ring.active)throw Error('No native incoming call is ringing');
+  if(ring.active.scripted!==3)throw Error('Original random incoming phone delivery is unported');
   const call={...ring.active};unsetPendingPhoneTrigger(state,call.trigger);return{ring:resetPhoneRing(ring),call};
 }
