@@ -27,9 +27,10 @@ export type FieldPlaybackResult={status:'playing'|'locked'|'muted'|'silence';cue
 const ROOT='/source/music/';
 const reason=(signal:AbortSignal)=>signal.reason??new Error('Native field music cancelled');
 function check(signal:AbortSignal){if(signal.aborted)throw reason(signal);}
-function same(a?:NativeFieldSelection|null,b?:NativeFieldSelection|null){return!!a&&!!b&&a.cue.id===b.cue.id&&a.cue.key===b.cue.key&&a.source===b.source;}
+function same(a?:NativeFieldSelection|null,b?:NativeFieldSelection|null){return!!a&&!!b&&a.cue.id===b.cue.id&&a.cue.key===b.cue.key;}
 async function bytes(url:string,signal:AbortSignal){const response=await fetch(url,{signal});if(!response.ok)throw Error('Original audio could not load: '+url+' ('+response.status+')');return response.arrayBuffer();}
 async function catalog(signal:AbortSignal){const response=await fetch(ROOT+'catalog.json',{signal});if(!response.ok)throw Error('Original field music catalog could not load ('+response.status+')');const result=await response.json()as NativeFieldCatalog;if(result.version!==1||!result.maps||!result.tracks)throw Error('Invalid native field music catalog');return result;}
+function decodeAudio(ctx:AudioContext,data:ArrayBuffer):Promise<AudioBuffer>{return new Promise((resolve,reject)=>{const result=ctx.decodeAudioData(data,resolve,reject);if(result&&typeof result.then==='function')void result.then(resolve,reject);});}
 async function digest(data:ArrayBuffer){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data)),value=>value.toString(16).padStart(2,'0')).join('');}
 function validCue(cue:NativeMusicCue){if(!Number.isInteger(cue.id)||cue.id<0||!/^SEQ_\w+$/.test(cue.key))throw Error('Invalid original music cue');}
 function validateBuffer(buffer:AudioBuffer,frames:number,rate:number,context:AudioContext){if(buffer.numberOfChannels!==2||Math.abs(buffer.duration-frames/rate)>1/rate+1/context.sampleRate)throw Error('Original audio decoded with unexpected sample timing or channels');}
@@ -46,6 +47,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
  let enabled=options.enabled,volume=options.volume,context:AudioContext|undefined,gain:GainNode|undefined,unlocked=false,disposed=false;
  let manifest:Promise<NativeFieldCatalog>|undefined,desired:NativeFieldSelection|null=null,current:{selection:NativeFieldSelection;identity:string;voice:Voice}|null=null;
  let serial=0,generation=0,intent=0,loading:AbortController|undefined,interrupted=false;
+ let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:{preferences?:()=>Promise<void>}|undefined;
  const fetchBytes=options.fetchBytes??bytes;
  const assertOpen=()=>{if(disposed)throw Error('Native field music player is disposed');};
  const getCatalog=()=>{assertOpen();if(!manifest){const pending=(options.loadCatalog??catalog)(lifetime.signal);manifest=pending;void pending.catch(()=>{if(manifest===pending)manifest=undefined;});}return manifest;};
@@ -76,7 +78,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
     const data=await fetchBytes(ROOT+format.file,signal);check(signal);if(await digest(data)!==format.sha256)throw Error('Original field audio checksum mismatch');check(signal);
     if(format.codec!=='aac'&&format.codec!=='mp3')throw Error('Unsupported native audio compression');
     if(!Number.isInteger(format.decodedFrames)||format.decodedFrames<1||format.decodedSampleRate!==48000||!Number.isInteger(format.leadingFrames)||format.leadingFrames<0||format.leadingFrames>2048)throw Error('Invalid native encoded frame receipt');
-    const decoded=await ctx.decodeAudioData(data);check(signal);assertOpen();
+    const decoded=await decodeAudio(ctx,data);check(signal);assertOpen();
     // AAC edit-list implementations can trim final padding at the native
     // content boundary or retain the last decoded frame. Both bounded lengths
     // have explicit container/FFmpeg receipts; large priming drift rejects and
@@ -91,7 +93,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
   throw new AggregateError(errors,'None of the original audio formats could be decoded: '+track.key);
  }
 
- async function reconcile(signal?:AbortSignal):Promise<FieldPlaybackResult>{
+ async function performReconcile(signal?:AbortSignal):Promise<FieldPlaybackResult>{
   assertOpen();const token=++generation;loading?.abort(new Error('Original music request replaced'));const controller=new AbortController();loading=controller;
   const cancel=()=>controller.abort(signal?reason(signal):new Error('Native music cancelled'));if(signal?.aborted)cancel();else signal?.addEventListener('abort',cancel,{once:true});
   try{
@@ -100,7 +102,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    if(!enabled){current?.voice.pause();return{status:'muted',cue:selection.cue};}
    if(!unlocked)return{status:'locked',cue:selection.cue};
    if(interrupted)return{status:'muted',cue:selection.cue};
-   if(current&&same(current.selection,selection)&&!current.voice.isStopped()){current.voice.resume();return{status:'playing',cue:selection.cue};}
+   if(current&&same(current.selection,selection)&&!current.voice.isStopped()){current.selection.source=selection.source;current.voice.resume();return{status:'playing',cue:selection.cue};}
    const native=await getCatalog();check(controller.signal);if(token!==generation)throw Error('Native music request replaced');
    const track=native.tracks[String(selection.cue.id)];if(!track||track.key!==selection.cue.key)throw new UnsupportedNativeMusic('Original audio cue not catalogued: '+selection.cue.key);
    if(track.status==='unsupported')throw new UnsupportedNativeMusic(track.key+': '+track.reason);
@@ -112,6 +114,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
   finally{signal?.removeEventListener('abort',cancel);if(loading===controller)loading=undefined;}
  }
 
+ function reconcile(signal?:AbortSignal){const pending=performReconcile(signal);pendingPlayback=pending;void pending.finally(()=>{if(pendingPlayback===pending)pendingPlayback=undefined;}).catch(()=>{});return pending;}
  const field={
   capture:snapshot,
   async suspend(_expected:EffectiveMusic){assertOpen();loading?.abort(new Error('Field music interrupted'));generation++;current?.voice.pause();interrupted=true;return snapshot();},
@@ -120,7 +123,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    // Map/recovery ownership may deliberately request a different actual cue
    // while suspended. Never resurrect an old voice over that newer intent.
    if(saved.kind==='playing'&&current?.identity===saved.identity&&same(current.selection,desired)){if(enabled)current.voice.resume();return;}
-   await reconcile();
+   try{await reconcile();}catch(error){interrupted=true;throw error;}
   },
  };
 
@@ -134,13 +137,51 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    if(!context){context=(options.createContext??(()=>{const Constructor=globalThis.AudioContext??(globalThis as unknown as{webkitAudioContext:typeof AudioContext}).webkitAudioContext;if(!Constructor)throw Error('Native music requires WebAudio');return new Constructor();}))();gain=context.createGain();gain.gain.value=enabled?volume:0;gain.connect(context.destination);}
    const ctx=context;const resumed=ctx.resume();
    let timer:ReturnType<typeof setTimeout>|undefined,cancel!:()=>void;
-   try{await Promise.race([resumed,new Promise<never>((_yes,no)=>{cancel=()=>no(reason(lifetime.signal));lifetime.signal.addEventListener('abort',cancel,{once:true});timer=setTimeout(()=>no(Error('Tap again to allow original game music')),options.unlockTimeoutMs??2000);})]);assertOpen();if(ctx.state!=='running')throw Error('Native music was not allowed to start');unlocked=true;await reconcile();}
+   try{await Promise.race([resumed,new Promise<never>((_yes,no)=>{cancel=()=>no(reason(lifetime.signal));lifetime.signal.addEventListener('abort',cancel,{once:true});timer=setTimeout(()=>no(Error('Tap again to allow original game music')),options.unlockTimeoutMs??2000);})]);assertOpen();if(ctx.state!=='running')throw Error('Native music was not allowed to start');unlocked=true;if(cueSession?.preferences)await cueSession.preferences();await reconcile();}
    finally{clearTimeout(timer);lifetime.signal.removeEventListener('abort',cancel);}
   },
-  async playMap(map:Pick<SourceMap,'id'>,state:FieldMusicState,signal?:AbortSignal){assertOpen();if(signal)check(signal);const request=++intent,id=map.id,inputs=structuredClone(state),native=await getCatalog();if(signal)check(signal);if(request!==intent)throw Error('Native music map intent replaced');desired=nativeFieldMusic(native,{id},inputs);return reconcile(signal);},
+  async playMap(map:Pick<SourceMap,'id'>,state:FieldMusicState,signal?:AbortSignal){assertOpen();if(signal)check(signal);const request=++intent,id=map.id,inputs=structuredClone(state),native=await getCatalog();if(signal)check(signal);if(request!==intent)throw Error('Native music map intent replaced');try{desired=nativeFieldMusic(native,{id},inputs);}catch(error){desired=null;await reconcile();throw error;}return reconcile(signal);},
   async playCue(cue:NativeMusicCue,source:MusicSource='other',signal?:AbortSignal){assertOpen();if(signal)check(signal);validCue(cue);intent++;desired={cue:{...cue},source};return reconcile(signal);},
-  async setPreferences(preferences:{enabled:boolean;volume:number}){assertOpen();if(typeof preferences.enabled!=='boolean'||!Number.isFinite(preferences.volume)||preferences.volume<0||preferences.volume>1)throw Error('Invalid native music preferences');enabled=preferences.enabled;volume=preferences.volume;if(gain)gain.gain.value=enabled?volume:0;return reconcile();},
+  async setPreferences(preferences:{enabled:boolean;volume:number}){assertOpen();if(typeof preferences.enabled!=='boolean'||!Number.isFinite(preferences.volume)||preferences.volume<0||preferences.volume>1)throw Error('Invalid native music preferences');const changed=enabled!==preferences.enabled;enabled=preferences.enabled;volume=preferences.volume;if(gain)gain.gain.value=enabled?volume:0;if(cueSession?.preferences)await cueSession.preferences();if(!changed&&pendingPlayback)return pendingPlayback;return reconcile();},
   capture:snapshot,
+  /** A non-field native cue (e.g. battle) with an owned interruption. */
+  createCueSession(){
+   assertOpen();const owner:{preferences?:()=>Promise<void>}={},abort=new AbortController();
+   let saved:EffectiveMusic|undefined,owned:Voice|undefined,track:NativeFieldTrack|undefined;
+   let started=false,closed=false,restored=false,restoring:Promise<void>|undefined,preparing:Promise<void>|undefined;
+   let detach=()=>{};
+   const update=async()=>{
+    if(closed||!saved||!track)return;
+    if(!enabled){owned?.pause();return;}
+    if(owned&&!owned.isStopped()){owned.resume();return;}
+    if(track.status==='silence')return;
+    if(preparing)return preparing;
+    const pending=(async()=>{
+     const decoded=await decodeTrack(track!,abort.signal);check(abort.signal);check(lifetime.signal);assertOpen();
+     if(closed)return;owned=voice(decoded.buffer,track!.loopFrames??null,track!.sampleRate!,abort.signal,0,decoded.leadingSeconds);if(!enabled)owned.pause();
+    })();preparing=pending;try{await pending;}finally{if(preparing===pending)preparing=undefined;}
+   };
+   owner.preferences=update;
+   return{
+    async start(cue:NativeMusicCue,signal:AbortSignal){
+     assertOpen();check(signal);if(started||closed)throw Error('Native cue session already started or closed');if(interrupted||cueSession)throw Error('Another native music interruption is active');started=true;cueSession=owner;
+     const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));
+     signal.addEventListener('abort',cancel,{once:true});lifetime.signal.addEventListener('abort',destroy,{once:true});detach=()=>{signal.removeEventListener('abort',cancel);lifetime.signal.removeEventListener('abort',destroy);};
+     try{
+      validCue(cue);const native=await getCatalog();check(signal);check(abort.signal);track=native.tracks[String(cue.id)];if(!track||track.key!==cue.key||track.status==='unsupported')throw new UnsupportedNativeMusic('Original session cue is not exported: '+cue.key);
+      const loop=track.loopFrames;if(loop&&(!loop.every(Number.isInteger)||loop[0]<0||loop[1]<=loop[0]||loop[1]>track.frames!))throw Error('Invalid measured native session loop');
+      // Prepare while field music still plays; interruption snapshots actual
+      // phase after this latency. Muted encounters request no song bytes.
+      if(enabled&&track.status==='ready')await decodeTrack(track,abort.signal);
+      check(signal);check(abort.signal);assertOpen();if(closed)throw Error('Native cue session closed');saved=await field.suspend(snapshot());await update();
+     }catch(error){detach();if(cueSession===owner)cueSession=undefined;throw error;}
+    },
+    restore(){
+     if(restored)return Promise.resolve();if(restoring)return restoring;closed=true;detach();abort.abort(Error('Native cue session restored'));owned?.stop();
+     const pending=(async()=>{if(saved)await field.restore(saved);restored=true;if(cueSession===owner)cueSession=undefined;})();restoring=pending;void pending.catch(()=>{if(restoring===pending)restoring=undefined;});return pending;
+    },
+   };
+  },
   createHatchTransport():SharedHatchTransport{
    assertOpen();const buffers=new Map<number,AudioBuffer>(),voices=new Set<Voice>(),owner=new AbortController();let closed=false;
    const prepare=async(track:SharedHatchTrack,signal:AbortSignal)=>{check(signal);check(owner.signal);actualContext();if(closed)throw Error('Shared native hatch transport disposed');const previous=buffers.get(track.id);if(previous)return previous;
@@ -148,7 +189,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
     const loading=new AbortController(),signals=[signal,owner.signal,lifetime.signal],handlers=signals.map(input=>()=>loading.abort(reason(input)));
     for(let i=0;i<signals.length;i++){if(signals[i].aborted)handlers[i]();else signals[i].addEventListener('abort',handlers[i],{once:true});}
     let data:ArrayBuffer;try{data=await fetchBytes('/source/hatching/music/'+track.file,loading.signal);}finally{for(let i=0;i<signals.length;i++)signals[i].removeEventListener('abort',handlers[i]);}
-    check(signal);check(owner.signal);check(lifetime.signal);if(await digest(data)!==track.wavSHA256)throw Error('Original hatch audio checksum mismatch');const result=await actualContext().decodeAudioData(data);check(signal);check(owner.signal);check(lifetime.signal);validateBuffer(result,track.frames,track.sampleRate,actualContext());buffers.set(track.id,result);return result;};
+    check(signal);check(owner.signal);check(lifetime.signal);if(await digest(data)!==track.wavSHA256)throw Error('Original hatch audio checksum mismatch');const result=await decodeAudio(actualContext(),data);check(signal);check(owner.signal);check(lifetime.signal);validateBuffer(result,track.frames,track.sampleRate,actualContext());buffers.set(track.id,result);return result;};
    return{async prepare(track,signal){await prepare(track,signal);},async play(track,signal){const buffer=await prepare(track,signal);check(signal);check(owner.signal);const result=voice(buffer,track.loopFrames,track.sampleRate,signal);voices.add(result);void result.ended.finally(()=>voices.delete(result)).catch(()=>{});return result;},async dispose(){if(closed)return;closed=true;owner.abort(Error('Shared hatch audio disposed'));for(const item of voices)item.stop();voices.clear();buffers.clear();}};
   },
   async dispose(){if(disposed)return;disposed=true;generation++;intent++;loading?.abort(Error('Native field music disposed'));lifetime.abort(Error('Native field music disposed'));for(const item of[...allVoices])item.stop(Error('Native field music disposed'));current=null;cache.clear();gain?.disconnect();if(context&&context.state!=='closed')await context.close();},

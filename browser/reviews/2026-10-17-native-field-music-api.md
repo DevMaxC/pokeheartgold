@@ -1,6 +1,6 @@
 # Native field music host API (source leaf)
 
-Base: `93bf982b0d866a1150f22eae6ad6caf91da46bc5`. Source player frozen for host integration; native corpus/export review continues separately. No main/UI/World integration or browser audio audition is claimed here. Actual independent Opus review is pending.
+Base: `93bf982b0d866a1150f22eae6ad6caf91da46bc5`. Source player frozen for host integration; native corpus/export review continues separately. No main/UI/World integration or browser audio audition is claimed here. Initial actual Opus5.5 review found three reproducible lifecycle defects; this follow-up fixes them with regression tests. Follow-up independent review is pending.
 
 ```ts
 const player = createNativeFieldMusicPlayer({enabled: true, volume: 0.7});
@@ -33,4 +33,19 @@ Hatch transport uses the same unlocked Context and volume gain. Its dispose stop
 
 Construction does not request any song or create audio. A bounded decoded cache (default two cues) prevents all-track preload. AAC/M4A is primary, MP3 is an independently verified fallback; both are original native sequence/sample renders with lossy compression, not hardware bit-exact output. Native frame loop positions retain phase across pauses. Actual Safari/mobile decoding and listening remain browser verification work.
 
-Validation: 15 focused lifecycle/selector tests and production TypeScript passed. Focused tests use an instrumented WebAudio port and do not constitute audio audition.
+Validation: 23 focused lifecycle/selector/session tests pass. Production TypeScript is checked for each scoped code handoff. Focused tests use an instrumented WebAudio port and do not constitute audio audition.
+
+Battle cue ownership (additive API):
+
+```ts
+const {cue, parameter} = nativeBattleMusic(await player.catalog(), {
+  battleType, mapId, trainerClass, leadSpecies, flags,
+});
+const battleMusic = player.createCueSession();
+try { await battleMusic.start(cue, signal); /* actual encounter */ }
+finally { await battleMusic.restore(); }
+```
+
+`nativeBattleMusic` is exported by `battle-music.ts`. Pass actual native setup values; trainerClass is required for bit0 trainer battles, first-alive enemy species for wild battles. The original source tables and flag/map region selectors are exported in the small catalog. The music selector does not imply special battle modes or their transition effects are implemented.
+
+`createCueSession().start(cue, signal)` prepares the original compressed song, then suspends the actual field voice and starts a separate owned voice on the shared Context. `restore()` stops that cue and idempotently restores the actual field phase; new map/blackout intent wins. Failed field restoration remains retryable. A pending start is cancelled by restore, and nested interruptions reject. Mute skips song loading; unmuting an active session loads its own requested native cue rather than field music. Volume-only changes retain active field fetch/caller cancellation.
