@@ -1,0 +1,23 @@
+{
+  "baseCommit": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
+  "nativeLoaderTests": 4,
+  "legacyShorelineTest": 1,
+  "pythonNativeImporterTests": 4,
+  "typecheck": "pass",
+  "browser": "not run",
+  "viteBuild": "not run",
+  "sourceHashes": {
+    "browser/scripts/native_shoreline_srt.py": "25609a0217f78de523e202344d57e08a79367bdfe57138cb8e396cebbd1953a4",
+    "browser/scripts/test_native_shoreline_srt.py": "55b68600a039212f27f286f16be8712de93d4d0b413675219d92e877ebd2a7c5",
+    "browser/scripts/import_source.py": "e74861e84c3a146604742cb9ea74e5a6ce67ac67b500d0d34107c9455b21bc92",
+    "browser/src/source/shoreline-native.test.ts": "4b161c4fdbbdfde776983c59a112642fd6c3cc93716a26efcf8b8494d3f255f3",
+    "lib/NitroSystem/src/g3d_cgtool_maya_tex.c": "7b486e5fe7687e799d66efd6fd891d32ff5f51e1b4711291d3aa7e726f56e183",
+    "lib/NitroSystem/src/g3d_sbc.c": "93d2168671ec3d66d162e795415b4f299fce2921ec95a0b80de5724b38baedd3",
+    "browser/src/source/render-repair.ts": "aa95d94ec1a2a514df5929f78be53766104d594812d83713abae02e1a37b95a7",
+    "browser/src/source/shoreline.ts": "7e3b52da0246c1823fea261e96759bbfb4fde7323c59e365f10439019d7848b7",
+    "browser/src/source/terrace-model.ts": "8a7e76d763ea56ad06e2cf486b23f0cf754f8fec17c7b9354ff0363a439ca393",
+    "browser/src/source/world.ts": "a4fefb36e93655552d7340a6dcb931f84809f12719fe98bed130fa9b06392904",
+    "installedThreeGLTFLoader": "67ac5551fdafa6e349bd80c8f8e5e39c136d6b2fb1ad647db9abb21dc86f9e4a"
+  },
+  "scope": "27source translated surf assets; finite Cherrygrove island samples; backing hypothesis withdrawn; no terrain audit proof transfer"
+}
