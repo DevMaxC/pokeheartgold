@@ -1,0 +1,254 @@
+TAP version 13
+# (node:71994) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the game dispatcher applies family shells once on native placed clones
+ok 1 - the game dispatcher applies family shells once on native placed clones
+  ---
+  duration_ms: 1228.894833
+  type: 'test'
+  ...
+# Subtest: the runtime dispatcher uses real placement entrances before family repairs and removes false arch and castle hulls
+ok 2 - the runtime dispatcher uses real placement entrances before family repairs and removes false arch and castle hulls
+  ---
+  duration_ms: 2523.272541
+  type: 'test'
+  ...
+# Exercised 72 actual generic panels across 31 family/context fixtures.
+# Subtest: stream unload frees each placed shell resource once while keeping source assets and textures reusable
+ok 3 - stream unload frees each placed shell resource once while keeping source assets and textures reusable
+  ---
+  duration_ms: 831.349542
+  type: 'test'
+  ...
+# Subtest: no inventoried native node can be mistaken for a disposable placed exterior
+ok 4 - no inventoried native node can be mistaken for a disposable placed exterior
+  ---
+  duration_ms: 245.519667
+  type: 'test'
+  ...
+# (node:71995) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: repeated placements keep the same fallback tint without changing the shared colour cache
+ok 5 - repeated placements keep the same fallback tint without changing the shared colour cache
+  ---
+  duration_ms: 11.665959
+  type: 'test'
+  ...
+# Subtest: a missing rear surface becomes a closed prism, with every edge used twice
+ok 6 - a missing rear surface becomes a closed prism, with every edge used twice
+  ---
+  duration_ms: 0.350333
+  type: 'test'
+  ...
+# Subtest: one-sided building and small-prop geometry gets solid rear surfaces
+ok 7 - one-sided building and small-prop geometry gets solid rear surfaces
+  ---
+  duration_ms: 35.6435
+  type: 'test'
+  ...
+# Subtest: fully volumetric props and translucent ground shadows are left intact
+ok 8 - fully volumetric props and translucent ground shadows are left intact
+  ---
+  duration_ms: 1.922708
+  type: 'test'
+  ...
+# Subtest: a disconnected mailbox gets its own local backing rather than the building bounds
+ok 9 - a disconnected mailbox gets its own local backing rather than the building bounds
+  ---
+  duration_ms: 2.164667
+  type: 'test'
+  ...
+# Subtest: an original front doorway does not create a transparent hole through the rear
+ok 10 - an original front doorway does not create a transparent hole through the rear
+  ---
+  duration_ms: 6.723583
+  type: 'test'
+  ...
+# Subtest: tilted original tree planes become upright instanced camera-facing artwork
+ok 11 - tilted original tree planes become upright instanced camera-facing artwork
+  ---
+  duration_ms: 9.685042
+  type: 'test'
+  ...
+# Subtest: blended source materials retain their original depth-write setting
+ok 12 - blended source materials retain their original depth-write setting
+  ---
+  duration_ms: 0.442375
+  type: 'test'
+  ...
+# Subtest: recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+ok 13 - recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+  ---
+  duration_ms: 1.777792
+  type: 'test'
+  ...
+# Subtest: a mailbox touching a building at one corner still uses local bounds
+ok 14 - a mailbox touching a building at one corner still uses local bounds
+  ---
+  duration_ms: 0.890042
+  type: 'test'
+  ...
+# Subtest: a source entrance closes a partial rear wall across the mirrored doorway opening
+ok 15 - a source entrance closes a partial rear wall across the mirrored doorway opening
+  ---
+  duration_ms: 172.9675
+  type: 'test'
+  ...
+# Subtest: opposing source entrances keep a real passage and unrelated props receive no new wall
+ok 16 - opposing source entrances keep a real passage and unrelated props receive no new wall
+  ---
+  duration_ms: 13.839708
+  type: 'test'
+  ...
+# Subtest: rear closure uses the original world doorway after prop rotation and translation
+ok 17 - rear closure uses the original world doorway after prop rotation and translation
+  ---
+  duration_ms: 2.187709
+  type: 'test'
+  ...
+# Subtest: rear wall cladding reuses source wall UVs while staying opaque
+ok 18 - rear wall cladding reuses source wall UVs while staying opaque
+  ---
+  duration_ms: 7.33075
+  type: 'test'
+  ...
+# Subtest: split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+ok 19 - split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+  ---
+  duration_ms: 1.220625
+  type: 'test'
+  ...
+# Subtest: native door direction overrides an ambiguous corner of the building bounds
+ok 20 - native door direction overrides an ambiguous corner of the building bounds
+  ---
+  duration_ms: 1.245416
+  type: 'test'
+  ...
+# Subtest: rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+ok 21 - rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+  ---
+  duration_ms: 2.365542
+  type: 'test'
+  ...
+# Subtest: repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+ok 22 - repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+  ---
+  duration_ms: 4.496041
+  type: 'test'
+  ...
+# Subtest: tilted flower beds become separately rooted crossed clumps with depth
+ok 23 - tilted flower beds become separately rooted crossed clumps with depth
+  ---
+  duration_ms: 2.398375
+  type: 'test'
+  ...
+# Subtest: source fence cards and horizontal atlas runs become solid upright posts and rails
+ok 24 - source fence cards and horizontal atlas runs become solid upright posts and rails
+  ---
+  duration_ms: 0.822167
+  type: 'test'
+  ...
+# Subtest: standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+ok 25 - standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+  ---
+  duration_ms: 0.422291
+  type: 'test'
+  ...
+# Subtest: adjacent leaning rock cards become separate closed boulders with depth in every direction
+ok 26 - adjacent leaning rock cards become separate closed boulders with depth in every direction
+  ---
+  duration_ms: 3.303416
+  type: 'test'
+  ...
+# Subtest: an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+ok 27 - an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+  ---
+  duration_ms: 1.018334
+  type: 'test'
+  ...
+# Subtest: off-centre original trunk art has a matching image offset around its ground pivot
+ok 28 - off-centre original trunk art has a matching image offset around its ground pivot
+  ---
+  duration_ms: 0.389208
+  type: 'test'
+  ...
+# Subtest: open hill and cliff backs receive opaque skirts down to their original base
+ok 29 - open hill and cliff backs receive opaque skirts down to their original base
+  ---
+  duration_ms: 0.573
+  type: 'test'
+  ...
+# Subtest: raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+ok 30 - raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+  ---
+  duration_ms: 0.65475
+  type: 'test'
+  ...
+# (node:71996) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every native Center and Mart variant has a complete rear, joined roof, and unchanged front
+ok 31 - every native Center and Mart variant has a complete rear, joined roof, and unchanged front
+  ---
+  duration_ms: 87229.925583
+  type: 'test'
+  ...
+# Checked all 34 Center/Mart GLB variants using 111452 interior/rear/roof rays and front-surface identity comparisons.
+# Subtest: placed special shells respect rotation and nonuniform scale without mutating shared templates
+ok 32 - placed special shells respect rotation and nonuniform scale without mutating shared templates
+  ---
+  duration_ms: 13.010416
+  type: 'test'
+  ...
+# Subtest: oblique interior rays cannot escape through Center or Mart roof/eave seams
+ok 33 - oblique interior rays cannot escape through Center or Mart roof/eave seams
+  ---
+  duration_ms: 3215.46425
+  type: 'test'
+  ...
+# Subtest: gates and a special model with a genuine opposite exit keep their passages
+ok 34 - gates and a special model with a genuine opposite exit keep their passages
+  ---
+  duration_ms: 11.631542
+  type: 'test'
+  ...
+# (node:71997) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a superseded asset download never constructs a field cell
+ok 35 - a superseded asset download never constructs a field cell
+  ---
+  duration_ms: 2.045584
+  type: 'test'
+  ...
+# Subtest: a superseded prop download cannot run a shell builder or dispose shared source buffers
+ok 36 - a superseded prop download cannot run a shell builder or dispose shared source buffers
+  ---
+  duration_ms: 101.701208
+  type: 'test'
+  ...
+# Subtest: a stream superseded while waiting for field work cannot build or publish its prop
+ok 37 - a stream superseded while waiting for field work cannot build or publish its prop
+  ---
+  duration_ms: 2.985208
+  type: 'test'
+  ...
+# Subtest: a current cached stream constructs its exterior and publishes a usable cell
+ok 38 - a current cached stream constructs its exterior and publishes a usable cell
+  ---
+  duration_ms: 7.217
+  type: 'test'
+  ...
+# Subtest: concurrent cached scenery jobs consume the shared budget before another job can pass it
+ok 39 - concurrent cached scenery jobs consume the shared budget before another job can pass it
+  ---
+  duration_ms: 1.366917
+  type: 'test'
+  ...
+1..39
+# tests 39
+# suites 0
+# pass 39
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 91191.90625

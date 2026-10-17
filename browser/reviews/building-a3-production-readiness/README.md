@@ -1,0 +1,26 @@
+# Building A3 on current production
+
+This is an incremental structural release candidate, with final visual review still pending. The local merge `99c1e5a45e6e91f193070ef19cd561ffde927308` combines production `c4c627e1622a9ce70843d55110ac7f66c1dfc76f` and Building A3 metadata `a236664a86236c8a720e784d44c0020afb47dc62`. Its building runtime is exactly immutable A3 `3d09340dcfc9ca72e1c5eadbc01810e1a98ba330`. This evidence commit adds no runtime changes.
+
+The branches share base `081c5ec8da0ae36812f2fc6741e687d138fad27b`. Production's 99 changed paths and A3's 92 changed paths are disjoint; the merge required zero conflict resolutions. Every changed blob from both parents is preserved exactly, including the production battle fixes and native shoreline transforms. All 585 recorded structural audit inputs also match both current files and committed merge blobs: 27 code/registry inputs, 115 source JSON files and 444 native assets. The per-input hashes are in `immutable-input-comparison.json`. The original building worktree and held terrain worktree were not changed.
+
+The inherited immutable A3 audit covers 355 placements, 220 native variants and 157 model IDs with 2,796,873 finite rays. All 253 structures classified as closed have sampled room cores. Across those closed structures the older generic entrance repair had 21,863 unexpected rays; the candidate has 39 strict unexpected rays across 16 placements. Every one of those 39 has a separately recorded nearby opaque edge witness; the maximum recorded outside distance is about 1.01448e-14 tile. The strict misses remain counted. They are not exact seals and were not hidden by a tolerance. Open props, source-authored apertures and unsupported cores retain their distinct classifications. `reconciliation.json` records the complete 39-miss placement distribution and inherited audit totals.
+
+The building repairs operate on placed clones and preserve native prop asset bytes. Family tests check source facade/window first-hit identity, bounded original passages, original materials and resource ownership. Those are finite checks: the house test covers one representative placement per variant and permits separately reported very shallow roof-lining contacts on non-window samples; it does not prove every alpha pixel or perspective. The physical audit treats triangles as two-sided and cannot establish outward rendering. All 220 final native-variant manual statuses remain pending, with zero final manual passes. The 355-placement, 2,130-view gallery remains a plan awaiting actual final capture/review; historical exploratory images are not transferred into this approval set.
+
+Current combined-candidate checks are **39/39 focused Node tests, zero skips**, TypeScript `--noEmit`, and `git diff --check`. The focused command was:
+
+```sh
+node --experimental-transform-types --test src/source/building-exterior.test.ts src/source/world-streaming.test.ts src/source/special-building-shells.test.ts src/source/render-repair.test.ts
+./node_modules/.bin/tsc --noEmit
+```
+
+It covers the shared dispatcher, actual entrance ordering, clone/template cleanup, all Center/Mart variants, render repairs, stale downloads/waits, current cached publication and concurrent work-budget scheduling. Exact logs are included. Historical A3's 331/331 tests and production build are separately recorded in the inherited roof-envelope receipt; their original log hashes were checked, but they are not a fresh full combined-production build. No build or browser run was performed for this readiness check.
+
+Streaming latency remains a release risk. The shared callback-budget correction prevents concurrent builders borrowing an unused budget, but a single builder is indivisible. The inherited audit measured major-builder Node p95 87.9 ms and maximum 604.2 ms under process/CPU contention; these are neither browser frame times nor a latency pass. Actual browser latency, material/perspective appearance and terrain-footing interactions remain unverified. No performance refactor is included here.
+
+Recommendation: ship this as an incremental structural correction after the parent completes the combined production build/CI, PR15 merge and live serving-artifact checks. Keep manual building review ongoing and describe its status explicitly. Do not claim full visual approval, exact continuous enclosure, every camera angle or complete game parity. A source-scoped readiness assessment is not evidence of a deployment.
+
+## Root combined release validation
+
+The parent subsequently ran the complete combined candidate at `f39239e8d3f29d747ba8a050a04aa5615d8daaee`: **429/429 Node tests passed, zero failures/skips**, followed by TypeScript and the Vite production build. Exact complete logs and output hashes are recorded alongside this receipt. This closes the full combined build prerequisite above; it does not change any manual visual, browser performance or terrain-interaction status. The new evidence is metadata only.
