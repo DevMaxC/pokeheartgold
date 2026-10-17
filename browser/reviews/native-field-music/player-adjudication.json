@@ -1,0 +1,175 @@
+{
+  "scope": "Offline player/session/native selector source review; no browser audio audition or build",
+  "sourceCommits": [
+    {
+      "commit": "2f8f84d2e150728782646124947591df50ce46d5",
+      "files": {
+        "browser/src/source/field-music.ts": "c1d0d5b781f2a55b648ec04087a5918f0e7483d13e738d2df91b973ef062c297",
+        "browser/src/source/field-music.test.ts": "517ee9ceb165e86f304eb70df3d381f140ecbc8540b6222c65ed8d78a00551fc"
+      }
+    },
+    {
+      "commit": "ed90fd632d70b319099c28df860ecacc85f888b1",
+      "files": {
+        "browser/src/source/field-music.ts": "9ab3c34fa8adc0460544b7a8afd7b412f5820791118d3e317d97586e5df3a3f7",
+        "browser/src/source/field-music.test.ts": "ff2a424a80bac122c5cf301f2966b00e47c5da4000c7012364a7bb752754b704",
+        "browser/src/source/battle-music.ts": "26fb99ac53207e50fb18af224d1fd6298423525f502b5528e6852246a6619cc0",
+        "browser/src/source/battle-music.test.ts": "2079dbdb37958cfe26ecc66acc28091ae84ffd9971c42f6356532654cb115c68"
+      }
+    },
+    {
+      "commit": "0f0eb21c4b9626c7f393266a9e46791cc135a1c4",
+      "files": {
+        "browser/src/source/field-music.ts": "f784b22a6919d85f796153d35a23ddd8b79bded1a56442cb22477a292aa4b9e4",
+        "browser/src/source/field-music.test.ts": "13dc27877dc4cec8f8656454119ba77623c636444993c130f6b22016f1481adb",
+        "browser/src/source/battle-music.ts": "26fb99ac53207e50fb18af224d1fd6298423525f502b5528e6852246a6619cc0",
+        "browser/src/source/battle-music.test.ts": "03fb1aa3f661d333085a93d81aabc66b10f8a3e9c29b684b6f37adca5cc92fa8"
+      }
+    }
+  ],
+  "reviews": {
+    "player-01": {
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1107,
+          "outputTokens": 17,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001192,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 10,
+          "outputTokens": 18340,
+          "cacheReadInputTokens": 74866,
+          "cacheCreationInputTokens": 35144,
+          "webSearchRequests": 0,
+          "costUSD": 0.5575332,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 14839,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "isError": false,
+      "permissionDenials": [],
+      "rawResultSHA256": "b66a60b4040d7fda73295796158bbb6255769cb92bb57b3fefb7aee1bda60e45"
+    },
+    "player-02": {
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1089,
+          "outputTokens": 19,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001184,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 12,
+          "outputTokens": 14576,
+          "cacheReadInputTokens": 131059,
+          "cacheCreationInputTokens": 53108,
+          "webSearchRequests": 0,
+          "costUSD": 0.5833198,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 11104,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "isError": false,
+      "permissionDenials": [],
+      "rawResultSHA256": "80b0f157fda4284a439e0c3968e354701b5bd0b5ca88e7ed1224823ecf6fb0fa"
+    },
+    "player-03": {
+      "actualModelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1083,
+          "outputTokens": 17,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001168,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5-5": {
+          "inputTokens": 8,
+          "outputTokens": 7912,
+          "cacheReadInputTokens": 39445,
+          "cacheCreationInputTokens": 31132,
+          "webSearchRequests": 0,
+          "costUSD": 0.321821,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 5944,
+          "canonicalModel": "claude-opus-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "isError": false,
+      "permissionDenials": [],
+      "rawResultSHA256": "be1983cdbe7ec62750c3951e68818e3142e58516e8d8b44807d282dc1f77dd93"
+    }
+  },
+  "adjudication": [
+    {
+      "review": "player-01",
+      "findings": [
+        "F1",
+        "F2",
+        "F3",
+        "L1",
+        "L2"
+      ],
+      "resolution": "Implemented in ed90fd63 with targeted restore/missing-map/same-ID/source-label/volume-cancellation regressions; Promise/callback decoder bridge also implemented."
+    },
+    {
+      "review": "player-02",
+      "findings": [
+        "N1",
+        "N2",
+        "N3",
+        "N4",
+        "N5",
+        "N6"
+      ],
+      "resolution": "Implemented in0f0eb21c with actual narrower lifecycle regression fixtures. Subsequent actual Opus review confirms all six fixes."
+    },
+    {
+      "review": "player-03",
+      "finding": "Low: control observers can reject a playback Promise cancelled by its actual owner after the Context unlocked",
+      "resolution": "Intentional observable playback-failure contract retained. Parent host deduplicates successful/in-flight gestures, records actual message in QA only, and does not show generic tap-again UX for every rejection. Original playback caller cancellation remains owned; no restart/refetch. No claim that successful Context resume means song decoding succeeded."
+    }
+  ],
+  "validation": {
+    "focusedTests": 35,
+    "playerSessionTests": 29,
+    "sourceBattleTests": 6,
+    "productionTypeScript": "exit0",
+    "browserAudition": "not performed",
+    "fullCampaign": "not asserted"
+  }
+}
