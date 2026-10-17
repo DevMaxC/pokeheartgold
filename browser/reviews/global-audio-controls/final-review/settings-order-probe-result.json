@@ -1,0 +1,46 @@
+{
+  "scope": "Execute actual extracted production Settings generic bind plus literal Music click callback. Explicit preference/gesture ports record synchronous ordering; not actual AudioContext/browser unlock.",
+  "cases": [
+    {
+      "label": "original66a",
+      "initialMusic": false,
+      "finalMusic": true,
+      "gestureObservedMusic": [
+        false
+      ],
+      "sourceSHA256": "e2de13ff98e685dfce2553d9fef9ad69fdb07e2bf53c6a7793cf4062a09f90e4",
+      "actualBindingSHA256": "c04e0d6d8e9a1572a636f1f39c9ca100f45299e2428450185df81cebeaa52a9a"
+    },
+    {
+      "label": "original66a",
+      "initialMusic": true,
+      "finalMusic": false,
+      "gestureObservedMusic": [
+        true
+      ],
+      "sourceSHA256": "e2de13ff98e685dfce2553d9fef9ad69fdb07e2bf53c6a7793cf4062a09f90e4",
+      "actualBindingSHA256": "c04e0d6d8e9a1572a636f1f39c9ca100f45299e2428450185df81cebeaa52a9a"
+    },
+    {
+      "label": "final84864",
+      "initialMusic": false,
+      "finalMusic": true,
+      "gestureObservedMusic": [
+        false,
+        true
+      ],
+      "sourceSHA256": "58f073c6e8b4b7452a965ff8b722360c271bdadbb9b595d14d254d50951d6c26",
+      "actualBindingSHA256": "5f754034acfc6e58885909f98398eb9678bf96a34e38d934e00e95dddd5bdcf0"
+    },
+    {
+      "label": "final84864",
+      "initialMusic": true,
+      "finalMusic": false,
+      "gestureObservedMusic": [
+        true
+      ],
+      "sourceSHA256": "58f073c6e8b4b7452a965ff8b722360c271bdadbb9b595d14d254d50951d6c26",
+      "actualBindingSHA256": "5f754034acfc6e58885909f98398eb9678bf96a34e38d934e00e95dddd5bdcf0"
+    }
+  ]
+}
