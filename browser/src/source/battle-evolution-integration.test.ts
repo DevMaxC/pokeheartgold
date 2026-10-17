@@ -24,7 +24,7 @@ function fixture(party:Mon[]=[{...createMon(data,155,5,'Ethan',()=>.5),hasNickna
   const score=(row:typeof candidates[number])=>{const move=data.moves[row.move.id];return move.category===2?-1:moveDamage(data,player,enemy,move,freshStages(),freshStages(),100,false).damage;};candidates.sort((a,b)=>score(b)-score(a));return{kind:'move',slot:candidates[0].slot};
  }});
  const queue=new BattleEvolutionQueue(),scenes:{old:number;target:number;level:number}[]=[];
- const ports:BattleEvolutionPorts={select:(party,mon)=>selectNativeLevelEvolution(native,party,mon,{night:false,evolutionLocation:0}),metadata:mon=>({form:0,hasNickname:mon.hasNickname===true}),present:async(scene,cb)=>{assert.equal(battle.active,false,'native evolution starts after combat exits');scenes.push({old:scene.before.species,target:scene.after.species,level:scene.before.level});cb.evolve();cb.register();await cb.learnMoves();cb.finish();return'evolved';},moveLearning:{isHM:()=>false,choose:async()=>({kind:'decline'}),show:async()=>{}}};
+ const ports:BattleEvolutionPorts={select:(party,mon)=>selectNativeLevelEvolution(native,party,mon,{night:false,evolutionLocation:0}),metadata:mon=>{assert.equal(typeof mon.hasNickname,'boolean','the fixture must provide native metadata, not infer a missing flag');return{form:0,hasNickname:mon.hasNickname!};},present:async(scene,cb)=>{assert.equal(battle.active,false,'native evolution starts after combat exits');scenes.push({old:scene.before.species,target:scene.after.species,level:scene.before.level});cb.evolve();cb.register();await cb.learnMoves();cb.finish();return'evolved';},moveLearning:{isHM:()=>false,choose:async()=>({kind:'decline'}),show:async()=>{}}};
  return{state,battle,messages,queue,ports,scenes};
 }
 
@@ -62,4 +62,18 @@ test('no-level battles produce no candidate, and technical combat failure cannot
  const f=fixture([{...createMon(data,155,18,'Ethan',()=>.5),hasNickname:false}]);assert.equal(await f.battle.start(await originalTrainerParty(data,8),8),'won');assert.equal(f.battle.evolutionCompletion!.levelUpMask,0);await f.queue.run(data,f.state,f.battle.evolutionCompletion!,f.ports);assert.equal(f.scenes.length,0);
  const stale=f.battle.evolutionCompletion!;assert.equal(stale.isCurrent(),true);assert.equal(await f.battle.start(await originalTrainerParty(data,8),8),'won');assert.equal(stale.isCurrent(),false);const before=structuredClone(f.state);await assert.rejects(f.queue.run(data,f.state,stale,f.ports),/Stale native battle/);assert.deepEqual(f.state,before);
  Object.assign(f.battle,{nextAction:async()=>{throw Error('input failed');}});await assert.rejects(f.battle.start(await originalTrainerParty(data,8),8),/input failed/);assert.equal(f.battle.evolutionCompletion,null);
+});
+
+test('a real successful capture freezes the grown party identity after giveMon and drains a zero level-up mask',async()=>{
+ const f=fixture(),lead=f.state.party[0],wild={...createMon(data,16,3,'Ethan',()=>.5),hasNickname:false};f.state.bag.ITEM_POKE_BALL=1;
+ // Legal full-HP wild encounter and actual capture code, with a deterministic
+ // successful catch tape; no injected outcome, XP or level-up bit.
+ Object.assign(f.battle,{rng:()=>0,nextAction:async()=>({kind:'item',item:'ITEM_POKE_BALL'})});
+ assert.equal(await f.battle.start([wild]),'caught');const record=f.battle.evolutionCompletion!;
+ assert.equal(record.result,'caught');assert.equal(record.levelUpMask,0);assert.deepEqual(f.state.party,[lead,wild]);assert.equal(record.party.length,2);assert.equal(record.party[0],lead);assert.equal(record.party[1],wild);assert.ok(Object.isFrozen(record.party));assert.equal(f.state.bag.ITEM_POKE_BALL,undefined);
+ assert.deepEqual(await f.queue.run(data,f.state,record,f.ports),{evolved:[],cancelled:[],ineligible:[]});assert.equal(f.scenes.length,0);assert.equal(f.queue.pending(record),0);
+});
+
+test('the actual battle integration fixture rejects omitted native nickname metadata instead of defaulting false',()=>{
+ const f=fixture(),missing={...f.state.party[0]};delete missing.hasNickname;assert.throws(()=>f.ports.metadata(missing,0),/must provide native metadata/);
 });

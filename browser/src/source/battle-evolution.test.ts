@@ -72,6 +72,35 @@ test('technical failure restores both pending bits and every provisional evoluti
  f.ports.present=scene;await f.queue.run(data,f.state,f.record,f.ports);assert.deepEqual(f.state.party.map(m=>m.species),[156,153]);assert.equal(f.state.gameStats![13],2);assert.equal(f.queue.pending(f.record),0);
 });
 
+test('outer abort during a scene or after an earlier completed candidate restores the batch and its pending mask',{timeout:3000},async()=>{
+ for(const abortAt of[0,1]){
+  const f=fixture([mon(),mon(152,16)]),outer=new AbortController(),before=structuredClone(f.state);f.record=completion(f.state.party,3);let entered!:()=>void,observed=false;const ready=new Promise<void>(resolve=>{entered=resolve;});
+  f.ports.present=async(s,cb,signal)=>{if(s.partyIndex!==abortAt)return scene(s,cb,signal);cb.evolve();cb.register();entered();await new Promise<never>((_resolve,reject)=>{signal!.addEventListener('abort',()=>{observed=true;reject(signal!.reason);},{once:true});});throw Error('unreachable');};
+  const running=f.queue.run(data,f.state,f.record,f.ports,outer.signal);await ready;outer.abort(new DOMException('field owner aborted','AbortError'));await assert.rejects(running,/field owner aborted/);
+  assert.equal(observed,true);assert.deepEqual(f.state,before);assert.equal(f.queue.pending(f.record),3);f.ports.present=scene;await f.queue.run(data,f.state,f.record,f.ports);assert.deepEqual(f.state.party.map(m=>m.species),[156,153]);
+ }
+});
+
+test('a concurrent run cannot steal the active queue owner or consume its pending batch',{timeout:3000},async()=>{
+ const f=fixture();let enter!:()=>void,release!:()=>void;const entered=new Promise<void>(resolve=>{enter=resolve;}),gate=new Promise<void>(resolve=>{release=resolve;});
+ f.ports.present=async(s,cb,signal)=>{enter();await gate;return scene(s,cb,signal);};const first=f.queue.run(data,f.state,f.record,f.ports);await entered;
+ try{await assert.rejects(f.queue.run(data,f.state,f.record,f.ports),/already owns the field/);assert.equal(f.state.party[0].species,155);}finally{release();await first;}
+ assert.equal(f.state.party[0].species,156);assert.equal(f.queue.pending(f.record),0);
+});
+
+test('a native cancel followed by a later technical failure restores the cancelled bit for the source-action retry',async()=>{
+ const f=fixture([mon(),mon(152,16)]),before=structuredClone(f.state);f.record=completion(f.state.party,3);const offered:number[]=[];
+ f.ports.present=async(s,cb)=>{offered.push(s.partyIndex);if(s.partyIndex===0)return'cancelled';cb.evolve();cb.register();throw Error('later candidate failed');};
+ await assert.rejects(f.queue.run(data,f.state,f.record,f.ports),/later candidate failed/);assert.deepEqual(offered,[0,1]);assert.deepEqual(f.state,before);assert.equal(f.queue.pending(f.record),3);
+ offered.length=0;f.ports.present=async(s,cb,signal)=>{offered.push(s.partyIndex);return scene(s,cb,signal);};await f.queue.run(data,f.state,f.record,f.ports);assert.deepEqual(offered,[0,1]);assert.deepEqual(f.state.party.map(m=>m.species),[156,153]);assert.equal(f.state.gameStats![13],2);
+});
+
+test('the source register boundary retains a confirmed custom nickname while registering the new species',async()=>{
+ const named=mon();named.name='Cinder';named.hasNickname=true;const f=fixture([named]);
+ f.ports.present=async(_s,cb)=>{assert.deepEqual(cb.evolve(),{nickname:'Cinder',speciesName:speciesName(data,156)});assert.equal(named.name,'Cinder');cb.register();assert.equal(named.name,'Cinder');assert.ok(f.state.caught.includes(156));await cb.learnMoves();cb.finish();return'evolved';};
+ await f.queue.run(data,f.state,f.record,f.ports);assert.equal(named.name,'Cinder');assert.equal(named.hasNickname,true);assert.equal(f.state.gameStats![13],1);
+});
+
 test('stale callbacks, source phase skips, post-commit cancel and changed slot identity cannot mutate the party',async()=>{
  for(const error of['register-first','skip-learning','cancel-after-commit','return-early']as const){const f=fixture(),before=structuredClone(f.state);let callback:BattleEvolutionCallbacks|undefined;f.ports.present=async(_s,cb)=>{callback=cb;if(error==='register-first')cb.register();else if(error==='skip-learning'){cb.evolve();cb.register();cb.finish();}else if(error==='cancel-after-commit'){cb.evolve();return'cancelled';}return'evolved';};await assert.rejects(f.queue.run(data,f.state,f.record,f.ports));assert.deepEqual(f.state,before);assert.equal(f.queue.pending(f.record),1);assert.throws(()=>callback!.evolve(),/Stale|Abort/);}
  const f=fixture();f.state.party[0]=structuredClone(f.state.party[0]);await assert.rejects(f.queue.run(data,f.state,f.record,f.ports),/identity changed/);
@@ -81,6 +110,13 @@ test('target-level moves use native append/full/known outcomes and reset only a 
  const caterpie=fixture([mon(10,7)]),old=caterpie.state.party[0].moves[0];await caterpie.queue.run(data,caterpie.state,caterpie.record,caterpie.ports);assert.equal(caterpie.state.party[0].species,11);assert.ok(caterpie.state.party[0].moves.some(m=>m.id===data.constants.MOVE_HARDEN));assert.equal(caterpie.state.party[0].moves[0],old);
  const rat=fixture([mon(19,20)]),known=rat.state.party[0].moves.map(m=>m.id),pp=rat.state.party[0].moves.map(m=>m.pp);rat.state.party[0].moves[0].pp=1;rat.ports.moveLearning.choose=async request=>{assert.equal(request.move,data.constants.MOVE_SCARY_FACE);return{kind:'replace',slot:1};};await rat.queue.run(data,rat.state,rat.record,rat.ports);assert.equal(rat.state.party[0].moves[1].id,data.constants.MOVE_SCARY_FACE);assert.equal(rat.state.party[0].moves[1].pp,data.moves[data.constants.MOVE_SCARY_FACE].pp);assert.equal(rat.state.party[0].moves[0].pp,1);assert.equal(rat.state.party[0].moves[2].id,known[2]);assert.equal(rat.state.party[0].moves[2].pp,pp[2]);assert.deepEqual(rat.events.map((e:any)=>e.kind),['forget','learned']);
  const decline=fixture([mon(19,20)]),before=structuredClone(decline.state.party[0].moves);await decline.queue.run(data,decline.state,decline.record,decline.ports);assert.deepEqual(decline.state.party[0].moves,before);assert.deepEqual(decline.events.map((e:any)=>e.kind),['declined']);
+});
+
+test('actual Lanturn27 move rows retain native source order through mixed replace, decline and replace outcomes',async()=>{
+ const f=fixture([mon(170,27)]),source=f.state.party[0],old=structuredClone(source.moves),offered:number[]=[];
+ assert.equal(source.moves.length,4);assert.deepEqual(data.learnsets[171].filter(row=>row.level===27).map(row=>row.move),[254,256,255]);
+ f.ports.moveLearning.choose=async request=>{offered.push(request.move);if(request.move===256)return{kind:'decline'};return{kind:'replace',slot:request.move===254?0:1};};
+ await f.queue.run(data,f.state,f.record,f.ports);assert.equal(source.species,171);assert.deepEqual(offered,[254,256,255]);assert.deepEqual(source.moves.map(move=>move.id),[254,255,old[2].id,old[3].id]);assert.equal(source.moves[0].pp,data.moves[254].pp);assert.equal(source.moves[1].pp,data.moves[255].pp);assert.deepEqual(source.moves.slice(2),old.slice(2));assert.deepEqual(f.events.map((event:any)=>[event.kind,event.move]),[['forget',254],['learned',254],['declined',256],['forget',255],['learned',255]]);
 });
 
 test('source evolution move summary preserves a legally taught HM and rejects a port that tries to forget it',async()=>{
@@ -102,17 +138,20 @@ test('unsupported eligible methods/forms and unknown nickname metadata fail expl
  for(const mode of['method','form','nickname']as const){const f=fixture(),before=structuredClone(f.state);let scenes=0;f.ports.present=async()=>{scenes++;return'cancelled';};if(mode==='method')f.ports.select=()=>({kind:'eligible',target:176,method:1,methodKey:'EVO_FRIENDSHIP',param:0});else f.ports.metadata=()=>({form:mode==='form'?1:0,hasNickname:mode==='nickname'?undefined as any:false});await assert.rejects(f.queue.run(data,f.state,f.record,f.ports),UnsupportedBattleEvolution);assert.equal(scenes,0);assert.deepEqual(f.state,before);assert.equal(f.queue.pending(f.record),1);}
 });
 
-test('ordinary source transition retains custom nickname, derives new-species gender and caps native stats without reviving',()=>{
+test('ordinary source transition retains custom nickname, derives new-species gender and preserves a native faint',()=>{
  const m=mon(298,18);m.name='Puddle';m.hasNickname=true;m.personality=160;const target=ordinaryLevelEvolution(data,m,183,{form:0,hasNickname:true});assert.equal(m.gender,'female');assert.equal(target.gender,'male','native Azurill/Marill ratio change uses same PID');assert.equal(target.name,'Puddle');assert.equal(target.personality,160);m.hp=0;assert.equal(ordinaryLevelEvolution(data,m,183,{form:0,hasNickname:true}).hp,0);
 });
 
-test('every legal starter HP across evolution matches the unchanged native CalcMonStats HP tail',async()=>{
+test('the unchanged native HP tail matches every HP of one stats fixture per starter and explicit shrinking-maximum controls',async()=>{
  const source=await readFile(new URL('../../../src/pokemon.c',import.meta.url),'utf8'),start=source.indexOf('    if (hp != 0 || maxHp == 0) {',source.indexOf('void CalcMonStats(')),end=source.indexOf('    ReleaseMonLock(mon, decry);',start);assert.ok(start>=0&&end>start);
  const tail=source.slice(start,end),temporary=await mkdtemp(join(tmpdir(),'hg-evolution-hp-'));
  try{
   const c=`#include <stdio.h>\n#define SPECIES_SHEDINJA 292\n#define MON_DATA_HP 1\n#define SetMonData(m,k,v) (output=*(v))\nint main(){int species,maxHp,newMaxHp,hp;while(scanf("%d %d %d %d",&species,&maxHp,&newMaxHp,&hp)==4){int output=hp;${tail}printf("%d\\n",output);}return 0;}`;
   await writeFile(join(temporary,'oracle.c'),c);execFileSync('cc',['-std=c99','-O2',join(temporary,'oracle.c'),'-o',join(temporary,'oracle')]);
   const cases:{source:Mon;target:number}[]=[];for(const[s,l,t]of[[152,16,153],[155,14,156],[158,18,159]]as const){const m=mon(s,l);for(let hp=0;hp<=m.maxHP;hp++)cases.push({source:{...m,hp},target:t});}
+  // These additional maxHP values isolate the literal HP-tail branch. They
+  // are synthetic function inputs, not claimed legal starter-derived stats.
+  const base=mon(),newMax=ordinaryLevelEvolution(data,base,156,{form:0,hasNickname:false}).maxHP;for(let hp=0;hp<=newMax+7;hp++)cases.push({source:{...base,maxHP:newMax+7,hp},target:156});
   const actual=cases.map(row=>ordinaryLevelEvolution(data,row.source,row.target,{form:0,hasNickname:false})),input=cases.map((row,index)=>`${row.target} ${row.source.maxHP} ${actual[index].maxHP} ${row.source.hp}`).join('\n')+'\n';
   const expected=execFileSync(join(temporary,'oracle'),{input,encoding:'utf8'}).trim().split('\n').map(Number);assert.deepEqual(actual.map(mon=>mon.hp),expected);
  }finally{await rm(temporary,{recursive:true,force:true});}
