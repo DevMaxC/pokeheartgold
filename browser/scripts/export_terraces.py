@@ -6,11 +6,12 @@ ledge's downhill edge. Open paths around the ends remain smooth ramps.
 Requires numpy/scipy; generated files are committed runtime assets.
 """
 from pathlib import Path
-import argparse, base64, json, struct
+import argparse, base64, json, struct, hashlib
 import numpy as np
 from scipy.ndimage import distance_transform_cdt
 from scipy.sparse import coo_matrix
 from scipy.sparse.linalg import spsolve
+from ledge_corner_topology import ledge_corners
 
 ROOT = Path(__file__).resolve().parents[1] / 'public/source'
 DIRECTIONS = {56: (1, 0), 57: (-1, 0), 58: (0, -1), 59: (0, 1)}
@@ -20,16 +21,39 @@ SCALE = 256
 
 
 def export(matrix_id):
-    matrix = json.loads((ROOT / f'matrices/{matrix_id}.json').read_text())
+    folder = ROOT.parent.parent / '.generated' / 'terraces'
+    folder.mkdir(parents=True, exist_ok=True)
+    target = folder/f'{matrix_id}.json'
+    # A failed new solve must never leave the previous candidate available.
+    target.unlink(missing_ok=True)
+    inputs = {}
+
+    def read_source(path):
+        body = path.read_bytes()
+        key, digest = str(path.relative_to(ROOT.parent.parent)), hashlib.sha256(body).hexdigest()
+        if key in inputs and inputs[key] != digest:
+            raise ValueError(f'Terrace source changed during generation: {key}')
+        inputs[key] = digest
+        return body
+
+    def missing_source(path):
+        inputs[str(path.relative_to(ROOT.parent.parent))] = None
+
+    read_source(Path(__file__).resolve())
+    read_source(Path(__file__).resolve().with_name('ledge_corner_topology.py'))
+    matrix = json.loads(read_source(ROOT / f'matrices/{matrix_id}.json'))
     height, width = matrix['height'] * 32, matrix['width'] * 32
     permissions = np.full((height, width), 0x8000, dtype=np.uint16)
     native = np.zeros((height, width))
     valid = np.zeros((height, width), dtype=bool)
     for i, land_id in enumerate(matrix['models']):
         path = ROOT / f'lands/{land_id}.json'
-        if land_id == 65535 or not path.exists():
+        if land_id == 65535:
             continue
-        land = json.loads(path.read_text())
+        if not path.exists():
+            missing_source(path)
+            continue
+        land = json.loads(read_source(path))
         cz, cx = divmod(i, matrix['width'])
         for z in range(32):
             for x in range(32):
@@ -96,10 +120,30 @@ def export(matrix_id):
         join(upper, lower, 1.05-drop)
         seams.add(tuple(sorted(((int(x), int(z)), (int(lx), int(lz))))))
         jumps.append([int(x), int(z), int(permissions[z, x] & 255)])
+    def permission(x, z):
+        return int(permissions[z, x]) if 0 <= x < width and 0 <= z < height and valid[z, x] else None
+
+    source_corners = ledge_corners(jumps, permission)
+    corner_edges = []
+    for x, z, horizontal, vertical in source_corners:
+        dx, dz = DIRECTIONS[horizontal][0], DIRECTIONS[vertical][1]
+        # The two authored runs already share this same upper diagonal. Their
+        # blocked art corner must belong to that upper sector too; averaging it
+        # with the lower floor caused the old diagonal sag and missing walls.
+        ax, az = x-dx, z-dz
+        join(int(ids[z, x]), int(ids[az, ax]), native[az, ax]-native[z, x])
+        for behavior in [horizontal, vertical]:
+            ex, ez = DIRECTIONS[behavior]
+            seams.add(tuple(sorted(((x, z), (x+ex, z+ez)))))
+            corner_edges.append([x, z, behavior])
     # Rigid source architecture needs a flat presentation offset beneath it.
     # Tie nearby centres, then flatten their shared half-tile support nodes below.
     foundation_path = ROOT / f'terraces/foundations-{matrix_id}.json'
-    foundations = json.loads(foundation_path.read_text())['structures'] if foundation_path.exists() else []
+    if foundation_path.exists():
+        foundations = json.loads(read_source(foundation_path))['structures']
+    else:
+        missing_source(foundation_path)
+        foundations = []
     if matrix_id == 0 and not foundations:
         raise ValueError('Run export_foundations.ts before generating main-world terraces')
     water = np.isin(permissions & 255, [16, 17, 19, 21, 23])
@@ -244,26 +288,33 @@ def export(matrix_id):
                 cells[f'{cx},{cz}'] = base64.b64encode(values.tobytes()).decode()
     cliff_assets = {}
     for path in sorted((ROOT/'land').glob('*.glb')):
+        blob = read_source(path)
         context = path.stem.split('-')[-1]
         if context in cliff_assets:
             continue
-        blob = path.read_bytes()
         length = struct.unpack_from('<I', blob, 12)[0]
         asset = json.loads(blob[20:20+length])
         if any(material.get('name') == 'cliff01' for material in asset.get('materials', [])):
             cliff_assets[context] = 'land/'+path.name
-    output = {'version':2,'scale':SCALE,'cells':cells,'ledges':jumps,'cliffAssets':cliff_assets,'foundations':{building['key']:building['anchor'] for building in foundations}}
-    folder = ROOT / 'terraces'; folder.mkdir(exist_ok=True)
-    target = folder/f'{matrix_id}.json'
-    if target.exists():
-        previous = json.loads(target.read_text())
+    output = {'version':2,'scale':SCALE,'cells':cells,'ledges':jumps,'cornerEdges':corner_edges,'cliffAssets':cliff_assets,'foundations':{building['key']:building['anchor'] for building in foundations}}
+    published = ROOT / 'terraces' / f'{matrix_id}.json'
+    if published.exists():
+        previous = json.loads(published.read_text())
         # Native profiles depend on source geometry, not solved displacement.
         if previous.get('ledges') == jumps and previous.get('nativeEdges'):
             output['nativeEdges'] = previous['nativeEdges']
+        # Corner walls require a fresh source-art/floor proof after every field
+        # generation. Do not carry that proof across a changed native export.
     if len(output.get('nativeEdges',{})) != len(jumps):
         print('Run export_ledge_profiles.ts to add the required original visible-floor profiles')
+    # Keep the last complete public field until the native-art/floor proof
+    # succeeds. An interrupted or rejected profile export cannot replace it.
+    output['_generation'] = {'matrix':matrix_id, 'inputs':inputs}
     target.write_text(json.dumps(output,separators=(',',':'))+'\n')
-    print(f'Matrix {matrix_id}: {len(jumps)} raised ledges, {len(cells)} height cells, range {points.min():.3f}..{points.max():.3f}')
+    if len(output.get('nativeCornerEdges', {})) != len(corner_edges):
+        print('Run export_ledge_profiles.ts to verify native corner art and add corner profiles')
+    print(f'Matrix {matrix_id}: {len(jumps)} raised ledges, {len(source_corners)} source corners, {len(cells)} height cells, range {points.min():.3f}..{points.max():.3f}')
+    print(f'Staged {target}; publish only after export_ledge_profiles.ts {matrix_id} --staged succeeds')
 
 
 if __name__ == '__main__':

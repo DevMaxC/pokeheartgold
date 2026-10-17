@@ -13,7 +13,7 @@ test('exported Route 29 ledges have distinct upper/lower heights and continuous 
  const data=JSON.parse(await readFile(new URL('../../public/source/terraces/0.json',import.meta.url),'utf8')) as TerraceData,terrain=new Terraces(data);
  // South ledge: native upper/lower BDHC heights are both 1.
  assert.ok(terrain.height(599.5,395.5)-terrain.height(599.5,397.5)>.7);
- let intact=0,seams=0;const ledgeEdges=new Set<string>();for(const[x,z,b]of data.ledges){const[dx,dz]=({56:[1,0],57:[-1,0],58:[0,-1],59:[0,1]} as Record<number,number[]>)[b];ledgeEdges.add([[x,z],[x+dx,z+dz]].sort().map(p=>p.join(',')).join('|'));}
+ let intact=0,seams=0;const ledgeEdges=new Set<string>();for(const[x,z,b]of [...data.ledges,...(data.cornerEdges??[])]){const[dx,dz]=({56:[1,0],57:[-1,0],58:[0,-1],59:[0,1]} as Record<number,number[]>)[b];ledgeEdges.add([[x,z],[x+dx,z+dz]].sort().map(p=>p.join(',')).join('|'));}
  for(const key of Object.keys(data.cells)){const[cx,cz]=key.split(',').map(Number);for(let z=cz*32;z<cz*32+32;z++)for(let x=cx*32;x<cx*32+32;x++){const a=terrain.corners(x,z);assert.ok(a.every(Number.isFinite));for(const[dx,dz,ai,aj,bi,bj]of [[1,0,1,2,0,3],[0,1,3,2,0,1]]){const edge=[[x,z],[x+dx,z+dz]].sort().map(p=>p.join(',')).join('|'),b=terrain.corners(x+dx,z+dz);if(ledgeEdges.has(edge)){seams++;continue;}assert.equal(a[ai],b[bi],edge);assert.equal(a[aj],b[bj],edge);intact++;}}}
  assert.ok(seams>1000);assert.ok(intact>100000);
 });

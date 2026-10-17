@@ -1,0 +1,19 @@
+{
+  "testedCommit": "fdacc3356a5c659c7eed355c8636a879c03c3d60",
+  "sourceCommits": [
+    "dc1e777aec8e379a23fed7b92e749f1d6f195f48",
+    "99c833c24799dbd856453d527695b69c5fc5afa4"
+  ],
+  "nodeTests": {
+    "passed": 449,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": "pass",
+  "build": "pass",
+  "limits": [
+    "ordinary supported escape/damage paths only; no unsupported ability/item parity claim",
+    "no browser rendered approval"
+  ],
+  "review": "Actual Opus5.5 narrow runtime review and fixture follow-up preserved with original RunAway fixture flaw; final unchanged test fails5/6 on exact productionc4 before fix."
+}
