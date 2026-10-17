@@ -1,0 +1,150 @@
+{
+  "cue": {
+    "id": 1018,
+    "key": "SEQ_GS_T_WAKABA"
+  },
+  "formats": [
+    {
+      "codec": "aac",
+      "file": "1018-SEQ_GS_T_WAKABA.m4a",
+      "bytes": 1832114,
+      "sha256": "1def4ca434be20b137bb884ca64643e7c81c05021fbcec843942adb5da7d67e8",
+      "decodedSampleRate": 48000,
+      "decodedFrames": 5401600,
+      "leadingFrames": 0
+    },
+    {
+      "codec": "mp3",
+      "file": "1018-SEQ_GS_T_WAKABA.mp3",
+      "bytes": 1801364,
+      "sha256": "59f08d650b7ee09bda2db5e9cc5582b3fc6de69f4bbf758e3e993be65ee0e808",
+      "decodedSampleRate": 48000,
+      "decodedFrames": 5400988,
+      "leadingFrames": 0
+    }
+  ],
+  "codecReceipts": [
+    {
+      "codec": "aac",
+      "decodedFrames": 5401600,
+      "resampledReferenceFrames": 5400988,
+      "alignmentLagFrames48000": 0,
+      "firstFiveSecondsPearson": 0.9991036724409336,
+      "stream": {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "start_time": "0.000000",
+        "duration": "112.520000",
+        "nb_frames": "5276",
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler",
+          "vendor_id": "[0][0][0][0]"
+        }
+      },
+      "firstPacket": {
+        "pts": -1024,
+        "duration": 1024,
+        "side_data_list": [
+          {
+            "side_data_type": "Skip Samples",
+            "skip_samples": 1024,
+            "discard_padding": 0,
+            "skip_reason": 0,
+            "discard_reason": 0
+          }
+        ]
+      },
+      "lastPacket": {
+        "pts": 5400576,
+        "duration": 412
+      }
+    },
+    {
+      "codec": "mp3",
+      "decodedFrames": 5400988,
+      "resampledReferenceFrames": 5400988,
+      "alignmentLagFrames48000": 0,
+      "firstFiveSecondsPearson": 0.9985690717508079,
+      "stream": {
+        "codec_name": "mp3",
+        "sample_rate": "48000",
+        "start_time": "0.023021",
+        "duration": "112.520583",
+        "disposition": {
+          "default": 0,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "encoder": "Lavf lame"
+        }
+      },
+      "firstPacket": {
+        "pts": 0,
+        "duration": 338688,
+        "side_data_list": [
+          {
+            "side_data_type": "Skip Samples",
+            "skip_samples": 1105,
+            "discard_padding": 0,
+            "skip_reason": 0,
+            "discard_reason": 0
+          }
+        ]
+      },
+      "lastPacket": {
+        "pts": 1588108032,
+        "duration": 338688,
+        "side_data_list": [
+          {
+            "side_data_type": "Skip Samples",
+            "skip_samples": 0,
+            "discard_padding": 787,
+            "skip_reason": 0,
+            "discard_reason": 0
+          }
+        ]
+      }
+    }
+  ],
+  "encodedContentPCMSHA256": "c0a3d7e63e7f2d1fdb7f66f4394d54613065461800508bfc3e1e06fe5c5f4390",
+  "result": "Independent same-tool codec export byte-identical for both AAC/M4A and MP3; decoded frames and alignment receipts measured again."
+}

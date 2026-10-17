@@ -1,0 +1,242 @@
+"""Export original mapped field SSEQ/banks as on-demand lossless music.
+
+Pinned DualRip, numpy2.2.6, ndspy4.2.0; ffmpeg FLAC plus compressed exact WAV
+fallback. No MIDI, replacement instrument bank, normalization or composed tune.
+This is sample/sequence emulation, not a DS hardware/shared-channel DSP capture.
+"""
+from pathlib import Path
+import argparse
+import concurrent.futures
+import gzip
+import hashlib
+import importlib.metadata
+import json
+import re
+import struct
+import subprocess
+import sys
+import tempfile
+
+ROOT = Path(__file__).resolve().parents[2]
+PIN = '80f878b0ebf100f391028bcef69f7c5743473770'
+RATE = 32768
+SHA = lambda value: hashlib.sha256(value).hexdigest()
+
+
+def check(condition, reason):
+    if not condition:
+        raise RuntimeError(reason)
+
+
+def definitions(path):
+    return {key: int(value, 0) for key, value in re.findall(r'^#define\s+(\w+)\s+(0x[0-9A-Fa-f]+|\d+)\b', path.read_text(), re.M)}
+
+
+def initialize(renderer, output):
+    global ARCHIVE, PARSED, NATIVE, DEST
+    sys.path.insert(0, renderer)
+    from dualrip.formats.sdat.sdat import SdatFile
+    from ndspy.soundArchive import SDAT
+    DEST = Path(output)
+    source = ROOT / 'files/data/sound/gs_sound_data.sdat'
+    NATIVE = source.read_bytes()
+    ARCHIVE = SdatFile(str(source))
+    PARSED = SDAT(NATIVE)
+
+
+def u16(offset):
+    return struct.unpack_from('<H', NATIVE, offset)[0]
+
+
+def u32(offset):
+    return struct.unpack_from('<I', NATIVE, offset)[0]
+
+
+def record(section, table, index):
+    offset = section + u32(section + 8 + table * 4)
+    check(index < u32(offset), 'Native SDAT table index out of range')
+    return section + u32(offset + 4 + index * 4)
+
+
+def resource(file_id):
+    fat = u32(32)
+    offset, size = u32(fat + 12 + file_id * 16), u32(fat + 16 + file_id * 16)
+    return {'fileId': file_id, 'offset': offset, 'bytes': size, 'sha256': SHA(NATIVE[offset:offset + size])}
+
+
+def export_track(cue):
+    import numpy as np
+    from dualrip.engine.sdat.render import LiveRenderer
+    from dualrip.engine.sdat.sequencer import Player
+    from dualrip.export import write_wav
+    sid, key = cue['id'], cue['key']
+    info = u32(24)
+    rec = record(info, 0, sid)
+    archive = ARCHIVE.sequence(sid)
+    entry = archive.entries[0]
+    check(entry.name == key, 'Native cue symbol mismatch')
+    sequence = resource(u16(rec))
+    start = sequence['offset']
+    payload = NATIVE[start + u32(start + 0x18):start + sequence['bytes']]
+    check(bytes(archive.blob) == payload, 'Renderer event bytes differ from original FAT SSEQ')
+    check(entry.bank_id == u16(rec + 4), 'Native INFO bank mismatch')
+    bank_record = record(info, 2, entry.bank_id)
+    waves = [u16(bank_record + 4 + slot * 2) for slot in range(4)]
+    deps = {'sequence': sequence, 'eventsSHA256': SHA(payload),
+            'bank': {'id': entry.bank_id, **resource(u16(bank_record))},
+            'waveArchives': [{'id': wid, **resource(u16(record(info, 3, wid)))} for wid in waves if wid != 65535]}
+    seq = PARSED.sequences[sid][1]
+    seq.parse()
+    commands = {0x80, 0x81, 0x93, 0x94, 0x95, 0xC0, 0xC1, 0xC4, 0xC5, 0xC6, 0xC7,
+                0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xD5, 0xE0, 0xE1, 0xFD, 0xFE, 0xFF}
+    counts = {}
+    for event in seq.events:
+        name = type(event).__name__
+        counts[name] = counts.get(name, 0) + 1
+        if name == 'RawDataSequenceEvent':
+            check(not bytes(event.data).strip(b'\xff\x00'), 'Unparsed native event payload')
+        else:
+            check(event.type < 0x80 or event.type in commands, 'Unverified sequence command ' + name)
+    base = {**cue, 'native': deps, 'eventCounts': counts, 'volume': entry.volume,
+            'channelPriority': entry.cpr, 'player': NATIVE[rec + 9]}
+    if not counts.get('NoteSequenceEvent'):
+        return {**base, 'status': 'silence', 'reason': 'Native sequence contains no musical notes'}
+    bank, wave_data = ARCHIVE.bank(entry.bank_id)
+    records = []
+    original = Player.mark_loop
+
+    def measured(self, begin, end, track=None):
+        records.append({'track': track.num if track else None, 'start': begin, 'end': end, 'period': end - begin})
+        return original(self, begin, end, track)
+
+    Player.mark_loop = measured
+    try:
+        render = LiveRenderer(archive.blob, entry.offset, bank, wave_data, entry.volume,
+                              RATE, player_prio=entry.cpr, loop_passes=2)
+        chunks = []
+        while not render.finished:
+            chunk = render.step()
+            if chunk is not None:
+                chunks.append(chunk)
+            check(render.emitted < RATE * 360, 'Native sequence exceeded bounded six-minute render')
+    finally:
+        Player.mark_loop = original
+    audio = np.concatenate(chunks)
+    check(np.max(np.abs(audio.astype(np.int32))) > 0, 'Native musical sequence rendered silent')
+    marks = render.loop_marks
+    if marks:
+        groups = {}
+        for row in records:
+            groups.setdefault(row['track'], []).append(row)
+        # A short percussion loop must not be substituted for the full song.
+        # All looping tracks must still be alive throughout the selected second
+        # owning-track cycle and share its period (one-sample clock rounding).
+        period = marks[1] - marks[0]
+        for track, rows in groups.items():
+            check(len(rows) >= 2, f'Unverified steady loop for track {track}')
+            check(abs(rows[-1]['period'] - period) <= 1, f'Unverified differing track loop period {track}')
+            check(rows[-1]['end'] >= marks[1], f'Track {track} ends inside selected steady loop')
+    with tempfile.TemporaryDirectory(prefix='native-field-cue-') as temp:
+        temp = Path(temp)
+        wav, flac = temp / 'native.wav', temp / 'native.flac'
+        write_wav(str(wav), audio, RATE, marks)
+        subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', str(wav),
+                        '-map_metadata', '-1', '-fflags', '+bitexact', '-flags:a', '+bitexact',
+                        '-c:a', 'flac', '-compression_level', '8', str(flac)], check=True)
+        pcm = subprocess.check_output(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-i', str(flac),
+                                       '-f', 's16le', '-c:a', 'pcm_s16le', '-'])
+        check(pcm == audio.tobytes(), 'Lossless FLAC decoded PCM differs from native render')
+        compressed_wav = gzip.compress(wav.read_bytes(), compresslevel=9, mtime=0)
+        check(gzip.decompress(compressed_wav) == wav.read_bytes(), 'Compressed WAV roundtrip failed')
+        name = f'{sid}-{key}'
+        flac_name, wave_name = name + '.flac', name + '.wav.gz'
+        (DEST / flac_name).write_bytes(flac.read_bytes())
+        (DEST / wave_name).write_bytes(compressed_wav)
+        formats = [{'codec': 'flac', 'file': flac_name, 'bytes': flac.stat().st_size, 'sha256': SHA(flac.read_bytes())},
+                   {'codec': 'gzip-wav', 'file': wave_name, 'bytes': len(compressed_wav), 'sha256': SHA(compressed_wav),
+                    'decodedBytes': wav.stat().st_size, 'decodedSHA256': SHA(wav.read_bytes())}]
+    return {**base, 'status': 'ready', 'sampleRate': RATE, 'channels': 2, 'frames': len(audio),
+            'loopFrames': list(marks) if marks else None, 'loopRecords': records, 'pcmSHA256': SHA(audio.tobytes()),
+            'losslessFLACRoundtripVerified': True, 'formats': formats}
+
+
+def safe_export(cue):
+    try:
+        return export_track(cue)
+    except Exception as error:
+        return {**cue, 'status': 'unsupported', 'reason': type(error).__name__ + ': ' + str(error)}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--renderer', type=Path, required=True)
+    parser.add_argument('--output', type=Path, default=ROOT / 'browser/public/source/music')
+    parser.add_argument('--workers', type=int, default=4)
+    parser.add_argument('--ids', type=int, nargs='*')
+    parser.add_argument('--resume', action='store_true')
+    args = parser.parse_args()
+    renderer, output = args.renderer.resolve(), args.output.resolve()
+    check(subprocess.check_output(['git', '-C', str(renderer), 'rev-parse', 'HEAD'], text=True).strip() == PIN, 'Unpinned renderer')
+    check(not subprocess.check_output(['git', '-C', str(renderer), 'status', '--porcelain', '--untracked-files=no'], text=True).strip(), 'Modified renderer')
+    for key, version in [('numpy', '2.2.6'), ('ndspy', '4.2.0')]:
+        check(importlib.metadata.version(key) == version, 'Wrong native renderer dependency ' + key)
+    check(1 <= args.workers <= 8, 'Use one to eight offline render workers')
+    constants = {**definitions(ROOT / 'include/constants/maps.h'), **definitions(ROOT / 'include/constants/sndseq.h')}
+    maps = {}
+    headers = (ROOT / 'src/data/map_headers.h').read_text()
+    for key, body in re.findall(r'\[(MAP_\w+)\]\s*=\s*\{(.*?)\}', headers, re.S):
+        fields = dict(re.findall(r'\.(\w+)\s*=\s*(\w+)', body))
+        maps[str(constants[key])] = {phase: {'id': constants[fields[phase + 'MusicId']], 'key': fields[phase + 'MusicId']} for phase in ('day', 'night')}
+    check(len(maps) == 540, 'Changed native map inventory; review scope before exporting')
+    overrides = [{'map': constants[map_key], 'mapKey': map_key, 'flag': flag, 'flagId': definitions(ROOT / 'include/constants/flags.h')[flag],
+                  'cue': {'id': constants[key], 'key': key}}
+                 for map_key, flag, key in re.findall(r'\{\s*(MAP_\w+),\s*(FLAG_\w+),\s*(SEQ_\w+)\s*\}', (ROOT / 'src/sys_flags.c').read_text())]
+    check(len(overrides) == 13, 'Changed native story-music override table')
+    cues = {cue['id']: cue for row in maps.values() for cue in row.values()}
+    cues.update({row['cue']['id']: row['cue'] for row in overrides})
+    surf = {'id': constants['SEQ_GS_NAMINORI'], 'key': 'SEQ_GS_NAMINORI'}
+    cues[surf['id']] = surf
+    inputs = ['files/data/sound/gs_sound_data.sdat', 'src/data/map_headers.h', 'src/field_bgm.c', 'src/sys_flags.c',
+              'src/gf_rtc.c', 'include/constants/maps.h', 'include/constants/sndseq.h', 'include/constants/flags.h']
+    source_hashes = {name: SHA((ROOT / name).read_bytes()) for name in inputs}
+    engine_files = sorted((renderer / 'dualrip/engine/sdat').glob('*.py')) + sorted((renderer / 'dualrip/formats/sdat').glob('*.py')) + [renderer / 'dualrip/export.py']
+    metadata = {'version': 1, 'sourceHashes': source_hashes, 'renderer': {'repository': 'https://github.com/TetraSsky/DualRip', 'commit': PIN,
+                'numpy': '2.2.6', 'ndspy': '4.2.0', 'files': {str(p.relative_to(renderer)): SHA(p.read_bytes()) for p in engine_files}},
+                'ffmpeg': subprocess.check_output(['ffmpeg', '-version'], text=True).splitlines()[0],
+                'maps': maps, 'storyOverrides': overrides, 'surf': surf, 'surfSuppressionFlag': 'FLAG_UNK_99A',
+                'nightHours': [0, 1, 2, 3, 20, 21, 22, 23],
+                'limitations': ['Original sequence and sample-bank emulation, not a bit-exact DS hardware/DAC/shared-channel capture.',
+                               'On-demand lossless FLAC and compressed exact WAV fallback; no lossy encoder padding or substitute music.',
+                               'Only catalogued cues supported. Script/radio/battle callers must pass their actual original cue; missing cues reject explicitly.',
+                               'No browser playback or cross-platform render determinism is asserted by offline export proofs.']}
+    output.mkdir(parents=True, exist_ok=True)
+    catalog_path = output / 'catalog.json'
+    previous = json.loads(catalog_path.read_text()) if args.resume and catalog_path.exists() else {}
+    reusable = previous.get('sourceHashes') == source_hashes and previous.get('renderer') == metadata['renderer']
+    tracks = {}
+    for sid, cue in sorted(cues.items()):
+        old = previous.get('tracks', {}).get(str(sid)) if reusable else None
+        if old and old.get('status') in ('ready', 'silence') and all((output / f['file']).exists() and SHA((output / f['file']).read_bytes()) == f['sha256'] for f in old.get('formats', [])):
+            tracks[str(sid)] = old
+        else:
+            tracks[str(sid)] = {**cue, 'status': 'unsupported', 'reason': 'Native cue has not been exported'}
+
+    def save():
+        catalog_path.write_text(json.dumps({**metadata, 'tracks': tracks}, indent=2) + '\n')
+
+    save()
+    pending = [cue for sid, cue in sorted(cues.items()) if tracks[str(sid)]['status'] == 'unsupported' and (args.ids is None or sid in args.ids)]
+    with concurrent.futures.ProcessPoolExecutor(max_workers=args.workers, initializer=initialize, initargs=(str(renderer), str(output))) as pool:
+        tasks = {pool.submit(safe_export, cue): cue for cue in pending}
+        for future in concurrent.futures.as_completed(tasks):
+            result = future.result()
+            tracks[str(result['id'])] = result
+            save()
+            print(json.dumps({key: result.get(key) for key in ('id', 'key', 'status', 'frames', 'reason')}), flush=True)
+    print(json.dumps({'maps': len(maps), 'cues': len(cues), 'ready': sum(row['status'] == 'ready' for row in tracks.values()),
+                      'silence': sum(row['status'] == 'silence' for row in tracks.values()),
+                      'unsupported': sum(row['status'] == 'unsupported' for row in tracks.values())}), flush=True)
+
+
+if __name__ == '__main__':
+    main()
