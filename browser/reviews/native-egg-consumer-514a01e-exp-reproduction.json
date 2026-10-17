@@ -1,0 +1,196 @@
+{
+  "commit": "514a01e4dc3ee14810c2c790fddcee42720e54be",
+  "assets": [
+    {
+      "path": "browser/public/source/index.json",
+      "sha256": "8b1ef89441ecdcb3b55f44c882019753bb5c30cdefe44a69cb2a8e25af1f0f95"
+    },
+    {
+      "path": "browser/public/source/constants.json",
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+    },
+    {
+      "path": "browser/public/source/sprites.json",
+      "sha256": "d9f9a472f53b935cdde6e6e6f310001d99d2588aa4b2864c7033d0a2bf522955"
+    },
+    {
+      "path": "browser/public/source/pokemon.json",
+      "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d"
+    },
+    {
+      "path": "browser/public/source/moves.json",
+      "sha256": "0358e4294c58baf54de79615bafff51c2d9a4f5be338e53ed9dd55666ab7a9bb"
+    },
+    {
+      "path": "browser/public/source/learnsets.json",
+      "sha256": "b3364190eb81d410021602c6ee963fd2fc0849448b954ef7fe345b7e35887d00"
+    },
+    {
+      "path": "browser/public/source/growth.json",
+      "sha256": "bb55edcd45f93b88cf2f2ea73586a734969ec3ccf20a803a54e2d1d57991f34c"
+    },
+    {
+      "path": "browser/public/source/encounters.json",
+      "sha256": "7aa85c587bc597a5c7744e73b50fd9fd4b30eeee7497597ac438880d1ece6789"
+    },
+    {
+      "path": "browser/public/source/trainers.json",
+      "sha256": "da80e4f5746d0ed0d49caeae63a35f70b96b7b32f5fdc929b006c46cdb94d7e2"
+    },
+    {
+      "path": "browser/public/source/items.json",
+      "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab"
+    },
+    {
+      "path": "browser/public/source/type-chart.json",
+      "sha256": "bd67a8c53c54cc682d4008c73dfdfce2551234ec0933a6ae39e0430256895e66"
+    },
+    {
+      "path": "browser/public/source/initial-state.json",
+      "sha256": "2f7cebdd8dea69d12849c7c58c323e2291805e93503488954c4a9d3f2c70ac64"
+    },
+    {
+      "path": "browser/public/source/intro-messages.json",
+      "sha256": "8c0d3283ebf62c6cc1ecf5b68832311f64284197d5b15eccde9d6f4a0559479f"
+    },
+    {
+      "path": "browser/public/source/names.json",
+      "sha256": "c14bc3f85810a0b6a66882362d1edfe08f0dc0a99012c2eff5fbfe73694ab922"
+    },
+    {
+      "path": "browser/public/source/messages/302.json",
+      "sha256": "d9b2d2775fffa386fd852501df96d8a16100eb78fe34d7e3d38afa5e19ccbeeb"
+    }
+  ],
+  "result": [
+    {
+      "kind": "poison-final-foe",
+      "before": {
+        "hp": 1,
+        "maxHP": 20,
+        "exp": 135,
+        "level": 5,
+        "evs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "after": {
+        "hp": 0,
+        "maxHP": 20,
+        "exp": 135,
+        "level": 5,
+        "evs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "outcome": "won",
+      "messages": [
+        "A wild RATTATA appeared!",
+        "Go! CHIKORITA!",
+        "CHIKORITA used Tackle!",
+        "A critical hit!",
+        "CHIKORITA is hurt by poison!",
+        "RATTATA fainted!",
+        "You won the battle!"
+      ],
+      "eggUnchanged": true
+    },
+    {
+      "kind": "poison-nonfinal-levelup",
+      "before": {
+        "hp": 1,
+        "maxHP": 20,
+        "exp": 178,
+        "level": 5,
+        "evs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "after": {
+        "hp": 0,
+        "maxHP": 20,
+        "exp": 178,
+        "level": 5,
+        "evs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "outcome": "lost",
+      "messages": [
+        "₧₦ Trainer  - wants to battle!",
+        "₧₦ Trainer  - sent out RATTATA!",
+        "Go! CHIKORITA!",
+        "CHIKORITA used Tackle!",
+        "A critical hit!",
+        "CHIKORITA is hurt by poison!",
+        "RATTATA fainted!",
+        "The opposing Trainer sent out RATTATA!",
+        "CHIKORITA fainted!",
+        "Ethan has no Pokémon left to fight!"
+      ],
+      "eggUnchanged": true
+    },
+    {
+      "kind": "recoil-final-foe",
+      "before": {
+        "hp": 1,
+        "maxHP": 20,
+        "exp": 135,
+        "level": 5,
+        "evs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "after": {
+        "hp": 0,
+        "maxHP": 20,
+        "exp": 135,
+        "level": 5,
+        "evs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "outcome": "won",
+      "messages": [
+        "A wild RATTATA appeared!",
+        "Go! CHIKORITA!",
+        "CHIKORITA used Struggle!",
+        "A critical hit!",
+        "CHIKORITA is hit with recoil!",
+        "RATTATA fainted!",
+        "You won the battle!"
+      ],
+      "eggUnchanged": true
+    }
+  ]
+}
