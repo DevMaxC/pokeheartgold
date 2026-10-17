@@ -1,0 +1,492 @@
+TAP version 13
+# (node:86298) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: World field task hook preserves free camera updates and runs before transition/battle/egg branches
+ok 1 - World field task hook preserves free camera updates and runs before transition/battle/egg branches
+  ---
+  duration_ms: 92.501792
+  type: 'test'
+  ...
+# Subtest: actualVM10000 plus native Cut model hides at dispatch+9, uses same-tick queue start and completes after47 queue passes
+ok 2 - actualVM10000 plus native Cut model hides at dispatch+9, uses same-tick queue start and completes after47 queue passes
+  ---
+  duration_ms: 320.159916
+  type: 'test'
+  ...
+# Subtest: performers use logical follower tile/baseY and explicit visible flag, never an interpolated/hopping render coordinate
+ok 3 - performers use logical follower tile/baseY and explicit visible flag, never an interpolated/hopping render coordinate
+  ---
+  duration_ms: 97.102
+  type: 'test'
+  ...
+# Subtest: transition cancels owned VM/effect/waits, drains rollback and keeps cached native templates intact
+ok 4 - transition cancels owned VM/effect/waits, drains rollback and keeps cached native templates intact
+  ---
+  duration_ms: 10.764125
+  type: 'test'
+  ...
+# Subtest: missing actor ports never attach or dispatch; UI-busy is not a model-running substitute
+ok 5 - missing actor ports never attach or dispatch; UI-busy is not a model-running substitute
+  ---
+  duration_ms: 4.8895
+  type: 'test'
+  ...
+# Subtest: persistent audio status failure blocks dispatch and is separately observed without creating a private Context
+ok 6 - persistent audio status failure blocks dispatch and is separately observed without creating a private Context
+  ---
+  duration_ms: 6.375416
+  type: 'test'
+  ...
+# Subtest: ordinary transitions and native connected Warp do not cancel unrelated VM when no Cut action is owned
+ok 7 - ordinary transitions and native connected Warp do not cancel unrelated VM when no Cut action is owned
+  ---
+  duration_ms: 159.050625
+  type: 'test'
+  ...
+# Subtest: required source cancellation drains an admitted owned UI wait before recovery returns, with no late flags
+ok 8 - required source cancellation drains an admitted owned UI wait before recovery returns, with no late flags
+  ---
+  duration_ms: 15.342583
+  type: 'test'
+  ...
+# Subtest: local Cut cancellation leaves an independently owned field controller and persistent World clock running
+ok 9 - local Cut cancellation leaves an independently owned field controller and persistent World clock running
+  ---
+  duration_ms: 8.809417
+  type: 'test'
+  ...
+# Subtest: Cut admission from another task-phase continuation cannot leak its action and prevent retry
+ok 10 - Cut admission from another task-phase continuation cannot leak its action and prevent retry
+  ---
+  duration_ms: 23.937125
+  type: 'test'
+  ...
+# Subtest: queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+ok 11 - queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+  ---
+  duration_ms: 13.766833
+  type: 'test'
+  ...
+# Subtest: real sound native callback observes cry completion before the following bytecode tick
+ok 12 - real sound native callback observes cry completion before the following bytecode tick
+  ---
+  duration_ms: 15.327125
+  type: 'test'
+  ...
+# Subtest: actual transition reason reaches the owned source VM instead of generic cancellation
+ok 13 - actual transition reason reaches the owned source VM instead of generic cancellation
+  ---
+  duration_ms: 8.209417
+  type: 'test'
+  ...
+# Subtest: Cut admission from the global after-tasks phase waits settled and preserves source retry ownership
+ok 14 - Cut admission from the global after-tasks phase waits settled and preserves source retry ownership
+  ---
+  duration_ms: 16.922541
+  type: 'test'
+  ...
+# (node:86299) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+ok 15 - native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+  ---
+  duration_ms: 2.560959
+  type: 'test'
+  ...
+# Subtest: construction and map intent fetch no songs or Context until synchronous gesture unlock
+ok 16 - construction and map intent fetch no songs or Context until synchronous gesture unlock
+  ---
+  duration_ms: 95.824
+  type: 'test'
+  ...
+# Subtest: same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+ok 17 - same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+  ---
+  duration_ms: 1.600875
+  type: 'test'
+  ...
+# Subtest: mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+ok 18 - mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+  ---
+  duration_ms: 1.173125
+  type: 'test'
+  ...
+# Subtest: unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+ok 19 - unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+  ---
+  duration_ms: 1.000625
+  type: 'test'
+  ...
+# Subtest: bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+ok 20 - bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+  ---
+  duration_ms: 0.972375
+  type: 'test'
+  ...
+# Subtest: latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+ok 21 - latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+  ---
+  duration_ms: 1.647167
+  type: 'test'
+  ...
+# Subtest: late map-catalog completion cannot overwrite a newer direct cue intent
+ok 22 - late map-catalog completion cannot overwrite a newer direct cue intent
+  ---
+  duration_ms: 0.842041
+  type: 'test'
+  ...
+# Subtest: external abort during cue loading cannot interrupt the prior committed voice or start late audio
+ok 23 - external abort during cue loading cannot interrupt the prior committed voice or start late audio
+  ---
+  duration_ms: 0.964958
+  type: 'test'
+  ...
+# Subtest: field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+ok 24 - field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+  ---
+  duration_ms: 1.1365
+  type: 'test'
+  ...
+# Subtest: a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+ok 25 - a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+  ---
+  duration_ms: 0.678042
+  type: 'test'
+  ...
+# Subtest: shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+ok 26 - shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+  ---
+  duration_ms: 9.401
+  type: 'test'
+  ...
+# Subtest: native effects borrow only the gesture-unlocked output, retain preferences and observe player disposal
+ok 27 - native effects borrow only the gesture-unlocked output, retain preferences and observe player disposal
+  ---
+  duration_ms: 0.940916
+  type: 'test'
+  ...
+# Subtest: whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+ok 28 - whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+  ---
+  duration_ms: 1.262459
+  type: 'test'
+  ...
+# Subtest: blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+ok 29 - blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+  ---
+  duration_ms: 95.980916
+  type: 'test'
+  ...
+# Subtest: catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+ok 30 - catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+  ---
+  duration_ms: 0.561333
+  type: 'test'
+  ...
+# Subtest: failed field restore is retryable and cannot silently mark a missing restored song successful
+ok 31 - failed field restore is retryable and cannot silently mark a missing restored song successful
+  ---
+  duration_ms: 3.582917
+  type: 'test'
+  ...
+# Subtest: missing map stops old committed and late-loading music rather than retaining stale intent
+ok 32 - missing map stops old committed and late-loading music rather than retaining stale intent
+  ---
+  duration_ms: 0.976
+  type: 'test'
+  ...
+# Subtest: native sequence identity preserves phase across map/override/radio label changes
+ok 33 - native sequence identity preserves phase across map/override/radio label changes
+  ---
+  duration_ms: 0.543709
+  type: 'test'
+  ...
+# Subtest: volume-only preferences share the active load without dropping its caller cancellation
+ok 34 - volume-only preferences share the active load without dropping its caller cancellation
+  ---
+  duration_ms: 0.562375
+  type: 'test'
+  ...
+# Subtest: battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+ok 35 - battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+  ---
+  duration_ms: 1.537584
+  type: 'test'
+  ...
+# Subtest: battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+ok 36 - battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+  ---
+  duration_ms: 2.321917
+  type: 'test'
+  ...
+# Subtest: muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+ok 37 - muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+  ---
+  duration_ms: 0.747375
+  type: 'test'
+  ...
+# Subtest: restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+ok 38 - restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+  ---
+  duration_ms: 0.889625
+  type: 'test'
+  ...
+# Subtest: a newer map during slow restore owns playback and cannot re-arm stale interruption
+ok 39 - a newer map during slow restore owns playback and cannot re-arm stale interruption
+  ---
+  duration_ms: 1.093083
+  type: 'test'
+  ...
+# Subtest: an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+ok 40 - an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+  ---
+  duration_ms: 2.11475
+  type: 'test'
+  ...
+# Subtest: repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+ok 41 - repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+  ---
+  duration_ms: 0.678292
+  type: 'test'
+  ...
+# Subtest: mute changes after encounter abort do not resurrect or reject its terminated owned cue
+ok 42 - mute changes after encounter abort do not resurrect or reject its terminated owned cue
+  ---
+  duration_ms: 1.159583
+  type: 'test'
+  ...
+# Subtest: restore in the suspension microtask cancels start and coherently releases the field
+ok 43 - restore in the suspension microtask cancels start and coherently releases the field
+  ---
+  duration_ms: 1.644458
+  type: 'test'
+  ...
+# Subtest: same native cue source label changes while interrupted remain current after phase restoration
+ok 44 - same native cue source label changes while interrupted remain current after phase restoration
+  ---
+  duration_ms: 0.496208
+  type: 'test'
+  ...
+# Subtest: catalog caller cancellation rejects promptly without poisoning a shared consumer
+ok 45 - catalog caller cancellation rejects promptly without poisoning a shared consumer
+  ---
+  duration_ms: 0.303875
+  type: 'test'
+  ...
+# Subtest: catalog deadline evicts a hung shared request and cannot adopt its late result
+ok 46 - catalog deadline evicts a hung shared request and cannot adopt its late result
+  ---
+  duration_ms: 15.354583
+  type: 'test'
+  ...
+# Subtest: abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+ok 47 - abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 1.263667
+  type: 'test'
+  ...
+# Subtest: abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+ok 48 - abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 73.329958
+  type: 'test'
+  ...
+# Subtest: abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+ok 49 - abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 2.40025
+  type: 'test'
+  ...
+# Subtest: background fetch deadline aborts the owner without attempting another codec or starting late audio
+ok 50 - background fetch deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 15.943625
+  type: 'test'
+  ...
+# Subtest: background decode deadline aborts the owner without attempting another codec or starting late audio
+ok 51 - background decode deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 16.015666
+  type: 'test'
+  ...
+# Subtest: a caller deadline during field restore preserves retryable interruption and no late voice
+ok 52 - a caller deadline during field restore preserves retryable interruption and no late voice
+  ---
+  duration_ms: 0.847459
+  type: 'test'
+  ...
+# Subtest: cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+ok 53 - cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+  ---
+  duration_ms: 1.10875
+  type: 'test'
+  ...
+# Subtest: already-aborted restore still tears down the session voice before rejecting, then can retry
+ok 54 - already-aborted restore still tears down the session voice before rejecting, then can retry
+  ---
+  duration_ms: 0.531
+  type: 'test'
+  ...
+# Subtest: aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+ok 55 - aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+  ---
+  duration_ms: 0.343333
+  type: 'test'
+  ...
+# Subtest: shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+ok 56 - shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+  ---
+  duration_ms: 0.418958
+  type: 'test'
+  ...
+# Subtest: isUnlocked reports actual Context permission separately from music preparation success
+ok 57 - isUnlocked reports actual Context permission separately from music preparation success
+  ---
+  duration_ms: 0.592083
+  type: 'test'
+  ...
+# Subtest: player disposal rejects a pending field restore instead of reporting a newer-map success
+ok 58 - player disposal rejects a pending field restore instead of reporting a newer-map success
+  ---
+  duration_ms: 0.691167
+  type: 'test'
+  ...
+# Subtest: player disposal rejects a pending session restore instead of reporting a newer-map success
+ok 59 - player disposal rejects a pending session restore instead of reporting a newer-map success
+  ---
+  duration_ms: 0.781167
+  type: 'test'
+  ...
+# (node:86300) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+ok 60 - literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+  ---
+  duration_ms: 28.378958
+  type: 'test'
+  ...
+# Subtest: persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+ok 61 - persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+  ---
+  duration_ms: 2.188208
+  type: 'test'
+  ...
+# Subtest: actual task boundary drains runnable source awaits and preserves field running flags for task admission
+ok 62 - actual task boundary drains runnable source awaits and preserves field running flags for task admission
+  ---
+  duration_ms: 147.83075
+  type: 'test'
+  ...
+# Subtest: scope failure cancels only its action; static and other controller queues retain global tick phase
+ok 63 - scope failure cancels only its action; static and other controller queues retain global tick phase
+  ---
+  duration_ms: 10.603459
+  type: 'test'
+  ...
+# Subtest: scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+ok 64 - scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+  ---
+  duration_ms: 1.073042
+  type: 'test'
+  ...
+# Subtest: one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+ok 65 - one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+  ---
+  duration_ms: 0.772417
+  type: 'test'
+  ...
+# Subtest: task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+ok 66 - task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+  ---
+  duration_ms: 1.2055
+  type: 'test'
+  ...
+# Subtest: native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+ok 67 - native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+  ---
+  duration_ms: 0.97225
+  type: 'test'
+  ...
+# Subtest: one queue callback changing field admission cannot run stale callbacks from another map scope
+ok 68 - one queue callback changing field admission cannot run stale callbacks from another map scope
+  ---
+  duration_ms: 0.732084
+  type: 'test'
+  ...
+# (node:86301) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal normal-loop sound order and Comm_Update unconditional TRUE constrain the cadence claim
+ok 69 - literal normal-loop sound order and Comm_Update unconditional TRUE constrain the cadence claim
+  ---
+  duration_ms: 4.814959
+  type: 'test'
+  ...
+# Subtest: reviewed native registry dependency remains byte-pinned and test-only
+ok 70 - reviewed native registry dependency remains byte-pinned and test-only
+  ---
+  duration_ms: 1.416958
+  type: 'test'
+  ...
+# Subtest: early onTick is a real negative control: task-completion fade misses that sound update
+ok 71 - early onTick is a real negative control: task-completion fade misses that sound update
+  ---
+  duration_ms: 12.0965
+  type: 'test'
+  ...
+# Subtest: post-task boundary drains completion jobs before exact native fade1 even when registered first
+ok 72 - post-task boundary drains completion jobs before exact native fade1 even when registered first
+  ---
+  duration_ms: 1.431042
+  type: 'test'
+  ...
+# Subtest: zero field scopes and mapRunning=false still admit one global sound phase
+ok 73 - zero field scopes and mapRunning=false still admit one global sound phase
+  ---
+  duration_ms: 1.688333
+  type: 'test'
+  ...
+# Subtest: map cancel preserves global registry while retaining exact field rejection reasons
+ok 74 - map cancel preserves global registry while retaining exact field rejection reasons
+  ---
+  duration_ms: 1.442625
+  type: 'test'
+  ...
+# Subtest: local controller failure leaves the global phase alive
+ok 75 - local controller failure leaves the global phase alive
+  ---
+  duration_ms: 0.734959
+  type: 'test'
+  ...
+# Subtest: owner abort or final dispose at either boundary prevents late global writes
+ok 76 - owner abort or final dispose at either boundary prevents late global writes
+  ---
+  duration_ms: 0.474667
+  type: 'test'
+  ...
+# Subtest: pre-unlock readonly player lifetime owns registry and hook without constructing a Context
+ok 77 - pre-unlock readonly player lifetime owns registry and hook without constructing a Context
+  ---
+  duration_ms: 0.927625
+  type: 'test'
+  ...
+# Subtest: global phase has no overlap/catchup and task-phase registration is rejected
+ok 78 - global phase has no overlap/catchup and task-phase registration is rejected
+  ---
+  duration_ms: 0.484459
+  type: 'test'
+  ...
+# Subtest: fatal global error after map cancellation is observable and stops later hooks
+ok 79 - fatal global error after map cancellation is observable and stops later hooks
+  ---
+  duration_ms: 0.238416
+  type: 'test'
+  ...
+1..79
+# tests 79
+# suites 0
+# pass 79
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3476.332

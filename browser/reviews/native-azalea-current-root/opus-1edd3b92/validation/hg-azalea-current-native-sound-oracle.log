@@ -1,0 +1,9 @@
+{
+  "status": "PASS: literal StopSeq fade1 retains count/priority0 until next PlayerMain; idle update once; natural end retires at PlayerMain; fade0 immediate",
+  "sourceSHA256": {
+    "lib/NitroSystem/src/snd_player.c": "60287a32f8edc3d38ecc40b96ebfb7f42493aedb3e3f44e632a601654de0cb64",
+    "lib/NitroSystem/src/snd_fader.c": "f7aba68b4e60e0e3091e87cf1e2d9da92f6aee2c3dc864c2df5ad9491b3f56e6"
+  },
+  "harnessSHA256": "503e5e426815387a363a1d50f9c61f92950b63a5c3ac4fea6940a2022b20fadd",
+  "limitation": "Original C control flow/fader/count bodies with explicit single-player list and hardware I/O stubs, not hardware/DAC/global scheduler emulation."
+}

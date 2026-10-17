@@ -1,0 +1,67 @@
+{
+  "candidateRuntimeCommit": "1d18976e1a7dba61d771efd90d1b672611dedf00",
+  "fixtureOnlyFollowup": "649fec9313f50034a7848dc7759b612f3f418b18",
+  "baseline": "9e99dbac5af7ca62157a700a70203b39bf7b9320",
+  "currentSource": {
+    "browser/src/source/main.ts": {
+      "gitBlob": "3714859d3b594452afe7486948b55ae2b11394fb",
+      "sha256": "0aa1154124861d154b705aa3e2492c06609ca5f7a38e5f1e878dabf35f5d94ef"
+    },
+    "browser/src/source/azalea-field-bindings.ts": {
+      "gitBlob": "44d2c164313fda1c18028294fe87f52522f56791",
+      "sha256": "be68324967887d7ab787bbc59de8873c10261d996d21ede5e6e9a39593ded7b3"
+    },
+    "browser/src/source/azalea-field-sound.ts": {
+      "gitBlob": "bd548ae58c047ac864b980e6c1d3ea3754636f8e",
+      "sha256": "6f33aecc472cc9f39e89f237f1217d04a1524d1228460f42e89d2900b87f194c"
+    },
+    "browser/src/source/world.ts": {
+      "gitBlob": "dc3fbae0b27c9d2dffbb8467c018de9fe38b566b",
+      "sha256": "3455ea9842202ef121470fc472ce83e04a356c2b22897c6a0631f27de929847e"
+    },
+    "browser/src/source/script.ts": {
+      "gitBlob": "3fd8109fa9244aca78148c910abb7f06345e94f7",
+      "sha256": "758a1cfe88cf79ebe4a651660beb2988cf613f361047aac049c5d36bcc2a36f4"
+    },
+    "browser/src/source/types.ts": {
+      "gitBlob": "58bf1da3b597316418167c55a96b30067275d9c2",
+      "sha256": "e7a17e404b742da8eea8a5b343d4eccea8c7a95dc2112a4c66880fc033c0f866"
+    },
+    "browser/src/source/gym-azalea-host.ts": {
+      "gitBlob": "1b830404339f1bb105f182ee92938543a4360363",
+      "sha256": "36e3e33c404b586c18970ea3bcb22c343d975d5418835b174e8ece586e785c6f"
+    },
+    "browser/src/source/gym-azalea-audio.ts": {
+      "gitBlob": "2ad637a6ed6906de75a40795c0570b4da0045463",
+      "sha256": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7"
+    },
+    "browser/src/source/native-field-clock.ts": {
+      "gitBlob": "34a36839cdae87ae6d2f6d0c14b26dd0bd9ec84a",
+      "sha256": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749"
+    },
+    "browser/src/source/field-music.ts": {
+      "gitBlob": "01e525db14e5907b55919424c5db852692437c9b",
+      "sha256": "298f6bec47f94956e1141b2fa3a71c9311b66cd5fb3523090eb14fe74349c62e"
+    },
+    "browser/src/source/hatch-host-audio.ts": {
+      "gitBlob": "120e3cf2fbee82bcdb9a4146d8daf300c3821521",
+      "sha256": "21e192026d3b27b3a55386272f9b3a9fdc0b7016cb34c00ca44ada56eee1aa7e"
+    }
+  },
+  "runtimeDiffAfterReviewFreeze": "",
+  "qualification": "Runtime source frozen. Later five legacy test fixtures are separately tested and not claimed part of immutable1d review inputs. Native source-only field cadence; no preview/audio/browser/build/live parity claim.",
+  "externalRuns": {
+    "frozenTargetTests": {
+      "path": "/tmp/hg-azalea-main-frozen-targets.log",
+      "pass": 236
+    },
+    "adjacentFixtureTests": {
+      "path": "/tmp/hg-azalea-main-adjacent-hosts-final.log",
+      "pass": 55
+    },
+    "tsc": "/tmp/hg-azalea-main-fixture-tsc.log",
+    "controlledOldRenderFailure": "/tmp/hg-azalea-main-render-before.log",
+    "originalAdjacentFailures": "/tmp/hg-azalea-main-adjacent-hosts.log",
+    "literalNativeSoundC": "/tmp/hg-azalea-main-native-sound-oracle.log"
+  }
+}

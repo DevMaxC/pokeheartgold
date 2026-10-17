@@ -1,0 +1,32 @@
+{
+  "archive": "/tmp/hg-azalea-main-source-followup-7c082d79.tar.gz",
+  "sha256": "4e1b317fe02508d74547158752edf8611f5cd0d054814bf51b57474dda4dec54",
+  "bytes": 13921732,
+  "sourceFiles": 9193,
+  "graphSHA256": "3e558fbcb67cd4f904ae7ffea33b24ad8a67df0ca20d995c679f6ecb01847f92",
+  "candidateCommit": "7c082d79a02162542823b879d5fc4b65b8d008fe",
+  "createdUTC": "2026-10-17T19:03:36.395769+00:00",
+  "derivedPatchAndValidationChecks": {
+    "/tmp/hg-azalea-main-opus-1d18976e/main-vs-campaign-base.patch": {
+      "sha256": "6747a2430ebf683bd4db3ff73772708f945162f6ab782bee6a39a2329dfbafa6",
+      "reproducedFromGitDiff": true
+    },
+    "/tmp/hg-azalea-main-opus-1d18976e/world-vs-campaign-base.patch": {
+      "sha256": "4a23ca4126fbae6277c2e067719ba43ef99b9e299b8d2578fb3b410276426f8c",
+      "reproducedFromGitDiff": true
+    },
+    "/tmp/hg-azalea-main-opus-1d18976e/integration-scoped.patch": {
+      "sha256": "70029ab6470c9f5672de069463e1fa5dcaa0eb1d5dc0c8c2d9d029e39ba405e7",
+      "reproducedFromGitDiff": true
+    },
+    "/tmp/hg-azalea-main-opus-followup-7c082d79/main-vs-initial-review.patch": {
+      "sha256": "b3915639d3b0a8793afec0f00aae20df91aa517967eda405d7ecc9572ec2db9b",
+      "reproducedFromGitDiff": true
+    },
+    "/tmp/hg-azalea-main-opus-followup-7c082d79/followup-scoped.patch": {
+      "sha256": "980510957e32725ae2385ce3c8fef8354e15fc27836501754a0aa25de8474897",
+      "reproducedFromGitDiff": true
+    }
+  },
+  "qualification": "Derived patches reconstructed exactly from fixed Git source pairs; copied validation hashes checked. No claim patches were independently time-monitored during review; source/ref blobs and prompt are separately verified before/after."
+}

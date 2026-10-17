@@ -1,0 +1,256 @@
+diff --git a/browser/src/source/main.ts b/browser/src/source/main.ts
+index da7360d7..3714859d 100644
+--- a/browser/src/source/main.ts
++++ b/browser/src/source/main.ts
+@@ -24,6 +24,10 @@ import {mapBlackoutSpawn} from './spawns.ts';
+ import {originalTrainerParty,battleMoneyLoss,trainerPrize} from './trainers.ts';
+ import {catchingTutorialState} from './tutorial.ts';
+ import {gymFieldEntry} from './gym-violet.ts';
++import {NativeFieldClock} from './native-field-clock.ts';
++import {AzaleaGymHost} from './gym-azalea-host.ts';
++import {AzaleaFieldActors} from './azalea-field-bindings.ts';
++import {AzaleaFieldSound} from './azalea-field-sound.ts';
+ import {isUsableBattler,firstFollowerMon,NATIVE_EGG_ICON} from './eggs.ts';
+ import {partyHUD,partyRow,partySummary} from './party-display.ts';
+ import {chooseFieldPartySwitchTarget,swapFieldPartySlots} from './party-order.ts';
+@@ -40,6 +44,7 @@ import {CameraInput} from './camera-input.ts';
+ import {fieldInput,fieldInputFacing} from './field-input.ts';
+ import {readInterfacePreferences,writeInterfacePreferences} from './interface-preferences.ts';
+ import {InterfacePanels,type InterfaceBagUseContext} from './interface-panels.ts';
++import {bindAudioControls} from './audio-controls.ts';
+ import {loadNativeFieldMoveData,type NativeFieldMoveData} from './field-moves.ts';
+ import {useFieldBagItem} from './field-bag-actions.ts';
+ import {createNativeFieldMusicPlayer,UnsupportedNativeMusic,type EffectiveMusic} from './field-music.ts';
+@@ -64,6 +69,7 @@ let fieldPhone:FieldPhoneHost;
+ let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=1,followerMoving=false,followerStep=-1;
+ let followerPrevious:{x:number;z:number;height:number}|null=null;let playerTweenY:number|undefined;let previousStepJump=false;let restoringGym=false;
+ let hatching=false,hatchFollowerPendingCommit=false;
++let fieldClock:NativeFieldClock,fieldSound:AzaleaFieldSound,fieldActors:AzaleaFieldActors|undefined;
+ // Retaining a held vector is distinct from admitting a new action. Ordinary
+ // steps and connection OnLoad scripts may own a transaction without dropping
+ // its pointer; real scenes and recovery always cancel field input.
+@@ -76,6 +82,22 @@ let preferences=readInterfacePreferences(preferenceStorage),panels:InterfacePane
+ const music=createNativeFieldMusicPlayer({enabled:preferences.music,volume:preferences.volume});
+ let musicKey='',musicError='',musicNotice='',musicRetryable=true,soundUnlocked=false;let unlockPending:Promise<void>|null=null;let battleSoundOwned=false;let musicRequestPending:Promise<void>|null=null;let musicRequestSerial=0,musicSettledRequest=0,musicSettledLocked=false,musicPreferencePending=0;const pendingMusicRestores=new Set<(signal?:AbortSignal)=>Promise<void>>(),musicListeners=new Set<()=>void>();
+ const MUSIC_WAIT_MS=1500;
++function reportNativeFieldFailure(error:unknown){lastError=String(error);console.error('Original field controller failed',error);}
++function initializeNativeField(){
++  fieldClock=new NativeFieldClock({field:()=>({map:world.fieldMapID,mapRunning:world.fieldMapRunning}),onError:reportNativeFieldFailure});fieldClock.attach(world);
++  fieldSound=new AzaleaFieldSound({clock:fieldClock,signal:music.lifetimeSignal,output:()=>music.sharedAudioOutput(),report:status=>{if(status.stage==='no-voice')console.warn('Original field sound admitted no voice',status);}});
++  void fieldClock.failure.catch(reportNativeFieldFailure);void fieldSound.failure.catch(reportNativeFieldFailure);
++}
++async function installAzaleaField(){
++  if(world.azaleaGym)await world.azaleaGym.dispose();
++  fieldActors=new AzaleaFieldActors({
++    player:()=>player,follower:()=>follower,followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,
++    playerLogical:()=>({x:state.x,y:map?player.group.position.y:state.fieldHeight??0,z:state.z}),forcedMovement:()=>!!world.azaleaGym?.moving,
++    facing:role=>role==='player'?state.facing:followerFacing,face:(role,value)=>{if(role==='player')state.facing=value;else followerFacing=value;},
++    settle:(role,point)=>{if(role==='player'){state.x=point.x;state.z=point.z;state.fieldHeight=point.y;playerTweenY=undefined;stepFrame=-1;previousStepJump=false;}else{followerPrevious=null;followerMoving=false;followerStep=-1;}},
++  });
++  new AzaleaGymHost(world,state,fieldClock,{actors:()=>fieldActors!.actors(),followerMoving:()=>followerMoving,audio:fieldSound.audio});
++}
+ function reportInputError(error:unknown){if(error instanceof DOMException&&error.name==='AbortError')return;console.error(error);lastError=String(error);ui.toast('That action could not finish. Please try again.');}
+ function musicChanged(){for(const listener of musicListeners)try{listener();}catch(error){console.warn(error);}}
+ function watchMusic(listener:()=>void){musicListeners.add(listener);return()=>{musicListeners.delete(listener);};}
+@@ -93,7 +115,7 @@ function finishMusicUnlock(request:number,failure?:{error:unknown}){
+   if(request!==current&&musicRequestPending)void musicRequestPending.then(finish);else finish();
+ }
+ function unlockSound(){
+-  if(hatching||battleSoundOwned)return;
++  if(!preferences.music||document.visibilityState==='hidden'||hatching||battleSoundOwned)return;
+   if(music.isUnlocked()){soundUnlocked=true;return;}if(unlockPending)return;soundUnlocked=false;
+   const request=musicRequestSerial,pending=music.unlock();unlockPending=pending;musicChanged();void pending.then(()=>{soundUnlocked=true;finishMusicUnlock(request);}).catch(error=>{soundUnlocked=music.isUnlocked();if(soundUnlocked)finishMusicUnlock(request,{error});else musicFailed(error);}).finally(()=>{if(unlockPending===pending)unlockPending=null;musicChanged();});
+ }
+@@ -110,16 +132,18 @@ function syncMusic(){
+   const hour=new Date().getHours(),key=JSON.stringify([map.id,hour,state.flags,preferences.music,preferences.volume]);if(key===musicKey)return;musicKey=key;const request=++musicRequestSerial;
+   const pending=music.playMap(map,{hour,flags:state.flags}).then(async result=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=result.status==='locked';if(musicSettledLocked||battleSoundOwned||hatching)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey&&!battleSoundOwned&&!hatching)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=false;if(battleSoundOwned||hatching)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
+ }
++function updatePreferences(value:typeof preferences,persist=true){const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=persist?writeInterfacePreferences(preferenceStorage,value):value;if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();}
++bindAudioControls({button:$<HTMLButtonElement>('audio-toggle'),preferences:()=>preferences,updatePreferences,storage:preferenceStorage,unlock:unlockSound,setPageActive:active=>music.setPageActive(active),watch:watchMusic});
+ function textDelay(){return [8,4,1][preferences.textSpeed]*1000/60;}
+ const touch=new TouchControls($('touch-pad'),{interact:()=>{unlockSound();void interact().catch(reportInputError);},menu:()=>{unlockSound();void menu().catch(reportInputError);}});
+-function fieldControlsAvailable(){return !!world&&started&&ready&&!recoveryPrompt&&!sourceActions?.recovering&&!hatching&&!battleSoundOwned&&!sourceSceneOwners&&(!transitioning||connecting)&&(!vm?.busy||preservedControlScripts>0)&&!ui.busy&&!battle?.active&&!world.fieldTransitionActive&&(!sourceActions?.busy||ordinaryInputOwners>0||connecting||preservedControlScripts>0);}
++function fieldControlsAvailable(){return !!world&&started&&ready&&!recoveryPrompt&&!sourceActions?.recovering&&!hatching&&!battleSoundOwned&&!world.azaleaGym?.moving&&!sourceSceneOwners&&(!transitioning||connecting)&&(!vm?.busy||preservedControlScripts>0)&&!ui.busy&&!battle?.active&&!world.fieldTransitionActive&&(!sourceActions?.busy||ordinaryInputOwners>0||connecting||preservedControlScripts>0);}
+ const camera=new CameraInput($('original-world'),{allowed:fieldControlsAvailable,read:()=>({yaw:world.yaw,pitch:world.pitch,distance:world.distance}),write:orbit=>{world.yaw=orbit.yaw;world.pitch=orbit.pitch;world.distance=orbit.distance;},sensitivity:()=>preferences.cameraSensitivity});
+ function resetFieldInput(){keys.clear();touch.reset();camera.reset();}
+ function syncInputContext(){const field=fieldControlsAvailable();touch.setContext({movement:field,run:field&&!!state?.runningShoes,interact:ui.dialogueOpen||field&&!walking,menu:field&&!walking});camera.sync();$('game').dataset.gameState=!started?'title':battle?.active?'battle':'field';}
+ function running(){return !!state.runningShoes&&fieldInput(keys,touch.read()).run;}
+ async function retainFieldInput<T>(action:()=>Promise<T>){ordinaryInputOwners++;try{return await action();}finally{ordinaryInputOwners--;}}
+ 
+-function save(){if(!ready||!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking||hatching||battleSoundOwned)return false;try{state.fieldHeight=player.group.position.y;state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));return true;}catch{console.warn('Local save is unavailable');return false;}}
++function save(){if(!ready||!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking||hatching||battleSoundOwned||world.azaleaGym?.moving)return false;try{state.fieldHeight=player.group.position.y;state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));return true;}catch{console.warn('Local save is unavailable');return false;}}
+ function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag?s:null;}catch{return null;}}
+ function displayMapName(m:SourceMap){const names:Record<string,string>={T20:'New Bark Town',T20R0202:'Your room',T20R0201:'Home',T20R0101:'Professor Elm’s Lab',T20R0102:'Elm’s home',T21:'Cherrygrove City',T22:'Violet City'};if(names[m.code])return names[m.code];return m.key.replace('MAP_','').split('_').map(word=>/^\d+$/.test(word)?word:word[0]+word.slice(1).toLowerCase()).join(' ');}
+ function updateHUD(){
+@@ -130,7 +154,7 @@ function refreshNPCs(){world.updateNPCs(objects.snapshot());for(const[id,y]of np
+ function showPerson(object:string,value:boolean){objects.show(object,value);refreshNPCs();}
+ function trainerCollision(){return fieldTrainerCollision({permission:(x,z)=>world.permission(x,z),height:(...args)=>world.height(...args),obstructed:(x,z,fromX,fromZ,fromY)=>{const toY=world.height(x,z,fromY,fromX,fromZ);return[...world.cells.values()].some(cell=>furnitureBlocksStep(cell.furniture??[],fromX,fromZ,x,z,fromY,toY));},actorHeight:actor=>world.npcSprites.get(actor.id)?.group.position.y??world.height(actor.x+.5,actor.z+.5,actor.y/16),playerHeight:()=>player.group.position.y,occupants:()=>follower?.group.visible&&!followerSuppressed?[{x:follower.group.position.x,z:follower.group.position.z,height:follower.group.position.y},...(followerPrevious?[followerPrevious]:[])]:[]},state,objects.snapshot());}
+ async function tryTrainerEncounter(){
+-  if(vm.busy||ui.busy||battle.active||transitioning||recoveryPrompt||hatching||battleSoundOwned)return false;
++  if(vm.busy||ui.busy||battle.active||transitioning||recoveryPrompt||hatching||battleSoundOwned||world.azaleaGym?.moving)return false;
+   trainerAttempts.observe(state);
+   let encounter:TrainerEncounter|null;try{encounter=findTrainerEncounter(data,state,map,objects.snapshot(),trainerCollision());}catch(error){if(!(error instanceof MissingTrainerPartner))throw error;if(!trainerAttempts.admit(state,'missing:'+error.object))return false;await runScript(3739,error.object,false,false,false,undefined,new UnsupportedScript(map.code,'TrainerPartner',-1));return true;}if(!encounter)return false;
+   if(!trainerAttempts.admit(state,encounter.trainers.map(t=>t.object).join(',')))return false;activeTrainerEncounter=encounter;trainerApproachTasks.clear();
+@@ -167,18 +191,18 @@ async function pollPhoneAdmission(){
+   if(!result.ok)phoneAdmissionGate.failed(input,'due');
+ }
+ async function pollFieldInput(){
+-  if(fieldPolling||!started||!ready||sourceActions?.busy||recoveryPrompt||walking||transitioning||hatching||battleSoundOwned||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
++  if(fieldPolling||!started||!ready||sourceActions?.busy||recoveryPrompt||walking||transitioning||hatching||battleSoundOwned||world.azaleaGym?.moving||vm.busy||ui.busy||battle.active)return;fieldPolling=true;
+   try{if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;const facing=fieldInputFacing(fieldInput(keys,touch.read()),world.yaw);if(facing!==null&&!await step(facing))return;
+-    if(!sourceActions?.busy&&!recoveryPrompt&&!transitioning&&!walking&&!hatching&&!battleSoundOwned&&!vm.busy&&!ui.busy&&!battle.active)await pollPhoneAdmission();
++    if(!sourceActions?.busy&&!recoveryPrompt&&!transitioning&&!walking&&!hatching&&!battleSoundOwned&&!world.azaleaGym?.moving&&!vm.busy&&!ui.busy&&!battle.active)await pollPhoneAdmission();
+   }finally{fieldPolling=false;}
+ }
+ function refreshPhoneIndicator(){
+   const available=fieldPhone.current(),button=$<HTMLButtonElement>('phone-ring'),supported=available.kind==='elm'||available.kind==='mother';
+   const caller=available.kind==='mother'?'Mom':'Professor Elm';if(button.dataset.caller!==caller){button.dataset.caller=caller;button.innerHTML=`${caller} is calling<small>Answer <kbd>R</kbd></small>`;button.setAttribute('aria-label',`Answer ${caller}’s phone call`);}
+-  button.hidden=!supported||!ready||transitioning||recoveryPrompt||!!sourceActions?.busy||vm.busy||ui.busy||battle.active||hatching||battleSoundOwned;
++  button.hidden=!supported||!ready||transitioning||recoveryPrompt||!!sourceActions?.busy||vm.busy||ui.busy||battle.active||hatching||battleSoundOwned||!!world.azaleaGym?.moving;
+ }
+ async function answerPhone(){
+-  const blocked=()=>!started||!ready||sourceActions?.busy||recoveryPrompt||transitioning||walking||vm.busy||ui.busy||battle.active||hatching||battleSoundOwned;
++  const blocked=()=>!started||!ready||sourceActions?.busy||recoveryPrompt||transitioning||walking||vm.busy||ui.busy||battle.active||hatching||battleSoundOwned||world.azaleaGym?.moving;
+   const supported=()=>{const kind=fieldPhone.current().kind;return kind==='elm'||kind==='mother';};
+   if(blocked()||!supported())return;
+   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter)||blocked()||!supported())return;
+@@ -242,7 +266,7 @@ async function hatchEgg(){
+   const priorMusicWork=[musicRequestPending,unlockPending];
+   hatching=true;hatchFollowerPendingCommit=true;resetFieldInput();
+   try{
+-  const audio=createHatchHostAudio({enabled:state.options.sound,player:music,sharedAudioOutput:()=>music.sharedAudioOutput(),drainFieldWork:async()=>{await Promise.allSettled(priorMusicWork);},report:musicFailed,retainRestore:retry=>{pendingMusicRestores.add(retry);},timeoutMs:MUSIC_WAIT_MS});
++  const audio=createHatchHostAudio({enabled:()=>preferences.music,player:music,sharedAudioOutput:()=>music.sharedAudioOutput(),drainFieldWork:async()=>{await Promise.allSettled(priorMusicWork);},report:musicFailed,retainRestore:retry=>{pendingMusicRestores.add(retry);},timeoutMs:MUSIC_WAIT_MS});
+   await presentNativeEggHatch(data,state,map,{
+     view:signal=>new WorldEggHatchView(world,()=>({map:state.map,x:state.x,y:player.group.position.y,z:state.z,hideActors:[player.group,...(follower?[follower.group]:[])]}),{signal,cry:audio.cry}),
+     music:audio.music,
+@@ -254,21 +278,24 @@ async function hatchEgg(){
+   });}finally{hatching=false;musicKey='';syncMusic();}
+ }
+ // Live actors are newer than state.objectEvents until the next durable save.
+-function captureField(){return{actors:map?objects.save(state.map):state.objectEvents,phone:fieldPhone.snapshot(),phoneAdmission:phoneAdmissionGate.snapshot(),playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
++function captureField(){return{azaleaActors:fieldActors?.snapshot(),actors:map?objects.save(state.map):state.objectEvents,phone:fieldPhone.snapshot(),phoneAdmission:phoneAdmissionGate.snapshot(),playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
+ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
+   // Hydrate directly: enterMap would rerun source entry scripts, clear Flash and
+   // update the blackout spawn. Those mutations belong to the failed action.
+-  abortBagUse();followerPrevious=null;resetFieldInput();transitioning=true;connecting=false;musicKey='';musicRequestSerial++;world.beginFieldTransition();ui.loading('Restoring the area…');
++  // Global interface preferences may change while a source action owns State.
++  // Gameplay options remain checkpoint-owned; sound/text use the live host.
++  state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
++  abortBagUse();followerPrevious=null;resetFieldInput();transitioning=true;connecting=false;musicKey='';musicRequestSerial++;world.beginFieldTransition();fieldActors?.reset();ui.loading('Restoring the area…');
+   try{
+     fieldPhone.restore(snapshot.phone);
+     phoneAdmissionGate.restore(snapshot.phoneAdmission);
+     Object.assign(world,snapshot.camera);
+-    // Optional height/lift parameters are also understood by the gym hydration
+-    // port. Older field worlds accept this compatible superset and ignore them.
+-    const field:{enter:(id:number,x:number,z:number,weather?:number,initialHeight?:number,violetLift?:0|1)=>Promise<SourceMap>;clearScriptCameraTarget?:()=>void}=world;
++    // Hydrate both gyms from the restored save without re-running native Init.
++    // Azalea must receive Continue explicitly; a default entry resets it.
++    const field:{enter:(id:number,x:number,z:number,weather?:number,initialHeight?:number,violetLift?:0|1,azaleaEntry?:'continue'|'connection'|'warp')=>Promise<SourceMap>;clearScriptCameraTarget?:()=>void}=world;
+     field.clearScriptCameraTarget?.();
+     const gym=(state as State&{gymmick?:{kind:string;liftState:0|1}}).gymmick,source=await world.map(state.map);
+-    const restored=await field.enter(state.map,state.x,state.z,snapshot.weather??mapWeather(source,state),snapshot.playerHeight,gym?.kind==='violet'?gym.liftState:0);
++    const restored=await field.enter(state.map,state.x,state.z,snapshot.weather??mapWeather(source,state),snapshot.playerHeight,gym?.kind==='violet'?gym.liftState:0,'continue');
+     map=restored;world.clearNPCs();objects.load(map.events.objects);objects.restore(state.map,snapshot.actors);
+     npcTweenY.clear();playerTweenY=undefined;stepFrame=-1;followerMoving=false;followerStep=-1;
+     playerDirectionLocked=snapshot.playerDirectionLocked;followerSuppressed=snapshot.followerSuppressed;followerFacing=snapshot.followerFacing;previousStepJump=snapshot.previousStepJump;
+@@ -277,6 +304,7 @@ async function restoreField(snapshot:ReturnType<typeof captureField>,error:unkno
+     if(follower)world.removePaper(follower);follower=null;followSpecies=0;followMon=null;
+     const lead=firstFollowerMon(state.party),key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';
+     if(lead&&data.sprites[key]){follower=world.paper(key,1.5);followSpecies=lead.species;followMon=lead;if(snapshot.followerPosition)follower.group.position.fromArray(snapshot.followerPosition);else follower.group.position.copy(player.group.position);follower.group.visible=!followerSuppressed;}
++    if(snapshot.azaleaActors)fieldActors?.restore(snapshot.azaleaActors);
+     // Discard private child buffers, pending phone state and battle result too.
+     vm=new ScriptVM(data,state,vm.hooks);if(error instanceof UnsupportedScript)vm.lastUnsupported={map:error.map,command:error.command,pc:error.pc};
+     ready=true;refreshNPCs();updateHUD();encounterChecks.reset();
+@@ -339,7 +367,7 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
+     let retried=false;
+     for(;;){
+       try{
+-        map=await world.map(id);musicKey='';if(!continuing&&map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state),initialHeight,violetLift);world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection&&!continuing){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z,initialHeight),z);if(follower)follower.group.position.copy(player.group.position);}
++        map=await world.map(id);musicKey='';if(!continuing&&map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state),initialHeight,violetLift,continuing?'continue':'warp');world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection&&!continuing){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z,initialHeight),z);if(follower)follower.group.position.copy(player.group.position);}
+         if(retried)lastError='';break;
+       }catch(error){
+         if(connection)throw error;
+@@ -354,7 +382,7 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
+   });
+ }
+ async function checkFrameTriggers(){
+-  if(recoveryPrompt||hatching||battleSoundOwned||vm.busy||ui.busy||battle.active)return false;
++  if(recoveryPrompt||hatching||battleSoundOwned||world.azaleaGym?.moving||vm.busy||ui.busy||battle.active)return false;
+   const location=String(state.map);frameTriggerGate.visit(location);
+   const trigger=map.initTriggers.find(t=>vm.value(t.var,map)===t.value);if(!trigger)return false;
+   const key=`${map.id}:${trigger.var}:${trigger.value}:${trigger.script}`;
+@@ -466,7 +494,7 @@ async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false)
+ }
+ async function trainerBattle(id:number,options?:{second:number;canLose:boolean;suppressFollower:boolean}){const trainer=data.trainers[id];if(!trainer)throw Error(`Missing trainer ${id}`);if(options?.second||trainer.double)throw new UnsupportedScript(map.code,'TrainerBattleDouble',vm.current?.pc??-1);return startBattle(await originalTrainerParty(data,id),id,options?.canLose);}
+ async function interact(){
+-  if(ui.dialogueOpen){ui.advance();return;}if(!started||!ready||hatching||battleSoundOwned||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
++  if(ui.dialogueOpen){ui.advance();return;}if(!started||!ready||hatching||battleSoundOwned||world.azaleaGym?.moving||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.panelOpen||battle.active)return;
+   const d=deltas[state.facing],x=Math.floor(state.x)+d.x,z=Math.floor(state.z)+d.z;
+   const actorAt=(xx:number,zz:number)=>[...world.npcSprites.values()].find(n=>n.group.visible&&Math.floor(n.group.position.x)===xx&&Math.floor(n.group.position.z)===zz);
+   const npc=actorAt(x,z)||((world.permission(x,z)&255)===0x80?actorAt(x+d.x,z+d.z):undefined);
+@@ -476,7 +504,7 @@ async function interact(){
+   if(bg)await runScript(bg.scriptId);
+ }
+ async function step(facing:number){
+-  if(hatching||battleSoundOwned||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return false;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
++  if(hatching||battleSoundOwned||world.azaleaGym?.moving||sourceActions?.busy||recoveryPrompt||walking||transitioning||vm.busy||ui.busy||battle.active)return false;state.facing=facing;const d=deltas[facing],x=Math.floor(state.x)+d.x+.5,z=Math.floor(state.z)+d.z+.5;
+   const occupied=[...world.npcSprites.values()].some(n=>n.group.visible&&Math.floor(n.group.position.x)===Math.floor(x)&&Math.floor(n.group.position.z)===Math.floor(z));
+   const exit=map.events.warps.findIndex(w=>w.x===Math.floor(state.x)&&w.z===Math.floor(state.z)),standing=world.permission(state.x,state.z),ladder=[60,61].includes(standing&255);
+   if(exit>=0&&(!occupied||ladder)&&pushWarp(standing,facing,!world.terrainWalkable(x,z))){await warp(exit,facing);save();return false;}
+@@ -497,13 +525,13 @@ async function step(facing:number){
+   return outcome.ok&&!!outcome.value&&!(await wildEncounter());
+ }
+ async function menu(){
+-  if(!started||!ready||sourceActions?.busy||recoveryPrompt||hatching||battleSoundOwned||transitioning||vm.busy||walking||battle.active||ui.busy)return;
++  if(!started||!ready||sourceActions?.busy||recoveryPrompt||hatching||battleSoundOwned||world.azaleaGym?.moving||transitioning||vm.busy||walking||battle.active||ui.busy)return;
+   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
+   resetFieldInput();try{await panels.menu();}finally{resetFieldInput();}
+ }
+ function abortBagUse(reason:unknown=new DOMException('The field changed during item use','AbortError')){activeBagUse?.abort(reason);}
+ async function useBagItem(item:string,context:InterfaceBagUseContext){
+-  if(!started||!ready||sourceActions?.busy||recoveryPrompt||hatching||battleSoundOwned||transitioning||walking||vm.busy||battle.active)throw new DOMException('The field cannot use an item now','AbortError');
++  if(!started||!ready||sourceActions?.busy||recoveryPrompt||hatching||battleSoundOwned||world.azaleaGym?.moving||transitioning||walking||vm.busy||battle.active)throw new DOMException('The field cannot use an item now','AbortError');
+   // Enter the outer owner synchronously. All item data is already available;
+   // there is no unowned fetch between leaving Bag and opening its target.
+   const outcome=await executeSourceAction(async()=>{
+@@ -573,29 +601,30 @@ async function begin(entryMode:'warp'|'continue'='warp'){
+   state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
+   const rtc=fieldRTCObservation();fieldPhone=new FieldPhoneHost(await sourceJSON<PhoneAdmissionRules>('phone-triggers.json'),rtc.seconds,rtc.hour);
+   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
+-  vm=new ScriptVM(data,state,{eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text,textDelay());},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{resetFieldInput();const demo=catchingTutorialState(data,state),demoBattle=new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));await withBattleMusic([demo.enemy],null,()=>demoBattle.start([demo.enemy],null,{tutorial:true}),1<<10);resetFieldInput();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:scriptWarp});
++  await installAzaleaField();
++  vm=new ScriptVM(data,state,{azaleaGym:world.azaleaGym?.scriptPorts,eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text,textDelay());},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{resetFieldInput();const demo=catchingTutorialState(data,state),demoBattle=new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));await withBattleMusic([demo.enemy],null,()=>demoBattle.start([demo.enemy],null,{tutorial:true}),1<<10);resetFieldInput();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:scriptWarp});
+   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
+ }
+ async function boot(){
+-  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences:value=>{const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=writeInterfacePreferences(preferenceStorage,value);if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();},touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
++  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
+   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started){openingView?.draw(dt);return;}syncMusic();
+-    state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
++    state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){const rider=world.azaleaGym?.riderPosition,movement=fieldActors?.movement('player');if(rider)player.group.position.set(rider.x,rider.y,rider.z);else player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,movement?.direction??state.facing,movement?.step??(world.azaleaGym?.playerHeld?-1:walking?stepFrame:-1));}
+     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
+     const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&(followMon!==(lead??null)||followSpecies!==(lead?.species??0))){const position=follower?.group.position.clone()??player.group.position.clone();if(follower)world.removePaper(follower);follower=null;followSpecies=lead?.species??0;followMon=lead??null;const key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';if(lead&&data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(position);}}
+-    if(follower){world.animate(follower,followerFacing,followerMoving?followerStep:-1);follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
++    if(follower){const movement=fieldActors?.movement('follower');world.animate(follower,movement?.direction??followerFacing,movement?.step??(world.azaleaGym?.playerHeld?-1:followerMoving?followerStep:-1));follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
+     if(fieldControlsAvailable()){if(keys.has('KeyQ'))world.yaw+=dt*1.4*preferences.cameraSensitivity;if(keys.has('KeyE'))world.yaw-=dt*1.4*preferences.cameraSensitivity;}
+     if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);
+-    if(ready&&!hatching&&!battleSoundOwned&&!sourceActions?.busy&&!recoveryPrompt&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
++    if(ready&&!hatching&&!battleSoundOwned&&!world.azaleaGym?.moving&&!sourceActions?.busy&&!recoveryPrompt&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
+     world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
+-    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,scriptCamera:world.scriptCameraPosition,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,phone:fieldPhone.current(),party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,music:{effective:music.capture(),error:musicError},hatching,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
++    (window as unknown as {__HG3D__:unknown}).__HG3D__={ready,map:state.map,code:map?.code,position:{x:state.x,y:player.group.position.y,z:state.z},facing:state.facing,walking,transitioning,vmBusy:vm?.busy,uiBusy:ui.busy,dialogue:ui.dialogueOpen,battle:!!battle?.active||!!world.battleStage?.active,battleView:world.battleStage?.active?'world':null,weather:world.sky.status,scriptCamera:world.scriptCameraPosition,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance,position:world.camera.position.toArray(),target:world.target.toArray(),rotation:world.camera.quaternion.toArray()},follower:follower?{x:follower.group.position.x,y:follower.group.position.y,z:follower.group.position.z,moving:followerMoving,facing:followerFacing}:null,phone:fieldPhone.current(),party:state.party.map(m=>({species:m.species,level:m.level,hp:m.hp,moves:m.moves})),flags:state.flags,vars:state.vars,bag:state.bag,unsupported:vm?.lastUnsupported,script:vm?.current,error:lastError,music:{effective:music.capture(),error:musicError},hatching,azalea:world.azaleaGym?.active?{moving:world.azaleaGym.moving,rider:world.azaleaGym.riderPosition,held:world.azaleaGym.playerHeld,audio:fieldSound.diagnostics}:null,cells:world.cells.size,drawCalls:world.renderer.info.render.calls};
+   }requestAnimationFrame(render);await title();
+ }
+ // Permission resume must originate in the trusted gesture stack, including an
+ // explicitly retried owned prompt. An already unlocked failed song is never
+ // retried here; only Settings' explicit Retry can request it again.
+-addEventListener('pointerdown',()=>unlockSound(),{capture:true,passive:true});
+-addEventListener('keydown',e=>{if(!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey)unlockSound();},{capture:true});
+-addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
++addEventListener('pointerdown',e=>{if(!(e.target as HTMLElement|null)?.closest?.('[data-global-audio]'))unlockSound();},{capture:true,passive:true});
++addEventListener('keydown',e=>{if(!(e.target as HTMLElement|null)?.closest?.('[data-global-audio]')&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey)unlockSound();},{capture:true});
++addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.closest?.('[data-global-audio]')&&['Enter','Space'].includes(e.code))return;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
+   if(e.code==='KeyR'&&!e.repeat){e.preventDefault();void answerPhone().catch(reportInputError);return;}
+   if(e.code==='Escape'){e.preventDefault();if(!e.repeat)void menu().catch(reportInputError);return;}
+   if(!fieldControlsAvailable())return;

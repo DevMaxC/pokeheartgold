@@ -77,7 +77,7 @@ function fixture(){
   catchingTutorialState:()=>({state:{...state,gender:'girl'},enemy:mon(19)}),Battle:class{async start(enemies:any,trainer:any,options:any){log.push(['tutorial-battle',enemies,trainer,options]);controls.tutorialEntered?.resolve();await controls.tutorialGate?.promise;if(controls.tutorialError)throw controls.tutorialError;return'won';}},WorldBattleView:class{},player:{group:new THREE.Group()},follower:null,displayMapName:()=> 'New Bark',console:{warn(error:any){log.push(['warn',String(error)]);},error(){}},DOMException,AbortController,UnsupportedNativeMusic,setTimeout,clearTimeout,Date:class extends Date{getHours(){return 12;}},
   addEventListener(type:string,handler:any){listeners.set(type,handler);},document:{addEventListener(){}},
  };
- createContext(c);runInContext(compile(bindings+events),c);c.sourceActions=new SourceActionRecovery(state,{capture:()=>c.captureField(),restore:(snapshot:any,error:any)=>c.restoreField(snapshot,error)});c.cameraAllowed=runInContext(compile('('+cameraPorts+').allowed'),c);c.touchActions=runInContext(compile('('+touchActions+')'),c);
+ c.fieldActors=undefined;createContext(c);runInContext(compile(bindings+events),c);c.sourceActions=new SourceActionRecovery(state,{capture:()=>c.captureField(),restore:(snapshot:any,error:any)=>c.restoreField(snapshot,error)});c.cameraAllowed=runInContext(compile('('+cameraPorts+').allowed'),c);c.touchActions=runInContext(compile('('+touchActions+')'),c);
  return Object.assign(c,{f,log,controls,writes,listeners,async prepare(){await music.playMap(c.map,{hour:12,flags:state.flags});await music.unlock();c.soundUnlocked=true;f.contexts[0].currentTime=6;log.length=0;},async dispose(){await music.dispose();}});
 }
 

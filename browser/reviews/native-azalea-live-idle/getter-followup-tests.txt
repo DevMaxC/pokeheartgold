@@ -1,0 +1,412 @@
+TAP version 13
+# (node:73866) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal manifest hash, PLAYER3 metadata and both actual WAVs are admitted
+ok 1 - literal manifest hash, PLAYER3 metadata and both actual WAVs are admitted
+  ---
+  duration_ms: 16.251584
+  type: 'test'
+  ...
+# Subtest: manifest corruption and absent source metadata are configuration errors
+ok 2 - manifest corruption and absent source metadata are configuration errors
+  ---
+  duration_ms: 2.327875
+  type: 'test'
+  ...
+# Subtest: native PLAYER3 equal priority preempts other sequences, not unrelated owners
+ok 3 - native PLAYER3 equal priority preempts other sequences, not unrelated owners
+  ---
+  duration_ms: 0.410167
+  type: 'test'
+  ...
+# Subtest: lower native player priority rejects and whole-player wait includes another higher sequence
+ok 4 - lower native player priority rejects and whole-player wait includes another higher sequence
+  ---
+  duration_ms: 1.575333
+  type: 'test'
+  ...
+# Subtest: native alloc precedes technical failure, replacing equal-priority sequence
+ok 5 - native alloc precedes technical failure, replacing equal-priority sequence
+  ---
+  duration_ms: 0.226583
+  type: 'test'
+  ...
+# Subtest: fade1 counts at priority0 until exactly next injected sound update
+ok 6 - fade1 counts at priority0 until exactly next injected sound update
+  ---
+  duration_ms: 0.252584
+  type: 'test'
+  ...
+# Subtest: fade lowers player priority so a literal lower-priority source cue can replace it
+ok 7 - fade lowers player priority so a literal lower-priority source cue can replace it
+  ---
+  duration_ms: 0.508459
+  type: 'test'
+  ...
+# Subtest: cancelled waiting owner cannot stop a newer sequence; manual/global disposal drains waits
+ok 8 - cancelled waiting owner cannot stop a newer sequence; manual/global disposal drains waits
+  ---
+  duration_ms: 0.993833
+  type: 'test'
+  ...
+# Subtest: real robot PCM uses native loop marker, borrowed gain and owner-checked fade
+ok 9 - real robot PCM uses native loop marker, borrowed gain and owner-checked fade
+  ---
+  duration_ms: 5.344834
+  type: 'test'
+  ...
+# Subtest: switch waits entire player through replacement by external Cut1610
+ok 10 - switch waits entire player through replacement by external Cut1610
+  ---
+  duration_ms: 3.41775
+  type: 'test'
+  ...
+# Subtest: technical no-voice switch still waits native higher-priority PLAYER3
+ok 11 - technical no-voice switch still waits native higher-priority PLAYER3
+  ---
+  duration_ms: 275.789958
+  type: 'test'
+  ...
+# Subtest: suspended device gives diagnosed no-voice without creating another AudioContext
+ok 12 - suspended device gives diagnosed no-voice without creating another AudioContext
+  ---
+  duration_ms: 6.601458
+  type: 'test'
+  ...
+# Subtest: missing/mismatched original WAV rejects instead of technical silent fallback
+ok 13 - missing/mismatched original WAV rejects instead of technical silent fallback
+  ---
+  duration_ms: 1.048375
+  type: 'test'
+  ...
+# Subtest: noncooperative decoder is cancelled, late completion cannot publish a voice
+ok 14 - noncooperative decoder is cancelled, late completion cannot publish a voice
+  ---
+  duration_ms: 1.625542
+  type: 'test'
+  ...
+# Subtest: shared output abort cleans owned nodes; later old-owner stop cannot affect external Cut
+ok 15 - shared output abort cleans owned nodes; later old-owner stop cannot affect external Cut
+  ---
+  duration_ms: 1.549667
+  type: 'test'
+  ...
+# Subtest: native registry requires known source sequence; audio needs source/config and explicit report
+ok 16 - native registry requires known source sequence; audio needs source/config and explicit report
+  ---
+  duration_ms: 0.352541
+  type: 'test'
+  ...
+# Subtest: throwing status port is explicit failure and drains admitted voice
+ok 17 - throwing status port is explicit failure and drains admitted voice
+  ---
+  duration_ms: 3.721084
+  type: 'test'
+  ...
+# Subtest: asynchronous status failure is observable without escaping native node event
+ok 18 - asynchronous status failure is observable without escaping native node event
+  ---
+  duration_ms: 1.141292
+  type: 'test'
+  ...
+# Subtest: Context suspension during switch releases only owned voice and reports technical no-voice
+ok 19 - Context suspension during switch releases only owned voice and reports technical no-voice
+  ---
+  duration_ms: 2.656875
+  type: 'test'
+  ...
+# Subtest: shared output owner identity is immutable across native actions
+ok 20 - shared output owner identity is immutable across native actions
+  ---
+  duration_ms: 5.24925
+  type: 'test'
+  ...
+# Subtest: bounded noncooperative preparation times out as diagnosed technical no-voice
+ok 21 - bounded noncooperative preparation times out as diagnosed technical no-voice
+  ---
+  duration_ms: 11.272834
+  type: 'test'
+  ...
+# Subtest: temporary technical preparation failure retries on later admission
+ok 22 - temporary technical preparation failure retries on later admission
+  ---
+  duration_ms: 104.877958
+  type: 'test'
+  ...
+# Subtest: same owner replay retains new voice tracking for Context cancellation
+ok 23 - same owner replay retains new voice tracking for Context cancellation
+  ---
+  duration_ms: 115.053958
+  type: 'test'
+  ...
+# Subtest: Context change during requested fade is completion, not stray no-voice
+ok 24 - Context change during requested fade is completion, not stray no-voice
+  ---
+  duration_ms: 5.612042
+  type: 'test'
+  ...
+# Subtest: reentrant native admission from old-voice stop cannot leak an overwritten voice
+ok 25 - reentrant native admission from old-voice stop cannot leak an overwritten voice
+  ---
+  duration_ms: 0.325
+  type: 'test'
+  ...
+# Subtest: shared registry disposal inside transport admission stops the just-created voice
+ok 26 - shared registry disposal inside transport admission stops the just-created voice
+  ---
+  duration_ms: 0.160792
+  type: 'test'
+  ...
+# Subtest: real sharedAudioOutput getter unavailable is technical no-voice after source verification
+ok 27 - real sharedAudioOutput getter unavailable is technical no-voice after source verification
+  ---
+  duration_ms: 1.957125
+  type: 'test'
+  ...
+# Subtest: unavailable shared Context never masks a missing or corrupt original source WAV
+ok 28 - unavailable shared Context never masks a missing or corrupt original source WAV
+  ---
+  duration_ms: 0.333875
+  type: 'test'
+  ...
+# Subtest: typed source/config absence during native admission rejects explicitly after native preemption
+ok 29 - typed source/config absence during native admission rejects explicitly after native preemption
+  ---
+  duration_ms: 0.108291
+  type: 'test'
+  ...
+# (node:73871) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual room admission hydrates four spiders only for Continue; warp/connection reset original save state
+ok 30 - actual room admission hydrates four spiders only for Continue; warp/connection reset original save state
+  ---
+  duration_ms: 510.779958
+  type: 'test'
+  ...
+# Subtest: shared clock publishes every actual route frame with follower, endpoint save before dock, eight-tick board/disembark
+ok 31 - shared clock publishes every actual route frame with follower, endpoint save before dock, eight-tick board/disembark
+  ---
+  duration_ms: 501.995292
+  type: 'test'
+  ...
+# Subtest: reverse source station rides south with no follower and persists final native grid centers
+ok 32 - reverse source station rides south with no follower and persists final native grid centers
+  ---
+  duration_ms: 247.914666
+  type: 'test'
+  ...
+# Subtest: source follower wait delays boarding; shared static phase continues and stalled draw never catches up
+ok 33 - source follower wait delays boarding; shared static phase continues and stalled draw never catches up
+  ---
+  duration_ms: 317.803875
+  type: 'test'
+  ...
+# Subtest: source switch awaits actual1561 completion and missing audio rejects before puzzle/rider mutation
+ok 34 - source switch awaits actual1561 completion and missing audio rejects before puzzle/rider mutation
+  ---
+  duration_ms: 14.440458
+  type: 'test'
+  ...
+# Subtest: native ignored PlaySE failure permits visual progression with explicit no-voice diagnostics and a real task poll
+ok 35 - native ignored PlaySE failure permits visual progression with explicit no-voice diagnostics and a real task poll
+  ---
+  duration_ms: 223.797375
+  type: 'test'
+  ...
+# Subtest: abort drains asynchronous sound finalization before the VM-owned action rejects
+ok 36 - abort drains asynchronous sound finalization before the VM-owned action rejects
+  ---
+  duration_ms: 13.748458
+  type: 'test'
+  ...
+# Subtest: switch port waits for its entire native sequence player even after this voice ends or cannot start
+ok 37 - switch port waits for its entire native sequence player even after this voice ends or cannot start
+  ---
+  duration_ms: 14.530292
+  type: 'test'
+  ...
+# Subtest: failed action scope admission does not attach abandoned context or map abort listeners
+ok 38 - failed action scope admission does not attach abandoned context or map abort listeners
+  ---
+  duration_ms: 10.126458
+  type: 'test'
+  ...
+# Subtest: local abort restores same-map checkpoint and never cancels another admitted field scope
+ok 39 - local abort restores same-map checkpoint and never cancels another admitted field scope
+  ---
+  duration_ms: 12.050458
+  type: 'test'
+  ...
+# Subtest: unload while moving releases owned view without restoring departed actor coordinates or saving stale puzzle
+ok 40 - unload while moving releases owned view without restoring departed actor coordinates or saving stale puzzle
+  ---
+  duration_ms: 16.269709
+  type: 'test'
+  ...
+# Subtest: reentrant actor port unload stops before follower or further actor writes in the same source tick
+ok 41 - reentrant actor port unload stops before follower or further actor writes in the same source tick
+  ---
+  duration_ms: 9.564667
+  type: 'test'
+  ...
+# Subtest: changed actor identity fails rather than moving a replacement into a stale ride
+ok 42 - changed actor identity fails rather than moving a replacement into a stale ride
+  ---
+  duration_ms: 310.46325
+  type: 'test'
+  ...
+# Subtest: a render vector cannot silently replace an unrelated logical boarding tile
+ok 43 - a render vector cannot silently replace an unrelated logical boarding tile
+  ---
+  duration_ms: 7.102458
+  type: 'test'
+  ...
+# Subtest: real0869 station/switch byte commands reach required ports with source map and abort signal
+ok 44 - real0869 station/switch byte commands reach required ports with source map and abort signal
+  ---
+  duration_ms: 5.321833
+  type: 'test'
+  ...
+# Subtest: VM cancellation aborts and drains the owned Azalea port before source recovery can resume
+ok 45 - VM cancellation aborts and drains the owned Azalea port before source recovery can resume
+  ---
+  duration_ms: 0.451791
+  type: 'test'
+  ...
+# Subtest: actual0869 VM ride command waits for native host final tiles and resumes in the child-completion scripts phase
+ok 46 - actual0869 VM ride command waits for native host final tiles and resumes in the child-completion scripts phase
+  ---
+  duration_ms: 217.642
+  type: 'test'
+  ...
+# Subtest: World applies cumulative camera shake to position AND target without orbit reset or drift
+ok 47 - World applies cumulative camera shake to position AND target without orbit reset or drift
+  ---
+  duration_ms: 0.528375
+  type: 'test'
+  ...
+# Subtest: World streaming consumes the live rider vector or the native frozen tracking point, scoped to the active map
+ok 48 - World streaming consumes the live rider vector or the native frozen tracking point, scoped to the active map
+  ---
+  duration_ms: 0.162917
+  type: 'test'
+  ...
+# Subtest: actual World draw follows rider override rather than stale logical tile and retains orbit
+ok 49 - actual World draw follows rider override rather than stale logical tile and retains orbit
+  ---
+  duration_ms: 1.195875
+  type: 'test'
+  ...
+# Subtest: actual World streaming suppresses only managed Azalea props when an owning host is installed
+ok 50 - actual World streaming suppresses only managed Azalea props when an owning host is installed
+  ---
+  duration_ms: 19.434625
+  type: 'test'
+  ...
+# Subtest: real World transition releases Azalea actor/view ownership before globally cancelling shared field scopes
+ok 51 - real World transition releases Azalea actor/view ownership before globally cancelling shared field scopes
+  ---
+  duration_ms: 0.258
+  type: 'test'
+  ...
+# Subtest: a superseded asynchronous room load never publishes an incoming field cart, scope or save
+ok 52 - a superseded asynchronous room load never publishes an incoming field cart, scope or save
+  ---
+  duration_ms: 7.107042
+  type: 'test'
+  ...
+# Subtest: failed late resources are quiet for superseded entry and disposal still completes
+ok 53 - failed late resources are quiet for superseded entry and disposal still completes
+  ---
+  duration_ms: 0.292875
+  type: 'test'
+  ...
+# Subtest: live PLAYER3 is sampled every scripts poll when a new sequence starts after completion promise resolves
+ok 54 - live PLAYER3 is sampled every scripts poll when a new sequence starts after completion promise resolves
+  ---
+  duration_ms: 10.500916
+  type: 'test'
+  ...
+# Subtest: missing live native PLAYER query rejects before source switch mutation
+ok 55 - missing live native PLAYER query rejects before source switch mutation
+  ---
+  duration_ms: 12.088584
+  type: 'test'
+  ...
+# Subtest: invalid live PLAYER query is explicit and rolls back; unload during query cannot complete stale switch
+ok 56 - invalid live PLAYER query is explicit and rolls back; unload during query cannot complete stale switch
+  ---
+  duration_ms: 9.871
+  type: 'test'
+  ...
+# Subtest: throwing live query aborts and drains still-pending sound before rejecting action
+ok 57 - throwing live query aborts and drains still-pending sound before rejecting action
+  ---
+  duration_ms: 10.475333
+  type: 'test'
+  ...
+# (node:73872) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+ok 58 - literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+  ---
+  duration_ms: 247.70675
+  type: 'test'
+  ...
+# Subtest: persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+ok 59 - persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+  ---
+  duration_ms: 2.017
+  type: 'test'
+  ...
+# Subtest: actual task boundary drains runnable source awaits and preserves field running flags for task admission
+ok 60 - actual task boundary drains runnable source awaits and preserves field running flags for task admission
+  ---
+  duration_ms: 299.097209
+  type: 'test'
+  ...
+# Subtest: scope failure cancels only its action; static and other controller queues retain global tick phase
+ok 61 - scope failure cancels only its action; static and other controller queues retain global tick phase
+  ---
+  duration_ms: 45.6595
+  type: 'test'
+  ...
+# Subtest: scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+ok 62 - scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+  ---
+  duration_ms: 2.873333
+  type: 'test'
+  ...
+# Subtest: one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+ok 63 - one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+  ---
+  duration_ms: 0.979208
+  type: 'test'
+  ...
+# Subtest: task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+ok 64 - task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+  ---
+  duration_ms: 1.038
+  type: 'test'
+  ...
+# Subtest: native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+ok 65 - native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+  ---
+  duration_ms: 0.797708
+  type: 'test'
+  ...
+# Subtest: one queue callback changing field admission cannot run stale callbacks from another map scope
+ok 66 - one queue callback changing field admission cannot run stale callbacks from another map scope
+  ---
+  duration_ms: 1.054
+  type: 'test'
+  ...
+1..66
+# tests 66
+# suites 0
+# pass 66
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6194.558417

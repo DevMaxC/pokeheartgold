@@ -1,0 +1,58 @@
+TAP version 13
+# (node:82950) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: old empty-scope admission silently skips a registered global sound hook
+not ok 1 - old empty-scope admission silently skips a registered global sound hook
+  ---
+  duration_ms: 61.751417
+  type: 'test'
+  location: '/private/var/folders/3d/3cxh2qxx7sb8sxk1pvq_07tc0000gn/T/tmppq064weo/before.test.ts:3:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/var/folders/3d/3cxh2qxx7sb8sxk1pvq_07tc0000gn/T/tmppq064weo/before.test.ts:3:293)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: old map cancellation aborts an admitted global update
+not ok 2 - old map cancellation aborts an admitted global update
+  ---
+  duration_ms: 5.868292
+  type: 'test'
+  location: '/private/var/folders/3d/3cxh2qxx7sb8sxk1pvq_07tc0000gn/T/tmppq064weo/before.test.ts:4:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/var/folders/3d/3cxh2qxx7sb8sxk1pvq_07tc0000gn/T/tmppq064weo/before.test.ts:4:379)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 558.230791

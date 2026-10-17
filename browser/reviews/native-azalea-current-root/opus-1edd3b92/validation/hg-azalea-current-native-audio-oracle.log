@@ -1,0 +1,23 @@
+...E
+======================================================================
+ERROR: test_pinned_renderer_reproduces_all_exported_bytes (__main__.NativeAzaleaAudioTests.test_pinned_renderer_reproduces_all_exported_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/scripts/test_azalea_audio_resources.py", line 84, in test_pinned_renderer_reproduces_all_exported_bytes
+    module.export(output, Path('/tmp/hg-dualrip-native-audio'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/scripts/export_azalea_audio.py", line 107, in export
+    manifest = {'version': 1, 'player': player, 'playerSequences': catalog, 'sounds': sounds, 'sourceSDATSHA256': sha(raw), 'sourceFiles': {path: sha((ROOT / path).read_bytes()) for path in sources}, 'renderer': {'commit': RENDERER, 'ndspy': '4.2.0', 'numpy': '2.2.6', 'files': {str(path.relative_to(renderer)): sha(path.read_bytes()) for path in engine_files}, 'limitation': 'Original SSEQ/sample emulator render, not DS hardware/DAC/global channel-pool capture. Robot loops the actual second rendered SSEQ traversal; WebAudio does not execute SSEQ live or reproduce all hardware mixer/voice allocation effects.'}}
+                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/miniconda3/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/opt/miniconda3/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/lib/NitroSystem/src/snd_arc_player.c'
+
+----------------------------------------------------------------------
+Ran 4 tests in 6.878s
+
+FAILED (errors=1)

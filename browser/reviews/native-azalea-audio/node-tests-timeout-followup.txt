@@ -1,0 +1,138 @@
+TAP version 13
+# (node:68718) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal manifest hash, PLAYER3 metadata and both actual WAVs are admitted
+ok 1 - literal manifest hash, PLAYER3 metadata and both actual WAVs are admitted
+  ---
+  duration_ms: 24.577625
+  type: 'test'
+  ...
+# Subtest: manifest corruption and absent source metadata are configuration errors
+ok 2 - manifest corruption and absent source metadata are configuration errors
+  ---
+  duration_ms: 1.663584
+  type: 'test'
+  ...
+# Subtest: native PLAYER3 equal priority preempts other sequences, not unrelated owners
+ok 3 - native PLAYER3 equal priority preempts other sequences, not unrelated owners
+  ---
+  duration_ms: 0.685917
+  type: 'test'
+  ...
+# Subtest: lower native player priority rejects and whole-player wait includes another higher sequence
+ok 4 - lower native player priority rejects and whole-player wait includes another higher sequence
+  ---
+  duration_ms: 1.161292
+  type: 'test'
+  ...
+# Subtest: native alloc precedes technical failure, replacing equal-priority sequence
+ok 5 - native alloc precedes technical failure, replacing equal-priority sequence
+  ---
+  duration_ms: 0.996791
+  type: 'test'
+  ...
+# Subtest: fade1 counts at priority0 until exactly next injected sound update
+ok 6 - fade1 counts at priority0 until exactly next injected sound update
+  ---
+  duration_ms: 0.28025
+  type: 'test'
+  ...
+# Subtest: fade lowers player priority so a literal lower-priority source cue can replace it
+ok 7 - fade lowers player priority so a literal lower-priority source cue can replace it
+  ---
+  duration_ms: 0.474958
+  type: 'test'
+  ...
+# Subtest: cancelled waiting owner cannot stop a newer sequence; manual/global disposal drains waits
+ok 8 - cancelled waiting owner cannot stop a newer sequence; manual/global disposal drains waits
+  ---
+  duration_ms: 1.194208
+  type: 'test'
+  ...
+# Subtest: real robot PCM uses native loop marker, borrowed gain and owner-checked fade
+ok 9 - real robot PCM uses native loop marker, borrowed gain and owner-checked fade
+  ---
+  duration_ms: 165.902917
+  type: 'test'
+  ...
+# Subtest: switch waits entire player through replacement by external Cut1610
+ok 10 - switch waits entire player through replacement by external Cut1610
+  ---
+  duration_ms: 2.999292
+  type: 'test'
+  ...
+# Subtest: technical no-voice switch still waits native higher-priority PLAYER3
+ok 11 - technical no-voice switch still waits native higher-priority PLAYER3
+  ---
+  duration_ms: 2.724625
+  type: 'test'
+  ...
+# Subtest: suspended device gives diagnosed no-voice without creating another AudioContext
+ok 12 - suspended device gives diagnosed no-voice without creating another AudioContext
+  ---
+  duration_ms: 2.581583
+  type: 'test'
+  ...
+# Subtest: missing/mismatched original WAV rejects instead of technical silent fallback
+ok 13 - missing/mismatched original WAV rejects instead of technical silent fallback
+  ---
+  duration_ms: 1.243541
+  type: 'test'
+  ...
+# Subtest: noncooperative decoder is cancelled, late completion cannot publish a voice
+ok 14 - noncooperative decoder is cancelled, late completion cannot publish a voice
+  ---
+  duration_ms: 1.122708
+  type: 'test'
+  ...
+# Subtest: shared output abort cleans owned nodes; later old-owner stop cannot affect external Cut
+ok 15 - shared output abort cleans owned nodes; later old-owner stop cannot affect external Cut
+  ---
+  duration_ms: 2.21025
+  type: 'test'
+  ...
+# Subtest: native registry requires known source sequence; audio needs source/config and explicit report
+ok 16 - native registry requires known source sequence; audio needs source/config and explicit report
+  ---
+  duration_ms: 0.851042
+  type: 'test'
+  ...
+# Subtest: throwing status port is explicit failure and drains admitted voice
+ok 17 - throwing status port is explicit failure and drains admitted voice
+  ---
+  duration_ms: 2.519125
+  type: 'test'
+  ...
+# Subtest: asynchronous status failure is observable without escaping native node event
+ok 18 - asynchronous status failure is observable without escaping native node event
+  ---
+  duration_ms: 1.578875
+  type: 'test'
+  ...
+# Subtest: Context suspension during switch releases only owned voice and reports technical no-voice
+ok 19 - Context suspension during switch releases only owned voice and reports technical no-voice
+  ---
+  duration_ms: 1.721666
+  type: 'test'
+  ...
+# Subtest: shared output owner identity is immutable across native audio actions
+ok 20 - shared output owner identity is immutable across native audio actions
+  ---
+  duration_ms: 0.288042
+  type: 'test'
+  ...
+# Subtest: bounded noncooperative preparation times out as diagnosed technical no-voice
+ok 21 - bounded noncooperative preparation times out as diagnosed technical no-voice
+  ---
+  duration_ms: 10.070333
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1142.204125
