@@ -251,7 +251,11 @@ async function runScript(script:string|number,object='obj_player',nested=false,p
   return result.ok;
 }
 async function runFieldEntry(kind:'connection'|'warp'|'resume',preserveControls=false){await executeSourceAction(async()=>{for(const event of fieldEntryScripts(kind))if(map.initScripts[event])await runScript(map.initScripts[event],'obj_player',vm.busy,preserveControls,true,undefined,undefined,false);});}
-async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false){
+async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects=false,connection=false,deferTriggers=false,entryMode:'warp'|'continue'='warp'){
+  // Ordinary native Continue restores saved field objects and skips
+  // InitMapOnEnter; its rebuilt field still runs OnLoad and OnResume.
+  const continuing=entryMode==='continue';
+  if(continuing&&(connection||!restoreObjects))throw Error('Continue requires saved actors and cannot be a connection');
   await executeSourceAction(async()=>{
   if(!connection)fieldPhone.resetForSourceEvent();
   world.clearScriptCameraTarget();
@@ -264,7 +268,7 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
     let retried=false;
     for(;;){
       try{
-        map=await world.map(id);if(map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state),initialHeight,violetLift);world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z,initialHeight),z);if(follower)follower.group.position.copy(player.group.position);}
+        map=await world.map(id);if(!continuing&&map.mapType!=='MAP_TYPE_CAVE'){state.flags.FLAG_SYS_FLASH=false;state.flags.FLAG_SYS_DEFOG=false;}map=connection?await world.connect(id,x,z,mapWeather(map,state)):await world.enter(id,x,z,mapWeather(map,state),initialHeight,violetLift);world.clearNPCs();objects.load(map.events.objects);if(restoreObjects)objects.restore(id,state.objectEvents);if(!connection&&!continuing){const spawn=await mapBlackoutSpawn(id);if(spawn)state.lastHeal={...spawn.death};}player.group.visible=true;refreshNPCs();updateHUD();if(!connection){player.group.position.set(x,world.height(x,z,initialHeight),z);if(follower)follower.group.position.copy(player.group.position);}
         if(retried)lastError='';break;
       }catch(error){
         if(connection)throw error;
@@ -273,7 +277,7 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
       }
     }
     if(!connection)world.endFieldTransition();
-    if(runEntry)await runFieldEntry(connection?'connection':'warp',connection);
+    if(runEntry)await runFieldEntry(continuing?'resume':connection?'connection':'warp',connection);
   }finally{restoringGym=previousRestore;transitioning=false;if(!connection){world.endFieldTransition();ui.loading(null);}}
   if(!deferTriggers)await checkFrameTriggers();
   });
@@ -435,14 +439,16 @@ async function title(){
     const detail=saved?`${menu['13']}: ${saved.name} · ${menu['14']}: ${Math.floor(saved.playSeconds/3600)}:${String(Math.floor(saved.playSeconds/60)%60).padStart(2,'0')} · ${menu['16']}: ${saved.badges.length}`+(saved.pokedexEnabled?` · ${menu['15']}: ${saved.caught.length}`:''):'';
     state=await runOpeningSession(saved,async()=>({messages:data.intro.msg_0219,defaultNames:await sourceJSON<Record<string,string>>('messages/254.json')}),openingView,identity=>newState(data,identity.name,identity.gender),menu,detail);
   }finally{openingView.dispose();openingView=null;keys.clear();}
-  await begin();
+  // The opening returns the exact saved object on Continue; a New Game draft
+  // is a different State even when it replaces an existing save.
+  await begin(state===saved?'continue':'warp');
 }
 async function scriptWarp(id:number,x:number,z:number,facing?:number){if(facing!==undefined)state.facing=facing;await enterMap(id,x+.5,z+.5);}
-async function begin(){
+async function begin(entryMode:'warp'|'continue'='warp'){
   const rtc=fieldRTCObservation();fieldPhone=new FieldPhoneHost(await sourceJSON<PhoneAdmissionRules>('phone-triggers.json'),rtc.seconds,rtc.hour);
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
   vm=new ScriptVM(data,state,{eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text);},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{keys.clear();const demo=catchingTutorialState(data,state);await new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]}))).start([demo.enemy],null,{tutorial:true});keys.clear();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:scriptWarp});
-  sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,true);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
+  sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
   data=await loadData();world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);ui.loading(null);
