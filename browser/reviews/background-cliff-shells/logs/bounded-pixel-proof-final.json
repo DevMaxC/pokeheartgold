@@ -1,0 +1,69 @@
+{
+  "camera": [
+    695.5,
+    6.96243845,
+    410.47379292
+  ],
+  "target": [
+    695.5,
+    1.9,
+    398.5
+  ],
+  "viewport": [
+    1280,
+    800
+  ],
+  "opaqueGeologyReference": {
+    "scope": "original opaque source geology only; full-scene GPU check separate",
+    "rawBytes": 261796,
+    "inputTriangles": 1188,
+    "materialTriangles": {
+      "grass01": 49,
+      "slope": 72,
+      "cliff01": 75,
+      "wall01_g": 248,
+      "wall01_d": 744
+    },
+    "clippingTriangleUpperBound": 103704,
+    "outputTriangles": 20488,
+    "arrayBufferGrowth": 3264170,
+    "residentGrowth": 36700160
+  },
+  "leftPixels": [
+    [
+      375,
+      95
+    ],
+    [
+      400,
+      110
+    ],
+    [
+      420,
+      115
+    ],
+    [
+      450,
+      110
+    ]
+  ],
+  "rightPixels": [
+    [
+      1000,
+      240
+    ],
+    [
+      1100,
+      250
+    ],
+    [
+      1200,
+      260
+    ]
+  ],
+  "preservedTopPixel": [
+    1000,
+    140
+  ],
+  "completeSceneGPU": "pending; this bounded source-geology subset is not a substitute"
+}

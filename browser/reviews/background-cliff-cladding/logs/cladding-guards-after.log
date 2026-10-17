@@ -1,0 +1,90 @@
+TAP version 13
+# (node:48730) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: source pins retain the actual flat32-face background and current277bac field
+ok 1 - source pins retain the actual flat32-face background and current277bac field
+  ---
+  duration_ms: 1336.628667
+  type: 'test'
+  ...
+# Subtest: measured native112 soil donor and every new UV stay inside one rim-free native band
+ok 2 - measured native112 soil donor and every new UV stay inside one rim-free native band
+  ---
+  duration_ms: 550.641625
+  type: 'test'
+  ...
+# Subtest: future exact-cut slope is declined without a wedge while constant-cut cap remains closed
+ok 3 - future exact-cut slope is declined without a wedge while constant-cut cap remains closed
+  ---
+  duration_ms: 114.024542
+  type: 'test'
+  ...
+# Subtest: foreign clamped sampler is declined rather than stretching the repeated wall
+ok 4 - foreign clamped sampler is declined rather than stretching the repeated wall
+  ---
+  duration_ms: 0.504959
+  type: 'test'
+  ...
+# Subtest: guard-only followup preserves every982 native-placement position/UV/color/material result
+ok 5 - guard-only followup preserves every982 native-placement position/UV/color/material result
+  ---
+  duration_ms: 845.929
+  type: 'test'
+  ...
+# Subtest: bounded original opaque-geology screenshot rays hit backs; native plateau-top pixel stays identical
+ok 6 - bounded original opaque-geology screenshot rays hit backs; native plateau-top pixel stays identical
+  ---
+  duration_ms: 9296.2675
+  type: 'test'
+  ...
+# Subtest: real Route27 native walking and Surf approaches keep the production orbit clear
+ok 7 - real Route27 native walking and Surf approaches keep the production orbit clear
+  ---
+  duration_ms: 552.88525
+  type: 'test'
+  ...
+# Subtest: third23,11 fingerprint retains actual neighbor floors/portals and records literal camera collisions
+ok 8 - third23,11 fingerprint retains actual neighbor floors/portals and records literal camera collisions
+  ---
+  duration_ms: 678.92275
+  type: 'test'
+  ...
+# Subtest: all native cap edges meet the closed side/underside volume exactly and floors stay native
+ok 9 - all native cap edges meet the closed side/underside volume exactly and floors stay native
+  ---
+  duration_ms: 4202.233084
+  type: 'test'
+  ...
+# Subtest: source identity, altered collision, transform, missing cap and real entry guards decline instead of filling
+ok 10 - source identity, altered collision, transform, missing cap and real entry guards decline instead of filling
+  ---
+  duration_ms: 276.264667
+  type: 'test'
+  ...
+# Subtest: actual production stream defaults on for the three fingerprints; unload/reentry releases only owned resources
+ok 11 - actual production stream defaults on for the three fingerprints; unload/reentry releases only owned resources
+  ---
+  duration_ms: 1139.469917
+  type: 'test'
+  ...
+# Subtest: foreign210 placements do not fetch supporting forest or entrances before declining
+ok 12 - foreign210 placements do not fetch supporting forest or entrances before declining
+  ---
+  duration_ms: 9.348125
+  type: 'test'
+  ...
+# Subtest: all unrelated World bytes and the global default-off terrain policy stay unchanged
+ok 13 - all unrelated World bytes and the global default-off terrain policy stay unchanged
+  ---
+  duration_ms: 6.316042
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 22080.941042

@@ -1,0 +1,55 @@
+{
+  "cell": {
+    "x": 23,
+    "z": 11,
+    "land": 210,
+    "altitude": 6,
+    "props": [],
+    "asset": "land/210-0.glb"
+  },
+  "neighbors": [
+    {
+      "cell": [
+        22,
+        11
+      ],
+      "land": 210,
+      "altitude": 4,
+      "header": 0
+    },
+    {
+      "cell": [
+        24,
+        11
+      ],
+      "land": 210,
+      "altitude": 18,
+      "header": 0
+    },
+    {
+      "cell": [
+        23,
+        10
+      ],
+      "land": 65535,
+      "altitude": 0,
+      "header": 0
+    },
+    {
+      "cell": [
+        23,
+        12
+      ],
+      "land": 12,
+      "altitude": 0,
+      "header": 31
+    }
+  ],
+  "designedVoidDatum": 0,
+  "nativeVoidSupportClaimed": false,
+  "walkingTiles": 150,
+  "surfTiles": 205,
+  "rays": 38340,
+  "changes": [],
+  "completeSceneGPU": "parent required"
+}

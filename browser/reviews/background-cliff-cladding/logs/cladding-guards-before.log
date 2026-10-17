@@ -1,0 +1,60 @@
+TAP version 13
+# (node:47646) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: future exact-cut slope is declined without a wedge while constant-cut cap remains closed
+not ok 1 - future exact-cut slope is declined without a wedge while constant-cut cap remains closed
+  ---
+  duration_ms: 199.442667
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-background-cliff-cladding/browser/src/source/background-cliff-shells.test.ts:51:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    a nonconstant cap ending exactly at a band cut must not leave a missing wedge
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-background-cliff-cladding/browser/src/source/background-cliff-shells.test.ts:55:82)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: foreign clamped sampler is declined rather than stretching the repeated wall
+not ok 2 - foreign clamped sampler is declined rather than stretching the repeated wall
+  ---
+  duration_ms: 0.716917
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-background-cliff-cladding/browser/src/source/background-cliff-shells.test.ts:60:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    UV repetition requires the native repeat sampler
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-background-cliff-cladding/browser/src/source/background-cliff-shells.test.ts:61:419)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3031.969917
