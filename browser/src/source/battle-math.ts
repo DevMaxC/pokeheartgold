@@ -1,4 +1,5 @@
 import type {GameData,Mon,MoveData} from './types.ts';
+import {nativeReflectIntermediate} from './battle-volatiles.ts';
 export type Stages={atk:number;def:number;spatk:number;spdef:number;speed:number;accuracy:number;evasion:number};
 export function freshStages():Stages{return {atk:0,def:0,spatk:0,spdef:0,speed:0,accuracy:0,evasion:0};}
 export function stageMultiplier(stage:number,accuracy=false){stage=Math.max(-6,Math.min(6,stage));const base=accuracy?3:2;return stage>=0?(base+stage)/base:base/(base-stage);}
@@ -24,25 +25,41 @@ export function weatherHPRecovery(maxHP:number,weather:BattleWeather,suppressed=
 // BtlCmd_SetMultiHit uses a second four-way draw only for the latter half
 // of the first draw:2/3/4/5 have probabilities3/8,3/8,1/8,1/8.
 export function multiHitCount(rng:()=>number,skillLink=false){if(skillLink)return 5;const first=Math.floor(rng()*4);return first<2?first+2:Math.floor(rng()*4)+2;}
-export type DamageContext={roosting?:boolean;flying?:boolean};
-// Base Gen IV single-target calculation. Weather/screens/held modifiers are separate parity tasks.
-export function moveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,roll:number,critical=false,identified=false,context:DamageContext={}){
+export type DamageContext={roosting?:boolean;flying?:boolean;reflect?:boolean;criticalMultiplier?:1|2|3};
+// Scoped Gen IV singles intermediate, including Technician and physical Reflect.
+// The engine rejects unported modifier callbacks on newly admitted paths.
+export function moveBaseDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,critical=false,context:DamageContext={}){
   const physical=move.category===0;const attackStat=physical?'atk':'spatk',defenseStat=physical?'def':'spdef';
   const as=critical?Math.max(0,attackStages[attackStat]):attackStages[attackStat],ds=critical?Math.min(0,defenseStages[defenseStat]):defenseStages[defenseStat];
   const attack=Math.max(1,Math.floor(attacker.stats[attackStat]*stageMultiplier(as))),defense=Math.max(1,Math.floor(defender.stats[defenseStat]*stageMultiplier(ds)));
   let power=move.power;const ability=monAbility(data,attacker);
+  // CalcMoveDamage applies Technician before the typed low-HP boosts.
+  if(ability==='ABILITY_TECHNICIAN'&&move.id!==data.constants.MOVE_STRUGGLE&&power<=60)power=Math.floor(power*15/10);
   // effect_script_0149: Gust hits a target in Fly and doubles its power.
   // Fly's own two-turn execution remains a separate, unported move effect.
   if(move.effect===149&&context.flying)power*=2;
-  if(attacker.hp<=Math.floor(attacker.maxHP/3)&&((ability==='ABILITY_BLAZE'&&move.type===10)||(ability==='ABILITY_TORRENT'&&move.type===11)||(ability==='ABILITY_OVERGROW'&&move.type===12)))power=Math.floor(power*1.5);
+  if(attacker.hp<=Math.floor(attacker.maxHP/3)&&((ability==='ABILITY_BLAZE'&&move.type===10)||(ability==='ABILITY_TORRENT'&&move.type===11)||(ability==='ABILITY_OVERGROW'&&move.type===12)||(ability==='ABILITY_SWARM'&&move.type===data.constants.TYPE_BUG)))power=Math.floor(power*1.5);
   let damage=Math.floor(Math.floor((Math.floor(attacker.level*2/5)+2)*power*attack/defense)/50);
   if(physical&&attacker.status==='BRN')damage=Math.floor(damage/2);
-  damage+=2; // CalcMoveDamage applies burn before its final +2.
-  if(critical)damage*=2;
+  damage=nativeReflectIntermediate(damage,{active:!!context.reflect,physical,criticalMultiplier:context.criticalMultiplier??(critical?2:1),removesScreens:false,doubleBattleTwoTargets:false});
+  return damage+2; // CalcMoveDamage applies burn before its final +2.
+}
+export function moveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,roll:number,critical=false,identified=false,context:DamageContext={}){
+  let damage=moveBaseDamage(data,attacker,defender,move,attackStages,defenseStages,critical,context);
+  if(critical)damage*=context.criticalMultiplier??2;
   damage=Math.floor(damage*Math.max(85,Math.min(100,roll))/100);
+  if(move.id===data.constants.MOVE_STRUGGLE)return{damage:Math.max(1,damage),effectiveness:1};
   if(data.personal[attacker.species].types.some(t=>data.constants[t]===move.type))damage=Math.floor(damage*1.5);
   const effectiveness=typeEffectiveness(data,move.type,defender.species,identified,context.roosting);damage=Math.floor(damage*effectiveness);
   return {damage:effectiveness===0?0:Math.max(1,damage),effectiveness};
+}
+/** CheckAttackerStatus case11 directly calls CalcMoveDamage(STRUGGLE,0,0,40,
+ * 0,self,self,1), then ApplyDamageRange. No STAB/type, screens or weather.
+ * Caller preflights unported damage-affecting ability/item branches. */
+export function confusionDamage(mon:Mon,stages:Stages,rawRange:number){
+  const attack=Math.max(1,Math.floor(mon.stats.atk*stageMultiplier(stages.atk))),defense=Math.max(1,Math.floor(mon.stats.def*stageMultiplier(stages.def)));
+  let damage=Math.floor(Math.floor((Math.floor(mon.level*2/5)+2)*40*attack/defense)/50);if(mon.status==='BRN')damage=Math.floor(damage/2);damage+=2;
+  return Math.max(1,Math.floor(damage*(100-(rawRange%16))/100));
 }
 // BtlCmd_GetMonBallCatchRate: integer divisions and nested square roots match the source path.
 export function catchShakes(catchRate:number,hp:number,maxHP:number,ballMultiplier:number,status:string,roll:()=>number){

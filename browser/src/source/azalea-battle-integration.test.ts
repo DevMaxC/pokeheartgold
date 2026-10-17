@@ -1,0 +1,130 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile,access} from 'node:fs/promises';
+import {Battle} from './battle.ts';
+import {createMon,loadData,newState} from './data.ts';
+import {originalTrainerParty} from './trainers.ts';
+import {confusionDamage,freshStages,monAbility,moveBaseDamage,moveDamage} from './battle-math.ts';
+import {nativeStatus2 as bit} from './battle-volatiles.ts';
+import type {Mon} from './types.ts';
+import type {UI} from './ui.ts';
+import type {BattleView} from './battle-view.ts';
+globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
+const data=await loadData(),noncrit=32769/65536;
+function rawTape(...values:number[]){let calls=0;return{rng:()=>{assert.ok(calls<values.length,'unexpected native gameplay draw');return values[calls++]/65536;},get calls(){return calls;}};}
+function sourceMove(mon:Mon,key:string){const slot=mon.moves.findIndex(move=>move.id===data.constants[key]);assert.ok(slot>=0,`${mon.name} must naturally know ${key}`);return slot;}
+function fieldMon(species=155,level=18){return createMon(data,species,level,'Ethan',()=>noncrit);}
+function fixture(enemies:Mon[],party:Mon[]=[fieldMon()],rng:()=>number=()=>noncrit){
+ const elements=new Map<string,{innerHTML:string;hidden:boolean;onclick?:()=>void}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}}as unknown as Document;
+ const state=newState(data,'Ethan','boy',()=>noncrit);state.party=party;const messages:string[]=[],events:string[]=[],view={begin:async()=>{events.push('begin');},sync:(player:Mon,enemy:Mon)=>events.push(`sync:${player.species}/${enemy.species}`),attack:async(side:boolean)=>events.push(`attack:${side}`),hit:async(side:boolean)=>events.push(`hit:${side}`),end:()=>events.push('end')}as unknown as BattleView;
+ const battle=new Battle(data,state,{choose:async()=>4}as unknown as UI,rng,view);Reflect.set(battle,'enemies',enemies);Reflect.set(battle,'trainer',21);Reflect.set(battle,'experienceMask',1);Reflect.set(battle,'say',async(text:string)=>{messages.push(text);Reflect.get(battle,'draw').call(battle);});return{battle,state,messages,events};
+}
+type Fixture=ReturnType<typeof fixture>;
+const invoke=(f:Fixture,key:string,...args:unknown[])=>Reflect.get(f.battle,key).apply(f.battle,args);
+const volatile=(f:Fixture,mon:Mon)=>invoke(f,'volatile',mon)as{status2:number;previousMove:number;meanLookSource:number};
+async function action(f:Fixture,side:boolean,key:string){await invoke(f,'attack',side,sourceMove(side?f.battle.player:f.battle.enemy,key));}
+async function oneTurn(f:Fixture,playerSlot:number,enemySlot:number){const stop=new Error('observed next native turn');let selections=0;Reflect.set(f.battle,'active',true);Reflect.set(f.battle,'chooseEnemyMove',()=>enemySlot);Reflect.set(f.battle,'nextAction',async()=>{if(selections++)throw stop;return{kind:'move',slot:playerSlot};});await assert.rejects(invoke(f,'loop'),error=>error===stop);}
+
+test('actual Proton Supersonic self-hit precedes paralysis/PP; leaving clears only volatile status',async()=>{
+ const team=await originalTrainerParty(data,486),tape=rawTape(0,2,0,0),player=fieldMon(),f=fixture(team,[player,fieldMon(158)],tape.rng);assert.equal(team[0].species,41);
+ await action(f,false,'MOVE_SUPERSONIC');assert.equal(volatile(f,player).status2&7,4);player.status='PAR';const slot=sourceMove(player,'MOVE_EMBER'),pp=player.moves[slot].pp,hp=player.hp;
+ await invoke(f,'attack',true,slot);assert.equal(player.hp,hp-confusionDamage(player,freshStages(),0));assert.equal(player.moves[slot].pp,pp);assert.equal(tape.calls,4);assert.equal(volatile(f,player).previousMove,0);assert.equal(volatile(f,player).status2&7,3);assert.ok(f.events.includes('hit:true'));
+ await invoke(f,'switch',1);assert.ok(!Reflect.get(f.battle,'volatiles').has(player));assert.equal(player.status,'PAR');
+});
+test('snap-out consumes no confusion coin/range and permits the selected natural move',async()=>{
+ const player=fieldMon(),team=await originalTrainerParty(data,486),tape=rawTape(0,1,0,65535),f=fixture(team,[player],tape.rng);volatile(f,player).status2=1;const slot=sourceMove(player,'MOVE_EMBER'),pp=player.moves[slot].pp;
+ await invoke(f,'attack',true,slot);assert.equal(volatile(f,player).status2&7,0);assert.equal(player.moves[slot].pp,pp-1);assert.equal(tape.calls,4);assert.ok(f.messages.some(text=>text.includes('snapped out')));
+});
+test('actual Bugsy FocusEnergy uses raw critical stage and native Technician QuickAttack power',async()=>{
+ const team=await originalTrainerParty(data,21),f=fixture(team);assert.equal(monAbility(data,team[0]),'ABILITY_TECHNICIAN');assert.equal(team[0].heldItem,'ITEM_SITRUS_BERRY');
+ await action(f,false,'MOVE_FOCUS_ENERGY');assert.ok(volatile(f,team[0]).status2&bit.focusEnergy);await action(f,false,'MOVE_FOCUS_ENERGY');assert.ok(f.messages.includes('But it failed!'));
+ const tape=rawTape(4);Reflect.set(f.battle,'rng',tape.rng);const move=data.moves[data.constants.MOVE_QUICK_ATTACK];assert.equal(invoke(f,'critMultiplier',team[0],f.battle.player,move),2);assert.equal(tape.calls,1);
+ const expected=Math.floor(Math.floor((Math.floor(team[0].level*2/5)+2)*60*team[0].stats.atk/f.battle.player.stats.def)/50)+2;assert.equal(moveBaseDamage(data,team[0],f.battle.player,move,freshStages(),freshStages()),expected);
+ const armor=fieldMon(347),blocked=rawTape(4);Reflect.set(f.battle,'rng',blocked.rng);assert.equal(monAbility(data,armor),'ABILITY_BATTLE_ARMOR');assert.equal(invoke(f,'critMultiplier',team[0],armor,move),1);assert.equal(blocked.calls,1);
+});
+test('actual Rival Spite records misses, drains four capped PP, and can exhaust a selected move',async()=>{
+ const team=await originalTrainerParty(data,1),player=fieldMon(158),f=fixture(team,[player],()=>.9999),slot=sourceMove(player,'MOVE_WATER_GUN');await invoke(f,'attack',true,slot);assert.equal(volatile(f,player).previousMove,data.constants.MOVE_WATER_GUN);
+ Reflect.set(f.battle,'rng',()=>noncrit);const before=player.moves[slot].pp;await action(f,false,'MOVE_SPITE');assert.equal(player.moves[slot].pp,before-4);assert.equal(volatile(f,team[0]).previousMove,data.constants.MOVE_SPITE);
+ player.moves[slot].pp=2;await action(f,false,'MOVE_SPITE');assert.equal(player.moves[slot].pp,0);const hp=team[0].hp;await invoke(f,'attack',true,slot);assert.equal(team[0].hp,hp);assert.equal(player.moves[slot].pp,0);assert.equal(volatile(f,player).previousMove,0);
+ player.status='SLP';player.sleepTurns=2;await invoke(f,'attack',true,slot);assert.equal(volatile(f,player).previousMove,0);assert.ok(f.messages.some(text=>text.includes('no PP')));
+});
+test('MeanLook traps Ghosts, distinguishes ShedShell/SmokeBall, and releases when its caster leaves',async()=>{
+ const team=await originalTrainerParty(data,1),player=fieldMon(92,14),f=fixture(team,[player,fieldMon()]);await action(f,false,'MOVE_MEAN_LOOK');assert.equal(invoke(f,'trapped','switch'),true);assert.equal(invoke(f,'trapped','escape'),true);
+ player.heldItem='ITEM_SMOKE_BALL';assert.equal(invoke(f,'trapped','escape'),false);assert.equal(invoke(f,'trapped','switch'),true);player.heldItem='ITEM_SHED_SHELL';assert.equal(invoke(f,'trapped','switch'),false);assert.equal(invoke(f,'trapped','escape'),true);
+ await invoke(f,'sendEnemy',1);assert.equal(volatile(f,player).status2&bit.meanLook,0);assert.equal(volatile(f,player).meanLookSource,1);
+});
+test('actual Ghost Curse sacrifices half, persists after caster leaves and ticks after burn',async()=>{
+ const team=await originalTrainerParty(data,1),player=fieldMon(158),f=fixture(team,[player]);const caster=team[0],hp=caster.hp;await action(f,false,'MOVE_CURSE');assert.equal(caster.hp,hp-Math.max(1,Math.floor(caster.maxHP/2)));assert.ok(volatile(f,player).status2&bit.curse);
+ await invoke(f,'sendEnemy',1);assert.ok(volatile(f,player).status2&bit.curse);player.status='BRN';const before=player.hp;await oneTurn(f,sourceMove(player,'MOVE_SCARY_FACE'),sourceMove(f.battle.enemy,'MOVE_SUPERSONIC'));
+ assert.equal(player.hp,before-Math.max(1,Math.floor(player.maxHP/8))-Math.max(1,Math.floor(player.maxHP/4)));const burn=f.messages.findIndex(text=>text.includes('hurt by its burn')),curse=f.messages.findIndex(text=>text.includes('afflicted by the curse'));assert.ok(burn>=0&&curse>burn);
+});
+test('actual Bayleef Reflect screens a later physical move, counts activation turn and survives switch',async()=>{
+ const team=await originalTrainerParty(data,1),bayleef=team.find(mon=>mon.species===153)!;assert.ok(bayleef);const player=fieldMon(152),f=fixture([bayleef,team[0]],[player]);Reflect.set(f.battle,'noCritical',true);const before=bayleef.hp;
+ const expected=moveDamage(data,player,bayleef,data.moves[data.constants.MOVE_RAZOR_LEAF],freshStages(),freshStages(),85+Math.floor(noncrit*16),false,false,{reflect:true}).damage;
+ await oneTurn(f,sourceMove(player,'MOVE_RAZOR_LEAF'),sourceMove(bayleef,'MOVE_REFLECT'));assert.equal(before-bayleef.hp,expected);assert.equal(Reflect.get(f.battle,'reflectTurns')[1],4);await invoke(f,'sendEnemy',1);assert.equal(Reflect.get(f.battle,'reflectTurns')[1],4);
+});
+test('actual Bugsy U-turn makes the pending player move hit its replacement, not the outgoing Scyther',async()=>{
+ const team=await originalTrainerParty(data,21),player=fieldMon(152),f=fixture(team,[player]),scyther=team[0],oldHP=scyther.hp;Reflect.set(f.battle,'noCritical',true);
+ await oneTurn(f,sourceMove(player,'MOVE_RAZOR_LEAF'),sourceMove(scyther,'MOVE_U_TURN'));assert.notEqual(f.battle.enemy,scyther);assert.equal(scyther.hp,oldHP);assert.ok(f.battle.enemy.hp<f.battle.enemy.maxHP);assert.equal(scyther.moves[sourceMove(scyther,'MOVE_U_TURN')].pp,data.moves[data.constants.MOVE_U_TURN].pp-1);assert.equal(volatile(f,f.battle.enemy).previousMove,data.constants.MOVE_U_TURN);assert.ok(!Reflect.get(f.battle,'volatiles').has(scyther));
+});
+test('player U-turn awaits native party choice, clears trapping and adds a living-opponent participant',async()=>{
+ const pivot=fieldMon(123),reserve=fieldMon(155),team=await originalTrainerParty(data,486),f=fixture(team,[pivot,reserve]);assert.ok((data.personal[pivot.species].tms as number[]).includes(89));const move=data.moves[data.constants.MOVE_U_TURN];pivot.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];volatile(f,pivot).status2=bit.meanLook;volatile(f,pivot).meanLookSource=1;
+ let requested=false,continued=false;Reflect.set(f.battle,'partyMenu',(forced:boolean)=>{assert.equal(forced,true);requested=true;assert.equal(f.battle.player,pivot);queueMicrotask(()=>{assert.equal(continued,false);Reflect.get(f.battle,'actions')({kind:'switch',index:1});});});
+ const hp=team[0].hp;await invoke(f,'attack',true,0);continued=true;assert.ok(requested);assert.equal(f.battle.player,reserve);assert.ok(team[0].hp<hp);assert.equal(volatile(f,reserve).status2,0);assert.equal(Reflect.get(f.battle,'experienceMask'),3);assert.equal(pivot.moves[0].pp,move.pp-1);
+});
+test('U-turn rejects unported contact/Pursuit/item hooks before PP or HP mutation',async()=>{
+ for(const mode of['static','pursuit','lifeorb']as const){const team=await originalTrainerParty(data,21),target=fieldMon(mode==='static'?25:mode==='pursuit'?198:155),f=fixture(team,[target]);if(mode==='lifeorb')team[0].heldItem='ITEM_LIFE_ORB';const before=structuredClone({team,target});await assert.rejects(action(f,false,'MOVE_U_TURN'),/Unsupported native/);assert.deepEqual({team,target},before,mode);}
+});
+test('real Bugsy roster is defeated by legal actions without injected victory or linear party assumptions',async()=>{
+ const team=await originalTrainerParty(data,21),player=fieldMon(155),f=fixture(team,[player]);f.state.bag.ITEM_POTION=8;let actions=0;Reflect.set(f.battle,'nextAction',async()=>{assert.ok(++actions<80);if(f.battle.player.hp<=Math.floor(f.battle.player.maxHP/2)&&f.state.bag.ITEM_POTION)return{kind:'item',item:'ITEM_POTION'};return{kind:'move',slot:sourceMove(f.battle.player,'MOVE_EMBER')};});
+ const result=await f.battle.start(team,21);assert.equal(result,'won');assert.ok(team.every(mon=>mon.hp===0));assert.ok(f.messages.some(text=>text.includes('went back')));assert.ok(f.events.includes('end'));assert.ok(player.exp>data.growth[data.personal[player.species].growthRate][18]);
+});
+test('native genderless Magnemite/Voltorb use real exported sprite slots without a sex symbol',async()=>{
+ for(const species of[81,100]){const mon=fieldMon(species),f=fixture([mon]);assert.equal(mon.gender,'genderless');for(const facing of['front','back']){const path=invoke(f,'image',mon,facing);assert.equal(path,`/source/pokemon/${species}-male-${facing}.png`);await access(new URL('../../public'+path,import.meta.url));}assert.ok(!/[♂♀]/.test(invoke(f,'status',mon)));}
+});
+
+
+test('actual all-PP-empty action selects typeless Struggle, spends no PP and applies native maxHP recoil',async()=>{
+ for(const trainer of[486,1]){const team=await originalTrainerParty(data,trainer),player=fieldMon(19,10),f=fixture(team,[player]);for(const slot of player.moves)slot.pp=0;
+  let selected:{kind:string;slot:number}|undefined;Reflect.set(f.battle,'actions',(action:{kind:string;slot:number})=>{selected=action;});invoke(f,'moveMenu');assert.deepEqual(selected,{kind:'move',slot:-1});
+  const before=team[0].hp,userHP=player.hp,base=Math.floor(Math.floor((Math.floor(player.level*2/5)+2)*50*player.stats.atk/team[0].stats.def)/50)+2,expected=Math.max(1,Math.floor(base*93/100));
+  await invoke(f,'attack',true,selected!.slot);assert.equal(before-team[0].hp,Math.min(before,expected));assert.equal(player.hp,userHP-Math.max(1,Math.floor(player.maxHP/4)));assert.ok(player.moves.every(slot=>slot.pp===0));assert.ok(f.events.includes('hit:false'));
+ }
+});
+test('normal Curse runs speed/attack/defense in source order without cursing the opponent',async()=>{
+ const player=fieldMon(79,1),team=await originalTrainerParty(data,486),f=fixture(team,[player]);await action(f,true,'MOVE_CURSE');assert.deepEqual(Reflect.get(f.battle,'playerStages'),{...freshStages(),speed:-1,atk:1,def:1});assert.equal(volatile(f,team[0]).status2&bit.curse,0);assert.deepEqual(f.messages.filter(text=>/fell|rose/.test(text)).map(text=>text.match(/(Speed|Attack|Defense)/)![1]),['Speed','Attack','Defense']);
+});
+test('actual all three Azalea Rival parties admit their native Gastly closure without forced victories',async()=>{
+ for(const trainer of[1,266,269]){const team=await originalTrainerParty(data,trainer),f=fixture(team);await action(f,false,'MOVE_MEAN_LOOK');await action(f,false,'MOVE_SPITE');await action(f,false,'MOVE_CURSE');assert.ok(volatile(f,f.battle.player).status2&bit.meanLook);assert.ok(volatile(f,f.battle.player).status2&bit.curse);assert.equal(team[0].hp,team[0].maxHP-Math.floor(team[0].maxHP/2));}
+});
+test('failed FocusEnergy still records native TryMove history, and Rage masks the newly ported flags before acting',async()=>{
+ const team=await originalTrainerParty(data,21),f=fixture(team);await action(f,false,'MOVE_FOCUS_ENERGY');await action(f,false,'MOVE_FOCUS_ENERGY');assert.equal(volatile(f,team[0]).previousMove,data.constants.MOVE_FOCUS_ENERGY);
+ const mon=f.battle.player;Reflect.get(f.battle,'raging').add(mon);volatile(f,mon).status2=bit.rage|bit.focusEnergy|bit.curse|bit.meanLook|5;invoke(f,'prepareRageTurn',mon,sourceMove(mon,'MOVE_EMBER'));assert.equal(volatile(f,mon).status2,bit.rage);
+});
+
+
+test('player pivot after a natural KO excludes its new entrant from that defeated target’s EXP',async()=>{
+ const team=await originalTrainerParty(data,486),pivot=fieldMon(123,30),reserve=fieldMon(),f=fixture(team,[pivot,reserve]);const move=data.moves[data.constants.MOVE_U_TURN];pivot.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];Reflect.set(f.battle,'partyMenu',()=>Reflect.get(f.battle,'actions')({kind:'switch',index:1}));const exp=reserve.exp,oldExp=pivot.exp;
+ await invoke(f,'attack',true,0);assert.equal(team[0].hp,0);assert.equal(f.battle.player,reserve);assert.equal(Reflect.get(f.battle,'experienceMask'),1);await invoke(f,'gainExperience');assert.equal(reserve.exp,exp);assert.ok(pivot.exp>oldExp);
+});
+test('MeanLook escape bypasses preserve native zero-draw/zero-attempt branches',async()=>{
+ for(const mode of['runaway','smokeball']){const team=await originalTrainerParty(data,1),player=fieldMon(mode==='runaway'?161:155),f=fixture(team,[player],()=>{throw Error('bypass must not draw');});if(mode==='smokeball')player.heldItem='ITEM_SMOKE_BALL';if(mode==='runaway')assert.equal(monAbility(data,player),'ABILITY_RUN_AWAY');volatile(f,player).status2=bit.meanLook;assert.equal(invoke(f,'trapped','escape'),false);assert.equal(invoke(f,'tryRun'),true);assert.equal(Reflect.get(f.battle,'fleeAttempts'),0);}
+});
+test('HP berries and ShedSkin are checked before poison; Klutz suppresses held recovery',async()=>{
+ const team=await originalTrainerParty(data,21),metapod=team[2],f=fixture([metapod], [fieldMon(152)],()=>0);metapod.status='PSN';const hp=metapod.hp;await oneTurn(f,sourceMove(f.battle.player,'MOVE_REFLECT'),sourceMove(metapod,'MOVE_TACKLE'));assert.equal(metapod.status,'');assert.equal(metapod.hp,hp);
+ const klutz=fieldMon(427);klutz.personality=(klutz.personality|1)>>>0;assert.equal(monAbility(data,klutz),'ABILITY_KLUTZ');klutz.heldItem='ITEM_ORAN_BERRY';klutz.hp=1;const held=fixture([team[0]],[klutz]);await invoke(held,'heldRecovery',klutz);assert.equal(klutz.hp,1);assert.equal(klutz.heldItem,'ITEM_ORAN_BERRY');
+});
+test('native no-print-gender battle predicate includes unnicknamed Nidoran and Eggs',()=>{
+ for(const species of[29,32]){const mon=fieldMon(species),f=fixture([mon]);assert.ok(!/[♂♀]/.test(invoke(f,'status',{...mon,name:'Nidoran',hasNickname:false})));assert.ok(/[♂♀]/.test(invoke(f,'status',{...mon,name:'Nickname',hasNickname:true})));}const mon=fieldMon();assert.ok(!/[♂♀]/.test(invoke(fixture([mon]),'status',{...mon,isEgg:true})));
+});
+
+
+test('real Bugsy Sitrus can activate between DoubleKick hits, before the next hit animation',async()=>{
+ let witnessed=false;
+ for(const level of[24]){
+  const team=await originalTrainerParty(data,21),player=fieldMon(29,level),f=fixture(team,[player]);assert.ok(data.learnsets[29].some(move=>move.move===data.constants.MOVE_DOUBLE_KICK&&move.level<=level));const move=data.moves[data.constants.MOVE_DOUBLE_KICK];player.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];
+  let animations=0,heldBeforeSecond:string|null|undefined;Reflect.set(f.battle.view!,'attack',async()=>{if(++animations===2)heldBeforeSecond=team[0].heldItem;});
+  for(let actionIndex=0;actionIndex<15&&team[0].hp>0&&team[0].heldItem;actionIndex++){animations=0;heldBeforeSecond=undefined;await invoke(f,'attack',true,0);if(heldBeforeSecond===null){witnessed=true;assert.ok(f.messages.some(text=>text.includes('Sitrus Berry')));break;}}
+ }
+ assert.ok(witnessed,'a legal native level/loadout must reach the between-hit HP threshold');
+});

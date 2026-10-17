@@ -21,7 +21,7 @@ function fixture(player:Mon,enemies:Mon[],options:{bench?:Mon[];slot?:number;tra
   const elements=new Map<string,{innerHTML:string;hidden:boolean}>();globalThis.document={getElementById(id:string){if(!elements.has(id))elements.set(id,{innerHTML:'',hidden:true});return elements.get(id);},querySelector(){return null;}} as unknown as Document;
   const state=newState(data,'Ethan','boy',()=>.5);state.party=[player,...options.bench??[]];
   const messages:string[]=[],events:{text:string;hp:number;maxHP:number;level:number;def:number}[]=[];
-  const battle=new Battle(data,state,{choose:async()=>options.replace??4} as unknown as UI,options.rng??(()=>.5));
+  const battle=new Battle(data,state,{choose:async()=>options.replace??4} as unknown as UI,options.rng??(()=>32769/65536));
   Reflect.set(battle,'say',async(text:string)=>{messages.push(text);events.push({text,hp:player.hp,maxHP:player.maxHP,level:player.level,def:player.stats.def});});
   const stop=new Error('observed next turn');let turns=0,observed:ReturnType<typeof snapshot>|undefined;
   function snapshot(){return{player:structuredClone(player),enemies:structuredClone(enemies),playerStages:{...Reflect.get(battle,'playerStages')},enemyStages:{...Reflect.get(battle,'enemyStages')},enemy:battle.enemy,party:structuredClone(state.party)};}
@@ -54,8 +54,11 @@ test('an opponent-targeting move spends PP and prints original no-target text wi
 });
 
 test('the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution',async()=>{
+  // Pinsir naturally knows Harden and does not have Metapod’s now-ported
+  // end-turn Shed Skin, which could independently cure the fixture status.
+  assert.ok(data.learnsets[127].some(move=>move.move===data.constants.MOVE_HARDEN&&move.level<=30));
   for(const[status,sleepTurns,shouldAct]of[['SLP',2,false],['SLP',1,true],['PAR',0,false]] as const){
-    const player=mon(16,30),enemy=mon(11,30);player.hp=1;moves(enemy,'MOVE_HARDEN');Object.assign(enemy,{status,sleepTurns});
+    const player=mon(16,30),enemy=mon(127,30);player.hp=1;moves(enemy,'MOVE_HARDEN');Object.assign(enemy,{status,sleepTurns});
     const f=fixture(player,[enemy],{slot:-1,bench:[mon(152,5)],rng:()=>0}),pp=enemy.moves[0].pp,result=await f.turn();
     assert.equal(result.enemies[0].moves[0].pp,pp-Number(shouldAct));
     if(status==='SLP'){assert.equal(result.enemies[0].sleepTurns,sleepTurns-1);assert.equal(result.enemies[0].status,shouldAct?'':'SLP');}
@@ -108,7 +111,7 @@ test('a surviving foe with an unsupported opponent effect spends PP and gets no 
 test('unsupported effects still fail when their native target exists, including user/field/opponent-side targets',async()=>{
   const player=mon(155,20),enemy=mon(19,2);moves(player,'MOVE_FLAME_WHEEL');
   await assert.rejects(fixture(player,[enemy]).start(),/Unported original move effect 125/);
-  for(const key of ['MOVE_REFLECT','MOVE_SUNNY_DAY','MOVE_SPIKES']){
+  for(const key of ['MOVE_LIGHT_SCREEN','MOVE_SUNNY_DAY','MOVE_SPIKES']){
     const recoil=mon(16,30),survivor=mon(155,20);recoil.hp=1;moves(survivor,key);
     const effect=data.moves[data.constants[key]].effect;
     await assert.rejects(fixture(recoil,[survivor],{slot:-1,bench:[mon(152,5)]}).start(),new RegExp('Unported original move effect '+effect));
@@ -129,7 +132,7 @@ test('the source-owned single-battle target matrix bypasses only the native no-t
   const rows=[
     ['RANGE_SINGLE_TARGET','MOVE_FLAME_WHEEL',true],['RANGE_SINGLE_TARGET_SPECIAL','MOVE_METRONOME',false],
     ['RANGE_RANDOM_OPPONENT','MOVE_OUTRAGE',true],['RANGE_ADJACENT_OPPONENTS','MOVE_GROWL',true],['RANGE_ALL_ADJACENT','MOVE_DISCHARGE',true],
-    ['RANGE_USER','MOVE_REST',false],['RANGE_USER_SIDE','MOVE_REFLECT',false],['RANGE_FIELD','MOVE_SUNNY_DAY',false],
+    ['RANGE_USER','MOVE_REST',false],['RANGE_USER_SIDE','MOVE_LIGHT_SCREEN',false],['RANGE_FIELD','MOVE_SUNNY_DAY',false],
     ['RANGE_OPPONENT_SIDE','MOVE_SPIKES',false],['RANGE_ALLY','MOVE_HELPING_HAND',false],['RANGE_SINGLE_TARGET_USER_SIDE','MOVE_ACUPRESSURE',false],['RANGE_FRONT','MOVE_ME_FIRST',true],
   ] as const;
   assert.equal(rows.length,nativeRangeValues.size);

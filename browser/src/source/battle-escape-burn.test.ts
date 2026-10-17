@@ -126,7 +126,7 @@ test('legal physical Tackle burn damage matches literal native C before+2 and ra
 test('the actual attack applies native burned damage, spends one PP and retains its attack/hit view callbacks',async()=>{
  const player=mon(152,5),enemy=mon(16,5),move=data.moves[data.constants.MOVE_TACKLE];player.status='BRN';player.moves=[{id:move.id,pp:move.pp,maxPP:move.pp}];
  const [[expected]]=nativeRows([`D 5 ${move.power} ${player.stats.atk} ${enemy.stats.def} 0 0 1 100`]),state=newState(data,'Ethan','boy',()=>.5);state.party=[player];
- const events:string[]=[],draws=[0,.5,.999],view={attack:async()=>{events.push('attack');},hit:async()=>{events.push('hit');}}as unknown as BattleView;
+ const events:string[]=[],draws=[0,32769/65536,.999],view={attack:async()=>{events.push('attack');},hit:async()=>{events.push('hit');}}as unknown as BattleView;
  const battle=new Battle(data,state,{}as UI,()=>{assert.ok(draws.length,'unexpected gameplay draw');return draws.shift()!;},view);Reflect.set(battle,'enemies',[enemy]);Reflect.set(battle,'say',async()=>{});Reflect.set(battle,'draw',()=>{});
  const before=enemy.hp;await Reflect.get(battle,'attack').call(battle,true,0);assert.equal(before-enemy.hp,expected);assert.equal(player.moves[0].pp,move.pp-1);assert.deepEqual(events,['attack','hit']);assert.equal(draws.length,0);
 });
