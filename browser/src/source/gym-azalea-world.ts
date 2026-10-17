@@ -11,9 +11,11 @@ export const AZALEA_GYM_KEY='MAP_AZALEA_GYM';
 export const AZALEA_MANAGED_MODELS=new Set([115,116,117,122]);
 type Pose={translationFx32:number[];rotationFx32:number[];scaleFx32:number[];inverseScaleFx32:number[]};
 type JointAnimation={kind:'joint';archive:number;name:string;frameCount:number;nativeFrames:Pose[][]};
-type PatternAnimation={kind:'pattern';archive:number;name:string;frameCount:number;nativeTextureParameters:Record<string,{width:number;height:number;format:number;color0Transparent:boolean;samplerFlags:number}>;tracks:{material:string;keys:{frame:number;texture:string;palette:string;asset:string;imageSHA256:string}[]}[]};
+type PatternAnimation={kind:'pattern';archive:number;name:string;frameCount:number;nativeTextureParameters:Record<string,{width:number;height:number;format:number;color0Transparent:boolean;textureRepeatFlipAdditions:number}>;tracks:{material:string;keys:{frame:number;texture:string;palette:string;asset:string;imageSHA256:string}[]}[]};
 type Animation=JointAnimation|PatternAnimation;
-export type AzaleaResourceManifest={version:1;map:180;key:typeof AZALEA_GYM_KEY;matrix:105;ticksPerSecond:30;apiculaFramesPerSecond:60;models:Record<string,{asset:string;nativeJointCount:number;scalingRule:0;rest:JointAnimation;animations:Animation[]}>};
+type NativeSampler={wrapS:number;wrapT:number;texGen:number};
+const nativeWrap=(value:number)=>value===10497?THREE.RepeatWrapping:value===33648?THREE.MirroredRepeatWrapping:value===33071?THREE.ClampToEdgeWrapping:undefined;
+export type AzaleaResourceManifest={version:1;map:180;key:typeof AZALEA_GYM_KEY;matrix:105;ticksPerSecond:30;apiculaFramesPerSecond:60;models:Record<string,{asset:string;nativeJointCount:number;scalingRule:0;rest:JointAnimation;nativeMaterialSamplers:Record<string,NativeSampler>;animations:Animation[]}>};
 export type AzaleaGymResources={manifest:AzaleaResourceManifest;models:Map<number,THREE.Group>;patterns:Map<string,THREE.Texture>};
 export type AzaleaPose=ReturnType<typeof azaleaGymRideFrame>;
 export type AzaleaMap={id:number;key:string;cells:{x:number;z:number;altitude:number;props:{id:number;position:number[];rotation:number[];scale:number[]}[]}[]};
@@ -75,7 +77,7 @@ export async function loadAzaleaGymResources(base='/source/'):Promise<AzaleaGymR
   for(const animation of entry.animations)if(animation.kind==='pattern'){
    if(animation.tracks.length!==1||animation.tracks[0].keys.length!==1||animation.tracks[0].keys[0].frame!==0)throw new UnsupportedAzaleaResource('Unsupported original PAT layout');
    const params=animation.nativeTextureParameters?.[animation.tracks[0].keys[0].texture];
-   if(!params||params.width!==32||params.height!==32||params.format!==3||!params.color0Transparent||params.samplerFlags!==0)throw new UnsupportedAzaleaResource('Unsupported original PAT sampling ABI');
+   if(!params||params.width!==32||params.height!==32||params.format!==3||!params.color0Transparent||params.textureRepeatFlipAdditions!==0)throw new UnsupportedAzaleaResource('Unsupported original PAT sampling ABI');
   }
  }
  const resources:AzaleaGymResources={manifest,models:new Map(),patterns:new Map()},loader=new GLTFLoader();
@@ -91,7 +93,7 @@ export async function loadAzaleaGymResources(base='/source/'):Promise<AzaleaGymR
  if(failure?.status==='rejected'){disposeAzaleaGymResources(resources);throw failure.reason;}
  // PAT swaps the image/palette, retaining the model material's UV sampler.
  // These resources use one material per pattern image; they are cache-owned.
- try{for(const[id,entry]of Object.entries(manifest.models))for(const animation of entry.animations)if(animation.kind==='pattern')for(const track of animation.tracks){let original:THREE.Texture|null=null;resources.models.get(Number(id))!.traverse(object=>{if(object instanceof THREE.Mesh)for(const material of Array.isArray(object.material)?object.material:[object.material])if(material.name===track.material)original=(material as THREE.MeshBasicMaterial).map;});if(!original)throw new UnsupportedAzaleaResource('Original PAT sampler unavailable');const from=original as THREE.Texture;for(const key of track.keys){const texture=resources.patterns.get(key.asset)!;if(from.image?.width!==32||from.image?.height!==32||texture.image?.width!==32||texture.image?.height!==32)throw new UnsupportedAzaleaResource('Original PAT image dimensions mismatch');texture.wrapS=from.wrapS;texture.wrapT=from.wrapT;texture.channel=from.channel;texture.offset.copy(from.offset);texture.repeat.copy(from.repeat);texture.center.copy(from.center);texture.rotation=from.rotation;texture.updateMatrix();}}}catch(error){disposeAzaleaGymResources(resources);throw error;}
+ try{for(const[id,entry]of Object.entries(manifest.models))for(const animation of entry.animations)if(animation.kind==='pattern')for(const track of animation.tracks){let original:THREE.Texture|null=null;resources.models.get(Number(id))!.traverse(object=>{if(object instanceof THREE.Mesh)for(const material of Array.isArray(object.material)?object.material:[object.material])if(material.name===track.material)original=(material as THREE.MeshBasicMaterial).map;});if(!original)throw new UnsupportedAzaleaResource('Original PAT sampler unavailable');const from=original as THREE.Texture,native=entry.nativeMaterialSamplers?.[track.material];if(!native||native.texGen!==0||from.wrapS!==nativeWrap(native.wrapS)||from.wrapT!==nativeWrap(native.wrapT))throw new UnsupportedAzaleaResource('Original PAT material sampler mismatch');for(const key of track.keys){const texture=resources.patterns.get(key.asset)!;if(from.image?.width!==32||from.image?.height!==32||texture.image?.width!==32||texture.image?.height!==32)throw new UnsupportedAzaleaResource('Original PAT image dimensions mismatch');texture.wrapS=from.wrapS;texture.wrapT=from.wrapT;texture.channel=from.channel;texture.offset.copy(from.offset);texture.repeat.copy(from.repeat);texture.center.copy(from.center);texture.rotation=from.rotation;texture.updateMatrix();}}}catch(error){disposeAzaleaGymResources(resources);throw error;}
  return resources;
 }
 
@@ -167,29 +169,32 @@ export class AzaleaGymWorld{
  updateNativeTick(){if(!this.active)return;this.tick++;this.applySwitches();}
  async flipSwitch(index:number,hooks:Pick<AzaleaGymHooks,'switchSound'|'commitState'>){
   this.assertReady();if(this.moving)throw Error('Azalea Gym is busy');const generation=this.generation,previous=copy(this.stateValue!),next=flipAzaleaGymSwitch(previous,index),controller=new AbortController();this.controller=controller;this.moving=true;
-  try{this.stateValue=next;this.applySwitches();hooks.commitState(copy(next));await abortable(hooks.switchSound(controller.signal),controller.signal);check(controller.signal);return copy(next);}catch(error){if(generation===this.generation){this.stateValue=previous;this.applySwitches();hooks.commitState(copy(previous));}throw error;}finally{if(generation===this.generation){this.controller=null;this.moving=false;}}
+  try{this.stateValue=next;this.applySwitches();hooks.commitState(copy(next));check(controller.signal);await abortable(hooks.switchSound(controller.signal),controller.signal);check(controller.signal);return copy(next);}catch(error){if(generation===this.generation){this.stateValue=previous;this.applySwitches();hooks.commitState(copy(previous));}throw error;}finally{if(generation===this.generation){this.controller=null;this.moving=false;}}
  }
  private resetCart(p:Placed){for(const[object,rest]of p.rest){object.matrix.copy(rest.matrix);object.matrixAutoUpdate=rest.auto;object.matrixWorldNeedsUpdate=true;}applyAzaleaJointFrame(p.root,p.nativeRest,0);}
  private runTicks(count:number,tick:(index:number)=>void,signal:AbortSignal){check(signal);return abortable(this.ticks(count,index=>{check(signal);tick(index);},signal),signal);}
  async ride(station:number,hooks:AzaleaGymHooks){
-  this.assertReady();if(this.moving)throw Error('Azalea Gym is busy');const previous=copy(this.stateValue!),plan=planAzaleaGymRide(previous,station),player=hooks.player();
+  this.assertReady();if(this.moving)throw Error('Azalea Gym is busy');const generation=this.generation,previous=copy(this.stateValue!),plan=planAzaleaGymRide(previous,station),player=hooks.player();if(generation!==this.generation)throw new AzaleaGymCancelled();
   if(player.x!==plan.boarding.from.x||player.z!==plan.boarding.from.z||player.y!==0)throw Error('Azalea ride requires a rider at the original boarding tile');
   const cart=this.carts[plan.spiderIndex],animation=this.resources!.manifest.models[118].animations[0];if(animation.kind!=='joint')throw new UnsupportedAzaleaResource('Native spider joint animation missing');
-  const generation=this.generation,controller=new AbortController(),signal=controller.signal,restoreRiders=hooks.captureRiders();this.controller=controller;this.moving=true;let completed=false,sound=false,shake=false,mustResetTrack=false,held=false,released=false;
+  const controller=new AbortController(),signal=controller.signal,restoreRiders=hooks.captureRiders();if(generation!==this.generation)throw new AzaleaGymCancelled();this.controller=controller;this.moving=true;let completed=false,sound=false,shake=false,mustResetTrack=false,held=false,released=false;
+  // Every synchronous host port is a reentrancy boundary. Cleanup deliberately
+  // uses raw ports; forward action work must stop when a port unloads the map.
+  const invoke=<T>(port:()=>T):T=>{check(signal);const result=port();check(signal);return result;};
   const segmentStarts=new Map<number,number>();let start=1;for(const segment of plan.segments){segmentStarts.set(start,segment.velocity.x/2);start+=segment.ticks;}
   this.actionCleanup=()=>{if(released)return;released=true;const stopSound=sound,resetCamera=shake,resetTrack=mustResetTrack,releaseHold=held;sound=false;shake=false;mustResetTrack=false;held=false;try{if(releaseHold)hooks.holdPlayer(74);}finally{try{hooks.releaseRiders();}finally{try{if(stopSound)hooks.robotSound(false);}finally{try{if(resetCamera)hooks.cameraOffset(0);}finally{if(resetTrack)hooks.trackPlayer(true);}}}}};
-  const pose=(tick:number)=>{const frame=azaleaGymRideFrame(plan,tick);cart.root.position.set(frame.model.x,frame.model.y,frame.model.z);hooks.placeRiders(frame);return frame;};
+  const pose=(tick:number)=>{check(signal);const frame=azaleaGymRideFrame(plan,tick);cart.root.position.set(frame.model.x,frame.model.y,frame.model.z);invoke(()=>hooks.placeRiders(frame));return frame;};
   try{
    await abortable(hooks.waitFollower(signal),signal);check(signal);
    await abortable(hooks.stepRiders(plan.direction,'board',signal),signal);check(signal);
-   const boarded=hooks.player();if(boarded.x!==plan.boarding.onto.x||boarded.z!==plan.boarding.onto.z||boarded.y!==0)throw Error('Original Azalea boarding movement did not complete');held=true;hooks.holdPlayer(73);check(signal);
+   const boarded=invoke(()=>hooks.player());if(boarded.x!==plan.boarding.onto.x||boarded.z!==plan.boarding.onto.z||boarded.y!==0)throw Error('Original Azalea boarding movement did not complete');held=true;invoke(()=>hooks.holdPlayer(73));
    await this.runTicks(NATIVE_AZALEA_GYM.phases.afterBoardWaitTicks,()=>{},signal);check(signal);
-   applyAzaleaJointFrame(cart.root,animation,0);sound=true;hooks.robotSound(true);
-   await this.runTicks(plan.movementTicks,tick=>{const xComponent=segmentStarts.get(tick);if(xComponent!==undefined){if(!mustResetTrack&&xComponent!==0&&xComponent!==4096){mustResetTrack=true;hooks.trackPlayer(false);}else if(mustResetTrack){mustResetTrack=false;hooks.trackPlayer(true);}}pose(tick);if(tick===plan.movementTicks){this.stateValue=completeAzaleaGymRide(this.stateValue!,plan);this.resetCart(cart);hooks.commitState(copy(this.stateValue));hooks.robotSound(false);sound=false;}else applyAzaleaJointFrame(cart.root,animation,tick%animation.frameCount);},signal);check(signal);
-   await this.runTicks(1,()=>{hooks.dockRiders(azaleaGymRideFrame(plan,plan.movementTicks));hooks.holdPlayer(74);held=false;},signal);check(signal);
-   const offsets=azaleaGymShakeOffsets(hooks.facing());shake=true;await this.runTicks(offsets.length,tick=>hooks.cameraOffset(offsets[tick-1]),signal);check(signal);hooks.cameraOffset(0);shake=false;
+   applyAzaleaJointFrame(cart.root,animation,0);sound=true;invoke(()=>hooks.robotSound(true));
+   await this.runTicks(plan.movementTicks,tick=>{const xComponent=segmentStarts.get(tick);if(xComponent!==undefined){if(!mustResetTrack&&xComponent!==0&&xComponent!==4096){mustResetTrack=true;invoke(()=>hooks.trackPlayer(false));}else if(mustResetTrack){mustResetTrack=false;invoke(()=>hooks.trackPlayer(true));}}pose(tick);if(tick===plan.movementTicks){this.stateValue=completeAzaleaGymRide(this.stateValue!,plan);this.resetCart(cart);invoke(()=>hooks.commitState(copy(this.stateValue!)));invoke(()=>hooks.robotSound(false));sound=false;}else applyAzaleaJointFrame(cart.root,animation,tick%animation.frameCount);},signal);check(signal);
+   await this.runTicks(1,()=>{invoke(()=>hooks.dockRiders(azaleaGymRideFrame(plan,plan.movementTicks)));invoke(()=>hooks.holdPlayer(74));held=false;},signal);check(signal);
+   const offsets=azaleaGymShakeOffsets(invoke(()=>hooks.facing()));shake=true;await this.runTicks(offsets.length,tick=>invoke(()=>hooks.cameraOffset(offsets[tick-1])),signal);check(signal);invoke(()=>hooks.cameraOffset(0));shake=false;
    await this.runTicks(NATIVE_AZALEA_GYM.phases.beforeDisembarkWaitTicks,()=>{},signal);check(signal);
-   await abortable(hooks.stepRiders(plan.direction,'disembark',signal),signal);check(signal);const arrived=hooks.player();if(arrived.x!==plan.arrival.disembarked.x||arrived.z!==plan.arrival.disembarked.z||arrived.y!==0)throw Error('Original Azalea disembark movement did not complete');completed=true;return copy(this.stateValue!);
+   await abortable(hooks.stepRiders(plan.direction,'disembark',signal),signal);check(signal);const arrived=invoke(()=>hooks.player());if(arrived.x!==plan.arrival.disembarked.x||arrived.z!==plan.arrival.disembarked.z||arrived.y!==0)throw Error('Original Azalea disembark movement did not complete');completed=true;return copy(this.stateValue!);
   }finally{
    if(generation===this.generation){try{try{this.actionCleanup?.();}finally{if(!completed&&generation===this.generation){this.stateValue=previous;this.resetCart(cart);const[x,z]=NATIVE_AZALEA_GYM.stations[station];cart.root.position.set(x+.5,0,z);try{hooks.commitState(copy(previous));}finally{if(generation===this.generation)restoreRiders();}}}}finally{if(generation===this.generation){this.actionCleanup=null;this.controller=null;this.moving=false;}}}
   }

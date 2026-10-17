@@ -10,7 +10,7 @@ import tempfile
 import unittest
 import zlib
 
-from export_azalea_world import ROOT, MODELS, info_block, joint_animation, member, model_rest, pattern_animation, pattern_texture_parameters, sha
+from export_azalea_world import ROOT, MODELS, info_block, joint_animation, member, model_rest, native_material_samplers, native_render_contract, pattern_animation, pattern_texture_parameters, sha, validate_converted_contract
 
 
 def png_rgba(raw):
@@ -185,6 +185,56 @@ class Resources(unittest.TestCase):
         struct.pack_into('<I', texture, entry, params ^ (1 << 29))
         with self.assertRaisesRegex(AssertionError, 'PAT dimensions'):
             pattern_texture_parameters(texture, ['g2switch.1'])
+
+    def test_actual_material_repeat_bits_and_rigid_native_sbc_match_converted_assets(self):
+        texture = member('files/a/0/7/0', 27)
+        for model in MODELS:
+            native = member('files/a/1/4/8', model)
+            render = native_render_contract(native)
+            samplers = native_material_samplers(native, texture)
+            entry = self.manifest['models'][str(model)]
+            self.assertEqual(entry['renderContract']['commands'], render['commands'])
+            self.assertEqual(entry['nativeMaterialSamplers'], samplers)
+            packed = (ROOT / 'browser/public/source' / entry['asset']).read_bytes()
+            size = struct.unpack_from('<I', packed, 12)[0]
+            doc = json.loads(packed[20:20 + size])
+            validate_converted_contract(doc, samplers, render, packed)
+            changed = bytearray(packed)
+            primitive = doc['meshes'][0]['primitives'][0]
+            weight = doc['accessors'][primitive['attributes']['WEIGHTS_0']]
+            self.assertEqual((weight['componentType'], weight['normalized']), (5121, True))
+            view = doc['bufferViews'][weight['bufferView']]
+            at = 20 + size + 8 + view.get('byteOffset', 0) + weight.get('byteOffset', 0)
+            component = list(changed[at:at + 4]).index(255)
+            changed[at + component] = 128
+            with self.assertRaisesRegex(AssertionError, 'nonrigid'):
+                validate_converted_contract(doc, samplers, render, changed)
+            self.assertTrue(all(command['opcode'] & 31 not in [7, 8, 9, 10, 12, 13] for command in render['commands']))
+            self.assertEqual(render['positionScaleFx32'] * render['inversePositionScaleFx32'], 4096 ** 2)
+            if model in [117, 122]:
+                # Native MATERIAL flags0x30000 repeat both axes, even though
+                # each TEX0 texture contributes no repeat/flip bits.
+                self.assertEqual(samplers['g2switch']['materialKeepBits'], 0x30000)
+                self.assertEqual((samplers['g2switch']['wrapS'], samplers['g2switch']['wrapT']), (10497, 10497))
+                self.assertEqual(samplers['g2switch']['textureRepeatFlipAdditions'], 0)
+                changed = json.loads(json.dumps(doc))
+                changed['samplers'][0]['wrapS'] = 33071
+                with self.assertRaisesRegex(AssertionError, 'sampler'):
+                    validate_converted_contract(changed, samplers, render, packed)
+                generated = json.loads(json.dumps(samplers))
+                generated['g2switch']['texGen'] = 1
+                with self.assertRaisesRegex(AssertionError, 'generated texture'):
+                    validate_converted_contract(doc, generated, render, packed)
+            # Unknown billboard/envelope/call/projection commands cannot be
+            # silently interpreted as ordinary hierarchy or static geometry.
+            section = struct.unpack_from('<I', native, 16)[0]
+            base = section + struct.unpack('<I', info_block(native, section + 8, 4)[0][0])[0]
+            sbc = base + struct.unpack_from('<I', native, base + 4)[0]
+            for opcode in [7, 8, 9, 10, 12, 13]:
+                changed = bytearray(native)
+                changed[sbc] = opcode
+                with self.assertRaisesRegex(AssertionError, 'unsupported SBC'):
+                    native_render_contract(changed)
 
     def test_every_actual_pat_pixel_uses_its_literal_texture_and_palette(self):
         texture = member('files/a/0/7/0', 27)

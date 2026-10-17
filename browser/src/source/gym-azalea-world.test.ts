@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {AzaleaGymWorld,animateAzaleaTicks,applyAzaleaJointFrame,disposeAzaleaGymResources,type AzaleaGymHooks,type AzaleaGymResources,type AzaleaResourceManifest,type AzaleaTicks} from './gym-azalea-world.ts';
+import {AzaleaGymWorld,animateAzaleaTicks,applyAzaleaJointFrame,disposeAzaleaGymResources,loadAzaleaGymResources,type AzaleaGymHooks,type AzaleaGymResources,type AzaleaResourceManifest,type AzaleaTicks} from './gym-azalea-world.ts';
 import {azaleaGymRideFrame,initialAzaleaGymState,planAzaleaGymRide} from './gym-azalea-plan.ts';
 import {originalMaterial} from './render-repair.ts';
 
@@ -78,6 +78,14 @@ test('unchanged PAT selection does not invalidate the material every native tick
  const r=await resources(),world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,immediate);await world.enter(map);const versions=new Map<THREE.Material,number>();for(const p of (world as any).placed)if(p.model===117||p.model===122)p.root.traverse((object:THREE.Object3D)=>{if(object instanceof THREE.Mesh)for(const material of Array.isArray(object.material)?object.material:[object.material])versions.set(material,material.version);});world.updateNativeTick();world.updateNativeTick();for(const[material,version]of versions)assert.equal(material.version,version);world.leave();disposeAzaleaGymResources(r);
 });
 
+test('PAT loading preserves the native material REPEAT sampler and rejects a converter clamp mismatch',async()=>{
+ const manifest=JSON.parse((await read('azalea-gym/resources.json')).toString())as AzaleaResourceManifest,previous={fetch:globalThis.fetch,gltf:GLTFLoader.prototype.loadAsync,texture:THREE.TextureLoader.prototype.loadAsync};let mismatch=false;const patternDisposals:number[]=[];
+ globalThis.fetch=async()=>new Response(JSON.stringify(manifest));
+ GLTFLoader.prototype.loadAsync=async function(url){const entry=Object.values(manifest.models).find(entry=>url.endsWith(entry.asset))!,group=new THREE.Group();for(const name of Object.keys(entry.nativeMaterialSamplers)){const map=new THREE.Texture({width:32,height:32});map.wrapS=mismatch&&entry.asset.endsWith('model-117.glb')?THREE.ClampToEdgeWrapping:THREE.RepeatWrapping;map.wrapT=THREE.RepeatWrapping;map.offset.set(.125,.25);map.repeat.set(2,3);const material=new THREE.MeshStandardMaterial({map});material.name=name;group.add(new THREE.Mesh(new THREE.PlaneGeometry(),material));}return{scene:group,animations:[]}as any;};
+ THREE.TextureLoader.prototype.loadAsync=async function(){const texture=new THREE.Texture({width:32,height:32}),index=patternDisposals.push(0)-1;texture.addEventListener('dispose',()=>patternDisposals[index]++);return texture;};
+ try{const loaded=await loadAzaleaGymResources();for(const texture of loaded.patterns.values()){assert.equal(texture.wrapS,THREE.RepeatWrapping);assert.equal(texture.wrapT,THREE.RepeatWrapping);assert.deepEqual(texture.offset.toArray(),[.125,.25]);assert.deepEqual(texture.repeat.toArray(),[2,3]);}disposeAzaleaGymResources(loaded);assert.deepEqual(patternDisposals,[1,1,1,1]);mismatch=true;await assert.rejects(loadAzaleaGymResources(),/material sampler mismatch/);assert.deepEqual(patternDisposals,[1,1,1,1,1,1,1,1],'failure disposes each completed PAT image once');}finally{globalThis.fetch=previous.fetch;GLTFLoader.prototype.loadAsync=previous.gltf;THREE.TextureLoader.prototype.loadAsync=previous.texture;}
+});
+
 test('ride executes source tick positions, awaited boarding/docking/shake and commits only at the last movement endpoint',async()=>{
  const r=await resources(),phases:number[]=[],world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,async(n,tick,signal)=>{phases.push(n);await immediate(n,tick,signal);});await world.enter(map);const h=hooks(world);await world.ride(0,h.ports);
  assert.deepEqual(phases,[5,209,1,7,9]);const poses=h.events.filter(e=>e.rider).map(e=>e.rider);assert.equal(poses.length,209);for(let i=0;i<poses.length;i++)assert.deepEqual(poses[i],azaleaGymRideFrame(h.plan,i+1));
@@ -102,6 +110,15 @@ test('unload aborts pending hosts and prevents stale native tick callbacks from 
 test('reentrant host cancellation handles its rejected promise and releases controller-owned rider state once',async()=>{
  const r=await resources(),world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,immediate);await world.enter(map);const h=hooks(world);h.ports.waitFollower=()=>{world.cancel();return Promise.reject(Error('host cancelled reentrantly'));};await assert.rejects(world.ride(0,h.ports),{name:'AbortError'});await new Promise(resolve=>setImmediate(resolve));assert.equal(h.events.filter(e=>e==='release').length,1);assert.equal(h.events.filter(e=>e==='restore').length,1);
  const next=hooks(world);next.ports.holdPlayer=movement=>{next.events.push({hold:movement});if(movement===73)world.leave();};await assert.rejects(world.ride(0,next.ports),{name:'AbortError'});assert.deepEqual(next.events.filter(e=>e.hold).map(e=>e.hold),[73,74]);assert.equal(next.events.filter(e=>e==='release').length,1);assert.equal(next.events.filter(e=>e==='restore').length,0);assert.equal(world.active,false);disposeAzaleaGymResources(r);
+});
+
+test('reentrant unload inside a source tick never runs later rider, hold or sound ports after cleanup',async()=>{
+ for(const boundary of ['track','dock','commit','pose']as const){
+  const r=await resources(),world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,immediate);await world.enter(map);const h=hooks(world),wrap=<T extends keyof AzaleaGymHooks>(name:T,when:(...args:any[])=>boolean)=>{const original=h.ports[name]as(...args:any[])=>any;(h.ports as any)[name]=(...args:any[])=>{const result=original(...args);if(when(...args))world.leave();return result;};};
+  if(boundary==='track')wrap('trackPlayer',enabled=>!enabled);if(boundary==='dock')wrap('dockRiders',()=>true);if(boundary==='commit')wrap('commitState',()=>true);if(boundary==='pose')wrap('placeRiders',()=>true);
+  await assert.rejects(world.ride(0,h.ports),{name:'AbortError'});const released=h.events.indexOf('release');assert.ok(released>=0,boundary);assert.deepEqual(h.events.slice(released+1).filter(e=>e.rider||e.dock||e.hold||e.commit),[],boundary+' must not resume forward work after release');assert.deepEqual(h.owned,{held:false,manual:false});assert.equal(world.active,false);disposeAzaleaGymResources(r);
+ }
+ const r=await resources(),world=new AzaleaGymWorld(new THREE.Scene(),async()=>r,immediate);await world.enter(map);let soundCalls=0;await assert.rejects(world.flipSwitch(0,{commitState:()=>world.leave(),switchSound:async()=>{soundCalls++;}}),{name:'AbortError'});assert.equal(soundCalls,0,'unloaded switch commit must not start the old sound host');disposeAzaleaGymResources(r);
 });
 
 test('superseded asset load never publishes clones and clone unload does not dispose cached buffers or PAT images',async()=>{

@@ -202,10 +202,145 @@ def pattern_texture_parameters(b, names):
     result = {}
     for name in names:
         value = params[name]
-        current = {'width': 8 << ((value >> 20) & 7), 'height': 8 << ((value >> 23) & 7), 'format': (value >> 26) & 7, 'color0Transparent': bool(value & (1 << 29)), 'samplerFlags': (value >> 16) & 15}
-        assert current == {'width': 32, 'height': 32, 'format': 3, 'color0Transparent': True, 'samplerFlags': 0}, 'unsupported PAT dimensions/alpha/format/sampler'
+        current = {'width': 8 << ((value >> 20) & 7), 'height': 8 << ((value >> 23) & 7), 'format': (value >> 26) & 7, 'color0Transparent': bool(value & (1 << 29)), 'textureRepeatFlipAdditions': (value >> 16) & 15}
+        assert current == {'width': 32, 'height': 32, 'format': 3, 'color0Transparent': True, 'textureRepeatFlipAdditions': 0}, 'unsupported PAT dimensions/alpha/format/texture additions'
         result[name] = current
     return result
+
+
+def native_material_samplers(model, texture):
+    """SDK KEEP_MASK retains MATERIAL repeat/flip and texgen bits.
+
+    TEX0 can additionally set those bits; zero TEX0 bits do not mean clamp.
+    """
+    base, _ = animation_base(model, b'MDL0')
+    mat = base + struct.unpack_from('<I', model, base + 8)[0]
+    entries = info_block(model, mat + 4, 4)
+    tex = struct.unpack_from('<I', texture, 16)[0]
+    dictionary = tex + struct.unpack_from('<H', texture, tex + 14)[0]
+    parameters = {name: struct.unpack('<II', data)[0] for data, name in info_block(texture, dictionary, 8)}
+    bindings = {}
+    for data, name in info_block(model, mat + struct.unpack_from('<H', model, mat)[0], 4):
+        offset, count, _ = struct.unpack('<HBB', data)
+        for index in model[mat + offset:mat + offset + count]:
+            assert index not in bindings
+            bindings[index] = name
+    result = {}
+    for index, (data, name) in enumerate(entries):
+        if index not in bindings:
+            continue
+        at = mat + struct.unpack('<I', data)[0]
+        material = struct.unpack_from('<I', model, at + 20)[0]
+        image = parameters[bindings[index]]
+        combined = (material & 0xc00f0000) | image
+        flags = (combined >> 16) & 15
+        def wrap(repeat, flip):
+            return 33071 if not flags & repeat else 33648 if flags & flip else 10497
+        result[name] = {'baseTexture': bindings[index], 'materialKeepBits': material & 0xc00f0000, 'textureRepeatFlipAdditions': (image >> 16) & 15, 'texGen': combined >> 30, 'wrapS': wrap(1, 4), 'wrapT': wrap(2, 8)}
+    return result
+
+
+def native_render_contract(model):
+    """Bounded literal SBC ABI: rigid node palettes, no billboard/envelope.
+
+    Native constant POSSCALE is balanced around shape drawing and is baked
+    into converter vertex data; it is not another animated joint scale.
+    """
+    base, _ = animation_base(model, b'MDL0')
+    _, sbc, mat, _, _ = struct.unpack_from('<5I', model, base)
+    position_scale, inverse = struct.unpack_from('<2i', model, base + 28)
+    assert position_scale > 0 and inverse > 0 and position_scale * inverse == 4096 ** 2, 'unsupported native position-scale pair'
+    lengths = {0: 0, 1: 0, 2: 2, 3: 1, 4: 1, 5: 1, 6: 3, 0x24: 1, 0x26: 4, 0x44: 1, 0x46: 4, 0x66: 5, 0x0b: 0, 0x2b: 0}
+    cursor, limit = base + sbc, base + mat
+    commands, stack, path, parents, scaled, draws = [], {}, (), {}, False, 0
+    while cursor < limit:
+        code = model[cursor]
+        assert code in lengths, 'unsupported SBC billboard/envelope/call/texgen or unknown command'
+        size = lengths[code]
+        assert cursor + size + 1 <= limit
+        args = list(model[cursor + 1:cursor + 1 + size])
+        commands.append({'opcode': code, 'arguments': args})
+        cursor += size + 1
+        operation = code & 31
+        if operation == 1:
+            assert not scaled and all(byte == 0 for byte in model[cursor:limit])
+            break
+        if operation == 6:
+            assert not scaled and args[2] == 0, 'unsupported node compensation flags'
+            if code & 0x40:
+                path = stack[args[4] if code & 0x20 else args[3]]
+            node, parent = args[:2]
+            assert node < model[base + 23] and parent == (path[-1] if path else node)
+            assert node not in parents
+            parents[node] = path[-1] if path else None
+            path = (*path, node)
+            if code & 0x20:
+                stack[args[3]] = path
+        elif operation == 3:
+            assert not scaled
+            path = stack[args[0]]
+        elif operation == 2:
+            assert args[0] < model[base + 23] and args[1] == 1, 'unsupported native node visibility'
+        elif operation == 4:
+            assert args[0] < model[base + 24]
+        elif operation == 5:
+            assert scaled and args[0] < model[base + 25]
+            draws += 1
+        elif code == 0x0b:
+            assert not scaled
+            scaled = True
+        elif code == 0x2b:
+            assert scaled
+            scaled = False
+    assert commands[-1]['opcode'] == 1 and len(parents) == model[base + 23] and draws > 0
+    return {'commands': commands, 'parents': parents, 'draws': draws, 'positionScaleFx32': position_scale, 'inversePositionScaleFx32': inverse, 'geometryContract': 'Rigid native node palette; balanced constant POSSCALE baked into unchanged converter vertices; no billboard, envelope, external displaylist or texgen SBC'}
+
+
+def validate_converted_contract(doc, samplers, render, packed):
+    assert all(sampler['texGen'] == 0 for sampler in samplers.values()), 'unsupported native generated texture coordinates'
+    for material in doc.get('materials', []):
+        texture = material.get('pbrMetallicRoughness', {}).get('baseColorTexture')
+        if not texture:
+            continue
+        expected = samplers[material['name']]
+        image = doc['textures'][texture['index']]
+        actual = doc.get('samplers', [])[image['sampler']] if 'sampler' in image else {}
+        assert (actual.get('wrapS', 10497), actual.get('wrapT', 10497)) == (expected['wrapS'], expected['wrapT']), 'converted sampler disagrees with native material/texture binding'
+    count = len(render['parents'])
+    parents = {child: index for index, node in enumerate(doc['nodes'][:count]) for child in node.get('children', []) if child < count}
+    assert {index: parents.get(index) for index in range(count)} == render['parents'], 'converted hierarchy disagrees with literal native SBC'
+    size = struct.unpack_from('<I', packed, 12)[0]
+    binary = 20 + size + 8
+    assert struct.unpack_from('<I', packed, 24 + size)[0] == 0x004e4942
+    def values(index):
+        accessor = doc['accessors'][index]
+        assert 'sparse' not in accessor and accessor['type'] == 'VEC4'
+        view = doc['bufferViews'][accessor['bufferView']]
+        assert view.get('buffer', 0) == 0
+        code, width = {5121: ('B', 1), 5123: ('H', 2), 5126: ('f', 4)}[accessor['componentType']]
+        offset = binary + view.get('byteOffset', 0) + accessor.get('byteOffset', 0)
+        stride = view.get('byteStride', width * 4)
+        return accessor, [struct.unpack_from('<4' + code, packed, offset + i * stride) for i in range(accessor['count'])]
+    samples = 0
+    for node in doc['nodes']:
+        if 'mesh' not in node or 'skin' not in node:
+            continue
+        palette = doc['skins'][node['skin']]['joints']
+        assert all(index < count for index in palette), 'foreign converted joint palette'
+        for primitive in doc['meshes'][node['mesh']]['primitives']:
+            attributes = primitive['attributes']
+            assert 'WEIGHTS_1' not in attributes and 'JOINTS_1' not in attributes
+            accessor, weights = values(attributes['WEIGHTS_0'])
+            _, joints = values(attributes['JOINTS_0'])
+            one = {5121: 255, 5123: 65535}[accessor['componentType']] if accessor.get('normalized') else 1
+            assert len(weights) == len(joints)
+            for weight, joint in zip(weights, joints):
+                nonzero = [i for i, value in enumerate(weight) if value]
+                assert len(nonzero) == 1 and weight[nonzero[0]] == one, 'unsupported nonrigid converted skin weight'
+                assert joint[nonzero[0]] < len(palette)
+                samples += 1
+    assert samples > 0
+    return samples
 
 
 def pack_glb(path, joint_count):
@@ -237,7 +372,7 @@ def export(apicula):
     shape_data = (ROOT / 'files/fielddata/build_model/bm_room_matshp.dat').read_bytes()
     texture = member('files/a/0/7/0', 27)
     manifest = {'version': 1, 'map': 180, 'key': 'MAP_AZALEA_GYM', 'matrix': 105, 'area': 29, 'roomKind': 0, 'texture': 27, 'ticksPerSecond': 30, 'apiculaFramesPerSecond': 60, 'converter': {'tool': 'apicula', 'binarySHA256': sha(apicula.read_bytes()), 'playback': 'Original SDK integer-frame tables; converter clips retained for inspection only'}, 'models': {}, 'sources': {}}
-    for path in ['browser/scripts/export_azalea_world.py', 'browser/public/source/maps/180.json', 'src/field/gymmick/azalea.c', 'src/field/area_data.c', 'src/field/map_prop_animation.c', 'src/field/map_prop_render.c', 'lib/include/nnsys/g3d_anm_internal.h', 'lib/asm/nnsys_data.s', 'lib/NitroSystem/src/g3d_anm_bca.c', 'lib/NitroSystem/src/g3d_anm_bca_data.c', 'lib/NitroSystem/src/g3d_anm_btp.c', 'lib/NitroSystem/src/g3d_cgtool_basic.c', 'lib/NitroSDK/src/fx/fx_vec_normalize.c', 'lib/include/nnsys/g3d/binres/res_struct.h', 'files/a/0/4/2', 'files/a/0/4/3', 'files/fielddata/build_model/bm_room_matshp.dat', 'files/a/1/0/8', 'files/a/1/0/6', 'files/a/1/4/8', 'files/a/0/7/0']:
+    for path in ['browser/scripts/export_azalea_world.py', 'browser/public/source/maps/180.json', 'src/field/gymmick/azalea.c', 'src/field/area_data.c', 'src/field/map_prop_animation.c', 'src/field/map_prop_render.c', 'lib/include/nnsys/g3d_anm_internal.h', 'lib/asm/nnsys_data.s', 'lib/NitroSystem/src/g3d_anm_bca.c', 'lib/NitroSystem/src/g3d_anm_bca_data.c', 'lib/NitroSystem/src/g3d_anm_btp.c', 'lib/NitroSystem/src/g3d_cgtool_basic.c', 'lib/NitroSDK/src/fx/fx_vec_normalize.c', 'lib/include/nnsys/g3d/binres/res_struct.h', 'lib/include/nnsys/g3d_internal.h', 'lib/NitroSystem/src/g3d_sbc.c', 'include/field/map_prop_animation.h', 'files/a/0/4/2', 'files/a/0/4/3', 'files/fielddata/build_model/bm_room_matshp.dat', 'files/a/1/0/8', 'files/a/1/0/6', 'files/a/1/4/8', 'files/a/0/7/0']:
         manifest['sources'][path] = sha((ROOT / path).read_bytes())
     with tempfile.TemporaryDirectory() as temporary:
         for model, expected in MODELS.items():
@@ -245,6 +380,8 @@ def export(apicula):
             folder.mkdir()
             native = member('files/a/1/4/8', model)
             scaling_rule, rest = model_rest(native)
+            render = native_render_contract(native)
+            samplers = native_material_samplers(native, texture)
             listing = member('files/a/1/0/8', model)
             assert list(struct.unpack_from('<4i', listing, 8)) == expected + [-1] * (4 - len(expected))
             assert struct.unpack_from('<H', shape_data, 4 + model * 4)[0] == 0
@@ -266,6 +403,7 @@ def export(apicula):
             assert len(paths) == 1
             joint_count = len(animations[0]['nativeFrames'][0]) if animations[0]['kind'] == 'joint' else 1
             packed, doc = pack_glb(paths[0], joint_count)
+            render['convertedRigidWeightSamples'] = validate_converted_contract(doc, samplers, render, packed)
             model_base, _ = animation_base(native, b'MDL0')
             native_nodes = [name for _, name in info_block(native, model_base + 64, 4)]
             assert len(native_nodes) == joint_count
@@ -284,7 +422,7 @@ def export(apicula):
                         target = 'azalea-gym/' + str(model) + '-' + str(animation['archive']) + '.png'
                         (output / target).write_bytes(png.read_bytes())
                         key['asset'], key['imageSHA256'] = target, sha(png.read_bytes())
-            manifest['models'][str(model)] = {'asset': asset, 'glbSHA256': sha(packed), 'modelSHA256': sha(native), 'textureSHA256': sha(texture), 'animationListSHA256': sha(listing), 'animationListFlags': list(listing[:4]), 'nativeJointCount': joint_count, 'nativeNodeNames': native_nodes, 'scalingRule': scaling_rule, 'rest': rest, 'animations': animations}
+            manifest['models'][str(model)] = {'asset': asset, 'glbSHA256': sha(packed), 'modelSHA256': sha(native), 'textureSHA256': sha(texture), 'animationListSHA256': sha(listing), 'animationListFlags': list(listing[:4]), 'nativeJointCount': joint_count, 'nativeNodeNames': native_nodes, 'scalingRule': scaling_rule, 'rest': rest, 'renderContract': render, 'nativeMaterialSamplers': samplers, 'animations': animations}
     (directory / 'resources.json').write_text(json.dumps(manifest, separators=(',', ':')) + '\n')
     return manifest
 
