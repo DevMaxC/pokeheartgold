@@ -1,0 +1,47 @@
+{
+  "base": "cf8c15a3bb4c9560f4268f3fd353bf1e68b6fada",
+  "sourceCommits": [
+    "3b80e77eacc558c1330b0fea7886129610c542ba",
+    "09faeb1f57afabfeaf7e87a7d4381c6f5ab3fbbe"
+  ],
+  "scope": "Player/tests only; no host/corpus/export/build/browser changes",
+  "runtimeFiles": {
+    "browser/src/source/field-music.ts": "9fec85e213809fc609fe715b22ecf0c84678ca4f8907e9364489a2b0056cab32",
+    "browser/src/source/field-music.test.ts": "020286246679f056fcd0bac0d446bf0164b838bad7c6b6042ef100d56215453d"
+  },
+  "evidenceFiles": {
+    "README.md": "4cd645439e704ea14ea28e1c2fc80b860a894a379aa6ff0d7811127ed710c254",
+    "final-tests.log": "ef401f1568b06440999059414d2c966de7b90803490aa4283bd2273d56ec8927",
+    "final-tsc.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "followup-manifest.json": "3dff1cbb1f8de4be0054f9869fe7a480af6c8e8a000c2319b41a659941d93cbb",
+    "followup-prompt.txt": "936e149064125535d2f733b3de3e6f869b307ea841463e16aa60405ebf9aec66",
+    "followup-result.json": "389c966b890b88ab123fd93838172486b2ddb2512b69be747ebb71f021997a5c",
+    "followup-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "initial-manifest.json": "a511003728cc7d1fe1d7cc1a7fd6c7c5125f91c02797ec578965e7222167f86f",
+    "initial-prompt.txt": "9f9d4cfaa9f8b9205850da0f7eff34154b045acb8505fdd7219a62815fde7aa8",
+    "initial-result.json": "7861e96a78c40a4315b4cfb23db5f21024ac1f677953c3cc3ce84e2210a12dc7",
+    "initial-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "initial-tests.log": "17fa4c3d5f2bd1225448640c216a105a088cbe6a6419cec044f75ac361b85a34",
+    "initial-tsc.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reviews": {
+    "initial": {
+      "actualModels": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "permissionDenials": [],
+      "scope": "All cancellation additions (initial42 tests)",
+      "qualification": "Read-only; reviewer did not execute supplied passing tests/TSC or any browser/build"
+    },
+    "followup": {
+      "actualModels": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "permissionDenials": [],
+      "scope": "Only disposed-restore correction (final44 tests)",
+      "qualification": "Read-only; reviewer did not execute supplied passing tests/TSC or any browser/build"
+    }
+  }
+}

@@ -13,7 +13,12 @@ export class FieldObjects{
   save(map:number):ObjectEventSave{return{map,actors:[...this.objects.values()].map(n=>({id:n.id,x:n.x,z:n.z,facing:n.facingDirection,shown:n.shown,invisible:n.invisible,directionLocked:n.directionLocked}))};}
   restore(map:number,saved?:ObjectEventSave){if(saved?.map!==map)return;for(const row of saved.actors){const actor=this.get(row.id);if(!actor||!Number.isFinite(row.x)||!Number.isFinite(row.z))continue;actor.x=row.x;actor.z=row.z;actor.facingDirection=row.facing;actor.shown=row.shown;actor.invisible=row.invisible;actor.directionLocked=row.directionLocked;}}
   position(id:string,x:number,z:number,facing?:number){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);npc.x=x;npc.z=z;if(facing!==undefined)npc.facingDirection=facing;}
-  show(id:string,visible:boolean){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);npc.shown=visible;}
+  show(id:string,visible:boolean){const npc=this.get(id);if(!npc)throw Error(`Missing original object ${id}`);
+    // HidePerson -> MapObject_Delete sets the original event flag. Keep it
+    // authoritative so re-entry and State+actor rollback recompute visibility.
+    // ShowPerson's broader legacy behavior is unchanged; it never clears flags.
+    if(!visible&&npc.eventFlag!=='FLAG_NOTHING'&&npc.eventFlag!=='0'){this.state.flags[npc.eventFlag]=true;npc.shown=undefined;}else npc.shown=visible;
+  }
   snapshot(){return [...this.objects.values()].map(npc=>{
     let sprite=npc.spriteId;const variable=sprite.match(/^SPRITE_VAR_(\d+)$/);
     if(variable){const key='VAR_OBJ_'+(Number(variable[1])-1),id=this.data.constants[key],value=(id===undefined?undefined:this.state.vars['#'+id])??this.state.vars[key];sprite=this.spriteNames.get(value)||sprite;}

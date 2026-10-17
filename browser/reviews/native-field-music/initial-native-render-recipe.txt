@@ -1,0 +1,22 @@
+    bank, wave_data = ARCHIVE.bank(entry.bank_id)
+    records = []
+    original = Player.mark_loop
+
+    def measured(self, begin, end, track=None):
+        records.append({'track': track.num if track else None, 'start': begin, 'end': end, 'period': end - begin})
+        return original(self, begin, end, track)
+
+    Player.mark_loop = measured
+    try:
+        render = LiveRenderer(archive.blob, entry.offset, bank, wave_data, entry.volume,
+                              RATE, player_prio=entry.cpr, loop_passes=2)
+        chunks = []
+        while not render.finished:
+            chunk = render.step()
+            if chunk is not None:
+                chunks.append(chunk)
+            check(render.emitted < RATE * 360, 'Native sequence exceeded bounded six-minute render')
+    finally:
+        Player.mark_loop = original
+    audio = np.concatenate(chunks)
+    check(np.max(np.abs(audio.astype(np.int32))) > 0, 'Native musical sequence rendered silent')

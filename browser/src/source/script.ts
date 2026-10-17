@@ -1,4 +1,4 @@
-import {speciesName,titleCase,healParty} from './data.ts';
+import {speciesName,titleCase,healParty,moveName} from './data.ts';
 import type {GameData,SourceMap,State} from './types.ts';
 import {sourceJSON} from './types.ts';
 import {hasBagSpace,addBagItem,takeBagItem} from './bag.ts';
@@ -6,6 +6,7 @@ import {phoneCall} from './phone.ts';
 import {originalSpawn} from './spawns.ts';
 import {timeOfDay,trainerCardStars} from './field-services.ts';
 import {mapWeather} from './atmosphere.ts';
+import {isTMHMItem,tmhmMove} from './tmhm.ts';
 
 export type ScriptHooks={
   message:(text:string)=>Promise<void>;choice:(text?:string)=>Promise<number>;
@@ -32,6 +33,7 @@ export class ScriptVM{
   buffers:Record<number,string>={};
   private battleWon=false;
   private pendingPhone:[number,number,number]|null=null;
+  private originMap:SourceMap|null=null;
   readonly data:GameData;readonly state:State;readonly hooks:ScriptHooks;
   constructor(data:GameData,state:State,hooks:ScriptHooks){this.data=data;this.state=state;this.hooks=hooks;}
   value(token:string,map:SourceMap):number{
@@ -43,7 +45,7 @@ export class ScriptVM{
   }
   set(token:string,n:number){this.state.vars[token]=n&0xffff;const id=this.data.constants[token];if(id!==undefined)this.state.vars['#'+id]=n&0xffff;}
   private itemKey(token:string,map:SourceMap){if(token.startsWith('ITEM_'))return token;const id=this.value(token,map);return this.data.items.find(item=>this.data.constants[item.item]===id)?.item||'ITEM_NONE';}
-  private async standard(id:number,object:string){const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank))standardCache.set(match.bank,sourceJSON<SourceMap>(`scripts/${match.bank}.json`));const common=await standardCache.get(match.bank)!;const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;try{await child.run(common,entry,object,true);}finally{this.child=null;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}}
+  private async standard(id:number,object:string){const match=this.data.index.stdScripts.filter(row=>id>=row.min).reduce<(typeof this.data.index.stdScripts)[number]|undefined>((best,row)=>!best||row.min>best.min?row:best,undefined);if(!match)throw new Error(`Missing original standard script ${id}`);if(!standardCache.has(match.bank)){const loading:Promise<SourceMap>=sourceJSON<SourceMap>(`scripts/${match.bank}.json`).catch(error=>{if(standardCache.get(match.bank)===loading)standardCache.delete(match.bank);throw error;});standardCache.set(match.bank,loading);}const common=await standardCache.get(match.bank)!;const entry=common.scripts.entries[id-match.min];if(!entry)throw new Error(`Missing original standard entry ${id}`);const child=new ScriptVM(this.data,this.state,this.hooks);this.child=child;child.originMap=this.originMap;child.buffers=this.buffers;child.battleWon=this.battleWon;child.pendingPhone=this.pendingPhone;try{await child.run(common,entry,object,true);}finally{this.child=null;this.buffers=child.buffers;this.battleWon=child.battleWon;this.pendingPhone=child.pendingPhone;if(child.lastUnsupported)this.lastUnsupported=child.lastUnsupported;for(const command of child.supported)this.supported.add(command);}}
   text(message:string,map:SourceMap){
     const raw=map.messages[message]??message;
     return raw.replace(/\{STRVAR_1 (\d+), (\d+), \d+\}/g,(_,kind,slot)=>kind==='3'?this.state.name:this.buffers[Number(slot)]??(kind==='1'?this.state.rivalName:'')).replace(/\{YESNO \d+\}/g,'').replace(/\{[^}]+\}/g,'').replace(/\\n/g,'\n');
@@ -51,7 +53,7 @@ export class ScriptVM{
   async run(map:SourceMap,script:string|number,object='obj_player',allowNested=false){
     if(this.busy&&!allowNested)return;
     if(script===0)return;
-    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;}let pc=0,compare=0,switchValue=0,lastMessage='';const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
+    this.busy=true;if(!allowNested){this.buffers={0:this.state.name};this.lastUnsupported=null;this.originMap=map;const event=map.events.objects.find(n=>n.id===object),id=event?map.constants[event.id]??this.data.constants[event.id]:undefined;if(id!==undefined)this.set('VAR_SPECIAL_LAST_TALKED',id);}let pc=0,compare=0,switchValue=0,lastMessage='';const stack:number[]=[];let pendingMoves:Promise<void>[]=[];const movementFailure:{error?:unknown;failed:boolean}={failed:false};
     const scriptID=typeof script==='number'?script:this.value(script,map);if(scriptID>=2000){try{await this.standard(scriptID,object);}finally{this.busy=false;}return;}
     const entry=scriptID-1;
     let label=typeof script==='string'&&map.scripts.labels[script]!==undefined?script:map.scripts.entries[entry];
@@ -60,7 +62,8 @@ export class ScriptVM{
     const jump=(target:string)=>{if(map.scripts.labels[target]===undefined)throw new Error(`Missing original script label ${target}`);pc=map.scripts.labels[target];};
     const conditions:Record<string,()=>boolean>={Eq:()=>compare===0,Ne:()=>compare!==0,Lt:()=>compare<0,Gt:()=>compare>0,Le:()=>compare<=0,Ge:()=>compare>=0};
     const v=(s:string)=>this.value(s,map);
-    const actor=(token:string)=>token.startsWith('obj_')?token:this.hooks.objectName?.(v(token))??map.events?.objects.find(n=>map.constants[n.id]===v(token))?.id??token;
+    const originMap=this.originMap??map;
+    const actor=(token:string)=>token.startsWith('obj_')?token:originMap.events?.objects.find(n=>(originMap.constants[n.id]??this.data.constants[n.id])===v(token))?.id??this.hooks.objectName?.(v(token))??token;
     try{
       let remaining=4000;
       while(true){
@@ -143,6 +146,8 @@ export class ScriptVM{
         if(cmd==='BufferMonSpeciesName'||cmd==='BufferPartyMonNick'||cmd==='BufferPartyMonSpeciesNameIndef'){const m=this.state.party[v(a[1])];this.buffers[v(a[0])]=m?(cmd==='BufferPartyMonNick'?m.name:cmd==='BufferPartyMonSpeciesNameIndef'?this.data.names.speciesIndefinite[m.species]:speciesName(this.data,m.species)):'';continue;}
         if(cmd==='BufferSpeciesName'){this.buffers[v(a[0])]=speciesName(this.data,v(a[1]));continue;}
         if(cmd==='BufferItemName'||cmd==='BufferItemNamePlural'||cmd==='BufferItemNameIndef'){const id=this.data.constants[this.itemKey(a[1],map)];this.buffers[v(a[0])]=this.data.names[cmd==='BufferItemNamePlural'?'itemsPlural':cmd==='BufferItemNameIndef'?'itemsIndefinite':'items'][id]||'';continue;}
+        if(cmd==='BufferTMHMMoveName'){const slot=Number(a[0]);if(!Number.isInteger(slot)||slot<0||slot>255)throw Error('Invalid native message buffer byte');this.buffers[slot]=moveName(this.data,await tmhmMove(this.data,v(a[1])));continue;}
+        if(cmd==='ItemIsTMOrHM'){this.set(a[1],Number(isTMHMItem(this.data,v(a[0]))));continue;}
         if(cmd==='GetItemPocket'){const item=this.data.items.find(item=>item.item===this.itemKey(a[0],map));this.set(a[1],this.data.constants[item?.fieldPocket||'POCKET_ITEMS']||0);continue;}
         if(cmd==='BufferPocketName'){const pockets=['Items','Medicine','Poké Balls','TMs & HMs','Berries','Mail','Battle Items','Key Items'];this.buffers[v(a[0])]=pockets[v(a[1])]||'Items';continue;}
         if(cmd==='BufferInteger'||cmd==='BufferNumber'){this.buffers[v(a[0])]=String(v(a[1]));continue;}

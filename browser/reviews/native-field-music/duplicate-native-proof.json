@@ -1,0 +1,34 @@
+{
+  "nativeCue": {
+    "id": 1018,
+    "key": "SEQ_GS_T_WAKABA"
+  },
+  "comparedFields": [
+    "pcmSHA256",
+    "frames",
+    "loopFrames",
+    "loopRecords",
+    "sampleRate",
+    "channels"
+  ],
+  "pcmSHA256": "83af07ec04366186b755fa6666e53650ddb41f055c5413bc3fb8a6134258dc02",
+  "losslessFormats": [
+    {
+      "codec": "flac",
+      "file": "1018-SEQ_GS_T_WAKABA.flac",
+      "bytes": 8112675,
+      "sha256": "098fecee585072d8ab9714be7988a4d1303173320972e36342d0e5299f95dcb4"
+    },
+    {
+      "codec": "gzip-wav",
+      "file": "1018-SEQ_GS_T_WAKABA.wav.gz",
+      "bytes": 13300271,
+      "sha256": "b9dce5fdc2fbe6f6094282e6388d1248e54ad3de2ba38177045fc8c57acadaa8",
+      "decodedBytes": 14869268,
+      "decodedSHA256": "b13ae225ffe704234fecc0b4971267689a99b8fc9de6118283afe24efe5ec198"
+    }
+  ],
+  "independentRawRender": "Same source/pin, separate fresh output directory; exact PCM, loop records, FLAC and gzip-WAV bytes equal.",
+  "initialRenderRecipeSHA256": "e17cb8889e5aa0111de016ac0b7d66cb1939e7cdc3b5f927d8946178fd3410d7",
+  "initialRenderExporterSnapshotSHA256": "83e26d017fd372e4779d4d995cbcbe8e6dabd4a96373df4ffa697dfb9868f963"
+}

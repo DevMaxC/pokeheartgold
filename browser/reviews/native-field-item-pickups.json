@@ -1,0 +1,4372 @@
+{
+  "kind": "frozen native field item pickup implementation and source coverage",
+  "baseCommit": "93bf982b",
+  "codeSha256": {
+    "browser/src/source/script.ts": "b8a1f05f9dd04097b34da8829249812227ddde7d07047ed25c02bcd4b4ae3a38",
+    "browser/src/source/objects.ts": "6ec74e8c6d0d3f2e6f41fb265838291e286785eba6a5acb87f58bca1a8f85b32",
+    "browser/src/source/item-pickup.ts": "9a0eddb71f99fd80f5608ce63e14cbfaf05e06a0e611712e3d741a9cdd2bf08b",
+    "browser/src/source/tmhm.ts": "0f15b6eded9369a7de7d835ab99db960a112f876a2f9589f8ae7b43666a39b98",
+    "browser/src/source/field-sprite-scale.ts": "58fc958cf514a16808b3515132af4ceb8fc71f3e115e31c8d6b7afa7b95429cb",
+    "browser/src/source/item-pickup.test.ts": "b0e2f0b2c0262daf8ec7c4d0de3e4140328b3870714326193fa580398a1056a1",
+    "browser/scripts/import_source.py": "a4c834fcdf00cdb16f0f117f4e24841ef8bfe5c3015373188271d20bbbefe657",
+    "browser/public/source/tmhm-moves.json": "7de8c9d519a62cf8c99d86208dd368ad6b6f274f7799e3e7b92701825e290c81"
+  },
+  "nativeSha256": {
+    "src/scrcmd_items.c": "3dc0074f2f29cd571852f49066f3c6e2a550673dab51472f3a79068f00a904c7",
+    "src/scrcmd_strbuf.c": "2d0a9920568508ffa4ccd863ebdf5021d01e8e8a14113516a95f5512d4aa308a",
+    "src/field_misc_util.c": "4e7e71bd07eb4665973e648ac0b2cda6174c755991b02fa126488dd47fe34e48",
+    "src/item.c": "6a42fbd23243992fe565d3dfb674aa7d2b3b2cb427fecac9fe26fe5fcbaffff9",
+    "src/map_object.c": "5c83a6347c4670448f9e0ebde9f124537f81bbb743c7d3fe2d783545e2dd618e",
+    "files/fielddata/script/scr_seq/scr_seq_0141.s": "3d190308a458141d9bbdbe62aaa3ab32d7efbfb1acba2a8308da499650599e26",
+    "files/fielddata/script/scr_seq/scr_seq_0938_T29.s": "a6c7eb0bb786948b3f586e2c04745be7dd95d6a68fac5c85a84c2afe781f27a6",
+    "files/fielddata/script/scr_seq/scr_seq_0010_D02R0104.s": "e6c264a45556fa713b7b489ab1aef72c8ddb3cc6db3449d2750a0e099874f9ad"
+  },
+  "coverage": {
+    "literalItemDefinitions": 255,
+    "sharedTail": 7255,
+    "standardPlacements": 257,
+    "localPlacements": 4,
+    "totalCollectibleBalls": 261,
+    "script0Displays": 3,
+    "tmhmNamesVerified": 100,
+    "standardTMDefinitions": 37,
+    "definitions": [
+      {
+        "script": 7000,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7001,
+        "itemId": 18,
+        "item": "ITEM_ANTIDOTE",
+        "quantity": 1
+      },
+      {
+        "script": 7002,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7003,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7004,
+        "itemId": 4,
+        "item": "ITEM_POKE_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7005,
+        "itemId": 50,
+        "item": "ITEM_RARE_CANDY",
+        "quantity": 1
+      },
+      {
+        "script": 7006,
+        "itemId": 51,
+        "item": "ITEM_PP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7007,
+        "itemId": 22,
+        "item": "ITEM_PARLYZ_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7008,
+        "itemId": 60,
+        "item": "ITEM_X_ACCURACY",
+        "quantity": 1
+      },
+      {
+        "script": 7009,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7010,
+        "itemId": 78,
+        "item": "ITEM_ESCAPE_ROPE",
+        "quantity": 1
+      },
+      {
+        "script": 7011,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7012,
+        "itemId": 25,
+        "item": "ITEM_HYPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7013,
+        "itemId": 36,
+        "item": "ITEM_HEAL_POWDER",
+        "quantity": 1
+      },
+      {
+        "script": 7014,
+        "itemId": 34,
+        "item": "ITEM_ENERGYPOWDER",
+        "quantity": 1
+      },
+      {
+        "script": 7015,
+        "itemId": 155,
+        "item": "ITEM_ORAN_BERRY",
+        "quantity": 1
+      },
+      {
+        "script": 7016,
+        "itemId": 151,
+        "item": "ITEM_PECHA_BERRY",
+        "quantity": 1
+      },
+      {
+        "script": 7017,
+        "itemId": 36,
+        "item": "ITEM_HEAL_POWDER",
+        "quantity": 1
+      },
+      {
+        "script": 7018,
+        "itemId": 35,
+        "item": "ITEM_ENERGY_ROOT",
+        "quantity": 1
+      },
+      {
+        "script": 7019,
+        "itemId": 158,
+        "item": "ITEM_SITRUS_BERRY",
+        "quantity": 1
+      },
+      {
+        "script": 7020,
+        "itemId": 81,
+        "item": "ITEM_MOON_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7021,
+        "itemId": 90,
+        "item": "ITEM_STARDUST",
+        "quantity": 1
+      },
+      {
+        "script": 7022,
+        "itemId": 91,
+        "item": "ITEM_STAR_PIECE",
+        "quantity": 1
+      },
+      {
+        "script": 7023,
+        "itemId": 154,
+        "item": "ITEM_LEPPA_BERRY",
+        "quantity": 1
+      },
+      {
+        "script": 7024,
+        "itemId": 243,
+        "item": "ITEM_MYSTIC_WATER",
+        "quantity": 1
+      },
+      {
+        "script": 7025,
+        "itemId": 37,
+        "item": "ITEM_REVIVAL_HERB",
+        "quantity": 1
+      },
+      {
+        "script": 7026,
+        "itemId": 249,
+        "item": "ITEM_CHARCOAL",
+        "quantity": 1
+      },
+      {
+        "script": 7027,
+        "itemId": 270,
+        "item": "ITEM_LIFE_ORB",
+        "quantity": 1
+      },
+      {
+        "script": 7028,
+        "itemId": 154,
+        "item": "ITEM_LEPPA_BERRY",
+        "quantity": 1
+      },
+      {
+        "script": 7029,
+        "itemId": 79,
+        "item": "ITEM_REPEL",
+        "quantity": 1
+      },
+      {
+        "script": 7030,
+        "itemId": 3,
+        "item": "ITEM_GREAT_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7031,
+        "itemId": 336,
+        "item": "ITEM_TM09",
+        "quantity": 1
+      },
+      {
+        "script": 7032,
+        "itemId": 253,
+        "item": "ITEM_SHELL_BELL",
+        "quantity": 1
+      },
+      {
+        "script": 7033,
+        "itemId": 57,
+        "item": "ITEM_X_ATTACK",
+        "quantity": 1
+      },
+      {
+        "script": 7034,
+        "itemId": 3,
+        "item": "ITEM_GREAT_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7035,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7036,
+        "itemId": 21,
+        "item": "ITEM_AWAKENING",
+        "quantity": 1
+      },
+      {
+        "script": 7037,
+        "itemId": 58,
+        "item": "ITEM_X_DEFENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7038,
+        "itemId": 366,
+        "item": "ITEM_TM39",
+        "quantity": 1
+      },
+      {
+        "script": 7039,
+        "itemId": 40,
+        "item": "ITEM_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7040,
+        "itemId": 25,
+        "item": "ITEM_HYPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7041,
+        "itemId": 26,
+        "item": "ITEM_SUPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7042,
+        "itemId": 345,
+        "item": "ITEM_TM18",
+        "quantity": 1
+      },
+      {
+        "script": 7043,
+        "itemId": 28,
+        "item": "ITEM_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7044,
+        "itemId": 57,
+        "item": "ITEM_X_ATTACK",
+        "quantity": 1
+      },
+      {
+        "script": 7045,
+        "itemId": 18,
+        "item": "ITEM_ANTIDOTE",
+        "quantity": 1
+      },
+      {
+        "script": 7046,
+        "itemId": 38,
+        "item": "ITEM_ETHER",
+        "quantity": 1
+      },
+      {
+        "script": 7047,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7048,
+        "itemId": 390,
+        "item": "ITEM_TM63",
+        "quantity": 1
+      },
+      {
+        "script": 7049,
+        "itemId": 409,
+        "item": "ITEM_TM82",
+        "quantity": 1
+      },
+      {
+        "script": 7050,
+        "itemId": 39,
+        "item": "ITEM_MAX_ETHER",
+        "quantity": 1
+      },
+      {
+        "script": 7051,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7052,
+        "itemId": 19,
+        "item": "ITEM_BURN_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7053,
+        "itemId": 223,
+        "item": "ITEM_AMULET_COIN",
+        "quantity": 1
+      },
+      {
+        "script": 7054,
+        "itemId": 38,
+        "item": "ITEM_ETHER",
+        "quantity": 1
+      },
+      {
+        "script": 7055,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7056,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7057,
+        "itemId": 228,
+        "item": "ITEM_SMOKE_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7058,
+        "itemId": 444,
+        "item": "ITEM_COIN_CASE",
+        "quantity": 1
+      },
+      {
+        "script": 7059,
+        "itemId": 405,
+        "item": "ITEM_TM78",
+        "quantity": 1
+      },
+      {
+        "script": 7060,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7061,
+        "itemId": 393,
+        "item": "ITEM_TM66",
+        "quantity": 1
+      },
+      {
+        "script": 7062,
+        "itemId": 22,
+        "item": "ITEM_PARLYZ_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7063,
+        "itemId": 218,
+        "item": "ITEM_SOOTHE_BELL",
+        "quantity": 1
+      },
+      {
+        "script": 7064,
+        "itemId": 355,
+        "item": "ITEM_TM28",
+        "quantity": 1
+      },
+      {
+        "script": 7065,
+        "itemId": 107,
+        "item": "ITEM_SHINY_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7066,
+        "itemId": 25,
+        "item": "ITEM_HYPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7067,
+        "itemId": 18,
+        "item": "ITEM_ANTIDOTE",
+        "quantity": 1
+      },
+      {
+        "script": 7068,
+        "itemId": 45,
+        "item": "ITEM_HP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7069,
+        "itemId": 339,
+        "item": "ITEM_TM12",
+        "quantity": 1
+      },
+      {
+        "script": 7070,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7071,
+        "itemId": 78,
+        "item": "ITEM_ESCAPE_ROPE",
+        "quantity": 1
+      },
+      {
+        "script": 7072,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7073,
+        "itemId": 51,
+        "item": "ITEM_PP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7074,
+        "itemId": 50,
+        "item": "ITEM_RARE_CANDY",
+        "quantity": 1
+      },
+      {
+        "script": 7075,
+        "itemId": 24,
+        "item": "ITEM_MAX_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7076,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7077,
+        "itemId": 29,
+        "item": "ITEM_MAX_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7078,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7079,
+        "itemId": 41,
+        "item": "ITEM_MAX_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7080,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7081,
+        "itemId": 45,
+        "item": "ITEM_HP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7082,
+        "itemId": 24,
+        "item": "ITEM_MAX_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7083,
+        "itemId": 255,
+        "item": "ITEM_LAX_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7084,
+        "itemId": 387,
+        "item": "ITEM_TM60",
+        "quantity": 1
+      },
+      {
+        "script": 7085,
+        "itemId": 384,
+        "item": "ITEM_TM57",
+        "quantity": 1
+      },
+      {
+        "script": 7086,
+        "itemId": 50,
+        "item": "ITEM_RARE_CANDY",
+        "quantity": 1
+      },
+      {
+        "script": 7087,
+        "itemId": 38,
+        "item": "ITEM_ETHER",
+        "quantity": 1
+      },
+      {
+        "script": 7088,
+        "itemId": 414,
+        "item": "ITEM_TM87",
+        "quantity": 1
+      },
+      {
+        "script": 7089,
+        "itemId": 76,
+        "item": "ITEM_SUPER_REPEL",
+        "quantity": 1
+      },
+      {
+        "script": 7090,
+        "itemId": 26,
+        "item": "ITEM_SUPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7091,
+        "itemId": 415,
+        "item": "ITEM_TM88",
+        "quantity": 1
+      },
+      {
+        "script": 7092,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7093,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7094,
+        "itemId": 78,
+        "item": "ITEM_ESCAPE_ROPE",
+        "quantity": 1
+      },
+      {
+        "script": 7095,
+        "itemId": 48,
+        "item": "ITEM_CARBOS",
+        "quantity": 1
+      },
+      {
+        "script": 7096,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7097,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7098,
+        "itemId": 49,
+        "item": "ITEM_CALCIUM",
+        "quantity": 1
+      },
+      {
+        "script": 7099,
+        "itemId": 29,
+        "item": "ITEM_MAX_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7100,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7101,
+        "itemId": 41,
+        "item": "ITEM_MAX_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7102,
+        "itemId": 50,
+        "item": "ITEM_RARE_CANDY",
+        "quantity": 1
+      },
+      {
+        "script": 7103,
+        "itemId": 28,
+        "item": "ITEM_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7104,
+        "itemId": 279,
+        "item": "ITEM_LAGGING_TAIL",
+        "quantity": 1
+      },
+      {
+        "script": 7105,
+        "itemId": 317,
+        "item": "ITEM_WAVE_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7106,
+        "itemId": 69,
+        "item": "ITEM_WHITE_FLUTE",
+        "quantity": 1
+      },
+      {
+        "script": 7107,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7108,
+        "itemId": 26,
+        "item": "ITEM_SUPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7109,
+        "itemId": 324,
+        "item": "ITEM_DUBIOUS_DISC",
+        "quantity": 1
+      },
+      {
+        "script": 7110,
+        "itemId": 392,
+        "item": "ITEM_TM65",
+        "quantity": 1
+      },
+      {
+        "script": 7111,
+        "itemId": 38,
+        "item": "ITEM_ETHER",
+        "quantity": 1
+      },
+      {
+        "script": 7112,
+        "itemId": 28,
+        "item": "ITEM_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7113,
+        "itemId": 78,
+        "item": "ITEM_ESCAPE_ROPE",
+        "quantity": 1
+      },
+      {
+        "script": 7114,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7115,
+        "itemId": 278,
+        "item": "ITEM_IRON_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7116,
+        "itemId": 24,
+        "item": "ITEM_MAX_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7117,
+        "itemId": 47,
+        "item": "ITEM_IRON",
+        "quantity": 1
+      },
+      {
+        "script": 7118,
+        "itemId": 29,
+        "item": "ITEM_MAX_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7119,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7120,
+        "itemId": 316,
+        "item": "ITEM_FULL_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7121,
+        "itemId": 321,
+        "item": "ITEM_PROTECTOR",
+        "quantity": 1
+      },
+      {
+        "script": 7122,
+        "itemId": 50,
+        "item": "ITEM_RARE_CANDY",
+        "quantity": 1
+      },
+      {
+        "script": 7123,
+        "itemId": 24,
+        "item": "ITEM_MAX_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7124,
+        "itemId": 367,
+        "item": "ITEM_TM40",
+        "quantity": 1
+      },
+      {
+        "script": 7125,
+        "itemId": 40,
+        "item": "ITEM_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7126,
+        "itemId": 235,
+        "item": "ITEM_DRAGON_SCALE",
+        "quantity": 1
+      },
+      {
+        "script": 7127,
+        "itemId": 78,
+        "item": "ITEM_ESCAPE_ROPE",
+        "quantity": 1
+      },
+      {
+        "script": 7128,
+        "itemId": 48,
+        "item": "ITEM_CARBOS",
+        "quantity": 1
+      },
+      {
+        "script": 7129,
+        "itemId": 51,
+        "item": "ITEM_PP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7130,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7131,
+        "itemId": 39,
+        "item": "ITEM_MAX_ETHER",
+        "quantity": 1
+      },
+      {
+        "script": 7132,
+        "itemId": 25,
+        "item": "ITEM_HYPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7133,
+        "itemId": 25,
+        "item": "ITEM_HYPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7134,
+        "itemId": 55,
+        "item": "ITEM_GUARD_SPEC_",
+        "quantity": 1
+      },
+      {
+        "script": 7135,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7136,
+        "itemId": 373,
+        "item": "ITEM_TM46",
+        "quantity": 1
+      },
+      {
+        "script": 7137,
+        "itemId": 376,
+        "item": "ITEM_TM49",
+        "quantity": 1
+      },
+      {
+        "script": 7138,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7139,
+        "itemId": 46,
+        "item": "ITEM_PROTEIN",
+        "quantity": 1
+      },
+      {
+        "script": 7140,
+        "itemId": 61,
+        "item": "ITEM_X_SPECIAL",
+        "quantity": 1
+      },
+      {
+        "script": 7141,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7142,
+        "itemId": 39,
+        "item": "ITEM_MAX_ETHER",
+        "quantity": 1
+      },
+      {
+        "script": 7143,
+        "itemId": 370,
+        "item": "ITEM_TM43",
+        "quantity": 1
+      },
+      {
+        "script": 7144,
+        "itemId": 297,
+        "item": "ITEM_CHOICE_SPECS",
+        "quantity": 1
+      },
+      {
+        "script": 7145,
+        "itemId": 67,
+        "item": "ITEM_RED_FLUTE",
+        "quantity": 1
+      },
+      {
+        "script": 7146,
+        "itemId": 77,
+        "item": "ITEM_MAX_REPEL",
+        "quantity": 1
+      },
+      {
+        "script": 7147,
+        "itemId": 29,
+        "item": "ITEM_MAX_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7148,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7149,
+        "itemId": 426,
+        "item": "ITEM_HM07",
+        "quantity": 1
+      },
+      {
+        "script": 7150,
+        "itemId": 46,
+        "item": "ITEM_PROTEIN",
+        "quantity": 1
+      },
+      {
+        "script": 7151,
+        "itemId": 51,
+        "item": "ITEM_PP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7152,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7153,
+        "itemId": 24,
+        "item": "ITEM_MAX_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7154,
+        "itemId": 246,
+        "item": "ITEM_NEVERMELTICE",
+        "quantity": 1
+      },
+      {
+        "script": 7155,
+        "itemId": 399,
+        "item": "ITEM_TM72",
+        "quantity": 1
+      },
+      {
+        "script": 7156,
+        "itemId": 47,
+        "item": "ITEM_IRON",
+        "quantity": 1
+      },
+      {
+        "script": 7157,
+        "itemId": 49,
+        "item": "ITEM_CALCIUM",
+        "quantity": 1
+      },
+      {
+        "script": 7158,
+        "itemId": 41,
+        "item": "ITEM_MAX_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7159,
+        "itemId": 250,
+        "item": "ITEM_DRAGON_FANG",
+        "quantity": 1
+      },
+      {
+        "script": 7160,
+        "itemId": 40,
+        "item": "ITEM_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7161,
+        "itemId": 24,
+        "item": "ITEM_MAX_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7162,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7163,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7164,
+        "itemId": 28,
+        "item": "ITEM_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7165,
+        "itemId": 59,
+        "item": "ITEM_X_SPEED",
+        "quantity": 1
+      },
+      {
+        "script": 7166,
+        "itemId": 381,
+        "item": "ITEM_TM54",
+        "quantity": 1
+      },
+      {
+        "script": 7167,
+        "itemId": 28,
+        "item": "ITEM_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7168,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7169,
+        "itemId": 25,
+        "item": "ITEM_HYPER_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7170,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7171,
+        "itemId": 56,
+        "item": "ITEM_DIRE_HIT",
+        "quantity": 1
+      },
+      {
+        "script": 7172,
+        "itemId": 68,
+        "item": "ITEM_BLACK_FLUTE",
+        "quantity": 1
+      },
+      {
+        "script": 7173,
+        "itemId": 81,
+        "item": "ITEM_MOON_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7174,
+        "itemId": 50,
+        "item": "ITEM_RARE_CANDY",
+        "quantity": 1
+      },
+      {
+        "script": 7175,
+        "itemId": 329,
+        "item": "ITEM_TM02",
+        "quantity": 1
+      },
+      {
+        "script": 7176,
+        "itemId": 280,
+        "item": "ITEM_DESTINY_KNOT",
+        "quantity": 1
+      },
+      {
+        "script": 7177,
+        "itemId": 41,
+        "item": "ITEM_MAX_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7178,
+        "itemId": 29,
+        "item": "ITEM_MAX_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7179,
+        "itemId": 27,
+        "item": "ITEM_FULL_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7180,
+        "itemId": 17,
+        "item": "ITEM_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7181,
+        "itemId": 353,
+        "item": "ITEM_TM26",
+        "quantity": 1
+      },
+      {
+        "script": 7182,
+        "itemId": 45,
+        "item": "ITEM_HP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7183,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7184,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7185,
+        "itemId": 406,
+        "item": "ITEM_TM79",
+        "quantity": 1
+      },
+      {
+        "script": 7186,
+        "itemId": 50,
+        "item": "ITEM_RARE_CANDY",
+        "quantity": 1
+      },
+      {
+        "script": 7187,
+        "itemId": 319,
+        "item": "ITEM_LUCK_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7188,
+        "itemId": 288,
+        "item": "ITEM_STICKY_BARB",
+        "quantity": 1
+      },
+      {
+        "script": 7189,
+        "itemId": 53,
+        "item": "ITEM_PP_MAX",
+        "quantity": 1
+      },
+      {
+        "script": 7190,
+        "itemId": 315,
+        "item": "ITEM_ROCK_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7191,
+        "itemId": 389,
+        "item": "ITEM_TM62",
+        "quantity": 1
+      },
+      {
+        "script": 7192,
+        "itemId": 368,
+        "item": "ITEM_TM41",
+        "quantity": 1
+      },
+      {
+        "script": 7193,
+        "itemId": 396,
+        "item": "ITEM_TM69",
+        "quantity": 1
+      },
+      {
+        "script": 7194,
+        "itemId": 40,
+        "item": "ITEM_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7195,
+        "itemId": 383,
+        "item": "ITEM_TM56",
+        "quantity": 1
+      },
+      {
+        "script": 7196,
+        "itemId": 47,
+        "item": "ITEM_IRON",
+        "quantity": 1
+      },
+      {
+        "script": 7197,
+        "itemId": 51,
+        "item": "ITEM_PP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7198,
+        "itemId": 28,
+        "item": "ITEM_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7199,
+        "itemId": 110,
+        "item": "ITEM_OVAL_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7200,
+        "itemId": 418,
+        "item": "ITEM_TM91",
+        "quantity": 1
+      },
+      {
+        "script": 7201,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7202,
+        "itemId": 269,
+        "item": "ITEM_LIGHT_CLAY",
+        "quantity": 1
+      },
+      {
+        "script": 7203,
+        "itemId": 24,
+        "item": "ITEM_MAX_POTION",
+        "quantity": 1
+      },
+      {
+        "script": 7204,
+        "itemId": 46,
+        "item": "ITEM_PROTEIN",
+        "quantity": 1
+      },
+      {
+        "script": 7205,
+        "itemId": 219,
+        "item": "ITEM_MENTAL_HERB",
+        "quantity": 1
+      },
+      {
+        "script": 7206,
+        "itemId": 394,
+        "item": "ITEM_TM67",
+        "quantity": 1
+      },
+      {
+        "script": 7207,
+        "itemId": 49,
+        "item": "ITEM_CALCIUM",
+        "quantity": 1
+      },
+      {
+        "script": 7208,
+        "itemId": 66,
+        "item": "ITEM_YELLOW_FLUTE",
+        "quantity": 1
+      },
+      {
+        "script": 7209,
+        "itemId": 51,
+        "item": "ITEM_PP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7210,
+        "itemId": 318,
+        "item": "ITEM_ROSE_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7211,
+        "itemId": 413,
+        "item": "ITEM_TM86",
+        "quantity": 1
+      },
+      {
+        "script": 7212,
+        "itemId": 48,
+        "item": "ITEM_CARBOS",
+        "quantity": 1
+      },
+      {
+        "script": 7213,
+        "itemId": 40,
+        "item": "ITEM_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7214,
+        "itemId": 56,
+        "item": "ITEM_DIRE_HIT",
+        "quantity": 1
+      },
+      {
+        "script": 7215,
+        "itemId": 65,
+        "item": "ITEM_BLUE_FLUTE",
+        "quantity": 1
+      },
+      {
+        "script": 7216,
+        "itemId": 85,
+        "item": "ITEM_LEAF_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7217,
+        "itemId": 404,
+        "item": "ITEM_TM77",
+        "quantity": 1
+      },
+      {
+        "script": 7218,
+        "itemId": 267,
+        "item": "ITEM_WISE_GLASSES",
+        "quantity": 1
+      },
+      {
+        "script": 7219,
+        "itemId": 296,
+        "item": "ITEM_BIG_ROOT",
+        "quantity": 1
+      },
+      {
+        "script": 7220,
+        "itemId": 45,
+        "item": "ITEM_HP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7221,
+        "itemId": 323,
+        "item": "ITEM_MAGMARIZER",
+        "quantity": 1
+      },
+      {
+        "script": 7222,
+        "itemId": 20,
+        "item": "ITEM_ICE_HEAL",
+        "quantity": 1
+      },
+      {
+        "script": 7223,
+        "itemId": 286,
+        "item": "ITEM_GRIP_CLAW",
+        "quantity": 1
+      },
+      {
+        "script": 7224,
+        "itemId": 84,
+        "item": "ITEM_WATER_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7225,
+        "itemId": 28,
+        "item": "ITEM_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7226,
+        "itemId": 89,
+        "item": "ITEM_BIG_PEARL",
+        "quantity": 1
+      },
+      {
+        "script": 7227,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7228,
+        "itemId": 340,
+        "item": "ITEM_TM13",
+        "quantity": 1
+      },
+      {
+        "script": 7229,
+        "itemId": 382,
+        "item": "ITEM_TM55",
+        "quantity": 1
+      },
+      {
+        "script": 7230,
+        "itemId": 362,
+        "item": "ITEM_TM35",
+        "quantity": 1
+      },
+      {
+        "script": 7231,
+        "itemId": 325,
+        "item": "ITEM_REAPER_CLOTH",
+        "quantity": 1
+      },
+      {
+        "script": 7232,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7233,
+        "itemId": 320,
+        "item": "ITEM_PURE_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7234,
+        "itemId": 109,
+        "item": "ITEM_DAWN_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7235,
+        "itemId": 78,
+        "item": "ITEM_ESCAPE_ROPE",
+        "quantity": 1
+      },
+      {
+        "script": 7236,
+        "itemId": 403,
+        "item": "ITEM_TM76",
+        "quantity": 1
+      },
+      {
+        "script": 7237,
+        "itemId": 268,
+        "item": "ITEM_EXPERT_BELT",
+        "quantity": 1
+      },
+      {
+        "script": 7238,
+        "itemId": 41,
+        "item": "ITEM_MAX_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7239,
+        "itemId": 49,
+        "item": "ITEM_CALCIUM",
+        "quantity": 1
+      },
+      {
+        "script": 7240,
+        "itemId": 46,
+        "item": "ITEM_PROTEIN",
+        "quantity": 1
+      },
+      {
+        "script": 7241,
+        "itemId": 29,
+        "item": "ITEM_MAX_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7242,
+        "itemId": 41,
+        "item": "ITEM_MAX_ELIXIR",
+        "quantity": 1
+      },
+      {
+        "script": 7243,
+        "itemId": 23,
+        "item": "ITEM_FULL_RESTORE",
+        "quantity": 1
+      },
+      {
+        "script": 7244,
+        "itemId": 92,
+        "item": "ITEM_NUGGET",
+        "quantity": 1
+      },
+      {
+        "script": 7245,
+        "itemId": 254,
+        "item": "ITEM_SEA_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7246,
+        "itemId": 51,
+        "item": "ITEM_PP_UP",
+        "quantity": 1
+      },
+      {
+        "script": 7247,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7248,
+        "itemId": 351,
+        "item": "ITEM_TM24",
+        "quantity": 1
+      },
+      {
+        "script": 7249,
+        "itemId": 314,
+        "item": "ITEM_ODD_INCENSE",
+        "quantity": 1
+      },
+      {
+        "script": 7250,
+        "itemId": 29,
+        "item": "ITEM_MAX_REVIVE",
+        "quantity": 1
+      },
+      {
+        "script": 7251,
+        "itemId": 2,
+        "item": "ITEM_ULTRA_BALL",
+        "quantity": 1
+      },
+      {
+        "script": 7252,
+        "itemId": 108,
+        "item": "ITEM_DUSK_STONE",
+        "quantity": 1
+      },
+      {
+        "script": 7253,
+        "itemId": 322,
+        "item": "ITEM_ELECTIRIZER",
+        "quantity": 1
+      },
+      {
+        "script": 7254,
+        "itemId": 281,
+        "item": "ITEM_BLACK_SLUDGE",
+        "quantity": 1
+      }
+    ],
+    "standardPlacementsInventory": [
+      {
+        "map": 7,
+        "mapKey": "MAP_BURNED_TOWER_1F",
+        "object": "obj_D18R0101_monstarball",
+        "objectId": 11,
+        "sourceScript": "std_itemball_d18r0101_hp_up",
+        "resolvedScript": 7068,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D18R0101_HP_UP",
+        "eventFlagId": 1073
+      },
+      {
+        "map": 7,
+        "mapKey": "MAP_BURNED_TOWER_1F",
+        "object": "obj_D18R0101_monstarball_2",
+        "objectId": 12,
+        "sourceScript": "std_itemball_d18r0101_antidote",
+        "resolvedScript": 7067,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D18R0101_ANTIDOTE",
+        "eventFlagId": 1291
+      },
+      {
+        "map": 10,
+        "mapKey": "MAP_ROUTE_2",
+        "object": "obj_R02_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_r02_elixir",
+        "resolvedScript": 7213,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R02_ELIXIR",
+        "eventFlagId": 1233
+      },
+      {
+        "map": 11,
+        "mapKey": "MAP_ROUTE_3",
+        "object": "obj_R03_monstarball",
+        "objectId": 11,
+        "sourceScript": "std_itemball_r03_big_root",
+        "resolvedScript": 7219,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R03_BIG_ROOT",
+        "eventFlagId": 1309
+      },
+      {
+        "map": 12,
+        "mapKey": "MAP_ROUTE_4",
+        "object": "obj_R04_monstarball",
+        "objectId": 3,
+        "sourceScript": "std_itemball_r04_hp_up",
+        "resolvedScript": 7220,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R04_HP_UP",
+        "eventFlagId": 1240
+      },
+      {
+        "map": 14,
+        "mapKey": "MAP_ROUTE_6",
+        "object": "obj_R06_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_r06_tm62",
+        "resolvedScript": 7191,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R06_TM62",
+        "eventFlagId": 1299
+      },
+      {
+        "map": 15,
+        "mapKey": "MAP_ROUTE_7",
+        "object": "obj_R07_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_r07_mental_herb",
+        "resolvedScript": 7205,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R07_MENTAL_HERB",
+        "eventFlagId": 1197
+      },
+      {
+        "map": 16,
+        "mapKey": "MAP_ROUTE_8",
+        "object": "obj_R08_monstarball",
+        "objectId": 11,
+        "sourceScript": "std_itemball_r08_tm41",
+        "resolvedScript": 7192,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R08_TM41",
+        "eventFlagId": 1287
+      },
+      {
+        "map": 17,
+        "mapKey": "MAP_ROUTE_9",
+        "object": "obj_R09_monstarball",
+        "objectId": 13,
+        "sourceScript": "std_itemball_r09_tm91",
+        "resolvedScript": 7200,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R09_TM91",
+        "eventFlagId": 1301
+      },
+      {
+        "map": 17,
+        "mapKey": "MAP_ROUTE_9",
+        "object": "obj_R09_monstarball_2",
+        "objectId": 14,
+        "sourceScript": "std_itemball_r09_full_restore",
+        "resolvedScript": 7201,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R09_FULL_RESTORE",
+        "eventFlagId": 1302
+      },
+      {
+        "map": 17,
+        "mapKey": "MAP_ROUTE_9",
+        "object": "obj_R09_monstarball_3",
+        "objectId": 15,
+        "sourceScript": "std_itemball_r09_light_clay",
+        "resolvedScript": 7202,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R09_LIGHT_CLAY",
+        "eventFlagId": 1303
+      },
+      {
+        "map": 17,
+        "mapKey": "MAP_ROUTE_9",
+        "object": "obj_R09_monstarball_4",
+        "objectId": 16,
+        "sourceScript": "std_itemball_r09_max_potion",
+        "resolvedScript": 7203,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R09_MAX_POTION",
+        "eventFlagId": 1304
+      },
+      {
+        "map": 19,
+        "mapKey": "MAP_ROUTE_11",
+        "object": "obj_R11_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_r11_tm86",
+        "resolvedScript": 7211,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R11_TM86",
+        "eventFlagId": 1307
+      },
+      {
+        "map": 20,
+        "mapKey": "MAP_ROUTE_12",
+        "object": "obj_R12_monstarball",
+        "objectId": 9,
+        "sourceScript": "std_itemball_r12_calcium",
+        "resolvedScript": 7207,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R12_CALCIUM",
+        "eventFlagId": 1228
+      },
+      {
+        "map": 20,
+        "mapKey": "MAP_ROUTE_12",
+        "object": "obj_R12_monstarball_2",
+        "objectId": 10,
+        "sourceScript": "std_itemball_r12_yellow_flute",
+        "resolvedScript": 7208,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R12_YELLOW_FLUTE",
+        "eventFlagId": 1229
+      },
+      {
+        "map": 23,
+        "mapKey": "MAP_ROUTE_15",
+        "object": "obj_R15_monstarball",
+        "objectId": 11,
+        "sourceScript": "std_itemball_r15_pp_up",
+        "resolvedScript": 7209,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R15_PP_UP",
+        "eventFlagId": 1230
+      },
+      {
+        "map": 23,
+        "mapKey": "MAP_ROUTE_15",
+        "object": "obj_R15_monstarball_2",
+        "objectId": 12,
+        "sourceScript": "std_itemball_r15_rose_incense",
+        "resolvedScript": 7210,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R15_ROSE_INCENSE",
+        "eventFlagId": 1306
+      },
+      {
+        "map": 29,
+        "mapKey": "MAP_ROUTE_25",
+        "object": "obj_R25_monstarball",
+        "objectId": 11,
+        "sourceScript": "std_itemball_r25_protein",
+        "resolvedScript": 7204,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R25_PROTEIN",
+        "eventFlagId": 1227
+      },
+      {
+        "map": 30,
+        "mapKey": "MAP_ROUTE_26",
+        "object": "obj_R26_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_r26_max_elixir",
+        "resolvedScript": 7177,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R26_MAX_ELIXIR",
+        "eventFlagId": 1115
+      },
+      {
+        "map": 31,
+        "mapKey": "MAP_ROUTE_27",
+        "object": "obj_R27_monstarball",
+        "objectId": 7,
+        "sourceScript": "std_itemball_r27_rare_candy",
+        "resolvedScript": 7174,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R27_RARE_CANDY",
+        "eventFlagId": 1117
+      },
+      {
+        "map": 31,
+        "mapKey": "MAP_ROUTE_27",
+        "object": "obj_R27_monstarball_2",
+        "objectId": 8,
+        "sourceScript": "std_itemball_r27_tm02",
+        "resolvedScript": 7175,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R27_TM02",
+        "eventFlagId": 1118
+      },
+      {
+        "map": 31,
+        "mapKey": "MAP_ROUTE_27",
+        "object": "obj_R27_monstarball_3",
+        "objectId": 9,
+        "sourceScript": "std_itemball_r27_destiny_knot",
+        "resolvedScript": 7176,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R27_DESTINY_KNOT",
+        "eventFlagId": 1293
+      },
+      {
+        "map": 32,
+        "mapKey": "MAP_ROUTE_28",
+        "object": "obj_R28_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_r28_tm35",
+        "resolvedScript": 7230,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R28_TM35",
+        "eventFlagId": 1280
+      },
+      {
+        "map": 33,
+        "mapKey": "MAP_ROUTE_29",
+        "object": "obj_R29_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_r29_potion",
+        "resolvedScript": 7000,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R29_POTION",
+        "eventFlagId": 1081
+      },
+      {
+        "map": 34,
+        "mapKey": "MAP_ROUTE_30",
+        "object": "obj_R30_monstarball",
+        "objectId": 9,
+        "sourceScript": "std_itemball_r30_antidote",
+        "resolvedScript": 7001,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R30_ANTIDOTE",
+        "eventFlagId": 1056
+      },
+      {
+        "map": 34,
+        "mapKey": "MAP_ROUTE_30",
+        "object": "obj_R30_monstarball_2",
+        "objectId": 10,
+        "sourceScript": "std_itemball_r30_potion",
+        "resolvedScript": 7002,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R30_POTION",
+        "eventFlagId": 1088
+      },
+      {
+        "map": 35,
+        "mapKey": "MAP_ROUTE_31",
+        "object": "obj_R31_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_r31_potion",
+        "resolvedScript": 7003,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R31_POTION",
+        "eventFlagId": 1057
+      },
+      {
+        "map": 35,
+        "mapKey": "MAP_ROUTE_31",
+        "object": "obj_R31_monstarball_2",
+        "objectId": 7,
+        "sourceScript": "std_itemball_r31_poke_ball",
+        "resolvedScript": 7004,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R31_POKE_BALL",
+        "eventFlagId": 1058
+      },
+      {
+        "map": 36,
+        "mapKey": "MAP_ROUTE_32",
+        "object": "obj_R32_monstarball",
+        "objectId": 12,
+        "sourceScript": "std_itemball_r32_repel",
+        "resolvedScript": 7029,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R32_REPEL",
+        "eventFlagId": 1065
+      },
+      {
+        "map": 36,
+        "mapKey": "MAP_ROUTE_32",
+        "object": "obj_R32_monstarball_2",
+        "objectId": 13,
+        "sourceScript": "std_itemball_r32_great_ball",
+        "resolvedScript": 7030,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R32_GREAT_BALL",
+        "eventFlagId": 1066
+      },
+      {
+        "map": 36,
+        "mapKey": "MAP_ROUTE_32",
+        "object": "obj_R32_monstarball_3",
+        "objectId": 16,
+        "sourceScript": "std_itemball_r32_tm09",
+        "resolvedScript": 7031,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R32_TM09",
+        "eventFlagId": 1273
+      },
+      {
+        "map": 36,
+        "mapKey": "MAP_ROUTE_32",
+        "object": "obj_R32_monstarball_4",
+        "objectId": 17,
+        "sourceScript": "std_itemball_r32_shell_bell",
+        "resolvedScript": 7032,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R32_SHELL_BELL",
+        "eventFlagId": 1239
+      },
+      {
+        "map": 38,
+        "mapKey": "MAP_ROUTE_34",
+        "object": "obj_R34_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_r34_nugget",
+        "resolvedScript": 7047,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R34_NUGGET",
+        "eventFlagId": 1087
+      },
+      {
+        "map": 38,
+        "mapKey": "MAP_ROUTE_34",
+        "object": "obj_R34_monstarball_2",
+        "objectId": 14,
+        "sourceScript": "std_itemball_r34_tm63",
+        "resolvedScript": 7048,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R34_TM63",
+        "eventFlagId": 1274
+      },
+      {
+        "map": 39,
+        "mapKey": "MAP_ROUTE_35",
+        "object": "obj_R35_monstarball",
+        "objectId": 9,
+        "sourceScript": "std_itemball_r35_tm66",
+        "resolvedScript": 7061,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R35_TM66",
+        "eventFlagId": 1097
+      },
+      {
+        "map": 39,
+        "mapKey": "MAP_ROUTE_35",
+        "object": "obj_R35_monstarball_2",
+        "objectId": 14,
+        "sourceScript": "std_itemball_r35_parlyz_heal",
+        "resolvedScript": 7062,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R35_PARLYZ_HEAL",
+        "eventFlagId": 1275
+      },
+      {
+        "map": 40,
+        "mapKey": "MAP_ROUTE_36",
+        "object": "obj_R36_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_r36_hyper_potion",
+        "resolvedScript": 7066,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R36_HYPER_POTION",
+        "eventFlagId": 1276
+      },
+      {
+        "map": 42,
+        "mapKey": "MAP_ROUTE_38",
+        "object": "obj_R38_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_r38_max_potion",
+        "resolvedScript": 7082,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R38_MAX_POTION",
+        "eventFlagId": 1277
+      },
+      {
+        "map": 42,
+        "mapKey": "MAP_ROUTE_38",
+        "object": "obj_R38_monstarball_2",
+        "objectId": 7,
+        "sourceScript": "std_itemball_r38_lax_incense",
+        "resolvedScript": 7083,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R38_LAX_INCENSE",
+        "eventFlagId": 1278
+      },
+      {
+        "map": 43,
+        "mapKey": "MAP_ROUTE_39",
+        "object": "obj_R39_monstarball",
+        "objectId": 10,
+        "sourceScript": "std_itemball_r39_tm60",
+        "resolvedScript": 7084,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R39_TM60",
+        "eventFlagId": 1279
+      },
+      {
+        "map": 44,
+        "mapKey": "MAP_ROUTE_42",
+        "object": "obj_R42_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_r42_super_potion",
+        "resolvedScript": 7108,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R42_SUPER_POTION",
+        "eventFlagId": 1172
+      },
+      {
+        "map": 44,
+        "mapKey": "MAP_ROUTE_42",
+        "object": "obj_R42_monstarball_2",
+        "objectId": 7,
+        "sourceScript": "std_itemball_r42_dubious_disc",
+        "resolvedScript": 7109,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R42_DUBIOUS_DISC",
+        "eventFlagId": 1193
+      },
+      {
+        "map": 44,
+        "mapKey": "MAP_ROUTE_42",
+        "object": "obj_R42_monstarball_3",
+        "objectId": 8,
+        "sourceScript": "std_itemball_r42_tm65",
+        "resolvedScript": 7110,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R42_TM65",
+        "eventFlagId": 1285
+      },
+      {
+        "map": 45,
+        "mapKey": "MAP_ROUTE_43",
+        "object": "obj_R43_monstarball",
+        "objectId": 7,
+        "sourceScript": "std_itemball_r43_max_ether",
+        "resolvedScript": 7142,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R43_MAX_ETHER",
+        "eventFlagId": 1198
+      },
+      {
+        "map": 46,
+        "mapKey": "MAP_ROUTE_44",
+        "object": "obj_R44_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_r44_max_repel",
+        "resolvedScript": 7146,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R44_MAX_REPEL",
+        "eventFlagId": 1201
+      },
+      {
+        "map": 46,
+        "mapKey": "MAP_ROUTE_44",
+        "object": "obj_R44_monstarball_2",
+        "objectId": 9,
+        "sourceScript": "std_itemball_r44_max_revive",
+        "resolvedScript": 7147,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R44_MAX_REVIVE",
+        "eventFlagId": 1202
+      },
+      {
+        "map": 46,
+        "mapKey": "MAP_ROUTE_44",
+        "object": "obj_R44_monstarball_3",
+        "objectId": 10,
+        "sourceScript": "std_itemball_r44_ultra_ball",
+        "resolvedScript": 7148,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R44_ULTRA_BALL",
+        "eventFlagId": 1203
+      },
+      {
+        "map": 47,
+        "mapKey": "MAP_ROUTE_45",
+        "object": "obj_R45_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_r45_elixir",
+        "resolvedScript": 7160,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R45_ELIXIR",
+        "eventFlagId": 1212
+      },
+      {
+        "map": 47,
+        "mapKey": "MAP_ROUTE_45",
+        "object": "obj_R45_monstarball_2",
+        "objectId": 9,
+        "sourceScript": "std_itemball_r45_max_potion",
+        "resolvedScript": 7161,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R45_MAX_POTION",
+        "eventFlagId": 1213
+      },
+      {
+        "map": 47,
+        "mapKey": "MAP_ROUTE_45",
+        "object": "obj_R45_monstarball_3",
+        "objectId": 10,
+        "sourceScript": "std_itemball_r45_full_heal",
+        "resolvedScript": 7162,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R45_FULL_HEAL",
+        "eventFlagId": 1214
+      },
+      {
+        "map": 47,
+        "mapKey": "MAP_ROUTE_45",
+        "object": "obj_R45_monstarball_4",
+        "objectId": 11,
+        "sourceScript": "std_itemball_r45_nugget",
+        "resolvedScript": 7163,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R45_NUGGET",
+        "eventFlagId": 1215
+      },
+      {
+        "map": 47,
+        "mapKey": "MAP_ROUTE_45",
+        "object": "obj_R45_monstarball_5",
+        "objectId": 12,
+        "sourceScript": "std_itemball_r45_revive",
+        "resolvedScript": 7164,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R45_REVIVE",
+        "eventFlagId": 1216
+      },
+      {
+        "map": 48,
+        "mapKey": "MAP_ROUTE_46",
+        "object": "obj_R46_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_r46_x_speed",
+        "resolvedScript": 7165,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R46_X_SPEED",
+        "eventFlagId": 1217
+      },
+      {
+        "map": 51,
+        "mapKey": "MAP_PEWTER",
+        "object": "obj_T03_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_t03_wise_glasses",
+        "resolvedScript": 7218,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T03_WISE_GLASSES",
+        "eventFlagId": 1308
+      },
+      {
+        "map": 54,
+        "mapKey": "MAP_VERMILION",
+        "object": "obj_T06_monstarball",
+        "objectId": 12,
+        "sourceScript": "std_itemball_t06_luck_incense",
+        "resolvedScript": 7187,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T06_LUCK_INCENSE",
+        "eventFlagId": 1294
+      },
+      {
+        "map": 54,
+        "mapKey": "MAP_VERMILION",
+        "object": "obj_T06_monstarball_2",
+        "objectId": 13,
+        "sourceScript": "std_itemball_t06_sticky_barb",
+        "resolvedScript": 7188,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T06_STICKY_BARB",
+        "eventFlagId": 1295
+      },
+      {
+        "map": 55,
+        "mapKey": "MAP_CELADON",
+        "object": "obj_T07_monstarball",
+        "objectId": 12,
+        "sourceScript": "std_itemball_t07_tm67",
+        "resolvedScript": 7206,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T07_TM67",
+        "eventFlagId": 1305
+      },
+      {
+        "map": 57,
+        "mapKey": "MAP_CINNABAR_ISLAND",
+        "object": "obj_T09_monstarball",
+        "objectId": 2,
+        "sourceScript": "std_itemball_t09_magmarizer",
+        "resolvedScript": 7221,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T09_MAGMARIZER",
+        "eventFlagId": 1236
+      },
+      {
+        "map": 73,
+        "mapKey": "MAP_VIOLET",
+        "object": "obj_T22_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_t22_rare_candy",
+        "resolvedScript": 7005,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T22_RARE_CANDY",
+        "eventFlagId": 1059
+      },
+      {
+        "map": 73,
+        "mapKey": "MAP_VIOLET",
+        "object": "obj_T22_monstarball_2",
+        "objectId": 6,
+        "sourceScript": "std_itemball_t22_pp_up",
+        "resolvedScript": 7006,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T22_PP_UP",
+        "eventFlagId": 1060
+      },
+      {
+        "map": 77,
+        "mapKey": "MAP_OLIVINE",
+        "object": "obj_T26_monstarball",
+        "objectId": 4,
+        "sourceScript": "std_itemball_t26_tm57",
+        "resolvedScript": 7085,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T26_TM57",
+        "eventFlagId": 1310
+      },
+      {
+        "map": 88,
+        "mapKey": "MAP_LAKE_OF_RAGE",
+        "object": "obj_T29_monstarball_4",
+        "objectId": 14,
+        "sourceScript": "std_itemball_t29_tm43",
+        "resolvedScript": 7143,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T29_TM43",
+        "eventFlagId": 1288
+      },
+      {
+        "map": 88,
+        "mapKey": "MAP_LAKE_OF_RAGE",
+        "object": "obj_T29_monstarball_5",
+        "objectId": 15,
+        "sourceScript": "std_itemball_t29_red_flute",
+        "resolvedScript": 7145,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T29_RED_FLUTE",
+        "eventFlagId": 1290
+      },
+      {
+        "map": 88,
+        "mapKey": "MAP_LAKE_OF_RAGE",
+        "object": "obj_T29_monstarball_6",
+        "objectId": 19,
+        "sourceScript": "std_itemball_t29_choice_specs",
+        "resolvedScript": 7144,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T29_CHOICE_SPECS",
+        "eventFlagId": 1289
+      },
+      {
+        "map": 90,
+        "mapKey": "MAP_MOUNT_SILVER",
+        "object": "obj_T31_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_t31_reaper_cloth",
+        "resolvedScript": 7231,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T31_REAPER_CLOTH",
+        "eventFlagId": 1231
+      },
+      {
+        "map": 91,
+        "mapKey": "MAP_ROUTE_19",
+        "object": "obj_W19_monstarball",
+        "objectId": 17,
+        "sourceScript": "std_itemball_w19_tm55",
+        "resolvedScript": 7229,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_W19_TM55",
+        "eventFlagId": 1199
+      },
+      {
+        "map": 94,
+        "mapKey": "MAP_ROUTE_40",
+        "object": "obj_W40_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_w40_tm88",
+        "resolvedScript": 7091,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_W40_TM88",
+        "eventFlagId": 1266
+      },
+      {
+        "map": 96,
+        "mapKey": "MAP_NATIONAL_PARK",
+        "object": "obj_D22R0101_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d22r0101_tm28",
+        "resolvedScript": 7064,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D22R0101_TM28",
+        "eventFlagId": 1145
+      },
+      {
+        "map": 96,
+        "mapKey": "MAP_NATIONAL_PARK",
+        "object": "obj_D22R0101_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d22r0101_soothe_bell",
+        "resolvedScript": 7063,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D22R0101_SOOTHE_BELL",
+        "eventFlagId": 1144
+      },
+      {
+        "map": 96,
+        "mapKey": "MAP_NATIONAL_PARK",
+        "object": "obj_D22R0101_monstarball_3",
+        "objectId": 25,
+        "sourceScript": "std_itemball_d22r0101_shiny_stone",
+        "resolvedScript": 7065,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D22R0101_SHINY_STONE",
+        "eventFlagId": 1286
+      },
+      {
+        "map": 99,
+        "mapKey": "MAP_UNION_CAVE_1F",
+        "object": "obj_D25R0101_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d25r0101_x_attack",
+        "resolvedScript": 7033,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0101_X_ATTACK",
+        "eventFlagId": 1067
+      },
+      {
+        "map": 99,
+        "mapKey": "MAP_UNION_CAVE_1F",
+        "object": "obj_D25R0101_monstarball_2",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d25r0101_great_ball",
+        "resolvedScript": 7034,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0101_GREAT_BALL",
+        "eventFlagId": 1068
+      },
+      {
+        "map": 99,
+        "mapKey": "MAP_UNION_CAVE_1F",
+        "object": "obj_D25R0101_monstarball_3",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d25r0101_potion",
+        "resolvedScript": 7035,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0101_POTION",
+        "eventFlagId": 1069
+      },
+      {
+        "map": 99,
+        "mapKey": "MAP_UNION_CAVE_1F",
+        "object": "obj_D25R0101_monstarball_4",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d25r0101_awakening",
+        "resolvedScript": 7036,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0101_AWAKENING",
+        "eventFlagId": 1070
+      },
+      {
+        "map": 106,
+        "mapKey": "MAP_DIGLETT_CAVE",
+        "object": "obj_D01R0101_monstarball",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d01r0101_pp_max",
+        "resolvedScript": 7189,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D01R0101_PP_MAX",
+        "eventFlagId": 1297
+      },
+      {
+        "map": 106,
+        "mapKey": "MAP_DIGLETT_CAVE",
+        "object": "obj_D01R0101_monstarball_2",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d01r0101_rock_incense",
+        "resolvedScript": 7190,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D01R0101_ROCK_INCENSE",
+        "eventFlagId": 1298
+      },
+      {
+        "map": 108,
+        "mapKey": "MAP_ROCK_TUNNEL_1F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d05r0101_elixir",
+        "resolvedScript": 7194,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D05R0101_ELIXIR",
+        "eventFlagId": 1222
+      },
+      {
+        "map": 108,
+        "mapKey": "MAP_ROCK_TUNNEL_1F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d05r0101_tm56",
+        "resolvedScript": 7195,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D05R0101_TM56",
+        "eventFlagId": 1223
+      },
+      {
+        "map": 110,
+        "mapKey": "MAP_SPROUT_TOWER_1F",
+        "object": "obj_D15R0101_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d15r0101_parlyz_heal",
+        "resolvedScript": 7007,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D15R0101_PARLYZ_HEAL",
+        "eventFlagId": 1061
+      },
+      {
+        "map": 113,
+        "mapKey": "MAP_RUINS_OF_ALPH",
+        "object": "obj_D24R0101_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d24r0101_potion",
+        "resolvedScript": 7011,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0101_POTION",
+        "eventFlagId": 1146
+      },
+      {
+        "map": 113,
+        "mapKey": "MAP_RUINS_OF_ALPH",
+        "object": "obj_D24R0101_monstarball_2",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d24r0101_hyper_potion",
+        "resolvedScript": 7012,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0101_HYPER_POTION",
+        "eventFlagId": 1147
+      },
+      {
+        "map": 117,
+        "mapKey": "MAP_ILEX_FOREST",
+        "object": "obj_D36R0101_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d36r0101_revive",
+        "resolvedScript": 7043,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D36R0101_REVIVE",
+        "eventFlagId": 1077
+      },
+      {
+        "map": 117,
+        "mapKey": "MAP_ILEX_FOREST",
+        "object": "obj_D36R0101_monstarball_2",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d36r0101_x_attack",
+        "resolvedScript": 7044,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D36R0101_X_ATTACK",
+        "eventFlagId": 1084
+      },
+      {
+        "map": 117,
+        "mapKey": "MAP_ILEX_FOREST",
+        "object": "obj_D36R0101_monstarball_3",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d36r0101_antidote",
+        "resolvedScript": 7045,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D36R0101_ANTIDOTE",
+        "eventFlagId": 1085
+      },
+      {
+        "map": 117,
+        "mapKey": "MAP_ILEX_FOREST",
+        "object": "obj_D36R0101_monstarball_4",
+        "objectId": 9,
+        "sourceScript": "std_itemball_d36r0101_ether",
+        "resolvedScript": 7046,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D36R0101_ETHER",
+        "eventFlagId": 1086
+      },
+      {
+        "map": 119,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_ENTRANCE",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d38r0101_ether",
+        "resolvedScript": 7111,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0101_ETHER",
+        "eventFlagId": 1173
+      },
+      {
+        "map": 119,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_ENTRANCE",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d38r0101_revive",
+        "resolvedScript": 7112,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0101_REVIVE",
+        "eventFlagId": 1174
+      },
+      {
+        "map": 120,
+        "mapKey": "MAP_ICE_PATH_1F",
+        "object": "obj_D39R0101_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d39r0101_hm07",
+        "resolvedScript": 7149,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0101_HM07",
+        "eventFlagId": 1111
+      },
+      {
+        "map": 120,
+        "mapKey": "MAP_ICE_PATH_1F",
+        "object": "obj_D39R0101_monstarball_2",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d39r0101_protein",
+        "resolvedScript": 7150,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0101_PROTEIN",
+        "eventFlagId": 1204
+      },
+      {
+        "map": 120,
+        "mapKey": "MAP_ICE_PATH_1F",
+        "object": "obj_D39R0101_monstarball_3",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d39r0101_pp_up",
+        "resolvedScript": 7151,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0101_PP_UP",
+        "eventFlagId": 1205
+      },
+      {
+        "map": 121,
+        "mapKey": "MAP_WHIRL_ISLANDS_1F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d40r0101_ultra_ball_2",
+        "resolvedScript": 7093,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0101_ULTRA_BALL_2",
+        "eventFlagId": 1162
+      },
+      {
+        "map": 121,
+        "mapKey": "MAP_WHIRL_ISLANDS_1F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d40r0101_ultra_ball",
+        "resolvedScript": 7092,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0101_ULTRA_BALL",
+        "eventFlagId": 1161
+      },
+      {
+        "map": 122,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_1F",
+        "object": "obj_D41R0101_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d41r0101_full_restore",
+        "resolvedScript": 7232,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0101_FULL_RESTORE",
+        "eventFlagId": 1241
+      },
+      {
+        "map": 123,
+        "mapKey": "MAP_DARK_CAVE_ROUTE_45_SIDE",
+        "object": "obj_D42R0101_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d42r0101_tm54",
+        "resolvedScript": 7166,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D42R0101_TM54",
+        "eventFlagId": 1113
+      },
+      {
+        "map": 123,
+        "mapKey": "MAP_DARK_CAVE_ROUTE_45_SIDE",
+        "object": "obj_D42R0101_monstarball_2",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d42r0101_revive",
+        "resolvedScript": 7167,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D42R0101_REVIVE",
+        "eventFlagId": 1114
+      },
+      {
+        "map": 124,
+        "mapKey": "MAP_VICTORY_ROAD_1F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d43r0101_max_revive",
+        "resolvedScript": 7178,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0101_MAX_REVIVE",
+        "eventFlagId": 1119
+      },
+      {
+        "map": 124,
+        "mapKey": "MAP_VICTORY_ROAD_1F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d43r0101_full_heal",
+        "resolvedScript": 7179,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0101_FULL_HEAL",
+        "eventFlagId": 1120
+      },
+      {
+        "map": 124,
+        "mapKey": "MAP_VICTORY_ROAD_1F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d43r0101_potion",
+        "resolvedScript": 7180,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0101_POTION",
+        "eventFlagId": 1121
+      },
+      {
+        "map": 126,
+        "mapKey": "MAP_TOHJO_FALLS",
+        "object": "obj_D45R0101_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d45r0101_moon_stone",
+        "resolvedScript": 7173,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D45R0101_MOON_STONE",
+        "eventFlagId": 1116
+      },
+      {
+        "map": 145,
+        "mapKey": "MAP_CERULEAN_CAVE_1F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d03r0101_max_elixir",
+        "resolvedScript": 7242,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0101_MAX_ELIXIR",
+        "eventFlagId": 1257
+      },
+      {
+        "map": 145,
+        "mapKey": "MAP_CERULEAN_CAVE_1F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d03r0101_nugget",
+        "resolvedScript": 7244,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0101_NUGGET",
+        "eventFlagId": 1260
+      },
+      {
+        "map": 145,
+        "mapKey": "MAP_CERULEAN_CAVE_1F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d03r0101_full_restore",
+        "resolvedScript": 7243,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0101_FULL_RESTORE",
+        "eventFlagId": 1259
+      },
+      {
+        "map": 145,
+        "mapKey": "MAP_CERULEAN_CAVE_1F",
+        "object": "obj_EVERYWHERE_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d03r0101_sea_incense",
+        "resolvedScript": 7245,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0101_SEA_INCENSE",
+        "eventFlagId": 1261
+      },
+      {
+        "map": 147,
+        "mapKey": "MAP_VIRIDIAN_FOREST",
+        "object": "obj_D46R0101_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d46r0101_dire_hit",
+        "resolvedScript": 7214,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D46R0101_DIRE_HIT",
+        "eventFlagId": 1234
+      },
+      {
+        "map": 147,
+        "mapKey": "MAP_VIRIDIAN_FOREST",
+        "object": "obj_D46R0101_monstarball_2",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d46r0101_blue_flute",
+        "resolvedScript": 7215,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D46R0101_BLUE_FLUTE",
+        "eventFlagId": 1235
+      },
+      {
+        "map": 147,
+        "mapKey": "MAP_VIRIDIAN_FOREST",
+        "object": "obj_D46R0101_monstarball_3",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d46r0101_leaf_stone",
+        "resolvedScript": 7216,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D46R0101_LEAF_STONE",
+        "eventFlagId": 1237
+      },
+      {
+        "map": 147,
+        "mapKey": "MAP_VIRIDIAN_FOREST",
+        "object": "obj_D46R0101_monstarball_4",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d46r0101_tm77",
+        "resolvedScript": 7217,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D46R0101_TM77",
+        "eventFlagId": 1238
+      },
+      {
+        "map": 151,
+        "mapKey": "MAP_ROUTE_47",
+        "object": "obj_R47_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_r47_revive",
+        "resolvedScript": 7103,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R47_REVIVE",
+        "eventFlagId": 1267
+      },
+      {
+        "map": 151,
+        "mapKey": "MAP_ROUTE_47",
+        "object": "obj_R47_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_r47_lagging_tail",
+        "resolvedScript": 7104,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R47_LAGGING_TAIL",
+        "eventFlagId": 1281
+      },
+      {
+        "map": 151,
+        "mapKey": "MAP_ROUTE_47",
+        "object": "obj_R47_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_r47_wave_incense",
+        "resolvedScript": 7105,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R47_WAVE_INCENSE",
+        "eventFlagId": 1282
+      },
+      {
+        "map": 151,
+        "mapKey": "MAP_ROUTE_47",
+        "object": "obj_R47_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_r47_white_flute",
+        "resolvedScript": 7106,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R47_WHITE_FLUTE",
+        "eventFlagId": 1283
+      },
+      {
+        "map": 152,
+        "mapKey": "MAP_ROUTE_48",
+        "object": "obj_R48_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_r48_nugget",
+        "resolvedScript": 7107,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R48_NUGGET",
+        "eventFlagId": 1284
+      },
+      {
+        "map": 153,
+        "mapKey": "MAP_UNION_CAVE_B1F",
+        "object": "obj_D25R0102_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d25r0102_tm39",
+        "resolvedScript": 7038,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0102_TM39",
+        "eventFlagId": 1072
+      },
+      {
+        "map": 153,
+        "mapKey": "MAP_UNION_CAVE_B1F",
+        "object": "obj_D25R0102_monstarball_2",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d25r0102_x_defense",
+        "resolvedScript": 7037,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0102_X_DEFENSE",
+        "eventFlagId": 1071
+      },
+      {
+        "map": 154,
+        "mapKey": "MAP_UNION_CAVE_B2F",
+        "object": "obj_D25R0103_monstarball",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d25r0103_elixir",
+        "resolvedScript": 7039,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0103_ELIXIR",
+        "eventFlagId": 1082
+      },
+      {
+        "map": 154,
+        "mapKey": "MAP_UNION_CAVE_B2F",
+        "object": "obj_D25R0103_monstarball_2",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d25r0103_hyper_potion",
+        "resolvedScript": 7040,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0103_HYPER_POTION",
+        "eventFlagId": 1083
+      },
+      {
+        "map": 155,
+        "mapKey": "MAP_SPROUT_TOWER_2F",
+        "object": "obj_D15R0102_monstarball",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d15r0102_x_accuracy",
+        "resolvedScript": 7008,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D15R0102_X_ACCURACY",
+        "eventFlagId": 1062
+      },
+      {
+        "map": 156,
+        "mapKey": "MAP_SPROUT_TOWER_3F",
+        "object": "obj_D15R0103_monstarball",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d15r0103_potion",
+        "resolvedScript": 7009,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D15R0103_POTION",
+        "eventFlagId": 1063
+      },
+      {
+        "map": 156,
+        "mapKey": "MAP_SPROUT_TOWER_3F",
+        "object": "obj_D15R0103_monstarball_2",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d15r0103_escape_rope",
+        "resolvedScript": 7010,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D15R0103_ESCAPE_ROPE",
+        "eventFlagId": 1064
+      },
+      {
+        "map": 176,
+        "mapKey": "MAP_DARK_CAVE_ROUTE_31_SIDE",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d42r0102_potion",
+        "resolvedScript": 7168,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D42R0102_POTION",
+        "eventFlagId": 1218
+      },
+      {
+        "map": 176,
+        "mapKey": "MAP_DARK_CAVE_ROUTE_31_SIDE",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d42r0102_hyper_potion",
+        "resolvedScript": 7169,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D42R0102_HYPER_POTION",
+        "eventFlagId": 1219
+      },
+      {
+        "map": 176,
+        "mapKey": "MAP_DARK_CAVE_ROUTE_31_SIDE",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d42r0102_full_heal",
+        "resolvedScript": 7170,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D42R0102_FULL_HEAL",
+        "eventFlagId": 1220
+      },
+      {
+        "map": 176,
+        "mapKey": "MAP_DARK_CAVE_ROUTE_31_SIDE",
+        "object": "obj_EVERYWHERE_monstarball_4",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d42r0102_dire_hit",
+        "resolvedScript": 7171,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D42R0102_DIRE_HIT",
+        "eventFlagId": 1221
+      },
+      {
+        "map": 176,
+        "mapKey": "MAP_DARK_CAVE_ROUTE_31_SIDE",
+        "object": "obj_EVERYWHERE_monstarball_5",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d42r0102_black_flute",
+        "resolvedScript": 7172,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D42R0102_BLACK_FLUTE",
+        "eventFlagId": 1292
+      },
+      {
+        "map": 177,
+        "mapKey": "MAP_SLOWPOKE_WELL_B1F",
+        "object": "obj_D26R0102_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d26r0102_super_potion",
+        "resolvedScript": 7041,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D26R0102_SUPER_POTION",
+        "eventFlagId": 1075
+      },
+      {
+        "map": 178,
+        "mapKey": "MAP_VICTORY_ROAD_2F",
+        "object": "obj_D43R0102_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d43r0102_tm26",
+        "resolvedScript": 7181,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0102_TM26",
+        "eventFlagId": 1122
+      },
+      {
+        "map": 178,
+        "mapKey": "MAP_VICTORY_ROAD_2F",
+        "object": "obj_D43R0102_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d43r0102_hp_up",
+        "resolvedScript": 7182,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0102_HP_UP",
+        "eventFlagId": 1123
+      },
+      {
+        "map": 178,
+        "mapKey": "MAP_VICTORY_ROAD_2F",
+        "object": "obj_D43R0102_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d43r0102_full_restore",
+        "resolvedScript": 7183,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0102_FULL_RESTORE",
+        "eventFlagId": 1124
+      },
+      {
+        "map": 179,
+        "mapKey": "MAP_VICTORY_ROAD_3F",
+        "object": "obj_D43R0103_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d43r0103_ultra_ball",
+        "resolvedScript": 7184,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0103_ULTRA_BALL",
+        "eventFlagId": 1125
+      },
+      {
+        "map": 179,
+        "mapKey": "MAP_VICTORY_ROAD_3F",
+        "object": "obj_D43R0103_monstarball_2",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d43r0103_tm79",
+        "resolvedScript": 7185,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0103_TM79",
+        "eventFlagId": 1126
+      },
+      {
+        "map": 179,
+        "mapKey": "MAP_VICTORY_ROAD_3F",
+        "object": "obj_D43R0103_monstarball_3",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d43r0103_rare_candy",
+        "resolvedScript": 7186,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D43R0103_RARE_CANDY",
+        "eventFlagId": 1127
+      },
+      {
+        "map": 181,
+        "mapKey": "MAP_SLOWPOKE_WELL_B2F",
+        "object": "obj_D26R0103_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d26r0103_tm18",
+        "resolvedScript": 7042,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D26R0103_TM18",
+        "eventFlagId": 1076
+      },
+      {
+        "map": 183,
+        "mapKey": "MAP_GOLDENROD_GAME_CORNER_JP",
+        "object": "obj_T25R1101_monstarball",
+        "objectId": 10,
+        "sourceScript": "std_itemball_t25r1101_tm78",
+        "resolvedScript": 7059,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_T25R1101_TM78",
+        "eventFlagId": 1200
+      },
+      {
+        "map": 188,
+        "mapKey": "MAP_GOLDENROD_RADIO_TOWER_4F",
+        "object": "obj_D23R0104_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d23r0104_ultra_ball",
+        "resolvedScript": 7060,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D23R0104_ULTRA_BALL",
+        "eventFlagId": 1089
+      },
+      {
+        "map": 200,
+        "mapKey": "MAP_GOLDENROD_DEPARTMENT_STORE_BASEMENT",
+        "object": "obj_D37R0103_monstarball",
+        "objectId": 18,
+        "sourceScript": "std_itemball_d37r0103_amulet_coin",
+        "resolvedScript": 7053,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0103_AMULET_COIN",
+        "eventFlagId": 1091
+      },
+      {
+        "map": 200,
+        "mapKey": "MAP_GOLDENROD_DEPARTMENT_STORE_BASEMENT",
+        "object": "obj_D37R0103_monstarball_2",
+        "objectId": 19,
+        "sourceScript": "std_itemball_d37r0103_burn_heal",
+        "resolvedScript": 7052,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0103_BURN_HEAL",
+        "eventFlagId": 1090
+      },
+      {
+        "map": 200,
+        "mapKey": "MAP_GOLDENROD_DEPARTMENT_STORE_BASEMENT",
+        "object": "obj_D37R0103_monstarball_3",
+        "objectId": 20,
+        "sourceScript": "std_itemball_d37r0103_ether",
+        "resolvedScript": 7054,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0103_ETHER",
+        "eventFlagId": 1092
+      },
+      {
+        "map": 200,
+        "mapKey": "MAP_GOLDENROD_DEPARTMENT_STORE_BASEMENT",
+        "object": "obj_D37R0103_monstarball_4",
+        "objectId": 21,
+        "sourceScript": "std_itemball_d37r0103_ultra_ball",
+        "resolvedScript": 7055,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0103_ULTRA_BALL",
+        "eventFlagId": 1093
+      },
+      {
+        "map": 201,
+        "mapKey": "MAP_GOLDENROD_TUNNEL_B2F",
+        "object": "obj_D37R0104_monstarball",
+        "objectId": 35,
+        "sourceScript": "std_itemball_d37r0104_full_heal",
+        "resolvedScript": 7056,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0104_FULL_HEAL",
+        "eventFlagId": 1095
+      },
+      {
+        "map": 201,
+        "mapKey": "MAP_GOLDENROD_TUNNEL_B2F",
+        "object": "obj_D37R0104_monstarball_2",
+        "objectId": 36,
+        "sourceScript": "std_itemball_d37r0104_smoke_ball",
+        "resolvedScript": 7057,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0104_SMOKE_BALL",
+        "eventFlagId": 1096
+      },
+      {
+        "map": 202,
+        "mapKey": "MAP_GOLDENROD_TUNNEL_WAREHOUSE",
+        "object": "obj_D37R0105_monstarball",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d37r0105_tm82",
+        "resolvedScript": 7049,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0105_TM82",
+        "eventFlagId": 1078
+      },
+      {
+        "map": 202,
+        "mapKey": "MAP_GOLDENROD_TUNNEL_WAREHOUSE",
+        "object": "obj_D37R0105_monstarball_2",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d37r0105_max_ether",
+        "resolvedScript": 7050,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0105_MAX_ETHER",
+        "eventFlagId": 1079
+      },
+      {
+        "map": 202,
+        "mapKey": "MAP_GOLDENROD_TUNNEL_WAREHOUSE",
+        "object": "obj_D37R0105_monstarball_3",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d37r0105_ultra_ball",
+        "resolvedScript": 7051,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D37R0105_ULTRA_BALL",
+        "eventFlagId": 1094
+      },
+      {
+        "map": 217,
+        "mapKey": "MAP_BURNED_TOWER_B1F",
+        "object": "obj_D18R0102_monstarball",
+        "objectId": 11,
+        "sourceScript": "std_itemball_d18r0102_tm12",
+        "resolvedScript": 7069,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D18R0102_TM12",
+        "eventFlagId": 1074
+      },
+      {
+        "map": 221,
+        "mapKey": "MAP_OLIVINE_LIGHTHOUSE_EXTERIOR",
+        "object": "obj_D27R0103_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d27r0103_rare_candy",
+        "resolvedScript": 7086,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D27R0103_RARE_CANDY",
+        "eventFlagId": 1160
+      },
+      {
+        "map": 222,
+        "mapKey": "MAP_OLIVINE_LIGHTHOUSE_3F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d27r0104_ether",
+        "resolvedScript": 7087,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D27R0104_ETHER",
+        "eventFlagId": 1098
+      },
+      {
+        "map": 223,
+        "mapKey": "MAP_OLIVINE_LIGHTHOUSE_4F",
+        "object": "obj_D27R0105_monstarball",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d27r0105_tm87",
+        "resolvedScript": 7088,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D27R0105_TM87",
+        "eventFlagId": 1099
+      },
+      {
+        "map": 224,
+        "mapKey": "MAP_OLIVINE_LIGHTHOUSE_5F",
+        "object": "obj_D27R0106_monstarball",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d27r0106_super_repel",
+        "resolvedScript": 7089,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D27R0106_SUPER_REPEL",
+        "eventFlagId": 1100
+      },
+      {
+        "map": 225,
+        "mapKey": "MAP_OLIVINE_LIGHTHOUSE_LIGHT_ROOM",
+        "object": "obj_D27R0107_monstarball",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d27r0107_super_potion",
+        "resolvedScript": 7090,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D27R0107_SUPER_POTION",
+        "eventFlagId": 1101
+      },
+      {
+        "map": 237,
+        "mapKey": "MAP_ICE_PATH_B1F",
+        "object": "obj_D39R0102_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d39r0102_iron",
+        "resolvedScript": 7156,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0102_IRON",
+        "eventFlagId": 1209
+      },
+      {
+        "map": 238,
+        "mapKey": "MAP_ICE_PATH_B2F",
+        "object": "obj_D39R0103_monstarball",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d39r0103_tm72",
+        "resolvedScript": 7155,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0103_TM72",
+        "eventFlagId": 1110
+      },
+      {
+        "map": 238,
+        "mapKey": "MAP_ICE_PATH_B2F",
+        "object": "obj_D39R0103_monstarball_2",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d39r0103_full_heal",
+        "resolvedScript": 7152,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0103_FULL_HEAL",
+        "eventFlagId": 1206
+      },
+      {
+        "map": 238,
+        "mapKey": "MAP_ICE_PATH_B2F",
+        "object": "obj_D39R0103_monstarball_3",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d39r0103_max_potion",
+        "resolvedScript": 7153,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0103_MAX_POTION",
+        "eventFlagId": 1207
+      },
+      {
+        "map": 239,
+        "mapKey": "MAP_ICE_PATH_B3F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d39r0104_nevermeltice",
+        "resolvedScript": 7154,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D39R0104_NEVERMELTICE",
+        "eventFlagId": 1208
+      },
+      {
+        "map": 242,
+        "mapKey": "MAP_WHIRL_ISLANDS_B1F",
+        "object": "obj_D40R0102_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d40r0102_escape_rope",
+        "resolvedScript": 7094,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0102_ESCAPE_ROPE",
+        "eventFlagId": 1163
+      },
+      {
+        "map": 242,
+        "mapKey": "MAP_WHIRL_ISLANDS_B1F",
+        "object": "obj_D40R0102_monstarball_2",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d40r0102_carbos",
+        "resolvedScript": 7095,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0102_CARBOS",
+        "eventFlagId": 1164
+      },
+      {
+        "map": 242,
+        "mapKey": "MAP_WHIRL_ISLANDS_B1F",
+        "object": "obj_D40R0102_monstarball_3",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d40r0102_full_restore",
+        "resolvedScript": 7096,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0102_FULL_RESTORE",
+        "eventFlagId": 1165
+      },
+      {
+        "map": 242,
+        "mapKey": "MAP_WHIRL_ISLANDS_B1F",
+        "object": "obj_D40R0102_monstarball_4",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d40r0102_nugget",
+        "resolvedScript": 7097,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0102_NUGGET",
+        "eventFlagId": 1166
+      },
+      {
+        "map": 242,
+        "mapKey": "MAP_WHIRL_ISLANDS_B1F",
+        "object": "obj_D40R0102_monstarball_5",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d40r0102_calcium",
+        "resolvedScript": 7098,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0102_CALCIUM",
+        "eventFlagId": 1167
+      },
+      {
+        "map": 243,
+        "mapKey": "MAP_WHIRL_ISLANDS_B2F",
+        "object": "obj_D40R0104_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d40r0104_max_revive",
+        "resolvedScript": 7099,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0104_MAX_REVIVE",
+        "eventFlagId": 1168
+      },
+      {
+        "map": 243,
+        "mapKey": "MAP_WHIRL_ISLANDS_B2F",
+        "object": "obj_D40R0104_monstarball_2",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d40r0104_full_restore",
+        "resolvedScript": 7100,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0104_FULL_RESTORE",
+        "eventFlagId": 1169
+      },
+      {
+        "map": 243,
+        "mapKey": "MAP_WHIRL_ISLANDS_B2F",
+        "object": "obj_D40R0104_monstarball_3",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d40r0104_max_elixir",
+        "resolvedScript": 7101,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0104_MAX_ELIXIR",
+        "eventFlagId": 1170
+      },
+      {
+        "map": 247,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B1F",
+        "object": "obj_D35R0102_monstarball",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d35r0102_hyper_potion",
+        "resolvedScript": 7133,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0102_HYPER_POTION",
+        "eventFlagId": 1102
+      },
+      {
+        "map": 247,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B1F",
+        "object": "obj_D35R0102_monstarball_2",
+        "objectId": 9,
+        "sourceScript": "std_itemball_d35r0102_guard_spec_",
+        "resolvedScript": 7134,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0102_GUARD_SPEC_",
+        "eventFlagId": 1103
+      },
+      {
+        "map": 247,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B1F",
+        "object": "obj_D35R0102_monstarball_3",
+        "objectId": 10,
+        "sourceScript": "std_itemball_d35r0102_nugget",
+        "resolvedScript": 7135,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0102_NUGGET",
+        "eventFlagId": 1104
+      },
+      {
+        "map": 248,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B2F",
+        "object": "obj_D35R0103_monstarball",
+        "objectId": 15,
+        "sourceScript": "std_itemball_d35r0103_tm46",
+        "resolvedScript": 7136,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0103_TM46",
+        "eventFlagId": 1105
+      },
+      {
+        "map": 249,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B3F",
+        "object": "obj_D35R0104_monstarball",
+        "objectId": 12,
+        "sourceScript": "std_itemball_d35r0104_protein",
+        "resolvedScript": 7139,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0104_PROTEIN",
+        "eventFlagId": 1108
+      },
+      {
+        "map": 249,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B3F",
+        "object": "obj_D35R0104_monstarball_2",
+        "objectId": 13,
+        "sourceScript": "std_itemball_d35r0104_x_special",
+        "resolvedScript": 7140,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0104_X_SPECIAL",
+        "eventFlagId": 1109
+      },
+      {
+        "map": 249,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B3F",
+        "object": "obj_D35R0104_monstarball_3",
+        "objectId": 14,
+        "sourceScript": "std_itemball_d35r0104_tm49",
+        "resolvedScript": 7137,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0104_TM49",
+        "eventFlagId": 1106
+      },
+      {
+        "map": 249,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B3F",
+        "object": "obj_D35R0104_monstarball_4",
+        "objectId": 15,
+        "sourceScript": "std_itemball_d35r0104_full_heal",
+        "resolvedScript": 7138,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0104_FULL_HEAL",
+        "eventFlagId": 1107
+      },
+      {
+        "map": 249,
+        "mapKey": "MAP_TEAM_ROCKET_HEADQUARTERS_B3F",
+        "object": "obj_D35R0104_monstarball_5",
+        "objectId": 17,
+        "sourceScript": "std_itemball_d35r0104_ultra_ball",
+        "resolvedScript": 7141,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D35R0104_ULTRA_BALL",
+        "eventFlagId": 1196
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d38r0102_escape_rope",
+        "resolvedScript": 7113,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_ESCAPE_ROPE",
+        "eventFlagId": 1175
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d38r0102_nugget",
+        "resolvedScript": 7114,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_NUGGET",
+        "eventFlagId": 1176
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d38r0102_iron_ball",
+        "resolvedScript": 7115,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_IRON_BALL",
+        "eventFlagId": 1177
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_4",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d38r0102_max_potion",
+        "resolvedScript": 7116,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_MAX_POTION",
+        "eventFlagId": 1178
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_5",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d38r0102_iron",
+        "resolvedScript": 7117,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_IRON",
+        "eventFlagId": 1179
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_6",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d38r0102_max_revive",
+        "resolvedScript": 7118,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_MAX_REVIVE",
+        "eventFlagId": 1180
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_7",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d38r0102_ultra_ball",
+        "resolvedScript": 7119,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_ULTRA_BALL",
+        "eventFlagId": 1181
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_8",
+        "objectId": 10,
+        "sourceScript": "std_itemball_d38r0102_full_incense",
+        "resolvedScript": 7120,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_FULL_INCENSE",
+        "eventFlagId": 1194
+      },
+      {
+        "map": 250,
+        "mapKey": "MAP_MOUNT_MORTAR_1F_BACK",
+        "object": "obj_EVERYWHERE_monstarball_9",
+        "objectId": 11,
+        "sourceScript": "std_itemball_d38r0102_protector",
+        "resolvedScript": 7121,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0102_PROTECTOR",
+        "eventFlagId": 1195
+      },
+      {
+        "map": 251,
+        "mapKey": "MAP_MOUNT_MORTAR_2F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d38r0103_rare_candy",
+        "resolvedScript": 7122,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0103_RARE_CANDY",
+        "eventFlagId": 1182
+      },
+      {
+        "map": 251,
+        "mapKey": "MAP_MOUNT_MORTAR_2F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d38r0103_max_potion",
+        "resolvedScript": 7123,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0103_MAX_POTION",
+        "eventFlagId": 1183
+      },
+      {
+        "map": 251,
+        "mapKey": "MAP_MOUNT_MORTAR_2F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d38r0103_tm40",
+        "resolvedScript": 7124,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0103_TM40",
+        "eventFlagId": 1184
+      },
+      {
+        "map": 251,
+        "mapKey": "MAP_MOUNT_MORTAR_2F",
+        "object": "obj_EVERYWHERE_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d38r0103_elixir",
+        "resolvedScript": 7125,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0103_ELIXIR",
+        "eventFlagId": 1185
+      },
+      {
+        "map": 251,
+        "mapKey": "MAP_MOUNT_MORTAR_2F",
+        "object": "obj_EVERYWHERE_monstarball_5",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d38r0103_dragon_scale",
+        "resolvedScript": 7126,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0103_DRAGON_SCALE",
+        "eventFlagId": 1186
+      },
+      {
+        "map": 251,
+        "mapKey": "MAP_MOUNT_MORTAR_2F",
+        "object": "obj_EVERYWHERE_monstarball_6",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d38r0103_escape_rope",
+        "resolvedScript": 7127,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0103_ESCAPE_ROPE",
+        "eventFlagId": 1187
+      },
+      {
+        "map": 252,
+        "mapKey": "MAP_MOUNT_MORTAR_B1F",
+        "object": "obj_D38R0104_monstarball",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d38r0104_carbos",
+        "resolvedScript": 7128,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0104_CARBOS",
+        "eventFlagId": 1188
+      },
+      {
+        "map": 252,
+        "mapKey": "MAP_MOUNT_MORTAR_B1F",
+        "object": "obj_D38R0104_monstarball_2",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d38r0104_pp_up",
+        "resolvedScript": 7129,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0104_PP_UP",
+        "eventFlagId": 1189
+      },
+      {
+        "map": 252,
+        "mapKey": "MAP_MOUNT_MORTAR_B1F",
+        "object": "obj_D38R0104_monstarball_3",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d38r0104_full_restore",
+        "resolvedScript": 7130,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0104_FULL_RESTORE",
+        "eventFlagId": 1190
+      },
+      {
+        "map": 252,
+        "mapKey": "MAP_MOUNT_MORTAR_B1F",
+        "object": "obj_D38R0104_monstarball_4",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d38r0104_max_ether",
+        "resolvedScript": 7131,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0104_MAX_ETHER",
+        "eventFlagId": 1191
+      },
+      {
+        "map": 252,
+        "mapKey": "MAP_MOUNT_MORTAR_B1F",
+        "object": "obj_D38R0104_monstarball_5",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d38r0104_hyper_potion",
+        "resolvedScript": 7132,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D38R0104_HYPER_POTION",
+        "eventFlagId": 1192
+      },
+      {
+        "map": 253,
+        "mapKey": "MAP_DRAGONS_DEN",
+        "object": "obj_D44R0102_monstarball",
+        "objectId": 5,
+        "sourceScript": "std_itemball_d44r0102_dragon_fang",
+        "resolvedScript": 7159,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D44R0102_DRAGON_FANG",
+        "eventFlagId": 1112
+      },
+      {
+        "map": 253,
+        "mapKey": "MAP_DRAGONS_DEN",
+        "object": "obj_D44R0102_monstarball_2",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d44r0102_calcium",
+        "resolvedScript": 7157,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D44R0102_CALCIUM",
+        "eventFlagId": 1210
+      },
+      {
+        "map": 253,
+        "mapKey": "MAP_DRAGONS_DEN",
+        "object": "obj_D44R0102_monstarball_3",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d44r0102_max_elixir",
+        "resolvedScript": 7158,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D44R0102_MAX_ELIXIR",
+        "eventFlagId": 1211
+      },
+      {
+        "map": 324,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0212_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d24r0212_heal_powder",
+        "resolvedScript": 7013,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0212_HEAL_POWDER",
+        "eventFlagId": 1128
+      },
+      {
+        "map": 324,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0212_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d24r0212_energypowder",
+        "resolvedScript": 7014,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0212_ENERGYPOWDER",
+        "eventFlagId": 1129
+      },
+      {
+        "map": 324,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0212_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d24r0212_oran_berry",
+        "resolvedScript": 7015,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0212_ORAN_BERRY",
+        "eventFlagId": 1130
+      },
+      {
+        "map": 324,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0212_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d24r0212_pecha_berry",
+        "resolvedScript": 7016,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0212_PECHA_BERRY",
+        "eventFlagId": 1131
+      },
+      {
+        "map": 325,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0213_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d24r0213_heal_powder",
+        "resolvedScript": 7017,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0213_HEAL_POWDER",
+        "eventFlagId": 1132
+      },
+      {
+        "map": 325,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0213_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d24r0213_energy_root",
+        "resolvedScript": 7018,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0213_ENERGY_ROOT",
+        "eventFlagId": 1133
+      },
+      {
+        "map": 325,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0213_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d24r0213_sitrus_berry",
+        "resolvedScript": 7019,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0213_SITRUS_BERRY",
+        "eventFlagId": 1134
+      },
+      {
+        "map": 325,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHEAST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0213_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d24r0213_moon_stone",
+        "resolvedScript": 7020,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0213_MOON_STONE",
+        "eventFlagId": 1135
+      },
+      {
+        "map": 326,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0214_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d24r0214_revival_herb",
+        "resolvedScript": 7025,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0214_REVIVAL_HERB",
+        "eventFlagId": 1140
+      },
+      {
+        "map": 326,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0214_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d24r0214_charcoal",
+        "resolvedScript": 7026,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0214_CHARCOAL",
+        "eventFlagId": 1141
+      },
+      {
+        "map": 326,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0214_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d24r0214_life_orb",
+        "resolvedScript": 7027,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0214_LIFE_ORB",
+        "eventFlagId": 1142
+      },
+      {
+        "map": 326,
+        "mapKey": "MAP_RUINS_OF_ALPH_NORTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0214_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d24r0214_leppa_berry",
+        "resolvedScript": 7028,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0214_LEPPA_BERRY",
+        "eventFlagId": 1143
+      },
+      {
+        "map": 327,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0215_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d24r0215_stardust",
+        "resolvedScript": 7021,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0215_STARDUST",
+        "eventFlagId": 1136
+      },
+      {
+        "map": 327,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0215_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d24r0215_star_piece",
+        "resolvedScript": 7022,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0215_STAR_PIECE",
+        "eventFlagId": 1137
+      },
+      {
+        "map": 327,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0215_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d24r0215_leppa_berry",
+        "resolvedScript": 7023,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0215_LEPPA_BERRY",
+        "eventFlagId": 1138
+      },
+      {
+        "map": 327,
+        "mapKey": "MAP_RUINS_OF_ALPH_SOUTHWEST_ENTRANCE_SECOND_ROOM",
+        "object": "obj_D24R0215_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d24r0215_mystic_water",
+        "resolvedScript": 7024,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D24R0215_MYSTIC_WATER",
+        "eventFlagId": 1139
+      },
+      {
+        "map": 333,
+        "mapKey": "MAP_BELL_TOWER_3F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d17r0103_full_heal",
+        "resolvedScript": 7070,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0103_FULL_HEAL",
+        "eventFlagId": 1148
+      },
+      {
+        "map": 334,
+        "mapKey": "MAP_BELL_TOWER_4F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d17r0104_escape_rope",
+        "resolvedScript": 7071,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0104_ESCAPE_ROPE",
+        "eventFlagId": 1149
+      },
+      {
+        "map": 334,
+        "mapKey": "MAP_BELL_TOWER_4F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d17r0104_ultra_ball",
+        "resolvedScript": 7072,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0104_ULTRA_BALL",
+        "eventFlagId": 1150
+      },
+      {
+        "map": 334,
+        "mapKey": "MAP_BELL_TOWER_4F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d17r0104_pp_up",
+        "resolvedScript": 7073,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0104_PP_UP",
+        "eventFlagId": 1151
+      },
+      {
+        "map": 335,
+        "mapKey": "MAP_BELL_TOWER_5F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d17r0105_rare_candy",
+        "resolvedScript": 7074,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0105_RARE_CANDY",
+        "eventFlagId": 1152
+      },
+      {
+        "map": 336,
+        "mapKey": "MAP_BELL_TOWER_6F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d17r0106_max_potion",
+        "resolvedScript": 7075,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0106_MAX_POTION",
+        "eventFlagId": 1153
+      },
+      {
+        "map": 336,
+        "mapKey": "MAP_BELL_TOWER_6F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d17r0106_full_heal",
+        "resolvedScript": 7076,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0106_FULL_HEAL",
+        "eventFlagId": 1154
+      },
+      {
+        "map": 337,
+        "mapKey": "MAP_BELL_TOWER_7F",
+        "object": "obj_D17R0107_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d17r0107_max_revive",
+        "resolvedScript": 7077,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0107_MAX_REVIVE",
+        "eventFlagId": 1155
+      },
+      {
+        "map": 338,
+        "mapKey": "MAP_BELL_TOWER_8F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d17r0108_full_restore",
+        "resolvedScript": 7078,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0108_FULL_RESTORE",
+        "eventFlagId": 1156
+      },
+      {
+        "map": 338,
+        "mapKey": "MAP_BELL_TOWER_8F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d17r0108_max_elixir",
+        "resolvedScript": 7079,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0108_MAX_ELIXIR",
+        "eventFlagId": 1157
+      },
+      {
+        "map": 338,
+        "mapKey": "MAP_BELL_TOWER_8F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d17r0108_nugget",
+        "resolvedScript": 7080,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0108_NUGGET",
+        "eventFlagId": 1158
+      },
+      {
+        "map": 339,
+        "mapKey": "MAP_BELL_TOWER_9F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d17r0109_hp_up",
+        "resolvedScript": 7081,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D17R0109_HP_UP",
+        "eventFlagId": 1159
+      },
+      {
+        "map": 388,
+        "mapKey": "MAP_ROUTE_10_SOUTH",
+        "object": "obj_R10R0101_monstarball",
+        "objectId": 3,
+        "sourceScript": "std_itemball_r10r0101_tm69",
+        "resolvedScript": 7193,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R10R0101_TM69",
+        "eventFlagId": 1300
+      },
+      {
+        "map": 414,
+        "mapKey": "MAP_ROUTE_2_EAST",
+        "object": "obj_R02R0101_monstarball",
+        "objectId": 2,
+        "sourceScript": "std_itemball_r02r0101_carbos",
+        "resolvedScript": 7212,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_R02R0101_CARBOS",
+        "eventFlagId": 1232
+      },
+      {
+        "map": 450,
+        "mapKey": "MAP_CERULEAN_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d03r0102_pp_up",
+        "resolvedScript": 7246,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0102_PP_UP",
+        "eventFlagId": 1262
+      },
+      {
+        "map": 450,
+        "mapKey": "MAP_CERULEAN_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d03r0102_tm24",
+        "resolvedScript": 7248,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0102_TM24",
+        "eventFlagId": 1264
+      },
+      {
+        "map": 450,
+        "mapKey": "MAP_CERULEAN_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d03r0102_ultra_ball",
+        "resolvedScript": 7247,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0102_ULTRA_BALL",
+        "eventFlagId": 1263
+      },
+      {
+        "map": 450,
+        "mapKey": "MAP_CERULEAN_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d03r0102_odd_incense",
+        "resolvedScript": 7249,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0102_ODD_INCENSE",
+        "eventFlagId": 1265
+      },
+      {
+        "map": 451,
+        "mapKey": "MAP_CERULEAN_CAVE_B1F",
+        "object": "obj_D03R0103_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d03r0103_max_revive",
+        "resolvedScript": 7250,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0103_MAX_REVIVE",
+        "eventFlagId": 1268
+      },
+      {
+        "map": 451,
+        "mapKey": "MAP_CERULEAN_CAVE_B1F",
+        "object": "obj_D03R0103_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d03r0103_ultra_ball",
+        "resolvedScript": 7251,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0103_ULTRA_BALL",
+        "eventFlagId": 1269
+      },
+      {
+        "map": 451,
+        "mapKey": "MAP_CERULEAN_CAVE_B1F",
+        "object": "obj_D03R0103_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d03r0103_dusk_stone",
+        "resolvedScript": 7252,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0103_DUSK_STONE",
+        "eventFlagId": 1270
+      },
+      {
+        "map": 451,
+        "mapKey": "MAP_CERULEAN_CAVE_B1F",
+        "object": "obj_D03R0103_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d03r0103_electirizer",
+        "resolvedScript": 7253,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0103_ELECTIRIZER",
+        "eventFlagId": 1271
+      },
+      {
+        "map": 451,
+        "mapKey": "MAP_CERULEAN_CAVE_B1F",
+        "object": "obj_D03R0103_monstarball_5",
+        "objectId": 4,
+        "sourceScript": "std_itemball_d03r0103_black_sludge",
+        "resolvedScript": 7254,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D03R0103_BLACK_SLUDGE",
+        "eventFlagId": 1272
+      },
+      {
+        "map": 452,
+        "mapKey": "MAP_ROCK_TUNNEL_B1F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d05r0102_iron",
+        "resolvedScript": 7196,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D05R0102_IRON",
+        "eventFlagId": 1224
+      },
+      {
+        "map": 452,
+        "mapKey": "MAP_ROCK_TUNNEL_B1F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d05r0102_pp_up",
+        "resolvedScript": 7197,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D05R0102_PP_UP",
+        "eventFlagId": 1225
+      },
+      {
+        "map": 452,
+        "mapKey": "MAP_ROCK_TUNNEL_B1F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d05r0102_revive",
+        "resolvedScript": 7198,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D05R0102_REVIVE",
+        "eventFlagId": 1226
+      },
+      {
+        "map": 452,
+        "mapKey": "MAP_ROCK_TUNNEL_B1F",
+        "object": "obj_EVERYWHERE_monstarball_4",
+        "objectId": 18,
+        "sourceScript": "std_itemball_d05r0102_oval_stone",
+        "resolvedScript": 7199,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D05R0102_OVAL_STONE",
+        "eventFlagId": 1296
+      },
+      {
+        "map": 453,
+        "mapKey": "MAP_SEAFOAM_ISLANDS_B1F",
+        "object": "obj_D11R0102_monstarball",
+        "objectId": 6,
+        "sourceScript": "std_itemball_d11r0102_grip_claw",
+        "resolvedScript": 7223,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D11R0102_GRIP_CLAW",
+        "eventFlagId": 1256
+      },
+      {
+        "map": 453,
+        "mapKey": "MAP_SEAFOAM_ISLANDS_B1F",
+        "object": "obj_D11R0102_monstarball_2",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d11r0102_ice_heal",
+        "resolvedScript": 7222,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D11R0102_ICE_HEAL",
+        "eventFlagId": 1251
+      },
+      {
+        "map": 454,
+        "mapKey": "MAP_SEAFOAM_ISLANDS_B2F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d11r0103_water_stone",
+        "resolvedScript": 7224,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D11R0103_WATER_STONE",
+        "eventFlagId": 1252
+      },
+      {
+        "map": 455,
+        "mapKey": "MAP_SEAFOAM_ISLANDS_B3F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 7,
+        "sourceScript": "std_itemball_d11r0104_revive",
+        "resolvedScript": 7225,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D11R0104_REVIVE",
+        "eventFlagId": 1253
+      },
+      {
+        "map": 455,
+        "mapKey": "MAP_SEAFOAM_ISLANDS_B3F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 8,
+        "sourceScript": "std_itemball_d11r0104_big_pearl",
+        "resolvedScript": 7226,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D11R0104_BIG_PEARL",
+        "eventFlagId": 1254
+      },
+      {
+        "map": 456,
+        "mapKey": "MAP_SEAFOAM_ISLANDS_B4F",
+        "object": "obj_D11R0105_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d11r0105_ultra_ball",
+        "resolvedScript": 7227,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D11R0105_ULTRA_BALL",
+        "eventFlagId": 1255
+      },
+      {
+        "map": 456,
+        "mapKey": "MAP_SEAFOAM_ISLANDS_B4F",
+        "object": "obj_D11R0105_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d11r0105_tm13",
+        "resolvedScript": 7228,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D11R0105_TM13",
+        "eventFlagId": 1258
+      },
+      {
+        "map": 459,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_UPPER_MOUNTAINSIDE",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d41r0102_pure_incense",
+        "resolvedScript": 7233,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0102_PURE_INCENSE",
+        "eventFlagId": 1242
+      },
+      {
+        "map": 459,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_UPPER_MOUNTAINSIDE",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d41r0102_dawn_stone",
+        "resolvedScript": 7234,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0102_DAWN_STONE",
+        "eventFlagId": 1243
+      },
+      {
+        "map": 460,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_LOWER_MOUNTAINSIDE",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d41r0103_escape_rope",
+        "resolvedScript": 7235,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0103_ESCAPE_ROPE",
+        "eventFlagId": 1244
+      },
+      {
+        "map": 460,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_LOWER_MOUNTAINSIDE",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d41r0103_tm76",
+        "resolvedScript": 7236,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0103_TM76",
+        "eventFlagId": 1245
+      },
+      {
+        "map": 461,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_EXPERT_BELT_CHAMBER",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d41r0104_expert_belt",
+        "resolvedScript": 7237,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0104_EXPERT_BELT",
+        "eventFlagId": 1246
+      },
+      {
+        "map": 463,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d41r0106_max_elixir",
+        "resolvedScript": 7238,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0106_MAX_ELIXIR",
+        "eventFlagId": 1247
+      },
+      {
+        "map": 463,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d41r0106_calcium",
+        "resolvedScript": 7239,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0106_CALCIUM",
+        "eventFlagId": 1248
+      },
+      {
+        "map": 463,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball_3",
+        "objectId": 2,
+        "sourceScript": "std_itemball_d41r0106_protein",
+        "resolvedScript": 7240,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0106_PROTEIN",
+        "eventFlagId": 1249
+      },
+      {
+        "map": 463,
+        "mapKey": "MAP_MOUNT_SILVER_CAVE_2F",
+        "object": "obj_EVERYWHERE_monstarball_4",
+        "objectId": 3,
+        "sourceScript": "std_itemball_d41r0106_max_revive",
+        "resolvedScript": 7241,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D41R0106_MAX_REVIVE",
+        "eventFlagId": 1250
+      },
+      {
+        "map": 486,
+        "mapKey": "MAP_WHIRL_ISLANDS_B3F",
+        "object": "obj_EVERYWHERE_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d40r0106_rare_candy",
+        "resolvedScript": 7102,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D40R0106_RARE_CANDY",
+        "eventFlagId": 1171
+      },
+      {
+        "map": 487,
+        "mapKey": "MAP_NATIONAL_PARK_BUG_CATCHING_CONTEST",
+        "object": "obj_D22R0102_monstarball",
+        "objectId": 0,
+        "sourceScript": "std_itemball_d22r0101_tm28",
+        "resolvedScript": 7064,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D22R0101_TM28",
+        "eventFlagId": 1145
+      },
+      {
+        "map": 487,
+        "mapKey": "MAP_NATIONAL_PARK_BUG_CATCHING_CONTEST",
+        "object": "obj_D22R0102_monstarball_2",
+        "objectId": 1,
+        "sourceScript": "std_itemball_d22r0101_soothe_bell",
+        "resolvedScript": 7063,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D22R0101_SOOTHE_BELL",
+        "eventFlagId": 1144
+      },
+      {
+        "map": 487,
+        "mapKey": "MAP_NATIONAL_PARK_BUG_CATCHING_CONTEST",
+        "object": "obj_D22R0102_monstarball_3",
+        "objectId": 12,
+        "sourceScript": "std_itemball_d22r0101_shiny_stone",
+        "resolvedScript": 7065,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D22R0101_SHINY_STONE",
+        "eventFlagId": 1286
+      }
+    ],
+    "localPlacementsInventory": [
+      {
+        "map": 88,
+        "mapKey": "MAP_LAKE_OF_RAGE",
+        "object": "obj_T29_monstarball",
+        "objectId": 11,
+        "sourceScript": "_EV_scr_seq_T29_015 + 1",
+        "resolvedScript": 16,
+        "eventFlag": "FLAG_UNK_28B",
+        "eventFlagId": 651
+      },
+      {
+        "map": 88,
+        "mapKey": "MAP_LAKE_OF_RAGE",
+        "object": "obj_T29_monstarball_2",
+        "objectId": 12,
+        "sourceScript": "_EV_scr_seq_T29_016 + 1",
+        "resolvedScript": 17,
+        "eventFlag": "FLAG_UNK_28C",
+        "eventFlagId": 652
+      },
+      {
+        "map": 88,
+        "mapKey": "MAP_LAKE_OF_RAGE",
+        "object": "obj_T29_monstarball_3",
+        "objectId": 13,
+        "sourceScript": "_EV_scr_seq_T29_014 + 1",
+        "resolvedScript": 15,
+        "eventFlag": "FLAG_UNK_289",
+        "eventFlagId": 649
+      },
+      {
+        "map": 513,
+        "mapKey": "MAP_MOUNT_MOON_SQUARE_CLEFAIRY_EVENT",
+        "object": "obj_D02R0104_monstarball",
+        "objectId": 6,
+        "sourceScript": "_EV_scr_seq_D02R0104_003 + 1",
+        "resolvedScript": 4,
+        "eventFlag": "FLAG_UNK_298",
+        "eventFlagId": 664
+      }
+    ],
+    "excludedStarterDisplays": [
+      {
+        "map": 505,
+        "mapKey": "MAP_PALLET_TOWN_OAKS_LAB",
+        "object": "obj_T01R0301_monstarball",
+        "objectId": 4,
+        "sourceScript": 0,
+        "resolvedScript": 0,
+        "eventFlag": "FLAG_HIDE_OAKS_LAB_CHARMANDER_BALL",
+        "eventFlagId": 768
+      },
+      {
+        "map": 505,
+        "mapKey": "MAP_PALLET_TOWN_OAKS_LAB",
+        "object": "obj_T01R0301_monstarball_2",
+        "objectId": 5,
+        "sourceScript": 0,
+        "resolvedScript": 0,
+        "eventFlag": "FLAG_HIDE_OAKS_LAB_SQUIRTLE_BALL",
+        "eventFlagId": 767
+      },
+      {
+        "map": 505,
+        "mapKey": "MAP_PALLET_TOWN_OAKS_LAB",
+        "object": "obj_T01R0301_monstarball_3",
+        "objectId": 6,
+        "sourceScript": 0,
+        "resolvedScript": 0,
+        "eventFlag": "FLAG_HIDE_OAKS_LAB_BULBASAUR_BALL",
+        "eventFlagId": 766
+      }
+    ]
+  },
+  "validation": {
+    "targetedCommand": "node --experimental-transform-types --test src/source/item-pickup.test.ts src/source/objects.test.ts src/source/story.test.ts src/source/runtime.test.ts",
+    "passed": 48,
+    "failed": 0,
+    "typescript": "npx tsc --noEmit PASS",
+    "exporterSyntax": "Python ast.parse PASS; full importer NOT executed",
+    "assetReproducibility": "100 imported numeric entries compared against literal ordered src/item.c sTMHMMoves with constants.json; all100 actual BufferTMHMMoveName commands exercised",
+    "closure": "0141, actual2001fanfare and4local pickup reachable branches contain no warp, object creation or movement",
+    "beforeProbe": {
+      "target": {
+        "id": "obj_D25R0103_monstarball",
+        "spriteId": "SPRITE_MONSTARBALL",
+        "movement": 0,
+        "type": 0,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0103_ELIXIR",
+        "scriptId": "std_itemball_d25r0103_elixir",
+        "facingDirection": 0,
+        "param0": 0,
+        "param1": 0,
+        "param2": 0,
+        "xRange": 0,
+        "yRange": 0,
+        "x": 25,
+        "z": 43,
+        "y": 0
+      },
+      "expectedLastTalked": 4,
+      "actualLastTalked": null,
+      "trace": [
+        [
+          "face",
+          "obj_D25R0103_monstarball"
+        ],
+        [
+          "visible",
+          "obj_D25R0103_gsman3",
+          false
+        ]
+      ],
+      "failure": {
+        "name": "Error",
+        "message": "Unported source command ItemIsTMOrHM at COMMON_0141:1038",
+        "command": "ItemIsTMOrHM"
+      },
+      "bagAfter": {
+        "ITEM_ELIXIR": 1
+      },
+      "targetEventFlag": null,
+      "objects": [
+        {
+          "id": "obj_D25R0103_gsman3",
+          "visible": false,
+          "shown": false
+        },
+        {
+          "id": "obj_D25R0103_gswoman3",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_gswoman3_2",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_rapurasu",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_monstarball",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_monstarball_2",
+          "visible": true
+        }
+      ]
+    },
+    "afterProbe": {
+      "target": {
+        "id": "obj_D25R0103_monstarball",
+        "spriteId": "SPRITE_MONSTARBALL",
+        "movement": 0,
+        "type": 0,
+        "eventFlag": "FLAG_HIDE_ITEMBALL_D25R0103_ELIXIR",
+        "scriptId": "std_itemball_d25r0103_elixir",
+        "facingDirection": 0,
+        "param0": 0,
+        "param1": 0,
+        "param2": 0,
+        "xRange": 0,
+        "yRange": 0,
+        "x": 25,
+        "z": 43,
+        "y": 0
+      },
+      "expectedLastTalked": 4,
+      "actualLastTalked": 4,
+      "trace": [
+        [
+          "face",
+          "obj_D25R0103_monstarball"
+        ],
+        [
+          "visible",
+          "obj_D25R0103_monstarball",
+          false
+        ],
+        [
+          "message",
+          "Ethan found\nan Elixir!"
+        ],
+        [
+          "message",
+          "Ethan put the Elixir\nin the Medicine Pocket."
+        ]
+      ],
+      "bagAfter": {
+        "ITEM_ELIXIR": 1
+      },
+      "targetEventFlag": true,
+      "objects": [
+        {
+          "id": "obj_D25R0103_gsman3",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_gswoman3",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_gswoman3_2",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_rapurasu",
+          "visible": true
+        },
+        {
+          "id": "obj_D25R0103_monstarball",
+          "visible": false
+        },
+        {
+          "id": "obj_D25R0103_monstarball_2",
+          "visible": true
+        }
+      ]
+    }
+  },
+  "rootIntegration": [
+    "Use isItemBallObject(map,object), not only7000+ IDs, to admit the4local scripts.",
+    "Wrap ENTIRE vm.run plus post-run updateHUD inside runItemBallPickup(state,objects,action,refresh). Refresh must refreshNPCs and updateHUD; root owns input/save locking and error UI.",
+    "Recovery restores State in place and live actor shown/position/facing records; the adventure play clock does not move backward. Combined refresh errors must not be treated as successful hydrated pickup or autosaved silently.",
+    "Call fieldSpriteHeight(key,data.sprites,existingHeight) at NPC paper construction; only exact source item ball is scaled to1vs2hero. No World edit included."
+  ],
+  "limits": [
+    "No main/UI/World/audio changes or live integration claims.",
+    "No Vite build/browser/Claude invocation. Root provider review follows the integrated freeze.",
+    "Native fanfare source script runs through the existing VM presentation command policy; no new audio renderer or DS-audio claim.",
+    "Broader preexisting ShowPerson explicit visibility override is preserved; this change does not invent a global flag clear.",
+    "Old saves already containing partial bag grants from failed pickups cannot safely be inferred/reconciled from counts; no speculative item subtraction."
+  ]
+}

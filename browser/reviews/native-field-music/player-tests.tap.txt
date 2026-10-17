@@ -1,0 +1,224 @@
+TAP version 13
+# (node:29005) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: source tables preserve all32 classes,11 legendary species and45 native parameters
+ok 1 - source tables preserve all32 classes,11 legendary species and45 native parameters
+  ---
+  duration_ms: 0.68
+  type: 'test'
+  ...
+# Subtest: Falkner/Rival/Rocket/Red use literal classes; normal trainer fallback is native41
+ok 2 - Falkner/Rival/Rocket/Red use literal classes; normal trainer fallback is native41
+  ---
+  duration_ms: 0.132667
+  type: 'test'
+  ...
+# Subtest: native facility/double/multi precedence preserves Rocket, Kimono and Red exceptions
+ok 3 - native facility/double/multi precedence preserves Rocket, Kimono and Red exceptions
+  ---
+  duration_ms: 0.2395
+  type: 'test'
+  ...
+# Subtest: all native legendary leads and PalPark override use actual source table before wild-double branch
+ok 4 - all native legendary leads and PalPark override use actual source table before wild-double branch
+  ---
+  duration_ms: 0.105417
+  type: 'test'
+  ...
+# Subtest: Kanto music requires real Vermilion flypoint and region; AlwaysTrue keeps Gym branch unreachable
+ok 5 - Kanto music requires real Vermilion flypoint and region; AlwaysTrue keeps Gym branch unreachable
+  ---
+  duration_ms: 0.115167
+  type: 'test'
+  ...
+# Subtest: missing actual setup/rules reject rather than invent special-case music
+ok 6 - missing actual setup/rules reject rather than invent special-case music
+  ---
+  duration_ms: 0.369708
+  type: 'test'
+  ...
+# (node:29006) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+ok 7 - native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+  ---
+  duration_ms: 2.466292
+  type: 'test'
+  ...
+# Subtest: construction and map intent fetch no songs or Context until synchronous gesture unlock
+ok 8 - construction and map intent fetch no songs or Context until synchronous gesture unlock
+  ---
+  duration_ms: 6.422083
+  type: 'test'
+  ...
+# Subtest: same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+ok 9 - same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+  ---
+  duration_ms: 1.491208
+  type: 'test'
+  ...
+# Subtest: mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+ok 10 - mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+  ---
+  duration_ms: 1.811667
+  type: 'test'
+  ...
+# Subtest: unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+ok 11 - unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+  ---
+  duration_ms: 0.885875
+  type: 'test'
+  ...
+# Subtest: bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+ok 12 - bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+  ---
+  duration_ms: 132.696041
+  type: 'test'
+  ...
+# Subtest: latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+ok 13 - latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+  ---
+  duration_ms: 3.401084
+  type: 'test'
+  ...
+# Subtest: late map-catalog completion cannot overwrite a newer direct cue intent
+ok 14 - late map-catalog completion cannot overwrite a newer direct cue intent
+  ---
+  duration_ms: 0.786667
+  type: 'test'
+  ...
+# Subtest: external abort during cue loading cannot interrupt the prior committed voice or start late audio
+ok 15 - external abort during cue loading cannot interrupt the prior committed voice or start late audio
+  ---
+  duration_ms: 1.010542
+  type: 'test'
+  ...
+# Subtest: field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+ok 16 - field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+  ---
+  duration_ms: 2.557417
+  type: 'test'
+  ...
+# Subtest: a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+ok 17 - a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+  ---
+  duration_ms: 1.767333
+  type: 'test'
+  ...
+# Subtest: shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+ok 18 - shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+  ---
+  duration_ms: 3.607416
+  type: 'test'
+  ...
+# Subtest: whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+ok 19 - whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+  ---
+  duration_ms: 0.85775
+  type: 'test'
+  ...
+# Subtest: blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+ok 20 - blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+  ---
+  duration_ms: 21.325916
+  type: 'test'
+  ...
+# Subtest: catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+ok 21 - catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+  ---
+  duration_ms: 0.467208
+  type: 'test'
+  ...
+# Subtest: failed field restore is retryable and cannot silently mark a missing restored song successful
+ok 22 - failed field restore is retryable and cannot silently mark a missing restored song successful
+  ---
+  duration_ms: 1.455292
+  type: 'test'
+  ...
+# Subtest: missing map stops old committed and late-loading music rather than retaining stale intent
+ok 23 - missing map stops old committed and late-loading music rather than retaining stale intent
+  ---
+  duration_ms: 0.770459
+  type: 'test'
+  ...
+# Subtest: native sequence identity preserves phase across map/override/radio label changes
+ok 24 - native sequence identity preserves phase across map/override/radio label changes
+  ---
+  duration_ms: 0.472667
+  type: 'test'
+  ...
+# Subtest: volume-only preferences share the active load without dropping its caller cancellation
+ok 25 - volume-only preferences share the active load without dropping its caller cancellation
+  ---
+  duration_ms: 0.676
+  type: 'test'
+  ...
+# Subtest: battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+ok 26 - battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+  ---
+  duration_ms: 1.161208
+  type: 'test'
+  ...
+# Subtest: battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+ok 27 - battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+  ---
+  duration_ms: 4.017708
+  type: 'test'
+  ...
+# Subtest: muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+ok 28 - muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+  ---
+  duration_ms: 1.850666
+  type: 'test'
+  ...
+# Subtest: restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+ok 29 - restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+  ---
+  duration_ms: 0.681208
+  type: 'test'
+  ...
+# Subtest: a newer map during slow restore owns playback and cannot re-arm stale interruption
+ok 30 - a newer map during slow restore owns playback and cannot re-arm stale interruption
+  ---
+  duration_ms: 1.129542
+  type: 'test'
+  ...
+# Subtest: an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+ok 31 - an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+  ---
+  duration_ms: 0.612792
+  type: 'test'
+  ...
+# Subtest: repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+ok 32 - repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+  ---
+  duration_ms: 0.896125
+  type: 'test'
+  ...
+# Subtest: mute changes after encounter abort do not resurrect or reject its terminated owned cue
+ok 33 - mute changes after encounter abort do not resurrect or reject its terminated owned cue
+  ---
+  duration_ms: 3.96525
+  type: 'test'
+  ...
+# Subtest: restore in the suspension microtask cancels start and coherently releases the field
+ok 34 - restore in the suspension microtask cancels start and coherently releases the field
+  ---
+  duration_ms: 103.707834
+  type: 'test'
+  ...
+# Subtest: same native cue source label changes while interrupted remain current after phase restoration
+ok 35 - same native cue source label changes while interrupted remain current after phase restoration
+  ---
+  duration_ms: 1.758542
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 682.211625

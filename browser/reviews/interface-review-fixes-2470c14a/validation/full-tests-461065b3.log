@@ -1,0 +1,2817 @@
+
+> paper-johto@0.1.0 test
+> node --experimental-transform-types --test src/world.test.ts src/source/*.test.ts
+
+TAP version 13
+# (node:56148) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original weather dispatch distinguishes rain, snow, mist and cave darkness
+ok 1 - original weather dispatch distinguishes rain, snow, mist and cave darkness
+  ---
+  duration_ms: 1.134833
+  type: 'test'
+  ...
+# Subtest: source rain and snow maps use their original headers rather than random global weather
+ok 2 - source rain and snow maps use their original headers rather than random global weather
+  ---
+  duration_ms: 16.241583
+  type: 'test'
+  ...
+# Subtest: native summit diamond-dust dates, Lake of Rage Wednesday and field flags override map weather
+ok 3 - native summit diamond-dust dates, Lake of Rage Wednesday and field flags override map weather
+  ---
+  duration_ms: 0.236792
+  type: 'test'
+  ...
+# Subtest: sky palettes wrap at midnight and interpolate continuously through dawn and dusk
+ok 4 - sky palettes wrap at midnight and interpolate continuously through dawn and dusk
+  ---
+  duration_ms: 0.546666
+  type: 'test'
+  ...
+# Subtest: sky follows the camera, hides indoors and keeps source precipitation in the field
+ok 5 - sky follows the camera, hides indoors and keeps source precipitation in the field
+  ---
+  duration_ms: 13.376084
+  type: 'test'
+  ...
+# Subtest: night adds stars and a moon, colours the field and preserves prior material shader hooks
+ok 6 - night adds stars and a moon, colours the field and preserves prior material shader hooks
+  ---
+  duration_ms: 6.757583
+  type: 'test'
+  ...
+# Subtest: cloud and weather instances stay finite and cloud surfaces have depth
+ok 7 - cloud and weather instances stay finite and cloud surfaces have depth
+  ---
+  duration_ms: 4.835291
+  type: 'test'
+  ...
+# Subtest: camera-facing tree shaders receive the same night tint as the terrain
+ok 8 - camera-facing tree shaders receive the same night tint as the terrain
+  ---
+  duration_ms: 2.746833
+  type: 'test'
+  ...
+# Subtest: celestial art tests scene depth so transparent render ordering cannot paint stars over buildings
+ok 9 - celestial art tests scene depth so transparent render ordering cannot paint stars over buildings
+  ---
+  duration_ms: 5.449167
+  type: 'test'
+  ...
+# (node:56149) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all native accuracy stages use literal source ratios and integer truncation
+ok 10 - all native accuracy stages use literal source ratios and integer truncation
+  ---
+  duration_ms: 195.471375
+  type: 'test'
+  ...
+# Subtest: legal Tackle modifiers truncate71.25 to71 and combined57 exactly on either side
+ok 11 - legal Tackle modifiers truncate71.25 to71 and combined57 exactly on either side
+  ---
+  duration_ms: 907.87325
+  type: 'test'
+  ...
+# Subtest: SweetScent lowers actual evasion before SleepPowder uses native133/100 rather than4/3
+ok 12 - SweetScent lowers actual evasion before SleepPowder uses native133/100 rather than4/3
+  ---
+  duration_ms: 0.381042
+  type: 'test'
+  ...
+# Subtest: Foresight ignores only raised evasion and combines remaining accuracy changes before truncating
+ok 13 - Foresight ignores only raised evasion and combines remaining accuracy changes before truncating
+  ---
+  duration_ms: 151.047416
+  type: 'test'
+  ...
+# Subtest: accuracy-zero, always-hit effects and tutorial retain existing no-draw bypasses
+ok 14 - accuracy-zero, always-hit effects and tutorial retain existing no-draw bypasses
+  ---
+  duration_ms: 301.462292
+  type: 'test'
+  ...
+# (node:56150) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+ok 15 - a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+  ---
+  duration_ms: 456.458834
+  type: 'test'
+  ...
+# Subtest: an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+ok 16 - an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+  ---
+  duration_ms: 150.958167
+  type: 'test'
+  ...
+# Subtest: the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+ok 17 - the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+  ---
+  duration_ms: 453.625917
+  type: 'test'
+  ...
+# Subtest: enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+ok 18 - enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+  ---
+  duration_ms: 151.840541
+  type: 'test'
+  ...
+# Subtest: the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+ok 19 - the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+  ---
+  duration_ms: 152.700292
+  type: 'test'
+  ...
+# Subtest: a learned unsupported opponent effect still completes native no-target processing without running the effect
+ok 20 - a learned unsupported opponent effect still completes native no-target processing without running the effect
+  ---
+  duration_ms: 150.285
+  type: 'test'
+  ...
+# Subtest: a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+ok 21 - a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+  ---
+  duration_ms: 151.129208
+  type: 'test'
+  ...
+# Subtest: unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+ok 22 - unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+  ---
+  duration_ms: 454.75025
+  type: 'test'
+  ...
+# Subtest: native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+ok 23 - native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+  ---
+  duration_ms: 303.399917
+  type: 'test'
+  ...
+# Subtest: the source-owned single-battle target matrix bypasses only the native no-target paths
+    # Subtest: RANGE_SINGLE_TARGET
+    ok 1 - RANGE_SINGLE_TARGET
+      ---
+      duration_ms: 0.955084
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_SPECIAL
+    ok 2 - RANGE_SINGLE_TARGET_SPECIAL
+      ---
+      duration_ms: 0.3935
+      type: 'test'
+      ...
+    # Subtest: RANGE_RANDOM_OPPONENT
+    ok 3 - RANGE_RANDOM_OPPONENT
+      ---
+      duration_ms: 0.19475
+      type: 'test'
+      ...
+    # Subtest: RANGE_ADJACENT_OPPONENTS
+    ok 4 - RANGE_ADJACENT_OPPONENTS
+      ---
+      duration_ms: 0.164667
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALL_ADJACENT
+    ok 5 - RANGE_ALL_ADJACENT
+      ---
+      duration_ms: 0.141667
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER
+    ok 6 - RANGE_USER
+      ---
+      duration_ms: 0.163667
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER_SIDE
+    ok 7 - RANGE_USER_SIDE
+      ---
+      duration_ms: 0.139
+      type: 'test'
+      ...
+    # Subtest: RANGE_FIELD
+    ok 8 - RANGE_FIELD
+      ---
+      duration_ms: 0.142333
+      type: 'test'
+      ...
+    # Subtest: RANGE_OPPONENT_SIDE
+    ok 9 - RANGE_OPPONENT_SIDE
+      ---
+      duration_ms: 0.217583
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALLY
+    ok 10 - RANGE_ALLY
+      ---
+      duration_ms: 0.151792
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_USER_SIDE
+    ok 11 - RANGE_SINGLE_TARGET_USER_SIDE
+      ---
+      duration_ms: 0.123417
+      type: 'test'
+      ...
+    # Subtest: RANGE_FRONT
+    ok 12 - RANGE_FRONT
+      ---
+      duration_ms: 0.107333
+      type: 'test'
+      ...
+    1..12
+ok 24 - the source-owned single-battle target matrix bypasses only the native no-target paths
+  ---
+  duration_ms: 3.845666
+  type: 'test'
+  ...
+# Subtest: the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+    # Subtest: MOVE_EFFECT_BIDE
+    ok 1 - MOVE_EFFECT_BIDE
+      ---
+      duration_ms: 0.237958
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+    ok 2 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+      ---
+      duration_ms: 149.990416
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+    ok 3 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+      ---
+      duration_ms: 153.562458
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_DEF_UP
+    ok 4 - MOVE_EFFECT_CHARGE_TURN_DEF_UP
+      ---
+      duration_ms: 153.873875
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_151
+    ok 5 - MOVE_EFFECT_151
+      ---
+      duration_ms: 150.769667
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_FLY
+    ok 6 - MOVE_EFFECT_FLY
+      ---
+      duration_ms: 150.895458
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIVE
+    ok 7 - MOVE_EFFECT_DIVE
+      ---
+      duration_ms: 150.94375
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIG
+    ok 8 - MOVE_EFFECT_DIG
+      ---
+      duration_ms: 150.942833
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_BOUNCE
+    ok 9 - MOVE_EFFECT_BOUNCE
+      ---
+      duration_ms: 150.848334
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_SHADOW_FORCE
+    ok 10 - MOVE_EFFECT_SHADOW_FORCE
+      ---
+      duration_ms: 150.054542
+      type: 'test'
+      ...
+    1..10
+ok 25 - the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+  ---
+  duration_ms: 1363.309625
+  type: 'test'
+  ...
+# Subtest: the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+ok 26 - the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+  ---
+  duration_ms: 149.999875
+  type: 'test'
+  ...
+# Subtest: a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+ok 27 - a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+  ---
+  duration_ms: 149.701834
+  type: 'test'
+  ...
+# Subtest: fainting the last player by recoil stops before a surviving foe spends its selected move PP
+ok 28 - fainting the last player by recoil stops before a surviving foe spends its selected move PP
+  ---
+  duration_ms: 150.671208
+  type: 'test'
+  ...
+# Subtest: a recoil-fainted participant gets no EXP while a living Share holder receives its pool and an optional legacy Egg record stays unchanged
+ok 29 - a recoil-fainted participant gets no EXP while a living Share holder receives its pool and an optional legacy Egg record stays unchanged
+  ---
+  duration_ms: 151.644458
+  type: 'test'
+  ...
+# (node:56151) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle opening chooses a clear shoulder instead of looking through a nearby building
+ok 30 - battle opening chooses a clear shoulder instead of looking through a nearby building
+  ---
+  duration_ms: 2.914291
+  type: 'test'
+  ...
+# Subtest: a roof hiding one fighter is detected even when the battle midpoint is visible
+ok 31 - a roof hiding one fighter is detected even when the battle midpoint is visible
+  ---
+  duration_ms: 0.68975
+  type: 'test'
+  ...
+# Subtest: unobstructed camera orbit stays unchanged and portrait framing retains enough distance
+ok 32 - unobstructed camera orbit stays unchanged and portrait framing retains enough distance
+  ---
+  duration_ms: 0.564459
+  type: 'test'
+  ...
+# (node:56152) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual battle switches retain living participants and split Route29 Pidgey experience11+11
+ok 33 - actual battle switches retain living participants and split Route29 Pidgey experience11+11
+  ---
+  duration_ms: 304.918084
+  type: 'test'
+  ...
+# Subtest: actual held Exp. Share receives its native pool while both participants receive theirs
+ok 34 - actual held Exp. Share receives its native pool while both participants receive theirs
+  ---
+  duration_ms: 303.014
+  type: 'test'
+  ...
+# Subtest: each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+ok 35 - each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+  ---
+  duration_ms: 454.22375
+  type: 'test'
+  ...
+# Subtest: level100 participants count in the split but get no experience or effort award
+ok 36 - level100 participants count in the split but get no experience or effort award
+  ---
+  duration_ms: 300.4605
+  type: 'test'
+  ...
+# Subtest: a recipient near level100 caps cumulative EXP at its own native growth limit
+ok 37 - a recipient near level100 caps cumulative EXP at its own native growth limit
+  ---
+  duration_ms: 151.696208
+  type: 'test'
+  ...
+# (node:56153) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Route29 PidgeyLv3 splits11+11 between two living explicitly flagged participants
+ok 38 - actual Route29 PidgeyLv3 splits11+11 between two living explicitly flagged participants
+  ---
+  duration_ms: 1.883875
+  type: 'test'
+  ...
+# Subtest: native ExpShare item effects split pools and participating holders receive both before bonuses
+ok 39 - native ExpShare item effects split pools and participating holders receive both before bonuses
+  ---
+  duration_ms: 0.57125
+  type: 'test'
+  ...
+# Subtest: Eggs and fainted members do not dilute either pool; living level100 members do
+ok 40 - Eggs and fainted members do not dilute either pool; living level100 members do
+  ---
+  duration_ms: 0.576458
+  type: 'test'
+  ...
+# Subtest: a living nonparticipant ExpShare holder receives its half even after all flagged participants faint
+ok 41 - a living nonparticipant ExpShare holder receives its half even after all flagged participants faint
+  ---
+  duration_ms: 0.399041
+  type: 'test'
+  ...
+# Subtest: new-enemy mask reset removes previous participants and planner never guesses an active slot
+ok 42 - new-enemy mask reset removes previous participants and planner never guesses an active slot
+  ---
+  duration_ms: 0.287333
+  type: 'test'
+  ...
+# Subtest: actual LuckyEgg effect and explicit traded ownership apply separately to each planned recipient
+ok 43 - actual LuckyEgg effect and explicit traded ownership apply separately to each planned recipient
+  ---
+  duration_ms: 0.213375
+  type: 'test'
+  ...
+# Subtest: whole-party planning is pure and rejects a late bad item/ownership/mask before any mutation
+ok 44 - whole-party planning is pure and rejects a late bad item/ownership/mask before any mutation
+  ---
+  duration_ms: 20.56225
+  type: 'test'
+  ...
+# (node:56154) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual early wild and Trainer teams produce native one-participant awards
+ok 45 - actual early wild and Trainer teams produce native one-participant awards
+  ---
+  duration_ms: 2.418291
+  type: 'test'
+  ...
+# Subtest: LuckyEgg, Trainer and domestic/international trade bonuses truncate in native order
+ok 46 - LuckyEgg, Trainer and domestic/international trade bonuses truncate in native order
+  ---
+  duration_ms: 0.149708
+  type: 'test'
+  ...
+# Subtest: explicit ExpShare split floors both halves before divisors and sums a participating holder before bonuses
+ok 47 - explicit ExpShare split floors both halves before divisors and sums a participating holder before bonuses
+  ---
+  duration_ms: 0.372583
+  type: 'test'
+  ...
+# Subtest: fainted, Egg, empty, level100 and disabled EXP contexts receive no reward
+ok 48 - fainted, Egg, empty, level100 and disabled EXP contexts receive no reward
+  ---
+  duration_ms: 0.403833
+  type: 'test'
+  ...
+# Subtest: native minimum-one pool rule and inconsistent or unknown divisor context stay explicit
+ok 49 - native minimum-one pool rule and inconsistent or unknown divisor context stay explicit
+  ---
+  duration_ms: 0.48
+  type: 'test'
+  ...
+# Subtest: helper is pure and leaves current EXP, level, EVs and held items to the integration host
+ok 50 - helper is pure and leaves current EXP, level, EVs and held items to the integration host
+  ---
+  duration_ms: 0.2915
+  type: 'test'
+  ...
+# Subtest: native held-effect contract rejects item keys and no-award validation remains explicit
+ok 51 - native held-effect contract rejects item keys and no-award validation remains explicit
+  ---
+  duration_ms: 0.197666
+  type: 'test'
+  ...
+# (node:56155) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle figures choose a continuous terrace rather than straddling a ledge
+ok 52 - battle figures choose a continuous terrace rather than straddling a ledge
+  ---
+  duration_ms: 2.382334
+  type: 'test'
+  ...
+# Subtest: battle figures preserve the player floor under or above a bridge
+ok 53 - battle figures preserve the player floor under or above a bridge
+  ---
+  duration_ms: 2.175792
+  type: 'test'
+  ...
+# Subtest: narrow battle space reduces spacing instead of moving figures into solid walls
+ok 54 - narrow battle space reduces spacing instead of moving figures into solid walls
+  ---
+  duration_ms: 0.293333
+  type: 'test'
+  ...
+# Subtest: trainer figures stay on their Pokémon terrace when the preferred shoulder position crosses a cliff
+ok 55 - trainer figures stay on their Pokémon terrace when the preferred shoulder position crosses a cliff
+  ---
+  duration_ms: 0.32325
+  type: 'test'
+  ...
+# Subtest: battle presentation cannot relocate across a narrow lower strip to another terrace
+ok 56 - battle presentation cannot relocate across a narrow lower strip to another terrace
+  ---
+  duration_ms: 0.458792
+  type: 'test'
+  ...
+# Subtest: battle presentation avoids placing either Pokémon inside a solid canopy
+ok 57 - battle presentation avoids placing either Pokémon inside a solid canopy
+  ---
+  duration_ms: 123.017917
+  type: 'test'
+  ...
+# (node:56156) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: source tables preserve all32 classes,11 legendary species and45 native parameters
+ok 58 - source tables preserve all32 classes,11 legendary species and45 native parameters
+  ---
+  duration_ms: 0.391709
+  type: 'test'
+  ...
+# Subtest: Falkner/Rival/Rocket/Red use literal classes; normal trainer fallback is native41
+ok 59 - Falkner/Rival/Rocket/Red use literal classes; normal trainer fallback is native41
+  ---
+  duration_ms: 0.186958
+  type: 'test'
+  ...
+# Subtest: native facility/double/multi precedence preserves Rocket, Kimono and Red exceptions
+ok 60 - native facility/double/multi precedence preserves Rocket, Kimono and Red exceptions
+  ---
+  duration_ms: 0.274458
+  type: 'test'
+  ...
+# Subtest: all native legendary leads and PalPark override use actual source table before wild-double branch
+ok 61 - all native legendary leads and PalPark override use actual source table before wild-double branch
+  ---
+  duration_ms: 0.120667
+  type: 'test'
+  ...
+# Subtest: Kanto music requires real Vermilion flypoint and region; AlwaysTrue keeps Gym branch unreachable
+ok 62 - Kanto music requires real Vermilion flypoint and region; AlwaysTrue keeps Gym branch unreachable
+  ---
+  duration_ms: 0.121375
+  type: 'test'
+  ...
+# Subtest: missing actual setup/rules reject rather than invent special-case music
+ok 63 - missing actual setup/rules reject rather than invent special-case music
+  ---
+  duration_ms: 0.394917
+  type: 'test'
+  ...
+# (node:56157) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: reloaded production party starts with its first usable non-Egg and awards no Egg EXP or EVs
+ok 64 - reloaded production party starts with its first usable non-Egg and awards no Egg EXP or EVs
+  ---
+  duration_ms: 155.584
+  type: 'test'
+  ...
+# Subtest: a party containing only Eggs and fainted Pokémon cannot start a battle
+ok 65 - a party containing only Eggs and fainted Pokémon cannot start a battle
+  ---
+  duration_ms: 0.558125
+  type: 'test'
+  ...
+# Subtest: an injected Egg switch spends no turn, makes no participation bit and leaves the current actor in place
+ok 66 - an injected Egg switch spends no turn, makes no participation bit and leaves the current actor in place
+  ---
+  duration_ms: 150.726584
+  type: 'test'
+  ...
+# Subtest: fainting the last usable actor loses even when a positive-HP Egg remains
+ok 67 - fainting the last usable actor loses even when a positive-HP Egg remains
+  ---
+  duration_ms: 151.489625
+  type: 'test'
+  ...
+# (node:56158) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a final action KO grants EXP/EVs and ends battle before poison can damage the winner
+ok 68 - a final action KO grants EXP/EVs and ends battle before poison can damage the winner
+  ---
+  duration_ms: 169.231
+  type: 'test'
+  ...
+# Subtest: a nonfinal KO levels the active Pokémon before poison and delays the next sendout until afterward
+ok 69 - a nonfinal KO levels the active Pokémon before poison and delays the next sendout until afterward
+  ---
+  duration_ms: 152.879417
+  type: 'test'
+  ...
+# Subtest: Struggle recoil fainting remains ineligible for EXP even though final-foe EXP precedes residuals
+ok 70 - Struggle recoil fainting remains ineligible for EXP even though final-foe EXP precedes residuals
+  ---
+  duration_ms: 150.826375
+  type: 'test'
+  ...
+# Subtest: each poison faint is adjudicated immediately in speed order rather than poisoning both last battlers
+ok 71 - each poison faint is adjudicated immediately in speed order rather than poisoning both last battlers
+  ---
+  duration_ms: 1.065875
+  type: 'test'
+  ...
+# Subtest: equal-speed residuals use a fresh native low-bit tie instead of reusing the Fight tie
+ok 72 - equal-speed residuals use a fresh native low-bit tie instead of reusing the Fight tie
+  ---
+  duration_ms: 1.270917
+  type: 'test'
+  ...
+# Subtest: native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie
+ok 73 - native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie
+  ---
+  duration_ms: 151.428833
+  type: 'test'
+  ...
+# (node:56159) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an unsupported battle effect rejects and restores party, inventory and capture records
+ok 74 - an unsupported battle effect rejects and restores party, inventory and capture records
+  ---
+  duration_ms: 53.214875
+  type: 'test'
+  ...
+# Subtest: winning against the final opponent keeps its sprite available through the victory message
+ok 75 - winning against the final opponent keeps its sprite available through the victory message
+  ---
+  duration_ms: 0.569958
+  type: 'test'
+  ...
+# Subtest: 3D presentation preserves turn results, damage, PP and EXP
+ok 76 - 3D presentation preserves turn results, damage, PP and EXP
+  ---
+  duration_ms: 303.55575
+  type: 'test'
+  ...
+# (node:56160) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: rigid native walls receive a continuous footing where terrain falls below their base
+ok 77 - rigid native walls receive a continuous footing where terrain falls below their base
+  ---
+  duration_ms: 48.54375
+  type: 'test'
+  ...
+# Subtest: level plots add no redundant foundation and decorative shadows cannot define the wall floor
+ok 78 - level plots add no redundant foundation and decorative shadows cannot define the wall floor
+  ---
+  duration_ms: 0.727875
+  type: 'test'
+  ...
+# Subtest: footings extend gate columns without closing the original passage
+ok 79 - footings extend gate columns without closing the original passage
+  ---
+  duration_ms: 1.604334
+  type: 'test'
+  ...
+# Subtest: unloading a footing frees its geometry and cloned material without disposing source assets
+ok 80 - unloading a footing frees its geometry and cloned material without disposing source assets
+  ---
+  duration_ms: 0.506792
+  type: 'test'
+  ...
+# (node:56161) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: single-pointer look preserves production down-drag positive pitch, yaw sign, sensitivity and limits
+ok 81 - single-pointer look preserves production down-drag positive pitch, yaw sign, sensitivity and limits
+  ---
+  duration_ms: 1.793334
+  type: 'test'
+  ...
+# Subtest: two pointers zoom without rotating and clamp reversal rebases immediately instead of creating a dead zone
+ok 82 - two pointers zoom without rotating and clamp reversal rebases immediately instead of creating a dead zone
+  ---
+  duration_ms: 0.476625
+  type: 'test'
+  ...
+# Subtest: pinch-to-single drag and replacement second finger rebase at current positions without camera jumps
+ok 83 - pinch-to-single drag and replacement second finger rebase at current positions without camera jumps
+  ---
+  duration_ms: 0.723833
+  type: 'test'
+  ...
+# Subtest: coincident/crossing fingers establish a new nonzero pinch baseline without dividing by zero or jumping
+ok 84 - coincident/crossing fingers establish a new nonzero pinch baseline without dividing by zero or jumping
+  ---
+  duration_ms: 0.183292
+  type: 'test'
+  ...
+# Subtest: wheel and external camera zoom during a pinch are preserved by subsequent incremental touch motion
+ok 85 - wheel and external camera zoom during a pinch are preserved by subsequent incremental touch motion
+  ---
+  duration_ms: 0.371042
+  type: 'test'
+  ...
+# Subtest: right button, duplicate pointer, failed capture and third finger never corrupt the owned pair
+ok 86 - right button, duplicate pointer, failed capture and third finger never corrupt the owned pair
+  ---
+  duration_ms: 0.192417
+  type: 'test'
+  ...
+# Subtest: lost capture and local/global cancellation release only the affected pointer and permit smooth remaining drag
+ok 87 - lost capture and local/global cancellation release only the affected pointer and permit smooth remaining drag
+  ---
+  duration_ms: 0.58225
+  type: 'test'
+  ...
+# Subtest: disabled contexts synchronously release captures via sync/down/move/wheel and old gestures cannot resume
+ok 88 - disabled contexts synchronously release captures via sync/down/move/wheel and old gestures cannot resume
+  ---
+  duration_ms: 0.887
+  type: 'test'
+  ...
+# Subtest: blur/pagehide/resize/orientation and hidden visibility reset every capture without changing the orbit
+ok 89 - blur/pagehide/resize/orientation and hidden visibility reset every capture without changing the orbit
+  ---
+  duration_ms: 0.6595
+  type: 'test'
+  ...
+# Subtest: visible document notifications preserve a legitimate gesture and unrelated controller pointers are ignored
+ok 90 - visible document notifications preserve a legitimate gesture and unrelated controller pointers are ignored
+  ---
+  duration_ms: 0.489959
+  type: 'test'
+  ...
+# Subtest: wheel pixel/line/page units and bounds match production positive-scroll zoom out
+ok 91 - wheel pixel/line/page units and bounds match production positive-scroll zoom out
+  ---
+  duration_ms: 0.353666
+  type: 'test'
+  ...
+# Subtest: dispose is idempotent, releases captures and removes all event handlers across canvas/window/document
+ok 92 - dispose is idempotent, releases captures and removes all event handlers across canvas/window/document
+  ---
+  duration_ms: 0.155917
+  type: 'test'
+  ...
+# (node:56162) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a deferred room load never chases incoming coordinates through the outgoing scene
+ok 93 - a deferred room load never chases incoming coordinates through the outgoing scene
+  ---
+  duration_ms: 63.7285
+  type: 'test'
+  ...
+# Subtest: caller-owned loading stays frozen through actor placement and releases before entry-script movement
+ok 94 - caller-owned loading stays frozen through actor placement and releases before entry-script movement
+  ---
+  duration_ms: 0.927041
+  type: 'test'
+  ...
+# Subtest: failed direct loads release their guard, while outer callers retain ownership until cleanup
+ok 95 - failed direct loads release their guard, while outer callers retain ownership until cleanup
+  ---
+  duration_ms: 0.912917
+  type: 'test'
+  ...
+# Subtest: a pending resize preserves the loader frame until its owner releases the camera
+ok 96 - a pending resize preserves the loader frame until its owner releases the camera
+  ---
+  duration_ms: 0.593166
+  type: 'test'
+  ...
+# (node:56165) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the first field camera starts in its orbit rather than an unrelated south-facing position
+ok 97 - the first field camera starts in its orbit rather than an unrelated south-facing position
+  ---
+  duration_ms: 1.800792
+  type: 'test'
+  ...
+# Subtest: walking across a connected map header keeps the exact camera pose and target
+ok 98 - walking across a connected map header keeps the exact camera pose and target
+  ---
+  duration_ms: 0.210041
+  type: 'test'
+  ...
+# Subtest: building entrances and distant warps translate the rig without changing the viewing direction or zoom
+ok 99 - building entrances and distant warps translate the rig without changing the viewing direction or zoom
+  ---
+  duration_ms: 0.346709
+  type: 'test'
+  ...
+# Subtest: nearby room coordinates still rebase the entire rig when the scene is replaced
+ok 100 - nearby room coordinates still rebase the entire rig when the scene is replaced
+  ---
+  duration_ms: 0.369042
+  type: 'test'
+  ...
+# Subtest: camera obstruction lists omit paper vegetation, shadows and hidden parents while retaining solid hills and buildings
+ok 101 - camera obstruction lists omit paper vegetation, shadows and hidden parents while retaining solid hills and buildings
+  ---
+  duration_ms: 1.88375
+  type: 'test'
+  ...
+# Subtest: a hidden parent cannot pull the camera forward through its still-visible child mesh
+ok 102 - a hidden parent cannot pull the camera forward through its still-visible child mesh
+  ---
+  duration_ms: 1.423083
+  type: 'test'
+  ...
+# (node:56179) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: analytic crown lobes block the actual sight segment without raycasting tree triangles
+ok 103 - analytic crown lobes block the actual sight segment without raycasting tree triangles
+  ---
+  duration_ms: 101.213333
+  type: 'test'
+  ...
+# Subtest: canopy caches preserve hierarchy transforms and invalidate after a moved instance or parent
+ok 104 - canopy caches preserve hierarchy transforms and invalidate after a moved instance or parent
+  ---
+  duration_ms: 1.2045
+  type: 'test'
+  ...
+# Subtest: battle camera clears a foreground crown while retaining the requested horizontal orbit
+ok 105 - battle camera clears a foreground crown while retaining the requested horizontal orbit
+  ---
+  duration_ms: 0.587709
+  type: 'test'
+  ...
+# Subtest: hidden tree parents do not obstruct the battle camera
+ok 106 - hidden tree parents do not obstruct the battle camera
+  ---
+  duration_ms: 0.986
+  type: 'test'
+  ...
+# (node:56180) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native multi-hit sampling has GenIV probabilities and SkillLink consumes no count draw
+ok 107 - native multi-hit sampling has GenIV probabilities and SkillLink consumes no count draw
+  ---
+  duration_ms: 1.443792
+  type: 'test'
+  ...
+# Subtest: FuryAttack spends one PP and accuracy check, recalculating critical damage per hit
+ok 108 - FuryAttack spends one PP and accuracy check, recalculating critical damage per hit
+  ---
+  duration_ms: 603.629875
+  type: 'test'
+  ...
+# Subtest: missed FuryAttack rolls no count or damage, and fainting stops remaining hits
+ok 109 - missed FuryAttack rolls no count or damage, and fainting stops remaining hits
+  ---
+  duration_ms: 151.265667
+  type: 'test'
+  ...
+# Subtest: SkillLink makes five hits; Ghost immunity stops without a hit-count message
+ok 110 - SkillLink makes five hits; Ghost immunity stops without a hit-count message
+  ---
+  duration_ms: 906.557042
+  type: 'test'
+  ...
+# Subtest: native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit
+ok 111 - native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit
+  ---
+  duration_ms: 450.766584
+  type: 'test'
+  ...
+# Subtest: DoubleKick builds surviving Rage once for each native hit
+ok 112 - DoubleKick builds surviving Rage once for each native hit
+  ---
+  duration_ms: 752.952875
+  type: 'test'
+  ...
+# Subtest: Roost heals half rounded down and suppresses only Flying matchups without changing species
+ok 113 - Roost heals half rounded down and suppresses only Flying matchups without changing species
+  ---
+  duration_ms: 0.355125
+  type: 'test'
+  ...
+# Subtest: faster Roost changes the later Ground hit, while slower or failed Roost does not
+ok 114 - faster Roost changes the later Ground hit, while slower or failed Roost does not
+  ---
+  duration_ms: 452.854833
+  type: 'test'
+  ...
+# Subtest: full-HP recovery spends PP without an attack animation or temporary typing
+ok 115 - full-HP recovery spends PP without an attack animation or temporary typing
+  ---
+  duration_ms: 0.8705
+  type: 'test'
+  ...
+# Subtest: Synthesis uses native battle weather and integer recovery, not daylight or diamond dust
+ok 116 - Synthesis uses native battle weather and integer recovery, not daylight or diamond dust
+  ---
+  duration_ms: 1.904
+  type: 'test'
+  ...
+# Subtest: living CloudNine/AirLock suppress Synthesis weather, while fainted suppressors do not
+ok 117 - living CloudNine/AirLock suppress Synthesis weather, while fainted suppressors do not
+  ---
+  duration_ms: 0.622458
+  type: 'test'
+  ...
+# Subtest: Battle.start captures weather before asynchronous presentation begins
+ok 118 - Battle.start captures weather before asynchronous presentation begins
+  ---
+  duration_ms: 0.583667
+  type: 'test'
+  ...
+# Subtest: Gust deals ordinary damage and its source Fly modifier doubles power before calculation
+ok 119 - Gust deals ordinary damage and its source Fly modifier doubles power before calculation
+  ---
+  duration_ms: 151.060875
+  type: 'test'
+  ...
+# Subtest: Rage activates on successful hits and builds Attack per surviving damaging hit
+ok 120 - Rage activates on successful hits and builds Attack per surviving damaging hit
+  ---
+  duration_ms: 1052.503917
+  type: 'test'
+  ...
+# Subtest: Rage survives selection and a faster foe, then clears after another move executes
+ok 121 - Rage survives selection and a faster foe, then clears after another move executes
+  ---
+  duration_ms: 1808.332458
+  type: 'test'
+  ...
+# Subtest: Rage persists through successful item use and failed escape, and rejected menu choices
+ok 122 - Rage persists through successful item use and failed escape, and rejected menu choices
+  ---
+  duration_ms: 903.587125
+  type: 'test'
+  ...
+# Subtest: Rage survives inability to act, but a missed or failed different move clears it
+ok 123 - Rage survives inability to act, but a missed or failed different move clears it
+  ---
+  duration_ms: 754.212958
+  type: 'test'
+  ...
+# Subtest: native Rage before-turn masking clears Foresight and DefenseCurl before either side attacks
+ok 124 - native Rage before-turn masking clears Foresight and DefenseCurl before either side attacks
+  ---
+  duration_ms: 1205.495084
+  type: 'test'
+  ...
+# Subtest: Rage masks other status2 flags on selection even when the chosen move cannot act
+ok 125 - Rage masks other status2 flags on selection even when the chosen move cannot act
+  ---
+  duration_ms: 300.469416
+  type: 'test'
+  ...
+# Subtest: accepted non-Fight actions mask Rage volatiles; rejected menu choices preserve them
+ok 126 - accepted non-Fight actions mask Rage volatiles; rejected menu choices preserve them
+  ---
+  duration_ms: 903.9425
+  type: 'test'
+  ...
+# Subtest: native no-PP selection retains the last Rage slot until Struggle actually executes
+ok 127 - native no-PP selection retains the last Rage slot until Struggle actually executes
+  ---
+  duration_ms: 905.444833
+  type: 'test'
+  ...
+# Subtest: switching and battle completion clear Rage/Roost without storing them on Pokémon
+ok 128 - switching and battle completion clear Rage/Roost without storing them on Pokémon
+  ---
+  duration_ms: 150.352125
+  type: 'test'
+  ...
+# Subtest: actual Abe/Falkner moves execute, and starter level-ups learn usable Rage/Synthesis
+ok 129 - actual Abe/Falkner moves execute, and starter level-ups learn usable Rage/Synthesis
+  ---
+  duration_ms: 905.105458
+  type: 'test'
+  ...
+# (node:56181) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the first three completed steps after a warp/battle cannot encounter
+ok 130 - the first three completed steps after a warp/battle cannot encounter
+  ---
+  duration_ms: 0.352083
+  type: 'test'
+  ...
+# Subtest: walking uses independent 20-percent movement and original table-rate rolls
+ok 131 - walking uses independent 20-percent movement and original table-rate rolls
+  ---
+  duration_ms: 0.061417
+  type: 'test'
+  ...
+# Subtest: only reversals increase the source turn boost; perpendicular turns do not
+ok 132 - only reversals increase the source turn boost; perpendicular turns do not
+  ---
+  duration_ms: 0.0895
+  type: 'test'
+  ...
+# Subtest: all 100 original weighted land slots have the exact source distribution
+ok 133 - all 100 original weighted land slots have the exact source distribution
+  ---
+  duration_ms: 0.2815
+  type: 'test'
+  ...
+# (node:56182) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: touch movement is camera-relative at each quarter turn and does not invent diagonal tile movement
+ok 134 - touch movement is camera-relative at each quarter turn and does not invent diagonal tile movement
+  ---
+  duration_ms: 1.204584
+  type: 'test'
+  ...
+# Subtest: keyboard ownership wins without touch release clearing held keys, including opposed input and right Shift
+ok 135 - keyboard ownership wins without touch release clearing held keys, including opposed input and right Shift
+  ---
+  duration_ms: 0.220041
+  type: 'test'
+  ...
+# Subtest: explicit muted preferences survive reload; missing legacy music setting becomes a tap-unlocked default
+ok 136 - explicit muted preferences survive reload; missing legacy music setting becomes a tap-unlocked default
+  ---
+  duration_ms: 0.356333
+  type: 'test'
+  ...
+# Subtest: corrupt/private storage and invalid individual preference fields do not disable input
+ok 137 - corrupt/private storage and invalid individual preference fields do not disable input
+  ---
+  duration_ms: 0.24425
+  type: 'test'
+  ...
+# (node:56183) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all540 original day/night header cues and map region values match original C source
+ok 138 - all540 original day/night header cues and map region values match original C source
+  ---
+  duration_ms: 8.352375
+  type: 'test'
+  ...
+# Subtest: native RTC/story/Surf suppression and Vermilion flypoint ABI remain exact
+ok 139 - native RTC/story/Surf suppression and Vermilion flypoint ABI remain exact
+  ---
+  duration_ms: 2.890208
+  type: 'test'
+  ...
+# Subtest: all103 catalogued native field/battle cues are ready or literal note-free silence, never substitute or unexported
+ok 140 - all103 catalogued native field/battle cues are ready or literal note-free silence, never substitute or unexported
+  ---
+  duration_ms: 0.944666
+  type: 'test'
+  ...
+# Subtest: source hashes and exact native INFO/FAT sequence/bank/SWAR dependencies are independently verified
+ok 141 - source hashes and exact native INFO/FAT sequence/bank/SWAR dependencies are independently verified
+  ---
+  duration_ms: 103.071541
+  type: 'test'
+  ...
+# Subtest: every deployed AAC/MP3 payload matches checksum and independently measured priming/frame/alignment receipts
+ok 142 - every deployed AAC/MP3 payload matches checksum and independently measured priming/frame/alignment receipts
+  ---
+  duration_ms: 1099.390333
+  type: 'test'
+  ...
+# Subtest: small runtime catalog is exactly the source proof projection and ships each payload only once
+ok 143 - small runtime catalog is exactly the source proof projection and ships each payload only once
+  ---
+  duration_ms: 4.216292
+  type: 'test'
+  ...
+# (node:56186) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+ok 144 - native resolver preserves RTC boundary, story flag order, Surf suppression and saved override precedence
+  ---
+  duration_ms: 1.366667
+  type: 'test'
+  ...
+# Subtest: construction and map intent fetch no songs or Context until synchronous gesture unlock
+ok 145 - construction and map intent fetch no songs or Context until synchronous gesture unlock
+  ---
+  duration_ms: 19.5205
+  type: 'test'
+  ...
+# Subtest: same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+ok 146 - same native cue across headers preserves actual phase/identity and changing cues stops the old voice
+  ---
+  duration_ms: 1.494125
+  type: 'test'
+  ...
+# Subtest: mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+ok 147 - mute/volume owns the shared gain and preserves the paused phase without a new download or intro restart
+  ---
+  duration_ms: 1.3325
+  type: 'test'
+  ...
+# Subtest: unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+ok 148 - unsupported primary mobile codec falls back to the independently checksummed MP3 and no unsupported tune substitutes
+  ---
+  duration_ms: 1.758375
+  type: 'test'
+  ...
+# Subtest: bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+ok 149 - bad decoded timing rejects all formats explicitly instead of claiming enabled silent success
+  ---
+  duration_ms: 1.377292
+  type: 'test'
+  ...
+# Subtest: latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+ok 150 - latest cue wins an in-flight switch; late bytes from an aborted older request cannot start a node
+  ---
+  duration_ms: 2.016
+  type: 'test'
+  ...
+# Subtest: late map-catalog completion cannot overwrite a newer direct cue intent
+ok 151 - late map-catalog completion cannot overwrite a newer direct cue intent
+  ---
+  duration_ms: 112.612792
+  type: 'test'
+  ...
+# Subtest: external abort during cue loading cannot interrupt the prior committed voice or start late audio
+ok 152 - external abort during cue loading cannot interrupt the prior committed voice or start late audio
+  ---
+  duration_ms: 1.7115
+  type: 'test'
+  ...
+# Subtest: field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+ok 153 - field interruption captures authoritative paused phase after loading latency and restore ignores the aborted hatch signal
+  ---
+  duration_ms: 1.706334
+  type: 'test'
+  ...
+# Subtest: a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+ok 154 - a newer map intent while interrupted replaces the old song on resume instead of resurrecting stale field music
+  ---
+  duration_ms: 2.872542
+  type: 'test'
+  ...
+# Subtest: shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+ok 155 - shared hatch transport uses the already unlocked context, retains volume and disposes only its own nodes
+  ---
+  duration_ms: 5.197208
+  type: 'test'
+  ...
+# Subtest: whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+ok 156 - whole-player disposal rejects active shared voices, closes one context and never revives on a late operation
+  ---
+  duration_ms: 0.9405
+  type: 'test'
+  ...
+# Subtest: blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+ok 157 - blocked gesture unlock times out explicitly, and a later real gesture can retry the same Context
+  ---
+  duration_ms: 21.557375
+  type: 'test'
+  ...
+# Subtest: catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+ok 158 - catalog failure is retryable and deliberate muted intent does not fetch or decode a song
+  ---
+  duration_ms: 0.436041
+  type: 'test'
+  ...
+# Subtest: failed field restore is retryable and cannot silently mark a missing restored song successful
+ok 159 - failed field restore is retryable and cannot silently mark a missing restored song successful
+  ---
+  duration_ms: 3.092
+  type: 'test'
+  ...
+# Subtest: missing map stops old committed and late-loading music rather than retaining stale intent
+ok 160 - missing map stops old committed and late-loading music rather than retaining stale intent
+  ---
+  duration_ms: 1.469083
+  type: 'test'
+  ...
+# Subtest: native sequence identity preserves phase across map/override/radio label changes
+ok 161 - native sequence identity preserves phase across map/override/radio label changes
+  ---
+  duration_ms: 1.320625
+  type: 'test'
+  ...
+# Subtest: volume-only preferences share the active load without dropping its caller cancellation
+ok 162 - volume-only preferences share the active load without dropping its caller cancellation
+  ---
+  duration_ms: 92.630041
+  type: 'test'
+  ...
+# Subtest: battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+ok 163 - battle cue session owns a distinct voice, restores actual field phase and rejects nested interruptions
+  ---
+  duration_ms: 2.722958
+  type: 'test'
+  ...
+# Subtest: battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+ok 164 - battle abort stops owned cue and blackout/new map intent wins the return; failed restore can retry
+  ---
+  duration_ms: 1.629792
+  type: 'test'
+  ...
+# Subtest: muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+ok 165 - muted battle requests no song, unmute starts its native cue, mute/unmute retains its phase
+  ---
+  duration_ms: 0.621083
+  type: 'test'
+  ...
+# Subtest: restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+ok 166 - restoring a battle session while its fetch ignores abort cannot leak a late battle voice
+  ---
+  duration_ms: 0.335459
+  type: 'test'
+  ...
+# Subtest: a newer map during slow restore owns playback and cannot re-arm stale interruption
+ok 167 - a newer map during slow restore owns playback and cannot re-arm stale interruption
+  ---
+  duration_ms: 5.195125
+  type: 'test'
+  ...
+# Subtest: an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+ok 168 - an encounter before first gesture records locked ownership; unlock starts encounter music, not field
+  ---
+  duration_ms: 0.9525
+  type: 'test'
+  ...
+# Subtest: repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+ok 169 - repeated successful gesture unlock shares in-flight music loading and original caller cancellation
+  ---
+  duration_ms: 0.783125
+  type: 'test'
+  ...
+# Subtest: mute changes after encounter abort do not resurrect or reject its terminated owned cue
+ok 170 - mute changes after encounter abort do not resurrect or reject its terminated owned cue
+  ---
+  duration_ms: 1.07475
+  type: 'test'
+  ...
+# Subtest: restore in the suspension microtask cancels start and coherently releases the field
+ok 171 - restore in the suspension microtask cancels start and coherently releases the field
+  ---
+  duration_ms: 1.078083
+  type: 'test'
+  ...
+# Subtest: same native cue source label changes while interrupted remain current after phase restoration
+ok 172 - same native cue source label changes while interrupted remain current after phase restoration
+  ---
+  duration_ms: 0.949167
+  type: 'test'
+  ...
+# Subtest: catalog caller cancellation rejects promptly without poisoning a shared consumer
+ok 173 - catalog caller cancellation rejects promptly without poisoning a shared consumer
+  ---
+  duration_ms: 0.4165
+  type: 'test'
+  ...
+# Subtest: catalog deadline evicts a hung shared request and cannot adopt its late result
+ok 174 - catalog deadline evicts a hung shared request and cannot adopt its late result
+  ---
+  duration_ms: 16.014584
+  type: 'test'
+  ...
+# Subtest: abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+ok 175 - abort-aware fetch observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 0.594292
+  type: 'test'
+  ...
+# Subtest: abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+ok 176 - abort-aware digest observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 49.313542
+  type: 'test'
+  ...
+# Subtest: abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+ok 177 - abort-aware decode observation rejects without waiting for ignored abort, and late completion is not cached
+  ---
+  duration_ms: 10.320166
+  type: 'test'
+  ...
+# Subtest: background fetch deadline aborts the owner without attempting another codec or starting late audio
+ok 178 - background fetch deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 15.992917
+  type: 'test'
+  ...
+# Subtest: background decode deadline aborts the owner without attempting another codec or starting late audio
+ok 179 - background decode deadline aborts the owner without attempting another codec or starting late audio
+  ---
+  duration_ms: 16.208416
+  type: 'test'
+  ...
+# Subtest: a caller deadline during field restore preserves retryable interruption and no late voice
+ok 180 - a caller deadline during field restore preserves retryable interruption and no late voice
+  ---
+  duration_ms: 0.741541
+  type: 'test'
+  ...
+# Subtest: cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+ok 181 - cue session restore abort stops its owned voice immediately, keeps failed cleanup retryable and releases ownership on success
+  ---
+  duration_ms: 1.27325
+  type: 'test'
+  ...
+# Subtest: already-aborted restore still tears down the session voice before rejecting, then can retry
+ok 182 - already-aborted restore still tears down the session voice before rejecting, then can retry
+  ---
+  duration_ms: 2.352542
+  type: 'test'
+  ...
+# Subtest: aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+ok 183 - aborted session catalog wait and disposed player reject despite a loader ignoring cancellation
+  ---
+  duration_ms: 0.502416
+  type: 'test'
+  ...
+# Subtest: shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+ok 184 - shared hatch decode observes owner disposal and cannot cache or play a late decoded result
+  ---
+  duration_ms: 0.710375
+  type: 'test'
+  ...
+# Subtest: isUnlocked reports actual Context permission separately from music preparation success
+ok 185 - isUnlocked reports actual Context permission separately from music preparation success
+  ---
+  duration_ms: 0.72225
+  type: 'test'
+  ...
+# Subtest: player disposal rejects a pending field restore instead of reporting a newer-map success
+ok 186 - player disposal rejects a pending field restore instead of reporting a newer-map success
+  ---
+  duration_ms: 0.517166
+  type: 'test'
+  ...
+# Subtest: player disposal rejects a pending session restore instead of reporting a newer-map success
+ok 187 - player disposal rejects a pending session restore instead of reporting a newer-map success
+  ---
+  duration_ms: 0.336541
+  type: 'test'
+  ...
+# (node:56187) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: south exit mats and side gates require pushing their source direction, not stepping across
+ok 188 - south exit mats and side gates require pushing their source direction, not stepping across
+  ---
+  duration_ms: 0.959709
+  type: 'test'
+  ...
+# Subtest: north entrances, panels, ladders and escalators preserve their native transition facing
+ok 189 - north entrances, panels, ladders and escalators preserve their native transition facing
+  ---
+  duration_ms: 0.131167
+  type: 'test'
+  ...
+# Subtest: connections run transition only while battle returns rebuild through load and resume
+ok 190 - connections run transition only while battle returns rebuild through load and resume
+  ---
+  duration_ms: 0.509209
+  type: 'test'
+  ...
+# Subtest: native north/south ladders warp on directional push even with clear floor ahead
+ok 191 - native north/south ladders warp on directional push even with clear floor ahead
+  ---
+  duration_ms: 0.125292
+  type: 'test'
+  ...
+# Subtest: door arrivals step clear while stairs finish on the anchor facing away from the stair wall
+ok 192 - door arrivals step clear while stairs finish on the anchor facing away from the stair wall
+  ---
+  duration_ms: 0.05825
+  type: 'test'
+  ...
+# (node:56188) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: raised background forest steps receive opaque sides down to adjacent matrix ground
+ok 193 - raised background forest steps receive opaque sides down to adjacent matrix ground
+  ---
+  duration_ms: 1.869583
+  type: 'test'
+  ...
+# (node:56189) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual solid stools block entry from all sides and swept movement while adjacent tiles stay open
+ok 194 - actual solid stools block entry from all sides and swept movement while adjacent tiles stay open
+  ---
+  duration_ms: 73.201084
+  type: 'test'
+  ...
+# Subtest: furniture respects rotated bench footprints and separate floor heights
+ok 195 - furniture respects rotated bench footprints and separate floor heights
+  ---
+  duration_ms: 1.20575
+  type: 'test'
+  ...
+# Subtest: world movement combines native floor permissions with cached furniture collision
+ok 196 - world movement combines native floor permissions with cached furniture collision
+  ---
+  duration_ms: 2.062458
+  type: 'test'
+  ...
+# Subtest: a save near a thin seat can move away but cannot cross through its footprint
+ok 197 - a save near a thin seat can move away but cannot cross through its footprint
+  ---
+  duration_ms: 0.228625
+  type: 'test'
+  ...
+# Subtest: furniture extending across a cell border blocks movement until its owning cell unloads
+ok 198 - furniture extending across a cell border blocks movement until its owning cell unloads
+  ---
+  duration_ms: 1.723666
+  type: 'test'
+  ...
+# (node:56191) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: seat repairs preserve transformed prop roots, source materials and separate floor shadows
+ok 199 - seat repairs preserve transformed prop roots, source materials and separate floor shadows
+  ---
+  duration_ms: 11.9385
+  type: 'test'
+  ...
+# Subtest: unrelated floor pictures and already volumetric furniture keep their source geometry
+ok 200 - unrelated floor pictures and already volumetric furniture keep their source geometry
+  ---
+  duration_ms: 1.163666
+  type: 'test'
+  ...
+# (node:56192) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: grass volume is deterministic and stays on original walkable tall-grass tiles
+ok 201 - grass volume is deterministic and stays on original walkable tall-grass tiles
+  ---
+  duration_ms: 137.551167
+  type: 'test'
+  ...
+# (node:56193) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+ok 202 - owned menu and Bag return through their parents with keyboard Back and consume field confirmation
+  ---
+  duration_ms: 88.20625
+  type: 'test'
+  ...
+# Subtest: owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+ok 203 - owned menus initially focus a real action and Bag re-renders retain focus on the selected pocket
+  ---
+  duration_ms: 74.663917
+  type: 'test'
+  ...
+# Subtest: native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+ok 204 - native menu unlocks hide unavailable panels and empty party while missing state opens nothing
+  ---
+  duration_ms: 1.031209
+  type: 'test'
+  ...
+# Subtest: party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+ok 205 - party delegates its entire owned flow when the host supplies native Summary/Switch/Egg actions
+  ---
+  duration_ms: 0.48575
+  type: 'test'
+  ...
+# Subtest: fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+ok 206 - fallback party and summary escape labels, preserve PP, and conceal Egg species and HP
+  ---
+  duration_ms: 3.2375
+  type: 'test'
+  ...
+# Subtest: Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+ok 207 - Save reports its actual result, remains in menu, and never dispatches confirmation into the field
+  ---
+  duration_ms: 2.080958
+  type: 'test'
+  ...
+# Subtest: settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+ok 208 - settings persist mute, volume, camera and text preferences while routing touch and battle options separately
+  ---
+  duration_ms: 2.986417
+  type: 'test'
+  ...
+# Subtest: title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+ok 209 - title settings avoid game-state save and keep range/editor keys native while explicit Back closes ownership
+  ---
+  duration_ms: 11.458333
+  type: 'test'
+  ...
+# Subtest: Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+ok 210 - Settings exposes explicit music retry, disables duplicate requests and follows owned playback status
+  ---
+  duration_ms: 5.102792
+  type: 'test'
+  ...
+# Subtest: a pending Settings music retry releases exact handlers and subscription without altering its replacement
+ok 211 - a pending Settings music retry releases exact handlers and subscription without altering its replacement
+  ---
+  duration_ms: 1.731833
+  type: 'test'
+  ...
+# Subtest: settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+ok 212 - settings inside menu return on Done, heading Back, B and Escape without resolving the parent prematurely
+  ---
+  duration_ms: 4.375458
+  type: 'test'
+  ...
+# Subtest: replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+ok 213 - replacing settings detaches exact callbacks, rejects its owner and cannot mutate or close the replacement
+  ---
+  duration_ms: 0.658042
+  type: 'test'
+  ...
+# Subtest: a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+ok 214 - a stale Save callback cannot save, unlock sound, navigate, or resolve a replacement after menu cancellation
+  ---
+  duration_ms: 0.201916
+  type: 'test'
+  ...
+# (node:56194) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a failed original item standard503 is evicted so the same VM/context retries and picks up the intended event
+ok 215 - a failed original item standard503 is evicted so the same VM/context retries and picks up the intended event
+  ---
+  duration_ms: 13.013166
+  type: 'test'
+  ...
+# Subtest: a failed TM move-name asset after Hide/Give rolls back State and actor overrides, and retries from the source without duplicate items
+ok 216 - a failed TM move-name asset after Hide/Give rolls back State and actor overrides, and retries from the source without duplicate items
+  ---
+  duration_ms: 14.125083
+  type: 'test'
+  ...
+# Subtest: all255 literal item definitions and the explicit shared tail execute real0141 scripts, with success and native full-stack no-hide paths
+ok 217 - all255 literal item definitions and the explicit shared tail execute real0141 scripts, with success and native full-stack no-hide paths
+  ---
+  duration_ms: 3140.721292
+  type: 'test'
+  ...
+# {"literalDefinitions":255,"successes":255,"fullBag":255,"tmDefinitions":37,"sharedTail":1}
+# Subtest: all257 exported mapped item balls hide only themselves, persist their source flags on re-entry/Continue and preserve full bags
+ok 218 - all257 exported mapped item balls hide only themselves, persist their source flags on re-entry/Continue and preserve full bags
+  ---
+  duration_ms: 3437.080375
+  type: 'test'
+  ...
+# 257 success +257 full-bag mapped actions, all source hide flags and event IDs covered;254 distinct standard IDs
+# Subtest: the actual saturated native Items pocket rejects a new source item without deleting its ball or altering existing stacks
+ok 219 - the actual saturated native Items pocket rejects a new source item without deleting its ball or altering existing stacks
+  ---
+  duration_ms: 29.316958
+  type: 'test'
+  ...
+# Subtest: all four local source pickups also support success, persistence, full bag and late failure/retry; Oak script0 balls stay displays
+ok 220 - all four local source pickups also support success, persistence, full bag and late failure/retry; Oak script0 balls stay displays
+  ---
+  duration_ms: 13.369791
+  type: 'test'
+  ...
+# All264 source ball objects classified:261 genuine pickups (257 standard +4 local),3 script0 Oak starter displays
+# Subtest: late message/final-refresh failures restore the whole State and exact preexisting shown/facing/position records before retry
+ok 221 - late message/final-refresh failures restore the whole State and exact preexisting shown/facing/position records before retry
+  ---
+  duration_ms: 86.76675
+  type: 'test'
+  ...
+# Subtest: recovery refresh failure preserves restored State and reports both errors instead of silently declaring a pickup complete
+ok 222 - recovery refresh failure preserves restored State and reports both errors instead of silently declaring a pickup complete
+  ---
+  duration_ms: 0.940875
+  type: 'test'
+  ...
+# Subtest: all100 generated TM/HM entries match literal native item.c order and inclusive command boundaries
+ok 223 - all100 generated TM/HM entries match literal native item.c order and inclusive command boundaries
+  ---
+  duration_ms: 24.693542
+  type: 'test'
+  ...
+# Subtest: item script/fanfare reachable closure contains no warp, object creation or movement and uses only the declared native item source
+ok 224 - item script/fanfare reachable closure contains no warp, object creation or movement and uses only the declared native item source
+  ---
+  duration_ms: 2.202083
+  type: 'test'
+  ...
+# Subtest: HidePerson sets real delete flags, retains FLAG_NOTHING local hiding and leaves broader ShowPerson flag behavior unchanged
+ok 225 - HidePerson sets real delete flags, retains FLAG_NOTHING local hiding and leaves broader ShowPerson flag behavior unchanged
+  ---
+  duration_ms: 0.441458
+  type: 'test'
+  ...
+# Subtest: only the exact16px item-ball family receives source-relative sizing; other NPC and follower sizes remain unchanged
+ok 226 - only the exact16px item-ball family receives source-relative sizing; other NPC and follower sizes remain unchanged
+  ---
+  duration_ms: 0.22525
+  type: 'test'
+  ...
+# (node:56196) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native ledges allow only their original downhill jump direction
+ok 227 - native ledges allow only their original downhill jump direction
+  ---
+  duration_ms: 0.859584
+  type: 'test'
+  ...
+# Subtest: jump arcs connect actual terrace heights continuously without overshooting the endpoints
+ok 228 - jump arcs connect actual terrace heights continuously without overshooting the endpoints
+  ---
+  duration_ms: 0.161083
+  type: 'test'
+  ...
+# Subtest: exported Route 29 ledges have distinct upper/lower heights and continuous open edges across cell borders
+ok 229 - exported Route 29 ledges have distinct upper/lower heights and continuous open edges across cell borders
+  ---
+  duration_ms: 8282.798
+  type: 'test'
+  ...
+# Subtest: terrain displacement keeps every affected native water tile flat at its original level
+ok 230 - terrain displacement keeps every affected native water tile flat at its original level
+  ---
+  duration_ms: 543.576041
+  type: 'test'
+  ...
+# Subtest: every raised native ledge retains a physical drop at its edge midpoint, including single-tile ends
+ok 231 - every raised native ledge retains a physical drop at its edge midpoint, including single-tile ends
+  ---
+  duration_ms: 672.416834
+  type: 'test'
+  ...
+# Subtest: major outdoor structures sit on flat terrace offsets through their complete source footprints
+ok 232 - major outdoor structures sit on flat terrace offsets through their complete source footprints
+  ---
+  duration_ms: 671.278583
+  type: 'test'
+  ...
+# (node:56197) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+ok 233 - actual main bindings retain a held joystick/camera across a tile tween and a deferred seamless connection
+  ---
+  duration_ms: 168.489166
+  type: 'test'
+  ...
+# main SHA256 a47f91f4abf3e1217b4b94bf08a8273e2f26c68b806347f83ea27e4290bae04e; selected actual bindings 9c25465eacb7fdfd0a8f0502c58c26dab7c920118f9a03c7e6fed2e8979e189b
+# Subtest: actual source script, room entry, menu and battle release all held field inputs before awaited work
+ok 234 - actual source script, room entry, menu and battle release all held field inputs before awaited work
+  ---
+  duration_ms: 667.862666
+  type: 'test'
+  ...
+# Subtest: room warp resets touch/camera immediately even when destination metadata rejects before entry
+ok 235 - room warp resets touch/camera immediately even when destination metadata rejects before entry
+  ---
+  duration_ms: 12.713583
+  type: 'test'
+  ...
+# Subtest: touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+ok 236 - touch Run drives the real .14 movement and encounter flag only when running shoes are enabled
+  ---
+  duration_ms: 427.744792
+  type: 'test'
+  ...
+# Subtest: actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+ok 237 - actual UI capture consumes choice/dialogue confirmation before the main field handler, including after modal close
+  ---
+  duration_ms: 4.870167
+  type: 'test'
+  ...
+# Subtest: field Enter prevents the restored HUD button default from reopening a menu after it closes
+ok 238 - field Enter prevents the restored HUD button default from reopening a menu after it closes
+  ---
+  duration_ms: 159.065875
+  type: 'test'
+  ...
+# Subtest: actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+ok 239 - actual root hidden/blur/pagehide bindings clear keyboard, joystick and camera ownership
+  ---
+  duration_ms: 317.05025
+  type: 'test'
+  ...
+# Subtest: actual context sync disables held input for UI, script, battle, transition and pickup recovery locks
+ok 240 - actual context sync disables held input for UI, script, battle, transition and pickup recovery locks
+  ---
+  duration_ms: 551.343167
+  type: 'test'
+  ...
+# Subtest: keyboard admission and Q/E camera polling respect the same pickup recovery lock as touch and drag
+ok 241 - keyboard admission and Q/E camera polling respect the same pickup recovery lock as touch and drag
+  ---
+  duration_ms: 103.918042
+  type: 'test'
+  ...
+# Subtest: frame scenes cannot start during a pickup recovery or another owned modal action
+ok 242 - frame scenes cannot start during a pickup recovery or another owned modal action
+  ---
+  duration_ms: 101.030833
+  type: 'test'
+  ...
+# Subtest: actual save reports blocked or unavailable persistence without replacing the existing slot
+ok 243 - actual save reports blocked or unavailable persistence without replacing the existing slot
+  ---
+  duration_ms: 134.240709
+  type: 'test'
+  ...
+# Subtest: title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+ok 244 - title Settings loops retain the existing save, then Continue synchronizes current preferences into gameplay
+  ---
+  duration_ms: 49.451459
+  type: 'test'
+  ...
+# Subtest: Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+ok 245 - Keep existing adventure is explicit cancelIndex0 and returns to title without replacing the save or creating a character
+  ---
+  duration_ms: 17.229333
+  type: 'test'
+  ...
+# Subtest: confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+ok 246 - confirmed New Game and rejected names do not overwrite the old slot until identity completes and gameplay begins
+  ---
+  duration_ms: 290.475209
+  type: 'test'
+  ...
+# Subtest: live preference update uses actual normalization/persistence callback and keeps battle style intact
+ok 247 - live preference update uses actual normalization/persistence callback and keeps battle style intact
+  ---
+  duration_ms: 28.442541
+  type: 'test'
+  ...
+# (node:56198) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual interact/runScript saves one real item, hides the correct rendered object and allows re-entry to keep it collected
+ok 248 - actual interact/runScript saves one real item, hides the correct rendered object and allows re-entry to keep it collected
+  ---
+  duration_ms: 65.444667
+  type: 'test'
+  ...
+# {"mainSha256":"a47f91f4abf3e1217b4b94bf08a8273e2f26c68b806347f83ea27e4290bae04e","actualBindingsSha256":"4145ce9a5477935389ca64f3394a45fd4b89a327db61a219746215344f56c737","worldSha256":"5f20e9a49b57834e6ce33a92b8a637bfca089b329dc2fb2a07ae7f5d286a326b","npcScalingBindingSha256":"8297e66d8767e2cbbbf450bad63e7934e46a1961296e09fa456107d591ef20c6"}
+# Subtest: a post-VM HUD failure followed by Return restores State/live actors and saves no reward or hide flag
+ok 249 - a post-VM HUD failure followed by Return restores State/live actors and saves no reward or hide flag
+  ---
+  duration_ms: 5.63525
+  type: 'test'
+  ...
+# Subtest: actual Retry replays the restored pickup once and commits exactly one item after a late message failure
+ok 250 - actual Retry replays the restored pickup once and commits exactly one item after a late message failure
+  ---
+  duration_ms: 3.056209
+  type: 'test'
+  ...
+# Subtest: the actual full-bag host shows native failure without deleting/rewarding the ball or opening recovery UI
+ok 251 - the actual full-bag host shows native failure without deleting/rewarding the ball or opening recovery UI
+  ---
+  duration_ms: 2.024917
+  type: 'test'
+  ...
+# Subtest: actual local Lake of Rage and Mt. Moon interactions enter the same main transaction despite having no7000+ script ID
+ok 252 - actual local Lake of Rage and Mt. Moon interactions enter the same main transaction despite having no7000+ script ID
+  ---
+  duration_ms: 6.936958
+  type: 'test'
+  ...
+# Subtest: a failed recovery refresh blocks save and all field controls until actual Retry succeeds, without duplicating its provisional item
+ok 253 - a failed recovery refresh blocks save and all field controls until actual Retry succeeds, without duplicating its provisional item
+  ---
+  duration_ms: 2.718542
+  type: 'test'
+  ...
+# Subtest: an interrupted refresh-failure prompt fails closed: the actual post-catch save, step, interaction, menu and camera stay blocked
+ok 254 - an interrupted refresh-failure prompt fails closed: the actual post-catch save, step, interaction, menu and camera stay blocked
+  ---
+  duration_ms: 2.282375
+  type: 'test'
+  ...
+# Subtest: the actual automatic frame gate also stays closed after failed item hydration and an interrupted recovery prompt
+ok 255 - the actual automatic frame gate also stays closed after failed item hydration and an interrupted recovery prompt
+  ---
+  duration_ms: 2.501541
+  type: 'test'
+  ...
+# Subtest: the actual World.updateNPCs binding calibrates only the original16px ball to1unit beside2unit hero and1.4unit follower
+ok 256 - the actual World.updateNPCs binding calibrates only the original16px ball to1unit beside2unit hero and1.4unit follower
+  ---
+  duration_ms: 0.872625
+  type: 'test'
+  ...
+# (node:56199) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual gesture handler invokes unlock synchronously, deduplicates pending gestures and permits retry after rejection
+ok 257 - actual gesture handler invokes unlock synchronously, deduplicates pending gestures and permits retry after rejection
+  ---
+  duration_ms: 318.036083
+  type: 'test'
+  ...
+# main SHA256 a47f91f4abf3e1217b4b94bf08a8273e2f26c68b806347f83ea27e4290bae04e; actual music bindings 6fd5ac08544ae147530bb0b091992e3ed0e7ba2bb1bb3b6061bf6892b8a055c6
+# Subtest: actual preference construction migrates defaults and preserves explicit mute through gameplay entry and gesture unlock
+ok 258 - actual preference construction migrates defaults and preserves explicit mute through gameplay entry and gesture unlock
+  ---
+  duration_ms: 410.181125
+  type: 'test'
+  ...
+# Subtest: actual map music synchronization deduplicates intent and suppresses failures from a replaced map request
+ok 259 - actual map music synchronization deduplicates intent and suppresses failures from a replaced map request
+  ---
+  duration_ms: 150.326
+  type: 'test'
+  ...
+# Subtest: ordinary field gestures and key repeats do not retry a failed song or repeat its error toast
+ok 260 - ordinary field gestures and key repeats do not retry a failed song or repeat its error toast
+  ---
+  duration_ms: 142.149625
+  type: 'test'
+  ...
+# Subtest: a resumed Context with a failed initial song remains unlocked without gesture retries and recovers through Settings Retry
+ok 261 - a resumed Context with a failed initial song remains unlocked without gesture retries and recovers through Settings Retry
+  ---
+  duration_ms: 148.115167
+  type: 'test'
+  ...
+# Subtest: a first gesture song load replaced by a successful new map does not report an outage or replace that map
+ok 262 - a first gesture song load replaced by a successful new map does not report an outage or replace that map
+  ---
+  duration_ms: 106.995375
+  type: 'test'
+  ...
+# Subtest: a newer map does not hide a genuine Context permission rejection from the first gesture
+ok 263 - a newer map does not hide a genuine Context permission rejection from the first gesture
+  ---
+  duration_ms: 99.822708
+  type: 'test'
+  ...
+# Subtest: text/camera preferences do not touch audio, and explicit Retry exposes observable retryability
+ok 264 - text/camera preferences do not touch audio, and explicit Retry exposes observable retryability
+  ---
+  duration_ms: 108.570042
+  type: 'test'
+  ...
+# Subtest: late map success cannot erase a newer map failure diagnostic
+ok 265 - late map success cannot erase a newer map failure diagnostic
+  ---
+  duration_ms: 14.657083
+  type: 'test'
+  ...
+# Subtest: rapid volume changes ignore a superseded request even when the final content key is unchanged
+ok 266 - rapid volume changes ignore a superseded request even when the final content key is unchanged
+  ---
+  duration_ms: 181.589667
+  type: 'test'
+  ...
+# Subtest: actual battle setup uses the source trainer class, first living wild species and native cue selector
+ok 267 - actual battle setup uses the source trainer class, first living wild species and native cue selector
+  ---
+  duration_ms: 475.148875
+  type: 'test'
+  ...
+# Subtest: awaited cue preparation locks movement, menu, save, source frames and keyboard/drag camera before Battle.active
+ok 268 - awaited cue preparation locks movement, menu, save, source frames and keyboard/drag camera before Battle.active
+  ---
+  duration_ms: 24.334375
+  type: 'test'
+  ...
+# Subtest: a stalled shared catalog yields to the battle deadline without starting a late cue
+ok 269 - a stalled shared catalog yields to the battle deadline without starting a late cue
+  ---
+  duration_ms: 19.015125
+  type: 'test'
+  ...
+# Subtest: a stalled fetch cannot delay battle past the preparation deadline or start a late cue
+ok 270 - a stalled fetch cannot delay battle past the preparation deadline or start a late cue
+  ---
+  duration_ms: 169.487666
+  type: 'test'
+  ...
+# Subtest: a stalled decode cannot delay battle past the preparation deadline or start a late cue
+ok 271 - a stalled decode cannot delay battle past the preparation deadline or start a late cue
+  ---
+  duration_ms: 116.484083
+  type: 'test'
+  ...
+# Subtest: a stalled blackout restore releases gameplay at the return deadline and late bytes cannot beat a newer map
+ok 272 - a stalled blackout restore releases gameplay at the return deadline and late bytes cannot beat a newer map
+  ---
+  duration_ms: 141.603209
+  type: 'test'
+  ...
+# Subtest: failed cue decoding still runs the battle with old field phase paused, then restores it
+ok 273 - failed cue decoding still runs the battle with old field phase paused, then restores it
+  ---
+  duration_ms: 19.544541
+  type: 'test'
+  ...
+# Subtest: battle throw restores its actual field phase and releases the audio host lock without saving a battle result
+ok 274 - battle throw restores its actual field phase and releases the audio host lock without saving a battle result
+  ---
+  duration_ms: 222.294583
+  type: 'test'
+  ...
+# Subtest: blackout retains music ownership until the desired spawn map is known, then restores only that map and resumes its frame scene once
+ok 275 - blackout retains music ownership until the desired spawn map is known, then restores only that map and resumes its frame scene once
+  ---
+  duration_ms: 162.709916
+  type: 'test'
+  ...
+# Subtest: retained destination restore ownership recovers only through explicit Retry or a newer map intent
+ok 276 - retained destination restore ownership recovers only through explicit Retry or a newer map intent
+  ---
+  duration_ms: 143.353166
+  type: 'test'
+  ...
+# Subtest: an unavailable return-map music selection never leaves the completed battle cue looping in the field
+ok 277 - an unavailable return-map music selection never leaves the completed battle cue looping in the field
+  ---
+  duration_ms: 15.533375
+  type: 'test'
+  ...
+# Subtest: actual catching-tutorial hook uses the shared native cue owner and battleType 1<<10, then resumes source entry after release
+ok 278 - actual catching-tutorial hook uses the shared native cue owner and battleType 1<<10, then resumes source entry after release
+  ---
+  duration_ms: 14.746416
+  type: 'test'
+  ...
+# (node:56201) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: hidden variable-sprite events accept positions before the character is shown
+ok 279 - hidden variable-sprite events accept positions before the character is shown
+  ---
+  duration_ms: 1.533083
+  type: 'test'
+  ...
+# Subtest: refresh preserves source object state and re-entry reloads the original event table
+ok 280 - refresh preserves source object state and re-entry reloads the original event table
+  ---
+  duration_ms: 0.397042
+  type: 'test'
+  ...
+# Subtest: source visibility flags and explicit hide/show are respected
+ok 281 - source visibility flags and explicit hide/show are respected
+  ---
+  duration_ms: 0.279917
+  type: 'test'
+  ...
+# Subtest: Continue restores active NPC positions and hidden state without changing another map
+ok 282 - Continue restores active NPC positions and hidden state without changing another map
+  ---
+  duration_ms: 1.04
+  type: 'test'
+  ...
+# Subtest: movement variants preserve facing, repetition and far-jump tile distance
+ok 283 - movement variants preserve facing, repetition and far-jump tile distance
+  ---
+  duration_ms: 0.329458
+  type: 'test'
+  ...
+# (node:56202) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a missing rear surface becomes a closed prism, with every edge used twice
+ok 284 - a missing rear surface becomes a closed prism, with every edge used twice
+  ---
+  duration_ms: 22.089917
+  type: 'test'
+  ...
+# Subtest: one-sided building and small-prop geometry gets solid rear surfaces
+ok 285 - one-sided building and small-prop geometry gets solid rear surfaces
+  ---
+  duration_ms: 9.803584
+  type: 'test'
+  ...
+# Subtest: fully volumetric props and translucent ground shadows are left intact
+ok 286 - fully volumetric props and translucent ground shadows are left intact
+  ---
+  duration_ms: 1.447666
+  type: 'test'
+  ...
+# Subtest: a disconnected mailbox gets its own local backing rather than the building bounds
+ok 287 - a disconnected mailbox gets its own local backing rather than the building bounds
+  ---
+  duration_ms: 1.297416
+  type: 'test'
+  ...
+# Subtest: an original front doorway does not create a transparent hole through the rear
+ok 288 - an original front doorway does not create a transparent hole through the rear
+  ---
+  duration_ms: 67.634958
+  type: 'test'
+  ...
+# Subtest: tilted original tree planes become upright instanced camera-facing artwork
+ok 289 - tilted original tree planes become upright instanced camera-facing artwork
+  ---
+  duration_ms: 7.852875
+  type: 'test'
+  ...
+# Subtest: blended source materials retain their original depth-write setting
+ok 290 - blended source materials retain their original depth-write setting
+  ---
+  duration_ms: 0.332042
+  type: 'test'
+  ...
+# Subtest: recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+ok 291 - recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+  ---
+  duration_ms: 1.517292
+  type: 'test'
+  ...
+# Subtest: a mailbox touching a building at one corner still uses local bounds
+ok 292 - a mailbox touching a building at one corner still uses local bounds
+  ---
+  duration_ms: 0.848667
+  type: 'test'
+  ...
+# Subtest: a source entrance closes a partial rear wall across the mirrored doorway opening
+ok 293 - a source entrance closes a partial rear wall across the mirrored doorway opening
+  ---
+  duration_ms: 68.570625
+  type: 'test'
+  ...
+# Subtest: opposing source entrances keep a real passage and unrelated props receive no new wall
+ok 294 - opposing source entrances keep a real passage and unrelated props receive no new wall
+  ---
+  duration_ms: 5.272959
+  type: 'test'
+  ...
+# Subtest: rear closure uses the original world doorway after prop rotation and translation
+ok 295 - rear closure uses the original world doorway after prop rotation and translation
+  ---
+  duration_ms: 1.384
+  type: 'test'
+  ...
+# Subtest: rear wall cladding reuses source wall UVs while staying opaque
+ok 296 - rear wall cladding reuses source wall UVs while staying opaque
+  ---
+  duration_ms: 1.719334
+  type: 'test'
+  ...
+# Subtest: split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+ok 297 - split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+  ---
+  duration_ms: 0.765959
+  type: 'test'
+  ...
+# Subtest: native door direction overrides an ambiguous corner of the building bounds
+ok 298 - native door direction overrides an ambiguous corner of the building bounds
+  ---
+  duration_ms: 1.546292
+  type: 'test'
+  ...
+# Subtest: rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+ok 299 - rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+  ---
+  duration_ms: 2.717291
+  type: 'test'
+  ...
+# Subtest: repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+ok 300 - repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+  ---
+  duration_ms: 2.805458
+  type: 'test'
+  ...
+# Subtest: tilted flower beds become separately rooted crossed clumps with depth
+ok 301 - tilted flower beds become separately rooted crossed clumps with depth
+  ---
+  duration_ms: 2.295209
+  type: 'test'
+  ...
+# Subtest: source fence cards and horizontal atlas runs become solid upright posts and rails
+ok 302 - source fence cards and horizontal atlas runs become solid upright posts and rails
+  ---
+  duration_ms: 0.761625
+  type: 'test'
+  ...
+# Subtest: standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+ok 303 - standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+  ---
+  duration_ms: 0.248583
+  type: 'test'
+  ...
+# Subtest: adjacent leaning rock cards become separate closed boulders with depth in every direction
+ok 304 - adjacent leaning rock cards become separate closed boulders with depth in every direction
+  ---
+  duration_ms: 2.325209
+  type: 'test'
+  ...
+# Subtest: an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+ok 305 - an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+  ---
+  duration_ms: 1.013083
+  type: 'test'
+  ...
+# Subtest: off-centre original trunk art has a matching image offset around its ground pivot
+ok 306 - off-centre original trunk art has a matching image offset around its ground pivot
+  ---
+  duration_ms: 0.328333
+  type: 'test'
+  ...
+# Subtest: open hill and cliff backs receive opaque skirts down to their original base
+ok 307 - open hill and cliff backs receive opaque skirts down to their original base
+  ---
+  duration_ms: 0.488916
+  type: 'test'
+  ...
+# Subtest: raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+ok 308 - raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+  ---
+  duration_ms: 0.767084
+  type: 'test'
+  ...
+# (node:56206) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fresh saves begin in the original bedroom with original money, no starter or items
+ok 309 - fresh saves begin in the original bedroom with original money, no starter or items
+  ---
+  duration_ms: 1.44575
+  type: 'test'
+  ...
+# Subtest: all three level-5 starters receive their original starting moves and PP
+ok 310 - all three level-5 starters receive their original starting moves and PP
+  ---
+  duration_ms: 0.584667
+  type: 'test'
+  ...
+# Subtest: the original mother cutscene unlocks menus and advances only its source scene
+ok 311 - the original mother cutscene unlocks menus and advances only its source scene
+  ---
+  duration_ms: 901.837833
+  type: 'test'
+  ...
+# Subtest: original starter-device script receives one starter and commits the original story flags
+ok 312 - original starter-device script receives one starter and commits the original story flags
+  ---
+  duration_ms: 168.670459
+  type: 'test'
+  ...
+# Subtest: original shared item-gift script resolves variable IDs and gives exactly the requested quantity
+ok 313 - original shared item-gift script resolves variable IDs and gives exactly the requested quantity
+  ---
+  duration_ms: 3.142958
+  type: 'test'
+  ...
+# Subtest: unsupported gameplay commands halt before later story mutations
+ok 314 - unsupported gameplay commands halt before later story mutations
+  ---
+  duration_ms: 1.519084
+  type: 'test'
+  ...
+# Subtest: a looping source script fails explicitly and releases its movement lock
+ok 315 - a looping source script fails explicitly and releases its movement lock
+  ---
+  duration_ms: 2.200292
+  type: 'test'
+  ...
+# Subtest: a failed asynchronous movement stops subsequent story flags
+ok 316 - a failed asynchronous movement stops subsequent story flags
+  ---
+  duration_ms: 1.036958
+  type: 'test'
+  ...
+# Subtest: Gen IV stats retain nature rounding and Steel resists Ghost and Dark
+ok 317 - Gen IV stats retain nature rounding and Steel resists Ghost and Dark
+  ---
+  duration_ms: 0.763333
+  type: 'test'
+  ...
+# Subtest: catch formula has guaranteed and failed bounds and performs four source shake checks
+ok 318 - catch formula has guaranteed and failed bounds and performs four source shake checks
+  ---
+  duration_ms: 0.605458
+  type: 'test'
+  ...
+# Subtest: a script keeps its movement lock until outstanding movement settles after failure
+ok 319 - a script keeps its movement lock until outstanding movement settles after failure
+  ---
+  duration_ms: 9.411583
+  type: 'test'
+  ...
+# Subtest: standard-script resolution does not depend on imported bank order
+ok 320 - standard-script resolution does not depend on imported bank order
+  ---
+  duration_ms: 1.688541
+  type: 'test'
+  ...
+# Subtest: original blocked door tiles enter only their mapped north-facing doorway
+ok 321 - original blocked door tiles enter only their mapped north-facing doorway
+  ---
+  duration_ms: 1.41025
+  type: 'test'
+  ...
+# Subtest: the original Nurse Joy service heals HP, status and PP after its original confirmation
+ok 322 - the original Nurse Joy service heals HP, status and PP after its original confirmation
+  ---
+  duration_ms: 1.856958
+  type: 'test'
+  ...
+# Subtest: declining the original Nurse Joy service preserves party condition
+ok 323 - declining the original Nurse Joy service preserves party condition
+  ---
+  duration_ms: 1.049458
+  type: 'test'
+  ...
+# Subtest: native Flash commands change the field weather and GetWeatherType reads the active effect
+ok 324 - native Flash commands change the field weather and GetWeatherType reads the active effect
+  ---
+  duration_ms: 0.896667
+  type: 'test'
+  ...
+# (node:56211) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native island surf uses the omitted Maya translation, with unchanged geometry and ocean heights
+ok 325 - native island surf uses the omitted Maya translation, with unchanged geometry and ocean heights
+  ---
+  duration_ms: 462.747125
+  type: 'test'
+  ...
+# Subtest: real GLTFLoader clones only the surf transform and originalMaterial keeps native repeat/alpha/flipY
+ok 326 - real GLTFLoader clones only the surf transform and originalMaterial keeps native repeat/alpha/flipY
+  ---
+  duration_ms: 61.22025
+  type: 'test'
+  ...
+# Subtest: all 27 native surf asset variants carry their exact source translation
+ok 327 - all 27 native surf asset variants carry their exact source translation
+  ---
+  duration_ms: 678.598292
+  type: 'test'
+  ...
+# native island backing adjudication {"scope":"Actual originalMaterial/repairOriginalAsset/shorelineUnderlay/terraceModel pipeline; 560 finite native island ray/nearest-PNG samples plus 10 explicit witnesses; no browser/continuous visibility claim","legacyBackingOcclusions":0,"nativeSamples":[{"point":[524.95,406.6],"material":"swave_un","rgba":[231,231,198,255],"y":0.9718750000000256},{"point":[524.15,406.6],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[530.85,407.4],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[528.6,408.85],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[524.4,404.6],"material":"","rgba":[255,255,255,255],"y":1.620667726797297},{"point":[530.4,405.6],"material":"swave_un","rgba":[222,222,189,255],"y":0.7750000000000128},{"point":[530.4,408.6],"material":"swave_un","rgba":[206,198,148,255],"y":0.6624999999999872},{"point":[524.4,408.6],"material":"swave_un","rgba":[206,198,148,255],"y":0.6624999999999872},{"point":[527.4,407.4],"material":"beach01","rgba":[247,247,214,255],"y":1},{"point":[532.3,407.4],"material":"sea_un","rgba":[41,123,255,255],"y":0.4375}]}
+# Subtest: actual native island backing stays below the corrected shoreline at 560 finite samples
+ok 328 - actual native island backing stays below the corrected shoreline at 560 finite samples
+  ---
+  duration_ms: 7556.2125
+  type: 'test'
+  ...
+# (node:56226) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: shoreline backing fills native sand and shallows below the art while deep water stays exposed
+ok 329 - shoreline backing fills native sand and shallows below the art while deep water stays exposed
+  ---
+  duration_ms: 2.794834
+  type: 'test'
+  ...
+# (node:56227) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all imported prop and landscape geometries accept shared rendering repairs without invalid vertices
+ok 330 - all imported prop and landscape geometries accept shared rendering repairs without invalid vertices
+  ---
+  duration_ms: 41055.484959
+  type: 'test'
+  ...
+# Audited 946 prop contexts and 648 landscapes; repaired 668 structural assets and 202 tree assets and 43 upright cut-out assets; 103 solid-fence, 44 flower-volume and 395 terrain-closure contexts; 3622 textured backs.
+# Subtest: all 540 map headers reference existing imported geometry and tile data
+ok 331 - all 540 map headers reference existing imported geometry and tile data
+  ---
+  duration_ms: 956.580458
+  type: 'test'
+  ...
+# Subtest: terrace deformation preserves actual native tree roots and valid geometry across adjacent town/route cells
+ok 332 - terrace deformation preserves actual native tree roots and valid geometry across adjacent town/route cells
+  ---
+  duration_ms: 492.728917
+  type: 'test'
+  ...
+# Subtest: repeated lightmap forest textures resolve to complete individual-tree artwork
+ok 333 - repeated lightmap forest textures resolve to complete individual-tree artwork
+  ---
+  duration_ms: 2.904041
+  type: 'test'
+  ...
+# Subtest: forked roots are grouped without losing off-centre trunks or unmarked multi-tree art
+ok 334 - forked roots are grouped without losing off-centre trunks or unmarked multi-tree art
+  ---
+  duration_ms: 0.791
+  type: 'test'
+  ...
+# Subtest: entrance metadata takes façade direction from native door and gate tiles across the entire matrix
+ok 335 - entrance metadata takes façade direction from native door and gate tiles across the entire matrix
+  ---
+  duration_ms: 1.537
+  type: 'test'
+  ...
+# Subtest: the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs
+ok 336 - the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs
+  ---
+  duration_ms: 221.39025
+  type: 'test'
+  ...
+# Subtest: every native flat-seat variant becomes a closed raised seat while cushions stay low
+ok 337 - every native flat-seat variant becomes a closed raised seat while cushions stay low
+  ---
+  duration_ms: 484.395042
+  type: 'test'
+  ...
+# Verified all 40 native seat/bench/cushion/box texture variants.
+# Subtest: all exported tree shapes retain visible sprite bounds and proven generic material aliases
+ok 338 - all exported tree shapes retain visible sprite bounds and proven generic material aliases
+  ---
+  duration_ms: 0.895834
+  type: 'test'
+  ...
+# (node:56229) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a failed spawn download retries and both callers retain the recovered native rows
+ok 339 - a failed spawn download retries and both callers retain the recovered native rows
+  ---
+  duration_ms: 146.344958
+  type: 'test'
+  ...
+# (node:56232) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original opening quest state: boy, starter 152
+ok 340 - original opening quest state: boy, starter 152
+  ---
+  duration_ms: 1631.200708
+  type: 'test'
+  ...
+# Subtest: original opening quest state: boy, starter 155
+ok 341 - original opening quest state: boy, starter 155
+  ---
+  duration_ms: 1411.842166
+  type: 'test'
+  ...
+# Subtest: original opening quest state: boy, starter 158
+ok 342 - original opening quest state: boy, starter 158
+  ---
+  duration_ms: 1476.746125
+  type: 'test'
+  ...
+# Subtest: original opening quest state: girl, starter 152
+ok 343 - original opening quest state: girl, starter 152
+  ---
+  duration_ms: 1384.827667
+  type: 'test'
+  ...
+# Subtest: original opening quest state: girl, starter 155
+ok 344 - original opening quest state: girl, starter 155
+  ---
+  duration_ms: 1392.8155
+  type: 'test'
+  ...
+# Subtest: original opening quest state: girl, starter 158
+ok 345 - original opening quest state: girl, starter 158
+  ---
+  duration_ms: 1387.130708
+  type: 'test'
+  ...
+# Subtest: losing the initial rival battle still follows the original story branch
+ok 346 - losing the initial rival battle still follows the original story branch
+  ---
+  duration_ms: 1395.968083
+  type: 'test'
+  ...
+# Subtest: bag additions and removals are atomic at original stack and pocket limits
+ok 347 - bag additions and removals are atomic at original stack and pocket limits
+  ---
+  duration_ms: 1.083875
+  type: 'test'
+  ...
+# Subtest: original rival team generation and single-battle rewards are deterministic
+ok 348 - original rival team generation and single-battle rewards are deterministic
+  ---
+  duration_ms: 1387.117917
+  type: 'test'
+  ...
+# Subtest: Foresight removes Ghost immunity while retaining other type matchups
+ok 349 - Foresight removes Ghost immunity while retaining other type matchups
+  ---
+  duration_ms: 0.289125
+  type: 'test'
+  ...
+# Subtest: the catching demonstration owns a separate party, inventory and capture records
+ok 350 - the catching demonstration owns a separate party, inventory and capture records
+  ---
+  duration_ms: 0.2355
+  type: 'test'
+  ...
+# Subtest: original names preserve punctuation, sex symbols, articles and item plurals
+ok 351 - original names preserve punctuation, sex symbols, articles and item plurals
+  ---
+  duration_ms: 0.027583
+  type: 'test'
+  ...
+# Subtest: capture items use the original Ball pocket rather than names ending in Ball
+ok 352 - capture items use the original Ball pocket rather than names ending in Ball
+  ---
+  duration_ms: 0.058417
+  type: 'test'
+  ...
+# Subtest: field clock uses the original morning/day/evening/night/late boundaries
+ok 353 - field clock uses the original morning/day/evening/night/late boundaries
+  ---
+  duration_ms: 0.024959
+  type: 'test'
+  ...
+# Subtest: trainer-card stars follow the five original independent achievements
+ok 354 - trainer-card stars follow the five original independent achievements
+  ---
+  duration_ms: 0.246458
+  type: 'test'
+  ...
+# (node:56234) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: field prefetch coalesces movement to the latest cell without queuing obsolete loads
+ok 355 - field prefetch coalesces movement to the latest cell without queuing obsolete loads
+  ---
+  duration_ms: 62.219375
+  type: 'test'
+  ...
+# Subtest: actual Centers sharing a headerless matrix retain their own room identity after a warp
+ok 356 - actual Centers sharing a headerless matrix retain their own room identity after a warp
+  ---
+  duration_ms: 2.585917
+  type: 'test'
+  ...
+# Subtest: a failed shared-matrix room entry can retry despite the preceding room having the same stream key
+ok 357 - a failed shared-matrix room entry can retry despite the preceding room having the same stream key
+  ---
+  duration_ms: 0.805708
+  type: 'test'
+  ...
+# Subtest: a failed matrix download does not mark the old matrix as the new map and remains retryable
+ok 358 - a failed matrix download does not mark the old matrix as the new map and remains retryable
+  ---
+  duration_ms: 12.869041
+  type: 'test'
+  ...
+# Subtest: finishing an old prefetch keeps the current cell when the player backtracks
+ok 359 - finishing an old prefetch keeps the current cell when the player backtracks
+  ---
+  duration_ms: 2.483416
+  type: 'test'
+  ...
+# Subtest: failed prefetch waits for late props before releasing its partial cell and permits retry
+ok 360 - failed prefetch waits for late props before releasing its partial cell and permits retry
+  ---
+  duration_ms: 2.167833
+  type: 'test'
+  ...
+# Subtest: releasing a streamed clone disposes its skeleton texture without disposing shared assets or other cells
+ok 361 - releasing a streamed clone disposes its skeleton texture without disposing shared assets or other cells
+  ---
+  duration_ms: 16.128583
+  type: 'test'
+  ...
+# (node:56241) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: deformed original ground agrees with actor height on both terraces and retains shared source geometry
+ok 362 - deformed original ground agrees with actor height on both terraces and retains shared source geometry
+  ---
+  duration_ms: 295.086458
+  type: 'test'
+  ...
+# Subtest: new ledge faces are opaque from both sides and join upper/lower floor edges
+ok 363 - new ledge faces are opaque from both sides and join upper/lower floor edges
+  ---
+  duration_ms: 23.301708
+  type: 'test'
+  ...
+# Subtest: raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+ok 364 - raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+  ---
+  duration_ms: 0.748125
+  type: 'test'
+  ...
+# Subtest: separate solid rocks retain their shapes when rooted on different terrace heights
+ok 365 - separate solid rocks retain their shapes when rooted on different terrace heights
+  ---
+  duration_ms: 88.907042
+  type: 'test'
+  ...
+# Subtest: jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+ok 366 - jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+  ---
+  duration_ms: 10.866458
+  type: 'test'
+  ...
+# Subtest: crossed flowers crossing a ledge translate as one rooted clump
+ok 367 - crossed flowers crossing a ledge translate as one rooted clump
+  ---
+  duration_ms: 12.501958
+  type: 'test'
+  ...
+# Subtest: touching boulders retain distinct authored roots across a ledge
+ok 368 - touching boulders retain distinct authored roots across a ledge
+  ---
+  duration_ms: 10.78475
+  type: 'test'
+  ...
+# Subtest: native water and shoreline artwork stays flat when it overhangs a displaced land tile
+ok 369 - native water and shoreline artwork stays flat when it overhangs a displaced land tile
+  ---
+  duration_ms: 166.212292
+  type: 'test'
+  ...
+# Subtest: exported visual floor profiles cover both sides of every native ledge
+ok 370 - exported visual floor profiles cover both sides of every native ledge
+  ---
+  duration_ms: 13.055458
+  type: 'test'
+  ...
+# Subtest: offset tree crowns and connecting trunks move by the same authored ground height
+ok 371 - offset tree crowns and connecting trunks move by the same authored ground height
+  ---
+  duration_ms: 27.77725
+  type: 'test'
+  ...
+# Subtest: stale terrain work stops before replacing shared source geometry
+ok 372 - stale terrain work stops before replacing shared source geometry
+  ---
+  duration_ms: 7.988875
+  type: 'test'
+  ...
+# (node:56243) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: default joystick has a radial deadzone, smooth analog travel, up-positive axes and a clamped visual thumb
+ok 373 - default joystick has a radial deadzone, smooth analog travel, up-positive axes and a clamped visual thumb
+  ---
+  duration_ms: 4.18425
+  type: 'test'
+  ...
+# Subtest: the stick retains its pointer outside the zone and ignores another finger or unrelated pointer release
+ok 374 - the stick retains its pointer outside the zone and ignores another finger or unrelated pointer release
+  ---
+  duration_ms: 1.4165
+  type: 'test'
+  ...
+# Subtest: move plus held Run uses independent multi-touch ownership and never writes keyboard keys
+ok 375 - move plus held Run uses independent multi-touch ownership and never writes keyboard keys
+  ---
+  duration_ms: 0.85725
+  type: 'test'
+  ...
+# Subtest: per-frame context updates and A permission loss preserve movement; Run permission and movement loss release only their owners
+ok 376 - per-frame context updates and A permission loss preserve movement; Run permission and movement loss release only their owners
+  ---
+  duration_ms: 0.872375
+  type: 'test'
+  ...
+# Subtest: disabled controls still prevent selection but cannot capture, run or invoke actions; root explicitly admits each action
+ok 377 - disabled controls still prevent selection but cannot capture, run or invoke actions; root explicitly admits each action
+  ---
+  duration_ms: 0.429208
+  type: 'test'
+  ...
+# Subtest: A fires once per pointer press and Menu releases move/Run before invoking its callback; keyboard click remains accessible
+ok 378 - A fires once per pointer press and Menu releases move/Run before invoking its callback; keyboard click remains accessible
+  ---
+  duration_ms: 0.471166
+  type: 'test'
+  ...
+# Subtest: D-pad supports normalized diagonals, duplicate fingers, opposite cancellation and dragging to another live direction
+ok 379 - D-pad supports normalized diagonals, duplicate fingers, opposite cancellation and dragging to another live direction
+  ---
+  duration_ms: 0.800542
+  type: 'test'
+  ...
+# Subtest: layout/hand controls persist only browser preferences and clear captures before rearranging, with no stale input on reload
+ok 380 - layout/hand controls persist only browser preferences and clear captures before rearranging, with no stale input on reload
+  ---
+  duration_ms: 0.64375
+  type: 'test'
+  ...
+# Subtest: corrupt/unsupported preferences and blocked storage never disable usable controls; invalid explicit updates are atomic
+ok 381 - corrupt/unsupported preferences and blocked storage never disable usable controls; invalid explicit updates are atomic
+  ---
+  duration_ms: 2.200375
+  type: 'test'
+  ...
+# Subtest: pointer cancellation, capture loss, window fallback up and repeated reset never leave a held axis or Run
+ok 382 - pointer cancellation, capture loss, window fallback up and repeated reset never leave a held axis or Run
+  ---
+  duration_ms: 1.147875
+  type: 'test'
+  ...
+# Subtest: blur/pagehide/orientation/resize/hidden and editing focus clear touch state without reviving it on return
+ok 383 - blur/pagehide/orientation/resize/hidden and editing focus clear touch state without reviving it on return
+  ---
+  duration_ms: 1.376333
+  type: 'test'
+  ...
+# Subtest: callout/selection/drag suppression is confined to control surfaces, including disabled buttons; text editing stays native
+ok 384 - callout/selection/drag suppression is confined to control surfaces, including disabled buttons; text editing stays native
+  ---
+  duration_ms: 0.839916
+  type: 'test'
+  ...
+# Subtest: failed capture, zero-size live zones and invalid context/config do not create phantom movement
+ok 385 - failed capture, zero-size live zones and invalid context/config do not create phantom movement
+  ---
+  duration_ms: 0.561
+  type: 'test'
+  ...
+# Subtest: dispose releases only this controller pointers, detaches every listener once and preserves a camera-owned pointer
+ok 386 - dispose releases only this controller pointers, detaches every listener once and preserves a camera-owned pointer
+  ---
+  duration_ms: 0.317833
+  type: 'test'
+  ...
+# (node:56244) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: small and off-centre native tree banks sample foliage above their trunk and roots
+ok 387 - small and off-centre native tree banks sample foliage above their trunk and roots
+  ---
+  duration_ms: 4.710875
+  type: 'test'
+  ...
+# Subtest: transparent leaf-patch holes extend original opaque leaf colour
+ok 388 - transparent leaf-patch holes extend original opaque leaf colour
+  ---
+  duration_ms: 2.161833
+  type: 'test'
+  ...
+# (node:56245) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: tree crowns are closed volumes from above, behind and either side with independently rooted trunks
+ok 389 - tree crowns are closed volumes from above, behind and either side with independently rooted trunks
+  ---
+  duration_ms: 83.02875
+  type: 'test'
+  ...
+# Subtest: tree volumes retain source ground pivots when their asset group is scaled and translated
+ok 390 - tree volumes retain source ground pivots when their asset group is scaled and translated
+  ---
+  duration_ms: 1.490916
+  type: 'test'
+  ...
+# Subtest: transparent sprite margins do not enlarge the visible canopy
+ok 391 - transparent sprite margins do not enlarge the visible canopy
+  ---
+  duration_ms: 1.145667
+  type: 'test'
+  ...
+# Subtest: off-centre crowns keep their authored position while the trunk stays rooted and connects to them
+ok 392 - off-centre crowns keep their authored position while the trunk stays rooted and connects to them
+  ---
+  duration_ms: 0.829834
+  type: 'test'
+  ...
+# Subtest: the battle camera skips tree instance raycasts while retaining solid walls
+ok 393 - the battle camera skips tree instance raycasts while retaining solid walls
+  ---
+  duration_ms: 162.122667
+  type: 'test'
+  ...
+# (node:56246) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: real native hatch187 and Egg summary302 messages decode literal newline tokens without double decoding
+ok 394 - real native hatch187 and Egg summary302 messages decode literal newline tokens without double decoding
+  ---
+  duration_ms: 1.608833
+  type: 'test'
+  ...
+# Subtest: aborting an instant page or active typewriter rejects and removes its timer, advance callback and listener
+ok 395 - aborting an instant page or active typewriter rejects and removes its timer, advance callback and listener
+  ---
+  duration_ms: 0.931459
+  type: 'test'
+  ...
+# Subtest: abort between native pages prevents the next page from appearing or leaving an orphan waiter
+ok 396 - abort between native pages prevents the next page from appearing or leaving an orphan waiter
+  ---
+  duration_ms: 0.606416
+  type: 'test'
+  ...
+# Subtest: superseding dialogue rejects the old owner and late old abort cannot hide or advance the new message
+ok 397 - superseding dialogue rejects the old owner and late old abort cannot hide or advance the new message
+  ---
+  duration_ms: 2.513708
+  type: 'test'
+  ...
+# Subtest: aborting a choice detaches buttons and queued focus, restores prior inert state and permits coherent recovery UI
+ok 398 - aborting a choice detaches buttons and queued focus, restores prior inert state and permits coherent recovery UI
+  ---
+  duration_ms: 2.104417
+  type: 'test'
+  ...
+# Subtest: successful choices release abort ownership and superseded choices cannot close a newer panel
+ok 399 - successful choices release abort ownership and superseded choices cannot close a newer panel
+  ---
+  duration_ms: 0.585292
+  type: 'test'
+  ...
+# Subtest: aborting naming detaches its exact form and cannot submit or close a replacement nickname prompt
+ok 400 - aborting naming detaches its exact form and cannot submit or close a replacement nickname prompt
+  ---
+  duration_ms: 0.649791
+  type: 'test'
+  ...
+# Subtest: pre-aborted operations reject without replacing existing dialogue or a newer panel
+ok 401 - pre-aborted operations reject without replacing existing dialogue or a newer panel
+  ---
+  duration_ms: 0.42525
+  type: 'test'
+  ...
+# Subtest: hatch sibling failure can abort pending text before all owned announcement work is drained
+ok 402 - hatch sibling failure can abort pending text before all owned announcement work is drained
+  ---
+  duration_ms: 0.388667
+  type: 'test'
+  ...
+# Subtest: native automatic printer completes without a confirm while retaining visible abort-owned hatch text
+ok 403 - native automatic printer completes without a confirm while retaining visible abort-owned hatch text
+  ---
+  duration_ms: 1.131166
+  type: 'test'
+  ...
+# Subtest: confirm fast-forwards a native automatic printer and no second confirm is required to finish
+ok 404 - confirm fast-forwards a native automatic printer and no second confirm is required to finish
+  ---
+  duration_ms: 0.193542
+  type: 'test'
+  ...
+# Subtest: automatic printer abort rejects before completion and still cleans its retained surface after completion
+ok 405 - automatic printer abort rejects before completion and still cleans its retained surface after completion
+  ---
+  duration_ms: 0.321708
+  type: 'test'
+  ...
+# Subtest: late automatic-printer dispose, abort and timer cannot clear or write a newer dialogue or panel
+ok 406 - late automatic-printer dispose, abort and timer cannot clear or write a newer dialogue or panel
+  ---
+  duration_ms: 0.364875
+  type: 'test'
+  ...
+# Subtest: automatic printer rejects pre-aborted or multi-page requests without replacing existing owned text
+ok 407 - automatic printer rejects pre-aborted or multi-page requests without replacing existing owned text
+  ---
+  duration_ms: 0.299209
+  type: 'test'
+  ...
+# (node:56247) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owned choices navigate enabled controls with arrows/Home/End and trap Tab in both directions
+ok 408 - owned choices navigate enabled controls with arrows/Home/End and trap Tab in both directions
+  ---
+  duration_ms: 3.429
+  type: 'test'
+  ...
+# Subtest: Enter/Space/F confirm exactly once and consume the event before a field handler
+ok 409 - Enter/Space/F confirm exactly once and consume the event before a field handler
+  ---
+  duration_ms: 1.139916
+  type: 'test'
+  ...
+# Subtest: mandatory choices do not become keyboard cancellable merely because they have an AbortSignal
+ok 410 - mandatory choices do not become keyboard cancellable merely because they have an AbortSignal
+  ---
+  duration_ms: 0.80425
+  type: 'test'
+  ...
+# Subtest: Escape/B use only an explicit enabled cancelIndex, with invalid configuration rejected before replacement
+ok 411 - Escape/B use only an explicit enabled cancelIndex, with invalid configuration rejected before replacement
+  ---
+  duration_ms: 0.956
+  type: 'test'
+  ...
+# Subtest: modal focus cannot escape, replacement avoids stale focus, and final close restores prior focus/inert state
+ok 412 - modal focus cannot escape, replacement avoids stale focus, and final close restores prior focus/inert state
+  ---
+  duration_ms: 0.49925
+  type: 'test'
+  ...
+# Subtest: editable naming keeps normal keys and IME, with one Done/Enter submit and native input hints
+ok 413 - editable naming keeps normal keys and IME, with one Done/Enter submit and native input hints
+  ---
+  duration_ms: 0.4865
+  type: 'test'
+  ...
+# Subtest: the fresh title uses original Ho-Oh art, no false Continue, and invokes gesture synchronously before resolution
+ok 414 - the fresh title uses original Ho-Oh art, no false Continue, and invokes gesture synchronously before resolution
+  ---
+  duration_ms: 0.804917
+  type: 'test'
+  ...
+# Subtest: saved title escapes profile/location/nicknames and renders bounded source sprites without exposing Egg species
+ok 415 - saved title escapes profile/location/nicknames and renders bounded source sprites without exposing Egg species
+  ---
+  duration_ms: 0.710417
+  type: 'test'
+  ...
+# Subtest: stale title clicks/abort/focus timers cannot unlock audio or resolve/close a newer prompt
+ok 416 - stale title clicks/abort/focus timers cannot unlock audio or resolve/close a newer prompt
+  ---
+  duration_ms: 0.767167
+  type: 'test'
+  ...
+# Subtest: title gesture failure rejects its owner coherently and a pre-aborted title does not replace a current panel
+ok 417 - title gesture failure rejects its owner coherently and a pre-aborted title does not replace a current panel
+  ---
+  duration_ms: 0.699166
+  type: 'test'
+  ...
+# Subtest: a synchronous gesture callback that replaces its own title cannot cancel the newer owned prompt
+ok 418 - a synchronous gesture callback that replaces its own title cannot cancel the newer owned prompt
+  ---
+  duration_ms: 0.326834
+  type: 'test'
+  ...
+# Subtest: closing a modal falls back to the world when its old focus target was disabled, and generic input permits Escape
+ok 419 - closing a modal falls back to the world when its old focus target was disabled, and generic input permits Escape
+  ---
+  duration_ms: 0.197667
+  type: 'test'
+  ...
+# Subtest: polite nonmodal toast owns its timer and stale disposers cannot hide a newer save/settings notice
+ok 420 - polite nonmodal toast owns its timer and stale disposers cannot hide a newer save/settings notice
+  ---
+  duration_ms: 0.241208
+  type: 'test'
+  ...
+# Subtest: generic panels retain explicit canDismiss behavior while an owned choice has keyboard priority over dialogue
+ok 421 - generic panels retain explicit canDismiss behavior while an owned choice has keyboard priority over dialogue
+  ---
+  duration_ms: 0.465875
+  type: 'test'
+  ...
+# Subtest: custom panels retain mandatory ownership and exact cleanup through replacement/abort without orphan promises
+ok 422 - custom panels retain mandatory ownership and exact cleanup through replacement/abort without orphan promises
+  ---
+  duration_ms: 0.469
+  type: 'test'
+  ...
+# Subtest: custom explicit cancel resolves its value and detaches exact handlers, including B on a nontext slider
+ok 423 - custom explicit cancel resolves its value and detaches exact handlers, including B on a nontext slider
+  ---
+  duration_ms: 0.473792
+  type: 'test'
+  ...
+# (node:56248) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: blocks buildings, shoreline, pond, and world boundaries
+ok 424 - blocks buildings, shoreline, pond, and world boundaries
+  ---
+  duration_ms: 0.58375
+  type: 'test'
+  ...
+# Subtest: movement slides along walls and cannot tunnel through a house
+ok 425 - movement slides along walls and cannot tunnel through a house
+  ---
+  duration_ms: 0.568959
+  type: 'test'
+  ...
+# Subtest: camera-relative movement normalizes diagonals and rotates correctly
+ok 426 - camera-relative movement normalizes diagonals and rotates correctly
+  ---
+  duration_ms: 0.117666
+  type: 'test'
+  ...
+# Subtest: scenery generation and terrain elevation are deterministic
+ok 427 - scenery generation and terrain elevation are deterministic
+  ---
+  duration_ms: 0.230875
+  type: 'test'
+  ...
+1..427
+# tests 449
+# suites 0
+# pass 449
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 49370.840875

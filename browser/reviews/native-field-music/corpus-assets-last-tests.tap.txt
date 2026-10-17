@@ -1,0 +1,48 @@
+TAP version 13
+# (node:72898) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all540 original day/night header cues and map region values match original C source
+ok 1 - all540 original day/night header cues and map region values match original C source
+  ---
+  duration_ms: 88.641333
+  type: 'test'
+  ...
+# Subtest: native RTC/story/Surf suppression and Vermilion flypoint ABI remain exact
+ok 2 - native RTC/story/Surf suppression and Vermilion flypoint ABI remain exact
+  ---
+  duration_ms: 1.700083
+  type: 'test'
+  ...
+# Subtest: all103 catalogued native field/battle cues are ready or literal note-free silence, never substitute or unexported
+ok 3 - all103 catalogued native field/battle cues are ready or literal note-free silence, never substitute or unexported
+  ---
+  duration_ms: 0.730041
+  type: 'test'
+  ...
+# Subtest: source hashes and exact native INFO/FAT sequence/bank/SWAR dependencies are independently verified
+ok 4 - source hashes and exact native INFO/FAT sequence/bank/SWAR dependencies are independently verified
+  ---
+  duration_ms: 11.552958
+  type: 'test'
+  ...
+# Subtest: every deployed AAC/MP3 payload matches checksum and independently measured priming/frame/alignment receipts
+ok 5 - every deployed AAC/MP3 payload matches checksum and independently measured priming/frame/alignment receipts
+  ---
+  duration_ms: 954.230083
+  type: 'test'
+  ...
+# Subtest: small runtime catalog is exactly the source proof projection and ships each payload only once
+ok 6 - small runtime catalog is exactly the source proof projection and ships each payload only once
+  ---
+  duration_ms: 126.606541
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1720.258542
