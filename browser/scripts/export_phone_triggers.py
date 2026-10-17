@@ -9,7 +9,9 @@ OUT = ROOT / 'browser/public/source/phone-triggers.json'
 constants = json.loads((ROOT / 'browser/public/source/constants.json').read_text())
 paths = ['src/field/overlay_2_gear_phone.c', 'src/gear_phone_ring_manager.c',
          'include/constants/phone_constants.h', 'files/tel/pmtel_book.json',
-         'browser/public/source/constants.json']
+         'browser/public/source/constants.json',
+         'src/application/pokegear/phone/pokegear_phone_gfx.c',
+         'src/application/pokegear/phone/phone_call.c']
 sources = {path: (ROOT / path).read_text() for path in paths}
 book = {row['id']: row for row in json.loads(sources[paths[3]])['pmtel_book']}
 trigger_names = {int(value): name for name, value in re.findall(

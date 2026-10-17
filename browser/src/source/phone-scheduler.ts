@@ -21,6 +21,8 @@ export function boostPhoneTimer(ring:PhoneRingState,accelerate:boolean,rules:Pho
  * render distance, steps, playSeconds or an implicit Date.now(). */
 export function advancePhoneMinutes(ring:PhoneRingState,delta:number):PhoneRingState{
   minutes(delta);
+  // Native FieldSystem_CheckTimeAdvance never forwards zero-minute frames.
+  if(delta===0)return ring;
   if(!ring.minuteAdvanceSeen&&delta>=10)return{...ring,minuteAdvanceSeen:true};
   return{...ring,minuteAdvanceSeen:true,elapsedMinutes:ring.elapsedMinutes+delta};
 }
@@ -37,12 +39,12 @@ export function advancePhoneRingSeconds(ring:PhoneRingState,seconds:number,rules
 /** Pending-trigger scheduling only. Random callers, recent-caller rotation and
  * Safari trigger generation remain separate native phone-engine work. The
  * injected draw is the caller's RNG port; no DS-global RNG equivalence claim. */
-export function planTriggeredIncomingCall(ring:PhoneRingState,pending:readonly number[],rules:PhoneTriggerRules,field:{map:number;incomingAllowed:boolean;registeredContacts:readonly string[];drawUint16:()=>number}):{ring:PhoneRingState;call:TriggeredPhoneCall|null;delivery:'none'|'ring'|'forced'}{
+export function planTriggeredIncomingCall(ring:PhoneRingState,pending:readonly number[],rules:PhoneTriggerRules,field:{map:number;incomingAllowed:boolean;registeredContacts:readonly string[];drawUint16:()=>number}):{ring:PhoneRingState;call:TriggeredPhoneCall|null;delivery:'none'|'no-trigger'|'ring'|'forced'}{
   if(!field.incomingAllowed||ring.active||ring.elapsedMinutes<rules.callIntervalMinutes)return{ring,call:null,delivery:'none'};
   for(const id of pending)triggerId(id);
   // Native scans bit flags from0..12; save-array insertion order is irrelevant.
   const candidates=rules.triggers.filter(rule=>pending.includes(rule.id)&&(rule.contactKey==='PHONE_CONTACT_DAY_C_MAN'?field.registeredContacts.includes(rule.contactKey):rule.map!==field.map)).slice().sort((a,b)=>a.id-b.id);
-  if(!candidates.length)return{ring,call:null,delivery:'none'};
+  if(!candidates.length)return{ring,call:null,delivery:'no-trigger'};
   const draw=field.drawUint16();if(!Number.isInteger(draw)||draw<0||draw>0xffff)throw RangeError('Phone trigger selection requires an unsigned16-bit RNG draw');
   const selected=candidates[draw%candidates.length],call:TriggeredPhoneCall={trigger:selected.id,contact:selected.contact,scripted:3,script:selected.script,forcePickUp:selected.forcePickUp};
   return{ring:{...ring,active:call,activeSince:null},call,delivery:call.forcePickUp?'forced':'ring'};

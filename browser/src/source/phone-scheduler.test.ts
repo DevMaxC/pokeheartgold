@@ -59,6 +59,16 @@ test('Continue keeps persistent pending bits but does not invent a fresh enqueue
   ring=advancePhoneMinutes(ring,1);assert.equal(planTriggeredIncomingCall(ring,saved.phoneTriggers,rules,field()).call?.trigger,0);assert.deepEqual(saved.phoneTriggers,[0]);
 });
 
+test('zero-minute host polls cannot consume the native first whole-minute catch-up guard',()=>{
+  const fresh=newPhoneRingState(),idle=advancePhoneMinutes(fresh,0);assert.equal(idle,fresh);assert.equal(idle.minuteAdvanceSeen,false);assert.equal(advancePhoneMinutes(idle,20).elapsedMinutes,0);
+});
+
+test('an eligible interval with no trigger is distinguished from blocked polling for the future random-call branch',()=>{
+  const ring=eligible(),noDraw={...field(61),drawUint16:()=>assert.fail('no eligible triggered candidate consumes no trigger RNG draw')};
+  assert.equal(planTriggeredIncomingCall(ring,[0],rules,noDraw).delivery,'no-trigger');assert.equal(planTriggeredIncomingCall(ring,[],rules,noDraw).delivery,'no-trigger');
+  assert.equal(planTriggeredIncomingCall(ring,[0],rules,{...noDraw,incomingAllowed:false}).delivery,'none');assert.equal(planTriggeredIncomingCall(newPhoneRingState(),[0],rules,noDraw).delivery,'none');
+});
+
 test('timing acceleration never reduces an existing interval and the first large minute batch preserves its prior boost',()=>{
   let ring=boostPhoneTimer(newPhoneRingState(),false,rules);assert.equal(ring.elapsedMinutes,0);ring=boostPhoneTimer(ring,true,rules);ring=advancePhoneMinutes(ring,20);assert.equal(ring.elapsedMinutes,9);ring=advancePhoneMinutes(ring,2);assert.equal(boostPhoneTimer(ring,true,rules).elapsedMinutes,11);
 });
