@@ -1,19 +1,29 @@
-import {test} from 'node:test';
+import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {createContext,runInContext} from 'node:vm';
+import ts from 'typescript';
+import {bindAudioControls} from './audio-controls.ts';
 import {UI} from './ui.ts';
 import {SourceActionRecovery} from './script-recovery.ts';
 import {InterfacePanels} from './interface-panels.ts';
 import {loadData,newState,createMon} from './data.ts';
 import {loadNativeFieldMoveData,prepareTMHMTeaching} from './field-moves.ts';
 import {useFieldBagItem} from './field-bag-actions.ts';
-import {defaultInterfacePreferences} from './interface-preferences.ts';
+import {defaultInterfacePreferences,writeInterfacePreferences,INTERFACE_PREFERENCES_KEY,type InterfacePreferences} from './interface-preferences.ts';
 import {installUIDOM,installUIClock} from './ui-test-dom.ts';
 import type {State} from './types.ts';
 
 globalThis.fetch=async input=>new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));
 const data=await loadData(),native=await loadNativeFieldMoveData();
+const mainURL=new URL('./main.ts',import.meta.url),mainSource=await readFile(mainURL,'utf8');
+const mainHash=createHash('sha256').update(mainSource).digest('hex');
+const mainAST=ts.createSourceFile('main.ts',mainSource,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
+const preferenceFunction=mainAST.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='updatePreferences');
+const audioBinding=mainAST.statements.find(node=>ts.isExpressionStatement(node)&&ts.isCallExpression(node.expression)&&node.expression.expression.getText(mainAST)==='bindAudioControls');
+assert.ok(preferenceFunction);assert.ok(audioBinding);
+after(async()=>assert.equal(createHash('sha256').update(await readFile(mainURL,'utf8')).digest('hex'),mainHash,'actual Main changed during preference tests'));
 // Execute the exact reviewed recovery shipped with this checkout, including
 // shallow CI clones that do not contain the leaf's original private Git object.
 const recoverySource=await readFile(new URL('./script-recovery.ts',import.meta.url),'utf8');
@@ -119,4 +129,48 @@ test('a resolved prompt replaced before its continuation cannot dispatch Bag use
   await tick();assert.match(f.html(),/Keep this replacement/,`${phase} delay ${delay}`);
   await assert.rejects(pending,{name:'AbortError'});assert.deepEqual(f.state,before);assert.equal(f.saves,0);if(phase==='bag')assert.equal(f.calls,0);else assert.equal(f.restores,1);f.option(0);await replacement;
  }finally{f.restore();}}
+});
+
+
+// Exercise the deployed Main's actual preference mirror and global-control
+// registration, with the real audio-control/storage dispatcher and owned UI.
+// Audio output is a port: these tests never construct/unlock an AudioContext.
+function livePreferences(f:ReturnType<typeof fixture>){
+ // Continue/start mirrors the current enabled preference before this action.
+ f.state.options.sound=true;
+ const button=f.dom.document.createElement('button');button.id='audio-toggle';button.setAttribute('data-global-audio','');f.dom.document.body.appendChild(button);
+ button.addEventListener=(_type:string,listener:()=>void)=>{button.onclick=listener;};
+ button.removeEventListener=(_type:string,listener:()=>void)=>{if(button.onclick===listener)button.onclick=null;};
+ const doc=Object.assign(new EventTarget(),{visibilityState:'visible'}),win=new EventTarget(),values=new Map<string,string>(),listeners=new Set<()=>void>();let writes=0,dispose=()=>{};
+ const preferenceStorage={getItem:(key:string)=>values.get(key)??null,setItem:(key:string,value:string)=>{writes++;values.set(key,value);}};
+ const c:any={preferences:defaultInterfacePreferences(),preferenceStorage,started:true,state:f.state,writeInterfacePreferences,musicPreferencePending:0,musicKey:'',musicChanged(){for(const listener of listeners)listener();},music:{async setPreferences(){} ,setPageActive(){}},musicFailed(error:unknown){throw error;},syncMusic(){},unlockSound(){throw Error('Fixture must stay muted');},watchMusic(listener:()=>void){listeners.add(listener);return()=>listeners.delete(listener);},$:()=>button,
+  bindAudioControls(ports:Parameters<typeof bindAudioControls>[0]){dispose=bindAudioControls(ports,doc as unknown as Document,win as unknown as Window);}};
+ createContext(c);runInContext(ts.transpileModule(preferenceFunction!.getText(mainAST)+'\n'+audioBinding!.getText(mainAST),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText,c);
+ return{button,get preferences(){return c.preferences as InterfacePreferences;},get writes(){return writes;},mute(){button.focus();assert.equal(f.dom.document.activeElement,button);assert.equal(button.inert,false);button.click();},storageChange(value:InterfacePreferences){values.set(INTERFACE_PREFERENCES_KEY,JSON.stringify({version:1,...value}));win.dispatchEvent(Object.assign(new Event('storage'),{key:INTERFACE_PREFERENCES_KEY,storageArea:preferenceStorage}));},dispose};
+}
+
+test('actual Main global mute and cross-tab preferences keep medicine/teaching live through confirmation and acknowledgement',async t=>{
+ t.diagnostic('actual deployed Main SHA256 '+mainHash);
+ for(const item of['ITEM_POTION','ITEM_TM10'])for(const source of['global-control','storage']as const)await t.test(item+' '+source,async()=>{const f=fixture(item),prefs=livePreferences(f);try{
+  const pending=f.recovery.run(f.use);void pending.catch(()=>{});f.choose('party:0');await tick();
+  if(source==='global-control')prefs.mute();else prefs.storageChange({...prefs.preferences,music:false,textSpeed:2});
+  assert.equal(f.state.options.sound,false);assert.equal(f.state.options.textSpeed,source==='storage'?2:1);assert.equal(f.ui.panelOpen,true);assert.match(f.html(),item==='ITEM_POTION'?/Use Potion/:/Teach this move/);
+  f.option(0);await tick();assert.equal(f.state.bag[item],1);assert.equal(f.recovery.busy,true);
+  // A second live update while the final acknowledgement owns the panel must
+  // also remain non-gameplay state, including text speed mirrored by Main.
+  prefs.storageChange({...prefs.preferences,textSpeed:source==='storage'?0:2});
+  assert.equal(f.state.options.textSpeed,source==='storage'?0:2);assert.equal(f.ui.panelOpen,true);f.option(0);
+  assert.deepEqual(await pending,{status:'used',kind:item==='ITEM_POTION'?'medicine':'teaching',partyIndex:0});
+  assert.equal(f.restores,0);assert.equal(f.recovery.busy,false);assert.equal(f.state.bag[item],1);assert.equal(f.state.options.sound,false);assert.equal(prefs.writes,source==='global-control'?1:0,'storage listener must not write back');
+  if(item==='ITEM_POTION')assert.equal(f.state.party[0].hp,21);else assert.deepEqual(f.state.party[0].moves,[move(33,1),move(237)]);
+ }finally{prefs.dispose();f.restore();}});
+});
+
+test('battle style and all gameplay/record identity changes still reject after a permitted live preference update',async()=>{
+ for(const phase of['confirmation','acknowledgement'])for(const change of['battleStyle','money','state','party','mon','bag','quantity','map']as const){const f=fixture('ITEM_TM10'),prefs=livePreferences(f);try{
+  const pending=f.use();void pending.catch(()=>{});f.choose('party:0');await tick();if(phase==='acknowledgement'){f.option(0);await tick();}
+  prefs.storageChange({...prefs.preferences,music:false,textSpeed:2});
+  if(change==='battleStyle')f.state.options.battleStyle='set';if(change==='money')f.state.money++;if(change==='state')f.live=structuredClone(f.state);if(change==='party')f.state.party=f.state.party.slice();if(change==='mon')f.state.party[0]=structuredClone(f.state.party[0]);if(change==='bag')f.state.bag={...f.state.bag};if(change==='quantity')f.state.bag.ITEM_TM10++;if(change==='map')f.state.map++;
+  const before=structuredClone(f.state);f.option(0);await assert.rejects(pending,{name:'AbortError'});assert.deepEqual(f.state,before,'stale action must not make further changes');
+ }finally{prefs.dispose();f.restore();}}
 });

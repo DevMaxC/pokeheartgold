@@ -1,0 +1,45 @@
+{
+  "verifiedInputs": 35,
+  "mismatches": [],
+  "extraFiles": [],
+  "manifestSHA256": "da29b5263d759e077343990020d2ba17e3fc6a6c236f1ff8059ce8107cd8c749",
+  "rawResultSHA256": "a8d877e94f8448c850d51195f414d15f25968114d3b276636077fc05b5c43b45",
+  "runtimeSHA256": "4dba2a7bee053eba24c6917db471c43867d6399ae000b358951c0d36a2c89969",
+  "testSHA256": "e0cdb4b3d23bdfbf4472251e394e717982d31e5de2519f838694a305a11c7d7b",
+  "unchangedMainSHA256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+  "cliExitCode": 0,
+  "is_error": false,
+  "num_turns": 18,
+  "duration_ms": 92781,
+  "permission_denials": [],
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1626,
+      "outputTokens": 14,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001696,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 8023,
+      "cacheReadInputTokens": 314442,
+      "cacheCreationInputTokens": 44603,
+      "webSearchRequests": 0,
+      "costUSD": 0.44645139999999994,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 3836,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  }
+}
