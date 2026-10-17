@@ -1,0 +1,30 @@
+{
+  "inputCommit": "99c833c24799dbd856453d527695b69c5fc5afa4",
+  "manifestSha256": "77d744c6b734526fe438b9b7ac8c1554692c1d6c224c7679aaa9b33498e54e41",
+  "promptSha256": "88b83efb6767d14061a2288f85260ba575599a2237d54981fbadb5623f6183c1",
+  "startedAtUTC": "2026-10-17T14:52:07.287417+00:00",
+  "requestedModel": "claude-opus-5-5",
+  "tools": [
+    "Read",
+    "Grep",
+    "Glob"
+  ],
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--setting-sources",
+    "",
+    "--no-session-persistence",
+    "--output-format",
+    "json"
+  ]
+}

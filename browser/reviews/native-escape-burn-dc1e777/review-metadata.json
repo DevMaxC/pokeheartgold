@@ -1,0 +1,34 @@
+{
+  "inputCommit": "dc1e777aec8e379a23fed7b92e749f1d6f195f48",
+  "inputTree": "8d4c7e6e6627dec52fdb94bd9b0d7d59759a7da9",
+  "baseCommit": "c4c627e1622a9ce70843d55110ac7f66c1dfc76f",
+  "snapshotRoot": "/Users/maxchurch/Documents/pokeheartgold-opus-escape-burn-dc1e777",
+  "manifestSha256": "be63e334bfa8b6048c37333d1f81dd70eed58dfc66060af81b2f25fa48f359a2",
+  "promptSha256": "046fb574968738c1a4af88e5b2a06bb32ff468317859766524bf461316d963fe",
+  "trackedFileCount": 23669,
+  "trackedBytes": 302611729,
+  "requestedModel": "claude-opus-5-5",
+  "tools": [
+    "Read",
+    "Grep",
+    "Glob"
+  ],
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--tools",
+    "Read,Grep,Glob",
+    "--allowedTools",
+    "Read,Grep,Glob",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--setting-sources",
+    "",
+    "--no-session-persistence",
+    "--output-format",
+    "json"
+  ]
+}

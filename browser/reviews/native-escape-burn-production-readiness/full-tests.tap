@@ -1,0 +1,2874 @@
+
+> paper-johto@0.1.0 test
+> node --experimental-transform-types --test src/world.test.ts src/source/*.test.ts
+
+TAP version 13
+# (node:54209) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: both actual Olivine port gates close the six precise upper dormer escapes and preserve the original inclined glazing
+ok 1 - both actual Olivine port gates close the six precise upper dormer escapes and preserve the original inclined glazing
+  ---
+  duration_ms: 260.945542
+  type: 'test'
+  ...
+# Subtest: the entire new window head and narrow eave return is bounded by the original native frame and fascia
+ok 2 - the entire new window head and narrow eave return is bounded by the original native frame and fascia
+  ---
+  duration_ms: 186.119625
+  type: 'test'
+  ...
+# Subtest: gate additions own only buffers/material clones, retain all source/shared rear repairs and refresh stale skinned matrices
+ok 3 - gate additions own only buffers/material clones, retain all source/shared rear repairs and refresh stale skinned matrices
+  ---
+  duration_ms: 29.033792
+  type: 'test'
+  ...
+# Subtest: new opaque head and underside UVs sample only the native painted frame and fascia pixels
+ok 4 - new opaque head and underside UVs sample only the native painted frame and fascia pixels
+  ---
+  duration_ms: 16.016167
+  type: 'test'
+  ...
+# Subtest: all 26 independently discovered dense upper-window and fascia paths meet the measured opaque repair in both native contexts
+ok 5 - all 26 independently discovered dense upper-window and fascia paths meet the measured opaque repair in both native contexts
+  ---
+  duration_ms: 21.820375
+  type: 'test'
+  ...
+# (node:54211) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original weather dispatch distinguishes rain, snow, mist and cave darkness
+ok 6 - original weather dispatch distinguishes rain, snow, mist and cave darkness
+  ---
+  duration_ms: 0.929334
+  type: 'test'
+  ...
+# Subtest: source rain and snow maps use their original headers rather than random global weather
+ok 7 - source rain and snow maps use their original headers rather than random global weather
+  ---
+  duration_ms: 7.588333
+  type: 'test'
+  ...
+# Subtest: native summit diamond-dust dates, Lake of Rage Wednesday and field flags override map weather
+ok 8 - native summit diamond-dust dates, Lake of Rage Wednesday and field flags override map weather
+  ---
+  duration_ms: 0.272708
+  type: 'test'
+  ...
+# Subtest: sky palettes wrap at midnight and interpolate continuously through dawn and dusk
+ok 9 - sky palettes wrap at midnight and interpolate continuously through dawn and dusk
+  ---
+  duration_ms: 0.238333
+  type: 'test'
+  ...
+# Subtest: sky follows the camera, hides indoors and keeps source precipitation in the field
+ok 10 - sky follows the camera, hides indoors and keeps source precipitation in the field
+  ---
+  duration_ms: 29.689916
+  type: 'test'
+  ...
+# Subtest: night adds stars and a moon, colours the field and preserves prior material shader hooks
+ok 11 - night adds stars and a moon, colours the field and preserves prior material shader hooks
+  ---
+  duration_ms: 9.440208
+  type: 'test'
+  ...
+# Subtest: cloud and weather instances stay finite and cloud surfaces have depth
+ok 12 - cloud and weather instances stay finite and cloud surfaces have depth
+  ---
+  duration_ms: 7.9725
+  type: 'test'
+  ...
+# Subtest: camera-facing tree shaders receive the same night tint as the terrain
+ok 13 - camera-facing tree shaders receive the same night tint as the terrain
+  ---
+  duration_ms: 146.358334
+  type: 'test'
+  ...
+# Subtest: celestial art tests scene depth so transparent render ordering cannot paint stars over buildings
+ok 14 - celestial art tests scene depth so transparent render ordering cannot paint stars over buildings
+  ---
+  duration_ms: 2.620333
+  type: 'test'
+  ...
+# (node:54212) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all native accuracy stages use literal source ratios and integer truncation
+ok 15 - all native accuracy stages use literal source ratios and integer truncation
+  ---
+  duration_ms: 132.600417
+  type: 'test'
+  ...
+# Subtest: legal Tackle modifiers truncate71.25 to71 and combined57 exactly on either side
+ok 16 - legal Tackle modifiers truncate71.25 to71 and combined57 exactly on either side
+  ---
+  duration_ms: 909.808875
+  type: 'test'
+  ...
+# Subtest: SweetScent lowers actual evasion before SleepPowder uses native133/100 rather than4/3
+ok 17 - SweetScent lowers actual evasion before SleepPowder uses native133/100 rather than4/3
+  ---
+  duration_ms: 0.578791
+  type: 'test'
+  ...
+# Subtest: Foresight ignores only raised evasion and combines remaining accuracy changes before truncating
+ok 18 - Foresight ignores only raised evasion and combines remaining accuracy changes before truncating
+  ---
+  duration_ms: 151.22625
+  type: 'test'
+  ...
+# Subtest: accuracy-zero, always-hit effects and tutorial retain existing no-draw bypasses
+ok 19 - accuracy-zero, always-hit effects and tutorial retain existing no-draw bypasses
+  ---
+  duration_ms: 300.326667
+  type: 'test'
+  ...
+# (node:54214) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+ok 20 - a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+  ---
+  duration_ms: 617.546
+  type: 'test'
+  ...
+# Subtest: an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+ok 21 - an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+  ---
+  duration_ms: 151.165125
+  type: 'test'
+  ...
+# Subtest: the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+ok 22 - the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+  ---
+  duration_ms: 453.014791
+  type: 'test'
+  ...
+# Subtest: enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+ok 23 - enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+  ---
+  duration_ms: 152.692834
+  type: 'test'
+  ...
+# Subtest: the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+ok 24 - the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+  ---
+  duration_ms: 152.076708
+  type: 'test'
+  ...
+# Subtest: a learned unsupported opponent effect still completes native no-target processing without running the effect
+ok 25 - a learned unsupported opponent effect still completes native no-target processing without running the effect
+  ---
+  duration_ms: 150.577042
+  type: 'test'
+  ...
+# Subtest: a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+ok 26 - a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+  ---
+  duration_ms: 151.739292
+  type: 'test'
+  ...
+# Subtest: unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+ok 27 - unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+  ---
+  duration_ms: 453.031167
+  type: 'test'
+  ...
+# Subtest: native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+ok 28 - native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+  ---
+  duration_ms: 302.265209
+  type: 'test'
+  ...
+# Subtest: the source-owned single-battle target matrix bypasses only the native no-target paths
+    # Subtest: RANGE_SINGLE_TARGET
+    ok 1 - RANGE_SINGLE_TARGET
+      ---
+      duration_ms: 0.733084
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_SPECIAL
+    ok 2 - RANGE_SINGLE_TARGET_SPECIAL
+      ---
+      duration_ms: 0.199042
+      type: 'test'
+      ...
+    # Subtest: RANGE_RANDOM_OPPONENT
+    ok 3 - RANGE_RANDOM_OPPONENT
+      ---
+      duration_ms: 0.133708
+      type: 'test'
+      ...
+    # Subtest: RANGE_ADJACENT_OPPONENTS
+    ok 4 - RANGE_ADJACENT_OPPONENTS
+      ---
+      duration_ms: 0.124292
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALL_ADJACENT
+    ok 5 - RANGE_ALL_ADJACENT
+      ---
+      duration_ms: 0.119208
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER
+    ok 6 - RANGE_USER
+      ---
+      duration_ms: 0.1455
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER_SIDE
+    ok 7 - RANGE_USER_SIDE
+      ---
+      duration_ms: 0.137375
+      type: 'test'
+      ...
+    # Subtest: RANGE_FIELD
+    ok 8 - RANGE_FIELD
+      ---
+      duration_ms: 0.136208
+      type: 'test'
+      ...
+    # Subtest: RANGE_OPPONENT_SIDE
+    ok 9 - RANGE_OPPONENT_SIDE
+      ---
+      duration_ms: 0.21
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALLY
+    ok 10 - RANGE_ALLY
+      ---
+      duration_ms: 0.166291
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_USER_SIDE
+    ok 11 - RANGE_SINGLE_TARGET_USER_SIDE
+      ---
+      duration_ms: 0.199125
+      type: 'test'
+      ...
+    # Subtest: RANGE_FRONT
+    ok 12 - RANGE_FRONT
+      ---
+      duration_ms: 0.124292
+      type: 'test'
+      ...
+    1..12
+ok 29 - the source-owned single-battle target matrix bypasses only the native no-target paths
+  ---
+  duration_ms: 3.137208
+  type: 'test'
+  ...
+# Subtest: the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+    # Subtest: MOVE_EFFECT_BIDE
+    ok 1 - MOVE_EFFECT_BIDE
+      ---
+      duration_ms: 0.324166
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+    ok 2 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+      ---
+      duration_ms: 151.890333
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+    ok 3 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+      ---
+      duration_ms: 151.630542
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_DEF_UP
+    ok 4 - MOVE_EFFECT_CHARGE_TURN_DEF_UP
+      ---
+      duration_ms: 149.617667
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_151
+    ok 5 - MOVE_EFFECT_151
+      ---
+      duration_ms: 151.32375
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_FLY
+    ok 6 - MOVE_EFFECT_FLY
+      ---
+      duration_ms: 149.584333
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIVE
+    ok 7 - MOVE_EFFECT_DIVE
+      ---
+      duration_ms: 149.822291
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIG
+    ok 8 - MOVE_EFFECT_DIG
+      ---
+      duration_ms: 150.560125
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_BOUNCE
+    ok 9 - MOVE_EFFECT_BOUNCE
+      ---
+      duration_ms: 150.63575
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_SHADOW_FORCE
+    ok 10 - MOVE_EFFECT_SHADOW_FORCE
+      ---
+      duration_ms: 149.587375
+      type: 'test'
+      ...
+    1..10
+ok 30 - the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+  ---
+  duration_ms: 1355.864625
+  type: 'test'
+  ...
+# Subtest: the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+ok 31 - the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+  ---
+  duration_ms: 150.987667
+  type: 'test'
+  ...
+# Subtest: a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+ok 32 - a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+  ---
+  duration_ms: 151.900375
+  type: 'test'
+  ...
+# Subtest: fainting the last player by recoil stops before a surviving foe spends its selected move PP
+ok 33 - fainting the last player by recoil stops before a surviving foe spends its selected move PP
+  ---
+  duration_ms: 150.995208
+  type: 'test'
+  ...
+# Subtest: a recoil-fainted participant gets no EXP while a living Share holder receives its pool and an optional legacy Egg record stays unchanged
+ok 34 - a recoil-fainted participant gets no EXP while a living Share holder receives its pool and an optional legacy Egg record stays unchanged
+  ---
+  duration_ms: 152.220959
+  type: 'test'
+  ...
+# (node:54215) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle opening chooses a clear shoulder instead of looking through a nearby building
+ok 35 - battle opening chooses a clear shoulder instead of looking through a nearby building
+  ---
+  duration_ms: 12.50075
+  type: 'test'
+  ...
+# Subtest: a roof hiding one fighter is detected even when the battle midpoint is visible
+ok 36 - a roof hiding one fighter is detected even when the battle midpoint is visible
+  ---
+  duration_ms: 51.792042
+  type: 'test'
+  ...
+# Subtest: unobstructed camera orbit stays unchanged and portrait framing retains enough distance
+ok 37 - unobstructed camera orbit stays unchanged and portrait framing retains enough distance
+  ---
+  duration_ms: 0.666375
+  type: 'test'
+  ...
+# (node:54217) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: equal and faster legal raw speeds guarantee escape without consuming RNG
+ok 38 - equal and faster legal raw speeds guarantee escape without consuming RNG
+  ---
+  duration_ms: 1687.459083
+  type: 'test'
+  ...
+# Subtest: slower Run uses the old attempt count, exact byte odds and post-roll byte counter wrap
+ok 39 - slower Run uses the old attempt count, exact byte odds and post-roll byte counter wrap
+  ---
+  duration_ms: 1005.376959
+  type: 'test'
+  ...
+# Subtest: Run retains native raw-speed and status ordering rather than using staged/paralyzed Fight speed
+ok 40 - Run retains native raw-speed and status ordering rather than using staged/paralyzed Fight speed
+  ---
+  duration_ms: 97.596458
+  type: 'test'
+  ...
+# Subtest: a trainer Run rejection neither rolls escape nor increments its attempt counter
+ok 41 - a trainer Run rejection neither rolls escape nor increments its attempt counter
+  ---
+  duration_ms: 0.322666
+  type: 'test'
+  ...
+# Subtest: legal physical Tackle burn damage matches literal native C before+2 and random-range truncation
+ok 42 - legal physical Tackle burn damage matches literal native C before+2 and random-range truncation
+  ---
+  duration_ms: 1094.602542
+  type: 'test'
+  ...
+# Subtest: the actual attack applies native burned damage, spends one PP and retains its attack/hit view callbacks
+ok 43 - the actual attack applies native burned damage, spends one PP and retains its attack/hit view callbacks
+  ---
+  duration_ms: 157.62775
+  type: 'test'
+  ...
+# (node:54218) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual battle switches retain living participants and split Route29 Pidgey experience11+11
+ok 44 - actual battle switches retain living participants and split Route29 Pidgey experience11+11
+  ---
+  duration_ms: 353.927042
+  type: 'test'
+  ...
+# Subtest: actual held Exp. Share receives its native pool while both participants receive theirs
+ok 45 - actual held Exp. Share receives its native pool while both participants receive theirs
+  ---
+  duration_ms: 301.999542
+  type: 'test'
+  ...
+# Subtest: each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+ok 46 - each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+  ---
+  duration_ms: 453.471875
+  type: 'test'
+  ...
+# Subtest: level100 participants count in the split but get no experience or effort award
+ok 47 - level100 participants count in the split but get no experience or effort award
+  ---
+  duration_ms: 301.576042
+  type: 'test'
+  ...
+# Subtest: a recipient near level100 caps cumulative EXP at its own native growth limit
+ok 48 - a recipient near level100 caps cumulative EXP at its own native growth limit
+  ---
+  duration_ms: 151.433167
+  type: 'test'
+  ...
+# (node:54219) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Route29 PidgeyLv3 splits11+11 between two living explicitly flagged participants
+ok 49 - actual Route29 PidgeyLv3 splits11+11 between two living explicitly flagged participants
+  ---
+  duration_ms: 5.829667
+  type: 'test'
+  ...
+# Subtest: native ExpShare item effects split pools and participating holders receive both before bonuses
+ok 50 - native ExpShare item effects split pools and participating holders receive both before bonuses
+  ---
+  duration_ms: 0.606458
+  type: 'test'
+  ...
+# Subtest: Eggs and fainted members do not dilute either pool; living level100 members do
+ok 51 - Eggs and fainted members do not dilute either pool; living level100 members do
+  ---
+  duration_ms: 0.550583
+  type: 'test'
+  ...
+# Subtest: a living nonparticipant ExpShare holder receives its half even after all flagged participants faint
+ok 52 - a living nonparticipant ExpShare holder receives its half even after all flagged participants faint
+  ---
+  duration_ms: 0.693833
+  type: 'test'
+  ...
+# Subtest: new-enemy mask reset removes previous participants and planner never guesses an active slot
+ok 53 - new-enemy mask reset removes previous participants and planner never guesses an active slot
+  ---
+  duration_ms: 0.339416
+  type: 'test'
+  ...
+# Subtest: actual LuckyEgg effect and explicit traded ownership apply separately to each planned recipient
+ok 54 - actual LuckyEgg effect and explicit traded ownership apply separately to each planned recipient
+  ---
+  duration_ms: 0.4855
+  type: 'test'
+  ...
+# Subtest: whole-party planning is pure and rejects a late bad item/ownership/mask before any mutation
+ok 55 - whole-party planning is pure and rejects a late bad item/ownership/mask before any mutation
+  ---
+  duration_ms: 0.865
+  type: 'test'
+  ...
+# (node:54220) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual early wild and Trainer teams produce native one-participant awards
+ok 56 - actual early wild and Trainer teams produce native one-participant awards
+  ---
+  duration_ms: 17.550834
+  type: 'test'
+  ...
+# Subtest: LuckyEgg, Trainer and domestic/international trade bonuses truncate in native order
+ok 57 - LuckyEgg, Trainer and domestic/international trade bonuses truncate in native order
+  ---
+  duration_ms: 0.20275
+  type: 'test'
+  ...
+# Subtest: explicit ExpShare split floors both halves before divisors and sums a participating holder before bonuses
+ok 58 - explicit ExpShare split floors both halves before divisors and sums a participating holder before bonuses
+  ---
+  duration_ms: 0.317625
+  type: 'test'
+  ...
+# Subtest: fainted, Egg, empty, level100 and disabled EXP contexts receive no reward
+ok 59 - fainted, Egg, empty, level100 and disabled EXP contexts receive no reward
+  ---
+  duration_ms: 0.175542
+  type: 'test'
+  ...
+# Subtest: native minimum-one pool rule and inconsistent or unknown divisor context stay explicit
+ok 60 - native minimum-one pool rule and inconsistent or unknown divisor context stay explicit
+  ---
+  duration_ms: 0.573417
+  type: 'test'
+  ...
+# Subtest: helper is pure and leaves current EXP, level, EVs and held items to the integration host
+ok 61 - helper is pure and leaves current EXP, level, EVs and held items to the integration host
+  ---
+  duration_ms: 0.463875
+  type: 'test'
+  ...
+# Subtest: native held-effect contract rejects item keys and no-award validation remains explicit
+ok 62 - native held-effect contract rejects item keys and no-award validation remains explicit
+  ---
+  duration_ms: 0.2805
+  type: 'test'
+  ...
+# (node:54221) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: battle figures choose a continuous terrace rather than straddling a ledge
+ok 63 - battle figures choose a continuous terrace rather than straddling a ledge
+  ---
+  duration_ms: 2.074041
+  type: 'test'
+  ...
+# Subtest: battle figures preserve the player floor under or above a bridge
+ok 64 - battle figures preserve the player floor under or above a bridge
+  ---
+  duration_ms: 2.452375
+  type: 'test'
+  ...
+# Subtest: narrow battle space reduces spacing instead of moving figures into solid walls
+ok 65 - narrow battle space reduces spacing instead of moving figures into solid walls
+  ---
+  duration_ms: 0.297458
+  type: 'test'
+  ...
+# Subtest: trainer figures stay on their Pokémon terrace when the preferred shoulder position crosses a cliff
+ok 66 - trainer figures stay on their Pokémon terrace when the preferred shoulder position crosses a cliff
+  ---
+  duration_ms: 0.342208
+  type: 'test'
+  ...
+# Subtest: battle presentation cannot relocate across a narrow lower strip to another terrace
+ok 67 - battle presentation cannot relocate across a narrow lower strip to another terrace
+  ---
+  duration_ms: 0.5055
+  type: 'test'
+  ...
+# Subtest: battle presentation avoids placing either Pokémon inside a solid canopy
+ok 68 - battle presentation avoids placing either Pokémon inside a solid canopy
+  ---
+  duration_ms: 1.157708
+  type: 'test'
+  ...
+# (node:54222) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: reloaded production party starts with its first usable non-Egg and awards no Egg EXP or EVs
+ok 69 - reloaded production party starts with its first usable non-Egg and awards no Egg EXP or EVs
+  ---
+  duration_ms: 154.546167
+  type: 'test'
+  ...
+# Subtest: a party containing only Eggs and fainted Pokémon cannot start a battle
+ok 70 - a party containing only Eggs and fainted Pokémon cannot start a battle
+  ---
+  duration_ms: 0.522209
+  type: 'test'
+  ...
+# Subtest: an injected Egg switch spends no turn, makes no participation bit and leaves the current actor in place
+ok 71 - an injected Egg switch spends no turn, makes no participation bit and leaves the current actor in place
+  ---
+  duration_ms: 150.871792
+  type: 'test'
+  ...
+# Subtest: fainting the last usable actor loses even when a positive-HP Egg remains
+ok 72 - fainting the last usable actor loses even when a positive-HP Egg remains
+  ---
+  duration_ms: 150.525625
+  type: 'test'
+  ...
+# (node:54234) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a final action KO grants EXP/EVs and ends battle before poison can damage the winner
+ok 73 - a final action KO grants EXP/EVs and ends battle before poison can damage the winner
+  ---
+  duration_ms: 153.941209
+  type: 'test'
+  ...
+# Subtest: a nonfinal KO levels the active Pokémon before poison and delays the next sendout until afterward
+ok 74 - a nonfinal KO levels the active Pokémon before poison and delays the next sendout until afterward
+  ---
+  duration_ms: 152.08225
+  type: 'test'
+  ...
+# Subtest: Struggle recoil fainting remains ineligible for EXP even though final-foe EXP precedes residuals
+ok 75 - Struggle recoil fainting remains ineligible for EXP even though final-foe EXP precedes residuals
+  ---
+  duration_ms: 152.011583
+  type: 'test'
+  ...
+# Subtest: each poison faint is adjudicated immediately in speed order rather than poisoning both last battlers
+ok 76 - each poison faint is adjudicated immediately in speed order rather than poisoning both last battlers
+  ---
+  duration_ms: 0.645917
+  type: 'test'
+  ...
+# Subtest: equal-speed residuals use a fresh native low-bit tie instead of reusing the Fight tie
+ok 77 - equal-speed residuals use a fresh native low-bit tie instead of reusing the Fight tie
+  ---
+  duration_ms: 0.605292
+  type: 'test'
+  ...
+# Subtest: native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie
+ok 78 - native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie
+  ---
+  duration_ms: 150.814042
+  type: 'test'
+  ...
+# (node:54238) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an unsupported battle effect rejects and restores party, inventory and capture records
+ok 79 - an unsupported battle effect rejects and restores party, inventory and capture records
+  ---
+  duration_ms: 45.7
+  type: 'test'
+  ...
+# Subtest: winning against the final opponent keeps its sprite available through the victory message
+ok 80 - winning against the final opponent keeps its sprite available through the victory message
+  ---
+  duration_ms: 12.626333
+  type: 'test'
+  ...
+# Subtest: 3D presentation preserves turn results, damage, PP and EXP
+ok 81 - 3D presentation preserves turn results, damage, PP and EXP
+  ---
+  duration_ms: 305.916958
+  type: 'test'
+  ...
+# (node:54239) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the game dispatcher applies family shells once on native placed clones
+ok 82 - the game dispatcher applies family shells once on native placed clones
+  ---
+  duration_ms: 1323.417542
+  type: 'test'
+  ...
+# Subtest: the runtime dispatcher uses real placement entrances before family repairs and removes false arch and castle hulls
+ok 83 - the runtime dispatcher uses real placement entrances before family repairs and removes false arch and castle hulls
+  ---
+  duration_ms: 2371.691125
+  type: 'test'
+  ...
+# Exercised 72 actual generic panels across 31 family/context fixtures.
+# Subtest: stream unload frees each placed shell resource once while keeping source assets and textures reusable
+ok 84 - stream unload frees each placed shell resource once while keeping source assets and textures reusable
+  ---
+  duration_ms: 1151.997542
+  type: 'test'
+  ...
+# Subtest: no inventoried native node can be mistaken for a disposable placed exterior
+ok 85 - no inventoried native node can be mistaken for a disposable placed exterior
+  ---
+  duration_ms: 332.717875
+  type: 'test'
+  ...
+# (node:54246) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a fresh scaled skinned placement produces the same footing as an explicitly refreshed bind pose
+ok 86 - a fresh scaled skinned placement produces the same footing as an explicitly refreshed bind pose
+  ---
+  duration_ms: 139.434875
+  type: 'test'
+  ...
+# Subtest: rigid native walls receive a continuous footing where terrain falls below their base
+ok 87 - rigid native walls receive a continuous footing where terrain falls below their base
+  ---
+  duration_ms: 52.847041
+  type: 'test'
+  ...
+# Subtest: level plots add no redundant foundation and decorative shadows cannot define the wall floor
+ok 88 - level plots add no redundant foundation and decorative shadows cannot define the wall floor
+  ---
+  duration_ms: 0.788542
+  type: 'test'
+  ...
+# Subtest: footings extend gate columns without closing the original passage
+ok 89 - footings extend gate columns without closing the original passage
+  ---
+  duration_ms: 1.241917
+  type: 'test'
+  ...
+# Subtest: unloading a footing frees its geometry and cloned material without disposing source assets
+ok 90 - unloading a footing frees its geometry and cloned material without disposing source assets
+  ---
+  duration_ms: 0.814708
+  type: 'test'
+  ...
+# (node:54262) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Burned Tower receives only a native lower rear story while its front and burned upper opening survive
+ok 91 - Burned Tower receives only a native lower rear story while its front and burned upper opening survive
+  ---
+  duration_ms: 399.2665
+  type: 'test'
+  ...
+# Subtest: the measured lower rear windows and wood block interior and oblique rays before the front door card
+ok 92 - the measured lower rear windows and wood block interior and oblique rays before the front door card
+  ---
+  duration_ms: 649.075084
+  type: 'test'
+  ...
+# Subtest: a bounded real rear passage remains open beneath its beam and distant entrances cannot suppress cladding
+ok 93 - a bounded real rear passage remains open beneath its beam and distant entrances cannot suppress cladding
+  ---
+  duration_ms: 13.588416
+  type: 'test'
+  ...
+# Subtest: Burned Tower repairs follow full clone transforms and retain shared native assets
+ok 94 - Burned Tower repairs follow full clone transforms and retain shared native assets
+  ---
+  duration_ms: 14.622042
+  type: 'test'
+  ...
+# Subtest: Burned Tower cladding owns finite geometry/materials and samples opaque native window/wood texels
+ok 95 - Burned Tower cladding owns finite geometry/materials and samples opaque native window/wood texels
+  ---
+  duration_ms: 9.962833
+  type: 'test'
+  ...
+# Subtest: the complete upper-story exterior profile matches the damaged native source without artificial brown backings
+ok 96 - the complete upper-story exterior profile matches the damaged native source without artificial brown backings
+  ---
+  duration_ms: 3784.348625
+  type: 'test'
+  ...
+# (node:54263) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a deferred room load never chases incoming coordinates through the outgoing scene
+ok 97 - a deferred room load never chases incoming coordinates through the outgoing scene
+  ---
+  duration_ms: 2.466916
+  type: 'test'
+  ...
+# Subtest: caller-owned loading stays frozen through actor placement and releases before entry-script movement
+ok 98 - caller-owned loading stays frozen through actor placement and releases before entry-script movement
+  ---
+  duration_ms: 0.382875
+  type: 'test'
+  ...
+# Subtest: failed direct loads release their guard, while outer callers retain ownership until cleanup
+ok 99 - failed direct loads release their guard, while outer callers retain ownership until cleanup
+  ---
+  duration_ms: 0.760625
+  type: 'test'
+  ...
+# Subtest: a pending resize preserves the loader frame until its owner releases the camera
+ok 100 - a pending resize preserves the loader frame until its owner releases the camera
+  ---
+  duration_ms: 0.437541
+  type: 'test'
+  ...
+# (node:54265) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the first field camera starts in its orbit rather than an unrelated south-facing position
+ok 101 - the first field camera starts in its orbit rather than an unrelated south-facing position
+  ---
+  duration_ms: 3.1225
+  type: 'test'
+  ...
+# Subtest: walking across a connected map header keeps the exact camera pose and target
+ok 102 - walking across a connected map header keeps the exact camera pose and target
+  ---
+  duration_ms: 2.297833
+  type: 'test'
+  ...
+# Subtest: building entrances and distant warps translate the rig without changing the viewing direction or zoom
+ok 103 - building entrances and distant warps translate the rig without changing the viewing direction or zoom
+  ---
+  duration_ms: 1.817042
+  type: 'test'
+  ...
+# Subtest: nearby room coordinates still rebase the entire rig when the scene is replaced
+ok 104 - nearby room coordinates still rebase the entire rig when the scene is replaced
+  ---
+  duration_ms: 0.2455
+  type: 'test'
+  ...
+# Subtest: camera obstruction lists omit paper vegetation, shadows and hidden parents while retaining solid hills and buildings
+ok 105 - camera obstruction lists omit paper vegetation, shadows and hidden parents while retaining solid hills and buildings
+  ---
+  duration_ms: 4.3435
+  type: 'test'
+  ...
+# Subtest: a hidden parent cannot pull the camera forward through its still-visible child mesh
+ok 106 - a hidden parent cannot pull the camera forward through its still-visible child mesh
+  ---
+  duration_ms: 2.604
+  type: 'test'
+  ...
+# (node:54266) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: analytic crown lobes block the actual sight segment without raycasting tree triangles
+ok 107 - analytic crown lobes block the actual sight segment without raycasting tree triangles
+  ---
+  duration_ms: 10.947666
+  type: 'test'
+  ...
+# Subtest: canopy caches preserve hierarchy transforms and invalidate after a moved instance or parent
+ok 108 - canopy caches preserve hierarchy transforms and invalidate after a moved instance or parent
+  ---
+  duration_ms: 1.209958
+  type: 'test'
+  ...
+# Subtest: battle camera clears a foreground crown while retaining the requested horizontal orbit
+ok 109 - battle camera clears a foreground crown while retaining the requested horizontal orbit
+  ---
+  duration_ms: 0.588708
+  type: 'test'
+  ...
+# Subtest: hidden tree parents do not obstruct the battle camera
+ok 110 - hidden tree parents do not obstruct the battle camera
+  ---
+  duration_ms: 0.78925
+  type: 'test'
+  ...
+# (node:54269) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all eight native civic texture variants retain their authored front and receive owned source-atlas cladding
+ok 111 - all eight native civic texture variants retain their authored front and receive owned source-atlas cladding
+  ---
+  duration_ms: 613.665583
+  type: 'test'
+  ...
+# Subtest: every measured civic rear blocks interior and outside rays before a front-door surface can show through
+ok 112 - every measured civic rear blocks interior and outside rays before a front-door surface can show through
+  ---
+  duration_ms: 370.723166
+  type: 'test'
+  ...
+# Subtest: theater upper rear and station arched rear close independently of their lower body
+ok 113 - theater upper rear and station arched rear close independently of their lower body
+  ---
+  duration_ms: 198.054291
+  type: 'test'
+  ...
+# Subtest: the port closes the body-to-curved-roof seam without filling the tower silhouette
+ok 114 - the port closes the body-to-curved-roof seam without filling the tower silhouette
+  ---
+  duration_ms: 115.219125
+  type: 'test'
+  ...
+# Subtest: Pal Park north passages remain open while their neighboring rear walls are enclosed
+ok 115 - Pal Park north passages remain open while their neighboring rear walls are enclosed
+  ---
+  duration_ms: 6.413
+  type: 'test'
+  ...
+# Subtest: both Pal Park foundations sample only their continuous native grey rear-side module
+ok 116 - both Pal Park foundations sample only their continuous native grey rear-side module
+  ---
+  duration_ms: 15.470709
+  type: 'test'
+  ...
+# Subtest: detached Pal Park canopy is removed from the closed rear and mounted flush only over a genuine north passage, without shared-resource mutation
+ok 117 - detached Pal Park canopy is removed from the closed rear and mounted flush only over a genuine north passage, without shared-resource mutation
+  ---
+  duration_ms: 173.444083
+  type: 'test'
+  ...
+# Subtest: civic shells follow full transforms and never mutate cached templates or unrelated bank IDs
+ok 118 - civic shells follow full transforms and never mutate cached templates or unrelated bank IDs
+  ---
+  duration_ms: 17.525833
+  type: 'test'
+  ...
+# Subtest: placed skinned civic assets initialize correctly before any caller or render matrix refresh
+ok 119 - placed skinned civic assets initialize correctly before any caller or render matrix refresh
+  ---
+  duration_ms: 240.38725
+  type: 'test'
+  ...
+# Subtest: opaque civic cladding samples painted native texels instead of transparent atlas margins
+ok 120 - opaque civic cladding samples painted native texels instead of transparent atlas margins
+  ---
+  duration_ms: 253.635375
+  type: 'test'
+  ...
+# Subtest: oblique rays close the confirmed roof, ridge and glazing seams found in the independent scene audit
+ok 121 - oblique rays close the confirmed roof, ridge and glazing seams found in the independent scene audit
+  ---
+  duration_ms: 416.633375
+  type: 'test'
+  ...
+# Subtest: prize-shop native chamfered eave underside closes dense side escape without sealing its authored front entry recess
+ok 122 - prize-shop native chamfered eave underside closes dense side escape without sealing its authored front entry recess
+  ---
+  duration_ms: 11.462083
+  type: 'test'
+  ...
+# (node:54276) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: priority decorative variants use native wall/roof art and keep original fronts and shared resources intact
+ok 123 - priority decorative variants use native wall/roof art and keep original fronts and shared resources intact
+  ---
+  duration_ms: 438.4305
+  type: 'test'
+  ...
+# Subtest: pharmacy rear continues the side timber/plaster bands without the navy entry-recess art or front sign
+ok 124 - pharmacy rear continues the side timber/plaster bands without the navy entry-recess art or front sign
+  ---
+  duration_ms: 163.294583
+  type: 'test'
+  ...
+# Subtest: lighthouse closes its true base and sixth tapered sector without projecting the door or opaque light sheets onto its back
+ok 125 - lighthouse closes its true base and sixth tapered sector without projecting the door or opaque light sheets onto its back
+  ---
+  duration_ms: 38.380417
+  type: 'test'
+  ...
+# Subtest: silo gains all rear hexagonal bands and the missing native cone sector instead of olive projection fins
+ok 126 - silo gains all rear hexagonal bands and the missing native cone sector instead of olive projection fins
+  ---
+  duration_ms: 14.422167
+  type: 'test'
+  ...
+# Subtest: decorative shells initialize skinned placement matrices and preserve real opposite-side entrances
+ok 127 - decorative shells initialize skinned placement matrices and preserve real opposite-side entrances
+  ---
+  duration_ms: 308.562417
+  type: 'test'
+  ...
+# Subtest: every exported decorative texture variant works directly under a transformed parent without a matrix pre-refresh
+ok 128 - every exported decorative texture variant works directly under a transformed parent without a matrix pre-refresh
+  ---
+  duration_ms: 100.196375
+  type: 'test'
+  ...
+# Subtest: new opaque decorative surfaces sample painted native atlas pixels rather than transparent carriers
+ok 129 - new opaque decorative surfaces sample painted native atlas pixels rather than transparent carriers
+  ---
+  duration_ms: 360.396084
+  type: 'test'
+  ...
+# Subtest: Olivine restaurant gains its subtly tapered rear wall, native sloped roof strip and chimney backs without reflecting the entry arch
+ok 130 - Olivine restaurant gains its subtly tapered rear wall, native sloped roof strip and chimney backs without reflecting the entry arch
+  ---
+  duration_ms: 275.292292
+  type: 'test'
+  ...
+# Subtest: open market canopies and lookout retain all native openings and patterned cloth without generic rear boards or magenta window caps
+ok 131 - open market canopies and lookout retain all native openings and patterned cloth without generic rear boards or magenta window caps
+  ---
+  duration_ms: 51.914625
+  type: 'test'
+  ...
+# Subtest: both fountain texture contexts receive only missing radial stone facets while translucent water stays native
+ok 132 - both fountain texture contexts receive only missing radial stone facets while translucent water stays native
+  ---
+  duration_ms: 10.952542
+  type: 'test'
+  ...
+# Subtest: Radio Tower rear uses gray base bands, the octagonal mast and native curved window/frame sectors
+ok 133 - Radio Tower rear uses gray base bands, the octagonal mast and native curved window/frame sectors
+  ---
+  duration_ms: 8.925375
+  type: 'test'
+  ...
+# Subtest: Celadon restaurant has a continuous threshold-height rear and the measured flat-ridge/raking roof profile
+ok 134 - Celadon restaurant has a continuous threshold-height rear and the measured flat-ridge/raking roof profile
+  ---
+  duration_ms: 11.855
+  type: 'test'
+  ...
+# Subtest: deadwood becomes grounded upright solid pixel-art branches while its source card, ground patch and shared buffers remain independent
+ok 135 - deadwood becomes grounded upright solid pixel-art branches while its source card, ground patch and shared buffers remain independent
+  ---
+  duration_ms: 366.947459
+  type: 'test'
+  ...
+# (node:54277) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native multi-hit sampling has GenIV probabilities and SkillLink consumes no count draw
+ok 136 - native multi-hit sampling has GenIV probabilities and SkillLink consumes no count draw
+  ---
+  duration_ms: 1.228542
+  type: 'test'
+  ...
+# Subtest: FuryAttack spends one PP and accuracy check, recalculating critical damage per hit
+ok 137 - FuryAttack spends one PP and accuracy check, recalculating critical damage per hit
+  ---
+  duration_ms: 602.644916
+  type: 'test'
+  ...
+# Subtest: missed FuryAttack rolls no count or damage, and fainting stops remaining hits
+ok 138 - missed FuryAttack rolls no count or damage, and fainting stops remaining hits
+  ---
+  duration_ms: 152.203542
+  type: 'test'
+  ...
+# Subtest: SkillLink makes five hits; Ghost immunity stops without a hit-count message
+ok 139 - SkillLink makes five hits; Ghost immunity stops without a hit-count message
+  ---
+  duration_ms: 905.926958
+  type: 'test'
+  ...
+# Subtest: native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit
+ok 140 - native fixed-two DoubleKick rolls accuracy once and critical damage independently per hit
+  ---
+  duration_ms: 451.598125
+  type: 'test'
+  ...
+# Subtest: DoubleKick builds surviving Rage once for each native hit
+ok 141 - DoubleKick builds surviving Rage once for each native hit
+  ---
+  duration_ms: 754.91125
+  type: 'test'
+  ...
+# Subtest: Roost heals half rounded down and suppresses only Flying matchups without changing species
+ok 142 - Roost heals half rounded down and suppresses only Flying matchups without changing species
+  ---
+  duration_ms: 0.628416
+  type: 'test'
+  ...
+# Subtest: faster Roost changes the later Ground hit, while slower or failed Roost does not
+ok 143 - faster Roost changes the later Ground hit, while slower or failed Roost does not
+  ---
+  duration_ms: 453.656916
+  type: 'test'
+  ...
+# Subtest: full-HP recovery spends PP without an attack animation or temporary typing
+ok 144 - full-HP recovery spends PP without an attack animation or temporary typing
+  ---
+  duration_ms: 0.452166
+  type: 'test'
+  ...
+# Subtest: Synthesis uses native battle weather and integer recovery, not daylight or diamond dust
+ok 145 - Synthesis uses native battle weather and integer recovery, not daylight or diamond dust
+  ---
+  duration_ms: 1.355
+  type: 'test'
+  ...
+# Subtest: living CloudNine/AirLock suppress Synthesis weather, while fainted suppressors do not
+ok 146 - living CloudNine/AirLock suppress Synthesis weather, while fainted suppressors do not
+  ---
+  duration_ms: 0.394958
+  type: 'test'
+  ...
+# Subtest: Battle.start captures weather before asynchronous presentation begins
+ok 147 - Battle.start captures weather before asynchronous presentation begins
+  ---
+  duration_ms: 0.303583
+  type: 'test'
+  ...
+# Subtest: Gust deals ordinary damage and its source Fly modifier doubles power before calculation
+ok 148 - Gust deals ordinary damage and its source Fly modifier doubles power before calculation
+  ---
+  duration_ms: 150.578708
+  type: 'test'
+  ...
+# Subtest: Rage activates on successful hits and builds Attack per surviving damaging hit
+ok 149 - Rage activates on successful hits and builds Attack per surviving damaging hit
+  ---
+  duration_ms: 1054.241791
+  type: 'test'
+  ...
+# Subtest: Rage survives selection and a faster foe, then clears after another move executes
+ok 150 - Rage survives selection and a faster foe, then clears after another move executes
+  ---
+  duration_ms: 1807.15125
+  type: 'test'
+  ...
+# Subtest: Rage persists through successful item use and failed escape, and rejected menu choices
+ok 151 - Rage persists through successful item use and failed escape, and rejected menu choices
+  ---
+  duration_ms: 903.799167
+  type: 'test'
+  ...
+# Subtest: Rage survives inability to act, but a missed or failed different move clears it
+ok 152 - Rage survives inability to act, but a missed or failed different move clears it
+  ---
+  duration_ms: 752.304375
+  type: 'test'
+  ...
+# Subtest: native Rage before-turn masking clears Foresight and DefenseCurl before either side attacks
+ok 153 - native Rage before-turn masking clears Foresight and DefenseCurl before either side attacks
+  ---
+  duration_ms: 1205.056083
+  type: 'test'
+  ...
+# Subtest: Rage masks other status2 flags on selection even when the chosen move cannot act
+ok 154 - Rage masks other status2 flags on selection even when the chosen move cannot act
+  ---
+  duration_ms: 302.570042
+  type: 'test'
+  ...
+# Subtest: accepted non-Fight actions mask Rage volatiles; rejected menu choices preserve them
+ok 155 - accepted non-Fight actions mask Rage volatiles; rejected menu choices preserve them
+  ---
+  duration_ms: 906.066708
+  type: 'test'
+  ...
+# Subtest: native no-PP selection retains the last Rage slot until Struggle actually executes
+ok 156 - native no-PP selection retains the last Rage slot until Struggle actually executes
+  ---
+  duration_ms: 903.94275
+  type: 'test'
+  ...
+# Subtest: switching and battle completion clear Rage/Roost without storing them on Pokémon
+ok 157 - switching and battle completion clear Rage/Roost without storing them on Pokémon
+  ---
+  duration_ms: 153.872833
+  type: 'test'
+  ...
+# Subtest: actual Abe/Falkner moves execute, and starter level-ups learn usable Rage/Synthesis
+ok 158 - actual Abe/Falkner moves execute, and starter level-ups learn usable Rage/Synthesis
+  ---
+  duration_ms: 908.469334
+  type: 'test'
+  ...
+# (node:54283) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the first three completed steps after a warp/battle cannot encounter
+ok 159 - the first three completed steps after a warp/battle cannot encounter
+  ---
+  duration_ms: 0.838584
+  type: 'test'
+  ...
+# Subtest: walking uses independent 20-percent movement and original table-rate rolls
+ok 160 - walking uses independent 20-percent movement and original table-rate rolls
+  ---
+  duration_ms: 72.008292
+  type: 'test'
+  ...
+# Subtest: only reversals increase the source turn boost; perpendicular turns do not
+ok 161 - only reversals increase the source turn boost; perpendicular turns do not
+  ---
+  duration_ms: 0.234584
+  type: 'test'
+  ...
+# Subtest: all 100 original weighted land slots have the exact source distribution
+ok 162 - all 100 original weighted land slots have the exact source distribution
+  ---
+  duration_ms: 0.618541
+  type: 'test'
+  ...
+# (node:54284) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: both facilities match their exact native profiles and preserve all original front geometry and shared resources
+ok 163 - both facilities match their exact native profiles and preserve all original front geometry and shared resources
+  ---
+  duration_ms: 250.277833
+  type: 'test'
+  ...
+# Subtest: Day Care gains the missing textured rear roof hip instead of a flat pink facade across the open roof
+ok 164 - Day Care gains the missing textured rear roof hip instead of a flat pink facade across the open roof
+  ---
+  duration_ms: 291.730167
+  type: 'test'
+  ...
+# Subtest: Celadon department store fills only its native roof-deck seam and provides an intentional glazed rear
+ok 165 - Celadon department store fills only its native roof-deck seam and provides an intentional glazed rear
+  ---
+  duration_ms: 205.764667
+  type: 'test'
+  ...
+# Subtest: placed skinned facilities refresh matrices themselves and leave real rear entrances and unrelated models alone
+ok 166 - placed skinned facilities refresh matrices themselves and leave real rear entrances and unrelated models alone
+  ---
+  duration_ms: 145.197583
+  type: 'test'
+  ...
+# Subtest: every added opaque facility roof and cladding triangle samples painted native atlas pixels
+ok 167 - every added opaque facility roof and cladding triangle samples painted native atlas pixels
+  ---
+  duration_ms: 16.885541
+  type: 'test'
+  ...
+# Subtest: every texel sampled on the new Day Care rear hip belongs to the native red roof rather than white wall or green base atlas regions
+ok 168 - every texel sampled on the new Day Care rear hip belongs to the native red roof rather than white wall or green base atlas regions
+  ---
+  duration_ms: 144.642667
+  type: 'test'
+  ...
+# Subtest: department-store projecting front wings have a native-height glazed roof along their actual facade contour
+ok 169 - department-store projecting front wings have a native-height glazed roof along their actual facade contour
+  ---
+  duration_ms: 179.790125
+  type: 'test'
+  ...
+# (node:54285) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: south exit mats and side gates require pushing their source direction, not stepping across
+ok 170 - south exit mats and side gates require pushing their source direction, not stepping across
+  ---
+  duration_ms: 0.483125
+  type: 'test'
+  ...
+# Subtest: north entrances, panels, ladders and escalators preserve their native transition facing
+ok 171 - north entrances, panels, ladders and escalators preserve their native transition facing
+  ---
+  duration_ms: 0.07125
+  type: 'test'
+  ...
+# Subtest: connections run transition only while battle returns rebuild through load and resume
+ok 172 - connections run transition only while battle returns rebuild through load and resume
+  ---
+  duration_ms: 0.557209
+  type: 'test'
+  ...
+# Subtest: native north/south ladders warp on directional push even with clear floor ahead
+ok 173 - native north/south ladders warp on directional push even with clear floor ahead
+  ---
+  duration_ms: 0.203083
+  type: 'test'
+  ...
+# Subtest: door arrivals step clear while stairs finish on the anchor facing away from the stair wall
+ok 174 - door arrivals step clear while stairs finish on the anchor facing away from the stair wall
+  ---
+  duration_ms: 0.106917
+  type: 'test'
+  ...
+# (node:54311) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: raised background forest steps receive opaque sides down to adjacent matrix ground
+ok 175 - raised background forest steps receive opaque sides down to adjacent matrix ground
+  ---
+  duration_ms: 1.971583
+  type: 'test'
+  ...
+# (node:54418) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Castle restores its native stepped roofs while preserving component closures and cached source art
+ok 176 - Castle restores its native stepped roofs while preserving component closures and cached source art
+  ---
+  duration_ms: 4424.87075
+  type: 'test'
+  ...
+# 2646 exact alpha-aware west/upward castle chamber rays hit component walls/roofs with no giant rear panel.
+# Subtest: Cycle shop has native continuous gray/orange rear cladding, opaque atlas samples, unchanged front and upper window banks
+ok 177 - Cycle shop has native continuous gray/orange rear cladding, opaque atlas samples, unchanged front and upper window banks
+  ---
+  duration_ms: 1316.360708
+  type: 'test'
+  ...
+# 3060 interpolated source wall-band UV samples are opaque.
+# 1323 exact alpha-aware rear/upward cycle-shop chamber rays hit opaque walls or roofs.
+# Subtest: Factory closes omitted rear/roof faces along native profiles and preserves its measured west mouth
+ok 178 - Factory closes omitted rear/roof faces along native profiles and preserves its measured west mouth
+  ---
+  duration_ms: 18433.015084
+  type: 'test'
+  ...
+# 6732 interpolated native Factory cladding/fin atlas samples are opaque.
+# 11232 full measured body rays: physical walls/roof or 285 separately bounded native nonplanar west-mouth exits.
+# Subtest: Profiles reject unrelated/incomplete assets and preserve real opposite entrances under instance transforms
+ok 179 - Profiles reject unrelated/incomplete assets and preserve real opposite entrances under instance transforms
+  ---
+  duration_ms: 387.821375
+  type: 'test'
+  ...
+# (node:54518) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual solid stools block entry from all sides and swept movement while adjacent tiles stay open
+ok 180 - actual solid stools block entry from all sides and swept movement while adjacent tiles stay open
+  ---
+  duration_ms: 81.92275
+  type: 'test'
+  ...
+# Subtest: furniture respects rotated bench footprints and separate floor heights
+ok 181 - furniture respects rotated bench footprints and separate floor heights
+  ---
+  duration_ms: 1.353041
+  type: 'test'
+  ...
+# Subtest: world movement combines native floor permissions with cached furniture collision
+ok 182 - world movement combines native floor permissions with cached furniture collision
+  ---
+  duration_ms: 47.1815
+  type: 'test'
+  ...
+# Subtest: a save near a thin seat can move away but cannot cross through its footprint
+ok 183 - a save near a thin seat can move away but cannot cross through its footprint
+  ---
+  duration_ms: 0.263958
+  type: 'test'
+  ...
+# Subtest: furniture extending across a cell border blocks movement until its owning cell unloads
+ok 184 - furniture extending across a cell border blocks movement until its owning cell unloads
+  ---
+  duration_ms: 24.819291
+  type: 'test'
+  ...
+# (node:54519) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: seat repairs preserve transformed prop roots, source materials and separate floor shadows
+ok 185 - seat repairs preserve transformed prop roots, source materials and separate floor shadows
+  ---
+  duration_ms: 25.2085
+  type: 'test'
+  ...
+# Subtest: unrelated floor pictures and already volumetric furniture keep their source geometry
+ok 186 - unrelated floor pictures and already volumetric furniture keep their source geometry
+  ---
+  duration_ms: 0.587458
+  type: 'test'
+  ...
+# (node:54520) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every Johto/Kanto gate context preserves original roof, canopy and entrance first surfaces
+ok 187 - every Johto/Kanto gate context preserves original roof, canopy and entrance first surfaces
+  ---
+  duration_ms: 2023.182917
+  type: 'test'
+  ...
+# Compared 2051 native first-surface identities across all 25 Johto/Kanto GLB contexts.
+# Subtest: all north/south gate backs have matched solid foundations, cream cladding and recessed original window UVs
+ok 188 - all north/south gate backs have matched solid foundations, cream cladding and recessed original window UVs
+  ---
+  duration_ms: 678.660417
+  type: 'test'
+  ...
+# Subtest: source gate rooms remain enclosed across horizontal and upward directions
+ok 189 - source gate rooms remain enclosed across horizontal and upward directions
+  ---
+  duration_ms: 5756.192375
+  type: 'test'
+  ...
+# Checked 25920 physical interior rays; original dark entrance cards are preserved functional doorway surfaces.
+# Subtest: placed native SkinnedMesh gates refresh transforms and keep clone/template resource ownership
+ok 190 - placed native SkinnedMesh gates refresh transforms and keep clone/template resource ownership
+  ---
+  duration_ms: 721.839166
+  type: 'test'
+  ...
+# Subtest: new gate surfaces use painted native opaque texels instead of transparent or unrelated atlas margins
+ok 191 - new gate surfaces use painted native opaque texels instead of transparent or unrelated atlas margins
+  ---
+  duration_ms: 404.048375
+  type: 'test'
+  ...
+# Sampled 88110 native painted rear cladding/glass/header texels.
+# Subtest: only confirmed source passages and bounded opposing entrance metadata affect gate closure
+ok 192 - only confirmed source passages and bounded opposing entrance metadata affect gate closure
+  ---
+  duration_ms: 469.873459
+  type: 'test'
+  ...
+# Subtest: the two measured104-unit north approaches retain their actual matching entry without admitting unrelated doors
+ok 193 - the two measured104-unit north approaches retain their actual matching entry without admitting unrelated doors
+  ---
+  duration_ms: 35.456125
+  type: 'test'
+  ...
+# Subtest: all actual placed gates repair with complete matrix entrances and preserve proven northern approaches
+ok 194 - all actual placed gates repair with complete matrix entrances and preserve proven northern approaches
+  ---
+  duration_ms: 11817.493208
+  type: 'test'
+  ...
+# Verified all 34 actual source placements with full matrix entrances, including 15 proven northern entries and 40500 room rays, plus 546 placed native first surfaces.
+# (node:54526) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: grass volume is deterministic and stays on original walkable tall-grass tiles
+ok 195 - grass volume is deterministic and stays on original walkable tall-grass tiles
+  ---
+  duration_ms: 33.175875
+  type: 'test'
+  ...
+# (node:54527) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all fifteen source gym variants receive solid native wall and projecting stripe bridges
+ok 196 - all fifteen source gym variants receive solid native wall and projecting stripe bridges
+  ---
+  duration_ms: 1616.203209
+  type: 'test'
+  ...
+# 15 actual native variants; 22410 interpolated opaque atlas samples; 1050 inside/outside rear rays.
+# Subtest: trim has depth with no open top, bottom, or end faces
+ok 197 - trim has depth with no open top, bottom, or end faces
+  ---
+  duration_ms: 36.408833
+  type: 'test'
+  ...
+# Subtest: Johto center cladding meets the actual mirrored flank planes without a recessed door-shaped notch
+ok 198 - Johto center cladding meets the actual mirrored flank planes without a recessed door-shaped notch
+  ---
+  duration_ms: 173.934666
+  type: 'test'
+  ...
+# Subtest: native transforms and clone ownership preserve the shared source template
+ok 199 - native transforms and clone ownership preserve the shared source template
+  ---
+  duration_ms: 22.657083
+  type: 'test'
+  ...
+# Subtest: rear warps are bounded to this placement and transformed to its local elevation
+ok 200 - rear warps are bounded to this placement and transformed to its local elevation
+  ---
+  duration_ms: 39.249167
+  type: 'test'
+  ...
+# Subtest: Dojo removes only the two overheight generated roof hull triangles and preserves its actual tiled roof and front recess
+ok 201 - Dojo removes only the two overheight generated roof hull triangles and preserves its actual tiled roof and front recess
+  ---
+  duration_ms: 224.381416
+  type: 'test'
+  ...
+# (node:54528) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every exported ordinary house variant has opaque continuous rear and side cladding under its source roof
+ok 202 - every exported ordinary house variant has opaque continuous rear and side cladding under its source roof
+  ---
+  duration_ms: 7105.364666
+  type: 'test'
+  ...
+# Rebuilt 45/45 ordinary house texture variants. Declined: 
+# Subtest: the actual Cherrygrove rear uses side-wall cladding and cannot reflect the recessed front door
+ok 203 - the actual Cherrygrove rear uses side-wall cladding and cannot reflect the recessed front door
+  ---
+  duration_ms: 8.735917
+  type: 'test'
+  ...
+# Subtest: a coplanar native interior door backplate cannot show through NBC rear siding
+ok 204 - a coplanar native interior door backplate cannot show through NBC rear siding
+  ---
+  duration_ms: 14.827292
+  type: 'test'
+  ...
+# Subtest: house reconstruction ignores bank-zero furniture, unrelated props and opposite passages
+ok 205 - house reconstruction ignores bank-zero furniture, unrelated props and opposite passages
+  ---
+  duration_ms: 10.112292
+  type: 'test'
+  ...
+# Subtest: a rotated, translated and scaled placement closes in source space without moving its original front
+ok 206 - a rotated, translated and scaled placement closes in source space without moving its original front
+  ---
+  duration_ms: 266.698916
+  type: 'test'
+  ...
+# Subtest: known non-enterable source houses receive continuous exteriors without inventing a rear door
+ok 207 - known non-enterable source houses receive continuous exteriors without inventing a rear door
+  ---
+  duration_ms: 21.78375
+  type: 'test'
+  ...
+# Subtest: a matrix-wide distant northern entrance cannot suppress a local house repair
+ok 208 - a matrix-wide distant northern entrance cannot suppress a local house repair
+  ---
+  duration_ms: 5.954208
+  type: 'test'
+  ...
+# Subtest: the original recessed front door stays in front of every generated wall, and rear UVs use side cladding only
+ok 209 - the original recessed front door stays in front of every generated wall, and rear UVs use side cladding only
+  ---
+  duration_ms: 6.2745
+  type: 'test'
+  ...
+# Subtest: native roofs remain visible and block upward light from the central body of every house variant
+ok 210 - native roofs remain visible and block upward light from the central body of every house variant
+  ---
+  duration_ms: 3008.673
+  type: 'test'
+  ...
+# Subtest: a newly placed skinned source clone refreshes bind matrices before enclosure analysis
+ok 211 - a newly placed skinned source clone refreshes bind matrices before enclosure analysis
+  ---
+  duration_ms: 6.676875
+  type: 'test'
+  ...
+# Subtest: source snow remains a transparent overlay rather than supplying opaque structural roof patches
+ok 212 - source snow remains a transparent overlay rather than supplying opaque structural roof patches
+  ---
+  duration_ms: 5.507042
+  type: 'test'
+  ...
+# Subtest: paired raised roof ridges continue their native vertical fascia paint across the rear
+ok 213 - paired raised roof ridges continue their native vertical fascia paint across the rear
+  ---
+  duration_ms: 306.461125
+  type: 'test'
+  ...
+# Subtest: actual enclosure-audit witnesses cannot escape through rear eaves, atlas-band joins or stepped roof gaps
+ok 214 - actual enclosure-audit witnesses cannot escape through rear eaves, atlas-band joins or stepped roof gaps
+  ---
+  duration_ms: 1723.099708
+  type: 'test'
+  ...
+# Subtest: the native WK_HH roof-plane crossing bounds its loft cap without a new peak through the roof
+ok 215 - the native WK_HH roof-plane crossing bounds its loft cap without a new peak through the roof
+  ---
+  duration_ms: 91.937625
+  type: 'test'
+  ...
+# Subtest: the farm cabin and dairy wing retain their separate native wall palettes across the rear
+ok 216 - the farm cabin and dairy wing retain their separate native wall palettes across the rear
+  ---
+  duration_ms: 19.565959
+  type: 'test'
+  ...
+# Subtest: front interior closure preserves both deeply recessed YBC window surfaces
+ok 217 - front interior closure preserves both deeply recessed YBC window surfaces
+  ---
+  duration_ms: 26.2225
+  type: 'test'
+  ...
+# Subtest: every placed house variant preserves vertical facade first hits across a dense front grid and visible window pixels
+ok 218 - every placed house variant preserves vertical facade first hits across a dense front grid and visible window pixels
+  ---
+  duration_ms: 70915.647041
+  type: 'test'
+  ...
+# {"variants":45,"paintedSamples":37973,"windowSamples":13641,"microLining":29,"microWitnesses":[{"asset":"props/1-20-0.glb","source":"wk_hhouse_5","at":[-37.629000000000815,64.619,22],"actualAt":[-37.629000000000815,64.619,22.000294425352877],"distanceNative":0.0002944253528767149},{"asset":"props/1-20-0.glb","source":"wk_hhouse_5","at":[-21.629000000000815,74.619,22],"actualAt":[-21.629000000000815,74.619,22.00037279675962],"distanceNative":0.0003727967596205417},{"asset":"props/1-20-0.glb","source":"wk_hhouse_5","at":[-5.629000000000815,84.619,22],"actualAt":[-5.629000000000815,84.619,22.000451168166364],"distanceNative":0.0004511681663643685},{"asset":"props/1-20-0.glb","source":"wk_hhouse_5","at":[12.370999999999185,80.619,22],"actualAt":[12.370999999999185,80.619,22.000323814630065],"distanceNative":0.00032381463006458944},{"asset":"props/1-20-0.glb","source":"wk_hhouse_5","at":[22.370999999999185,74.619,22],"actualAt":[22.370999999999185,74.619,22.00037279676053],"distanceNative":0.0003727967605300364},{"asset":"props/1-102-6.glb","source":"tn_h01_6","at":[10.371000000000095,38.619,19],"actualAt":[10.371000000000095,38.619,19.000779567730206],"distanceNative":0.0007795677302055992},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[-6.828218750000815,56.619,20.31603959555514],"actualAt":[-6.828218750000815,56.619,20.316528842043226],"distanceNative":0.0004892464880867919},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[-4.828218750000815,56.619,20.312339234544197],"actualAt":[-4.828218750000815,56.619,20.3128051987901],"distanceNative":0.0004659642459046154},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[-2.828218750000815,56.619,20.308638873533255],"actualAt":[-2.828218750000815,56.619,20.309081555536977],"distanceNative":0.0004426820037224388},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[-0.8282187500008149,56.619,20.304938512522767],"actualAt":[-0.8282187500008149,56.619,20.305357912284308],"distanceNative":0.00041939976154026226},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[1.171781249999185,56.619,20.301238151511825],"actualAt":[1.171781249999185,56.619,20.301634269031183],"distanceNative":0.0003961175193580857},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[3.171781249999185,56.619,20.297537790500883],"actualAt":[3.171781249999185,56.619,20.29791062577806],"distanceNative":0.00037283527717590914},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[5.171781249999185,56.619,20.29383742948994],"actualAt":[5.171781249999185,56.619,20.29418698252539],"distanceNative":0.00034955303544847993},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[7.171781249999185,56.619,20.290137068479453],"actualAt":[7.171781249999185,56.619,20.290463339272264],"distanceNative":0.000326270792811556},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[9.171781249999185,56.619,20.28643670746851],"actualAt":[9.171781249999185,56.619,20.28673969601914],"distanceNative":0.00030298855062937946},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[11.171781249999185,56.619,20.28273634645757],"actualAt":[11.171781249999185,56.619,20.28301605276647],"distanceNative":0.00027970630890195025},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[13.171781249999185,56.619,20.279035985446626],"actualAt":[13.171781249999185,56.619,20.279292409513346],"distanceNative":0.0002564240667197737},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[15.171781249999185,56.619,20.27533562443614],"actualAt":[15.171781249999185,56.619,20.275568766260676],"distanceNative":0.00023314182453759713},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[17.171781249999185,56.619,20.271635263425196],"actualAt":[17.171781249999185,56.619,20.27184512300755],"distanceNative":0.00020985958235542057},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[19.171781249999185,56.619,20.267934902414254],"actualAt":[19.171781249999185,56.619,20.268121479754427],"distanceNative":0.000186577340173244},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[21.171781249999185,56.619,20.26423454140331],"actualAt":[21.171781249999185,56.619,20.264397836501757],"distanceNative":0.0001632950984458148},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[23.171781249999185,56.619,20.260534180392824],"actualAt":[23.171781249999185,56.619,20.260674193248633],"distanceNative":0.0001400128558088909},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[25.171781249999185,56.619,20.25683381938188],"actualAt":[25.171781249999185,56.619,20.25695054999551],"distanceNative":0.00011673061362671433},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[27.171781249999185,56.619,20.25313345837094],"actualAt":[27.171781249999185,56.619,20.25322690674284],"distanceNative":0.00009344837189928512},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[29.171781249999185,56.619,20.249433097359997],"actualAt":[29.171781249999185,56.619,20.249503263489714],"distanceNative":0.00007016612971710856},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[31.171781249999185,56.619,20.245732736349055],"actualAt":[31.171781249999185,56.619,20.24577962023659],"distanceNative":0.000046883887534932},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[33.171781249999185,56.619,20.242032375338567],"actualAt":[33.171781249999185,56.619,20.24205597698392],"distanceNative":0.00002360164535275544},{"asset":"props/1-236-14.glb","source":"ta_h01_4","at":[35.171781249999185,56.619,20.238332014327625],"actualAt":[35.171781249999185,56.619,20.238332333730796],"distanceNative":3.1940317057888024e-7},{"asset":"props/1-237-14.glb","source":"ta_h02_4","at":[12.742093749999185,72.53696875,16.92578125],"actualAt":[12.742093749999185,72.53696875,16.92623593610233],"distanceNative":0.0004546861023300153}],"strictMisses":0,"misses":[]}
+# Subtest: every upper rear, front and post closure stays within the literal painted native roof envelope
+ok 219 - every upper rear, front and post closure stays within the literal painted native roof envelope
+  ---
+  duration_ms: 1167.773375
+  type: 'test'
+  ...
+# {"vertices":2199,"edgeChecks":105773,"planeCrossings":80,"alphaCuts":48876,"encodedContacts":23,"details":[{"file":"1-102-6.glb","role":"house-rear-cladding","checks":1512},{"file":"1-102-6.glb","role":"house-wall-lining","checks":370},{"file":"1-153-19.glb","role":"house-post-header-closure","checks":36},{"file":"1-153-19.glb","role":"house-post-side-closure","checks":36},{"file":"1-20-0.glb","role":"house-rear-cladding","checks":47190},{"file":"1-20-0.glb","role":"house-wall-lining","checks":9698},{"file":"1-20-0.glb","role":"house-front-interior-closure","checks":37861},{"file":"1-237-14.glb","role":"house-rear-cladding","checks":1860},{"file":"1-237-14.glb","role":"house-wall-lining","checks":930},{"file":"1-238-14.glb","role":"house-rear-cladding","checks":3928},{"file":"1-238-14.glb","role":"house-wall-lining","checks":2280},{"file":"1-335-98.glb","role":"house-post-header-closure","checks":36},{"file":"1-335-98.glb","role":"house-post-side-closure","checks":36}],"failures":[]}
+# (node:54539) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: both industrial facilities preserve the original entrance, source buffers and native silhouette
+ok 220 - both industrial facilities preserve the original entrance, source buffers and native silhouette
+  ---
+  duration_ms: 478.224375
+  type: 'test'
+  ...
+# Subtest: Battle Frontier Tower gains a recessed architectural rear, thin fin returns and a roof matching the concave footprint
+ok 221 - Battle Frontier Tower gains a recessed architectural rear, thin fin returns and a roof matching the concave footprint
+  ---
+  duration_ms: 285.437375
+  type: 'test'
+  ...
+# Subtest: Power Plant rear windows and chamfered parapet avoid copying the native front doorframe
+ok 222 - Power Plant rear windows and chamfered parapet avoid copying the native front doorframe
+  ---
+  duration_ms: 250.490292
+  type: 'test'
+  ...
+# Subtest: interior rear and upward oblique rays meet actual walls, corner glazing or roofs on both variants
+ok 223 - interior rear and upward oblique rays meet actual walls, corner glazing or roofs on both variants
+  ---
+  duration_ms: 262.150667
+  type: 'test'
+  ...
+# Subtest: independent full-scene Tower audit shoulder and canted-podium escapes meet measured native-edge returns
+ok 224 - independent full-scene Tower audit shoulder and canted-podium escapes meet measured native-edge returns
+  ---
+  duration_ms: 201.025125
+  type: 'test'
+  ...
+# Subtest: public helper refreshes skinned placement transforms, declines real rear entrances and owns only its clone
+ok 225 - public helper refreshes skinned placement transforms, declines real rear entrances and owns only its clone
+  ---
+  duration_ms: 579.64975
+  type: 'test'
+  ...
+# Subtest: all new industrial surfaces sample opaque painted native pixels and tower rear glass never uses transparent magenta frame art
+ok 226 - all new industrial surfaces sample opaque painted native pixels and tower rear glass never uses transparent magenta frame art
+  ---
+  duration_ms: 206.552917
+  type: 'test'
+  ...
+# (node:54558) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: League arches preserve their intentional open passage while only six generated hull facets are removed
+ok 227 - League arches preserve their intentional open passage while only six generated hull facets are removed
+  ---
+  duration_ms: 60.0345
+  type: 'test'
+  ...
+# Subtest: Alph research rear is continuous native stone without altering front, planted roof or shared atlas resources
+ok 228 - Alph research rear is continuous native stone without altering front, planted roof or shared atlas resources
+  ---
+  duration_ms: 339.708625
+  type: 'test'
+  ...
+# 6120 interpolated native stone atlas samples hit opaque pixels.
+# Subtest: research interior rays stay enclosed while actual rear warps, source templates and placed gate passages remain valid
+ok 229 - research interior rays stay enclosed while actual rear warps, source templates and placed gate passages remain valid
+  ---
+  duration_ms: 1683.8085
+  type: 'test'
+  ...
+# 1323 alpha-aware rear/upward research-center interior rays blocked.
+# (node:54567) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every exported Bellchime, League and Alph shrine variant receives a measured native-atlas rear shell
+ok 230 - every exported Bellchime, League and Alph shrine variant receives a measured native-atlas rear shell
+  ---
+  duration_ms: 655.067833
+  type: 'test'
+  ...
+# 12 native variants; 17190 interpolated atlas samples hit opaque source pixels.
+# Subtest: Bellchime hall closes the omitted timber rear and the space below the rear eaves
+ok 231 - Bellchime hall closes the omitted timber rear and the space below the rear eaves
+  ---
+  duration_ms: 904.393292
+  type: 'test'
+  ...
+# Subtest: Ecruteak entrance hall uses its shorter roof and closes the actual raised portico gaps
+ok 232 - Ecruteak entrance hall uses its shorter roof and closes the actual raised portico gaps
+  ---
+  duration_ms: 615.943667
+  type: 'test'
+  ...
+# Subtest: Pokemon League seals its rear wall and missing central roof gable without boxing its taller towers
+ok 233 - Pokemon League seals its rear wall and missing central roof gable without boxing its taller towers
+  ---
+  duration_ms: 203.003083
+  type: 'test'
+  ...
+# Subtest: native world transforms and cached-template cloning do not move or share generated landmark walls
+ok 234 - native world transforms and cached-template cloning do not move or share generated landmark walls
+  ---
+  duration_ms: 13.58975
+  type: 'test'
+  ...
+# Subtest: all nine native Alph shrine rear elevations are continuous and retain the actual front door recess
+ok 235 - all nine native Alph shrine rear elevations are continuous and retain the actual front door recess
+  ---
+  duration_ms: 406.759834
+  type: 'test'
+  ...
+# Subtest: interior rays cannot escape through repaired rear corners, roofs or eave joints
+ok 236 - interior rays cannot escape through repaired rear corners, roofs or eave joints
+  ---
+  duration_ms: 8605.051458
+  type: 'test'
+  ...
+# 11088 interior rays across all 12 variants, seven elevations and eleven rearward headings.
+# Subtest: strict world-space shrine edge reports remain blocked by local-space runtime raycasts on either side
+ok 237 - strict world-space shrine edge reports remain blocked by local-space runtime raycasts on either side
+  ---
+  duration_ms: 11.622208
+  type: 'test'
+  ...
+# 1-155-19.glb exact/neighbor runtime hits: [{"dx":-0.000001,"name":"landmark-building-alph-stone-shrine-cladding","point":[420.499999,7.061875104904175,270.52461696278584]},{"dx":0,"name":"landmark-building-alph-stone-shrine-cladding","point":[420.5,7.061875104904175,270.52461696278584]},{"dx":0.000001,"name":"landmark-building-alph-stone-shrine-cladding","point":[420.500001,7.061875104904175,270.52461696278584]}]
+# 1-155-19.glb exact/neighbor runtime hits: [{"dx":-0.000001,"name":"landmark-building-alph-stone-shrine-cladding","point":[420.499999,7.061875104904175,269.7150446936599]},{"dx":0,"name":"landmark-building-alph-stone-shrine-cladding","point":[420.5,7.061875104904175,269.7150446936599]},{"dx":0.000001,"name":"landmark-building-alph-stone-shrine-cladding","point":[420.500001,7.061875104904175,269.7150446936599]}]
+# 1-156-19.glb exact/neighbor runtime hits: [{"dx":-0.000001,"name":"landmark-building-alph-stone-shrine-cladding","point":[427.999999,5.7870605564010935,271.5625]},{"dx":0,"name":"landmark-building-alph-stone-shrine-cladding","point":[428,5.7870605564010935,271.5625]},{"dx":0.000001,"name":"ar_shrine2_5","point":[428,5.78705992675265,271.562501]}]
+# Subtest: gates, ships, closed silos and different landmark families retain their native silhouettes and passages
+ok 238 - gates, ships, closed silos and different landmark families retain their native silhouettes and passages
+  ---
+  duration_ms: 273.739417
+  type: 'test'
+  ...
+# (node:54569) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all three literal art witnesses and six collision-aligned floor samples pass for every actual corner
+ok 239 - all three literal art witnesses and six collision-aligned floor samples pass for every actual corner
+  ---
+  duration_ms: 1.504416
+  type: 'test'
+  ...
+# Subtest: actual native corner triangles reject wrong material, underside, wrong layer, non-flatness, missing coverage and degenerate art
+ok 240 - actual native corner triangles reject wrong material, underside, wrong layer, non-flatness, missing coverage and degenerate art
+  ---
+  duration_ms: 0.313167
+  type: 'test'
+  ...
+# Subtest: a corner rejects each non-flat endpoint, collision-layer mismatch, missing floor and non-finite floor
+ok 241 - a corner rejects each non-flat endpoint, collision-layer mismatch, missing floor and non-finite floor
+  ---
+  duration_ms: 0.5835
+  type: 'test'
+  ...
+# (node:54571) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the actual Route29 blocked rim remains on the upper terrace instead of sagging between the two cliff ends
+ok 242 - the actual Route29 blocked rim remains on the upper terrace instead of sagging between the two cliff ends
+  ---
+  duration_ms: 211.7745
+  type: 'test'
+  ...
+# Subtest: native Route29 convex corner has continuous opaque faces to both lower floors and one exact shared endpoint
+ok 243 - native Route29 convex corner has continuous opaque faces to both lower floors and one exact shared endpoint
+  ---
+  duration_ms: 81.730667
+  type: 'test'
+  ...
+# Subtest: actual emitted grass-floor boundaries share the exact stored cliff top and bottom vertices at the repaired turn
+ok 244 - actual emitted grass-floor boundaries share the exact stored cliff top and bottom vertices at the repaired turn
+  ---
+  duration_ms: 139.717542
+  type: 'test'
+  ...
+# Subtest: all added native corner sectors retain physical drops and closed emitted joints, including existing three-level turns
+ok 245 - all added native corner sectors retain physical drops and closed emitted joints, including existing three-level turns
+  ---
+  duration_ms: 528.975834
+  type: 'test'
+  ...
+# Subtest: corner wall emission handles every orientation and cell-border endpoint and refuses missing source profiles
+ok 246 - corner wall emission handles every orientation and cell-border endpoint and refuses missing source profiles
+  ---
+  duration_ms: 78.837875
+  type: 'test'
+  ...
+# Subtest: an invalid corner profile rejects its own cell without preventing unrelated native ledge cells from loading
+ok 247 - an invalid corner profile rejects its own cell without preventing unrelated native ledge cells from loading
+  ---
+  duration_ms: 17.81925
+  type: 'test'
+  ...
+# (node:54584) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual World Route30/31 ordinary steps retain source walkability and stay below the literal native blocked-height boundary
+ok 248 - actual World Route30/31 ordinary steps retain source walkability and stay below the literal native blocked-height boundary
+  ---
+  duration_ms: 1118.15925
+  type: 'test'
+  ...
+# Subtest: MrPokémon house approach, native Cut object and Route31 cave keep their actual source transition classifications
+ok 249 - MrPokémon house approach, native Cut object and Route31 cave keep their actual source transition classifications
+  ---
+  duration_ms: 0.656042
+  type: 'test'
+  ...
+# Subtest: actual Route30 south ledge keeps its native one-way branch and correct upper/lower World landing references
+ok 250 - actual Route30 south ledge keeps its native one-way branch and correct upper/lower World landing references
+  ---
+  duration_ms: 0.145459
+  type: 'test'
+  ...
+# Subtest: actual terrain-only traversal still reaches the south house approach
+ok 251 - actual terrain-only traversal still reaches the south house approach
+  ---
+  duration_ms: 561.095708
+  type: 'test'
+  ...
+# (node:54606) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native ledges allow only their original downhill jump direction
+ok 252 - native ledges allow only their original downhill jump direction
+  ---
+  duration_ms: 0.627208
+  type: 'test'
+  ...
+# Subtest: jump arcs connect actual terrace heights continuously without overshooting the endpoints
+ok 253 - jump arcs connect actual terrace heights continuously without overshooting the endpoints
+  ---
+  duration_ms: 0.127417
+  type: 'test'
+  ...
+# Subtest: exported Route 29 ledges have distinct upper/lower heights and continuous open edges across cell borders
+ok 254 - exported Route 29 ledges have distinct upper/lower heights and continuous open edges across cell borders
+  ---
+  duration_ms: 9249.978458
+  type: 'test'
+  ...
+# Subtest: terrain displacement keeps every affected native water tile flat at its original level
+ok 255 - terrain displacement keeps every affected native water tile flat at its original level
+  ---
+  duration_ms: 761.119375
+  type: 'test'
+  ...
+# Subtest: every raised native ledge retains a physical drop at its edge midpoint, including single-tile ends
+ok 256 - every raised native ledge retains a physical drop at its edge midpoint, including single-tile ends
+  ---
+  duration_ms: 994.464583
+  type: 'test'
+  ...
+# Subtest: major outdoor structures sit on flat terrace offsets through their complete source footprints
+ok 257 - major outdoor structures sit on flat terrace offsets through their complete source footprints
+  ---
+  duration_ms: 867.141833
+  type: 'test'
+  ...
+# (node:54608) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: both underground exit contexts share the exact measured stairhead structure and native map
+ok 258 - both underground exit contexts share the exact measured stairhead structure and native map
+  ---
+  duration_ms: 241.836584
+  type: 'test'
+  ...
+# Subtest: the native opaque gray mullion under the Wi-Fi annex dish remains a painted wall
+ok 259 - the native opaque gray mullion under the Wi-Fi annex dish remains a painted wall
+  ---
+  duration_ms: 237.172375
+  type: 'test'
+  ...
+# Subtest: all six measured miscellaneous families preserve their native front and use clone-owned resources
+ok 260 - all six measured miscellaneous families preserve their native front and use clone-owned resources
+  ---
+  duration_ms: 253.486792
+  type: 'test'
+  ...
+# Subtest: the asymmetric stairhead and penthouse receive continuous native rear profiles without reflected doors
+ok 261 - the asymmetric stairhead and penthouse receive continuous native rear profiles without reflected doors
+  ---
+  duration_ms: 43.52825
+  type: 'test'
+  ...
+# Subtest: the Wi-Fi tower uses measured stepped window bands and preserves its antenna silhouette
+ok 262 - the Wi-Fi tower uses measured stepped window bands and preserves its antenna silhouette
+  ---
+  duration_ms: 333.539875
+  type: 'test'
+  ...
+# Subtest: the native tent keeps its wide east approach and gains only the omitted polygonal rear perimeter
+ok 263 - the native tent keeps its wide east approach and gains only the omitted polygonal rear perimeter
+  ---
+  duration_ms: 102.299417
+  type: 'test'
+  ...
+# Subtest: the produce stall remains exactly open, with its native striped canopy and produce unchanged
+ok 264 - the produce stall remains exactly open, with its native striped canopy and produce unchanged
+  ---
+  duration_ms: 16.348042
+  type: 'test'
+  ...
+# Subtest: Oak Lab removes the generated door ghost at the rear foundation with native foundation and brick
+ok 265 - Oak Lab removes the generated door ghost at the rear foundation with native foundation and brick
+  ---
+  duration_ms: 14.609167
+  type: 'test'
+  ...
+# Subtest: native local profiles survive placed SkinnedMesh transforms and bounded rear passage cuts
+ok 266 - native local profiles survive placed SkinnedMesh transforms and bounded rear passage cuts
+  ---
+  duration_ms: 214.142667
+  type: 'test'
+  ...
+# Subtest: all new opaque miscellaneous cladding samples painted native PNG pixels
+ok 267 - all new opaque miscellaneous cladding samples painted native PNG pixels
+  ---
+  duration_ms: 59.499459
+  type: 'test'
+  ...
+# Subtest: confirmed oblique rear roof and tier seam rays close on the native penthouse eave and Wi-Fi deck
+ok 268 - confirmed oblique rear roof and tier seam rays close on the native penthouse eave and Wi-Fi deck
+  ---
+  duration_ms: 270.38125
+  type: 'test'
+  ...
+# Subtest: the actual tent placement closes all seven above-lintel escapes while preserving its native Y81 porch
+ok 269 - the actual tent placement closes all seven above-lintel escapes while preserving its native Y81 porch
+  ---
+  duration_ms: 29.144667
+  type: 'test'
+  ...
+# Subtest: Oak Lab closes its omitted raised rear fascia and bevel returns at the actual dense witnesses
+ok 270 - Oak Lab closes its omitted raised rear fascia and bevel returns at the actual dense witnesses
+  ---
+  duration_ms: 140.546125
+  type: 'test'
+  ...
+# Subtest: the tent joins native window-frame tops to the cornice without covering glazing or the east porch
+ok 271 - the tent joins native window-frame tops to the cornice without covering glazing or the east porch
+  ---
+  duration_ms: 19.832583
+  type: 'test'
+  ...
+# (node:54609) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all three native contexts receive measured cladding without altering original fronts, buffers, materials or maps
+ok 272 - all three native contexts receive measured cladding without altering original fronts, buffers, materials or maps
+  ---
+  duration_ms: 404.46925
+  type: 'test'
+  ...
+# Subtest: Game Corner closes its actual two rear octagonal fascia corners, without capping the native sign or glazing
+ok 273 - Game Corner closes its actual two rear octagonal fascia corners, without capping the native sign or glazing
+  ---
+  duration_ms: 12.411209
+  type: 'test'
+  ...
+# Subtest: Name Rater rear has continuous tapered cloth and its exact three-level patterned hip, keeping the source curtains and front recess
+ok 274 - Name Rater rear has continuous tapered cloth and its exact three-level patterned hip, keeping the source curtains and front recess
+  ---
+  duration_ms: 227.172917
+  type: 'test'
+  ...
+# Subtest: new cladding samples only opaque native painted pixels, including the gold/purple rear hip
+ok 275 - new cladding samples only opaque native painted pixels, including the gold/purple rear hip
+  ---
+  duration_ms: 26.710959
+  type: 'test'
+  ...
+# Subtest: standalone transformed skinned clones refresh themselves, own only additions and decline real rear entrances
+ok 276 - standalone transformed skinned clones refresh themselves, own only additions and decline real rear entrances
+  ---
+  duration_ms: 41.769375
+  type: 'test'
+  ...
+# (node:54660) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: hidden variable-sprite events accept positions before the character is shown
+ok 277 - hidden variable-sprite events accept positions before the character is shown
+  ---
+  duration_ms: 2.076125
+  type: 'test'
+  ...
+# Subtest: refresh preserves source object state and re-entry reloads the original event table
+ok 278 - refresh preserves source object state and re-entry reloads the original event table
+  ---
+  duration_ms: 0.393167
+  type: 'test'
+  ...
+# Subtest: source visibility flags and explicit hide/show are respected
+ok 279 - source visibility flags and explicit hide/show are respected
+  ---
+  duration_ms: 0.413375
+  type: 'test'
+  ...
+# Subtest: Continue restores active NPC positions and hidden state without changing another map
+ok 280 - Continue restores active NPC positions and hidden state without changing another map
+  ---
+  duration_ms: 1.625833
+  type: 'test'
+  ...
+# Subtest: movement variants preserve facing, repetition and far-jump tile distance
+ok 281 - movement variants preserve facing, repetition and far-jump tile distance
+  ---
+  duration_ms: 0.591083
+  type: 'test'
+  ...
+# (node:54664) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Bell Tower exposes all nine authored rear roof tiers by removing only the erroneous giant entrance hull
+ok 282 - Bell Tower exposes all nine authored rear roof tiers by removing only the erroneous giant entrance hull
+  ---
+  duration_ms: 569.929292
+  type: 'test'
+  ...
+# Subtest: all nine actual wall stories retain their rear enclosure and roofs without fabricated slab geometry
+ok 283 - all nine actual wall stories retain their rear enclosure and roofs without fabricated slab geometry
+  ---
+  duration_ms: 33363.614583
+  type: 'test'
+  ...
+# 11907 alpha-aware interior rays across all nine wall stories, three body heights, seven elevations and seven rear headings.
+# Subtest: placed skinned transforms and clone ownership keep the native tower intact
+ok 284 - placed skinned transforms and clone ownership keep the native tower intact
+  ---
+  duration_ms: 97.448334
+  type: 'test'
+  ...
+# Subtest: different towers, gates and incomplete source geometry keep their existing fallback panels
+ok 285 - different towers, gates and incomplete source geometry keep their existing fallback panels
+  ---
+  duration_ms: 33.00025
+  type: 'test'
+  ...
+# Subtest: Sprout Tower preserves its three complete native roof tiers and timber stories without the giant rear ladder
+ok 286 - Sprout Tower preserves its three complete native roof tiers and timber stories without the giant rear ladder
+  ---
+  duration_ms: 3607.803292
+  type: 'test'
+  ...
+# 2646 alpha-aware source interior rays across all three Sprout Tower stories.
+# (node:54667) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native Pokeathlon front surfaces and curved roofs remain first visible after measured repairs
+ok 287 - native Pokeathlon front surfaces and curved roofs remain first visible after measured repairs
+  ---
+  duration_ms: 2658.285417
+  type: 'test'
+  ...
+# Compared 1180 native front/roof object identities and hit distances, with decoded PNG alpha.
+# Subtest: all three-way gate variants close their rear while retaining both authored north passages
+ok 288 - all three-way gate variants close their rear while retaining both authored north passages
+  ---
+  duration_ms: 223.453042
+  type: 'test'
+  ...
+# Checked 246 rear wall/passage rays across every gate palette; passages remain open even with only the south entrance metadata.
+# Subtest: dense gate canopy paths meet the short native lintel join without closing either passage
+ok 289 - dense gate canopy paths meet the short native lintel join without closing either passage
+  ---
+  duration_ms: 629.672875
+  type: 'test'
+  ...
+# Blocked 162 fullprecision and neighboring canopy paths, retained 108 native canopy first surfaces, and kept 240 below-lintel passage paths clear across all three actual contexts.
+# Subtest: the open-air stadium light keeps its native transparent beam without an opaque generated trapezoid
+ok 290 - the open-air stadium light keeps its native transparent beam without an opaque generated trapezoid
+  ---
+  duration_ms: 5.13025
+  type: 'test'
+  ...
+# Subtest: the assembled arena and all six individual apron pods enclose their measured interiors
+ok 291 - the assembled arena and all six individual apron pods enclose their measured interiors
+  ---
+  duration_ms: 13477.351959
+  type: 'test'
+  ...
+# Checked 8208 horizontal/upward arena rays and individual source pod interiors; source double doors remain attached.
+# Subtest: dense upward assembly witnesses meet the measured center-strip returns with native roofs preserved
+ok 292 - dense upward assembly witnesses meet the measured center-strip returns with native roofs preserved
+  ---
+  duration_ms: 2439.32175
+  type: 'test'
+  ...
+# Blocked 72 exact/dense-neighbor assembly paths and retained 224 native roof first surfaces in canonical and actual placements.
+# Subtest: Pokeathlon cladding uses opaque native atlas texels and owns only its new clone resources
+ok 293 - Pokeathlon cladding uses opaque native atlas texels and owns only its new clone resources
+  ---
+  duration_ms: 310.269417
+  type: 'test'
+  ...
+# Sampled 32310 actual painted native texels across all five GLB contexts.
+# (node:54672) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: repeated placements keep the same fallback tint without changing the shared colour cache
+ok 294 - repeated placements keep the same fallback tint without changing the shared colour cache
+  ---
+  duration_ms: 8.056375
+  type: 'test'
+  ...
+# Subtest: a missing rear surface becomes a closed prism, with every edge used twice
+ok 295 - a missing rear surface becomes a closed prism, with every edge used twice
+  ---
+  duration_ms: 0.381875
+  type: 'test'
+  ...
+# Subtest: one-sided building and small-prop geometry gets solid rear surfaces
+ok 296 - one-sided building and small-prop geometry gets solid rear surfaces
+  ---
+  duration_ms: 4.617
+  type: 'test'
+  ...
+# Subtest: fully volumetric props and translucent ground shadows are left intact
+ok 297 - fully volumetric props and translucent ground shadows are left intact
+  ---
+  duration_ms: 1.3215
+  type: 'test'
+  ...
+# Subtest: a disconnected mailbox gets its own local backing rather than the building bounds
+ok 298 - a disconnected mailbox gets its own local backing rather than the building bounds
+  ---
+  duration_ms: 1.44
+  type: 'test'
+  ...
+# Subtest: an original front doorway does not create a transparent hole through the rear
+ok 299 - an original front doorway does not create a transparent hole through the rear
+  ---
+  duration_ms: 2.549292
+  type: 'test'
+  ...
+# Subtest: tilted original tree planes become upright instanced camera-facing artwork
+ok 300 - tilted original tree planes become upright instanced camera-facing artwork
+  ---
+  duration_ms: 5.772125
+  type: 'test'
+  ...
+# Subtest: blended source materials retain their original depth-write setting
+ok 301 - blended source materials retain their original depth-write setting
+  ---
+  duration_ms: 0.178417
+  type: 'test'
+  ...
+# Subtest: recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+ok 302 - recessed rear artwork sits outside its backing and thin cutouts have no front-facing backing
+  ---
+  duration_ms: 0.860416
+  type: 'test'
+  ...
+# Subtest: a mailbox touching a building at one corner still uses local bounds
+ok 303 - a mailbox touching a building at one corner still uses local bounds
+  ---
+  duration_ms: 0.431458
+  type: 'test'
+  ...
+# Subtest: a source entrance closes a partial rear wall across the mirrored doorway opening
+ok 304 - a source entrance closes a partial rear wall across the mirrored doorway opening
+  ---
+  duration_ms: 298.311833
+  type: 'test'
+  ...
+# Subtest: opposing source entrances keep a real passage and unrelated props receive no new wall
+ok 305 - opposing source entrances keep a real passage and unrelated props receive no new wall
+  ---
+  duration_ms: 11.604125
+  type: 'test'
+  ...
+# Subtest: rear closure uses the original world doorway after prop rotation and translation
+ok 306 - rear closure uses the original world doorway after prop rotation and translation
+  ---
+  duration_ms: 15.468333
+  type: 'test'
+  ...
+# Subtest: rear wall cladding reuses source wall UVs while staying opaque
+ok 307 - rear wall cladding reuses source wall UVs while staying opaque
+  ---
+  duration_ms: 1.756458
+  type: 'test'
+  ...
+# Subtest: split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+ok 308 - split wall bands close the upper rear while a neighbouring corner door cannot choose the front
+  ---
+  duration_ms: 1.007792
+  type: 'test'
+  ...
+# Subtest: native door direction overrides an ambiguous corner of the building bounds
+ok 309 - native door direction overrides an ambiguous corner of the building bounds
+  ---
+  duration_ms: 2.245625
+  type: 'test'
+  ...
+# Subtest: rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+ok 310 - rotated tree quads retain measured flipped UVs, original height and mixed-mesh shadows
+  ---
+  duration_ms: 1.483083
+  type: 'test'
+  ...
+# Subtest: repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+ok 311 - repeated forest and lightmap quads create four independent trunk pivots on their ground marks
+  ---
+  duration_ms: 13.512625
+  type: 'test'
+  ...
+# Subtest: tilted flower beds become separately rooted crossed clumps with depth
+ok 312 - tilted flower beds become separately rooted crossed clumps with depth
+  ---
+  duration_ms: 1.196916
+  type: 'test'
+  ...
+# Subtest: source fence cards and horizontal atlas runs become solid upright posts and rails
+ok 313 - source fence cards and horizontal atlas runs become solid upright posts and rails
+  ---
+  duration_ms: 0.419541
+  type: 'test'
+  ...
+# Subtest: standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+ok 314 - standing cut-out repairs preserve ground textures, shadows and actual sloping solid surfaces
+  ---
+  duration_ms: 0.13
+  type: 'test'
+  ...
+# Subtest: adjacent leaning rock cards become separate closed boulders with depth in every direction
+ok 315 - adjacent leaning rock cards become separate closed boulders with depth in every direction
+  ---
+  duration_ms: 4.314916
+  type: 'test'
+  ...
+# Subtest: an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+ok 316 - an unmatched rock triangle does not prevent later cards becoming closed rocks, and pole UVs stay local
+  ---
+  duration_ms: 1.177
+  type: 'test'
+  ...
+# Subtest: off-centre original trunk art has a matching image offset around its ground pivot
+ok 317 - off-centre original trunk art has a matching image offset around its ground pivot
+  ---
+  duration_ms: 0.528959
+  type: 'test'
+  ...
+# Subtest: open hill and cliff backs receive opaque skirts down to their original base
+ok 318 - open hill and cliff backs receive opaque skirts down to their original base
+  ---
+  duration_ms: 0.655583
+  type: 'test'
+  ...
+# Subtest: raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+ok 319 - raised forest platforms close down to surrounding terrain using cliff art instead of vertical stump patterns
+  ---
+  duration_ms: 0.679959
+  type: 'test'
+  ...
+# (node:54673) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fresh saves begin in the original bedroom with original money, no starter or items
+ok 320 - fresh saves begin in the original bedroom with original money, no starter or items
+  ---
+  duration_ms: 1.42775
+  type: 'test'
+  ...
+# Subtest: all three level-5 starters receive their original starting moves and PP
+ok 321 - all three level-5 starters receive their original starting moves and PP
+  ---
+  duration_ms: 0.640917
+  type: 'test'
+  ...
+# Subtest: the original mother cutscene unlocks menus and advances only its source scene
+ok 322 - the original mother cutscene unlocks menus and advances only its source scene
+  ---
+  duration_ms: 893.855875
+  type: 'test'
+  ...
+# Subtest: original starter-device script receives one starter and commits the original story flags
+ok 323 - original starter-device script receives one starter and commits the original story flags
+  ---
+  duration_ms: 169.230083
+  type: 'test'
+  ...
+# Subtest: original shared item-gift script resolves variable IDs and gives exactly the requested quantity
+ok 324 - original shared item-gift script resolves variable IDs and gives exactly the requested quantity
+  ---
+  duration_ms: 3.067
+  type: 'test'
+  ...
+# Subtest: unsupported gameplay commands halt before later story mutations
+ok 325 - unsupported gameplay commands halt before later story mutations
+  ---
+  duration_ms: 1.182791
+  type: 'test'
+  ...
+# Subtest: a looping source script fails explicitly and releases its movement lock
+ok 326 - a looping source script fails explicitly and releases its movement lock
+  ---
+  duration_ms: 2.208666
+  type: 'test'
+  ...
+# Subtest: a failed asynchronous movement stops subsequent story flags
+ok 327 - a failed asynchronous movement stops subsequent story flags
+  ---
+  duration_ms: 1.26675
+  type: 'test'
+  ...
+# Subtest: Gen IV stats retain nature rounding and Steel resists Ghost and Dark
+ok 328 - Gen IV stats retain nature rounding and Steel resists Ghost and Dark
+  ---
+  duration_ms: 0.683833
+  type: 'test'
+  ...
+# Subtest: catch formula has guaranteed and failed bounds and performs four source shake checks
+ok 329 - catch formula has guaranteed and failed bounds and performs four source shake checks
+  ---
+  duration_ms: 0.610334
+  type: 'test'
+  ...
+# Subtest: a script keeps its movement lock until outstanding movement settles after failure
+ok 330 - a script keeps its movement lock until outstanding movement settles after failure
+  ---
+  duration_ms: 2.463833
+  type: 'test'
+  ...
+# Subtest: standard-script resolution does not depend on imported bank order
+ok 331 - standard-script resolution does not depend on imported bank order
+  ---
+  duration_ms: 1.33325
+  type: 'test'
+  ...
+# Subtest: original blocked door tiles enter only their mapped north-facing doorway
+ok 332 - original blocked door tiles enter only their mapped north-facing doorway
+  ---
+  duration_ms: 1.549667
+  type: 'test'
+  ...
+# Subtest: the original Nurse Joy service heals HP, status and PP after its original confirmation
+ok 333 - the original Nurse Joy service heals HP, status and PP after its original confirmation
+  ---
+  duration_ms: 2.713083
+  type: 'test'
+  ...
+# Subtest: declining the original Nurse Joy service preserves party condition
+ok 334 - declining the original Nurse Joy service preserves party condition
+  ---
+  duration_ms: 1.13625
+  type: 'test'
+  ...
+# Subtest: native Flash commands change the field weather and GetWeatherType reads the active effect
+ok 335 - native Flash commands change the field weather and GetWeatherType reads the active effect
+  ---
+  duration_ms: 1.11625
+  type: 'test'
+  ...
+# (node:54690) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native island surf uses the omitted Maya translation, with unchanged geometry and ocean heights
+ok 336 - native island surf uses the omitted Maya translation, with unchanged geometry and ocean heights
+  ---
+  duration_ms: 388.208375
+  type: 'test'
+  ...
+# Subtest: real GLTFLoader clones only the surf transform and originalMaterial keeps native repeat/alpha/flipY
+ok 337 - real GLTFLoader clones only the surf transform and originalMaterial keeps native repeat/alpha/flipY
+  ---
+  duration_ms: 170.434042
+  type: 'test'
+  ...
+# Subtest: all 27 native surf asset variants carry their exact source translation
+ok 338 - all 27 native surf asset variants carry their exact source translation
+  ---
+  duration_ms: 757.597667
+  type: 'test'
+  ...
+# native island backing adjudication {"scope":"Actual originalMaterial/repairOriginalAsset/shorelineUnderlay/terraceModel pipeline; 560 finite native island ray/nearest-PNG samples plus 10 explicit witnesses; no browser/continuous visibility claim","legacyBackingOcclusions":0,"nativeSamples":[{"point":[524.95,406.6],"material":"swave_un","rgba":[231,231,198,255],"y":0.9718750000000256},{"point":[524.15,406.6],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[530.85,407.4],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[528.6,408.85],"material":"swave_p","rgba":[33,115,255,255],"y":0.5843749999999872},{"point":[524.4,404.6],"material":"","rgba":[255,255,255,255],"y":1.620667726797297},{"point":[530.4,405.6],"material":"swave_un","rgba":[222,222,189,255],"y":0.7750000000000128},{"point":[530.4,408.6],"material":"swave_un","rgba":[206,198,148,255],"y":0.6624999999999872},{"point":[524.4,408.6],"material":"swave_un","rgba":[206,198,148,255],"y":0.6624999999999872},{"point":[527.4,407.4],"material":"beach01","rgba":[247,247,214,255],"y":1},{"point":[532.3,407.4],"material":"sea_un","rgba":[41,123,255,255],"y":0.4375}]}
+# Subtest: actual native island backing stays below the corrected shoreline at 560 finite samples
+ok 339 - actual native island backing stays below the corrected shoreline at 560 finite samples
+  ---
+  duration_ms: 8459.037583
+  type: 'test'
+  ...
+# (node:54691) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: shoreline backing fills native sand and shallows below the art while deep water stays exposed
+ok 340 - shoreline backing fills native sand and shallows below the art while deep water stays exposed
+  ---
+  duration_ms: 2.874875
+  type: 'test'
+  ...
+# (node:54693) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Ilex shrine receives native plank rear cladding, a roof-conforming plain gable and its own opaque atlas/material buffers
+ok 341 - Ilex shrine receives native plank rear cladding, a roof-conforming plain gable and its own opaque atlas/material buffers
+  ---
+  duration_ms: 272.407333
+  type: 'test'
+  ...
+# 4437 interpolated source atlas samples are opaque.
+# Subtest: rear wall and gable block interior rays while the raised shrine remains open under its platform
+ok 342 - rear wall and gable block interior rays while the raised shrine remains open under its platform
+  ---
+  duration_ms: 1101.140416
+  type: 'test'
+  ...
+# 1323 alpha-aware rear/upward interior rays blocked.
+# Subtest: shallow dense side paths meet native under-eave returns while original front, side paint and roof remain first visible
+ok 343 - shallow dense side paths meet native under-eave returns while original front, side paint and roof remain first visible
+  ---
+  duration_ms: 2800.755083
+  type: 'test'
+  ...
+# Blocked 3468 dense side/upward paths; preserved 212 original painted front/side/roof first surfaces and open stilts.
+# Subtest: placed clone transforms, actual rear warps and distant matrix doors are handled without changing the cached template
+ok 344 - placed clone transforms, actual rear warps and distant matrix doors are handled without changing the cached template
+  ---
+  duration_ms: 97.577458
+  type: 'test'
+  ...
+# (node:54714) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all four small families retain native front identity and clone-owned geometry/materials/maps
+ok 345 - all four small families retain native front identity and clone-owned geometry/materials/maps
+  ---
+  duration_ms: 336.089167
+  type: 'test'
+  ...
+# Subtest: school cladding stops at its native rear roof and preserves the raised bell tower profile
+ok 346 - school cladding stops at its native rear roof and preserves the raised bell tower profile
+  ---
+  duration_ms: 2139.113625
+  type: 'test'
+  ...
+# Subtest: cycle shop closes its barrel end with native blue border and no copied rear entrance
+ok 347 - cycle shop closes its barrel end with native blue border and no copied rear entrance
+  ---
+  duration_ms: 11.384292
+  type: 'test'
+  ...
+# Subtest: Game Corner gains native clipped rear corners and closes both real oblique roof slots
+ok 348 - Game Corner gains native clipped rear corners and closes both real oblique roof slots
+  ---
+  duration_ms: 13.335625
+  type: 'test'
+  ...
+# Subtest: both sides of the native Game Corner glazed deck center edge retain original first-hit art
+ok 349 - both sides of the native Game Corner glazed deck center edge retain original first-hit art
+  ---
+  duration_ms: 9.045875
+  type: 'test'
+  ...
+# Subtest: Trainer House has a blue-gray rear under both measured slopes and keeps the tall native doorway
+ok 350 - Trainer House has a blue-gray rear under both measured slopes and keeps the tall native doorway
+  ---
+  duration_ms: 258.71825
+  type: 'test'
+  ...
+# Subtest: small profiles survive direct placed SkinnedMesh transforms and bounded real rear passages
+ok 351 - small profiles survive direct placed SkinnedMesh transforms and bounded real rear passages
+  ---
+  duration_ms: 303.519542
+  type: 'test'
+  ...
+# Subtest: new opaque small cladding interpolates only painted native PNG texels
+ok 352 - new opaque small cladding interpolates only painted native PNG texels
+  ---
+  duration_ms: 156.45275
+  type: 'test'
+  ...
+# (node:54727) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all imported prop and landscape geometries accept shared rendering repairs without invalid vertices
+ok 353 - all imported prop and landscape geometries accept shared rendering repairs without invalid vertices
+  ---
+  duration_ms: 44899.730334
+  type: 'test'
+  ...
+# Audited 946 prop contexts and 648 landscapes; repaired 668 structural assets and 202 tree assets and 43 upright cut-out assets; 103 solid-fence, 44 flower-volume and 395 terrain-closure contexts; 3622 textured backs.
+# Subtest: all 540 map headers reference existing imported geometry and tile data
+ok 354 - all 540 map headers reference existing imported geometry and tile data
+  ---
+  duration_ms: 1185.807917
+  type: 'test'
+  ...
+# Subtest: terrace deformation preserves actual native tree roots and valid geometry across adjacent town/route cells
+ok 355 - terrace deformation preserves actual native tree roots and valid geometry across adjacent town/route cells
+  ---
+  duration_ms: 733.419542
+  type: 'test'
+  ...
+# Subtest: repeated lightmap forest textures resolve to complete individual-tree artwork
+ok 356 - repeated lightmap forest textures resolve to complete individual-tree artwork
+  ---
+  duration_ms: 9.800084
+  type: 'test'
+  ...
+# Subtest: forked roots are grouped without losing off-centre trunks or unmarked multi-tree art
+ok 357 - forked roots are grouped without losing off-centre trunks or unmarked multi-tree art
+  ---
+  duration_ms: 0.710208
+  type: 'test'
+  ...
+# Subtest: entrance metadata takes façade direction from native door and gate tiles across the entire matrix
+ok 358 - entrance metadata takes façade direction from native door and gate tiles across the entire matrix
+  ---
+  duration_ms: 1.417959
+  type: 'test'
+  ...
+# Subtest: the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs
+ok 359 - the actual Cherrygrove Center, Mart and houses have opaque rear walls below their roofs
+  ---
+  duration_ms: 21.884666
+  type: 'test'
+  ...
+# Subtest: every native flat-seat variant becomes a closed raised seat while cushions stay low
+ok 360 - every native flat-seat variant becomes a closed raised seat while cushions stay low
+  ---
+  duration_ms: 490.373583
+  type: 'test'
+  ...
+# Verified all 40 native seat/bench/cushion/box texture variants.
+# Subtest: all exported tree shapes retain visible sprite bounds and proven generic material aliases
+ok 361 - all exported tree shapes retain visible sprite bounds and proven generic material aliases
+  ---
+  duration_ms: 0.932833
+  type: 'test'
+  ...
+# (node:54728) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a failed spawn download retries and both callers retain the recovered native rows
+ok 362 - a failed spawn download retries and both callers retain the recovered native rows
+  ---
+  duration_ms: 25.581167
+  type: 'test'
+  ...
+# (node:54732) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every native Center and Mart variant has a complete rear, joined roof, and unchanged front
+ok 363 - every native Center and Mart variant has a complete rear, joined roof, and unchanged front
+  ---
+  duration_ms: 87858.538125
+  type: 'test'
+  ...
+# Checked all 34 Center/Mart GLB variants using 111452 interior/rear/roof rays and front-surface identity comparisons.
+# Subtest: placed special shells respect rotation and nonuniform scale without mutating shared templates
+ok 364 - placed special shells respect rotation and nonuniform scale without mutating shared templates
+  ---
+  duration_ms: 106.400209
+  type: 'test'
+  ...
+# Subtest: oblique interior rays cannot escape through Center or Mart roof/eave seams
+ok 365 - oblique interior rays cannot escape through Center or Mart roof/eave seams
+  ---
+  duration_ms: 3231.606083
+  type: 'test'
+  ...
+# Subtest: gates and a special model with a genuine opposite exit keep their passages
+ok 366 - gates and a special model with a genuine opposite exit keep their passages
+  ---
+  duration_ms: 9.921708
+  type: 'test'
+  ...
+# (node:54753) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the native Goldenrod station receives a clone-owned measured rear and three curved roof closures
+ok 367 - the native Goldenrod station receives a clone-owned measured rear and three curved roof closures
+  ---
+  duration_ms: 451.462042
+  type: 'test'
+  ...
+# Subtest: station body and roof interior rays cannot see sky through its native curved patch boundaries
+ok 368 - station body and roof interior rays cannot see sky through its native curved patch boundaries
+  ---
+  duration_ms: 13860.317666
+  type: 'test'
+  ...
+# Subtest: station rear entrance cuts use bounded transformed entrances and leave the beam above the passage
+ok 369 - station rear entrance cuts use bounded transformed entrances and leave the beam above the passage
+  ---
+  duration_ms: 14.585584
+  type: 'test'
+  ...
+# Subtest: station construction follows placed SkinnedMesh transforms and cannot mutate shared native templates
+ok 370 - station construction follows placed SkinnedMesh transforms and cannot mutate shared native templates
+  ---
+  duration_ms: 170.538416
+  type: 'test'
+  ...
+# Subtest: generated station cladding uses painted native atlas texels, including every alpha channel
+ok 371 - generated station cladding uses painted native atlas texels, including every alpha channel
+  ---
+  duration_ms: 23.711417
+  type: 'test'
+  ...
+# (node:54764) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original opening quest state: boy, starter 152
+ok 372 - original opening quest state: boy, starter 152
+  ---
+  duration_ms: 1627.428875
+  type: 'test'
+  ...
+# Subtest: original opening quest state: boy, starter 155
+ok 373 - original opening quest state: boy, starter 155
+  ---
+  duration_ms: 1698.068708
+  type: 'test'
+  ...
+# Subtest: original opening quest state: boy, starter 158
+ok 374 - original opening quest state: boy, starter 158
+  ---
+  duration_ms: 1384.713917
+  type: 'test'
+  ...
+# Subtest: original opening quest state: girl, starter 152
+ok 375 - original opening quest state: girl, starter 152
+  ---
+  duration_ms: 1418.34725
+  type: 'test'
+  ...
+# Subtest: original opening quest state: girl, starter 155
+ok 376 - original opening quest state: girl, starter 155
+  ---
+  duration_ms: 1383.485208
+  type: 'test'
+  ...
+# Subtest: original opening quest state: girl, starter 158
+ok 377 - original opening quest state: girl, starter 158
+  ---
+  duration_ms: 1366.739333
+  type: 'test'
+  ...
+# Subtest: losing the initial rival battle still follows the original story branch
+ok 378 - losing the initial rival battle still follows the original story branch
+  ---
+  duration_ms: 1370.978542
+  type: 'test'
+  ...
+# Subtest: bag additions and removals are atomic at original stack and pocket limits
+ok 379 - bag additions and removals are atomic at original stack and pocket limits
+  ---
+  duration_ms: 1.053375
+  type: 'test'
+  ...
+# Subtest: original rival team generation and single-battle rewards are deterministic
+ok 380 - original rival team generation and single-battle rewards are deterministic
+  ---
+  duration_ms: 1383.041875
+  type: 'test'
+  ...
+# Subtest: Foresight removes Ghost immunity while retaining other type matchups
+ok 381 - Foresight removes Ghost immunity while retaining other type matchups
+  ---
+  duration_ms: 0.557
+  type: 'test'
+  ...
+# Subtest: the catching demonstration owns a separate party, inventory and capture records
+ok 382 - the catching demonstration owns a separate party, inventory and capture records
+  ---
+  duration_ms: 0.498792
+  type: 'test'
+  ...
+# Subtest: original names preserve punctuation, sex symbols, articles and item plurals
+ok 383 - original names preserve punctuation, sex symbols, articles and item plurals
+  ---
+  duration_ms: 0.063458
+  type: 'test'
+  ...
+# Subtest: capture items use the original Ball pocket rather than names ending in Ball
+ok 384 - capture items use the original Ball pocket rather than names ending in Ball
+  ---
+  duration_ms: 0.123667
+  type: 'test'
+  ...
+# Subtest: field clock uses the original morning/day/evening/night/late boundaries
+ok 385 - field clock uses the original morning/day/evening/night/late boundaries
+  ---
+  duration_ms: 0.051125
+  type: 'test'
+  ...
+# Subtest: trainer-card stars follow the five original independent achievements
+ok 386 - trainer-card stars follow the five original independent achievements
+  ---
+  duration_ms: 0.511792
+  type: 'test'
+  ...
+# (node:54769) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: field prefetch coalesces movement to the latest cell without queuing obsolete loads
+ok 387 - field prefetch coalesces movement to the latest cell without queuing obsolete loads
+  ---
+  duration_ms: 9.814
+  type: 'test'
+  ...
+# Subtest: actual Centers sharing a headerless matrix retain their own room identity after a warp
+ok 388 - actual Centers sharing a headerless matrix retain their own room identity after a warp
+  ---
+  duration_ms: 11.217083
+  type: 'test'
+  ...
+# Subtest: a failed shared-matrix room entry can retry despite the preceding room having the same stream key
+ok 389 - a failed shared-matrix room entry can retry despite the preceding room having the same stream key
+  ---
+  duration_ms: 1.17975
+  type: 'test'
+  ...
+# Subtest: a failed matrix download does not mark the old matrix as the new map and remains retryable
+ok 390 - a failed matrix download does not mark the old matrix as the new map and remains retryable
+  ---
+  duration_ms: 11.152166
+  type: 'test'
+  ...
+# Subtest: finishing an old prefetch keeps the current cell when the player backtracks
+ok 391 - finishing an old prefetch keeps the current cell when the player backtracks
+  ---
+  duration_ms: 2.599042
+  type: 'test'
+  ...
+# Subtest: failed prefetch waits for late props before releasing its partial cell and permits retry
+ok 392 - failed prefetch waits for late props before releasing its partial cell and permits retry
+  ---
+  duration_ms: 149.441875
+  type: 'test'
+  ...
+# Subtest: releasing a streamed clone disposes its skeleton texture without disposing shared assets or other cells
+ok 393 - releasing a streamed clone disposes its skeleton texture without disposing shared assets or other cells
+  ---
+  duration_ms: 2.030042
+  type: 'test'
+  ...
+# (node:54798) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: deformed original ground agrees with actor height on both terraces and retains shared source geometry
+ok 394 - deformed original ground agrees with actor height on both terraces and retains shared source geometry
+  ---
+  duration_ms: 108.52625
+  type: 'test'
+  ...
+# Subtest: new ledge faces are opaque from both sides and join upper/lower floor edges
+ok 395 - new ledge faces are opaque from both sides and join upper/lower floor edges
+  ---
+  duration_ms: 146.881042
+  type: 'test'
+  ...
+# Subtest: raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+ok 396 - raised ledges select continuous cliff art instead of the stacked native soil-rim atlas
+  ---
+  duration_ms: 0.880542
+  type: 'test'
+  ...
+# Subtest: separate solid rocks retain their shapes when rooted on different terrace heights
+ok 397 - separate solid rocks retain their shapes when rooted on different terrace heights
+  ---
+  duration_ms: 28.333291
+  type: 'test'
+  ...
+# Subtest: jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+ok 398 - jump landing selection preserves the native floor beneath a bridge when terrace offsets differ
+  ---
+  duration_ms: 16.004541
+  type: 'test'
+  ...
+# Subtest: crossed flowers crossing a ledge translate as one rooted clump
+ok 399 - crossed flowers crossing a ledge translate as one rooted clump
+  ---
+  duration_ms: 230.945541
+  type: 'test'
+  ...
+# Subtest: touching boulders retain distinct authored roots across a ledge
+ok 400 - touching boulders retain distinct authored roots across a ledge
+  ---
+  duration_ms: 39.994333
+  type: 'test'
+  ...
+# Subtest: native water and shoreline artwork stays flat when it overhangs a displaced land tile
+ok 401 - native water and shoreline artwork stays flat when it overhangs a displaced land tile
+  ---
+  duration_ms: 105.265459
+  type: 'test'
+  ...
+# Subtest: exported visual floor profiles cover both sides of every native ledge
+ok 402 - exported visual floor profiles cover both sides of every native ledge
+  ---
+  duration_ms: 115.475042
+  type: 'test'
+  ...
+# Subtest: offset tree crowns and connecting trunks move by the same authored ground height
+ok 403 - offset tree crowns and connecting trunks move by the same authored ground height
+  ---
+  duration_ms: 106.233
+  type: 'test'
+  ...
+# Subtest: stale terrain work stops before replacing shared source geometry
+ok 404 - stale terrain work stops before replacing shared source geometry
+  ---
+  duration_ms: 16.344625
+  type: 'test'
+  ...
+# (node:54799) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fresh source validation publishes a complete staged terrace field and preserves the last field on rejection
+ok 405 - fresh source validation publishes a complete staged terrace field and preserves the last field on rejection
+  ---
+  duration_ms: 41159.747333
+  type: 'test'
+  ...
+# (node:54806) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: small and off-centre native tree banks sample foliage above their trunk and roots
+ok 406 - small and off-centre native tree banks sample foliage above their trunk and roots
+  ---
+  duration_ms: 2.023083
+  type: 'test'
+  ...
+# Subtest: transparent leaf-patch holes extend original opaque leaf colour
+ok 407 - transparent leaf-patch holes extend original opaque leaf colour
+  ---
+  duration_ms: 0.517375
+  type: 'test'
+  ...
+# (node:54810) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: tree crowns are closed volumes from above, behind and either side with independently rooted trunks
+ok 408 - tree crowns are closed volumes from above, behind and either side with independently rooted trunks
+  ---
+  duration_ms: 36.383875
+  type: 'test'
+  ...
+# Subtest: tree volumes retain source ground pivots when their asset group is scaled and translated
+ok 409 - tree volumes retain source ground pivots when their asset group is scaled and translated
+  ---
+  duration_ms: 0.981375
+  type: 'test'
+  ...
+# Subtest: transparent sprite margins do not enlarge the visible canopy
+ok 410 - transparent sprite margins do not enlarge the visible canopy
+  ---
+  duration_ms: 1.224375
+  type: 'test'
+  ...
+# Subtest: off-centre crowns keep their authored position while the trunk stays rooted and connects to them
+ok 411 - off-centre crowns keep their authored position while the trunk stays rooted and connects to them
+  ---
+  duration_ms: 1.083083
+  type: 'test'
+  ...
+# Subtest: the battle camera skips tree instance raycasts while retaining solid walls
+ok 412 - the battle camera skips tree instance raycasts while retaining solid walls
+  ---
+  duration_ms: 212.142958
+  type: 'test'
+  ...
+# (node:54818) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: both native high-rise variants receive owned rear elevations while their original front and silhouette remain intact
+ok 413 - both native high-rise variants receive owned rear elevations while their original front and silhouette remain intact
+  ---
+  duration_ms: 327.788
+  type: 'test'
+  ...
+# Subtest: the department store rear is continuous native grey cladding with framed windows, without the old blue door shaft
+ok 414 - the department store rear is continuous native grey cladding with framed windows, without the old blue door shaft
+  ---
+  duration_ms: 324.317875
+  type: 'test'
+  ...
+# Subtest: Silph rear windows and chamfered floor ribs replace the reflected lobby while retaining the glass roof barrel
+ok 415 - Silph rear windows and chamfered floor ribs replace the reflected lobby while retaining the glass roof barrel
+  ---
+  duration_ms: 176.777583
+  type: 'test'
+  ...
+# Subtest: Goldenrod store rear wall meets the native roof deck across its previously open short return
+ok 416 - Goldenrod store rear wall meets the native roof deck across its previously open short return
+  ---
+  duration_ms: 118.468167
+  type: 'test'
+  ...
+# Subtest: high-rise shells initialize skinned placement matrices themselves and keep resources local to each clone
+ok 417 - high-rise shells initialize skinned placement matrices themselves and keep resources local to each clone
+  ---
+  duration_ms: 370.728917
+  type: 'test'
+  ...
+# Subtest: new opaque high-rise materials sample actual painted native atlas pixels throughout every added triangle
+ok 418 - new opaque high-rise materials sample actual painted native atlas pixels throughout every added triangle
+  ---
+  duration_ms: 127.498542
+  type: 'test'
+  ...
+# (node:54821) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a superseded asset download never constructs a field cell
+ok 419 - a superseded asset download never constructs a field cell
+  ---
+  duration_ms: 3.650791
+  type: 'test'
+  ...
+# Subtest: a superseded prop download cannot run a shell builder or dispose shared source buffers
+ok 420 - a superseded prop download cannot run a shell builder or dispose shared source buffers
+  ---
+  duration_ms: 2.732542
+  type: 'test'
+  ...
+# Subtest: a stream superseded while waiting for field work cannot build or publish its prop
+ok 421 - a stream superseded while waiting for field work cannot build or publish its prop
+  ---
+  duration_ms: 1.261041
+  type: 'test'
+  ...
+# Subtest: a current cached stream constructs its exterior and publishes a usable cell
+ok 422 - a current cached stream constructs its exterior and publishes a usable cell
+  ---
+  duration_ms: 7.245209
+  type: 'test'
+  ...
+# Subtest: concurrent cached scenery jobs consume the shared budget before another job can pass it
+ok 423 - concurrent cached scenery jobs consume the shared budget before another job can pass it
+  ---
+  duration_ms: 0.406541
+  type: 'test'
+  ...
+# (node:54841) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: blocks buildings, shoreline, pond, and world boundaries
+ok 424 - blocks buildings, shoreline, pond, and world boundaries
+  ---
+  duration_ms: 0.813708
+  type: 'test'
+  ...
+# Subtest: movement slides along walls and cannot tunnel through a house
+ok 425 - movement slides along walls and cannot tunnel through a house
+  ---
+  duration_ms: 0.23375
+  type: 'test'
+  ...
+# Subtest: camera-relative movement normalizes diagonals and rotates correctly
+ok 426 - camera-relative movement normalizes diagonals and rotates correctly
+  ---
+  duration_ms: 0.0635
+  type: 'test'
+  ...
+# Subtest: scenery generation and terrain elevation are deterministic
+ok 427 - scenery generation and terrain elevation are deterministic
+  ---
+  duration_ms: 0.125583
+  type: 'test'
+  ...
+1..427
+# tests 449
+# suites 0
+# pass 449
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 114403.01825

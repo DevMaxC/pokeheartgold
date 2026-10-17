@@ -1,0 +1,54 @@
+#ifndef POKEHEARTGOLD_BATTLE_BATTLE_MAIN_H
+#define POKEHEARTGOLD_BATTLE_BATTLE_MAIN_H
+
+#include "battle/battle.h"
+#include "battle/battle_022378C0.h"
+#include "battle/battle_controller_opponent.h"
+
+#include "bg_window.h"
+#include "gf_3d_vramman.h"
+#include "gf_gfx_planes.h"
+#include "overlay_manager.h"
+#include "poke_overlay.h"
+#include "sys_task_api.h"
+
+// The battle overlay's main module: src/battle/battle_022378C0.c and src/battle/battle_main.c.
+// (Kept apart from battle_022378C0.h: more declarations there renumber function-local statics in its includers.)
+
+FS_EXTERN_OVERLAY(OVY_7);
+FS_EXTERN_OVERLAY(OVY_10);
+
+typedef struct BattleBgTemplateSet {
+    BgTemplate templates[3];
+} BattleBgTemplateSet;
+
+extern const BattleBgTemplateSet gBattleReinitBgTemplates;
+extern const BattleBgTemplateSet gBattleBgTemplates;
+extern const GraphicsBanks sBattleGraphicsBanks;
+extern const GraphicsModes sBattleGraphicsModes;
+
+void BattleSystem_InitTerrainsAndBalls(BattleSystem *battleSystem);
+void BattleSystem_InitFromSetup(BattleSystem *battleSystem, BattleSetup *setup);
+BOOL Battle_IsLeagueTrainerClass(int trainerClass);
+GF3DVramMan *Battle_Create3DVramMan(void);
+void Battle_Setup3D(void);
+void Battle_Delete3DVramMan(GF3DVramMan *vramMan);
+void Battle_ReserveTexAndPlttVram(void);
+void Battle_VBlankCallback(void *data);
+void Battle_LinkVBlankCallback(void *data);
+void Task_DrawBattleGraphics(SysTask *task, void *data);
+void Task_UpdateCriticalHpMusic(SysTask *task, void *data);
+void VBlankTask_ScrollBattleBackground(SysTask *task, void *data);
+void Battle_StaticInit(void);
+void BattleSystem_ChooseLinkServer(BattleSystem *battleSystem, BattleSetup *setup);
+void Battle_CreateWirelessStatusIcon(void);
+
+// Defined in other modules that have no header declaring them yet.
+void BattleController_ProcessQueue(BattleSystem *battleSystem, int direction);
+void BattleTerrain_Init(BattleTerrain *dest, BattleSystem *battleSystem, s32 idx, s32 terrain);
+void BgConfig_InitBattleMenuBackgrounds(BgConfig *bgConfig);
+void LoadUserFrameGfx2WithFill(BgConfig *bgConfig, u8 bgId, u16 baseTile, u8 color, u8 type, enum HeapID heapId);
+u32 GetUserFrameGfx2TilesMember(u32 frame);
+u32 GetUserFrameGfx2PaletteMember(u32 frame);
+
+#endif // POKEHEARTGOLD_BATTLE_BATTLE_MAIN_H
