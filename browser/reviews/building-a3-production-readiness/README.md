@@ -20,3 +20,7 @@ It covers the shared dispatcher, actual entrance ordering, clone/template cleanu
 Streaming latency remains a release risk. The shared callback-budget correction prevents concurrent builders borrowing an unused budget, but a single builder is indivisible. The inherited audit measured major-builder Node p95 87.9 ms and maximum 604.2 ms under process/CPU contention; these are neither browser frame times nor a latency pass. Actual browser latency, material/perspective appearance and terrain-footing interactions remain unverified. No performance refactor is included here.
 
 Recommendation: ship this as an incremental structural correction after the parent completes the combined production build/CI, PR15 merge and live serving-artifact checks. Keep manual building review ongoing and describe its status explicitly. Do not claim full visual approval, exact continuous enclosure, every camera angle or complete game parity. A source-scoped readiness assessment is not evidence of a deployment.
+
+## Root combined release validation
+
+The parent subsequently ran the complete combined candidate at `f39239e8d3f29d747ba8a050a04aa5615d8daaee`: **429/429 Node tests passed, zero failures/skips**, followed by TypeScript and the Vite production build. Exact complete logs and output hashes are recorded alongside this receipt. This closes the full combined build prerequisite above; it does not change any manual visual, browser performance or terrain-interaction status. The new evidence is metadata only.
