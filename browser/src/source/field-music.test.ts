@@ -163,3 +163,9 @@ test('isUnlocked reports actual Context permission separately from music prepara
  const f=fixture();assert.equal(f.player.isUnlocked(),false);await f.player.playCue(A);f.controls.badDuration=true;await assert.rejects(f.player.unlock(),/None of/);assert.equal(f.player.isUnlocked(),true);
  f.contexts[0].state='suspended';assert.equal(f.player.isUnlocked(),false);f.controls.badDuration=false;await f.player.unlock();assert.equal(f.player.isUnlocked(),true);await f.player.dispose();assert.equal(f.player.isUnlocked(),false);
 });
+for(const session of[false,true])test('player disposal rejects a pending '+(session?'session':'field')+' restore instead of reporting a newer-map success',async()=>{
+ const f=fixture(),pending=deferred<ArrayBuffer>(),entered=deferred<void>();await f.player.unlock();await f.player.playCue(A);let saved,battle;
+ if(session){battle=f.player.createCueSession();await battle.start(B,new AbortController().signal);}else saved=await f.player.field.suspend(f.player.capture());
+ await f.player.playCue(SURF);f.controls.fetch=()=>{entered.resolve();return pending.promise;};const restoring=battle?battle.restore():f.player.field.restore(saved!),rejected=assert.rejects(restoring,/disposed/);await entered.promise;await f.player.dispose();await rejected;assert.ok(f.sources.every(source=>source.stopped&&source.disconnected));assert.equal(f.player.isUnlocked(),false);
+ pending.resolve(f.files.get('/source/music/'+f.catalog.tracks[SURF.id].formats![0].file)!);await flush();assert.equal(f.sources.length,session?2:1);assert.equal(f.contexts[0].state,'closed');
+});

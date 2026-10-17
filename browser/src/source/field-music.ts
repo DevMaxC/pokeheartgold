@@ -143,7 +143,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
    // Map/recovery ownership may deliberately request a different actual cue
    // while suspended. Never resurrect an old voice over that newer intent.
    if(saved.kind==='playing'&&current?.identity===saved.identity&&same(current.selection,desired)){if(enabled)current.voice.resume();return;}
-   const pending=reconcile(signal),ownedGeneration=generation;try{await pending;}catch(error){if(generation===ownedGeneration){interrupted=true;throw error;}/* Newer playback intent now owns its own result. */}
+   const pending=reconcile(signal),ownedGeneration=generation;try{await pending;}catch(error){if(disposed)throw error;if(generation===ownedGeneration){interrupted=true;throw error;}/* Newer playback intent now owns its own result. */}
   },
  };
 
