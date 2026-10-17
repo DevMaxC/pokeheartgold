@@ -1,0 +1,50 @@
+{
+  "coreCommit": "e8966bdf823cfe0198b6222619f4baa55efe0647",
+  "sourceHashes": {
+    "browser/src/source/gender.ts": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6",
+    "browser/src/source/party-display.ts": "95641d15503f2585e3ea2206389071198900663a32847d66799e5a37ca7f1499",
+    "browser/src/source/battle-stage.ts": "52cc7835ec0ca1341ef9f7c2ef30a28a96dcb56e43b532338d7e7088d2ba9f71",
+    "browser/src/source/egg-hatch-view.ts": "ba11e722a9d56af1974cfe21111331bd59df0ed52aaa6c5d179010b6afa7a60d",
+    "browser/src/source/egg-hatch-view.test.ts": "bf209f248deb7f2216cbbcffcdfdd7f902713212cfd110f15dba42d855976693",
+    "browser/src/source/gender-presentation.test.ts": "825afd45330b0541a65d2d2c17d303fa341d722bdb1eeec7920ff2688935e3d8"
+  },
+  "helpers": {
+    "spriteGender": "(gender:'male'|'female'|'genderless')=>'male'|'female'; female iff MON_FEMALE, else male",
+    "genderSymbol": "(gender:'male'|'female'|'genderless')=>'\u2642'|'\u2640'|''; genderless returns empty"
+  },
+  "before": {
+    "restoredFiles": [
+      "party-display.ts",
+      "battle-stage.ts",
+      "egg-hatch-view.ts"
+    ],
+    "base": "exact e896 core checkpoint",
+    "tests": 15,
+    "pass": 12,
+    "fail": 3,
+    "log": "consumer-before.log"
+  },
+  "after": {
+    "focused": 18,
+    "targetedIncludingBattleTrainerEggHatch": 258,
+    "typeScriptExit": 0
+  },
+  "assets": {
+    "genderlessBaseSpecies": 54,
+    "originalRGBAFacingComparisons": 108,
+    "sourcePaletteExportHashes": "sprite-resources.json",
+    "mutatedResourceBytes": false,
+    "symbols": "Original English msg300:27/28 and6:16/17 + native male/female-only branches"
+  },
+  "handoffs": {
+    "battle.ts": "Azalea engine owner wires image/status with these exports; not modified in this leaf",
+    "InterfacePanels": "Only present in separate root UI branch, parent owns integration"
+  },
+  "limits": [
+    "Gameplay gender remains native; existing saved gender is not migrated.",
+    "Base-form normal existing art only; form/shiny source branches not newly implemented.",
+    "Genderless standard art reveal is supported; actual cry remains Togepi-only and Manaphy-specific scene remains explicitly unavailable.",
+    "No main, World, battle or script runtime edits; no Vite build or actual browser rendering.",
+    "Actual read-only follow-up pending frozen consumer snapshot. Original core review remains historical."
+  ]
+}

@@ -1,0 +1,27 @@
+Review the immutable copied source in this directory for a narrow native gender-rule correction. Use only Read/Grep/Glob; do not execute commands/tests/builds/agents/network or edit files. Report concrete defects with path/line and trigger, separate inherited/out-of-scope gaps from introduced issues. No browser or full-game approval claims.
+
+manifest.json pins candidate e8966bdf823cfe0198b6222619f4baa55efe0647 from base75393253. Main/World/UI/battle/script/types files are unchanged. The scope is data.ts, eggs.ts, trainers.ts, new gender.ts and new gender/trainer tests/evidence. The broader original f21d568 actual source review identified ordinary createMon's gender boundary/genderless bug (P3-3); that review is NOT approval of this new patch. The same formula was also confirmed in trainer overrides and was explicitly added to this scope.
+
+Changed runtime:
+- gender.ts is an import-free pure leaf. nativeGenderRatio reproduces source GENDER_RATIO(frac): floor(frac*254.75) for frac<=1, otherwise255. nativeMonGender treats raw0male,254female,255genderless, else female exactly when raw>(PID&255).
+- data.ts createMon now calls nativeMonGender. It retains its existing browser RNG draw order, PID, IV/stat/move/OT/instance-ID logic. No generic ordinary native RNG claim; this is sex determination only.
+- eggs.ts imports the shared leaf; nativeEggGender remains an export alias. The correct old Egg calculation was moved unchanged. Egg creation/provenance/LCG/receipt behavior must stay unchanged; no data<->eggs cycle.
+- trainers.ts uses nativeGenderRatio in its existing forced-selector ±2 branch, then nativeMonGender after its fixed PID. Preserve class defaults0x78/0x88, across-party selector carry, ability bit changes, local LCG/draw count, unsigned final PID, difficulty IVs, moves/items/friendship. Intentional fix: forced-sex selectors previously used fraction*256, so correcting raw ratios changes those erroneous PIDs and their derived natures/stats. Native fixed0/254/255 behavior still wins over forced labels.
+
+Read:
+ browser/src/source/{gender,data,eggs,trainers}.ts
+ browser/src/source/{gender,trainer-gender}.test.ts
+ browser/reviews/native-mon-gender/{README.md,validation.json,generate-native-oracle.py,native-oracle.c,native-oracle.json,ordinary-before.log,trainer-before.log,focused-after.log,targeted-240.log,tsc.log}
+ Native src/pokemon.c2094ff, include/constants/pokemon.h356ff/GENDER_RATIO, src/trainer_data.c276ff/438ff and src/math_util.c for the unchanged LCG.
+ All browser/src files and direct GameData native/imported data inputs are copied for dependency inspection; restrict findings to this leaf patch and directly affected consumers.
+
+Evidence:
+- Generator extracts the literal native C GetGenderBySpeciesAndPersonality_PreloadedPersonal and TrMon_OverridePidGender bodies, compiles with actual constants/pokemon.h, native-width uint8/16/32 typedefs, and narrow base-attribute lookup stubs. This is host-C source-arithmetic evidence, not DS ROM execution.
+- Source-pinned oracle covers all7 real source ratios [0,.125,.25,.5,.75,1,2], all256 PID low bytes (1792 C cases), and441 native trainer selector/ability cases including carry initials120/121/136/137/29/28/129.
+- gender.test verifies original personal/species ratio data matches imported data, all5376 ordinary factory cases and5376 Egg API cases across high PID words0/0x80000000/0xffffff00, explicit Chikorita31/Pidgey127/Magnemite cases, unchanged ordinary eight browser RNG draws/PID/IV/nature/instance ID.
+- trainer-gender.test tests actual Irwin7/Jasmine33, all126 combinations of trainer sex,7ratios,3forced-sex and3ability choices, plus a5-mon selector-carry sequence. Expected selectors come from compiled native C; independent BigInt recurrence checks full PIDs. IV/move/item and browser factory draw contracts asserted. No native global RNG parity claim.
+- Exact base75393253 data/eggs/trainers factories were temporarily restored together for actual before runs, then restored in finally. Before test sources/factories/logs retained: ordinary2pass/4fail; trainer0pass/4fail on actual wrong sex/PID. Final10focused and240battle/trainer/Egg/hatch tests plus projectTSC pass (author logs; reviewer must not claim reproduction).
+
+Existing save gender fields are retained; no migration. Source fractions outside the seven actual dataset values, malformed arbitrary PIDs, complete OT/ability/form/capsule/native-global-RNG fidelity and full trainer/game parity are not new features. No Vite build/browser work. Do not broaden into unrelated existing full-game gaps unless a new change creates a directly concrete issue.
+
+Please critically verify native raw ratio/fixed-gender/low-byte boundary semantics, alias/import graph, unsigned trainer ±2 carry and ability-bit cases, unchanged Egg behavior, and whether tests/oracle prove the stated scope without circular expected-value logic. State findings or no confirmed defect, and precise retained limits. This is an actual new Opus5.5 review, with no approval transfer from broader or earlier reviews.

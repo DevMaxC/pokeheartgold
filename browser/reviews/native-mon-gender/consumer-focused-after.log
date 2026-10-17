@@ -1,0 +1,124 @@
+TAP version 13
+# (node:61696) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+ok 1 - hatch remains in the real 3D field, uses original paper assets, accepts detached helper scenes and preserves free orbit
+  ---
+  duration_ms: 125.866667
+  type: 'test'
+  ...
+# Subtest: standard hatch presentation selects the native nonfemale sprite slot without changing a genderless scene identity
+ok 2 - standard hatch presentation selects the native nonfemale sprite slot without changing a genderless scene identity
+  ---
+  duration_ms: 17.176833
+  type: 'test'
+  ...
+# Subtest: native genderless artwork support does not bypass invalid-scene or unexported Manaphy presentation guards
+ok 3 - native genderless artwork support does not bypass invalid-scene or unexported Manaphy presentation guards
+  ---
+  duration_ms: 0.959209
+  type: 'test'
+  ...
+# Subtest: temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+ok 4 - temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive
+  ---
+  duration_ms: 10.594167
+  type: 'test'
+  ...
+# Subtest: cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+ok 5 - cancellation during loading restores the exact rig immediately and late cached artwork never revives the effect
+  ---
+  duration_ms: 1.289875
+  type: 'test'
+  ...
+# Subtest: a field change or failed real cry rejects, restores actors and frees owned effects
+ok 6 - a field change or failed real cry rejects, restores actors and frees owned effects
+  ---
+  duration_ms: 5.58575
+  type: 'test'
+  ...
+# Subtest: an external cancellation during the hatch announcement prevents later successful completion on the same map
+ok 7 - an external cancellation during the hatch announcement prevents later successful completion on the same map
+  ---
+  duration_ms: 4.035166
+  type: 'test'
+  ...
+# Subtest: cancellation at the final render frame wins over a resolved animation before its continuation can commit
+ok 8 - cancellation at the final render frame wins over a resolved animation before its continuation can commit
+  ---
+  duration_ms: 4.516541
+  type: 'test'
+  ...
+# Subtest: World field-effect branch renders the same scene and a real field transition cancels it before loading
+ok 9 - World field-effect branch renders the same scene and a real field transition cancels it before loading
+  ---
+  duration_ms: 0.809291
+  type: 'test'
+  ...
+# Subtest: Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+ok 10 - Togepi cry WAV is the exact original SWAR175 PCM with source-backed rate, byte count and duration
+  ---
+  duration_ms: 14.028042
+  type: 'test'
+  ...
+# Subtest: native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+ok 11 - native cry adapter waits for ended, stops on abort and rejects missing species instead of substituting
+  ---
+  duration_ms: 143.129666
+  type: 'test'
+  ...
+# (node:61697) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: sprite sex and printed symbol follow native distinctions without converting gameplay gender
+ok 12 - sprite sex and printed symbol follow native distinctions without converting gameplay gender
+  ---
+  duration_ms: 0.640334
+  type: 'test'
+  ...
+# Subtest: all54 genderless base species have source-pinned visible original front/back male-slot resources, including Magnemite and Voltorb
+ok 13 - all54 genderless base species have source-pinned visible original front/back male-slot resources, including Magnemite and Voltorb
+  ---
+  duration_ms: 239.457541
+  type: 'test'
+  ...
+# Subtest: all party views request existing genderless art while preserving genderless identity and hiding Egg details
+ok 14 - all party views request existing genderless art while preserving genderless identity and hiding Egg details
+  ---
+  duration_ms: 3.322875
+  type: 'test'
+  ...
+# Subtest: actual 3D battle sync loads native male-slot front/back artwork for genderless fighters and female-slot artwork for female fighters
+ok 15 - actual 3D battle sync loads native male-slot front/back artwork for genderless fighters and female-slot artwork for female fighters
+  ---
+  duration_ms: 5.478
+  type: 'test'
+  ...
+# (node:61698) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an unhatched Egg keeps its original icon and conceals species, level, health, gender, stats and moves in all party views
+ok 16 - an unhatched Egg keeps its original icon and conceals species, level, health, gender, stats and moves in all party views
+  ---
+  duration_ms: 1.67175
+  type: 'test'
+  ...
+# Subtest: native Egg Watch thresholds select literal exported messages without advancing the saved hatch cycles
+ok 17 - native Egg Watch thresholds select literal exported messages without advancing the saved hatch cycles
+  ---
+  duration_ms: 0.12275
+  type: 'test'
+  ...
+# Subtest: a hatched Pokémon retains normal party health, level, typing, ownership and move presentation
+ok 18 - a hatched Pokémon retains normal party health, level, typing, ownership and move presentation
+  ---
+  duration_ms: 0.372
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1587.289917

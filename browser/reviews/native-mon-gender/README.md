@@ -29,4 +29,22 @@ node --experimental-transform-types --test src/source/gender.test.ts src/source/
 npx tsc --noEmit
 ```
 
-This is a gender-rule correction. It does not claim full ordinary/trainer RNG, OT, ability, form, capsule or battle parity. Existing saved gender values remain as stored; there is no save migration. No main, World, UI, battle or script code changed. No Vite build or browser check was performed. Independent copied-source review receipts are recorded separately; the broad source review is not approval of this patch.
+The core is a gender-rule correction. It does not claim full ordinary/trainer RNG, OT, ability, form, capsule or battle parity. Existing saved gender values remain as stored; there is no save migration. The original core checkpoint did not change main, World, UI, battle or script code. No Vite build or browser check was performed. Independent copied-source review receipts are recorded separately; the broad source review is not approval of this patch.
+
+## Presentation follow-up
+
+The actual read-only Opus5.5 core review at `e8966bdf` found no confirmed arithmetic defect, but raised an asset concern. Inspection confirmed that existing art has only male/female filenames. Native `pokemon.c:2269/2358` selects female art only for `MON_FEMALE`; genderless Pokémon use the male slot. The unchanged core review and its manifest/raw output are preserved as `core-opus-*`, including the confirmed consumer gap and correction of its claim that selectors121/137 were unused (actual Irwin/Jasmine fixtures require them).
+
+`spriteGender` and `genderSymbol` are import-free presentation helpers. They keep gameplay genderless identity intact, use the male art slot for nonfemale Pokémon, and print no genderless symbol. Party portraits, the actual in-field 3D battle art cache, and standard hatch portraits use the sprite helper. Hatch scene identity comparison remains exact; accepting genderless art does not bypass the unexported Manaphy scene or Togepi-only cry guards. `battle.ts` image/status and the separate root InterfacePanels UI are owned by other concurrent work and must be integrated before releasing the whole feature. They are not silently treated as fixed by this leaf.
+
+`verify-sprite-resources.py` performs a read-only RGBA pixel comparison of all108 existing front/back exports for54 native genderless base species against original indexed sprites with the exporter’s normal palette. It pins every source/palette/export and native C/XML symbol source, including Magnemite81 and Voltorb100. The Node regression checks these pins, all54 party views and actual `WorldBattleView.sync` front/back requests. Decoding alone is replaced in that stage test; actual sync/cache/visibility behavior runs. Hatch tests exercise reveal/finish/cancellation behavior and retain explicit unavailable cry rejection. This is base-form normal art evidence, not alternate-form/shiny/whole sprite-engine parity.
+
+Restoring the exact three pre-fix consumer files after the core gender correction reproduces three failures among15 checks: nonexistent party/stage paths and rejected genderless hatch artwork. The candidate passes18 focused checks and258 targeted battle/trainer/Egg/hatch checks, plus TypeScript. Before/after logs and source copies are retained. Reproduce the new resource proof and focused checks with:
+
+```sh
+python3 browser/reviews/native-mon-gender/verify-sprite-resources.py
+cd browser
+node --experimental-transform-types --test src/source/gender-presentation.test.ts src/source/party-display.test.ts src/source/egg-hatch-view.test.ts
+```
+
+No main/World/battle/script runtime or existing resource bytes changed in this follow-up. Actual browser rendering and the integrated Battle/root UI consumer follow-up remain separate requirements. The original arithmetic review is not approval of changed presentation bytes.

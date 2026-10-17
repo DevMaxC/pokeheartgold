@@ -1,0 +1,2209 @@
+{
+  "scope": "54 genderless base species1..493; normal base sprites only, not alternate-form/shiny/full sprite engine parity.",
+  "pins": [
+    {
+      "path": "files/poketool/personal/personal.json",
+      "sha256": "8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"
+    },
+    {
+      "path": "src/pokemon.c",
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    },
+    {
+      "path": "src/party_context_menu.c",
+      "sha256": "d122f632342fb3ac4a84661d62e9b4ad3316dd5ed38159082c7d85df5cf162e6"
+    },
+    {
+      "path": "src/battle/battle_party_menu.c",
+      "sha256": "f7f500238a403fc0eb7f150a3aeff535f8b0ece3b5b52e1774f52a0f36c77544"
+    },
+    {
+      "path": "files/msgdata/msg/msg_0300.gmm",
+      "sha256": "1cdf0c90a122f31591f069684fddda7113bfca2490a2e968e9ad39c39cbfc1f4"
+    },
+    {
+      "path": "files/msgdata/msg/msg_0006.gmm",
+      "sha256": "371abe9eb5a91b41b7b7221224f7174e2c8efbbd02771657a80a6d7cde879e72"
+    },
+    {
+      "path": "browser/scripts/export_battle_sprites.py",
+      "sha256": "2b056a6063b4e57841d03cec6c0dfe685f9cc0af5fb214aa4947d77b82682076"
+    }
+  ],
+  "nativeSpriteRule": "pokemon.c2269/2358: female slot only if gender == MON_FEMALE; nonfemale uses male slot.",
+  "nativeSymbolRule": "party_context_menu.c535..544 and battle_party_menu.c1762 onward print only MON_MALE/MON_FEMALE; genderless prints no symbol.",
+  "symbols": {
+    "party": {
+      "male": "\u2642",
+      "female": "\u2640",
+      "genderless": ""
+    },
+    "battle": {
+      "male": "\u2642",
+      "female": "\u2640",
+      "genderless": ""
+    }
+  },
+  "rows": [
+    {
+      "species": 81,
+      "name": "MAGNEMITE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0081/male/front.png",
+        "sha256": "490177b9dc3340ab288e5401952c3000e1a2cbb0badeb630dff5b849cb946aed"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0081/male/front.png",
+        "sha256": "490177b9dc3340ab288e5401952c3000e1a2cbb0badeb630dff5b849cb946aed"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/81-male-front.png",
+        "sha256": "e436e8ded7743f3563f255f8d77789a66ffad70af90d3ebeaf8ceb0dbee48f22"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 478
+    },
+    {
+      "species": 81,
+      "name": "MAGNEMITE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0081/male/back.png",
+        "sha256": "88303e5146ddc803491afee40d95a66887868b97d19dadecc88c5ac5c3878c12"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0081/male/front.png",
+        "sha256": "490177b9dc3340ab288e5401952c3000e1a2cbb0badeb630dff5b849cb946aed"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/81-male-back.png",
+        "sha256": "beba55d8e141bb16fd0cbb0e38610c0db437184a09b73c3435df31a7f815a0b2"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1172
+    },
+    {
+      "species": 82,
+      "name": "MAGNETON",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0082/male/front.png",
+        "sha256": "aefdb62af78cc1df3a2c90681c78c3d9e2fed8707028db2456c7a523701549de"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0082/male/front.png",
+        "sha256": "aefdb62af78cc1df3a2c90681c78c3d9e2fed8707028db2456c7a523701549de"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/82-male-front.png",
+        "sha256": "68d42705a1a0e8d2f14571f421c55763c505bf2149987dcad37f7cab80cb2072"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1716
+    },
+    {
+      "species": 82,
+      "name": "MAGNETON",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0082/male/back.png",
+        "sha256": "f9389950933068c41066f6ac1ae9e0db7922a394ba83264e58718b3ad390d39f"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0082/male/front.png",
+        "sha256": "aefdb62af78cc1df3a2c90681c78c3d9e2fed8707028db2456c7a523701549de"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/82-male-back.png",
+        "sha256": "b7e1bc46aff0ae78c10cd40d54b64335a775e0f856036ac904f6928da5746a92"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2829
+    },
+    {
+      "species": 100,
+      "name": "VOLTORB",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0100/male/front.png",
+        "sha256": "d7feefd4499a184f102047ad2bbd59520a2b1fd83e572c2425d09dd0fb699bc7"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0100/male/front.png",
+        "sha256": "d7feefd4499a184f102047ad2bbd59520a2b1fd83e572c2425d09dd0fb699bc7"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/100-male-front.png",
+        "sha256": "1f458370011439fb8d390a55c569074ddaa6e692273a53c4eacad3065f528856"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 690
+    },
+    {
+      "species": 100,
+      "name": "VOLTORB",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0100/male/back.png",
+        "sha256": "499579f9bae1f557e3af0ad767e6611df3b371fc8c8f96c69d5e1b27e4973741"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0100/male/front.png",
+        "sha256": "d7feefd4499a184f102047ad2bbd59520a2b1fd83e572c2425d09dd0fb699bc7"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/100-male-back.png",
+        "sha256": "326effb598e55fdd1205af94ebd5a8fe98967151deef6d6e836998cf0d068194"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1791
+    },
+    {
+      "species": 101,
+      "name": "ELECTRODE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0101/male/front.png",
+        "sha256": "cafdeaa50918e3ad79152e4efec96c3358be2592d2a6cc30235a484fe190a159"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0101/male/front.png",
+        "sha256": "cafdeaa50918e3ad79152e4efec96c3358be2592d2a6cc30235a484fe190a159"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/101-male-front.png",
+        "sha256": "40634d0afed5bf8ba411f3148f8ab8eb1b907a45aca2ded2cc42cb9d71905a84"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1662
+    },
+    {
+      "species": 101,
+      "name": "ELECTRODE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0101/male/back.png",
+        "sha256": "98468d3ebfb86d8661f5f9667d66262ddd39e36edb446c582b8ad818a0b7c2c4"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0101/male/front.png",
+        "sha256": "cafdeaa50918e3ad79152e4efec96c3358be2592d2a6cc30235a484fe190a159"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/101-male-back.png",
+        "sha256": "e1adef9b0ec795b7c1631a5efaf5592448192c9779f1b191ef0b073991e52d78"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2927
+    },
+    {
+      "species": 120,
+      "name": "STARYU",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0120/male/front.png",
+        "sha256": "1ee84059406a72a6c01af247854a5f4d88d63ef839df25c5347a791e32722636"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0120/male/front.png",
+        "sha256": "1ee84059406a72a6c01af247854a5f4d88d63ef839df25c5347a791e32722636"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/120-male-front.png",
+        "sha256": "f78181ef9ef7b07f3c5c8311b72fc9962010f00f4be07daee8ecaf3ebb6e8987"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 947
+    },
+    {
+      "species": 120,
+      "name": "STARYU",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0120/male/back.png",
+        "sha256": "38ec943ffc55bab62d99d7a2dd24d0c99b01f2bae6fc10a7a68e82b00dd897dd"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0120/male/front.png",
+        "sha256": "1ee84059406a72a6c01af247854a5f4d88d63ef839df25c5347a791e32722636"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/120-male-back.png",
+        "sha256": "ec946bd0a22522fd25dcaf447e0591ca46579a46f32bde53002cdcce03bd9083"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2134
+    },
+    {
+      "species": 121,
+      "name": "STARMIE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0121/male/front.png",
+        "sha256": "b130fe85a13a1ad8140fe896b6688fc7b0dffa003983861b9dc85f7218c36422"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0121/male/front.png",
+        "sha256": "b130fe85a13a1ad8140fe896b6688fc7b0dffa003983861b9dc85f7218c36422"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/121-male-front.png",
+        "sha256": "e95a725eda28d744afead529d90debb25fa9586d0262270915804328046af99a"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1575
+    },
+    {
+      "species": 121,
+      "name": "STARMIE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0121/male/back.png",
+        "sha256": "3e3191470e52155bd15dec5051950700ee0ce9599b359fa439090fd63796da7c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0121/male/front.png",
+        "sha256": "b130fe85a13a1ad8140fe896b6688fc7b0dffa003983861b9dc85f7218c36422"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/121-male-back.png",
+        "sha256": "bbd953afebe9cabb5e55c8d7019f424b4f933f20b3bd5410ea665d916a401514"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3634
+    },
+    {
+      "species": 132,
+      "name": "DITTO",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0132/male/front.png",
+        "sha256": "b55cc6b7fa6769c55df45a3fcb36808525430ac26957a5926af0ad4913638f97"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0132/male/front.png",
+        "sha256": "b55cc6b7fa6769c55df45a3fcb36808525430ac26957a5926af0ad4913638f97"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/132-male-front.png",
+        "sha256": "6789a72d7027839e932b081d24c39c658e855b680afe4309421de4bafd4dc113"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 754
+    },
+    {
+      "species": 132,
+      "name": "DITTO",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0132/male/back.png",
+        "sha256": "11a8801a2bd37099ece6307e99e8a86326495c676b94818f418ee0dbc25b7507"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0132/male/front.png",
+        "sha256": "b55cc6b7fa6769c55df45a3fcb36808525430ac26957a5926af0ad4913638f97"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/132-male-back.png",
+        "sha256": "a98e8ec571c16298be189f0233aff5a913e0241e03eccb0c7f1f485aadb1ee5a"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1548
+    },
+    {
+      "species": 137,
+      "name": "PORYGON",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0137/male/front.png",
+        "sha256": "fa420e0e8e58ef4cf29e4600339141b847064a1b71e863e4bd66c42ac4d165f2"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0137/male/front.png",
+        "sha256": "fa420e0e8e58ef4cf29e4600339141b847064a1b71e863e4bd66c42ac4d165f2"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/137-male-front.png",
+        "sha256": "7d3e3663fde14ed306389376d48a8ded40999d5ab5bcdf02b6b0197f0a103db9"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 774
+    },
+    {
+      "species": 137,
+      "name": "PORYGON",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0137/male/back.png",
+        "sha256": "a83e513e99d8e06b44108e76cde2eda14abc8e07dbb2e5dc823dbdce399c9bf2"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0137/male/front.png",
+        "sha256": "fa420e0e8e58ef4cf29e4600339141b847064a1b71e863e4bd66c42ac4d165f2"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/137-male-back.png",
+        "sha256": "fda5132b70c6e06cd2cb42c2ec705eec45be71c36755279531622221948b1368"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1845
+    },
+    {
+      "species": 144,
+      "name": "ARTICUNO",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0144/male/front.png",
+        "sha256": "ec5578df215db172aec62d7ec24ab57e91792da573f8919db22dcdec1b0be8c5"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0144/male/front.png",
+        "sha256": "ec5578df215db172aec62d7ec24ab57e91792da573f8919db22dcdec1b0be8c5"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/144-male-front.png",
+        "sha256": "621952b6dd54c1104ce70b8f0e105f12d78f559e9bc636a19cc4d6dce67fc6c4"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2610
+    },
+    {
+      "species": 144,
+      "name": "ARTICUNO",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0144/male/back.png",
+        "sha256": "7ed66915627448191eafea96ca6130bbd5814e8d2ec788c93ce95af006c0db76"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0144/male/front.png",
+        "sha256": "ec5578df215db172aec62d7ec24ab57e91792da573f8919db22dcdec1b0be8c5"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/144-male-back.png",
+        "sha256": "ab88816c3373d9ac782e6d3069460fb7b1ce6efe66a1453edc5b127a49589752"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2404
+    },
+    {
+      "species": 145,
+      "name": "ZAPDOS",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0145/male/front.png",
+        "sha256": "8e63fff5c15483fcfc1ff54bfc0e3572a7a55a33806c2cdb19c2689403642368"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0145/male/front.png",
+        "sha256": "8e63fff5c15483fcfc1ff54bfc0e3572a7a55a33806c2cdb19c2689403642368"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/145-male-front.png",
+        "sha256": "28a064e806c00762809490f94d0b1d8aafb83f5f13923d03c5aec66ee1e81286"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2281
+    },
+    {
+      "species": 145,
+      "name": "ZAPDOS",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0145/male/back.png",
+        "sha256": "a2c57a4c2b48274beba9ad0f3fa4b096bd14da5437da46771c78aee9ce66484a"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0145/male/front.png",
+        "sha256": "8e63fff5c15483fcfc1ff54bfc0e3572a7a55a33806c2cdb19c2689403642368"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/145-male-back.png",
+        "sha256": "bc4dd6a4d4781af49dc59e3606ed5ac5d1a237726528979dfd43872ed0154780"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1829
+    },
+    {
+      "species": 146,
+      "name": "MOLTRES",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0146/male/front.png",
+        "sha256": "925bd84f8b2ace38e005aa3948bbaac287dbe0f249a04f0db2304b14a246c79a"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0146/male/front.png",
+        "sha256": "925bd84f8b2ace38e005aa3948bbaac287dbe0f249a04f0db2304b14a246c79a"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/146-male-front.png",
+        "sha256": "6db85a9dbe11ca046065fc47856e0adccb42d72f250c4a28b8d461fbefbf53a8"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2056
+    },
+    {
+      "species": 146,
+      "name": "MOLTRES",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0146/male/back.png",
+        "sha256": "d0e9eb0699ccd9f2e189ce5f3c73b317eeef1df0cebd2b694b32d8dc21891222"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0146/male/front.png",
+        "sha256": "925bd84f8b2ace38e005aa3948bbaac287dbe0f249a04f0db2304b14a246c79a"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/146-male-back.png",
+        "sha256": "cb4f2d853678f361e16bab9eb99ce3f4e43e0673292cdb27edf8149073069ca2"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1980
+    },
+    {
+      "species": 150,
+      "name": "MEWTWO",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0150/male/front.png",
+        "sha256": "79d659a986660e9286e5073e2258d4d9dad59d7269c5038e764e90f73d12e1ee"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0150/male/front.png",
+        "sha256": "79d659a986660e9286e5073e2258d4d9dad59d7269c5038e764e90f73d12e1ee"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/150-male-front.png",
+        "sha256": "1d28bf39776d4245394628552c463471cb842dd4c9284dd4b8e2c01d63d7cb54"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1542
+    },
+    {
+      "species": 150,
+      "name": "MEWTWO",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0150/male/back.png",
+        "sha256": "0f880a3fd95ba28b462aba335587f25d17457db479d74cfde1919e133d29e4bb"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0150/male/front.png",
+        "sha256": "79d659a986660e9286e5073e2258d4d9dad59d7269c5038e764e90f73d12e1ee"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/150-male-back.png",
+        "sha256": "98ca091c8aa597987872e097795628018221739e766506b9121abbcccb1fd309"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2999
+    },
+    {
+      "species": 151,
+      "name": "MEW",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0151/male/front.png",
+        "sha256": "3b3cffd213b0874e34edf2502da6140f89610ae6079466da2388f7589a4c071c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0151/male/front.png",
+        "sha256": "3b3cffd213b0874e34edf2502da6140f89610ae6079466da2388f7589a4c071c"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/151-male-front.png",
+        "sha256": "b131a1d72d9887a59b3114a2b37156f1a0d2e013490b796f73c5f4151df03f36"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 705
+    },
+    {
+      "species": 151,
+      "name": "MEW",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0151/male/back.png",
+        "sha256": "fe33ebdf520c435df122acf06b1f208d08e0241028953c4963ad3a3939a2a834"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0151/male/front.png",
+        "sha256": "3b3cffd213b0874e34edf2502da6140f89610ae6079466da2388f7589a4c071c"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/151-male-back.png",
+        "sha256": "bd242749c857a23995fad1310593db1ac2be20657e8f1e5f5b48a0f1ca0c7cbc"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1890
+    },
+    {
+      "species": 201,
+      "name": "UNOWN",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0201/male/front.png",
+        "sha256": "6a4aee15bb9830d6d8841912f4aefceab3bc16b62c997975d7db07a0ac7101a9"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0201/male/front.png",
+        "sha256": "6a4aee15bb9830d6d8841912f4aefceab3bc16b62c997975d7db07a0ac7101a9"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/201-male-front.png",
+        "sha256": "1f10801e234903cc674f5f932312072afacf934a4fe297a6ec957e5b44630353"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 374
+    },
+    {
+      "species": 201,
+      "name": "UNOWN",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0201/male/back.png",
+        "sha256": "b4cf8896397e9fbd5483f9410356bf217dbfbf8546831067cdbfec7c2de8618c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0201/male/front.png",
+        "sha256": "6a4aee15bb9830d6d8841912f4aefceab3bc16b62c997975d7db07a0ac7101a9"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/201-male-back.png",
+        "sha256": "d4fae650ba65a4bbf3754ad42046a83a4dc47f9bf9036b61661f82ee63ffdcda"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 706
+    },
+    {
+      "species": 233,
+      "name": "PORYGON2",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0233/male/front.png",
+        "sha256": "14568552182942fd0477328b7a3907a1da701021e76a46506c7d73802db2acb1"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0233/male/front.png",
+        "sha256": "14568552182942fd0477328b7a3907a1da701021e76a46506c7d73802db2acb1"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/233-male-front.png",
+        "sha256": "defd74de44a7548939b52da33bef1152a34c148a5e162cce810525121f8f2f4e"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 632
+    },
+    {
+      "species": 233,
+      "name": "PORYGON2",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0233/male/back.png",
+        "sha256": "f1db4b97ef3dfef1fe75a07b6d52f7d22e9cfe726dff32fa7cf586779bc2d219"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0233/male/front.png",
+        "sha256": "14568552182942fd0477328b7a3907a1da701021e76a46506c7d73802db2acb1"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/233-male-back.png",
+        "sha256": "4b998c3be0002f094ef944983db4b842c3fe5d9ad09741c2f8bb61d664451e98"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1657
+    },
+    {
+      "species": 243,
+      "name": "RAIKOU",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0243/male/front.png",
+        "sha256": "7ae0272ab97c96d0929e9e8b3e1901c87a8138bb9fd07e9d071e4eb4b4b2ca29"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0243/male/front.png",
+        "sha256": "7ae0272ab97c96d0929e9e8b3e1901c87a8138bb9fd07e9d071e4eb4b4b2ca29"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/243-male-front.png",
+        "sha256": "5815cca80f0f34a8a14a8fa74fc5a3f51b4fc15a597354c7b1b67f7248309555"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2411
+    },
+    {
+      "species": 243,
+      "name": "RAIKOU",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0243/male/back.png",
+        "sha256": "875649593b16765bb494f15221f4ae15a2db7254f52b4f8c63a13cdcee9cdbe9"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0243/male/front.png",
+        "sha256": "7ae0272ab97c96d0929e9e8b3e1901c87a8138bb9fd07e9d071e4eb4b4b2ca29"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/243-male-back.png",
+        "sha256": "fed4016b9c5fa8e23b18b44335eac3438d96146e14534d53e63259b141201779"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2888
+    },
+    {
+      "species": 244,
+      "name": "ENTEI",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0244/male/front.png",
+        "sha256": "5b16289daf0a03d6f35e05b1db55adbd3a63356b02129555746e0d155fd4fc8b"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0244/male/front.png",
+        "sha256": "5b16289daf0a03d6f35e05b1db55adbd3a63356b02129555746e0d155fd4fc8b"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/244-male-front.png",
+        "sha256": "0317312ea9910b7f0550b75ce82587502d103fe7e807b5fe9f25f60c7d9b0dec"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2644
+    },
+    {
+      "species": 244,
+      "name": "ENTEI",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0244/male/back.png",
+        "sha256": "d4359afa3005165dbfc239d98d4a20e9485ebba90d55e181ef9bb8e55686128a"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0244/male/front.png",
+        "sha256": "5b16289daf0a03d6f35e05b1db55adbd3a63356b02129555746e0d155fd4fc8b"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/244-male-back.png",
+        "sha256": "764249972816664a12b12fc14491b49c70ef4bb74de09f49f9ed0fd43e449539"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2707
+    },
+    {
+      "species": 245,
+      "name": "SUICUNE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0245/male/front.png",
+        "sha256": "876faf087e333365bf9affef46750f70a07e7f3316715b17b62953a4bf86f19b"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0245/male/front.png",
+        "sha256": "876faf087e333365bf9affef46750f70a07e7f3316715b17b62953a4bf86f19b"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/245-male-front.png",
+        "sha256": "522e2d2f6028636493f61b99b7644359c98a7e83b018d2f132f707f95b08546d"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2769
+    },
+    {
+      "species": 245,
+      "name": "SUICUNE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0245/male/back.png",
+        "sha256": "86d07f3d8e42c88b64e7138a24110441826737cedf2cee86a84ce776027f1cd9"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0245/male/front.png",
+        "sha256": "876faf087e333365bf9affef46750f70a07e7f3316715b17b62953a4bf86f19b"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/245-male-back.png",
+        "sha256": "2ee68e81bbb119662103069b67a704af457cab9b231af6cf1597c4feb6e8b680"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3818
+    },
+    {
+      "species": 249,
+      "name": "LUGIA",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0249/male/front.png",
+        "sha256": "921038b941d79e6a67131a152c34ec2387e3fa3276e8de9611af93e870a34b16"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0249/male/front.png",
+        "sha256": "921038b941d79e6a67131a152c34ec2387e3fa3276e8de9611af93e870a34b16"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/249-male-front.png",
+        "sha256": "37a15128f318c73888f67d44b15e6b050818b5f2305f59ac177b57e509139aa1"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2912
+    },
+    {
+      "species": 249,
+      "name": "LUGIA",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0249/male/back.png",
+        "sha256": "fe4d62e8062cdf50006a2048cdb8c2def1f90dae46d72a41570df264b2726fec"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0249/male/front.png",
+        "sha256": "921038b941d79e6a67131a152c34ec2387e3fa3276e8de9611af93e870a34b16"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/249-male-back.png",
+        "sha256": "2fb39e42f2f86f2466db129c48fd3927f078c192e6bfd42ebad9a064d63f2269"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2552
+    },
+    {
+      "species": 250,
+      "name": "HO_OH",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0250/male/front.png",
+        "sha256": "4c4a21a1441ed0b545165aac2521fdaa8a31c1a074a3e67347e850386d5bceb2"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0250/male/front.png",
+        "sha256": "4c4a21a1441ed0b545165aac2521fdaa8a31c1a074a3e67347e850386d5bceb2"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/250-male-front.png",
+        "sha256": "ddf1e94f8888a1e1bbf9035f648ba19607aabb0f9185eee19a2b6ef18c1593c2"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3806
+    },
+    {
+      "species": 250,
+      "name": "HO_OH",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0250/male/back.png",
+        "sha256": "31ccca93d8fc05b254334ec42c23528117058076fad3a6bbcee2bf2d2b04c384"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0250/male/front.png",
+        "sha256": "4c4a21a1441ed0b545165aac2521fdaa8a31c1a074a3e67347e850386d5bceb2"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/250-male-back.png",
+        "sha256": "f5916cd9c8c18c11deb2b829a3c9cd2552e82e99791c6e3716c4c1c89dfa2b56"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2564
+    },
+    {
+      "species": 251,
+      "name": "CELEBI",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0251/male/front.png",
+        "sha256": "5cf94cce674323de4c28d627d7292996fa7f9daa35ae03b5e455f07f10e73c66"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0251/male/front.png",
+        "sha256": "5cf94cce674323de4c28d627d7292996fa7f9daa35ae03b5e455f07f10e73c66"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/251-male-front.png",
+        "sha256": "4d6c20362a439eab36313c6c88b09e69bb42158152dbd5493add42ebef53d971"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 601
+    },
+    {
+      "species": 251,
+      "name": "CELEBI",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0251/male/back.png",
+        "sha256": "04363d7f1729d7d5b96e6eb8897ef3a313e396d8edd9e47f511ccb713a286b39"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0251/male/front.png",
+        "sha256": "5cf94cce674323de4c28d627d7292996fa7f9daa35ae03b5e455f07f10e73c66"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/251-male-back.png",
+        "sha256": "e97ea0fb978fb56b680cc8353a2ff6058028d930282f549bd8a5d8f9ad3a1aa4"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1791
+    },
+    {
+      "species": 292,
+      "name": "SHEDINJA",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0292/male/front.png",
+        "sha256": "2680c21083803a99f48d6f6c15d7b636f6725057adcbd874f025b37058b9b863"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0292/male/front.png",
+        "sha256": "2680c21083803a99f48d6f6c15d7b636f6725057adcbd874f025b37058b9b863"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/292-male-front.png",
+        "sha256": "62378ae2166d83755a61ab7b81c9e746e74d9dd8735ab08126ac652914c2efe6"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1034
+    },
+    {
+      "species": 292,
+      "name": "SHEDINJA",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0292/male/back.png",
+        "sha256": "abb5703111e607c292e57dbdfc40fd7ad8cd6c108867aeea85f1cb0826564a7b"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0292/male/front.png",
+        "sha256": "2680c21083803a99f48d6f6c15d7b636f6725057adcbd874f025b37058b9b863"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/292-male-back.png",
+        "sha256": "5b094a1753d123739f37b2ce595efbbab55835fe7ce877c0f3d7009f5ddd2071"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2511
+    },
+    {
+      "species": 337,
+      "name": "LUNATONE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0337/male/front.png",
+        "sha256": "bffffee175133cb882d3e89c17be273984ff040c4f6e7518c61c8b00d3f51344"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0337/male/front.png",
+        "sha256": "bffffee175133cb882d3e89c17be273984ff040c4f6e7518c61c8b00d3f51344"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/337-male-front.png",
+        "sha256": "adf391db09b4eaa63abf79a21b6753043d64cf789bf4ff22d79024201d873c7f"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1408
+    },
+    {
+      "species": 337,
+      "name": "LUNATONE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0337/male/back.png",
+        "sha256": "5f500df365ed85f2c63bf0a63055912407b4a9bc119d7b9b3c35a93ac0f42352"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0337/male/front.png",
+        "sha256": "bffffee175133cb882d3e89c17be273984ff040c4f6e7518c61c8b00d3f51344"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/337-male-back.png",
+        "sha256": "d04a37e7b3eb34254d58854917c83e9a037ce09a12f39c475dd20add64ad4739"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2458
+    },
+    {
+      "species": 338,
+      "name": "SOLROCK",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0338/male/front.png",
+        "sha256": "85545a38ed88885c024deda2a35bf8f45a61babc086716af69cf8d61152e5497"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0338/male/front.png",
+        "sha256": "85545a38ed88885c024deda2a35bf8f45a61babc086716af69cf8d61152e5497"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/338-male-front.png",
+        "sha256": "9deb65288faf3a10ad28739c3fe6596a5cd22c57814d9fd4af7bf058a7105eab"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1570
+    },
+    {
+      "species": 338,
+      "name": "SOLROCK",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0338/male/back.png",
+        "sha256": "5f9685457df2210bf40560b29c13fd05905ec69c07bc4d584998524942bb9da4"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0338/male/front.png",
+        "sha256": "85545a38ed88885c024deda2a35bf8f45a61babc086716af69cf8d61152e5497"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/338-male-back.png",
+        "sha256": "4a983741cc8a64edf10e9df5bed3efe51c2883472ec2fdc69add1843e3d51369"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2943
+    },
+    {
+      "species": 343,
+      "name": "BALTOY",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0343/male/front.png",
+        "sha256": "0a6c3302c0209bf94fcbcd15c0121a8e8fc277a846f4782d131aa36fb61be5a4"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0343/male/front.png",
+        "sha256": "0a6c3302c0209bf94fcbcd15c0121a8e8fc277a846f4782d131aa36fb61be5a4"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/343-male-front.png",
+        "sha256": "f522f10c804e345abaaa7d2957e291280ad3e341153cdd3854a281a155965dfe"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 582
+    },
+    {
+      "species": 343,
+      "name": "BALTOY",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0343/male/back.png",
+        "sha256": "7f8d81fe62f5f56bc7466f6ca050b655b1a0b49ba2c2cb621de33ac00b0d3344"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0343/male/front.png",
+        "sha256": "0a6c3302c0209bf94fcbcd15c0121a8e8fc277a846f4782d131aa36fb61be5a4"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/343-male-back.png",
+        "sha256": "c50660d4f9bb4cf20ad8f4ded42bc6c0642d40c886a6ea5629ffff5a04b07758"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1848
+    },
+    {
+      "species": 344,
+      "name": "CLAYDOL",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0344/male/front.png",
+        "sha256": "06111ca5aab9eebf2809875e028bc3616464cbb23d36ba1cc86fd7b25872c7f5"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0344/male/front.png",
+        "sha256": "06111ca5aab9eebf2809875e028bc3616464cbb23d36ba1cc86fd7b25872c7f5"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/344-male-front.png",
+        "sha256": "2e60c0157b239f8ab01f04966c7a2d9be0bd3acb06ef6ec3335967270c19cc7d"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2441
+    },
+    {
+      "species": 344,
+      "name": "CLAYDOL",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0344/male/back.png",
+        "sha256": "8a6fde35d4911a10b8055ba396750f5b890a3bb5c368013ab29e5a060761c6db"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0344/male/front.png",
+        "sha256": "06111ca5aab9eebf2809875e028bc3616464cbb23d36ba1cc86fd7b25872c7f5"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/344-male-back.png",
+        "sha256": "309046a4e14360b6ffc055ff87bada952bc54a705cafe249e0fa8f5e0ea3c2d8"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3529
+    },
+    {
+      "species": 374,
+      "name": "BELDUM",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0374/male/front.png",
+        "sha256": "fe13e58822563f875f146c430d27321f7e49ff9dbe1f87a443362daea892b4d2"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0374/male/front.png",
+        "sha256": "fe13e58822563f875f146c430d27321f7e49ff9dbe1f87a443362daea892b4d2"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/374-male-front.png",
+        "sha256": "55eaf4d21b57e0274703597da86a061282f1c90b9267e98dfc77ca68644329a8"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 761
+    },
+    {
+      "species": 374,
+      "name": "BELDUM",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0374/male/back.png",
+        "sha256": "0d3d78e03ab7f4ebc463b82af890b93ff3208ae80d092175709066ce5d65f127"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0374/male/front.png",
+        "sha256": "fe13e58822563f875f146c430d27321f7e49ff9dbe1f87a443362daea892b4d2"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/374-male-back.png",
+        "sha256": "376a48e57975c20f82ec02ac3f63bc1921544af6e46398e4ce0447d1b56f1b59"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2339
+    },
+    {
+      "species": 375,
+      "name": "METANG",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0375/male/front.png",
+        "sha256": "bda738b77e254f724c26d92254f6e99ec6d9f5fe1689f11e1802fd5d8da03b01"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0375/male/front.png",
+        "sha256": "bda738b77e254f724c26d92254f6e99ec6d9f5fe1689f11e1802fd5d8da03b01"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/375-male-front.png",
+        "sha256": "ca1d11bb40d9713fcf4f6514cc457025b24a375788ecc18d98cacd159da65c58"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1915
+    },
+    {
+      "species": 375,
+      "name": "METANG",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0375/male/back.png",
+        "sha256": "872d4676d6d253a79acbe996670263e2c1434cea210da98dadf8e513e9ceca0a"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0375/male/front.png",
+        "sha256": "bda738b77e254f724c26d92254f6e99ec6d9f5fe1689f11e1802fd5d8da03b01"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/375-male-back.png",
+        "sha256": "ff8620299f651a5534f8357bcb3d8f66ca3f3e27f84359f571229eec8b60bc12"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2793
+    },
+    {
+      "species": 376,
+      "name": "METAGROSS",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0376/male/front.png",
+        "sha256": "6cf0ee5a73073d420a89dbc9586325277386ec25c910d29285bc579d73a076a8"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0376/male/front.png",
+        "sha256": "6cf0ee5a73073d420a89dbc9586325277386ec25c910d29285bc579d73a076a8"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/376-male-front.png",
+        "sha256": "525dbe3ade49b8987b6bc2657b302e02424adc0a8d3296587fa38575c2a8c09c"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2209
+    },
+    {
+      "species": 376,
+      "name": "METAGROSS",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0376/male/back.png",
+        "sha256": "4c1272564096238c96655bfa3aead19c11ff8cea17fae7a6f78000a17977fb0f"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0376/male/front.png",
+        "sha256": "6cf0ee5a73073d420a89dbc9586325277386ec25c910d29285bc579d73a076a8"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/376-male-back.png",
+        "sha256": "1464254312444db54b617760911bc6bf29243cfd1b06a300dbcdedcac72493d8"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2952
+    },
+    {
+      "species": 377,
+      "name": "REGIROCK",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0377/male/front.png",
+        "sha256": "0b36e08e6f1321a689662261d8ca94efb65c9b8b0bf00a3d1c3dce5cbefbb106"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0377/male/front.png",
+        "sha256": "0b36e08e6f1321a689662261d8ca94efb65c9b8b0bf00a3d1c3dce5cbefbb106"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/377-male-front.png",
+        "sha256": "cdd5b71409173d745b0afb302cdb28f9f6d1f5411614c5f639122f6ee1d05dbf"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2373
+    },
+    {
+      "species": 377,
+      "name": "REGIROCK",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0377/male/back.png",
+        "sha256": "bb62e67e4d2316c7a64e15ab0af781e65eb321f74b9349cdc3e8086b90e95545"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0377/male/front.png",
+        "sha256": "0b36e08e6f1321a689662261d8ca94efb65c9b8b0bf00a3d1c3dce5cbefbb106"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/377-male-back.png",
+        "sha256": "adfbe38cabc693cd0ab2fc1a4d5fbe57291f464843cc7aae2712e8e355472656"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3974
+    },
+    {
+      "species": 378,
+      "name": "REGICE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0378/male/front.png",
+        "sha256": "6dade836676575b3abef00388c178ed98e317d3715b0f72edfbb3843b028ea8e"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0378/male/front.png",
+        "sha256": "6dade836676575b3abef00388c178ed98e317d3715b0f72edfbb3843b028ea8e"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/378-male-front.png",
+        "sha256": "b3ab34d5dd74d99d6cc651a14f045116e7b8ec3c3e769a9a681e3bed355247f8"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2138
+    },
+    {
+      "species": 378,
+      "name": "REGICE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0378/male/back.png",
+        "sha256": "fb1dd56137b57d71e4ba4628f8cddb1619c7818e9d6d1b7eda7ec85031fada39"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0378/male/front.png",
+        "sha256": "6dade836676575b3abef00388c178ed98e317d3715b0f72edfbb3843b028ea8e"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/378-male-back.png",
+        "sha256": "0f909fd101d9b83031e801f43ed3363185589f7427c03ff3b70b8622771b43c6"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2526
+    },
+    {
+      "species": 379,
+      "name": "REGISTEEL",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0379/male/front.png",
+        "sha256": "ec7bc4c25a8b95999dcdd3e0f482186991bf7b56e64750fa8a9d2dc8ce2e0cf1"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0379/male/front.png",
+        "sha256": "ec7bc4c25a8b95999dcdd3e0f482186991bf7b56e64750fa8a9d2dc8ce2e0cf1"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/379-male-front.png",
+        "sha256": "8f61dbe026310153ad8379374652fc493dd1f3582bd28dabdd2b62b58a2e4c27"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2467
+    },
+    {
+      "species": 379,
+      "name": "REGISTEEL",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0379/male/back.png",
+        "sha256": "d48d7b9b0c12b148b9c876f748c06a67fbc007fb0169c2d3d2482d04139c9fa1"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0379/male/front.png",
+        "sha256": "ec7bc4c25a8b95999dcdd3e0f482186991bf7b56e64750fa8a9d2dc8ce2e0cf1"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/379-male-back.png",
+        "sha256": "b5184d12773fb16f4b2dd55722a754f1855679e565f34d61908c967a99216401"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3184
+    },
+    {
+      "species": 382,
+      "name": "KYOGRE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0382/male/front.png",
+        "sha256": "adc57405dded5cc1ea2c2012f48182962a7f5798dfcf3593765e67f2e9f1a543"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0382/male/front.png",
+        "sha256": "adc57405dded5cc1ea2c2012f48182962a7f5798dfcf3593765e67f2e9f1a543"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/382-male-front.png",
+        "sha256": "a5fce4e87a77d0debc462162987bd494f6f1ee88b60c9641565fa709f1448cf9"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3086
+    },
+    {
+      "species": 382,
+      "name": "KYOGRE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0382/male/back.png",
+        "sha256": "24d4ec3596c108d3d7e714d87a463cfbb5d5ef242886cc57cdb7795212f0241b"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0382/male/front.png",
+        "sha256": "adc57405dded5cc1ea2c2012f48182962a7f5798dfcf3593765e67f2e9f1a543"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/382-male-back.png",
+        "sha256": "96cce87954acdac08b6e87f48a8a4e07f2b55361b55c555b4c6315fca368d64e"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2268
+    },
+    {
+      "species": 383,
+      "name": "GROUDON",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0383/male/front.png",
+        "sha256": "ba196790a884c7e63d54245bc12def6c5db54d454f2a62c6696de51dfab56136"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0383/male/front.png",
+        "sha256": "ba196790a884c7e63d54245bc12def6c5db54d454f2a62c6696de51dfab56136"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/383-male-front.png",
+        "sha256": "55cb378455311c7e1ee4c435de227b6c28b23ae911c491062c0b52392e58c673"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3292
+    },
+    {
+      "species": 383,
+      "name": "GROUDON",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0383/male/back.png",
+        "sha256": "c0cfa16e702f707087b70564d54a9ff0136e9351a925082cc038512e03d5f51f"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0383/male/front.png",
+        "sha256": "ba196790a884c7e63d54245bc12def6c5db54d454f2a62c6696de51dfab56136"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/383-male-back.png",
+        "sha256": "007b8d4eb525681327a7956f1225ff3f90c68717a26d1d782ee0aa20e17ee628"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2865
+    },
+    {
+      "species": 384,
+      "name": "RAYQUAZA",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0384/male/front.png",
+        "sha256": "d1e9694f6142fa15c0f415209ae1cf999cecc962de0e3a52fabaa75fd2200b84"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0384/male/front.png",
+        "sha256": "d1e9694f6142fa15c0f415209ae1cf999cecc962de0e3a52fabaa75fd2200b84"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/384-male-front.png",
+        "sha256": "4283d4140096bf5a51d8982ba99b5829b061b54144912fd28a52c7d7ddd24bb1"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2802
+    },
+    {
+      "species": 384,
+      "name": "RAYQUAZA",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0384/male/back.png",
+        "sha256": "7a89ecb8cd63f35e68d5423bb17d8110a55d33472cb2ca00e1f5079401c459f6"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0384/male/front.png",
+        "sha256": "d1e9694f6142fa15c0f415209ae1cf999cecc962de0e3a52fabaa75fd2200b84"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/384-male-back.png",
+        "sha256": "8625dd0315162a514542f625758ea755efec1df911929f0208da58c7a9c129d4"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2555
+    },
+    {
+      "species": 385,
+      "name": "JIRACHI",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0385/male/front.png",
+        "sha256": "d4e63424c9e55fed9acc4b0595298123d451be4f710377857c374b4ac842452b"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0385/male/front.png",
+        "sha256": "d4e63424c9e55fed9acc4b0595298123d451be4f710377857c374b4ac842452b"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/385-male-front.png",
+        "sha256": "ab6e6f631e3218f48503800c6c330b2fec2f43bfeeb5007930d4991e4bc3a447"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 902
+    },
+    {
+      "species": 385,
+      "name": "JIRACHI",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0385/male/back.png",
+        "sha256": "35602a05ae95c5591585c6d2b36b6a626490566608edf1a6da46a7a81896d93c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0385/male/front.png",
+        "sha256": "d4e63424c9e55fed9acc4b0595298123d451be4f710377857c374b4ac842452b"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/385-male-back.png",
+        "sha256": "e6083a38924e604269262d1d442961f3bfc2d85314d302f25ddfd1ffd4b42d8d"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2420
+    },
+    {
+      "species": 386,
+      "name": "DEOXYS",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0386/male/front.png",
+        "sha256": "a595200e2a7242c3d88782225a4a8da89d9bd0c73192ad07312cc89ea342a164"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0386/male/front.png",
+        "sha256": "a595200e2a7242c3d88782225a4a8da89d9bd0c73192ad07312cc89ea342a164"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/386-male-front.png",
+        "sha256": "839dcd656a732f38e4dd9221d396587bf180024ff4647d23f8c5a2fd440c7840"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1670
+    },
+    {
+      "species": 386,
+      "name": "DEOXYS",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0386/male/back.png",
+        "sha256": "632567e805276812184716224696c1a835d83087876af77d1d4e3883b98057cb"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0386/male/front.png",
+        "sha256": "a595200e2a7242c3d88782225a4a8da89d9bd0c73192ad07312cc89ea342a164"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/386-male-back.png",
+        "sha256": "b62bbcb38972e81aec7a82c07c88493e0e825799bcaa9beed5c5b306fbbd0459"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2696
+    },
+    {
+      "species": 436,
+      "name": "BRONZOR",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0436/male/front.png",
+        "sha256": "5657471c9c3e40b6c6e732e4bf830414c91bca2f2d5bdf3404fd819fe112b2bb"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0436/male/front.png",
+        "sha256": "5657471c9c3e40b6c6e732e4bf830414c91bca2f2d5bdf3404fd819fe112b2bb"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/436-male-front.png",
+        "sha256": "57314029771c44e0ae27dca90fa42deb9f5fddce76e449d5fda7c1498f869177"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 816
+    },
+    {
+      "species": 436,
+      "name": "BRONZOR",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0436/male/back.png",
+        "sha256": "ef5d665cd68807db332275647c085f9f453910982205df0b715c9a25572e4c5d"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0436/male/front.png",
+        "sha256": "5657471c9c3e40b6c6e732e4bf830414c91bca2f2d5bdf3404fd819fe112b2bb"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/436-male-back.png",
+        "sha256": "6108eafc19f723ab26577c83fc3860468e89306e6ea4149936af0abb657e48b9"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1748
+    },
+    {
+      "species": 437,
+      "name": "BRONZONG",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0437/male/front.png",
+        "sha256": "d6088fef63be835ca6194a3d5d0856a692f7c3af82ab85d2e28dd661472c134e"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0437/male/front.png",
+        "sha256": "d6088fef63be835ca6194a3d5d0856a692f7c3af82ab85d2e28dd661472c134e"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/437-male-front.png",
+        "sha256": "084549a49d23b125db8ad23da261fefdec9c13fa870ffccc93dbf78c3da639a0"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2161
+    },
+    {
+      "species": 437,
+      "name": "BRONZONG",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0437/male/back.png",
+        "sha256": "e559f0d9ca86ffca36d7d71e8807e77b867030bdc0f0d6779f01d8e869b31558"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0437/male/front.png",
+        "sha256": "d6088fef63be835ca6194a3d5d0856a692f7c3af82ab85d2e28dd661472c134e"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/437-male-back.png",
+        "sha256": "57cca11637a499ead4b8e35f7e71ca84924973a16dec2d7290e2881b63fc79d3"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3364
+    },
+    {
+      "species": 462,
+      "name": "MAGNEZONE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0462/male/front.png",
+        "sha256": "93d389cbd0ba672965d9d5975ffc6aa58c3896cc475ca954f1a41c12e2d35623"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0462/male/front.png",
+        "sha256": "93d389cbd0ba672965d9d5975ffc6aa58c3896cc475ca954f1a41c12e2d35623"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/462-male-front.png",
+        "sha256": "9c639de843f4b2cd9b84a919a530da601200dae623eff1afe959ffec7e24b3a2"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2151
+    },
+    {
+      "species": 462,
+      "name": "MAGNEZONE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0462/male/back.png",
+        "sha256": "db08ad6c26efed2a2a4ce39dec0c67ed5c0eff37200d9e91536e63612d4e96fc"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0462/male/front.png",
+        "sha256": "93d389cbd0ba672965d9d5975ffc6aa58c3896cc475ca954f1a41c12e2d35623"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/462-male-back.png",
+        "sha256": "b8b2ed8ee0126d98944d9ed6444af09685b5dd0d6f6406b7c41573d826a03f1e"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1515
+    },
+    {
+      "species": 474,
+      "name": "PORYGON_Z",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0474/male/front.png",
+        "sha256": "8c52cf69ba534d61b3a3a8b1249768a83bf2816a4370337517c1baa3511289af"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0474/male/front.png",
+        "sha256": "8c52cf69ba534d61b3a3a8b1249768a83bf2816a4370337517c1baa3511289af"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/474-male-front.png",
+        "sha256": "598e6fee280850d20d9b3c802e750e060049689fe0d656e66acc9521f6770830"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 741
+    },
+    {
+      "species": 474,
+      "name": "PORYGON_Z",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0474/male/back.png",
+        "sha256": "392cce3269c2ae206dc1f32035673a6bb67dafa284b8dff6fc5310cc51043cad"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0474/male/front.png",
+        "sha256": "8c52cf69ba534d61b3a3a8b1249768a83bf2816a4370337517c1baa3511289af"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/474-male-back.png",
+        "sha256": "3c4c7d55ee3b3669dd2bec7b7b045161f7d5e9b0503217e544d263724ca63051"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2133
+    },
+    {
+      "species": 479,
+      "name": "ROTOM",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0479/male/front.png",
+        "sha256": "ed91af24838258b3f857a595af506db815b7083beeef06a86d598807ce5780e3"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0479/male/front.png",
+        "sha256": "ed91af24838258b3f857a595af506db815b7083beeef06a86d598807ce5780e3"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/479-male-front.png",
+        "sha256": "2e5edc3429b30561165c1461c78f5737647eee4fc3d60ccbd6be3ab3bc6aa41d"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 813
+    },
+    {
+      "species": 479,
+      "name": "ROTOM",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0479/male/back.png",
+        "sha256": "36b25104611be6911f32203332011f3dc21e6d2c4a678e28801f5b3fe7c86766"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0479/male/front.png",
+        "sha256": "ed91af24838258b3f857a595af506db815b7083beeef06a86d598807ce5780e3"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/479-male-back.png",
+        "sha256": "61bc891f682c9b493cb4df8b8e04f445cc4ed2b646fca8218321ccc131afdc94"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1540
+    },
+    {
+      "species": 480,
+      "name": "UXIE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0480/male/front.png",
+        "sha256": "26b3bb12d44ca813d35af6662efd76c41fc597582db6aafd691dcc6f8ddcd54c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0480/male/front.png",
+        "sha256": "26b3bb12d44ca813d35af6662efd76c41fc597582db6aafd691dcc6f8ddcd54c"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/480-male-front.png",
+        "sha256": "c083e2a46b91866bba84ddfbf98e99891be4f2b52c4f8c42bae4ceb3697b7137"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 916
+    },
+    {
+      "species": 480,
+      "name": "UXIE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0480/male/back.png",
+        "sha256": "2b7ca9a4fef529f357a01e79d52659d4892bc9650b3aa2454061301faed77db0"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0480/male/front.png",
+        "sha256": "26b3bb12d44ca813d35af6662efd76c41fc597582db6aafd691dcc6f8ddcd54c"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/480-male-back.png",
+        "sha256": "68cc662bff1130b0df1ab3e967d1be6f2b29e883f3fe6b71e935368c4085aa56"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1658
+    },
+    {
+      "species": 481,
+      "name": "MESPRIT",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0481/male/front.png",
+        "sha256": "32143c7c17744e61127c7f40ed15f53231b24ec2b5af8d3956c4639fb20cb8cd"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0481/male/front.png",
+        "sha256": "32143c7c17744e61127c7f40ed15f53231b24ec2b5af8d3956c4639fb20cb8cd"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/481-male-front.png",
+        "sha256": "7a57c5517dbb0a5b632e8484daa61ff8ce7a6ffa91f5fcc4d70232b7fdccd345"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1111
+    },
+    {
+      "species": 481,
+      "name": "MESPRIT",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0481/male/back.png",
+        "sha256": "7795a89f26cf746fac2038ab809b30b23713c2131af75268fee9dd87e0ce4071"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0481/male/front.png",
+        "sha256": "32143c7c17744e61127c7f40ed15f53231b24ec2b5af8d3956c4639fb20cb8cd"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/481-male-back.png",
+        "sha256": "cff2e6a35631e36ab72b2cc07635be3a0c3a1145dd4a38f345d097b2965f18d6"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1936
+    },
+    {
+      "species": 482,
+      "name": "AZELF",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0482/male/front.png",
+        "sha256": "372455e1cbc01696a6f050ef98a259caeda7d135cbcfdbe9c67d6a6470882ddd"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0482/male/front.png",
+        "sha256": "372455e1cbc01696a6f050ef98a259caeda7d135cbcfdbe9c67d6a6470882ddd"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/482-male-front.png",
+        "sha256": "634c9855a483cf68d8cf210850983b05437101d811e49a28750cfdb38d5a4b6b"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 909
+    },
+    {
+      "species": 482,
+      "name": "AZELF",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0482/male/back.png",
+        "sha256": "cdf6d6f42f807724ee9b49527786e0ec2cad1d7dad7c9c4b7fd6209d95ac4b0f"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0482/male/front.png",
+        "sha256": "372455e1cbc01696a6f050ef98a259caeda7d135cbcfdbe9c67d6a6470882ddd"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/482-male-back.png",
+        "sha256": "cfbeca570f2dbeba7344604067fac324403d7bf1370cf12ae3200a3e39b6ab29"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2039
+    },
+    {
+      "species": 483,
+      "name": "DIALGA",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0483/male/front.png",
+        "sha256": "68643bf6c6b99bc4c5dd0827d2e5d76ead5ef95b947d38de6cfbaaa543ce38c0"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0483/male/front.png",
+        "sha256": "68643bf6c6b99bc4c5dd0827d2e5d76ead5ef95b947d38de6cfbaaa543ce38c0"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/483-male-front.png",
+        "sha256": "e500c02b02a8d6af9afa5805ea052b23df7f595a3a9ebdc4d3b88f7f503814e9"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2928
+    },
+    {
+      "species": 483,
+      "name": "DIALGA",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0483/male/back.png",
+        "sha256": "57d1285aa17c5b49484ec6e7542705944aad253166c6b2044a22264a0d5b25a7"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0483/male/front.png",
+        "sha256": "68643bf6c6b99bc4c5dd0827d2e5d76ead5ef95b947d38de6cfbaaa543ce38c0"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/483-male-back.png",
+        "sha256": "114eb7f563ec2e00a6add8b926a27fad511042f81eaa3c8ca2fe51e5369129d1"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2430
+    },
+    {
+      "species": 484,
+      "name": "PALKIA",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0484/male/front.png",
+        "sha256": "669e259be2d165c3ce5f44cc5edac49c388d1bb4fc55c3483cb609b710296fde"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0484/male/front.png",
+        "sha256": "669e259be2d165c3ce5f44cc5edac49c388d1bb4fc55c3483cb609b710296fde"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/484-male-front.png",
+        "sha256": "0db0e43950183026c774d781020db3f981ce34d7b8f4d5365231af81ceb057c4"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3918
+    },
+    {
+      "species": 484,
+      "name": "PALKIA",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0484/male/back.png",
+        "sha256": "c8b248526fcc91770be8b90e957d57152c13b397e5545538775bf1d8e5d16572"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0484/male/front.png",
+        "sha256": "669e259be2d165c3ce5f44cc5edac49c388d1bb4fc55c3483cb609b710296fde"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/484-male-back.png",
+        "sha256": "57c018d693b9355808b25ce779e572f28130f02029c0ef7e04f9d54a526006a7"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2704
+    },
+    {
+      "species": 486,
+      "name": "REGIGIGAS",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0486/male/front.png",
+        "sha256": "d491a04daa48097d92f4503fee7d1292c478af606576f3fc922a947ea551286d"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0486/male/front.png",
+        "sha256": "d491a04daa48097d92f4503fee7d1292c478af606576f3fc922a947ea551286d"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/486-male-front.png",
+        "sha256": "0416ee719ac6b19078316dc890e97166bd780ab7c4e39f8e13f1c09c7f538b3c"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3215
+    },
+    {
+      "species": 486,
+      "name": "REGIGIGAS",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0486/male/back.png",
+        "sha256": "8c1cc052bd2054db4188a376c55e094024665acd59b5b2fed2b921ab28bb7452"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0486/male/front.png",
+        "sha256": "d491a04daa48097d92f4503fee7d1292c478af606576f3fc922a947ea551286d"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/486-male-back.png",
+        "sha256": "5d1edba6bbb3fb44d965b61d68be0e94a0177d96e912ddab5b97961a9c901f52"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2364
+    },
+    {
+      "species": 487,
+      "name": "GIRATINA",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0487/male/front.png",
+        "sha256": "7ab39fd07d66464d7d00048c496f425b8220b37e323321c571fc5fed8eec236c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0487/male/front.png",
+        "sha256": "7ab39fd07d66464d7d00048c496f425b8220b37e323321c571fc5fed8eec236c"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/487-male-front.png",
+        "sha256": "bf015d73c8dc28b0560ca4c1654c9956685712b78773d16b231a8c06bf9b183d"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3984
+    },
+    {
+      "species": 487,
+      "name": "GIRATINA",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0487/male/back.png",
+        "sha256": "04b3eb02be2a7bfba1b48969fd0bd90dd784299e8702e2286f013cbb5d5bf66c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0487/male/front.png",
+        "sha256": "7ab39fd07d66464d7d00048c496f425b8220b37e323321c571fc5fed8eec236c"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/487-male-back.png",
+        "sha256": "8c5e31ff9d9bc88641fdc446afd56cc7c4995e89468a1e50c6eb6403ae7985e9"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3546
+    },
+    {
+      "species": 489,
+      "name": "PHIONE",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0489/male/front.png",
+        "sha256": "1c30d8a799ce117f277dc02c1980a6cebddd3e2a014bf2fbee188a26b73eea57"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0489/male/front.png",
+        "sha256": "1c30d8a799ce117f277dc02c1980a6cebddd3e2a014bf2fbee188a26b73eea57"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/489-male-front.png",
+        "sha256": "3f16b583fea04ad316406b2e1e0716870fe586111629a63faced12908656fec1"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 820
+    },
+    {
+      "species": 489,
+      "name": "PHIONE",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0489/male/back.png",
+        "sha256": "043c371b8933311c0f9c65215be83f573dfab2827982c63d367d47c0725e064e"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0489/male/front.png",
+        "sha256": "1c30d8a799ce117f277dc02c1980a6cebddd3e2a014bf2fbee188a26b73eea57"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/489-male-back.png",
+        "sha256": "ac24791893383fb145fd191b8b5fd010c8e4907b394c8e4d902bcfb30c480464"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1914
+    },
+    {
+      "species": 490,
+      "name": "MANAPHY",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0490/male/front.png",
+        "sha256": "aeef6dbd55d2bb8cae6460f63677e8905cfbbc52f233e009bb8115bc49f04170"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0490/male/front.png",
+        "sha256": "aeef6dbd55d2bb8cae6460f63677e8905cfbbc52f233e009bb8115bc49f04170"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/490-male-front.png",
+        "sha256": "fff773a8d2396249f92ec617e606fb4a05e0221cde236a6910be68f005b93e22"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 853
+    },
+    {
+      "species": 490,
+      "name": "MANAPHY",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0490/male/back.png",
+        "sha256": "7b75eff012a3d80472697c055650a5757037b74e2d1d3b9c3dc980de0cb7e0a5"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0490/male/front.png",
+        "sha256": "aeef6dbd55d2bb8cae6460f63677e8905cfbbc52f233e009bb8115bc49f04170"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/490-male-back.png",
+        "sha256": "f9eaf91ab5f63d190c52b28ba1211e275672a274a8edb496d5ba80b54d7765d0"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2080
+    },
+    {
+      "species": 491,
+      "name": "DARKRAI",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0491/male/front.png",
+        "sha256": "012ea52013be34c86cc21c54c53ff6d699ce3bf1827778167bd84309d8f76f87"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0491/male/front.png",
+        "sha256": "012ea52013be34c86cc21c54c53ff6d699ce3bf1827778167bd84309d8f76f87"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/491-male-front.png",
+        "sha256": "450373d001eae710734ec8ca0e78cc8e8a4ea7b20a80d663f1a3c894095fc72b"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1922
+    },
+    {
+      "species": 491,
+      "name": "DARKRAI",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0491/male/back.png",
+        "sha256": "f385fed7f903aa24653a8151359d52cba834a93e1bd7eb87a4ed4221c9d7872c"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0491/male/front.png",
+        "sha256": "012ea52013be34c86cc21c54c53ff6d699ce3bf1827778167bd84309d8f76f87"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/491-male-back.png",
+        "sha256": "02a1a1cbfcd89e08fb42a774a6c6c7ae75b57d7fcc8f41382cd951261f411786"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 3058
+    },
+    {
+      "species": 492,
+      "name": "SHAYMIN",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0492/male/front.png",
+        "sha256": "838a51522a23982bf906b20e656886d83e1b7d83643dadf2367f9395ba4485b5"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0492/male/front.png",
+        "sha256": "838a51522a23982bf906b20e656886d83e1b7d83643dadf2367f9395ba4485b5"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/492-male-front.png",
+        "sha256": "e8c8e05000a640dc5171b3d02a4c5b1264386f6622935e226ef779a9f2f65fcf"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 733
+    },
+    {
+      "species": 492,
+      "name": "SHAYMIN",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0492/male/back.png",
+        "sha256": "de6b1fe576cae2fbdc310f9e3d2a860b63ed862d794b033a3a5f9a738d53099f"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0492/male/front.png",
+        "sha256": "838a51522a23982bf906b20e656886d83e1b7d83643dadf2367f9395ba4485b5"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/492-male-back.png",
+        "sha256": "4cf6fb2fbd50575b822ad93a375dd4725130b77714cdef4ec4befc82a2dcee7f"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 1770
+    },
+    {
+      "species": 493,
+      "name": "ARCEUS",
+      "facing": "front",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0493/male/front.png",
+        "sha256": "7be4d83800818b6c26de237770b419a99fcd04f205ff564ee567f78a20b6fe08"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0493/male/front.png",
+        "sha256": "7be4d83800818b6c26de237770b419a99fcd04f205ff564ee567f78a20b6fe08"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/493-male-front.png",
+        "sha256": "8f09ef01a3c039b4aab27e70f5cbae506df2d2b0e26965fd296f92adfc3923a7"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2317
+    },
+    {
+      "species": 493,
+      "name": "ARCEUS",
+      "facing": "back",
+      "source": {
+        "path": "files/poketool/pokegra/pokegra/0493/male/back.png",
+        "sha256": "0b6664796749ac9efd7822005574c4df129dbd3f1386471213bf9515a32b1c84"
+      },
+      "normalPalette": {
+        "path": "files/poketool/pokegra/pokegra/0493/male/front.png",
+        "sha256": "7be4d83800818b6c26de237770b419a99fcd04f205ff564ee567f78a20b6fe08"
+      },
+      "export": {
+        "path": "browser/public/source/pokemon/493-male-back.png",
+        "sha256": "9abd33fab1d408d163d7bcebd3744b25f025123147660bfc77f175434fd13bac"
+      },
+      "width": 80,
+      "height": 80,
+      "visiblePixels": 2141
+    }
+  ]
+}

@@ -32,6 +32,23 @@ test('hatch remains in the real 3D field, uses original paper assets, accepts de
  await complete(f.view,f.view.finish());assert.equal(f.view.active,false);assert.equal(f.world.fieldEffect,null);assert.equal(f.field.hideActors[0].visible,true);assert.equal(f.field.hideActors[1].visible,false);assert.deepEqual([f.world.yaw,f.world.pitch,f.world.distance],[1.5,.45,13]);assert.equal(backdrop.parent,f.world.scene);
 });
 
+test('standard hatch presentation selects the native nonfemale sprite slot without changing a genderless scene identity',async()=>{
+ for(const species of[81,100]){
+  const f=fixture(),input:EggHatchVisualScene={...structuredClone(scene),hatched:{species,gender:'genderless'},cry:{species,form:0}},before=structuredClone(input);
+  await complete(f.view,f.view.reveal(input));assert.deepEqual(f.requests,['/source/eggs/egg-icon.png',`/source/pokemon/${species}-male-front.png`]);assert.equal(f.view.active,true);assert.deepEqual(input,before);
+  // Artwork selection does not claim the separate Togepi-only audio export supports these cries.
+  await assert.rejects(playNativeHatchCry(input,new AbortController().signal),/Original hatch cry not exported/);
+  await complete(f.view,f.view.finish());assert.deepEqual(input,before);assert.equal(f.world.fieldEffect,null);
+ }
+ const f=fixture(),female:EggHatchVisualScene={...structuredClone(scene),hatched:{species:175,gender:'female'}};await complete(f.view,f.view.reveal(female));assert.equal(f.requests[1],'/source/pokemon/175-female-front.png');await complete(f.view,f.view.finish());
+});
+
+test('native genderless artwork support does not bypass invalid-scene or unexported Manaphy presentation guards',async()=>{
+ for(const input of[{...scene,kind:'manaphy',hatched:{species:490,gender:'genderless'},cry:{species:490,form:0}},{...scene,hatched:{species:175,gender:'invalid'}},{...scene,cry:{species:81,form:0}}]){
+  const f=fixture();await assert.rejects(f.view.reveal(input as EggHatchVisualScene),/Original Manaphy Egg artwork has not been exported|Invalid native hatch species artwork/);assert.deepEqual(f.requests,[]);assert.equal(f.view.active,false);assert.equal(f.world.fieldEffect,null);
+ }
+});
+
 test('temporary geometry/materials dispose exactly once while cached native textures and existing script focus survive',async()=>{
  const f=fixture(),focus={map:67,x:8.5,y:4,z:6.5};Object.assign(f.world,{scriptCameraPosition:focus});await complete(f.view,f.view.reveal(scene));
  let textureDisposals=0;f.egg.texture.addEventListener('dispose',()=>textureDisposals++);f.pokemon.texture.addEventListener('dispose',()=>textureDisposals++);

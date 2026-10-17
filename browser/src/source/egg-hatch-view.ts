@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import type {OriginalWorld} from './world.ts';
 import type {Mon} from './types.ts';
 import {fieldCameraObstacles} from './camera.ts';
+import {spriteGender} from './gender.ts';
 
 /** Structural subset of EggHatchScene; the helper retains all game mutations. */
 export type EggHatchVisualScene={kind:'standard'|'manaphy';hatched:Pick<Mon,'species'|'gender'>;field:{map:number;x:number;z:number;facing:number};cry:{species:number;form:number}};
@@ -102,7 +103,7 @@ export class WorldEggHatchView {
  async reveal(scene:EggHatchVisualScene){
   if(this.active||this.world.fieldEffect?.active||this.world.battleStage?.active)throw Error('The field already has an active presentation');
   if(scene.kind!=='standard')throw Error('Original Manaphy Egg artwork has not been exported');
-  if(scene.cry.species!==scene.hatched.species||!['male','female'].includes(scene.hatched.gender))throw Error('Invalid native hatch species artwork');
+  if(scene.cry.species!==scene.hatched.species||!['male','female','genderless'].includes(scene.hatched.gender))throw Error('Invalid native hatch species artwork');
   const field=this.field();if(field.map!==scene.field.map)throw Error('Egg hatch field changed');
   this.controller=new AbortController();this.failure=null;this.scene=scene;this.returnProgress=0;
   this.snapshot={target:this.world.target.clone(),position:this.world.camera.position.clone(),rotation:this.world.camera.quaternion.clone(),fov:this.world.camera.fov};
@@ -110,7 +111,7 @@ export class WorldEggHatchView {
   this.active=true;this.world.fieldEffect=this;this.world.scene.add(this.group);this.ports.signal?.addEventListener('abort',this.externalAbort,{once:true});
   try{
    if(this.ports.signal?.aborted)throw cancelled(this.ports.signal.reason);
-   const art=this.ports.art??hatchArt,[egg,pokemon]=await this.awaiting(Promise.all([art('/source/eggs/egg-icon.png'),art(`/source/pokemon/${scene.hatched.species}-${scene.hatched.gender}-front.png`)]));
+   const art=this.ports.art??hatchArt,[egg,pokemon]=await this.awaiting(Promise.all([art('/source/eggs/egg-icon.png'),art(`/source/pokemon/${scene.hatched.species}-${spriteGender(scene.hatched.gender)}-front.png`)]));
    this.hideFieldActors(field);this.build(egg,pokemon);
    await this.animate(1.5,t=>{this.egg!.rotation.z=Math.sin(t*Math.PI*10)*.14*t;this.egg!.position.y=Math.abs(Math.sin(t*Math.PI*5))*.09;this.glow!.material.opacity=Math.max(0,t-.65)*.9;});
    this.guard();

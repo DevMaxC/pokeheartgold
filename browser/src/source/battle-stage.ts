@@ -6,6 +6,7 @@ import {fieldCanopies,canopyContains} from './canopy-occlusion.ts';
 import type {OriginalWorld} from './world.ts';
 import type {BattleView} from './battle-view.ts';
 import type {Mon,MoveData} from './types.ts';
+import {spriteGender} from './gender.ts';
 
 type Context={x:number;z:number;y?:number;facing:number;location:string;gender:'boy'|'girl';actors:THREE.Object3D[]};
 type Art={texture:THREE.Texture;aspect:number};
@@ -80,7 +81,7 @@ export class WorldBattleView implements BattleView {
   sync(player:Mon,enemy:Mon){
     if(!this.active)return;
     for(const [i,mon] of [player,enemy].entries()){
-      const f=this.fighters[i],key=mon.species+'-'+mon.gender;if(f.key===key)continue;
+      const f=this.fighters[i],key=mon.species+'-'+spriteGender(mon.gender);if(f.key===key)continue;
       f.key=key;f.hidden=false;f.root.scale.setScalar(1);f.plane.visible=false;
       void Promise.all(['front','back'].map(face=>this.loadArt(`/source/pokemon/${key}-${face}.png`))).then(([front,back])=>{
         if(this.disposed||f.key!==key)return;f.front=front;f.back=back;f.plane.visible=true;

@@ -5,3 +5,8 @@ export function nativeMonGender(ratio:number,personality:number):'male'|'female'
  const raw=nativeGenderRatio(ratio);
  return raw===0?'male':raw===254?'female':raw===255?'genderless':raw>(personality&255)?'female':'male';
 }
+
+/** Native Pokepic chooses the female art slot only for MON_FEMALE. */
+export function spriteGender(gender:'male'|'female'|'genderless'):'male'|'female'{return gender==='female'?'female':'male';}
+/** Genderless Pokémon retain their gameplay gender but print no sex symbol. */
+export function genderSymbol(gender:'male'|'female'|'genderless'):'♂'|'♀'|''{return gender==='male'?'♂':gender==='female'?'♀':'';}
