@@ -10,6 +10,7 @@ export async function phoneCall(data:GameData,state:State,contact:number,scripte
     else if(state.badges.length<7)script=!f.FLAG_SYS_HATCHED_TOGEPI_EGG?12:f.FLAG_GOT_EVERSTONE_FROM_ELM?14+Math.floor(Math.random()*2):13;
     else {const key='VAR_SCENE_ROCKET_TAKEOVER',takeover=state.vars['#'+data.constants[key]]??state.vars[key]??0;if(takeover>=2&&takeover<=4)script=16;else if(state.badges.length<8)script=17;else if(!f.FLAG_GAME_CLEAR)script=18;else if(!f.FLAG_GOT_SS_TICKET_FROM_ELM)script=19;else script=f.FLAG_SYS_HATCHED_TOGEPI_EGG&&!f.FLAG_GOT_EVERSTONE_FROM_ELM?13:!f.FLAG_SYS_HATCHED_TOGEPI_EGG?12:20+Math.floor(Math.random()*(f.FLAG_WAS_TOLD_ABOUT_POKERUS?3:2));}
   }}else if(contact===data.constants.PHONE_CONTACT_PROF__OAK&&scripted===2){name='Professor Oak';script=82;}
+  else if(contact===data.constants.PHONE_CONTACT_MOTHER&&scripted===3&&predefined===27){name='Mother';script=state.map===data.constants.MAP_NEW_BARK_PLAYER_HOUSE_1F?23:27;}
   else if(contact===data.constants.PHONE_CONTACT_MOTHER&&scripted===2){const bank=await sourceJSON<Record<string,string>>('messages/664.json');state.flags.FLAG_TALKED_TO_MOM_AFTER_NAMING_RIVAL=true;await message('Mom: '+bank[22]);const saving=await choice(bank[22])===0;state.flags.FLAG_SYS_MOMS_SAVINGS=saving;await message('Mom: '+bank[saving?25:26]);return;}
   else throw Error(`Unported original phone caller/context ${contact}:${scripted}:${predefined}`);
   const definition=phone.scripts[script];if(!definition)throw Error(`Missing original phone script ${script}`);
