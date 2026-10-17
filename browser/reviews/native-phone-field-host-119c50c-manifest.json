@@ -1,0 +1,134 @@
+{
+  "commit": "119c50ce9eabd002bf5d6cf2d008c2aa50339661",
+  "base": "64adbc5",
+  "scope": "Isolated phone-field-host module and tests; copied main is baseline integration context, not proof of later root integration",
+  "files": [
+    {
+      "path": "browser/src/source/phone-field-host.ts",
+      "sha256": "5bb14171a768c0f658856ff7a08ae6bfbc9ce6a6dea75406b48ece7abb90dece",
+      "bytes": 6657,
+      "gitBlob": "b7598731e3b92c280a8c8fb10f9aa6d8d9dd2730"
+    },
+    {
+      "path": "browser/src/source/phone-field-host.test.ts",
+      "sha256": "a82813e0e723fc98c95e860e83ceb6d9de5071fe3ff9e9019d64bab471af3b55",
+      "bytes": 13956,
+      "gitBlob": "fb6494c6721188b32623d029743a0e26dd83ce64"
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.ts",
+      "sha256": "f8cac8d62ebf5dbf50313896ffa01025faecb34afe7817e44a9557c292ac9983",
+      "bytes": 5200,
+      "gitBlob": "be3426b77af541fd2520e179a45d5f512bfe1f05"
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.test.ts",
+      "sha256": "cfccb30cee98f8f1816ffdebd6220e8a5d3858b0ed7237630dd5c11e89f354d3",
+      "bytes": 8493,
+      "gitBlob": "1055c6ddccd0963077e7374b60ffde068faff8e2"
+    },
+    {
+      "path": "browser/src/source/phone.ts",
+      "sha256": "eb8c547560a54ceb860a5c07ab002039fd78e29217ca742cf45a5d79a2c41f4f",
+      "bytes": 3021,
+      "gitBlob": "159aeb565e4e4756046bec6190ea0fa8685e24b0"
+    },
+    {
+      "path": "browser/src/source/phone.test.ts",
+      "sha256": "e0717f3df0ce68ce0ed1ecce5bb9af8f2c7bb9417a806d17a1e1588eeee62630",
+      "bytes": 6797,
+      "gitBlob": "730e61b9a2f261c43bec4d887fd032ad73fdaa02"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "bytes": 5940,
+      "gitBlob": "7ec9c3305998fa33ccb93ad5c4f1c40b08536822"
+    },
+    {
+      "path": "browser/src/source/script-recovery.test.ts",
+      "sha256": "9cb89b34a297bc75e937a9900faa59f8bc662254be686801c0641f6e5be919e8",
+      "bytes": 28393,
+      "gitBlob": "a0b094d06a7491bcc81abcebfcba63d0f02243f6"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "64eb906aa8126376542ab32384388a56714bf28761c60e81be1000ea565b458d",
+      "bytes": 5205,
+      "gitBlob": "c76796df3db80374bb73c447462ac204f8acc469"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "0acddf79996e4f998fbc80b2fca6145e54a967324e55706b916955acae3935c7",
+      "bytes": 46295,
+      "gitBlob": "261f080e36b11704b8c1e9a4bc3c4fbb4223cd2a"
+    },
+    {
+      "path": "browser/public/source/phone-triggers.json",
+      "sha256": "de03627353878a96659f941c6ae445f4c7e9af38aebd083f7c9cc8503d79c2c2",
+      "bytes": 2627,
+      "gitBlob": "66d39ac2f0dd43a9794985a8b338fe2bf2643a4a"
+    },
+    {
+      "path": "browser/public/source/phone.json",
+      "sha256": "aa8107accb789d5163b42d8239c8d95d7de6517f90ecb140ab32c5bcc0a0ebb5",
+      "bytes": 45965,
+      "gitBlob": "9ef60e195883346bb5f561c6facef64a1b8e447e"
+    },
+    {
+      "path": "browser/public/source/messages/716.json",
+      "sha256": "0b2016b8e3a9dc533f252eeb90d3ba489bc7c303a26f564b6b67e3fa8a508918",
+      "bytes": 7689,
+      "gitBlob": "20d770363a6b923c785ad53d5c62643e8aef59f7"
+    },
+    {
+      "path": "src/field_time_events.c",
+      "sha256": "cfe62b3f93f8000214b274808e11e619d880405185f0986f668d99ebcb260a58",
+      "bytes": 8357,
+      "gitBlob": "1044713710e5a7e0a32f59c89a673344b78caea3"
+    },
+    {
+      "path": "src/gear_phone_ring_manager.c",
+      "sha256": "1aa8a19b06f291709d178beb1fbc7ed0cf92777514d17924f93676984391ad66",
+      "bytes": 12399,
+      "gitBlob": "d2021a3c14dfd99f18d402609a762a46af140d78"
+    },
+    {
+      "path": "src/field_system.c",
+      "sha256": "0a95627586f4388c42cc885def5fd8b59d75cd0ef72a14e82971fbea9eca496b",
+      "bytes": 10991,
+      "gitBlob": "4607799631b4d619b09e24bd10f65125e1be8577"
+    },
+    {
+      "path": "src/start_menu.c",
+      "sha256": "d79addb62bc16ed3c80cebb145c012a38cdc67d84e8c280233e33354e1db8699",
+      "bytes": 75639,
+      "gitBlob": "005b5978cce0a437b7347ae989d28d02d87b5b64"
+    },
+    {
+      "path": "src/field/overlay_2_gear_phone.c",
+      "sha256": "0806e2ed5435facabf685bc7b9a088cffded68f64e23f421cfe92bb40dc54f25",
+      "bytes": 11067,
+      "gitBlob": "24c08eac9241e3d5d852f01e34dd9d11ec0b603c"
+    },
+    {
+      "path": "src/application/pokegear/phone/phone_call.c",
+      "sha256": "db43411ec37c949ce04b3cc4ab7905344759230dce199903daa77f65fafd85a3",
+      "bytes": 19534,
+      "gitBlob": "ea5bd46371d43c413ee1cf662fb7893e26383737"
+    },
+    {
+      "path": "src/application/pokegear/phone/pokegear_phone_gfx.c",
+      "sha256": "2e661068704191e91ab328cec8dd49fd6cd7c2e622d6aeaa001d9299a50d8599",
+      "bytes": 18048,
+      "gitBlob": "9307aa1eb555d6f494d0441ac0cf9bee8f2a0fa3"
+    },
+    {
+      "path": "include/constants/phone_constants.h",
+      "sha256": "97bcd7db0e27ab865212d2f14cc3062a4317370c30a18d9cfb9dad0058842d1b",
+      "bytes": 848,
+      "gitBlob": "3162e15d7d3ad192c53a2c6ea34ff46c4f189fb3"
+    }
+  ],
+  "diffSha256": "c65ec5a954d376e78331839cde4c7964cb25ad4ef8ea3462f36ebf7a29bc7b96"
+}

@@ -1,0 +1,252 @@
+{
+  "commit": "acf02fd920b9ea1b16fa0f2b14f297258800ced6",
+  "base": "64adbc5",
+  "scope": "Isolated full phone admission host/core and tests; copied main is baseline context only, not later root wiring",
+  "files": [
+    {
+      "path": "browser/public/source/constants.json",
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31",
+      "bytes": 456675,
+      "gitBlob": "11f055fffaec06f6b959ab62cd207d562ded92b0"
+    },
+    {
+      "path": "browser/public/source/maps/60.json",
+      "sha256": "a4f6f37be6eb51c8c70b7181f605e1aa1f56c1d9a18a89a7188838edea23ca82",
+      "bytes": 49163,
+      "gitBlob": "d2815a1f80dd61c9732c33ac5600f9c4c431a90a"
+    },
+    {
+      "path": "browser/public/source/maps/61.json",
+      "sha256": "fd42b3f0c5ef3e12825984afcffedc9861a11032582c74cbe57358b4e9d1f7ba",
+      "bytes": 59156,
+      "gitBlob": "88919d90cb029fb1193a522b7212f471d0668f0d"
+    },
+    {
+      "path": "browser/public/source/messages/716.json",
+      "sha256": "0b2016b8e3a9dc533f252eeb90d3ba489bc7c303a26f564b6b67e3fa8a508918",
+      "bytes": 7689,
+      "gitBlob": "20d770363a6b923c785ad53d5c62643e8aef59f7"
+    },
+    {
+      "path": "browser/public/source/phone-triggers.json",
+      "sha256": "237abc54bf9241892441e6edef4ee693546e1f6ddd6587f92a9d4868435a4456",
+      "bytes": 8425,
+      "gitBlob": "19c3f16f1ecd393e4a495be554603f78aaf45516"
+    },
+    {
+      "path": "browser/public/source/phone.json",
+      "sha256": "aa8107accb789d5163b42d8239c8d95d7de6517f90ecb140ab32c5bcc0a0ebb5",
+      "bytes": 45965,
+      "gitBlob": "9ef60e195883346bb5f561c6facef64a1b8e447e"
+    },
+    {
+      "path": "browser/scripts/export_phone_triggers.py",
+      "sha256": "8aa74d24ebe62680c3822321ea22127b5dd3cfaa69e66a26ce2693162ca180a0",
+      "bytes": 3542,
+      "gitBlob": "3fb1d36e93e0c3243d80a87c621ad665056769d0"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "489cdd5e96fc7b510f352834fd087be5841eb434a01dfb780f39d44c8af6bbd0",
+      "bytes": 4821,
+      "gitBlob": "5d7fc57c6520be71a894cfe3a03111535e120701"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "0acddf79996e4f998fbc80b2fca6145e54a967324e55706b916955acae3935c7",
+      "bytes": 46295,
+      "gitBlob": "261f080e36b11704b8c1e9a4bc3c4fbb4223cd2a"
+    },
+    {
+      "path": "browser/src/source/native-rng.ts",
+      "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e",
+      "bytes": 686,
+      "gitBlob": "d50072a6b8afae4dd23a542f60787f97e99e5130"
+    },
+    {
+      "path": "browser/src/source/phone-field-host.test.ts",
+      "sha256": "1c258b3480e30f68561a59c88924f4c86158196e65eb64d1b9dc6b55d14213bd",
+      "bytes": 20107,
+      "gitBlob": "b4d33463908af4595525aac8fe077f785f0f7a8c"
+    },
+    {
+      "path": "browser/src/source/phone-field-host.ts",
+      "sha256": "7e6c4ecb982fbd394bc57a20cacf674001e98e9fac491ebc24d5d45bcacfb1cc",
+      "bytes": 8065,
+      "gitBlob": "995f6ca4ade9892b46223fc0092f56ab735673a4"
+    },
+    {
+      "path": "browser/src/source/phone-random.test.ts",
+      "sha256": "824b9af805524b456f1525dd03bae650f570e4e3a8302aa36270e1799090797a",
+      "bytes": 8757,
+      "gitBlob": "67031132f0a9c9f86551bc750a7bdd1d2907b57e"
+    },
+    {
+      "path": "browser/src/source/phone-random.ts",
+      "sha256": "6043d3677e91cd9b287e927334b480b93a1ba2538a36825dc6b936616648be5f",
+      "bytes": 4634,
+      "gitBlob": "fc9161dfcb0462e95d91c97ff90889eec692726c"
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.test.ts",
+      "sha256": "cfccb30cee98f8f1816ffdebd6220e8a5d3858b0ed7237630dd5c11e89f354d3",
+      "bytes": 8493,
+      "gitBlob": "1055c6ddccd0963077e7374b60ffde068faff8e2"
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.ts",
+      "sha256": "216e30b3c5a7a8abc0da72686ef0cb6996ffed0606fe0cc2533ef6bf96c957a5",
+      "bytes": 5494,
+      "gitBlob": "de3a5c4ab7b7b5017505368ee45f3efa25861c4c"
+    },
+    {
+      "path": "browser/src/source/phone.test.ts",
+      "sha256": "e0717f3df0ce68ce0ed1ecce5bb9af8f2c7bb9417a806d17a1e1588eeee62630",
+      "bytes": 6797,
+      "gitBlob": "730e61b9a2f261c43bec4d887fd032ad73fdaa02"
+    },
+    {
+      "path": "browser/src/source/phone.ts",
+      "sha256": "eb8c547560a54ceb860a5c07ab002039fd78e29217ca742cf45a5d79a2c41f4f",
+      "bytes": 3021,
+      "gitBlob": "159aeb565e4e4756046bec6190ea0fa8685e24b0"
+    },
+    {
+      "path": "browser/src/source/script-recovery.test.ts",
+      "sha256": "9cb89b34a297bc75e937a9900faa59f8bc662254be686801c0641f6e5be919e8",
+      "bytes": 28393,
+      "gitBlob": "a0b094d06a7491bcc81abcebfcba63d0f02243f6"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "bytes": 5940,
+      "gitBlob": "7ec9c3305998fa33ccb93ad5c4f1c40b08536822"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "116a461bfce1569a4bd694741a394a0be6334b9c1b2487a27eb7e1f6f64edc3b",
+      "bytes": 5234,
+      "gitBlob": "ca7668f937135548b15e4e542b0e32fb9659a47c"
+    },
+    {
+      "path": "files/tel/pmtel_book.json",
+      "sha256": "49c053ff74c4380290d7342448255e4b75261a5eff0718295ee69e3310fef82b",
+      "bytes": 46182,
+      "gitBlob": "9e1ca3bbf4595b72d1de7cbd016a6d2573dcd480"
+    },
+    {
+      "path": "include/constants/flags.h",
+      "sha256": "50ad2dc9994f5ced75dc6166a76b8bc247b96bb886d4a1c2c866ee35d7df3730",
+      "bytes": 122392,
+      "gitBlob": "7dfae3faf033011bacf3cd65db9b372932c8228f"
+    },
+    {
+      "path": "include/constants/maps.h",
+      "sha256": "9ebf1f2f6110af509b830cc33f271d4b5d257f309212345a6bb4557321634adb",
+      "bytes": 41972,
+      "gitBlob": "f5f9b57bfeabecdede648e1e46b2d26816550bfd"
+    },
+    {
+      "path": "include/constants/phone_constants.h",
+      "sha256": "97bcd7db0e27ab865212d2f14cc3062a4317370c30a18d9cfb9dad0058842d1b",
+      "bytes": 848,
+      "gitBlob": "3162e15d7d3ad192c53a2c6ea34ff46c4f189fb3"
+    },
+    {
+      "path": "include/constants/phone_contacts.h",
+      "sha256": "55c4474e8ce0e6c107e9937f09bd1add776cdf50d8145f9e5101ddc5e2916cc6",
+      "bytes": 2992,
+      "gitBlob": "8e4cd3bf7a953c21acc498884ddfb763e4d34abd"
+    },
+    {
+      "path": "include/constants/vars.h",
+      "sha256": "35a4bed10d8596a389af1efb761ea577141ea81f42b092cc2bf4a8ca08363caa",
+      "bytes": 18607,
+      "gitBlob": "222d76585de86febba41513dc144f385c0978848"
+    },
+    {
+      "path": "include/save_misc_data.h",
+      "sha256": "a2a64833e1544d684e8e1246b8eefa0778498a007b2ecaa5443add09af5f3d81",
+      "bytes": 3698,
+      "gitBlob": "4ca3ec0f6ff6f7f478bf6cb8d65fc38df0695da0"
+    },
+    {
+      "path": "src/application/pokegear/phone/phone_call.c",
+      "sha256": "db43411ec37c949ce04b3cc4ab7905344759230dce199903daa77f65fafd85a3",
+      "bytes": 19534,
+      "gitBlob": "ea5bd46371d43c413ee1cf662fb7893e26383737"
+    },
+    {
+      "path": "src/application/pokegear/phone/pokegear_phone_gfx.c",
+      "sha256": "2e661068704191e91ab328cec8dd49fd6cd7c2e622d6aeaa001d9299a50d8599",
+      "bytes": 18048,
+      "gitBlob": "9307aa1eb555d6f494d0441ac0cf9bee8f2a0fa3"
+    },
+    {
+      "path": "src/field/overlay_2_gear_phone.c",
+      "sha256": "0806e2ed5435facabf685bc7b9a088cffded68f64e23f421cfe92bb40dc54f25",
+      "bytes": 11067,
+      "gitBlob": "24c08eac9241e3d5d852f01e34dd9d11ec0b603c"
+    },
+    {
+      "path": "src/field_system.c",
+      "sha256": "0a95627586f4388c42cc885def5fd8b59d75cd0ef72a14e82971fbea9eca496b",
+      "bytes": 10991,
+      "gitBlob": "4607799631b4d619b09e24bd10f65125e1be8577"
+    },
+    {
+      "path": "src/field_time_events.c",
+      "sha256": "cfe62b3f93f8000214b274808e11e619d880405185f0986f668d99ebcb260a58",
+      "bytes": 8357,
+      "gitBlob": "1044713710e5a7e0a32f59c89a673344b78caea3"
+    },
+    {
+      "path": "src/gear_phone_ring_manager.c",
+      "sha256": "1aa8a19b06f291709d178beb1fbc7ed0cf92777514d17924f93676984391ad66",
+      "bytes": 12399,
+      "gitBlob": "d2021a3c14dfd99f18d402609a762a46af140d78"
+    },
+    {
+      "path": "src/phonebook_dat.c",
+      "sha256": "7f58ef3995bf02d0412906d136fb42582a792354a2199ab7d3e0f36114f0fd21",
+      "bytes": 5627,
+      "gitBlob": "77b38fb831d8f64a5159951c06c0c866a12aadd7"
+    },
+    {
+      "path": "src/save_misc.c",
+      "sha256": "7115c0311ab14b4ddbfadba966d7e3b8222fa4aea52db5c5028d7b0cdc9b7698",
+      "bytes": 7087,
+      "gitBlob": "1a9a5ca58830a65d40c3efe202794026ae32f928"
+    },
+    {
+      "path": "src/start_menu.c",
+      "sha256": "d79addb62bc16ed3c80cebb145c012a38cdc67d84e8c280233e33354e1db8699",
+      "bytes": 75639,
+      "gitBlob": "005b5978cce0a437b7347ae989d28d02d87b5b64"
+    },
+    {
+      "path": "src/sys_flags.c",
+      "sha256": "6435c785e1bff61dd328de34f1668eb7cfdb793ed33947f0c71fead3872b2539",
+      "bytes": 10105,
+      "gitBlob": "7d1fdc2f369c0d00c00ab8be37b4df459fe0b256"
+    },
+    {
+      "path": "src/sys_vars.c",
+      "sha256": "5114f2df2b28ff223288e63d16ae2b6faeebae7ff9cc3875bdef5ade03b056a0",
+      "bytes": 8138,
+      "gitBlob": "afb457b175711198e48ca67436eb8bcfb6d97c75"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "previous-review-119c50c.json",
+      "sha256": "6fcf9e0f6bd2eb38ce27aeb4310405b626528844b92ce70e59de1ea3a6c39327"
+    },
+    {
+      "path": "validation-54-tests.log",
+      "sha256": "2b6bc13419d51fedf687558b1ce1bd97bf15ad444bf2e727d04d73ad33730870"
+    }
+  ],
+  "diffSha256": "eb74739dcff9523a64f95cb15ceb0049a931423af45bed529130cda2688ec33c"
+}
