@@ -3,12 +3,16 @@ from pathlib import Path
 from PIL import Image
 import hashlib, json
 import xml.etree.ElementTree as ET
+import argparse
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = Path(__file__).with_name('sprite-resources.json')
 PERSONAL = ROOT / 'files/poketool/personal/personal.json'
 SOURCE = ROOT / 'files/poketool/pokegra/pokegra'
 EXPORT = ROOT / 'browser/public/source/pokemon'
+parser = argparse.ArgumentParser(description='Verify original art and existing proof without writing; --regenerate writes only proof JSON.')
+parser.add_argument('--regenerate', action='store_true')
+args = parser.parse_args()
 
 def pin(path):
     return {'path': str(path.relative_to(ROOT)), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
@@ -51,5 +55,9 @@ proof = {
     'rows': rows,
 }
 assert len(rows) == 108
-OUT.write_text(json.dumps(proof, indent=2) + '\n')
-print(f'Verified {len(rows)} existing original-art facings, including81/100, without changing resources.')
+serialized = json.dumps(proof, indent=2) + '\n'
+if args.regenerate:
+    OUT.write_text(serialized)
+else:
+    assert OUT.read_text() == serialized, 'Existing proof differs; inspect before explicitly regenerating it.'
+print(f'Verified {len(rows)} existing original-art facings, including81/100; art unchanged, proof {"regenerated" if args.regenerate else "verified without writing"}.')

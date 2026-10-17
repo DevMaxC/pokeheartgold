@@ -38,7 +38,7 @@ test('all party views request existing genderless art while preserving genderles
 
 test('actual 3D battle sync loads native male-slot front/back artwork for genderless fighters and female-slot artwork for female fighters',async()=>{
  const paths:string[]=[],view=new WorldBattleView({}as OriginalWorld,()=>({x:0,z:0,facing:0,location:'field',gender:'boy',actors:[]}));
- // Keep the real sync/cache/visibility logic; replace only asynchronous canvas decoding.
+ // Run real sync/key-reuse/visibility logic; replace the whole asynchronous art loader.
  const runtime=view as any,fighter=()=>({root:new THREE.Group(),plane:new THREE.Mesh(new THREE.PlaneGeometry(),new THREE.MeshBasicMaterial()),key:'',hidden:false});
  runtime.fighters=[fighter(),fighter()];runtime.loadArt=async(path:string)=>{paths.push(path);return{texture:new THREE.Texture(),aspect:1};};view.active=true;
  for(const species of genderless){const player=createMon(data,species,5,'Ethan',()=>.5),female=createMon(data,29,5,'Trainer',()=>.5),before=structuredClone(player);view.sync(player,female);await new Promise<void>(resolve=>setImmediate(resolve));
