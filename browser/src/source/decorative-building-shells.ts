@@ -3,7 +3,7 @@ import type {BuildingEntrance} from './render-repair.ts';
 
 /** Measured source-specific rear profiles. Decorative towers and alpha light
  * cards must not define a whole building's backing silhouette. */
-export const DECORATIVE_BUILDING_MODELS=new Set([78,86,104,110,113,118,173,175,176,234,243,249]);
+export const DECORATIVE_BUILDING_MODELS=new Set([4,78,86,104,110,113,118,173,175,176,217,234,243,249]);
 export type DecorativeBuildingShell={family:string;triangles:number};
 type Face={p:THREE.Vector3[];uv:THREE.Vector2[];color:THREE.Color[];normal:THREE.Vector3;area:number;material:THREE.MeshBasicMaterial};
 const generated=new Set(['3d-rear-facade','3d-solid-backing','entrance-rear-wall']);
@@ -29,6 +29,43 @@ class Builder{
  finish(root:THREE.Object3D,family:string,allowEmpty=false){const group=new THREE.Group();group.name='decorative-building-shell';let triangles=0;for(const[source,b]of this.batches){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(b.p,3));geometry.setAttribute('uv',new THREE.Float32BufferAttribute(b.uv,2));geometry.setAttribute('color',new THREE.Float32BufferAttribute(b.color,3));geometry.computeVertexNormals();const material=source.clone();material.side=THREE.DoubleSide;material.transparent=false;material.opacity=1;material.alphaTest=0;material.depthWrite=true;material.vertexColors=true;if(source.name==='radio_a')material.alphaTest=source.alphaTest;if(source.name==='hikari'){material.transparent=source.transparent;material.opacity=source.opacity;material.alphaTest=source.alphaTest;material.depthWrite=source.depthWrite;}const mesh=new THREE.Mesh(geometry,material);mesh.name='decorative-building-'+family+'-cladding';group.add(mesh);triangles+=b.p.length/9;}if(!triangles&&!allowEmpty)return null;root.traverse(o=>{if(generated.has(o.name))o.visible=false;});root.add(group);return root.userData.decorativeBuildingShell={family,triangles}as DecorativeBuildingShell;}
 }
 
+
+/** The Ecruteak gate is an open two-post structure, not an enclosed gatehouse.
+ * Both maroon roof slopes already exist. Only the back faces of the beam,
+ * ridge, narrow posts and their stone feet are omitted from the native model. */
+function openGate(b:Builder,f:Face[]){
+ const roof=f.filter(face=>face.material.name==='en_ga02_1'&&face.normal.y>.6&&face.normal.z<-.7),
+  fascia=f.filter(face=>face.material.name==='en_ga02_1'&&face.normal.z>.99&&face.p.every(p=>near(p.z,16))&&near(Math.min(...face.p.map(p=>p.y)),50.41796875)&&near(Math.max(...face.p.map(p=>p.y)),54.41796875)),
+  beam=f.filter(face=>face.material.name==='en_ga02_1'&&face.normal.z>.99&&face.p.every(p=>near(p.z,14))&&near(Math.min(...face.p.map(p=>p.y)),44.21875)&&near(Math.max(...face.p.map(p=>p.y)),52)),
+  ridge=f.filter(face=>face.material.name==='en_ga02_1'&&face.normal.z>.99&&face.p.every(p=>near(p.z,2)&&p.y>=70.41796875)),
+  posts=f.filter(face=>face.material.name==='en_ga02_1'&&face.normal.z>.99&&face.p.every(p=>near(p.z,10))&&near(Math.min(...face.p.map(p=>p.y)),8)&&near(Math.max(...face.p.map(p=>p.y)),48)),
+  feet=f.filter(face=>face.material.name==='en_ga02_1'&&face.normal.z>.99&&face.p.every(p=>near(p.z,12))&&near(Math.min(...face.p.map(p=>p.y)),2)&&near(Math.max(...face.p.map(p=>p.y)),8));
+ if(roof.length!==4||fascia.length!==4||beam.length!==4||ridge.length!==8||posts.length!==4||feet.length!==4)return false;
+ for(const face of [...fascia,...beam,...ridge])b.face(face.p.map(p=>p.clone().setZ(-p.z)),face,face.p);
+ // The authored front/back post coordinates are 10/-12, and the feet12/-14.
+ // Their shared centre is -1; neither changes the forty-unit-high passage.
+ for(const face of [...posts,...feet])b.face(face.p.map(p=>p.clone().setZ(-2-p.z)),face,face.p);
+ return true;
+}
+
+/** The Love House has a complete octagonal hip roof. Its rear wall uses the
+ * uninterrupted side masonry, while the posts/cornice repeat their true front
+ * counterparts. No generated hull reaches above the roof's Y44 eave. */
+function loveHouse(b:Builder,f:Face[]){
+ const wall=plane(f,'kbc_lv02','x',25.3125,2,40),
+  roof=f.filter(face=>face.material.name==='kbc_lv02'&&face.normal.y>.7&&face.normal.z<-.6&&face.p.every(p=>p.y>=44-1e-6)),
+  cornice=f.filter(face=>face.material.name==='kbc_lv02'&&face.normal.z>.5&&near(Math.min(...face.p.map(p=>p.y)),40)&&near(Math.max(...face.p.map(p=>p.y)),44)),
+  posts=f.filter(face=>face.material.name==='kbc_lv02'&&near(Math.min(...face.p.map(p=>p.y)),2)&&near(Math.max(...face.p.map(p=>p.y)),40)&&(
+   (face.normal.z>.99&&face.p.every(p=>near(p.z,29.3125)&&Math.abs(p.x)>=22.28125-1e-6&&Math.abs(p.x)<=26.28125+1e-6))||
+   (Math.abs(face.normal.x)>.99&&face.p.every(p=>near(Math.abs(p.x),22.28125)&&p.z>=25.3125-1e-6&&p.z<=29.3125+1e-6))||
+   (face.normal.z>.65&&Math.abs(face.normal.x)>.65&&face.p.every(p=>p.z>=29.171875-1e-6&&Math.abs(p.x)>=26.28125-1e-6))));
+ if(!wall||roof.length!==4||cornice.length!==9||posts.length!==16)return false;
+ b.quad([[-22.28125,2,-25.3125],[22.28125,2,-25.3125],[22.28125,40,-25.3125],[-22.28125,40,-25.3125]],wall,
+  [[25.3125,2,-22.28125],[25.3125,2,22.28125],[25.3125,40,22.28125],[25.3125,40,-22.28125]]);
+ for(const face of [...posts,...cornice])b.face(face.p.map(p=>p.clone().setZ(-p.z)),face,face.p);
+ b.join([[-22.28125,40,-25.3125],[22.28125,40,-25.3125]],[[-29.171875,40,-32.0625],[29.171875,40,-32.0625]],wall);
+ return true;
+}
 
 function pharmacy(b:Builder,f:Face[]){
  const lower=f.find(face=>face.material.name==='tn_pharmacy_02'&&face.p.every(p=>near(p.x,30))&&near(Math.min(...face.p.map(p=>p.y)),2)&&near(Math.max(...face.p.map(p=>p.y)),15.97265625)&&near(Math.min(...face.p.map(p=>p.z)),-17)&&near(Math.max(...face.p.map(p=>p.z)),-.5)),upper=plane(f,'tn_pharmacy_02','x',30,15.97265625,34),trim=plane(f,'tn_pharmacy_02','x',30,34,38),post=plane(f,'tn_pharmacy_02','z',19,2,34),gable=f.filter(face=>face.material.name==='tn_pharmacy_02'&&face.p.every(p=>near(p.z,16)&&p.y>=37.99)),barge=f.filter(face=>face.material.name==='tn_pharmacy_02'&&face.p.every(p=>near(p.z,20)&&p.y>=36.99));
@@ -76,7 +113,17 @@ function silo(b:Builder,f:Face[]){
 
 function restaurant(b:Builder,f:Face[]){
  const lower=f.find(face=>face.material.name==='t_lm1'&&face.normal.x>.99&&face.p.every(p=>p.x>31)&&near(Math.min(...face.p.map(p=>p.y)),2.625)&&near(Math.max(...face.p.map(p=>p.y)),20.65234375)),upper=f.find(face=>face.material.name==='t_lm1'&&face.normal.x>.99&&face.p.every(p=>p.x>31)&&near(Math.min(...face.p.map(p=>p.y)),20.640625)&&near(Math.max(...face.p.map(p=>p.y)),53.734375)),roof=f.filter(face=>face.material.name==='lambert7'&&face.normal.z>.8&&face.normal.y>.5&&face.p.every(p=>p.z>8&&p.y>=53.35&&p.y<=64.58)),chimney=plane(f,'t_lm1','x',21.36328125,54.67578125,66.55078125),cap=f.find(face=>face.material.name==='t_lm1'&&face.normal.x>.99&&near(Math.min(...face.p.map(p=>p.y)),66.1796875)&&near(Math.max(...face.p.map(p=>p.y)),72.91015625)&&face.p.every(p=>p.x>24));
- if(!lower||!upper||roof.length!==6||!chimney||!cap)return false;
+ const well=f.find(face=>face.material.name==='lambert7'&&face.normal.y<-.3&&face.normal.z>.9&&face.p.some(p=>near(p.y,52.05078125))&&face.p.some(p=>near(p.y,64.71484375)));
+ if(!lower||!upper||roof.length!==6||!chimney||!cap||!well)return false;
+ // Retain the authored sunken red deck. Three omitted inward wall faces let
+ // the camera see through the raised rim and out the building's front.
+ // Every endpoint comes from the actual rim and inset-floor boundary.
+ const red=well.p[0].clone().add(well.p[1]).add(well.p[2]).multiplyScalar(1/3);
+ for(const points of[
+  [[-22,64.57421875,2.58203125],[20.46484375,64.57421875,2.58203125],[25.23046875,52.05078125,7.4296875],[-26.109375,52.05078125,7.4296875]],
+  [[-22,64.71484375,-19.0390625],[-22,64.57421875,2.58203125],[-26.109375,52.05078125,7.4296875],[-26.109375,52.05078125,-23.88671875]],
+  [[20.46484375,64.57421875,2.58203125],[20.46484375,64.71484375,-19.0390625],[25.23046875,52.05078125,-23.88671875],[25.23046875,52.05078125,7.4296875]],
+ ])b.face(points.map(p=>new THREE.Vector3(...p as[number,number,number])),well,points.map(()=>red));
  b.quad([[-32.1875,2.625,-24.625],[31.3125,2.625,-24.70703125],[31.30859375,20.640625,-24.70703125],[-32.17578125,20.5625,-24.625]],lower,[[31.3125,2.625,-24.70703125],[31.3125,2.625,7.97265625],[31.3125,20.65234375,7.97265625],[31.30859375,20.640625,-24.70703125]]);
  b.quad([[-32.17578125,20.5625,-24.625],[31.30859375,20.640625,-24.70703125],[31.30078125,53.71484375,-24.7265625],[-32.1640625,53.71875,-24.64453125]],upper,[[31.30859375,20.640625,-24.70703125],[31.3125,20.65234375,7.97265625],[31.3125,53.734375,7.953125],[31.30078125,53.71484375,-24.7265625]]);
  // Six authored front roof modules map exactly onto the omitted sloped rear
@@ -158,7 +205,7 @@ function nativeOpenStructure(model:number,f:Face[]){
  * buffers, source textures or original front cards are modified. */
 export function closeDecorativeBuildingShell(root:THREE.Object3D,asset:string,doors:BuildingEntrance[]=[]):DecorativeBuildingShell|null{
  const match=asset.match(/(?:^|\/)1-(\d+)-\d+\.glb$/),model=Number(match?.[1]);if(!match||!DECORATIVE_BUILDING_MODELS.has(model))return null;const previous=root.userData.decorativeBuildingShell as DecorativeBuildingShell|undefined;if(previous)return previous;
- root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const inverse=root.matrixWorld.clone().invert(),rear=model===104?-17:model===110||model===86?-56:model===118?-24.7:model===243?-23.64453125:-19.57421875,width=model===104?30:model===110||model===86?56:model===118?33:model===243?31.0234375:23;
- if(![78,173,175,176,234,249].includes(model)&&doors.some(door=>{const local=new THREE.Vector3(door.x,root.getWorldPosition(new THREE.Vector3()).y,door.z).applyMatrix4(inverse);if(Math.abs(local.z-rear)>12||Math.abs(local.x)>width+4)return false;if(door.axis===undefined||door.sign===undefined)return true;return new THREE.Vector3().setComponent(door.axis,door.sign).transformDirection(inverse).z<-.5;}))return null;
- const b=new Builder(),f=sourceFaces(root);if([173,175,176,249].includes(model)){if(!nativeOpenStructure(model,f))return null;return b.finish(root,model===249?'native-open-lookout':'native-open-market-canopy',true);}if(model===234){const material=deadwood(b,f);if(!material)return null;const result=b.finish(root,'upright-solid-deadwood');if(result)root.traverse(o=>{if(o instanceof THREE.Mesh&&o.material===material)o.visible=false;});return result;}const ok=model===78?fountain(b,f):model===86?radioTower(b,f):model===104?pharmacy(b,f):model===110?lighthouse(b,f):model===118?restaurant(b,f):model===243?celadonRestaurant(b,f):silo(b,f);if(!ok)return null;return b.finish(root,model===78?'native-octagonal-fountain':model===86?'goldenrod-radio-tower':model===104?'cianwood-pharmacy':model===110?'olivine-lighthouse':model===118?'olivine-restaurant':model===243?'celadon-restaurant':'route39-silo');
+ root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const inverse=root.matrixWorld.clone().invert(),rear=model===217?-25.3125:model===104?-17:model===110||model===86?-56:model===118?-24.7:model===243?-23.64453125:-19.57421875,width=model===217?33:model===104?30:model===110||model===86?56:model===118?33:model===243?31.0234375:23;
+ if(![4,78,173,175,176,234,249].includes(model)&&doors.some(door=>{const local=new THREE.Vector3(door.x,root.getWorldPosition(new THREE.Vector3()).y,door.z).applyMatrix4(inverse);if(Math.abs(local.z-rear)>12||Math.abs(local.x)>width+4)return false;if(door.axis===undefined||door.sign===undefined)return true;return new THREE.Vector3().setComponent(door.axis,door.sign).transformDirection(inverse).z<-.5;}))return null;
+ const b=new Builder(),f=sourceFaces(root);if([173,175,176,249].includes(model)){if(!nativeOpenStructure(model,f))return null;return b.finish(root,model===249?'native-open-lookout':'native-open-market-canopy',true);}if(model===234){const material=deadwood(b,f);if(!material)return null;const result=b.finish(root,'upright-solid-deadwood');if(result)root.traverse(o=>{if(o instanceof THREE.Mesh&&o.material===material)o.visible=false;});return result;}const ok=model===4?openGate(b,f):model===217?loveHouse(b,f):model===78?fountain(b,f):model===86?radioTower(b,f):model===104?pharmacy(b,f):model===110?lighthouse(b,f):model===118?restaurant(b,f):model===243?celadonRestaurant(b,f):silo(b,f);if(!ok)return null;return b.finish(root,model===4?'ecruteak-open-gate':model===217?'love-house':model===78?'native-octagonal-fountain':model===86?'goldenrod-radio-tower':model===104?'cianwood-pharmacy':model===110?'olivine-lighthouse':model===118?'olivine-restaurant':model===243?'celadon-restaurant':'route39-silo');
 }
