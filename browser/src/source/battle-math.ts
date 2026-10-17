@@ -1,5 +1,6 @@
 import type {GameData,Mon,MoveData} from './types.ts';
 import {nativeReflectIntermediate} from './battle-volatiles.ts';
+import {nativeWeightBasedPower} from './battle-weight.ts';
 export type Stages={atk:number;def:number;spatk:number;spdef:number;speed:number;accuracy:number;evasion:number};
 export function freshStages():Stages{return {atk:0,def:0,spatk:0,spdef:0,speed:0,accuracy:0,evasion:0};}
 export function stageMultiplier(stage:number,accuracy=false){stage=Math.max(-6,Math.min(6,stage));const base=accuracy?3:2;return stage>=0?(base+stage)/base:base/(base-stage);}
@@ -25,7 +26,7 @@ export function weatherHPRecovery(maxHP:number,weather:BattleWeather,suppressed=
 // BtlCmd_SetMultiHit uses a second four-way draw only for the latter half
 // of the first draw:2/3/4/5 have probabilities3/8,3/8,1/8,1/8.
 export function multiHitCount(rng:()=>number,skillLink=false){if(skillLink)return 5;const first=Math.floor(rng()*4);return first<2?first+2:Math.floor(rng()*4)+2;}
-export type DamageContext={roosting?:boolean;flying?:boolean;reflect?:boolean;criticalMultiplier?:1|2|3;mudSport?:boolean;waterSport?:boolean};
+export type DamageContext={roosting?:boolean;flying?:boolean;reflect?:boolean;criticalMultiplier?:1|2|3;mudSport?:boolean;waterSport?:boolean;targetWeight?:number};
 // Scoped Gen IV singles intermediate, including Technician and physical Reflect.
 // The engine rejects unported modifier callbacks on newly admitted paths.
 export function moveBaseDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData,attackStages:Stages,defenseStages:Stages,critical=false,context:DamageContext={}){
@@ -35,7 +36,9 @@ export function moveBaseDamage(data:GameData,attacker:Mon,defender:Mon,move:Move
   // CalcMoveDamage modifies the raw Attack before applying stat stages.
   if(physical&&(ability==='ABILITY_HUSTLE'||ability==='ABILITY_GUTS'&&attacker.status))rawAttack=Math.floor(rawAttack*150/100);
   const attack=Math.max(1,Math.floor(rawAttack*stageMultiplier(as))),defense=Math.max(1,Math.floor(defender.stats[defenseStat]*stageMultiplier(ds)));
-  let power=move.power;
+  // effect0196 runs CalcWeightBasedPower on the live target before CalcCrit
+  // and CalcDamage. A missing live snapshot must not become the data power1.
+  let power=move.effect===196?nativeWeightBasedPower(context.targetWeight!):move.power;
   // CalcMoveDamage applies Technician before the typed low-HP boosts.
   if(ability==='ABILITY_TECHNICIAN'&&move.id!==data.constants.MOVE_STRUGGLE&&power<=60)power=Math.floor(power*15/10);
   // effect_script_0149: Gust hits a target in Fly and doubles its power.

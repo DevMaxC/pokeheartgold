@@ -8,11 +8,12 @@ import {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
 import {spriteGender,genderSymbol} from './gender.ts';
 import {nativeTrainerReplacement,type TrainerReplacementMon} from './battle-replacement.ts';
 import {planNativeExperience} from './battle-experience.ts';
+import {nativeBattleWeight,UnsupportedBattleWeight} from './battle-weight.ts';
 import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusionDuration,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativePlayerMeanLookBlocks,nativeGhostCurseCost,nativeCurseResidual,nativeReflectStart,nativeReflectTick,type NativeBattlerVolatile} from './battle-volatiles.ts';
 
 type Result='won'|'lost'|'caught'|'ran';
 type Action={kind:'move';slot:number}|{kind:'switch';index:number}|{kind:'item';item:string}|{kind:'run'};
-const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,201,210,214,228]);
+const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,196,201,210,214,228]);
 // constants/moves.h: SINGLE, RANDOM_OPPONENT, ADJACENT_OPPONENTS, ALL_ADJACENT.
 // Self/side/field targets still exist without a living opposing active mon.
 const singleBattleLiveOpponentTargets=new Set([0,2,4,8]);
@@ -29,6 +30,7 @@ export class Battle{
   private roosting=new Set<Mon>();private raging=new Set<Mon>();private weather:BattleWeather='clear';
   // moveEffectFlags, not status2: Rage's before-turn status2 mask retains them.
   private mudSport=new Set<Mon>();private waterSport=new Set<Mon>();
+  private liveWeights=new Map<Mon,number|UnsupportedBattleWeight>();
   private selectedMoveSlots=new Map<Mon,number>();private pendingMoves=new Map<Mon,number>();
   private volatiles=new Map<Mon,NativeBattlerVolatile>();private reflectTurns:[number,number]=[0,0];
   private tutorial=false;private noCritical=false;
@@ -39,11 +41,22 @@ export class Battle{
   private random16(){return Math.floor(this.rng()*0x10000);}
   private rawHeld(mon:Mon){if(!mon.heldItem)return null;const item=this.data.items.find(item=>item.item===mon.heldItem);if(!item)throw Error('Missing native held item '+mon.heldItem);return item;}
   private held(mon:Mon){return monAbility(this.data,mon)==='ABILITY_KLUTZ'?null:this.rawHeld(mon);}
-  private clearBattleVolatiles(){this.volatiles.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.mudSport.clear();this.waterSport.clear();this.selectedMoveSlots.clear();this.pendingMoves.clear();}
+  private clearBattleVolatiles(){this.volatiles.clear();this.reflectTurns=[0,0];this.identified.clear();this.curled.clear();this.raging.clear();this.roosting.clear();this.mudSport.clear();this.waterSport.clear();this.liveWeights.clear();this.selectedMoveSlots.clear();this.pendingMoves.clear();}
   private sportContext(){return{mudSport:[this.player,this.enemy].some(mon=>this.mudSport.has(mon)),waterSport:[this.player,this.enemy].some(mon=>this.waterSport.has(mon))};}
+  private initializeWeight(mon:Mon){
+    try{
+      // Legacy ordinary party records omit form; their native default is0.
+      // Extended/form-specific battle stats and form-changing effects remain
+      // unported. Store an explicit failure for LowKick without blocking an
+      // unrelated old move simply because it does not consume weight.
+      const form=mon.form??0;if(form!==0)throw new UnsupportedBattleWeight('Unsupported native battle weight form lifecycle');
+      this.liveWeights.set(mon,nativeBattleWeight(this.data,mon.species,form));
+    }catch(error){if(!(error instanceof UnsupportedBattleWeight))throw error;this.liveWeights.set(mon,error);}
+  }
+  private targetWeight(mon:Mon){const value=this.liveWeights.get(mon);if(value===undefined)throw new UnsupportedBattleWeight('Missing initialized live BattleMon weight');if(value instanceof UnsupportedBattleWeight)throw value;return value;}
   private clearOnLeave(mon:Mon){
     const source=mon===this.player?0:1;for(const other of[this.player,this.enemy]){const value=this.volatile(other);if(value.meanLookSource===source)value.status2&=~nativeStatus2.meanLook;}
-    this.volatiles.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.mudSport.delete(mon);this.waterSport.delete(mon);this.selectedMoveSlots.delete(mon);this.pendingMoves.delete(mon);
+    this.volatiles.delete(mon);this.identified.delete(mon);this.curled.delete(mon);this.raging.delete(mon);this.roosting.delete(mon);this.mudSport.delete(mon);this.waterSport.delete(mon);this.liveWeights.delete(mon);this.selectedMoveSlots.delete(mon);this.pendingMoves.delete(mon);
   }
   private critMultiplier(attacker:Mon,defender:Mon,move:MoveData):1|2|3{
     if(this.noCritical)return 1;const ability=monAbility(this.data,attacker),targetAbility=monAbility(this.data,defender),effect=this.held(attacker)?.holdEffect;
@@ -71,6 +84,19 @@ export class Battle{
     this.assertItemScope(attacker,defender);
   }
   private assertActionScope(attacker:Mon,defender:Mon,move:MoveData,playerSide:boolean){
+    if(move.effect===196&&defender.hp>0){
+      this.targetWeight(defender);this.assertDamageScope(attacker,defender);
+      // Accuracy/extra-PP and entry-stat callbacks are not supplied by weight
+      // data. Keep these branches explicit instead of admitting a partial hit.
+      if([attacker,defender].some(mon=>['ABILITY_INTIMIDATE','ABILITY_DOWNLOAD','ABILITY_TRACE','ABILITY_DRIZZLE','ABILITY_DROUGHT','ABILITY_SAND_STREAM','ABILITY_SNOW_WARNING'].includes(monAbility(this.data,mon)))||monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native LowKick ability phase');
+      if(['ABILITY_POISON_POINT','ABILITY_FLAME_BODY','ABILITY_EFFECT_SPORE','ABILITY_CUTE_CHARM','ABILITY_ROUGH_SKIN','ABILITY_COLOR_CHANGE','ABILITY_ANGER_POINT','ABILITY_AFTERMATH'].includes(monAbility(this.data,defender)))throw Error('Unsupported native LowKick on-hit ability');
+      const suppressed=[this.player,this.enemy].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
+      if(!suppressed&&this.weather!=='clear'){
+        // Route33 rain changes Fire/Water damage, not this Fighting move.
+        // Do not transfer that fact to unported rain speed/healing/form hooks.
+        if(this.weather!=='rain'||[attacker,defender].some(mon=>['ABILITY_SWIFT_SWIM','ABILITY_RAIN_DISH','ABILITY_DRY_SKIN','ABILITY_HYDRATION','ABILITY_FORECAST'].includes(monAbility(this.data,mon))))throw Error('Unsupported native LowKick damage weather');
+      }
+    }
     if([201,210].includes(move.effect)){
       this.assertItemScope(attacker,defender);
       if(defender.hp>0&&monAbility(this.data,defender)==='ABILITY_PRESSURE')throw Error('Unsupported native Sport Pressure PP');
@@ -173,8 +199,14 @@ export class Battle{
     const snapshot=(mon:Mon):TrainerReplacementMon=>({species:mon.species,isEgg:mon.isEgg,hp:mon.hp,types:types(mon),ability:this.data.constants[monAbility(this.data,mon)],heldEffect:this.data.constants[this.rawHeld(mon)?.holdEffect??'HOLD_EFFECT_NONE'],naturalGiftType:this.data.constants[this.rawHeld(mon)?.naturalGiftType??'TYPE_NORMAL'],ivs:mon.ivs,moves:mon.moves.map(slot=>slot.id)});
     return nativeTrainerReplacement(this.data,{party:this.enemies.map(snapshot),activePartyIndex:this.enemyIndex,opponent:{types:types(target),ability:this.data.constants[monAbility(this.data,target)],heldEffect:this.data.constants[this.held(target)?.holdEffect??'HOLD_EFFECT_NONE']},environment:{weather:this.weather==='rain'||this.weather==='hail'||this.weather==='sandstorm'||this.weather==='sun'?[this.weather]:[],weatherSuppressed:[actor,target].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)))}},{
       currentActorDamage:move=>{
-        this.assertDamageScope(actor,target);if(this.weather!=='clear')throw Error('Unsupported native trainer replacement damage weather');
-        const row=this.data.moves[move];if(row.power&&(!implementedEffects.has(row.effect)||[40,41,87].includes(row.effect)))throw Error('Unsupported native trainer replacement dynamic damage');
+        this.assertDamageScope(actor,target);const row=this.data.moves[move];
+        if(this.weather!=='clear'){
+          const suppressed=[actor,target].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)));
+          const unaffected=row.type===this.data.constants.TYPE_FIGHTING||row.category===2&&!row.power&&row.type===this.data.constants.TYPE_NORMAL;
+          const rainHooks=[actor,target].some(mon=>['ABILITY_SWIFT_SWIM','ABILITY_RAIN_DISH','ABILITY_DRY_SKIN','ABILITY_HYDRATION','ABILITY_FORECAST'].includes(monAbility(this.data,mon)));
+          if(!suppressed&&!(this.weather==='rain'&&unaffected&&!rainHooks))throw Error('Unsupported native trainer replacement damage weather');
+        }
+        if(row.power&&(!implementedEffects.has(row.effect)||[40,41,87].includes(row.effect)))throw Error('Unsupported native trainer replacement dynamic damage');
         this.assertSportDamageScope(actor,target,row);
         return moveBaseDamage(this.data,actor,target,row,this.enemyStages,this.playerStages,false,{...this.sportContext(),reflect:!!this.reflectTurns[0]});
       },
@@ -200,6 +232,7 @@ export class Battle{
   private async sendEnemy(index:number){
     if(index<0||index>=this.enemies.length||index===this.enemyIndex||!isUsableBattler(this.enemies[index]))throw Error('Native trainer replacement has no eligible reserve');
     this.restoreOnSwitch(this.enemy);this.clearOnLeave(this.enemy);this.enemyIndex=index;this.enemyStages=freshStages();
+    this.initializeWeight(this.enemy);
     // PokemonSendOut clears this battler's EXP flags even when a previously
     // withdrawn party member returns. Player sendout cannot join a KO target.
     this.experienceMask=1<<this.playerIndex;await this.say(`The opposing Trainer sent out ${this.enemy.name}!`);
@@ -211,6 +244,7 @@ export class Battle{
     // changes never decide healing amounts during a battle.
     this.weather=fieldBattleWeather(options.weather??0);this.clearBattleVolatiles();
     this.active=true;this.enemies=enemies;this.trainer=trainer;this.playerIndex=lead;this.experienceMask=1<<lead;this.enemyIndex=0;this.playerStages=freshStages();this.enemyStages=freshStages();this.turns=0;this.fleeAttempts=0;
+    this.initializeWeight(this.player);this.initializeWeight(this.enemy);
     this.identified.clear();this.curled.clear();$('battle-screen').hidden=false;$('game-hud').hidden=true;$('touch-pad').hidden=true;
     const before=structuredClone({party:this.state.party,boxes:this.state.boxes,bag:this.state.bag,seen:this.state.seen,caught:this.state.caught});
     let fail:(error:unknown)=>void;const complete=new Promise<Result>((resolve,reject)=>{this.resolve=resolve;fail=reject;});
@@ -333,7 +367,7 @@ export class Battle{
   private async switch(index:number,recall=true){
     if(!isUsableBattler(this.state.party[index])||index===this.playerIndex)return;
     if(recall)await this.say(`${this.player.name}, that’s enough! Come back!`);this.restoreOnSwitch(this.player);this.clearOnLeave(this.player);
-    this.playerIndex=index;if(this.enemy.hp>0)this.experienceMask|=1<<index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);
+    this.playerIndex=index;this.initializeWeight(this.player);if(this.enemy.hp>0)this.experienceMask|=1<<index;this.playerStages=freshStages();await this.say(`Go! ${this.player.name}!`);
   }
   private async attack(playerSide:boolean,slot:number,selectedMoveId?:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
@@ -364,7 +398,10 @@ export class Battle{
     // Native u16 assignments truncate each accuracy modifier independently.
     if(monAbility(this.data,attacker)==='ABILITY_HUSTLE'&&move.category===0)hitChance=Math.floor(hitChance*80/100);
     if(monAbility(this.data,defender)==='ABILITY_TANGLED_FEET'&&(this.volatile(defender).status2&nativeStatus2.confusion)&&monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER')hitChance=Math.floor(hitChance*50/100);
-    if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78&&Math.floor(this.rng()*100)>=hitChance){await this.say(`${attacker.name}’s attack missed!`);return;}
+    // CheckMoveHit still consumes its ordinary accuracy draw. The subsequent
+    // CheckMoveEffect clears MISSED for either NoGuard battler, even against
+    // MoldBreaker. This does not implement unported OHKO/airborne effects.
+    if(!this.tutorial&&move.accuracy&&move.effect!==17&&move.effect!==78){const missed=Math.floor(this.rng()*100)>=hitChance;if(missed&&monAbility(this.data,attacker)!=='ABILITY_NO_GUARD'&&monAbility(this.data,defender)!=='ABILITY_NO_GUARD'){await this.say(`${attacker.name}’s attack missed!`);return;}}
     if([32,132,214].includes(move.effect)&&attacker.hp===attacker.maxHP){await this.say(`${attacker.name}’s HP is full!`);return;}
     if(move.effect===201||move.effect===210){
       const flags=move.effect===201?this.mudSport:this.waterSport;
@@ -399,7 +436,7 @@ export class Battle{
     // The native multi-hit controller reruns critical/damage calculation for
     // every hit, skips additional accuracy/PP checks and stops on fainting.
     const fixed=[40,41,87].includes(move.effect),multiplier=fixed?1:this.critMultiplier(attacker,defender,move),critical=multiplier>1;
-    const result=fixed?fixedMoveDamage(this.data,attacker,defender,move,this.identified.has(defender),{roosting:this.roosting.has(defender)}):moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{...this.sportContext(),roosting:this.roosting.has(defender),reflect:!!this.reflectTurns[playerSide?1:0],criticalMultiplier:multiplier});
+    const result=fixed?fixedMoveDamage(this.data,attacker,defender,move,this.identified.has(defender),{roosting:this.roosting.has(defender)}):moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{...this.sportContext(),targetWeight:move.effect===196?this.targetWeight(defender):undefined,roosting:this.roosting.has(defender),reflect:!!this.reflectTurns[playerSide?1:0],criticalMultiplier:multiplier});
     const {damage,effectiveness}=result;let total=damage;
     if(effectiveness===0)total=0;total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));
