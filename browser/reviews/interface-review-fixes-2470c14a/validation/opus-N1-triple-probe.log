@@ -1,0 +1,35 @@
+TAP version 13
+# (node:59080) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# one 1 TimeoutError: Music restoration took too long. 2
+# two-active 0 true 2
+# two-done 1 TimeoutError: Music restoration took too long. 2
+# three-active 0  2 true
+# three-late 0  2 true
+# Subtest: probe repeated battle background returns
+not ok 1 - probe repeated battle background returns
+  ---
+  duration_ms: 262.32825
+  type: 'test'
+  location: '/private/tmp/hg-interface-audio-deadline-negative-2470/browser/src/source/main-music.test.ts:202:1'
+  failureType: 'testCodeFailure'
+  error: `Expected "actual" to be strictly unequal to: ''`
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: ''
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-interface-audio-deadline-negative-2470/browser/src/source/main-music.test.ts:206:474)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2932.888542

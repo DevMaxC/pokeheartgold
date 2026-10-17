@@ -1,0 +1,37 @@
+{
+  "reviewedCommit": "2470c14af8748f952a0f0ce5ba561642e5c43b60",
+  "originalFindings": {
+    "F1": "resolved",
+    "F2": "resolved with new repeated-owner edge N1",
+    "F3": "resolved with new disabled-focus edge N2",
+    "F4": "resolved"
+  },
+  "findings": [
+    {
+      "id": "N1",
+      "severity": "Low",
+      "decision": "confirmed unsafe queued restore continuation; fixed5e4f5552",
+      "evidence": "validation/opus-N1-negative.log.gz",
+      "observed": "Actual shared player/session/field.restore closures with two retained queue entries: old starts a third field voice while battle active (3 vs2). Fix stops each unsignalled background entry when a newer battle owns audio, keeps remaining entry, and guards sync success/error-clear by current owner.",
+      "qualification": "The two-entry queue is explicitly arranged from source-equivalent real closures to isolate ownership race. The suggested full3battle trace was not independently proven to accumulate two entries; direct actual3battle probe separately confirms stale error clearing during battle. No claim of complete native triple-event replay."
+    },
+    {
+      "id": "N2",
+      "severity": "Low",
+      "decision": "confirmed; fixed5e4f5552",
+      "evidence": "validation/opus-N2-negative.log.gz",
+      "observed": "Real UI Enter activates Retry then disables focused button; second Enter falls back to Back, closes Settings/saves. Fix moves focus to Music control before disabling active Retry; no generic mandatory-choice behavior changed."
+    }
+  ],
+  "manualFollowup": {
+    "id": "stale-initial-unlock",
+    "decision": "confirmed; fixed461065b3",
+    "evidence": "validation/unlock-stale-negative.log.gz",
+    "observed": "MapA initial unlock loading replaced by successful mapB emits false outage. Serial-bound completion/errors ignore stale song failure only when actual Context is unlocked; genuine permission denial remains observable."
+  },
+  "status": "final5e4f5552 actual Opus follow-up running",
+  "limitations": [
+    "No browser/mobile/GPU/default-action/audio audition or export completeness/source parity approval.",
+    "Source/actual synthetic AudioContext and real UI harness evidence only."
+  ]
+}

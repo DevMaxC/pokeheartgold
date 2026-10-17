@@ -1,0 +1,124 @@
+{
+  "qualification": "Exact manifests, patches and native assertion logs with literal trailing whitespace are losslessly gzip encoded; decompress reproduces original bytes/hashes. Original review-artifacts.tar.gz remains unchanged. Raw reviews/prompts/execution/integrity and passing test logs stay plain.",
+  "files": {
+    "followup-2470c14a/changes.patch.gz": {
+      "encoding": "gzip",
+      "originalName": "changes.patch",
+      "uncompressedBytes": 97316,
+      "uncompressedSHA256": "8ef9020e046da59e3e724a3d0df29770fe3a39ebcd0ecac9a6f6bec894c1c2f0",
+      "compressedSHA256": "f449b383b873c7518aaf738832a00aef63c04cb0014b42b0995930f3f2d27131"
+    },
+    "followup-2470c14a/source-manifest.json.gz": {
+      "encoding": "gzip",
+      "originalName": "source-manifest.json",
+      "uncompressedBytes": 3935363,
+      "uncompressedSHA256": "9f20d7512f33cf6ce175cd5eec3ac9c2a45344b71b9ad365e995bed93a22364b",
+      "compressedSHA256": "cdaa319f5b8317adb5e3b0b0af65def306fd7408239abc8859df3fe3a93ebbb8"
+    },
+    "followup-5e4f5552/changes.patch.gz": {
+      "encoding": "gzip",
+      "originalName": "changes.patch",
+      "uncompressedBytes": 14692,
+      "uncompressedSHA256": "31c7aa405095202d32b0a5fdf84d454c9bfabec447184dc2d3b629bfb9e7eaf6",
+      "compressedSHA256": "dc2ed8cdef9877c54ebff7f8fa425c0842b7160156bce1751a79ae730d045669"
+    },
+    "followup-5e4f5552/source-manifest.json.gz": {
+      "encoding": "gzip",
+      "originalName": "source-manifest.json",
+      "uncompressedBytes": 3941939,
+      "uncompressedSHA256": "238c88f15a52e88f2ce4b1ec0dc5e3adf9ff6c45c89a028505f9c3e7e2ed057f",
+      "compressedSHA256": "2e850004d53d7d4898db18a2f2eaff34cf508297f4cdba286e99f58576809dba"
+    },
+    "original-0eee799f/changes.patch.gz": {
+      "encoding": "gzip",
+      "originalName": "changes.patch",
+      "uncompressedBytes": 393251,
+      "uncompressedSHA256": "9cf9853b71200e3545fdd409ca5ec3c2284604e9d1a17a7b74afa37ddd555eb9",
+      "compressedSHA256": "9c5e6ff59fb9d8c79dabf3169ba9a2229a2f6d14a4dbee90ba16311ddeb7366d"
+    },
+    "original-0eee799f/source-manifest.json.gz": {
+      "encoding": "gzip",
+      "originalName": "source-manifest.json",
+      "uncompressedBytes": 1983442,
+      "uncompressedSHA256": "6a5c49f1009468f63f05795fea6132700b04fed7d83e1072ece9ad2263562681",
+      "compressedSHA256": "a1a12dc7a627c2e26e7122c2546c48260c09aeb24abe5252824bdd5fc06210ff"
+    },
+    "closure-b1ad9303/source-manifest.json.gz": {
+      "encoding": "gzip",
+      "originalName": "source-manifest.json",
+      "uncompressedBytes": 3935179,
+      "uncompressedSHA256": "e37c601b487189d7afa3c5968cf1c123ab8534b01a2f39bf618d787ec51d7d39",
+      "compressedSHA256": "75a372e4be6a507211919f960b2ba3bc8f4c2cf4682e3c45c8f3b5f7efab92a8"
+    },
+    "closure-b1ad9303/changes.patch.gz": {
+      "encoding": "gzip",
+      "originalName": "changes.patch",
+      "uncompressedBytes": 22333,
+      "uncompressedSHA256": "b82162cd90aced15f57613a38acc4343afe71a97936d8f39c2618f3c80dcdc35",
+      "compressedSHA256": "6f1d625591460ae0a6916a4c925520afaadcf8110a6f88e543951586e515cc1d"
+    },
+    "validation/U1-N2r-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "U1-N2r-negative.log",
+      "uncompressedBytes": 3218,
+      "uncompressedSHA256": "fdfbffc8578516124679cd775d913fb414039ba8db28c5e6c1be25f67f2a4788",
+      "compressedSHA256": "66fa20fc02dcd74aaf4242f4bea88f0479e12ce42ee14494b76fea973583c70e"
+    },
+    "validation/old-deadline-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "old-deadline-negative.log",
+      "uncompressedBytes": 3849,
+      "uncompressedSHA256": "cff4c3dc4f6ffafe68cdb03e480d3e9fc0e6016196066abf1cca0f27fb5706a4",
+      "compressedSHA256": "6bc919282c997bfe6f0a023c2a73b319f541452be37db6369bd7928dd23c2b18"
+    },
+    "validation/old-enter-default-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "old-enter-default-negative.log",
+      "uncompressedBytes": 1243,
+      "uncompressedSHA256": "2a7c4616c571e3e603b06812841fdc30c36cf3cae5fdba8a6e888fe5b182f85d",
+      "compressedSHA256": "142db71888824a8e258b48b607ea8aafd486bad09d1745fbda74948847959f68"
+    },
+    "validation/old-gesture-retry-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "old-gesture-retry-negative.log",
+      "uncompressedBytes": 1208,
+      "uncompressedSHA256": "43d087a9461ca9319e02719d204b90b6c8b9af5aaad89ec8fbbb67db5c56380f",
+      "compressedSHA256": "ef818652b9a4f5b93bc9a9084bb8fc91db89320a72161d3cdd2e92f9bdc25a1d"
+    },
+    "validation/old-initial-focus-isolated.log.gz": {
+      "encoding": "gzip",
+      "originalName": "old-initial-focus-isolated.log",
+      "uncompressedBytes": 1749,
+      "uncompressedSHA256": "328b7e1a1ef2ca99c22da148004478154e04ee257fd2d36e1d5929832f1d1cb9",
+      "compressedSHA256": "13504e611e710e1e6b844b560cd9f9338660d6f73a28cd10d4dc55657d49b291"
+    },
+    "validation/old-initial-focus-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "old-initial-focus-negative.log",
+      "uncompressedBytes": 2796,
+      "uncompressedSHA256": "bc31bd483f9e086b93abf96cfa6454160e04bdf085f00ad92c08b905089443db",
+      "compressedSHA256": "5081945100632d0d432c6d8f872cbadb5c97f71c352e3c122a158b901abace3e"
+    },
+    "validation/opus-N1-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "opus-N1-negative.log",
+      "uncompressedBytes": 1283,
+      "uncompressedSHA256": "c874a60f33995a042d00c4a39b2de21330a4f168d041d2e568e62ea86f70eab3",
+      "compressedSHA256": "5fe3a349ede037e9d3deadcf1e2d23ffe999951e66c0247b0e7ca8e0bddaacf1"
+    },
+    "validation/opus-N2-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "opus-N2-negative.log",
+      "uncompressedBytes": 1222,
+      "uncompressedSHA256": "ab73486f2dbe49298c59a855afdd3f0bbef964c1d1b761ddb37dcf74bf67e728",
+      "compressedSHA256": "bf650ba978757f288c28cbd9f665bc1623c13b8b9cad60737a17865690a6a1f8"
+    },
+    "validation/unlock-stale-negative.log.gz": {
+      "encoding": "gzip",
+      "originalName": "unlock-stale-negative.log",
+      "uncompressedBytes": 1068,
+      "uncompressedSHA256": "43b1a0ae1d9550ba502900badf238c2caeea0b0cffec3beda9f10a5823b10a15",
+      "compressedSHA256": "c87cdaa99e7202884e6b255330509603a2b473348325def8739f85d1a8aed166"
+    }
+  }
+}
