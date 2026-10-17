@@ -1,0 +1,34 @@
+TAP version 13
+# (node:81455) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a resolved prompt replaced before its continuation cannot dispatch Bag use, steal the next panel or commit an acknowledgement
+not ok 1 - a resolved prompt replaced before its continuation cannot dispatch Bag use, steal the next panel or commit an acknowledgement
+  ---
+  duration_ms: 75.460125
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:115:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Keep this replacement/. Input:
+    
+    '<div class="panel-heading"><button class="back-button" data-bag-choice="cancel" aria-label="Back to Bag">‹</button><div><span class="eyebrow">Your Bag</span><h2>Use Potion</h2></div></div><p>Choose a Pokémon.</p><div class="menu-list"><button class="list-row" data-bag-choice="party:0"><span><b>RATTATA</b><small>Lv.10 · 1 / 27 HP</small></span></button></div><div class="actions"><button class="secondary" data-bag-choice="cancel">Cancel</button></div>'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: '<div class="panel-heading"><button class="back-button" data-bag-choice="cancel" aria-label="Back to Bag">‹</button><div><span class="eyebrow">Your Bag</span><h2>Use Potion</h2></div></div><p>Choose a Pokémon.</p><div class="menu-list"><button class="list-row" data-bag-choice="party:0"><span><b>RATTATA</b><small>Lv.10 · 1 / 27 HP</small></span></button></div><div class="actions"><button class="secondary" data-bag-choice="cancel">Cancel</button></div>'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:122:118)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 821.189459

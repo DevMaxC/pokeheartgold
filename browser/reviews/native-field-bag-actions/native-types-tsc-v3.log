@@ -1,0 +1,5 @@
+src/source/field-bag-actions.ts(91,113): error TS2339: Property 'consumesItem' does not exist on type 'TMHMTeachingPreparation'.
+  Property 'consumesItem' does not exist on type 'TeachingDenial'.
+src/source/field-bag-actions.ts(101,102): error TS2339: Property 'moves' does not exist on type 'FieldMedicinePlan'.
+  Property 'moves' does not exist on type '{ kind: "cancelled"; }'.
+src/source/field-bag-actions.ts(101,112): error TS7006: Parameter 'move' implicitly has an 'any' type.

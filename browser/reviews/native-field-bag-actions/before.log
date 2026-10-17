@@ -1,0 +1,34 @@
+TAP version 13
+# (node:76148) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Bag Use commits Potion only after acknowledgement, refreshes inventory and never saves itself
+not ok 1 - actual Bag Use commits Potion only after acknowledgement, refreshes inventory and never saves itself
+  ---
+  duration_ms: 64.070042
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:44:1'
+  failureType: 'testCodeFailure'
+  error: 'Expected data-action=use:ITEM_POTION in <div class="panel-heading"><button class="back-button" data-action="back" aria-label="Back">‹</button><div><span class="eyebrow">Items and Key Items</span><h2>Your Bag</h2></div></div><div class="panel-toolbar"><span>1 kinds of items</span><span>₽3,000</span></div><nav class="pocket-tabs" aria-label="Bag pockets"><button data-action="pocket:0" aria-pressed="true">Medicine</button></nav><h3>Medicine</h3><article class="bag-item"><b>Potion</b><span class="bag-item__count">× 2</span></article>'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    button (/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:37:120)
+    Object.action (/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:38:161)
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-field-bag-actions/browser/src/source/field-bag-actions.test.ts:46:62)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 668.028791

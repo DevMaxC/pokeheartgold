@@ -1,0 +1,148 @@
+{
+  "status": "scoped-leaf-approved; host-reconciliation-and-release-pending",
+  "base": "ebecefcdf4694fdebad072f4243f9b961bab2e77",
+  "dependencies": [
+    {
+      "original": "85990b42",
+      "cherry": "71e03791"
+    },
+    {
+      "original": "b0dd6301",
+      "cherry": "ff311741"
+    }
+  ],
+  "sourceSHA256": {
+    "browser/src/source/interface-panels.ts": "9119b3fd3361662440b283d7559f0aa4c9e81640aa6810516c8ea5e7282579d9",
+    "browser/src/source/field-bag-actions.ts": "05cdb9f1e4809dc512482e00c3da6ed958e05782b823a783a91f1dbdd9ba01fe",
+    "browser/src/source/field-bag-actions.test.ts": "8fb0966ca74b63b730dd0347c4c99a4f51982f955b19f08759922ac6695a704c"
+  },
+  "tests": {
+    "command": "node --experimental-transform-types --test src/source/field-bag-actions.test.ts src/source/interface-panels.test.ts src/source/ui.test.ts src/source/field-moves.test.ts",
+    "passed": 34,
+    "failed": 0,
+    "newBagTests": 10
+  },
+  "baselineRegression": {
+    "originalInterfacePanels": "ebecefcdf4694fdebad072f4243f9b961bab2e77",
+    "name": "actual Bag Use commits Potion",
+    "exitCode": 1,
+    "failure": "missing data-action=use:ITEM_POTION"
+  },
+  "typescript": {
+    "qualificationCommand": "tsc --noEmit",
+    "exitCode": 0,
+    "temporaryExactTypesFrom": "1a0054b4:browser/src/source/types.ts",
+    "temporaryExactTypesSHA256": "74bab3fae4bfd56b517d099031810762fea2edd1443a3ffc968c6ba9fe4538fe",
+    "liveUITypesUnchangedSHA256": "397ad68bf0244d7413072a7019ecdba2c1229e554ac1a9acb91fb41ea004a956",
+    "baselineDependencyDiagnostics": 13,
+    "baselineMissingNativeMonFields": [
+      "checksumFailed",
+      "form",
+      "provenance"
+    ],
+    "newDiagnostics": 0,
+    "qualificationLog": "native-types-tsc-v4.log",
+    "previousV3NewDiagnostics": 3,
+    "finalNewDiagnostics": 0
+  },
+  "recoveryFixture": {
+    "gitObject": "4ca4545b:browser/src/source/script-recovery.ts",
+    "sourceSHA256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd"
+  },
+  "reviewSnapshot": {
+    "manifestSHA256": "f34a6ce14022a0a16729b2f26f50ab89f2b584ecac670c176d02cc3b9e9bdd49",
+    "files": 219,
+    "changedInputs": []
+  },
+  "toolchain": {
+    "node": "v22.22.3",
+    "typescript": "5.9.3"
+  },
+  "limits": [
+    "No host main transaction/save wiring in this scope",
+    "No browser/render/build verification",
+    "No production types/core edits",
+    "No deployment/merge claim"
+  ],
+  "ownershipRegressions": {
+    "originalBefore": "owner-gap-before.log",
+    "v2Before": "owner-gap-v2-before.log",
+    "v2Failure": "target delay2",
+    "final": "all34PASS, targetdelay0\u20135 preserved"
+  },
+  "priorReviews": [
+    {
+      "version": 1,
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 207648,
+      "verdict": "approve-with-minor-changes",
+      "findings": 1,
+      "resolved": "full-PP picker must permit no-effect selection"
+    },
+    {
+      "version": 2,
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 172898,
+      "verdict": "approve",
+      "findings": 0,
+      "notedLimit": "wrapper-to-caller microtask gap independently reproduced and corrected in finalv3"
+    },
+    {
+      "version": 3,
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 113004,
+      "verdict": "approve",
+      "findings": 0,
+      "compilerResult": "3 closure-narrowing diagnostics subsequently corrected by immutable local captures in v4"
+    }
+  ],
+  "interfaceScopeProof": "All InterfacePanels code outside Bag and optional useItem/context declaration byte-equivalent to base.",
+  "runtimeCommit": "35e61a5c601292199cd107f6c9a1e17b846a8c68",
+  "finalReviews": {
+    "runtimeV3": "approve;0findings",
+    "exactV4Delta": "approve;0findings"
+  },
+  "reviewExecutions": [
+    {
+      "version": 1,
+      "snapshotManifestSHA256": "6e10e8411b13c26b70f54f02a0e51fd1e943f7681cd0c7a0493191a1c8637668",
+      "snapshotFiles": 216,
+      "changedSnapshotInputs": [],
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 207648,
+      "rawResult": "review-result-v1.json",
+      "reviewWasReadOnly": true
+    },
+    {
+      "version": 2,
+      "snapshotManifestSHA256": "aa935de71b59699b0cbfd36bc4658f7487adef9ecbead6db52307ffa08a1adaa",
+      "snapshotFiles": 217,
+      "changedSnapshotInputs": [],
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 172898,
+      "rawResult": "review-result-v2.json",
+      "reviewWasReadOnly": true
+    },
+    {
+      "version": 3,
+      "snapshotManifestSHA256": "30da35ac4fff94769d38660711574f7b604a5cb6f9090cfb7a528cf00e5d8e82",
+      "snapshotFiles": 218,
+      "changedSnapshotInputs": [],
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 113004,
+      "rawResult": "review-result-v3.json",
+      "reviewWasReadOnly": true
+    },
+    {
+      "version": 4,
+      "snapshotManifestSHA256": "f34a6ce14022a0a16729b2f26f50ab89f2b584ecac670c176d02cc3b9e9bdd49",
+      "snapshotFiles": 219,
+      "changedSnapshotInputs": [],
+      "actualModel": "claude-opus-5-5",
+      "durationMs": 35478,
+      "rawResult": "review-result-v4.json",
+      "reviewWasReadOnly": true
+    }
+  ],
+  "sourceMatchesFinalSnapshot": true
+}
