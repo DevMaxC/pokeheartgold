@@ -22,10 +22,11 @@ export function createOpeningAudio(output:()=>SharedNativeAudioOutput|null){
    try{
     const buffer=await Promise.race([cancelled,(async()=>{
      const response=await fetch(`/source/opening/cry-${species}.wav`,{signal:request.signal});check();if(!response.ok)throw Error('Original opening cry could not load ('+response.status+')');
-     const data=await response.arrayBuffer();check();const decoded=await shared.context.decodeAudioData(data);check();return decoded;
+     const data=await response.arrayBuffer();check();
+     const decoded=await new Promise<AudioBuffer>((resolve,reject)=>{const pending=shared.context.decodeAudioData(data,resolve,reject);if(pending?.then)void pending.then(resolve,reject);});check();return decoded;
     })()]);
     check();clearTimeout(timer);
-    // Muting during a download must not start a deferred cry after unmuting.
+    // Drop a cry if sound is still muted when its assets finish loading.
     if(!output()){finish();return;}
     if(shared.context.state!=='running')throw Error('Shared opening AudioContext is not running');
     node=shared.context.createBufferSource();gain=shared.context.createGain();node.buffer=buffer;gain.gain.value=.6;node.connect(gain);gain.connect(shared.output);node.onended=finish;node.start();
