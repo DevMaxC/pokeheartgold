@@ -1,3 +1,4 @@
+import {fieldSpriteHeight} from './field-sprite-scale.ts';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone } from 'three/addons/utils/SkeletonUtils.js';
@@ -175,7 +176,7 @@ export class OriginalWorld {
   updateNPCs(objects:FieldObject[]){
     for(const npc of objects){const key=npc.resolvedSprite;let actor=this.npcSprites.get(npc.id);
       if(actor&&actor.key!==key){this.scene.remove(actor.group);actor.texture.dispose();this.npcSprites.delete(npc.id);actor=undefined;}
-      if(!actor&&this.sprites[key]){actor={...this.paper(key,key.includes('FOLLOWER')?1.4:2),npc,key};this.npcSprites.set(npc.id,actor);}
+      if(!actor&&this.sprites[key]){actor={...this.paper(key,fieldSpriteHeight(key,this.sprites,key.includes('FOLLOWER')?1.4:2)),npc,key};this.npcSprites.set(npc.id,actor);}
       if(!actor)continue;actor.npc=npc;actor.group.visible=npc.visible;actor.group.position.set(npc.x+.5,this.height(npc.x+.5,npc.z+.5,actor.group.position.y||npc.y/16,actor.group.position.x,actor.group.position.z),npc.z+.5);this.animate(actor,npc.facingDirection,npc.step);
     }
   }
