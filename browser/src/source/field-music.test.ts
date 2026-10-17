@@ -177,3 +177,15 @@ for(const session of[false,true])test('player disposal rejects a pending '+(sess
  await f.player.playCue(SURF);f.controls.fetch=()=>{entered.resolve();return pending.promise;};const restoring=battle?battle.restore():f.player.field.restore(saved!),rejected=assert.rejects(restoring,/disposed/);await entered.promise;await f.player.dispose();await rejected;assert.ok(f.sources.every(source=>source.stopped&&source.disconnected));assert.equal(f.player.isUnlocked(),false);
  pending.resolve(f.files.get('/source/music/'+f.catalog.tracks[SURF.id].formats![0].file)!);await flush();assert.equal(f.sources.length,session?2:1);assert.equal(f.contexts[0].state,'closed');
 });
+
+
+test('hidden-page master gate silences field, battle and shared hatch output through late loads and preference changes',async()=>{
+ const f=fixture();f.player.setPageActive(false);assert.equal(f.contexts.length,0);await f.player.unlock();await f.player.playCue(A);assert.equal(f.contexts[0].gain.gain.value,0);
+ await f.player.setPreferences({enabled:true,volume:.8});assert.equal(f.contexts[0].gain.gain.value,0);const battle=f.player.createCueSession();await battle.start(B,new AbortController().signal);assert.equal(f.contexts[0].gain.gain.value,0);
+ f.player.setPageActive(true);assert.equal(f.contexts[0].gain.gain.value,.8);f.player.setPageActive(false);assert.equal(f.contexts[0].gain.gain.value,0);await battle.restore();assert.equal(f.contexts[0].gain.gain.value,0);
+ const data=body({codec:'wave',duration:10,channels:2}),track:SharedHatchTrack={id:1011,key:'SEQ_GS_SHINKA',file:'1011-SEQ_GS_SHINKA.wav',sampleRate:32768,frames:327680,completionFrame:327680,loopFrames:null,wavSHA256:hash(data)};f.files.set('/source/hatching/music/'+track.file,data);const hatch=f.player.createHatchTransport();await hatch.play(track,new AbortController().signal);assert.equal(f.contexts.length,1);assert.equal(f.contexts[0].gain.gain.value,0);
+ await f.player.setPreferences({enabled:false,volume:.8});f.player.setPageActive(true);assert.equal(f.contexts[0].gain.gain.value,0);await hatch.dispose();await f.player.dispose();
+});
+test('hiding while a decoder is pending cannot publish audible music after backgrounding',async()=>{
+ const f=fixture();await f.player.unlock();const pending=deferred<ArrayBuffer>();f.controls.fetch=()=>pending.promise;const playing=f.player.playCue(A);await flush();f.player.setPageActive(false);pending.resolve(f.files.get('/source/music/'+f.catalog.tracks[A.id].formats![0].file)!);await playing;assert.equal(f.sources.length,1);assert.equal(f.contexts[0].gain.gain.value,0);f.player.setPageActive(true);assert.equal(f.contexts[0].gain.gain.value,.5);await f.player.dispose();
+});

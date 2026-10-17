@@ -553,3 +553,8 @@ body.in-battle :is(#game-hud, #control-hud, #party-hud, #touch-pad), #game[data-
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
 #phone-ring{pointer-events:auto;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--navy);font-size:12px;text-align:left;min-height:44px}#phone-ring small{display:block;font-size:10px;margin-top:4px}@media(max-width:760px){#phone-ring{position:fixed;right:calc(14px + var(--safe-right));top:calc(62px + var(--safe-top));font-size:10px;padding:9px 11px}}
+/* Audio remains reachable through title, dialogue, menus and battle. */
+#audio-toggle { position: absolute; top: calc(12px + var(--safe-top)); right: calc(12px + var(--safe-right)); z-index: 40; min-width: 64px; min-height: 44px; padding: 0 10px; border: 1px solid #fffbe3c2; border-radius: 12px; background: #fcf9eef5; box-shadow: 0 4px 18px #08142333; color: var(--ink); font-size: 12px; }
+#audio-toggle[aria-pressed='true'] { background: var(--navy); color: var(--gold-light); border-color: var(--gold); }
+#game-hud { right: calc(88px + var(--safe-right)); }
+@media (max-width: 680px) { .location-card { max-width: calc(100vw - 174px - var(--safe-left) - var(--safe-right)); } #game-hud { gap: 6px; } #open-menu { padding: 0 10px; } }

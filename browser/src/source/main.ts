@@ -40,6 +40,7 @@ import {CameraInput} from './camera-input.ts';
 import {fieldInput,fieldInputFacing} from './field-input.ts';
 import {readInterfacePreferences,writeInterfacePreferences} from './interface-preferences.ts';
 import {InterfacePanels,type InterfaceBagUseContext} from './interface-panels.ts';
+import {bindAudioControls} from './audio-controls.ts';
 import {loadNativeFieldMoveData,type NativeFieldMoveData} from './field-moves.ts';
 import {useFieldBagItem} from './field-bag-actions.ts';
 import {createNativeFieldMusicPlayer,UnsupportedNativeMusic,type EffectiveMusic} from './field-music.ts';
@@ -93,7 +94,7 @@ function finishMusicUnlock(request:number,failure?:{error:unknown}){
   if(request!==current&&musicRequestPending)void musicRequestPending.then(finish);else finish();
 }
 function unlockSound(){
-  if(hatching||battleSoundOwned)return;
+  if(hatching||battleSoundOwned||!preferences.music||document.visibilityState==='hidden')return;
   if(music.isUnlocked()){soundUnlocked=true;return;}if(unlockPending)return;soundUnlocked=false;
   const request=musicRequestSerial,pending=music.unlock();unlockPending=pending;musicChanged();void pending.then(()=>{soundUnlocked=true;finishMusicUnlock(request);}).catch(error=>{soundUnlocked=music.isUnlocked();if(soundUnlocked)finishMusicUnlock(request,{error});else musicFailed(error);}).finally(()=>{if(unlockPending===pending)unlockPending=null;musicChanged();});
 }
@@ -110,6 +111,8 @@ function syncMusic(){
   const hour=new Date().getHours(),key=JSON.stringify([map.id,hour,state.flags,preferences.music,preferences.volume]);if(key===musicKey)return;musicKey=key;const request=++musicRequestSerial;
   const pending=music.playMap(map,{hour,flags:state.flags}).then(async result=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=result.status==='locked';if(musicSettledLocked||battleSoundOwned||hatching)return;await retryMusicRestores();if(request===musicRequestSerial&&key===musicKey&&!battleSoundOwned&&!hatching)clearMusicFailure();}).catch(error=>{if(request!==musicRequestSerial||key!==musicKey)return;musicSettledRequest=request;musicSettledLocked=false;if(battleSoundOwned||hatching)return;musicFailed(error);}).finally(()=>{if(musicRequestPending===pending)musicRequestPending=null;musicChanged();});musicRequestPending=pending;musicChanged();
 }
+function updatePreferences(value:typeof preferences,persist=true){const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=persist?writeInterfacePreferences(preferenceStorage,value):value;if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();}
+bindAudioControls({button:$<HTMLButtonElement>('audio-toggle'),preferences:()=>preferences,updatePreferences,storage:preferenceStorage,unlock:unlockSound,setPageActive:active=>music.setPageActive(active),watch:watchMusic});
 function textDelay(){return [8,4,1][preferences.textSpeed]*1000/60;}
 const touch=new TouchControls($('touch-pad'),{interact:()=>{unlockSound();void interact().catch(reportInputError);},menu:()=>{unlockSound();void menu().catch(reportInputError);}});
 function fieldControlsAvailable(){return !!world&&started&&ready&&!recoveryPrompt&&!sourceActions?.recovering&&!hatching&&!battleSoundOwned&&!sourceSceneOwners&&(!transitioning||connecting)&&(!vm?.busy||preservedControlScripts>0)&&!ui.busy&&!battle?.active&&!world.fieldTransitionActive&&(!sourceActions?.busy||ordinaryInputOwners>0||connecting||preservedControlScripts>0);}
@@ -577,7 +580,7 @@ async function begin(entryMode:'warp'|'continue'='warp'){
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
-  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences:value=>{const soundChanged=value.music!==preferences.music||value.volume!==preferences.volume;preferences=writeInterfacePreferences(preferenceStorage,value);if(started){state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;}if(soundChanged){musicPreferencePending++;musicChanged();musicKey='';void music.setPreferences({enabled:preferences.music,volume:preferences.volume}).catch(musicFailed).finally(()=>{musicPreferencePending--;musicKey='';syncMusic();musicChanged();});}else musicChanged();},touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
+  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started){openingView?.draw(dt);return;}syncMusic();
     state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,state.facing,walking?stepFrame:-1);}
     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
@@ -595,7 +598,7 @@ async function boot(){
 // retried here; only Settings' explicit Retry can request it again.
 addEventListener('pointerdown',()=>unlockSound(),{capture:true,passive:true});
 addEventListener('keydown',e=>{if(!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey)unlockSound();},{capture:true});
-addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
+addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.closest('[data-global-audio]'))return;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
   if(e.code==='KeyR'&&!e.repeat){e.preventDefault();void answerPhone().catch(reportInputError);return;}
   if(e.code==='Escape'){e.preventDefault();if(!e.repeat)void menu().catch(reportInputError);return;}
   if(!fieldControlsAvailable())return;
