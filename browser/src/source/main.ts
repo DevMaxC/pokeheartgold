@@ -264,7 +264,7 @@ async function warp(index:number,facing=state.facing){
 async function checkEvents(enteredDoor=false,eggClock?:EggStepClock){
   const outcome=await executeSourceAction(async()=>{
   const owner=world.owner(state.x,state.z);
-  if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true);}
+  if(owner!==undefined&&owner!==state.map){await enterMap(owner,state.x,state.z,true,false,true,true);}
   if(await trainerEventPriority(checkFrameTriggers,tryTrainerEncounter))return;
   const x=Math.floor(state.x),z=Math.floor(state.z);
   const warpIndex=map.events.warps.findIndex(w=>w.x===x&&w.z===z),key=map.id+':'+x+','+z;
@@ -274,9 +274,9 @@ async function checkEvents(enteredDoor=false,eggClock?:EggStepClock){
   const transitionFacing=enteredDoor?state.facing:stepWarpFacing(world.permission(state.x,state.z),state.facing);
   if(warpIndex>=0&&key!==lastWarp&&transitionFacing!==null){await warp(warpIndex,transitionFacing);save();return;}if(warpIndex<0)lastWarp='';
   if(await checkFrameTriggers())return;
-  // This host currently provides ordinary walking/ledge movement. Native
-  // forced-movement, poison/Safari/repel and breeding handlers remain separate
-  // parity work; those future higher-priority handlers must precede daycare.
+  // Native forced movement, poison and Safari checks precede daycare; Repel
+  // follows it. These handlers and daycare breeding remain separate parity
+  // work from this host's ordinary walking and ledge movement.
   if(eggClock&&advancePartyEggStep(data,state,eggClock).hatchReady){recordEggHatchEvent(data,state);await runScript(data.constants.std_hatch_egg,'obj_player',false,false,true);return;}
   return !vm.busy&&!ui.busy&&!transitioning;
   });

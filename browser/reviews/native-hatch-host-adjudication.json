@@ -1,0 +1,101 @@
+{
+  "reviewParentCommit": "1e046a6b14c2614b53b8219eec9e01a2d82c6440",
+  "snapshot": "/tmp/hg-hatch-host-review-20261017",
+  "actualReviewModel": "claude-opus-5-5",
+  "ancillaryCliRouter": "claude-haiku-4-5-20251001",
+  "isError": false,
+  "turns": 39,
+  "durationMs": 463818,
+  "all223CopiedInputHashesReverified": true,
+  "scopeVerdict": "Sequencing, cancellation/draining, rollback/save/input/follower ownership clean at reviewed bytes; F1 connected-map frame consumption is a confirmed correctness issue, F2 is a misleading priority comment. No approval of later fixes or audio wiring.",
+  "findings": [
+    {
+      "id": "F1",
+      "confirmed": true,
+      "severity": "medium-low",
+      "path": "browser/src/source/main.ts",
+      "reviewedMainSha256": "94cb450d6253b00837b6ea2e2e0a672d62c984f879ce0ed868c717680ac0287c",
+      "trigger": "Completed physical step crosses owner-map connection whose frame script condition matches and changes after execution.",
+      "mechanism": "enterMap runs checkFrameTriggers and discards consumed result; checkEvents resumes after entry and can advance daycare or later roll wild.",
+      "preciseImpact": "A ready Egg may hatch after the already consumed frame event. If no hatch consumes the step, a wild encounter may run. This does NOT mean a wild battle also runs after a consumed hatch.",
+      "fix": "Pass deferTriggers=true as seventh enterMap argument at the owner connection; existing frame-then-trainer check then consumes before daycare.",
+      "status": "Root reports two-line fix and regression fixture in progress; not automatically approved by original review."
+    },
+    {
+      "id": "F2",
+      "confirmed": true,
+      "severity": "low",
+      "kind": "comment",
+      "mechanism": "Comment lists repel as a higher-priority handler before daycare, but field_control.c runs daycare before repel.",
+      "fix": "Keep forced movement/poison/Safari before daycare; describe repel after daycare and unported.",
+      "status": "Root reports comment corrected; fresh hash/test follow-up pending."
+    }
+  ],
+  "ancillaryAdjudication": {
+    "facingBeforeCheckpoint": "Intended input-turn behavior, also retained on blocked movement. Root explicitly confirms rollback restores pre-tween movement/progression but does not undo requested heading. Not a defect.",
+    "isEggBitComment": "Provider ancillary claim rejected. HatchEggMon sets u8 isEgg=70; pokemon.c writes VALUE(u8) into one-bit blockB.isEgg;70&1=0. Existing provisional isEgg=false order/comment is correct.",
+    "isEggExtraHeaderProof": {
+      "path": "include/pokemon_types_def.h",
+      "sha256": "adf14e74756e1a5b63ab939b28b8f62a90ca06640c1b43ff82025979f9ac20c8",
+      "lines": "92,245: u32 isEgg : 1;",
+      "qualification": "Read-only native header proof gathered after review, outside original snapshot; no code changed."
+    },
+    "artworkAvailability": "Provider only-Togepi-artwork limitation overstates the copied subset. Current export has986 front PNGs incl155; view uses generic species/gender path. Only native cry playback export is175; Manaphy/genderless view rejection remains explicit.",
+    "audio": "Original main sound=true deliberately throws NativeEggHatchMusic and sound=false uses intentional no-op audio. No audio implementation is approved. Later factory/module requires separate review."
+  },
+  "testQualification": "Provider executed no tests. Parent-reported60target/TSC pass are external; original snapshot lacks later actual-main-binding tests.",
+  "currentCriticalDelta": [
+    {
+      "path": "browser/src/source/main.ts",
+      "reviewed": "94cb450d6253b00837b6ea2e2e0a672d62c984f879ce0ed868c717680ac0287c",
+      "current": "55379388e1fa5b004df3fbfe3db102ffb19ecf241c498c0ccbc2fb228355af4b",
+      "changed": true
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "reviewed": "fa6a547e776f91dc5921b5c1f97f9ac78ab1d94db874efe210c2e74e8b3142e0",
+      "current": "fa6a547e776f91dc5921b5c1f97f9ac78ab1d94db874efe210c2e74e8b3142e0",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-hatch-presentation.ts",
+      "reviewed": "d21b35dc2af31e062755ff567af45a7eca522c8f970cae7618e2d1becb12269d",
+      "current": "d21b35dc2af31e062755ff567af45a7eca522c8f970cae7618e2d1becb12269d",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-hatch-integration.test.ts",
+      "reviewed": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+      "current": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "reviewed": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905",
+      "current": "95ef7bd71e113875d55f0f4922668b598eac5dfa322a38ee825cf4a9ceaa6905",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/egg-hatch-view.ts",
+      "reviewed": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+      "current": "65d9d75315cacd8dc52926903886554b32bf149783fc39453c92df0c1294089e",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "reviewed": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+      "current": "31147bcf8f5df52e66c4dbf16ca91f69b92141fee1d7e14d107aebb8236a98f8",
+      "changed": false
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "reviewed": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "current": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "changed": false
+    }
+  ],
+  "followupRequired": [
+    "Root F1/F2 fix and actual connected-map-consumption regression fixture after stable test commit.",
+    "Later sound-enabled audiofactory/module graph and its cancellation ownership."
+  ]
+}
