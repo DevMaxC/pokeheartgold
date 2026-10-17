@@ -6,6 +6,7 @@ import {phoneCall} from './phone.ts';
 import {originalSpawn} from './spawns.ts';
 import {timeOfDay,trainerCardStars} from './field-services.ts';
 import {mapWeather} from './atmosphere.ts';
+import {addSpecialGameStat,giveBadge,countBadges} from './game-stats.ts';
 import {TRAINER_APPROACH_SCRIPT,trainerIdForScript,trainerDefeated,setTrainerDefeated,trainerContacts,phoneContactKey,phoneRematchTrainer,type TrainerContact} from './trainer-script-state.ts';
 
 export type EngagedTrainer={trainer:number;object:string};
@@ -169,6 +170,15 @@ export class ScriptVM{
         if(cmd==='SetPhoneCallTrigger'||cmd==='UnsetPhoneCallTrigger'){this.state.phoneTriggers??=[];const id=v(a[0]);this.state.phoneTriggers=this.state.phoneTriggers.filter(trigger=>trigger!==id);if(cmd==='SetPhoneCallTrigger'&&v(a[1]))this.state.phoneTriggers.push(id);continue;}
         if(cmd==='GetFriendSprite'){this.set(a[0],this.data.constants[this.state.gender==='boy'?'SPRITE_HEROINE':'SPRITE_HERO']);continue;}
         if(cmd==='CheckBadge'){this.set(a[1],Number(this.state.badges.includes(v(a[0]))));continue;}
+        if(cmd==='GiveBadge'){const index=v(a[0]);if(!Number.isInteger(index)||index<0||index>=16)throw new UnsupportedScript(map.code,cmd,pc-1);giveBadge(this.state,index);continue;}
+        if(cmd==='CountBadges'){this.set(a[0],countBadges(this.state));continue;}
+        if(cmd==='AddSpecialGameStat'||cmd==='AddSpecialGameStat2'){
+          // Unlike GiveBadge/SetTrainerFlag this operand is ScriptReadHalfword,
+          // so a VAR token is its raw ID and must never dereference State.vars.
+          const token=a[0],event=/^(?:0x[0-9a-f]+|\d+)$/i.test(token)?Number(token):map.constants[token]??this.data.constants[token];
+          if(!Number.isInteger(event)||event<0||event>=this.data.constants.SCORE_EVENT_COUNT)throw new UnsupportedScript(map.code,cmd,pc-1);
+          addSpecialGameStat(this.state,event);continue;
+        }
         if(cmd==='GetTrcardStars'){this.set(a[0],trainerCardStars(this.state));continue;}
         if(cmd==='GetCurrentTimeOfDay'){this.set(a[0],timeOfDay(new Date().getHours()));continue;}
         if(cmd==='GetCurrentMapId'){this.set(a[0],this.state.map);continue;}
