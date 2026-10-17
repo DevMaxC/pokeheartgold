@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "9855423ba23170e21d2bef5c50db1eaced2cbdd0",
+  "cwd": "/Users/maxchurch/Documents/pokeheartgold-azalea-battles",
+  "command": "node --experimental-transform-types --test browser/src/source/battle*.test.ts browser/src/source/early-battle-effects.test.ts browser/src/source/azalea-battle-integration.test.ts browser/src/source/fixed-damage-battle.test.ts browser/src/source/gender*.test.ts browser/src/source/trainer-gender.test.ts",
+  "exitCode": 0,
+  "exitEvidence": "exec session97005 completed exit0; raw tool output retained by session; no result inferred solely from TAP.",
+  "tests": 196,
+  "pass": 196,
+  "fail": 0,
+  "log": "final196-tests.log",
+  "logSha256": "dc757b628c67ae1f5f05c980fd5526d688b34a3aa9914b6b7b449601c8bb8c27",
+  "qualification": "Affected battle/gender cohort, not full suite. No build/browser."
+}

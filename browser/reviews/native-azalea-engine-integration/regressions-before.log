@@ -1,0 +1,98 @@
+TAP version 13
+# (node:21492) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native mid-turn Supersonic self-hit clears a preceding Rage for WaterGun, preserving confusion next selection
+not ok 1 - native mid-turn Supersonic self-hit clears a preceding Rage for WaterGun, preserving confusion next selection
+  ---
+  duration_ms: 197.951416
+  type: 'test'
+  location: '/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:132:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:135:48)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: native no-target command39 skips Rage-clearing command37 while spending selected PP
+not ok 2 - native no-target command39 skips Rage-clearing command37 while spending selected PP
+  ---
+  duration_ms: 155.6475
+  type: 'test'
+  location: '/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:137:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(Reflect.get(f.battle,'raging').has(player))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:141:168)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+not ok 3 - actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+  ---
+  duration_ms: 155.280958
+  type: 'test'
+  location: '/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:143:1'
+  failureType: 'testCodeFailure'
+  error: 'unexpected native gameplay draw'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    Battle.rng (/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:14:73)
+    Battle.attack (/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/battle.ts:351:62)
+    async TestContext.<anonymous> (/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:145:299)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native faint cleanup neutralizes stages before actual Bugsy stage2 replacement, unlike a live pivot
+not ok 4 - native faint cleanup neutralizes stages before actual Bugsy stage2 replacement, unlike a live pivot
+  ---
+  duration_ms: 308.323625
+  type: 'test'
+  location: '/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:152:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    neutral source CalcMoveDamage scores Tackle above PoisonSting
+    
+    14 !== 11
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 11
+  actual: 14
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-azalea-ce-review-fix-control/browser/src/source/azalea-battle-integration.test.ts:155:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1674.902417

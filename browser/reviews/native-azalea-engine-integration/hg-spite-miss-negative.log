@@ -1,0 +1,30 @@
+TAP version 13
+# (node:50825) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Rival Spite records misses, drains four capped PP, and can exhaust a selected move
+not ok 1 - actual Rival Spite records misses, drains four capped PP, and can exhaust a selected move
+  ---
+  duration_ms: 230.647166
+  type: 'test'
+  location: '/private/tmp/hg-spite-miss-negative/browser/src/source/azalea-battle-integration.test.ts:45:1'
+  failureType: 'testCodeFailure'
+  error: 'natural ScaryFace accuracy90 really misses at99; WaterGun100 did not'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/hg-spite-miss-negative/browser/src/source/azalea-battle-integration.test.ts:46:187)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 994.771458

@@ -1,0 +1,122 @@
+{
+  "sourceCommit": "9855423ba23170e21d2bef5c50db1eaced2cbdd0",
+  "status": "Final actual scoped review completed with no new defect; broad parity remainsPartial",
+  "initialReview": {
+    "file": "hg-azalea-engine-opus-result.json",
+    "sha256": "03b172f48e8e42dccc059d2400e1e00e41dd79c58338e27267044897644fae3f",
+    "model": "claude-opus-5-5",
+    "turns": 125,
+    "durationMs": 1301012,
+    "isError": false,
+    "permissionDenials": []
+  },
+  "adjudication": [
+    {
+      "finding": "Rage cleanup after confusion self-hit / preserve no-target Rage",
+      "classification": "introduced self-hit bug plus old newly exposed noTarget divergence",
+      "status": "Fixed; independently checked in77-turn native follow-up. Final source changes separately checked in50-turn follow-up.",
+      "commit": "93b81f64",
+      "native": "battle_controller_player.c2266\u20132271 command34\u219237;3884\u20133886; noTarget skips37",
+      "fixture": "actual RivalZubat faster than Totodile12 after a real prior Rage; terminal no-target phase separately qualified"
+    },
+    {
+      "finding": "PostKO trainer scoring uses fainted stages",
+      "classification": "introduced callback lifecycle divergence",
+      "status": "Fixed; independently checked in77-turn native follow-up. Final source changes separately checked in50-turn follow-up.",
+      "commit": "93b81f64",
+      "native": "battle_command.c PlayFaintAnimation\u2192InitFaintedWork; battle_util.c1878 stage reset BEFORE trainer selector",
+      "fixture": "actual Growl6 on BugsyScyther, legal switch + DefenseCurl6 Geodude, RockThrow KO; Metapod wins neutral source callback scores"
+    },
+    {
+      "finding": "Roost raw actor STAB / Stage1 types",
+      "classification": "latent, no Azalea actor witness",
+      "status": "Fixed; independently checked in77-turn native follow-up. Final source changes separately checked in50-turn follow-up.",
+      "commit": "93b81f64",
+      "fixture": "actual FalknerPidgeotto callback boundary, no claim of natural field acquisition"
+    },
+    {
+      "finding": "Wooper MudShot ignores Levitate on Koffing/Gastly",
+      "classification": "preexisting newly exposed current progression defect",
+      "status": "Fixed; independently checked in77-turn native follow-up. Final source changes separately checked in50-turn follow-up.",
+      "commit": "93b81f64",
+      "fixture": "source actual Proton486Koffing/Rival1Gastly with natural Route32WooperLv9 MudShot; noHP/SpeedDrop/secondarydraw"
+    },
+    {
+      "finding": "Overbroad Guts/Hustle confusion/screen guards",
+      "classification": "source-safe Unsupported but blocks legal parties",
+      "status": "Fixed; independently checked in77-turn native follow-up. Final source changes separately checked in50-turn follow-up.",
+      "commits": [
+        "93b81f64",
+        "9a1ba63b"
+      ],
+      "native": "battle_util.c5701/5705 raw Attack;5861 burn exception; battle_controller_player.c2511 physical accuracy; self CalcMoveDamage STRUGGLE40",
+      "fixture": "Rattata current Route32, gift-compatible TogepiCharm/confusion; legal Corsola/Remoraid accuracy arithmetic explicitly not preAzalea acquisition"
+    },
+    {
+      "finding": "Static aborts Bugsy vs Route32Mareep",
+      "classification": "source-safe Unsupported but blocks legal party",
+      "status": "Fixed; independently checked in77-turn native follow-up. Final source changes separately checked in50-turn follow-up.",
+      "commit": "e75f4b25",
+      "native": "CheckAbilityEffectOnHit; subscript0031;0175 before recall/status-on-switch",
+      "fixture": "real BugsyScyther + trained Route32Mareep;KOprovider;GenIVground/electric;Limber;held cure between DoubleKick;NaturalCure beforeawaitedparty;sourcelegal Celebi/Leafeon fixtures not earlyacquisition"
+    },
+    {
+      "finding": "Pursuit guard uses known rather than selected unresolved move",
+      "classification": "source-safe Unsupported but overbroad admission",
+      "status": "ResidualLow also corrected in13a8317e; required unresolved interception remainsUnsupported",
+      "native": "BtlCmd_TryPursuit source selected command/PP/status;0175 gates blackout/reserve",
+      "fixture": "Rattata18 selects FocusEnergy despite knowingPursuit; selectedPursuit rejects beforePP/HP;reserve/noreserve/guaranteedblackout controls",
+      "commits": [
+        "2e396ca0",
+        "13a8317e"
+      ]
+    },
+    {
+      "finding": "Fixed-damage40/41/87 draws crit/messages;NightShade immunity",
+      "classification": "preexisting, no Azalea NPC witness",
+      "status": "Fixed separately in b6caf5a2 and independently checked in final50-turn source review",
+      "commit": "b6caf5a2"
+    }
+  ],
+  "qualifications": [
+    "Ordinary GenIV singles selected-party engine scope; doubles/Transform/unported hooks still Partial.",
+    "Enemy move-choice remains preexisting uniform available-slot selection; native replacement selector is independently reviewed but host callbacks require this review.",
+    "Crit/confusion/Static/ShedSkin unit draws use raw16 bridge; old accuracy/range conventions retained. Injected deterministic tapes do not prove global native LCG state/parity.",
+    "Player held-item tests are legal saved-party/phase fixtures; field equip UI remains outside this leaf. Raw initial reviewer statement that player held guards cannot be reached is not a general code guarantee.",
+    "Raw initial review rounded constant Bugsy fixture RNG to0.5; exact implementation is32769/65536, explicitly noncritical under new native modulo.",
+    "Main/UI/World unchanged. Root separately fixed PASSERBYnoCritical host override.",
+    "Source-legal nonlocal species/levels are phase arithmetic fixtures, not early natural campaign traversal/acquisition or injected victories.",
+    "Current exact trainer adapter SHA155234fd differs from historical contract7ddd because reviewed native gender implementation changed it; historical source is checked against preserved trainers-before.ts.txt, all native C/data pins retained.",
+    "No browser/build/production approval; no full-suite result transferred from old roots or helper leaf neutral ports."
+  ],
+  "followupResiduals": [
+    {
+      "finding": "guaranteedKO ofPursuituser with ownreserves",
+      "commit": "13a8317e",
+      "status": "fixed, final review validated",
+      "fixtureQualification": "Actual legal QuickAttack beforeKO; pendingMove is an explicit equivalent phase fixture, not a loop-selected action. Independent loop tests cover selection/rejection tracking."
+    },
+    {
+      "finding": "Levitate genericimmunitymessage",
+      "commit": "13a8317e",
+      "status": "sourcewording fixed, final review validated"
+    }
+  ],
+  "fixtureHardening": {
+    "commit": "9855423b",
+    "change": "Spite miss uses naturalScaryFace90 instead ofWaterGun100 and asserts actualmiss; sourcehistory code unchanged. Negativecontrol reverts fixture toWaterGun andfails."
+  },
+  "remainingLimitations": [
+    "global nativeLCG/ordinary crit-before-accuracy order is unported",
+    "uniform available-slot enemy move-choice/native traineritemAI incomplete",
+    "other moveeffects from coverage matrix unported",
+    "doubles/Transform/Substitute/otherability/contact/item hooksPartial orUnsupported",
+    "BattleTower regulationFlag branch notrepresented",
+    "new fixedmove itemadmission conservatively rejects unsupportedheld callbacks, including irrelevant items; not full held-item parity"
+  ],
+  "latestReviewFiles": [
+    "initial-opus-result.json",
+    "followup-opus-result.json",
+    "final-opus-result.json"
+  ]
+}

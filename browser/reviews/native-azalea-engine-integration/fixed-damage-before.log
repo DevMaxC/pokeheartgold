@@ -1,0 +1,163 @@
+TAP version 13
+# (node:42455) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native40/41/87 direct effect scripts never call critical or ranged damage, and halfHP uses DamageDivide
+ok 1 - native40/41/87 direct effect scripts never call critical or ranged damage, and halfHP uses DamageDivide
+  ---
+  duration_ms: 7.853459
+  type: 'test'
+  ...
+# Subtest: natural Rattata SuperFang ignores FocusEnergy, burn, Reflect and resistance without critical/range draws
+not ok 2 - natural Rattata SuperFang ignores FocusEnergy, burn, Reflect and resistance without critical/range draws
+  ---
+  duration_ms: 8.452292
+  type: 'test'
+  location: '/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:26:1'
+  failureType: 'testCodeFailure'
+  error: 'fixed damage must not draw critical/range RNG'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    Battle.rng (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:13:67)
+    Battle.random16 (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:37:45)
+    <anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:84)
+    draw (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:9:48)
+    nativeCriticalMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:30:18)
+    Battle.critMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:12)
+    Battle.attack (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:377:27)
+    async TestContext.<anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:27:530)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: natural Dratini DragonRage deals40 through Steel resistance and has only its accuracy draw
+not ok 3 - natural Dratini DragonRage deals40 through Steel resistance and has only its accuracy draw
+  ---
+  duration_ms: 2.694583
+  type: 'test'
+  location: '/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:31:1'
+  failureType: 'testCodeFailure'
+  error: 'fixed damage must not draw critical/range RNG'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    Battle.rng (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:13:67)
+    Battle.random16 (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:37:45)
+    <anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:84)
+    draw (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:9:48)
+    nativeCriticalMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:30:18)
+    Battle.critMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:12)
+    Battle.attack (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:377:27)
+    async TestContext.<anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:32:168)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: natural Gastly NightShade uses level damage against super-effective/resisted types but keeps Normal immunity
+not ok 4 - natural Gastly NightShade uses level damage against super-effective/resisted types but keeps Normal immunity
+  ---
+  duration_ms: 0.62675
+  type: 'test'
+  location: '/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:34:1'
+  failureType: 'testCodeFailure'
+  error: 'fixed damage must not draw critical/range RNG'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    Battle.rng (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:13:67)
+    Battle.random16 (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:37:45)
+    <anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:84)
+    draw (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:9:48)
+    nativeCriticalMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:30:18)
+    Battle.critMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:12)
+    Battle.attack (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:377:27)
+    async TestContext.<anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:35:137)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual Hoothoot Foresight persists across player switch and lets natural Machop SeismicToss hit Ghosts
+not ok 5 - actual Hoothoot Foresight persists across player switch and lets natural Machop SeismicToss hit Ghosts
+  ---
+  duration_ms: 0.51575
+  type: 'test'
+  location: '/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:37:1'
+  failureType: 'testCodeFailure'
+  error: 'fixed damage must not draw critical/range RNG'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    Battle.rng (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:13:67)
+    Battle.random16 (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:37:45)
+    <anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:84)
+    draw (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:9:48)
+    nativeCriticalMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:30:18)
+    Battle.critMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:12)
+    Battle.attack (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:377:27)
+    async TestContext.<anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:38:140)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: fixed contact SuperFang still draws Static after accuracy and can paralyze its user
+not ok 6 - fixed contact SuperFang still draws Static after accuracy and can paralyze its user
+  ---
+  duration_ms: 0.37
+  type: 'test'
+  location: '/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:41:1'
+  failureType: 'testCodeFailure'
+  error: 'fixed damage must not draw critical/range RNG'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    Battle.rng (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:13:67)
+    Battle.attack (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:377:186)
+    async TestContext.<anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:42:101)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native WonderGuard retains its type-permission check for fixed damage without multiplying the amount
+not ok 7 - native WonderGuard retains its type-permission check for fixed damage without multiplying the amount
+  ---
+  duration_ms: 0.475042
+  type: 'test'
+  location: '/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:44:1'
+  failureType: 'testCodeFailure'
+  error: 'fixed damage must not draw critical/range RNG'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    Battle.rng (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:13:67)
+    Battle.random16 (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:37:45)
+    <anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:84)
+    draw (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:9:48)
+    nativeCriticalMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle-volatiles.ts:30:18)
+    Battle.critMultiplier (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:48:12)
+    Battle.attack (/private/tmp/hg-fixed-damage-before-control/browser/src/source/battle.ts:377:27)
+    async TestContext.<anonymous> (/private/tmp/hg-fixed-damage-before-control/browser/src/source/fixed-damage-battle.test.ts:45:183)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 1
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 935.994958

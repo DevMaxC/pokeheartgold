@@ -1,0 +1,48 @@
+TAP version 13
+# (node:40134) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: U-turn rejects unported contact/Pursuit/item hooks before PP or HP mutation
+ok 1 - U-turn rejects unported contact/Pursuit/item hooks before PP or HP mutation
+  ---
+  duration_ms: 122.826625
+  type: 'test'
+  ...
+# Subtest: actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+ok 2 - actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop
+  ---
+  duration_ms: 302.113875
+  type: 'test'
+  ...
+# Subtest: a real Rattata knowing Pursuit but selecting FocusEnergy does not block Bugsy U-turn
+ok 3 - a real Rattata knowing Pursuit but selecting FocusEnergy does not block Bugsy U-turn
+  ---
+  duration_ms: 154.667875
+  type: 'test'
+  ...
+# Subtest: an actually selected unresolved Pursuit rejects the unsupported interception before U-turn PP or HP mutation
+ok 4 - an actually selected unresolved Pursuit rejects the unsupported interception before U-turn PP or HP mutation
+  ---
+  duration_ms: 1.673
+  type: 'test'
+  ...
+# Subtest: Pursuit on a reserve is irrelevant; no-reserve or guaranteed-blackout pivots do not require interception
+ok 5 - Pursuit on a reserve is irrelevant; no-reserve or guaranteed-blackout pivots do not require interception
+  ---
+  duration_ms: 454.673041
+  type: 'test'
+  ...
+# Subtest: guaranteed KO of the selected Pursuit user permits U-turn even when its party has a living reserve
+ok 6 - guaranteed KO of the selected Pursuit user permits U-turn even when its party has a living reserve
+  ---
+  duration_ms: 301.882792
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2193.301875
