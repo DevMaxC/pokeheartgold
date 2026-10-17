@@ -1,5 +1,5 @@
 {
-  "status": "clock + separately scoped Cut compatibility source frozen; actual review pending",
+  "status": "ACCEPT: exact 9230743d bounded source leaf; Main/World/browser/production unbound",
   "base": "354223cb",
   "files": {
     "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
@@ -18,5 +18,23 @@
     "privateCutWithGlobalHook": "13 PASS; earlier missing-C fixture failure preserved",
     "CutAfterTasksOldControl": "1 expected FAIL, new source PASS"
   },
-  "scope": "offline admitted30Hz field ticks; no Main/World/actor/accepted704 edits or global60Hz/hardware claim"
+  "scope": "offline admitted30Hz field ticks; no Main/World/actor/accepted704 edits or global60Hz/hardware claim",
+  "runtimeCommit": "9230743d",
+  "review": {
+    "model": "claude-opus-5-5",
+    "verdict": "ACCEPT",
+    "duration_ms": 152938,
+    "rawSHA256": "ceecb592940cb442c2da33eea23dd57d209dfaf2e5a5b5022d3832df9265ed54",
+    "manifestSHA256": "fbf0d86c1925ded570844eff3e464c81738d1baaf8722f45ee93abfb876f0532",
+    "reranTests": false,
+    "snapshotFilesUnchanged": true
+  },
+  "requiredFutureBinding": [
+    "One setup-time root onAfterTasks callback, owned by music.lifetimeSignal",
+    "All actual PLAYER3 default SSEQ consumers admitted inside shared registry.play",
+    "Field port always integer map and boolean mapRunning including transitions",
+    "Await clock.settled before onTick registration from tasks or after-tasks",
+    "Root final dispose/lifetime teardown, not map transition, owns global registry",
+    "Reconcile separately modified production music lifecycle/mute/Main bytes and review exact combined source"
+  ]
 }
