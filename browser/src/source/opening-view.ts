@@ -33,7 +33,9 @@ export class OpeningView implements OpeningPort{
  async choose(prompt:string,choices:string[],initialIndex=0,detail=''){
   const gender=choices.length===2&&choices[0]==='Boy'&&choices[1]==='Girl';
   this.ui.panel(`<span class="eyebrow">POKÉMON HEARTGOLD</span>${prompt?`<h2>${esc(prompt)}</h2>`:''}${detail?`<p>${esc(detail)}</p>`:''}<div class="${gender?'opening-character-choices':'actions'}">${choices.map((text,i)=>`<button data-opening-choice="${i}"${i===initialIndex?' class="opening-selected"':''}>${gender?`<img src="${source}${i?'girl':'boy'}-choice.png" alt="">`:''}${esc(text)}</button>`).join('')}</div>`,false);this.ui.canDismiss=false;
-  const value=await chooseOpeningButton(Array.from(document.querySelectorAll<HTMLButtonElement>('[data-opening-choice]')),initialIndex);this.ui.close();return value;
+  // The panel is already mounted. Its capture handler must see the remembered
+  // native cursor even if confirm arrives before the next browser task.
+  const value=await chooseOpeningButton(Array.from(document.querySelectorAll<HTMLButtonElement>('[data-opening-choice]')),initialIndex,window,focus=>focus());this.ui.close();return value;
  }
  async name(prompt:string,maximum:number){
   this.ui.panel(`<span class="eyebrow">${this.current.gender==='girl'?'GIRL':'BOY'}</span><h2>${esc(prompt)}</h2><form id="opening-name-form"><input id="opening-name" aria-label="${esc(prompt)}" maxlength="${maximum}" autocomplete="off" autocapitalize="off"><p class="opening-name-count" id="opening-name-count">0 / ${maximum}</p><div class="opening-keyboard-tabs">${Object.keys(OPENING_NAME_KEYBOARD).map((tab,i)=>`<button type="button" data-name-page="${tab}" aria-pressed="${i===0}">${tab}</button>`).join('')}</div><div id="opening-keyboard"></div><div class="actions"><button id="opening-name-back" type="button">Backspace</button><button type="submit">OK</button></div></form>`);this.ui.canDismiss=false;
