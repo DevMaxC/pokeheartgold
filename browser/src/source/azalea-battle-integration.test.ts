@@ -128,3 +128,32 @@ test('real Bugsy Sitrus can activate between DoubleKick hits, before the next hi
  }
  assert.ok(witnessed,'a legal native level/loadout must reach the between-hit HP threshold');
 });
+
+test('native mid-turn Supersonic self-hit clears a preceding Rage for WaterGun, preserving confusion next selection',async()=>{
+ const team=await originalTrainerParty(data,1),zubat=team.find(mon=>mon.species===41)!,player=fieldMon(158,12),f=fixture([zubat],[player]);await action(f,true,'MOVE_RAGE');assert.ok(Reflect.get(f.battle,'raging').has(player));assert.ok(zubat.stats.speed>player.stats.speed);
+ const draws=rawTape(0,2,0,0);Reflect.set(f.battle,'rng',draws.rng);const slot=sourceMove(player,'MOVE_WATER_GUN'),pp=player.moves[slot].pp;await oneTurn(f,slot,sourceMove(zubat,'MOVE_SUPERSONIC'));
+ assert.equal(player.moves[slot].pp,pp);assert.equal(Reflect.get(f.battle,'raging').has(player),false);assert.equal(volatile(f,player).status2&bit.rage,0);assert.equal(volatile(f,player).status2&7,3);invoke(f,'prepareRageTurn',player,slot);assert.equal(volatile(f,player).status2&7,3,'next selection must not apply the obsolete Rage mask');
+});
+test('native no-target command39 skips Rage-clearing command37 while spending selected PP',async()=>{
+ const team=await originalTrainerParty(data,1),zubat=team[1],player=fieldMon(158,12),f=fixture([zubat],[player]);await action(f,true,'MOVE_RAGE');assert.ok(Reflect.get(f.battle,'raging').has(player));
+ // A literal terminal-state phase fixture, not a battle or victory injection.
+ // Confusion self-KO can create this no-target boundary during a real turn.
+ zubat.hp=0;const slot=sourceMove(player,'MOVE_WATER_GUN'),pp=player.moves[slot].pp;await invoke(f,'attack',true,slot);assert.equal(player.moves[slot].pp,pp-1);assert.ok(Reflect.get(f.battle,'raging').has(player));assert.equal(volatile(f,player).previousMove,0);
+});
+test('actual Wooper MudShot cannot damage Levitate Koffing/Gastly or apply its Speed drop',async()=>{
+ const proton=await originalTrainerParty(data,486),rival=await originalTrainerParty(data,1);
+ for(const target of[proton[1],rival[0]]){const player=fieldMon(194,9),f=fixture([target],[player]),tape=rawTape(0,1,0);Reflect.set(f.battle,'rng',tape.rng);assert.equal(monAbility(data,target),'ABILITY_LEVITATE');const hp=target.hp,slot=sourceMove(player,'MOVE_MUD_SHOT'),pp=player.moves[slot].pp;await invoke(f,'attack',true,slot);assert.equal(target.hp,hp);assert.equal(Reflect.get(f.battle,'enemyStages').speed,0);assert.equal(player.moves[slot].pp,pp-1);assert.equal(tape.calls,3,'immune move does not roll a secondary effect');assert.ok(!f.events.includes('hit:false'));}
+});
+test('native replacement type port retains raw Roost STAB and masks only Flying defender matchups',async()=>{
+ const team=await originalTrainerParty(data,20),pidgeotto=team.find(mon=>mon.species===17)!,f=fixture([pidgeotto]);Reflect.get(f.battle,'roosting').add(pidgeotto);
+ assert.deepEqual(invoke(f,'replacementTypeDamage',pidgeotto,f.battle.player,data.constants.MOVE_GUST,0,10),{damage:15,immune:false});
+ const ground=invoke(f,'replacementTypeDamage',f.battle.player,pidgeotto,data.constants.MOVE_MUD_SLAP,0,10);assert.deepEqual(ground,{damage:10,immune:false});
+});
+test('native faint cleanup neutralizes stages before actual Bugsy stage2 replacement, unlike a live pivot',async()=>{
+ const team=await originalTrainerParty(data,21),growler=fieldMon(152,12),geodude=fieldMon(74,12),f=fixture(team,[growler,geodude]);for(let i=0;i<6;i++)await action(f,true,'MOVE_GROWL');assert.equal(Reflect.get(f.battle,'enemyStages').atk,-6);await invoke(f,'switch',1);for(let i=0;i<6;i++)await action(f,true,'MOVE_DEFENSE_CURL');assert.equal(Reflect.get(f.battle,'playerStages').def,6);
+ const scyther=team[0],slot=sourceMove(scyther,'MOVE_FOCUS_ENERGY');for(let turn=0;scyther.hp>0;turn++){assert.ok(turn<5);await oneTurn(f,sourceMove(geodude,'MOVE_ROCK_THROW'),slot);}
+ assert.equal(f.battle.enemy.species,data.constants.SPECIES_METAPOD,'neutral source CalcMoveDamage scores Tackle above PoisonSting');assert.deepEqual(Reflect.get(f.battle,'enemyStages'),freshStages());
+});
+test('snap-out/normal confusion action does not require unsupported self-damage ability hooks',async()=>{
+ for(const count of[1,2]){const mon=fieldMon(19,10);mon.personality=(mon.personality|1)>>>0;assert.equal(monAbility(data,mon),'ABILITY_GUTS');const team=await originalTrainerParty(data,486),f=fixture(team,[mon]);volatile(f,mon).status2=count;await action(f,true,'MOVE_QUICK_ATTACK');assert.ok(f.events.includes('attack:true'));}
+});

@@ -13,7 +13,7 @@ export function stageHitChance(accuracy:number,attackerAccuracy:number,targetEva
   const [numerator,denominator]=hitChanceStages[stage+6];
   return Math.floor(accuracy*numerator/denominator);
 }
-export function typeEffectiveness(data:Pick<GameData,'constants'|'personal'|'typeChart'>,moveType:number,species:number,identified=false,roosting=false){let factor=1;for(const type of new Set(data.personal[species].types)){const id=data.constants[type];if(roosting&&id===data.constants.TYPE_FLYING)continue;if(identified&&id===data.constants.TYPE_GHOST&&[data.constants.TYPE_NORMAL,data.constants.TYPE_FIGHTING].includes(moveType))continue;const row=data.typeChart.find(r=>r[0]===moveType&&r[1]===id);if(row)factor*=row[2];}return factor;}
+export function typeEffectiveness(data:Pick<GameData,'constants'|'personal'|'typeChart'>,moveType:number,species:number,identified=false,roosting=false,grounded=false){let factor=1;for(const type of new Set(data.personal[species].types)){const id=data.constants[type];if(roosting&&id===data.constants.TYPE_FLYING)continue;if(identified&&id===data.constants.TYPE_GHOST&&[data.constants.TYPE_NORMAL,data.constants.TYPE_FIGHTING].includes(moveType))continue;const row=data.typeChart.find(r=>r[0]===moveType&&r[1]===id);if(row&&!(grounded&&id===data.constants.TYPE_FLYING&&row[2]===0))factor*=row[2];}return factor;}
 export function monAbility(data:Pick<GameData,'personal'>,mon:Mon){const abilities=data.personal[mon.species].abilities;return abilities[mon.personality%2]!=='ABILITY_NONE'?abilities[mon.personality%2]:abilities[0];}
 export type BattleWeather='clear'|'rain'|'hail'|'sandstorm'|'fog'|'sun';
 // battle_util.c:TryAbilityOnEntry. Field weather0 means ordinary weather,
@@ -50,7 +50,9 @@ export function moveDamage(data:GameData,attacker:Mon,defender:Mon,move:MoveData
   damage=Math.floor(damage*Math.max(85,Math.min(100,roll))/100);
   if(move.id===data.constants.MOVE_STRUGGLE)return{damage:Math.max(1,damage),effectiveness:1};
   if(data.personal[attacker.species].types.some(t=>data.constants[t]===move.type))damage=Math.floor(damage*1.5);
-  const effectiveness=typeEffectiveness(data,move.type,defender.species,identified,context.roosting);damage=Math.floor(damage*effectiveness);
+  const grounded=monAbility(data,defender)!=='ABILITY_KLUTZ'&&data.items.find(item=>item.item===defender.heldItem)?.holdEffect==='HOLD_EFFECT_SPEED_DOWN_GROUNDED';
+  const levitate=monAbility(data,attacker)!=='ABILITY_MOLD_BREAKER'&&monAbility(data,defender)==='ABILITY_LEVITATE'&&move.type===data.constants.TYPE_GROUND&&!grounded;
+  const effectiveness=levitate?0:typeEffectiveness(data,move.type,defender.species,identified,context.roosting,grounded);damage=Math.floor(damage*effectiveness);
   return {damage:effectiveness===0?0:Math.max(1,damage),effectiveness};
 }
 /** CheckAttackerStatus case11 directly calls CalcMoveDamage(STRUGGLE,0,0,40,

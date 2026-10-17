@@ -71,7 +71,6 @@ export class Battle{
     if([47,49,65,100,106,109,228].includes(move.effect))this.assertItemScope(attacker,defender);
     if(move.category!==2&&(move.effect===228||this.reflectTurns[playerSide?1:0]||(this.volatile(attacker).status2&nativeStatus2.focusEnergy))){
       this.assertDamageScope(attacker,defender);
-      if(monAbility(this.data,defender)==='ABILITY_LEVITATE'&&move.type===this.data.constants.TYPE_GROUND&&monAbility(this.data,attacker)!=='ABILITY_MOLD_BREAKER')throw Error('Unsupported native screened/Focus damage Levitate path');
     }
     if(move.effect===49&&monAbility(this.data,defender)==='ABILITY_SOUNDPROOF'&&move.id===this.data.constants.MOVE_SUPERSONIC)throw Error('Unsupported native Soundproof move admission');
     if(move.effect!==228)return;
@@ -87,13 +86,16 @@ export class Battle{
     const foe=playerSide?this.enemy:this.player;
     if(foe.moves.some(slot=>slot.pp>0&&slot.id===this.data.constants.MOVE_PURSUIT))throw Error('Unsupported native U-turn Pursuit phase');
   }
-  private async checkConfusion(mon:Mon,stages:Stages,playerSide:boolean){
+  private async checkConfusion(mon:Mon,stages:Stages,playerSide:boolean,selected:MoveData){
     const value=this.volatile(mon);if(!(value.status2&nativeStatus2.confusion))return false;
-    this.assertDamageScope(mon,mon); // includes native survival-item hooks
-    const check=nativeConfusionCheck(value.status2,()=>this.random16());value.status2=check.status2;
+    const check=nativeConfusionCheck(value.status2,()=>this.random16());
+    if(check.outcome==='self-hit')this.assertDamageScope(mon,mon); // self-damage hooks only
+    value.status2=check.status2;
     if(check.outcome==='snapped-out'){await this.say(`${mon.name} snapped out of confusion!`);return false;}
     await this.say(`${mon.name} is confused!`);if(check.outcome!=='self-hit')return false;
     const damage=confusionDamage(mon,stages,this.random16());mon.hp=Math.max(0,mon.hp-damage);await this.view?.hit(playerSide);await this.say('It hurt itself in its confusion!');
+    // Self-hit continues34 ->37, clearing Rage for a non-Rage selected move.
+    if(selected.effect!==81){this.raging.delete(mon);value.status2&=~nativeStatus2.rage;}
     await this.heldRecovery(mon);await this.healAbility(mon);return true;
   }
   private async healAbility(mon:Mon){
@@ -128,28 +130,32 @@ export class Battle{
   }
   private chooseEnemyReplacement(){
     const actor=this.enemy,target=this.player;
-    const types=(mon:Mon,live=false):[number,number]=>{const list=this.data.personal[mon.species].types.map(type=>this.data.constants[type]);if(live&&this.roosting.has(mon)){const grounded=list.filter(type=>type!==this.data.constants.TYPE_FLYING);return[grounded[0]??this.data.constants.TYPE_NORMAL,grounded[1]??grounded[0]??this.data.constants.TYPE_NORMAL];}return[list[0],list[1]??list[0]];};
+    const types=(mon:Mon):[number,number]=>{const list=this.data.personal[mon.species].types.map(type=>this.data.constants[type]);return[list[0],list[1]??list[0]];};
     const snapshot=(mon:Mon):TrainerReplacementMon=>({species:mon.species,isEgg:mon.isEgg,hp:mon.hp,types:types(mon),ability:this.data.constants[monAbility(this.data,mon)],heldEffect:this.data.constants[this.rawHeld(mon)?.holdEffect??'HOLD_EFFECT_NONE'],naturalGiftType:this.data.constants[this.rawHeld(mon)?.naturalGiftType??'TYPE_NORMAL'],ivs:mon.ivs,moves:mon.moves.map(slot=>slot.id)});
-    return nativeTrainerReplacement(this.data,{party:this.enemies.map(snapshot),activePartyIndex:this.enemyIndex,opponent:{types:types(target,true),ability:this.data.constants[monAbility(this.data,target)],heldEffect:this.data.constants[this.held(target)?.holdEffect??'HOLD_EFFECT_NONE']},environment:{weather:this.weather==='rain'||this.weather==='hail'||this.weather==='sandstorm'||this.weather==='sun'?[this.weather]:[],weatherSuppressed:[actor,target].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)))}},{
+    return nativeTrainerReplacement(this.data,{party:this.enemies.map(snapshot),activePartyIndex:this.enemyIndex,opponent:{types:types(target),ability:this.data.constants[monAbility(this.data,target)],heldEffect:this.data.constants[this.held(target)?.holdEffect??'HOLD_EFFECT_NONE']},environment:{weather:this.weather==='rain'||this.weather==='hail'||this.weather==='sandstorm'||this.weather==='sun'?[this.weather]:[],weatherSuppressed:[actor,target].some(mon=>mon.hp>0&&['ABILITY_CLOUD_NINE','ABILITY_AIR_LOCK'].includes(monAbility(this.data,mon)))}},{
       currentActorDamage:move=>{
         this.assertDamageScope(actor,target);if(this.weather!=='clear')throw Error('Unsupported native trainer replacement damage weather');
         const row=this.data.moves[move];if(row.power&&(!implementedEffects.has(row.effect)||[40,41,87].includes(row.effect)))throw Error('Unsupported native trainer replacement dynamic damage');
         return moveBaseDamage(this.data,actor,target,row,this.enemyStages,this.playerStages,false,{reflect:!!this.reflectTurns[0]});
       },
-      applyCurrentActorType:(move,override,score)=>{
-        const row=this.data.moves[move],ability=monAbility(this.data,actor),targetAbility=monAbility(this.data,target),type=override||row.type;
-        if(move===this.data.constants.MOVE_STRUGGLE)return{damage:score,immune:false};
-        let damage=score;if(types(actor,true).includes(type))damage=Math.floor(damage*15/10);
-        if(ability!=='ABILITY_MOLD_BREAKER'&&targetAbility==='ABILITY_LEVITATE'&&type===this.data.constants.TYPE_GROUND)return{damage,immune:true};
-        const targetTypes=types(target,true);let immune=false;
-        for(const[attack,defense,multiplier]of this.data.typeChart){
-          if(attack===255)break;if(attack===254){if(this.identified.has(target)||ability==='ABILITY_SCRAPPY')break;continue;}
-          if(attack===type&&new Set(targetTypes).has(defense)){if(!multiplier)immune=true;damage=damage?Math.max(multiplier?1:0,Math.floor(damage*multiplier)):0;}
-        }
-        if(targetAbility==='ABILITY_WONDER_GUARD')throw Error('Unsupported native trainer replacement Wonder Guard damage');
-        return{damage,immune};
-      }
+      applyCurrentActorType:(move,override,score)=>this.replacementTypeDamage(actor,target,move,override,score)
     });
+  }
+  private replacementTypeDamage(actor:Mon,target:Mon,move:number,override:number,score:number){
+    const row=this.data.moves[move],ability=monAbility(this.data,actor),targetAbility=monAbility(this.data,target),type=override||row.type;
+    if(move===this.data.constants.MOVE_STRUGGLE)return{damage:score,immune:false};
+    let damage=score;if(this.data.personal[actor.species].types.map(type=>this.data.constants[type]).includes(type))damage=Math.floor(damage*15/10);
+    const grounded=this.held(target)?.holdEffect==='HOLD_EFFECT_SPEED_DOWN_GROUNDED';
+    if(ability!=='ABILITY_MOLD_BREAKER'&&targetAbility==='ABILITY_LEVITATE'&&type===this.data.constants.TYPE_GROUND&&!grounded)return{damage,immune:true};
+    const targetTypes=this.data.personal[target.species].types.map(type=>this.data.constants[type]);let immune=false;
+    for(const[attack,defense,multiplier]of this.data.typeChart){
+      if(attack===255)break;if(attack===254){if(this.identified.has(target)||ability==='ABILITY_SCRAPPY')break;continue;}
+      if(defense===this.data.constants.TYPE_FLYING&&(this.roosting.has(target)||grounded&&!multiplier))continue;
+      if(attack===type&&new Set(targetTypes).has(defense)){if(!multiplier)immune=true;damage=damage?Math.max(multiplier?1:0,Math.floor(damage*multiplier)):0;}
+    }
+    if(targetAbility==='ABILITY_WONDER_GUARD')throw Error('Unsupported native trainer replacement Wonder Guard damage');
+    return{damage,immune};
+
   }
   private async sendEnemy(index:number){
     if(index<0||index>=this.enemies.length||index===this.enemyIndex||!isUsableBattler(this.enemies[index]))throw Error('Native trainer replacement has no eligible reserve');
@@ -219,8 +225,8 @@ export class Battle{
     if(action.kind==='run'&&(this.trainer!==null||this.trapped('escape'))){await this.say(this.trainer!==null?'No! There’s no running from a Trainer battle!':'Can’t escape!');continue;}
     this.turns++;this.flinch=false;let enemyFainted=false,playerFainted=false;
     const settleFaints=async()=>{
-      if(!enemyFainted&&this.enemy.hp<=0){enemyFainted=true;await this.say(`${this.enemy.name} fainted!`);await this.gainExperience();if(!this.enemies.some(isUsableBattler)){await this.say(this.trainer!==null?'You defeated the opposing Trainer!':'You won the battle!');this.finish('won');return;}}
-      if(!playerFainted&&this.player.hp<=0){playerFainted=true;await this.say(`${this.player.name} fainted!`);if(!this.state.party.some(isUsableBattler)){await this.say(`${this.state.name} has no Pokémon left to fight!`);this.finish('lost');}}
+      if(!enemyFainted&&this.enemy.hp<=0){enemyFainted=true;await this.say(`${this.enemy.name} fainted!`);this.clearOnLeave(this.enemy);this.enemyStages=freshStages();await this.gainExperience();if(!this.enemies.some(isUsableBattler)){await this.say(this.trainer!==null?'You defeated the opposing Trainer!':'You won the battle!');this.finish('won');return;}}
+      if(!playerFainted&&this.player.hp<=0){playerFainted=true;await this.say(`${this.player.name} fainted!`);this.clearOnLeave(this.player);this.playerStages=freshStages();if(!this.state.party.some(isUsableBattler)){await this.say(`${this.state.name} has no Pokémon left to fight!`);this.finish('lost');}}
     };
     const moveAction=async(playerSide:boolean,actor:Mon,slot:number,selectedMoveId:number)=>{
       // A pivot replacement never inherits the outgoing actor's selected turn.
@@ -290,13 +296,13 @@ export class Battle{
   private async attack(playerSide:boolean,slot:number,selectedMoveId?:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
     if(attacker.hp<=0)return;
+    const move=this.selectMove(attacker,slot);
     this.volatile(attacker).previousMove=nativePreviousMove(this.volatile(attacker).previousMove,0,{noMoveSet:false,moveSucceededFlag:false});
     if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
     if(attacker.status==='SLP'){attacker.sleepTurns--;if(attacker.sleepTurns>0){await this.say(`${attacker.name} is fast asleep.`);return;}attacker.status='';await this.say(`${attacker.name} woke up!`);}
     if(attacker.status==='FRZ'){if(this.rng()>=.2){await this.say(`${attacker.name} is frozen solid!`);return;}attacker.status='';await this.say(`${attacker.name} thawed out!`);}
-    if(await this.checkConfusion(attacker,as,playerSide))return;
+    if(await this.checkConfusion(attacker,as,playerSide,move))return;
     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
-    const move=slot<0?this.data.moves[165]:this.data.moves[attacker.moves[slot].id];
     // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
     // too unless FightInput has reselected a changed slot; OPPONENT_SIDE(128)
     // retains a side target even if its active mon fainted. Their unported
@@ -342,9 +348,10 @@ export class Battle{
     // every hit, skips additional accuracy/PP checks and stops on fainting.
     const multiplier=this.critMultiplier(attacker,defender,move),critical=multiplier>1;const {damage,effectiveness}=moveDamage(this.data,attacker,defender,move,as,ds,85+Math.floor(this.rng()*16),critical,this.identified.has(defender),{roosting:this.roosting.has(defender),reflect:!!this.reflectTurns[playerSide?1:0],criticalMultiplier:multiplier});
     let total=move.effect===41?40:move.effect===87?attacker.level:move.effect===40?Math.max(1,Math.floor(defender.hp/2)):damage;
-    total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
+    if(effectiveness===0)total=0;total=Math.min(defender.hp,total);defender.hp=Math.max(0,defender.hp-total);this.draw();
     if(total>0)await this.view?.hit(!playerSide);await new Promise(resolve=>setTimeout(resolve,150));
     if(effectiveness===0)await this.say('It doesn’t affect the opposing Pokémon…');else{if(critical)await this.say('A critical hit!');if(effectiveness>1)await this.say('It’s super effective!');if(effectiveness<1)await this.say('It’s not very effective…');}
+    if(effectiveness===0)break;
     if(total>0){landed++;if(move.effect===228)await this.pivot(playerSide,attacker);if(move.effect===81){this.raging.add(attacker);this.volatile(attacker).status2|=nativeStatus2.rage;}if(defender.hp>0&&this.raging.has(defender)&&ds.atk<6){ds.atk++;await this.say(`${defender.name}’s rage is building!`);}}
     if(move.effect===48||slot<0){attacker.hp=Math.max(0,attacker.hp-Math.max(1,Math.floor((slot<0?attacker.maxHP:total)/4)));await this.say(`${attacker.name} is hit with recoil!`);}
     if(move.effect===3){attacker.hp=Math.min(attacker.maxHP,attacker.hp+Math.max(1,Math.floor(total/2)));await this.say(`${defender.name} had its energy drained!`);}
@@ -360,7 +367,7 @@ export class Battle{
     }finally{
       // Native TryAfterMoveItems clears Rage after another move executes,
       // including a miss/failure. Selection, items and inability to act keep it.
-      if(move.effect!==81){this.raging.delete(attacker);if(this.volatiles.has(attacker))this.volatile(attacker).status2&=~nativeStatus2.rage;}
+      if(!noTarget&&move.effect!==81){this.raging.delete(attacker);if(this.volatiles.has(attacker))this.volatile(attacker).status2&=~nativeStatus2.rage;}
       // UpdateMoveHistory addresses the battler slot after SwitchAndUpdateMon,
       // so a successful pivot records U-turn on the newly active slot too.
       const current=playerSide?this.player:this.enemy;if(current!==attacker)this.volatile(current).previousMove=move.id;
