@@ -1,0 +1,115 @@
+{
+  "kind": "finite-native-nickname-host-validation",
+  "base": "6262bfac42497c01f92143df899d7a274a7207d4",
+  "mergeCheckpoint": "096e7449087d3e512807976af47e4da78c27b49c",
+  "sourcePins": {
+    "browser/src/source/main.ts": "69bfcf1ef54feec524a238a9e042af950d46c010a6fcd2d7652e060a02be3d76",
+    "browser/src/source/script.ts": "754ee848bc2c8376f17f9613e52ec06a4603492b5a5fac1b48fc38fefc6d1fed",
+    "browser/src/source/data.ts": "6440446e47ea254bfec0234443d2a1bd5d434d980118616c10ebb0350c9d9524",
+    "browser/src/source/types.ts": "6b5c8c4c408957ee2e23cde8f503b6fc24eb1c5e176124d91f1256c6b2c5620d",
+    "browser/src/source/mon-nickname.ts": "9c092a075e923b245f69ec12b30702fc5965ef448b0d65205a53267855ba97bb",
+    "browser/src/source/nickname-data.ts": "472acc983877b58d104e409b12bbc1481f7baeeced895252874b6193abc99376",
+    "browser/src/source/main-nickname.test.ts": "a239c94ae0f314ae43e4fb689db5d3f93a1778141d849541ea34ea5839d23754",
+    "browser/src/source/main-azalea.test.ts": "725fc9a9523257822ed48b8cb0a10304ac4a3ba74fa36c88abc72bc0f809e982",
+    "browser/src/source/ui.ts": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4",
+    "browser/src/source/script-recovery.ts": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+    "browser/src/source/egg-hatch-presentation.ts": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f",
+    "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
+    "browser/src/source/field-music.ts": "298f6bec47f94956e1141b2fa3a71c9311b66cd5fb3523090eb14fe74349c62e",
+    "browser/src/source/gym-azalea-host.ts": "36e3e33c404b586c18970ea3bcb22c343d975d5418835b174e8ece586e785c6f",
+    "browser/src/source/gym-azalea-world.ts": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46",
+    "src/pokemon.c": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65",
+    "src/launch_application.c": "9b000a1361f54f0019ba246e3eca8cd12c3afbab49b4184f1a96253b6a324c75",
+    "src/scrcmd_c.c": "e0c5729c6bd63da85acbdfd0786327b932894a3f32eead058cd507867a7866a4",
+    "src/naming_screen.c": "b696ec482028ffee4f439e9802c7e5cf32aa97ba3571647dfa8fd55148f3c65c",
+    "src/hatch_egg_task.c": "a7e11e65c90fe15112e7052429c61b3badac720ea02b7634832674e11a7dcf01",
+    "src/npc_trade.c": "f331e080ef87eed6dccbb3e8d710fbf057db658d7c7e1201868fbd3ecb4af8f7"
+  },
+  "tests": {
+    "callerSuite": {
+      "tests": 407,
+      "passed": 407,
+      "failed": 0,
+      "files": "test-files.json"
+    },
+    "actualMainNicknameAndAzalea": {
+      "tests": 20,
+      "passed": 20,
+      "failed": 0
+    },
+    "typescript": "npx tsc --noEmit exit0",
+    "negativeRoot6262Main": {
+      "tests": 9,
+      "passed": 1,
+      "failed": 8,
+      "expected": "prechange host lacks correct flags/noInput/admission/subject protection"
+    },
+    "negativeRoot6262VM": {
+      "tests": 1,
+      "passed": 0,
+      "failed": 1,
+      "expected": "unchanged noInput1 wrongly written0"
+    }
+  },
+  "logs": {
+    "current-callers": {
+      "file": "current-callers.log.gz",
+      "rawSHA256": "b8a057d3b3734f9f10c6b3a9953437bde78c06c7e460399d8d67bc8863df6f9a",
+      "bytes": 118918,
+      "gzipSHA256": "734e3337c5db7bd93ca7aa38a2115c016a98bb7169cc07a7ba742503e2ccfbd8"
+    },
+    "current-core": {
+      "file": "current-core.log.gz",
+      "rawSHA256": "94d6c58f95d88adb138a36d24af208250f5a777be7ec1775a7745a6a9c961a2b",
+      "bytes": 5991,
+      "gzipSHA256": "cbde8bf2e1ac98cfb135cb03517b9ac7680e15d3e179d2c447f68aa7df58dc66"
+    },
+    "current-tsc": {
+      "file": "current-tsc.log.gz",
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "gzipSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    "root6262-negative-main": {
+      "file": "root6262-negative-main.log.gz",
+      "rawSHA256": "638a720d7c05903de9eefbfee0e43c19c2d95b38246c6793fdfed11ced3260c0",
+      "bytes": 7651,
+      "gzipSHA256": "bfff9fbc2b6e4ea5a5d4151abb5abb666f2b2542c901b0e06aac9540b058a72b"
+    },
+    "root6262-negative-vm": {
+      "file": "root6262-negative-vm.log.gz",
+      "rawSHA256": "a9f8f933d7d4c49e308beea6165a5bc1533a18943a6cc4292987172bbeb0c6b1",
+      "bytes": 1154,
+      "gzipSHA256": "53f01362a082d3280606053fe4ba9dc9e3b260732b016896dc4e539a39d08157"
+    },
+    "historical9a-negative-main": {
+      "file": "historical9a-negative-main.log.gz",
+      "rawSHA256": "1dd80925c9259be0ae34862d1f99e1412db354a9c72ad13bbd8af6ee98b543bb",
+      "bytes": 7646,
+      "gzipSHA256": "4cf910c4cdb122172ffce5451a52782023988b4e68deca27144ad9fa502ee5b9"
+    },
+    "historical9a-negative-vm": {
+      "file": "historical9a-negative-vm.log.gz",
+      "rawSHA256": "e67e645469c03d23c7e429280bdb099040faddf1b39c9a6305a3698be33dd61f",
+      "bytes": 1179,
+      "gzipSHA256": "f7c7ecf2a1182c4b7c9b4c96be763f0fe14155e3108cb4c1d319f41f9a9885fb"
+    }
+  },
+  "newRuntimeClaims": [
+    "exactNicknameInput0or1",
+    "livefieldCaptureHatchMetadataBinding",
+    "oneTimeLocalV2AdmissionBeforeRecovery"
+  ],
+  "notClaimed": [
+    "build",
+    "browser",
+    "audioOutput",
+    "fullNamingUI",
+    "foreignSaveMigration",
+    "BugContestSubject255",
+    "freshOTorForm",
+    "evolutionCompletionBinding",
+    "allGameParity",
+    "productionDeployment"
+  ]
+}
