@@ -1,0 +1,50 @@
+{
+  "candidateCommit": "1edd3b92957c598f9d5b6faa94248475e8ddc424",
+  "rootBase": "1f83a40156857652ebc0b8ce2329fb2af7e28da7",
+  "snapshotGraphSHA256": "205c0f421c91290253515886ab850348b634f839c93cf61ce253816b14bcccd5",
+  "snapshotInputs": 10252,
+  "copiedSourceArchiveSHA256": "dc8bd4eb858727ecc1d0ac6f5e998867c436eb9d6484cab290cff04f782888dc",
+  "rawResultSHA256": "ae4d48415fbaa27f9d202c9eb76979c9126313dbf8afdac91b50e6bece02c6ed",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 3077,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0031769999999999997,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 128,
+      "outputTokens": 67086,
+      "cacheReadInputTokens": 9242349,
+      "cacheCreationInputTokens": 232685,
+      "webSearchRequests": 0,
+      "costUSD": 4.3541267999999995,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 54639,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "numTurns": 70,
+  "durationMs": 838375,
+  "scope": "Current Root Azalea Main/VM/World/clock/PLAYER3 integration; source only, no browser/GPU/audible/build/deploy/full campaign parity",
+  "status": "ACCEPT exact candidate, scoped source only",
+  "validation": {
+    "Node": "315/315 PASS",
+    "TSC": "exit0",
+    "NativeAudio": "4/4 originalSDAT/WAV/renderer/C PASS",
+    "NativeSoundPhase": "literalSDKC oracle PASS"
+  },
+  "packagedUTC": "2026-10-17T20:47:23.176509+00:00",
+  "manualAdjudication": "../adjudication.json"
+}

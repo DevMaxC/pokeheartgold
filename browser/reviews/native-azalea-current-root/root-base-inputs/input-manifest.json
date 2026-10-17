@@ -1,0 +1,73 @@
+{
+  "base": "1f83a40156857652ebc0b8ce2329fb2af7e28da7",
+  "createdUTC": "2026-10-17T20:21:57.588993+00:00",
+  "files": {
+    "browser/src/source/main.ts": {
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+      "gitBlob": "5eb2feb778c5a20fc559614adc62541ec4c8dba4",
+      "bytes": 65947
+    },
+    "browser/src/source/world.ts": {
+      "sha256": "f9fd0e75a55c95a9f4baac426aa8b2ab25cb5e137b3cf3131c0e9806d726d79d",
+      "gitBlob": "0b696507243093db1af73739bd470e0941f98c3e",
+      "bytes": 27391
+    },
+    "browser/src/source/script.ts": {
+      "sha256": "fd3971a5ec460a36333b835191226201bc03ae5b292f63bc2be175a867a8022e",
+      "gitBlob": "5a45d95ce29fb2017521add7324ed4203c83b4cd",
+      "bytes": 48253
+    },
+    "browser/src/source/types.ts": {
+      "sha256": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378",
+      "gitBlob": "4c4e5484181b88d48ec8c3d349b06f4763b04a57",
+      "bytes": 5537
+    },
+    "browser/src/source/field-music.ts": {
+      "sha256": "045d75d3f3fdf38e545ccb31777b42d9e1c5b2ef36e00ebc47359797f5da6268",
+      "gitBlob": "ad7e9143db9cc1654b04bf7b42629a7a6e8a81fe",
+      "bytes": 25581
+    },
+    "browser/src/source/native-field-clock.ts": {
+      "sha256": "7202dc98d46c46b2655c24f441d1b5ace51e687214b2e3a4cf1152def575f962",
+      "gitBlob": "56dec56f3b3223fe6c9d9984347ad4f3583dcad9",
+      "bytes": 9577
+    },
+    "browser/src/source/opening-view.ts": {
+      "sha256": "6cb5db0a0ca5762cd1de02fae1607b6316a9d5e083f4bd88b691fe1f0f1115e0",
+      "gitBlob": "ef448c32dfb870ce4bebee680ca7f4f82bf8bf46",
+      "bytes": 9612
+    },
+    "browser/src/source/opening-audio.ts": {
+      "sha256": "5768ad5f960540d234d93e004c4960ac3b50965714069f2119cb835b934b1693",
+      "gitBlob": "1bc668a2ca9530e6645ff04237530b0c5cc7763d",
+      "bytes": 2691
+    },
+    "browser/src/source/audio-controls.ts": {
+      "sha256": "8edc37b6c6c2a11edd94896ecd5d17e7c7c20754d4a576f6b8ae5a96adf5c655",
+      "gitBlob": "5db07c1c2344c05f984707dc72c593ddb231a5c2",
+      "bytes": 1886
+    },
+    "browser/src/source/ui.ts": {
+      "sha256": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4",
+      "gitBlob": "79336047cd67da6619bac6e66a29ab1cdb753176",
+      "bytes": 17996
+    },
+    "browser/src/source/interface-panels.ts": {
+      "sha256": "0e59715b39942960e191d791bde714a6c674fbee7e5086bf3ee1aa5ab6ee7c94",
+      "gitBlob": "540943f667b79165c768f736a0693fb4f8373c25",
+      "bytes": 15052
+    },
+    "browser/src/source/field-bag-actions.ts": {
+      "sha256": "4dba2a7bee053eba24c6917db471c43867d6399ae000b358951c0d36a2c89969",
+      "gitBlob": "1be621b6a11f5e4dfffb064ac222b2a9422b437d",
+      "bytes": 10389
+    },
+    "browser/src/source/battle.ts": {
+      "sha256": "504b2f1809f9ecaa6b80b8e25a728be8391053a0beb391253ff2f7ff7796a107",
+      "gitBlob": "7443a17256b578b972c211da9a88c83245fb0a0a",
+      "bytes": 68842
+    }
+  },
+  "scope": "Read-only baseRoot input before preparedAzalea replay; RootOpening/sharedmaster/mute/Bag/Bind preserved; no wholebranch replacement",
+  "sparsePatterns": "/.gitattributes\n/.gitignore\n/browser/package.json\n/browser/package-lock.json\n/browser/tsconfig.json\n/browser/index.html\n/browser/src/\n/browser/scripts/\n/browser/public/source/*.json\n/browser/public/source/maps/180.json\n/browser/public/source/azalea-audio/\n/browser/public/source/azalea-gym/\n/browser/reviews/native-azalea-host/\n/browser/reviews/native-azalea-audio/\n/browser/reviews/native-azalea-live-idle/\n/browser/reviews/native-sound-phase/\n/browser/reviews/native-azalea-main/\n/src/\n/include/\n/asm/\n/files/fielddata/script/\n/files/msgdata/msg/\n/lib/include/\n/lib/NitroSystem/src/snd_player.c\n/lib/NitroSystem/src/snd_fader.c\n"
+}

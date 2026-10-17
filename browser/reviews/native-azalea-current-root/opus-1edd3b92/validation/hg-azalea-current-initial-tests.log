@@ -1,0 +1,884 @@
+TAP version 13
+# (node:98268) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: source actor identities stay stable; ordinary idle logical positions follow completed papers
+ok 1 - source actor identities stay stable; ordinary idle logical positions follow completed papers
+  ---
+  duration_ms: 1.958
+  type: 'test'
+  ...
+# Subtest: native cart vector does not replace logical boarding coordinates or follower previous tile
+ok 2 - native cart vector does not replace logical boarding coordinates or follower previous tile
+  ---
+  duration_ms: 0.460875
+  type: 'test'
+  ...
+# Subtest: docking settles source current/previous and releases only the owned movement record
+ok 3 - docking settles source current/previous and releases only the owned movement record
+  ---
+  duration_ms: 0.42425
+  type: 'test'
+  ...
+# Subtest: late cancellation cannot release a replaced actor or its new movement owner
+ok 4 - late cancellation cannot release a replaced actor or its new movement owner
+  ---
+  duration_ms: 0.437
+  type: 'test'
+  ...
+# Subtest: recovery rehydrates logical records without replaying source moves or facing callbacks
+ok 5 - recovery rehydrates logical records without replaying source moves or facing callbacks
+  ---
+  duration_ms: 0.428541
+  type: 'test'
+  ...
+# (node:98269) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: root hook and metadata registry exist without consulting or unlocking an audio Context
+ok 6 - root hook and metadata registry exist without consulting or unlocking an audio Context
+  ---
+  duration_ms: 193.613917
+  type: 'test'
+  ...
+# Subtest: caller abort abandons only bounded root metadata work and cannot start a late voice
+ok 7 - caller abort abandons only bounded root metadata work and cannot start a late voice
+  ---
+  duration_ms: 5.459792
+  type: 'test'
+  ...
+# Subtest: ignored metadata deadline never publishes late ownership; explicit retry refetches configuration
+ok 8 - ignored metadata deadline never publishes late ownership; explicit retry refetches configuration
+  ---
+  duration_ms: 19.010875
+  type: 'test'
+  ...
+# Subtest: native fade1 sound update runs after tasks even with no map scopes or running field
+ok 9 - native fade1 sound update runs after tasks even with no map scopes or running field
+  ---
+  duration_ms: 28.826417
+  type: 'test'
+  ...
+# Subtest: actual voice end settles PLAYER idle only at the shared post-task sound update
+ok 10 - actual voice end settles PLAYER idle only at the shared post-task sound update
+  ---
+  duration_ms: 3.356458
+  type: 'test'
+  ...
+# Subtest: locked shared output is diagnosed no-voice, while malformed source metadata remains explicit
+ok 11 - locked shared output is diagnosed no-voice, while malformed source metadata remains explicit
+  ---
+  duration_ms: 3.96225
+  type: 'test'
+  ...
+# Subtest: a real-style throwing shared output after preparation still preempts PLAYER3 and admits technical no-voice
+ok 12 - a real-style throwing shared output after preparation still preempts PLAYER3 and admits technical no-voice
+  ---
+  duration_ms: 4.355834
+  type: 'test'
+  ...
+# Subtest: root disposal removes the global callback and rejects pending source admission without unlocking
+ok 13 - root disposal removes the global callback and rejects pending source admission without unlocking
+  ---
+  duration_ms: 1.665458
+  type: 'test'
+  ...
+# Subtest: asynchronous reporting failure aborts its owned audio and cannot orphan a looping voice
+ok 14 - asynchronous reporting failure aborts its owned audio and cannot orphan a looping voice
+  ---
+  duration_ms: 3.598458
+  type: 'test'
+  ...
+# (node:98270) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal manifest hash, PLAYER3 metadata and both actual WAVs are admitted
+ok 15 - literal manifest hash, PLAYER3 metadata and both actual WAVs are admitted
+  ---
+  duration_ms: 136.330375
+  type: 'test'
+  ...
+# Subtest: manifest corruption and absent source metadata are configuration errors
+ok 16 - manifest corruption and absent source metadata are configuration errors
+  ---
+  duration_ms: 1.962375
+  type: 'test'
+  ...
+# Subtest: native PLAYER3 equal priority preempts other sequences, not unrelated owners
+ok 17 - native PLAYER3 equal priority preempts other sequences, not unrelated owners
+  ---
+  duration_ms: 0.556
+  type: 'test'
+  ...
+# Subtest: lower native player priority rejects and whole-player wait includes another higher sequence
+ok 18 - lower native player priority rejects and whole-player wait includes another higher sequence
+  ---
+  duration_ms: 0.75975
+  type: 'test'
+  ...
+# Subtest: native alloc precedes technical failure, replacing equal-priority sequence
+ok 19 - native alloc precedes technical failure, replacing equal-priority sequence
+  ---
+  duration_ms: 0.305834
+  type: 'test'
+  ...
+# Subtest: fade1 counts at priority0 until exactly next injected sound update
+ok 20 - fade1 counts at priority0 until exactly next injected sound update
+  ---
+  duration_ms: 0.247875
+  type: 'test'
+  ...
+# Subtest: fade lowers player priority so a literal lower-priority source cue can replace it
+ok 21 - fade lowers player priority so a literal lower-priority source cue can replace it
+  ---
+  duration_ms: 0.3995
+  type: 'test'
+  ...
+# Subtest: cancelled waiting owner cannot stop a newer sequence; manual/global disposal drains waits
+ok 22 - cancelled waiting owner cannot stop a newer sequence; manual/global disposal drains waits
+  ---
+  duration_ms: 0.925709
+  type: 'test'
+  ...
+# Subtest: real robot PCM uses native loop marker, borrowed gain and owner-checked fade
+ok 23 - real robot PCM uses native loop marker, borrowed gain and owner-checked fade
+  ---
+  duration_ms: 3.883416
+  type: 'test'
+  ...
+# Subtest: switch waits entire player through replacement by external Cut1610
+ok 24 - switch waits entire player through replacement by external Cut1610
+  ---
+  duration_ms: 2.17975
+  type: 'test'
+  ...
+# Subtest: technical no-voice switch still waits native higher-priority PLAYER3
+ok 25 - technical no-voice switch still waits native higher-priority PLAYER3
+  ---
+  duration_ms: 5.769917
+  type: 'test'
+  ...
+# Subtest: suspended device gives diagnosed no-voice without creating another AudioContext
+ok 26 - suspended device gives diagnosed no-voice without creating another AudioContext
+  ---
+  duration_ms: 2.536875
+  type: 'test'
+  ...
+# Subtest: missing/mismatched original WAV rejects instead of technical silent fallback
+ok 27 - missing/mismatched original WAV rejects instead of technical silent fallback
+  ---
+  duration_ms: 1.006667
+  type: 'test'
+  ...
+# Subtest: noncooperative decoder is cancelled, late completion cannot publish a voice
+ok 28 - noncooperative decoder is cancelled, late completion cannot publish a voice
+  ---
+  duration_ms: 0.515625
+  type: 'test'
+  ...
+# Subtest: shared output abort cleans owned nodes; later old-owner stop cannot affect external Cut
+ok 29 - shared output abort cleans owned nodes; later old-owner stop cannot affect external Cut
+  ---
+  duration_ms: 0.688875
+  type: 'test'
+  ...
+# Subtest: native registry requires known source sequence; audio needs source/config and explicit report
+ok 30 - native registry requires known source sequence; audio needs source/config and explicit report
+  ---
+  duration_ms: 0.194375
+  type: 'test'
+  ...
+# Subtest: throwing status port is explicit failure and drains admitted voice
+ok 31 - throwing status port is explicit failure and drains admitted voice
+  ---
+  duration_ms: 1.046584
+  type: 'test'
+  ...
+# Subtest: asynchronous status failure is observable without escaping native node event
+ok 32 - asynchronous status failure is observable without escaping native node event
+  ---
+  duration_ms: 1.334667
+  type: 'test'
+  ...
+# Subtest: Context suspension during switch releases only owned voice and reports technical no-voice
+ok 33 - Context suspension during switch releases only owned voice and reports technical no-voice
+  ---
+  duration_ms: 190.493917
+  type: 'test'
+  ...
+# Subtest: shared output owner identity is immutable across native actions
+ok 34 - shared output owner identity is immutable across native actions
+  ---
+  duration_ms: 10.5475
+  type: 'test'
+  ...
+# Subtest: bounded noncooperative preparation times out as diagnosed technical no-voice
+ok 35 - bounded noncooperative preparation times out as diagnosed technical no-voice
+  ---
+  duration_ms: 11.254667
+  type: 'test'
+  ...
+# Subtest: temporary technical preparation failure retries on later admission
+ok 36 - temporary technical preparation failure retries on later admission
+  ---
+  duration_ms: 1.626125
+  type: 'test'
+  ...
+# Subtest: same owner replay retains new voice tracking for Context cancellation
+ok 37 - same owner replay retains new voice tracking for Context cancellation
+  ---
+  duration_ms: 2.329583
+  type: 'test'
+  ...
+# Subtest: Context change during requested fade is completion, not stray no-voice
+ok 38 - Context change during requested fade is completion, not stray no-voice
+  ---
+  duration_ms: 1.183958
+  type: 'test'
+  ...
+# Subtest: reentrant native admission from old-voice stop cannot leak an overwritten voice
+ok 39 - reentrant native admission from old-voice stop cannot leak an overwritten voice
+  ---
+  duration_ms: 0.250667
+  type: 'test'
+  ...
+# Subtest: shared registry disposal inside transport admission stops the just-created voice
+ok 40 - shared registry disposal inside transport admission stops the just-created voice
+  ---
+  duration_ms: 0.151167
+  type: 'test'
+  ...
+# Subtest: real sharedAudioOutput getter unavailable is technical no-voice after source verification
+ok 41 - real sharedAudioOutput getter unavailable is technical no-voice after source verification
+  ---
+  duration_ms: 1.833334
+  type: 'test'
+  ...
+# Subtest: unavailable shared Context never masks a missing or corrupt original source WAV
+ok 42 - unavailable shared Context never masks a missing or corrupt original source WAV
+  ---
+  duration_ms: 0.551667
+  type: 'test'
+  ...
+# Subtest: typed source/config absence during native admission rejects explicitly after native preemption
+ok 43 - typed source/config absence during native admission rejects explicitly after native preemption
+  ---
+  duration_ms: 0.172542
+  type: 'test'
+  ...
+# Subtest: source admission throw removes only its own owner token, avoiding later false no-voice
+ok 44 - source admission throw removes only its own owner token, avoiding later false no-voice
+  ---
+  duration_ms: 1.556791
+  type: 'test'
+  ...
+# (node:98271) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual room admission hydrates four spiders only for Continue; warp/connection reset original save state
+not ok 45 - actual room admission hydrates four spiders only for Continue; warp/connection reset original save state
+  ---
+  duration_ms: 15.903167
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:44:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:45:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: shared clock publishes every actual route frame with follower, endpoint save before dock, eight-tick board/disembark
+not ok 46 - shared clock publishes every actual route frame with follower, endpoint save before dock, eight-tick board/disembark
+  ---
+  duration_ms: 22.767583
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:52:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:53:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: reverse source station rides south with no follower and persists final native grid centers
+not ok 47 - reverse source station rides south with no follower and persists final native grid centers
+  ---
+  duration_ms: 5.9415
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:69:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:70:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: source follower wait delays boarding; shared static phase continues and stalled draw never catches up
+not ok 48 - source follower wait delays boarding; shared static phase continues and stalled draw never catches up
+  ---
+  duration_ms: 209.920916
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:73:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:74:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: source switch awaits actual1561 completion and missing audio rejects before puzzle/rider mutation
+not ok 49 - source switch awaits actual1561 completion and missing audio rejects before puzzle/rider mutation
+  ---
+  duration_ms: 23.896625
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:77:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:78:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: native ignored PlaySE failure permits visual progression with explicit no-voice diagnostics and a real task poll
+not ok 50 - native ignored PlaySE failure permits visual progression with explicit no-voice diagnostics and a real task poll
+  ---
+  duration_ms: 10.370791
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:83:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:84:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: abort drains asynchronous sound finalization before the VM-owned action rejects
+not ok 51 - abort drains asynchronous sound finalization before the VM-owned action rejects
+  ---
+  duration_ms: 4.301375
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:87:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:88:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: switch port waits for its entire native sequence player even after this voice ends or cannot start
+not ok 52 - switch port waits for its entire native sequence player even after this voice ends or cannot start
+  ---
+  duration_ms: 4.082375
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:91:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:92:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: failed action scope admission does not attach abandoned context or map abort listeners
+not ok 53 - failed action scope admission does not attach abandoned context or map abort listeners
+  ---
+  duration_ms: 3.9855
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:95:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:96:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: local abort restores same-map checkpoint and never cancels another admitted field scope
+not ok 54 - local abort restores same-map checkpoint and never cancels another admitted field scope
+  ---
+  duration_ms: 3.708125
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:99:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:100:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: unload while moving releases owned view without restoring departed actor coordinates or saving stale puzzle
+not ok 55 - unload while moving releases owned view without restoring departed actor coordinates or saving stale puzzle
+  ---
+  duration_ms: 3.027541
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:105:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:106:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: reentrant actor port unload stops before follower or further actor writes in the same source tick
+not ok 56 - reentrant actor port unload stops before follower or further actor writes in the same source tick
+  ---
+  duration_ms: 3.075167
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:109:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:110:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: changed actor identity fails rather than moving a replacement into a stale ride
+not ok 57 - changed actor identity fails rather than moving a replacement into a stale ride
+  ---
+  duration_ms: 178.841459
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:113:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:114:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a render vector cannot silently replace an unrelated logical boarding tile
+not ok 58 - a render vector cannot silently replace an unrelated logical boarding tile
+  ---
+  duration_ms: 17.120542
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:117:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:118:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: real0869 station/switch byte commands reach required ports with source map and abort signal
+ok 59 - real0869 station/switch byte commands reach required ports with source map and abort signal
+  ---
+  duration_ms: 6.704458
+  type: 'test'
+  ...
+# Subtest: VM cancellation aborts and drains the owned Azalea port before source recovery can resume
+ok 60 - VM cancellation aborts and drains the owned Azalea port before source recovery can resume
+  ---
+  duration_ms: 0.448083
+  type: 'test'
+  ...
+# Subtest: actual0869 VM ride command waits for native host final tiles and resumes in the child-completion scripts phase
+not ok 61 - actual0869 VM ride command waits for native host final tiles and resumes in the child-completion scripts phase
+  ---
+  duration_ms: 3.165833
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:136:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:137:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: World applies cumulative camera shake to position AND target without orbit reset or drift
+ok 62 - World applies cumulative camera shake to position AND target without orbit reset or drift
+  ---
+  duration_ms: 0.642125
+  type: 'test'
+  ...
+# Subtest: World streaming consumes the live rider vector or the native frozen tracking point, scoped to the active map
+ok 63 - World streaming consumes the live rider vector or the native frozen tracking point, scoped to the active map
+  ---
+  duration_ms: 0.257541
+  type: 'test'
+  ...
+# Subtest: actual World draw follows rider override rather than stale logical tile and retains orbit
+ok 64 - actual World draw follows rider override rather than stale logical tile and retains orbit
+  ---
+  duration_ms: 0.894292
+  type: 'test'
+  ...
+# Subtest: actual World streaming suppresses only managed Azalea props when an owning host is installed
+not ok 65 - actual World streaming suppresses only managed Azalea props when an owning host is installed
+  ---
+  duration_ms: 0.768875
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:154:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/matrices/105.json'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:155:27)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: real World transition releases Azalea actor/view ownership before globally cancelling shared field scopes
+ok 66 - real World transition releases Azalea actor/view ownership before globally cancelling shared field scopes
+  ---
+  duration_ms: 0.2425
+  type: 'test'
+  ...
+# Subtest: a superseded asynchronous room load never publishes an incoming field cart, scope or save
+not ok 67 - a superseded asynchronous room load never publishes an incoming field cart, scope or save
+  ---
+  duration_ms: 3.275916
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:166:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:167:70)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: failed late resources are quiet for superseded entry and disposal still completes
+ok 68 - failed late resources are quiet for superseded entry and disposal still completes
+  ---
+  duration_ms: 0.806417
+  type: 'test'
+  ...
+# Subtest: live PLAYER3 is sampled every scripts poll when a new sequence starts after completion promise resolves
+not ok 69 - live PLAYER3 is sampled every scripts poll when a new sequence starts after completion promise resolves
+  ---
+  duration_ms: 3.218041
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:176:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:177:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: missing live native PLAYER query rejects before source switch mutation
+not ok 70 - missing live native PLAYER query rejects before source switch mutation
+  ---
+  duration_ms: 2.917333
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:181:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:182:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: invalid live PLAYER query is explicit and rolls back; unload during query cannot complete stale switch
+not ok 71 - invalid live PLAYER query is explicit and rolls back; unload during query cannot complete stale switch
+  ---
+  duration_ms: 4.063084
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:184:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:185:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: throwing live query aborts and drains still-pending sound before rejecting action
+not ok 72 - throwing live query aborts and drains still-pending sound before rejecting action
+  ---
+  duration_ms: 2.995541
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:188:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/public/source/props/0-118-27.glb'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async resources (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:22:15)
+    async AzaleaGymWorld.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-world.ts:149:57)
+    async AzaleaGymHost.enter (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.ts:98:7)
+    async setup (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:37:66)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/gym-azalea-host.test.ts:189:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# (node:98272) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# node:internal/test_runner/harness:99
+#       throw err;
+#       ^
+# Error: Original data could not load: messages/302.json (404)
+#     at sourceJSON (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/types.ts:25:130)
+#     at async Promise.all (index 14)
+#     at async loadData (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/data.ts:8:134)
+#     at async <anonymous> (/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/main-azalea.test.ts:57:12)
+# Node.js v22.22.3
+# Subtest: src/source/main-azalea.test.ts
+not ok 5 - src/source/main-azalea.test.ts
+  ---
+  duration_ms: 5558.826459
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-azalea-current-root/browser/src/source/main-azalea.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 7
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# (node:98273) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+ok 74 - literal field dispatcher runs TaskManager before main SysTask queue, independent of UI/VM busy state
+  ---
+  duration_ms: 7.499458
+  type: 'test'
+  ...
+# Subtest: persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+ok 75 - persistent30Hz script→task phase admits same-dispatch tasks without overlap or catch-up bursts
+  ---
+  duration_ms: 1.983583
+  type: 'test'
+  ...
+# Subtest: actual task boundary drains runnable source awaits and preserves field running flags for task admission
+ok 76 - actual task boundary drains runnable source awaits and preserves field running flags for task admission
+  ---
+  duration_ms: 195.47675
+  type: 'test'
+  ...
+# Subtest: scope failure cancels only its action; static and other controller queues retain global tick phase
+ok 77 - scope failure cancels only its action; static and other controller queues retain global tick phase
+  ---
+  duration_ms: 5.6435
+  type: 'test'
+  ...
+# Subtest: scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+ok 78 - scope cancellation rejects started dispatch and explicit-signal waits, never claiming underlying work drained
+  ---
+  duration_ms: 1.635833
+  type: 'test'
+  ...
+# Subtest: one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+ok 79 - one driver owns World slot across maps, while transition cancel removes scopes rather than resetting time
+  ---
+  duration_ms: 0.68375
+  type: 'test'
+  ...
+# Subtest: task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+ok 80 - task callbacks observe stable ownership: removals skip only removed callback, new task-phase registration is rejected
+  ---
+  duration_ms: 0.62525
+  type: 'test'
+  ...
+# Subtest: native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+ok 81 - native task boundary cancellation releases ownership and map mismatch does not run stale callbacks
+  ---
+  duration_ms: 0.53175
+  type: 'test'
+  ...
+# Subtest: one queue callback changing field admission cannot run stale callbacks from another map scope
+ok 82 - one queue callback changing field admission cannot run stale callbacks from another map scope
+  ---
+  duration_ms: 0.699625
+  type: 'test'
+  ...
+# (node:98274) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal normal-loop sound order and Comm_Update unconditional TRUE constrain the cadence claim
+ok 83 - literal normal-loop sound order and Comm_Update unconditional TRUE constrain the cadence claim
+  ---
+  duration_ms: 113.482959
+  type: 'test'
+  ...
+# Subtest: reviewed native registry dependency remains byte-pinned and test-only
+ok 84 - reviewed native registry dependency remains byte-pinned and test-only
+  ---
+  duration_ms: 15.187
+  type: 'test'
+  ...
+# Subtest: early onTick is a real negative control: task-completion fade misses that sound update
+ok 85 - early onTick is a real negative control: task-completion fade misses that sound update
+  ---
+  duration_ms: 47.257667
+  type: 'test'
+  ...
+# Subtest: post-task boundary drains completion jobs before exact native fade1 even when registered first
+ok 86 - post-task boundary drains completion jobs before exact native fade1 even when registered first
+  ---
+  duration_ms: 5.53125
+  type: 'test'
+  ...
+# Subtest: zero field scopes and mapRunning=false still admit one global sound phase
+ok 87 - zero field scopes and mapRunning=false still admit one global sound phase
+  ---
+  duration_ms: 2.562833
+  type: 'test'
+  ...
+# Subtest: map cancel preserves global registry while retaining exact field rejection reasons
+ok 88 - map cancel preserves global registry while retaining exact field rejection reasons
+  ---
+  duration_ms: 2.02975
+  type: 'test'
+  ...
+# Subtest: local controller failure leaves the global phase alive
+ok 89 - local controller failure leaves the global phase alive
+  ---
+  duration_ms: 0.957292
+  type: 'test'
+  ...
+# Subtest: owner abort or final dispose at either boundary prevents late global writes
+ok 90 - owner abort or final dispose at either boundary prevents late global writes
+  ---
+  duration_ms: 0.703542
+  type: 'test'
+  ...
+# Subtest: pre-unlock readonly player lifetime owns registry and hook without constructing a Context
+ok 91 - pre-unlock readonly player lifetime owns registry and hook without constructing a Context
+  ---
+  duration_ms: 1.063125
+  type: 'test'
+  ...
+# Subtest: global phase has no overlap/catchup and task-phase registration is rejected
+ok 92 - global phase has no overlap/catchup and task-phase registration is rejected
+  ---
+  duration_ms: 1.082125
+  type: 'test'
+  ...
+# Subtest: fatal global error after map cancellation is observable and stops later hooks
+ok 93 - fatal global error after map cancellation is observable and stops later hooks
+  ---
+  duration_ms: 0.515791
+  type: 'test'
+  ...
+1..93
+# tests 93
+# suites 0
+# pass 71
+# fail 22
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5683.206083
