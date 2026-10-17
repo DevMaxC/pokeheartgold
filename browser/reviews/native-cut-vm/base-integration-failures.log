@@ -1,0 +1,130 @@
+TAP version 13
+# (node:26050) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+not ok 1 - unconditional actual Violet OnTransition finishes through real trainer phone commands and native main lift hooks
+  ---
+  duration_ms: 242.90825
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:63:1'
+  failureType: 'testCodeFailure'
+  error: 'scriptWarp is not defined'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ReferenceError'
+  stack: |-
+    evalmachine.<anonymous>:13:184
+    Script.runInContext (node:vm:149:12)
+    runInContext (node:vm:301:6)
+    fixture (/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:59:36)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:64:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+not ok 2 - actual main Continue hook preserves raised lift through full native entry and World.enter clears old camera target
+  ---
+  duration_ms: 102.691625
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:70:1'
+  failureType: 'testCodeFailure'
+  error: 'scriptWarp is not defined'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ReferenceError'
+  stack: |-
+    evalmachine.<anonymous>:13:184
+    Script.runInContext (node:vm:149:12)
+    runInContext (node:vm:301:6)
+    fixture (/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:59:36)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:71:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+not ok 3 - actual main recovery rehydrates raised lift, actor/follower height and orbit after completed downward ride then failure
+  ---
+  duration_ms: 78.852
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:74:1'
+  failureType: 'testCodeFailure'
+  error: 'scriptWarp is not defined'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ReferenceError'
+  stack: |-
+    evalmachine.<anonymous>:13:184
+    Script.runInContext (node:vm:149:12)
+    runInContext (node:vm:301:6)
+    fixture (/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:59:36)
+    async TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/gym-violet-integration.test.ts:75:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# (node:26051) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual Sprout Tower 3F script2 pans virtual241 five north then five south and completes the rival flags
+not ok 4 - actual Sprout Tower 3F script2 pans virtual241 five north then five south and completes the rival flags
+  ---
+  duration_ms: 571.038458
+  type: 'test'
+  location: '/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/script-camera.test.ts:40:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/maxchurch/Documents/pokeheartgold-cut-script/browser/src/source/script-camera.test.ts:49:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: camera support remains explicit and a later unsupported scene cleans focus before returning its error
+ok 5 - camera support remains explicit and a later unsupported scene cleans focus before returning its error
+  ---
+  duration_ms: 2.032167
+  type: 'test'
+  ...
+# Subtest: removing or replacing a camera actor cancels outstanding writes without resurrecting old focus
+ok 6 - removing or replacing a camera actor cancels outstanding writes without resurrecting old focus
+  ---
+  duration_ms: 0.177
+  type: 'test'
+  ...
+# Subtest: world focuses and streams the invisible source actor smoothly while preserving free-camera orbit
+ok 7 - world focuses and streams the invisible source actor smoothly while preserving free-camera orbit
+  ---
+  duration_ms: 1.763542
+  type: 'test'
+  ...
+# Subtest: map entry and changed connected headers clear script focus before loading the next field
+ok 8 - map entry and changed connected headers clear script focus before loading the next field
+  ---
+  duration_ms: 1.017083
+  type: 'test'
+  ...
+# Subtest: production routing uses the live field for a common script bank and preserves its actual movement labels
+ok 9 - production routing uses the live field for a common script bank and preserves its actual movement labels
+  ---
+  duration_ms: 502.538166
+  type: 'test'
+  ...
+# Subtest: a real World.enter during a pending VM241 movement rejects the scene and never restores stale focus
+ok 10 - a real World.enter during a pending VM241 movement rejects the scene and never restores stale focus
+  ---
+  duration_ms: 1.365375
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 6
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3639.368583

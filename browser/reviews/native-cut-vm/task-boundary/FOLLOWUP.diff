@@ -1,0 +1,58 @@
+--- previous/browser/src/source/script.ts
++++ task-boundary/browser/src/source/script.ts
+@@ -26,7 +26,10 @@
+ export type ScriptFieldMovePorts={
+  cutIn:(partyIndex:number,context:ScriptFieldMoveContext)=>Promise<void>;
+  startEffect:(kind:0|3,context:ScriptFieldMoveContext)=>Promise<void>;
++ /** Ends at native TaskManager child completion; parent resumes that tick. */
+  swapPlayerFollower:(mode:1|2,context:ScriptFieldMoveContext)=>Promise<void>;
++ /** Same native task boundary. Diglett/Dugtrio skip creates no child: the port
++  * still waits one dispatch tick, matching the TRUE-returning command. */
+  jumpFollower:(count:number,context:ScriptFieldMoveContext)=>Promise<void>;
+  resetFollowerMovement:(context:ScriptFieldMoveContext)=>Promise<void>;
+  addFollowerMood:(signedDelta:number)=>void;
+@@ -128,7 +131,7 @@
+     const pendingFields:Promise<void>[]=[];let pendingCry:Promise<void>|null=null;
+     const asyncFailure:{failed:boolean;error?:unknown}={failed:false};
+     const own=(promise:Promise<void>,completed?:()=>void)=>{if(!promise||typeof promise.then!=='function')throw Error('Native field-move port must return a completion Promise');const owned=Promise.resolve(promise).then(()=>{controller.signal.throwIfAborted();if(this.runAbort!==controller||this.runGeneration!==generation||this.state.map!==originMap.id)throw Error('Field move was cancelled by a field change');completed?.();}).catch(error=>{if(!asyncFailure.failed){asyncFailure.failed=true;asyncFailure.error=error;}controller.abort(error);});pendingFields.push(owned);return owned;};
+-    const awaitedField=async(promise:Promise<void>)=>{await own(promise);if(asyncFailure.failed)throw asyncFailure.error;controller.signal.throwIfAborted();if(cutScript)await waitFrames(1);};
++    const awaitedField=async(promise:Promise<void>)=>{await own(promise);if(asyncFailure.failed)throw asyncFailure.error;controller.signal.throwIfAborted();};
+     // SetupNativeScript first polls next tick, then resumes bytecode one tick
+     // after its completion callback. Keep these boundaries local to Cut.
+     const resumeNativeField=async(pending:Promise<void>)=>{await waitFrames(1);await pending;if(asyncFailure.failed)throw asyncFailure.error;assertLive();await waitFrames(1);};
+@@ -156,7 +159,7 @@
+           if(cmd==='PlayCry'){pendingCry=own(ports.cry(v(a[0]),v(a[1]),fieldContext()));}else{await resumeNativeField(pendingCry??Promise.resolve());pendingCry=null;}
+           continue;
+         }
+-        if(cutScript&&cmd==='FollowMonResetMovement'){const ports=requireFieldMoves(cmd);if(!ports.resetFollowerMovement)throw new UnsupportedScript(map.code,cmd,pc-1);await awaitedField(ports.resetFollowerMovement(fieldContext()));continue;}
++        if(cutScript&&cmd==='FollowMonResetMovement'){const ports=requireFieldMoves(cmd);if(!ports.resetFollowerMovement)throw new UnsupportedScript(map.code,cmd,pc-1);await awaitedField(ports.resetFollowerMovement(fieldContext()));await waitFrames(1);continue;}
+         if(presentation.has(cmd))continue;
+         if(cmd==='OpenMsg')continue;
+         if(cmd==='GoTo'){jump(a[0]);continue;}
+--- previous/browser/src/source/cut-script.test.ts
++++ task-boundary/browser/src/source/cut-script.test.ts
+@@ -116,7 +116,7 @@
+ 
+ test('actual menu10007 resets follower movement, preserves the literal target and follows the same delayed HidePerson',async()=>{
+  const h=scene();h.vm.set('VAR_SPECIAL_x8000',0);const running=h.run(menuCut);await h.clock.reach(()=>h.effectStarted);
+- assert.ok(h.events.some(e=>e.kind==='resetFollower'));assert.equal(h.events.some(e=>e.kind==='choice'),false);await h.clock.advance(9);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.effectFinished,false);await h.clock.advance(3);await h.clock.finish(running);
++ assert.ok(h.events.some(e=>e.kind==='resetFollower'));assert.equal(h.events.find(e=>e.kind==='cutIn')!.frame,h.events.find(e=>e.kind==='resetFollower')!.frame+1,'Synchronous TRUE reset yields its dispatch tick');assert.equal(h.events.some(e=>e.kind==='choice'),false);await h.clock.advance(9);assert.equal(h.state.flags[tree.eventFlag],true);assert.equal(h.effectFinished,false);await h.clock.advance(3);await h.clock.finish(running);
+ });
+ 
+ test('missing or non-Promise effect ports remain explicit errors before a cut-in or fabricated completion',async()=>{
+@@ -178,3 +178,15 @@
+   await assert.rejects(h.run(standard),UnsupportedScript);assert.equal(h.events.some(e=>['cutIn','effectStart','swap','mood','jump','cry'].includes(e.kind)),false);assert.deepEqual(h.state,before);
+  }
+ });
++
++
++test('native TaskManager child completion resumes Cut swap and jump continuations in the same tick',async()=>{
++ const nativeTask=await readFile(new URL('../../../src/task.c',import.meta.url),'utf8');assert.match(nativeTask,/while \(fieldSystem->taskman->func\(fieldSystem->taskman\) == TRUE\) \{[\s\S]*fieldSystem->taskman = prevTask;/);
++ const h=scene({species:152,active:true,visibleFlag:false});
++ h.hooks.fieldMoves!.swapPlayerFollower=async(_mode,context)=>{await h.clock.wait(4,context.signal);h.record('swapTaskFinished');};
++ h.hooks.fieldMoves!.jumpFollower=async(_count,context)=>{await h.clock.wait(3,context.signal);h.record('jumpTaskFinished');};
++ const running=h.run();await h.clock.reach(()=>h.effectStarted);
++ assert.equal(h.events.find(e=>e.kind==='swapTaskFinished')!.frame,4);assert.equal(h.events.find(e=>e.kind==='jumpTaskFinished')!.frame,7);
++ assert.deepEqual(h.events.filter(e=>e.kind==='mood').map(e=>[e.frame,e.value]),[[4,20],[7,1]]);assert.equal(h.events.find(e=>e.kind==='cry')!.frame,7,'Parent bytecode does not wait another field frame after the jump task');
++ await h.clock.advance(12);await h.clock.finish(running);
++});

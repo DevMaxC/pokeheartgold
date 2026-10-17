@@ -1,0 +1,26 @@
+Native Cut VM integration contract (reviewed scoped commit 2787f390d1d614c466024564ac67c1fe067871de)
+
+New ScriptHooks.fieldMoves ports in script.ts:
+  cutIn(partyIndex,{map,object,signal}): Promise<void>
+  startEffect(kind:0|3,{map,object,signal}): Promise<void>
+  swapPlayerFollower(mode:1|2,{map,object,signal}): Promise<void>
+  jumpFollower(count,{map,object,signal}): Promise<void>
+  resetFollowerMovement({map,object,signal}): Promise<void>
+  addFollowerMood(signedDelta): void
+  followerVisibleFlag(): boolean
+  cry(species,pattern,{map,object,signal}): Promise<void>
+  waitFrames?(frames,{map,object,signal}): Promise<void>
+
+map is originating actual field (Route30/Ilex etc), never COMMON_0146. object is literal original interacted tree id, selected through original last-talked identity. The second cry number is native pattern, NOT alternate form. Parent owns actual renderer/audio/cut-in/actor implementations; this VM does not pretend those exist. Missing startEffect blocks before cut-in/swap, never returns fabricated success. Inactive follower query needs followerActive hook but deliberately does not require effect ports.
+
+Every Promise means actor writes and resources have fully finished, not merely scheduled. Honor signal abort, stop subsequent writes, then settle. VM.cancel(reason) must be called before external World/map replacement or recovery that otherwise interrupts a live source run. VM aborts on own error/map mismatch, rejects writes in cancelled generations, and joins all owned Promise cleanup before SourceActionRecovery gets control. Thus the host must avoid unabortable forever-pending promises. Existing message/choice hooks lack signal; if externally cancelled while a modal is open, host must also release/reject that modal; guarded State writes prevent late source mutation, but the run must still drain.
+
+StartFieldMoveEffect starts immediately, writes completion var0 and does NOT await completion inline. Native Start command yields its current dispatch tick. Next tick sets Wait7; seven timer callbacks follow, and the final callback only switches back to bytecode. The following tick (effectStart+9) HidePerson sets original tree event flag through existing FieldObjects.show, then polls Wait1 until completion var1. Each Wait1 callback switches mode and its comparison runs next tick; effect completion at+12 is observed at+13. CutIn/WaitCry respect their first native callback and next bytecode resume tick; reset resumes next source tick; swap/jump TaskManager children resume parent bytecode SAME tick as child completion. This is scoped to Cut, no generic scheduler refactor. VM writes1 only after the port Promise finishes successfully in the same field/generation. A rejected effect aborts the timer/other owned work and lets SourceActionRecovery restore State and actor/follower snapshot after drain. Native kind0 targets the player; kind3 targets the following mon. Following branch retains the original swap/mood/hops/cry source order; it does not auto-swap back after Cut.
+
+Original effect evidence: src/field/field_move_effects.c434/443 uses NARC_a_1_3_4 model3 + animation0/1/2, advances1 nativeframe/update, SEQ_SE_DP_FW015. This adapter does not export or substitute those assets. Legacy generic PlaySE/LockAll presentation no-ops remain outside this VM patch. Real cry port must reject absent actual original cry support rather than substituting another species.
+
+14 tests cover standard10000/menu10007, exact Wait7 tree flag, doneVar timing, no badge/no move/Egg/BadEgg/No, fainted/zeroPP users, separate living follower selection, Grass mood/hops, missing/nonPromise effect, failed effect+retry State/flag/actor/follower restore, uncooperative cancellation drain, external map replacement, raw byte operands and Arceus held-plate type query.
+
+Followup review fixes: reentrant same-instance run(...true) delegates to an inherited signal-owned child, retaining parent busy/controller; Cut Wait yields reset the synchronous instruction budget (legitimate 3000tick FX continues); mutating Cut ports never execute in unsupported Flash/Rock Smash/Headbutt standards. GetPartyLeadAlive returns0 when no living non-Egg (Save_GetPartyLeadAlive); GetFollowPokePartyIndex/FirstAliveMonHasType retain native assertion behavior. Four exact followup regressions independently fail initial reviewed snapshot and pass frozen followup. Final broader VM run247/247 PASS; initial unrelated fixture failures remain separately reported.
+
+Final native TaskManager contract: swap/jump child first runs on the source frame AFTER dispatch. Its Promise must resolve on actual child completion/resource-release tick; VM resumes same tick, without adding another frame. Diglett/Dugtrio jump creates NO child but the command returnsTRUE, so the port still waits exactly one dispatch tick before resolving. resetFollowerMovement resolves immediately; VM supplies its TRUE-command one-tick yield. See /tmp/hg-cut-native-scheduler-proof.json for source pins and /tmp/hg-cut-vm-opus-task-boundary-result.json for actual Opus5.5 approval.14Cut/248broaderVM tests +TSC pass.
