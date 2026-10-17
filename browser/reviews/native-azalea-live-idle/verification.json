@@ -1,5 +1,5 @@
 {
-  "status": "final getter/throw cleanup source candidate awaiting narrow review",
+  "status": "ACCEPT: reviewed exact e9d894bc source leaf; Main/World/browser/production unbound",
   "oldHostRuntime": "3dad8b6611dea414eb15b3e5eb6dcffbae310744",
   "audioOriginal": "d6a61e5a",
   "audioHardeningOriginal": "93acce92",
@@ -18,7 +18,8 @@
     "currentHostAudioClock": "67/67 PASS",
     "tsc": "PASS",
     "old9dGetterControls": "3/3 FAIL expected",
-    "oldB213ThrowOwnerControl": "1/1 FAIL expected"
+    "oldB213ThrowOwnerControl": "1/1 FAIL expected",
+    "binaryResourceRenderOriginalC": "4/4 PASS at source export checkpoint; native assets/exporter/SDK bytes unchanged"
   },
   "unchanged": [
     "World",
@@ -45,5 +46,22 @@
     "manifestSHA256": "d42e9d35a4d1014e77b38d6527be6047e66690afd061714fdd851e096b170ac3",
     "duration_ms": 165336,
     "reranTests": false
-  }
+  },
+  "finalRuntimeCommit": "e9d894bc",
+  "reviewFinal": {
+    "model": "claude-opus-5-5",
+    "verdict": "ACCEPT exact narrow post9d source",
+    "rawSHA256": "a35ecb4b8ee590773ea48eb6298381be111baa58691ecdf018be4e5e762a1135",
+    "manifestSHA256": "a16d300a97033b774ce1838971c55dcfd23b9d4092be93788a01ffeab445c979",
+    "duration_ms": 84220,
+    "reranTests": false
+  },
+  "requirements": [
+    "ALL PLAYER3 default SSEQ consumers start inside the single registry.play callback",
+    "one after-field-tasks soundUpdate phase, not an early onTick/second clock",
+    "borrow actual sharedAudioOutput gain/context/signal; never create or resume context",
+    "couple root registry owner to shared player teardown before first successful borrow",
+    "observe audio.failure and diagnosed statuses; report/getter sinks must not reenter audio admission",
+    "all prior Azalea Main actor XYZ/save/restore/streaming/cancellation ports plus fresh combined review"
+  ]
 }
