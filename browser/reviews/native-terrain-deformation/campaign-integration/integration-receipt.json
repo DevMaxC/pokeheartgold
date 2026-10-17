@@ -34,7 +34,7 @@
     "TSC": "PASS",
     "actualCampaignWorld": "4/4 PASS against exact5298 preintegration World/deformer; currentUP/finite-ray/camera records match acceptedNative333result"
   },
-  "review": "PENDING narrow actual immutable Opus on new campaign World context; sourceheld",
+  "review": "Actual immutable narrow Opus5.5 PASS,40turns/exit0/no concrete blockers; all317snapshotinputs stable",
   "limits": [
     "No parked T2 closure approval or default opt-in.",
     "Prior fresh8frame qualification applies to identical native helper/deformer on333; new campaign World context is being tested separately, not treated as a new all-campaign browser approval.",
@@ -86,5 +86,9 @@
     }
   ],
   "actualWorldStrictCameraChanges": 1,
-  "acceptedNativeWorldUPAndRayReceiptsIdentical": true
+  "acceptedNativeWorldUPAndRayReceiptsIdentical": true,
+  "reviewReceipt": "opus-adjudication.json",
+  "tscProcessReceipt": "tsc-process.json",
+  "targetProcessExitReceipt": "target-process-exits.json",
+  "integrationSourceCommit": "b25e587696a03b4a0a0353d88e8306046cea10ca"
 }

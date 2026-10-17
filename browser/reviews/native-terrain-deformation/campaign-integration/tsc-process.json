@@ -1,0 +1,34 @@
+{
+  "command": [
+    "npx",
+    "tsc",
+    "--noEmit"
+  ],
+  "cwd": "/Users/maxchurch/Documents/pokeheartgold-native-terrain-campaign/browser",
+  "startedAt": "2026-10-17T18:49:37.911732+00:00",
+  "completedAt": "2026-10-17T18:50:14.553339+00:00",
+  "exitCode": 0,
+  "beforeHashes": {
+    "src/source/native-terrain-joints.ts": "249440d6763c0b4e745defc1da85bd39ef66ab150b12130634fc13c045dcded6",
+    "src/source/terrace-model.ts": "37f7cf76d2154bfa73c2b2aa03989a01a791d39d0c5d2be6be0a39f3b7d7f0fd",
+    "src/source/world.ts": "f9fd0e75a55c95a9f4baac426aa8b2ab25cb5e137b3cf3131c0e9806d726d79d",
+    "src/source/main.ts": "6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee",
+    "src/source/native-terrain-world.test.ts": "e9cde914eed0b563c7f8962d2b4f2482ccedb6c6b151b4572169718334a98b9f",
+    "scripts/production-terrain-test-support.ts": "37e8c385d28dd6d88090fc8d8e774c4ef1bc8eb297140d9c73ef51f74b7ca495",
+    "src/source/terrain-world.test.ts": "c4ce75051c5e928cfd9a6e90470196fa3c2f1a226aa9d2b45a0979745246d3f3",
+    "src/source/terrain-scenery.ts": "3fddad2d92f4977d411ea7ebb90b07d53307599c6f1d859d3c73494c5868b2e9",
+    "public/source/terraces/0.json": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323"
+  },
+  "afterHashes": {
+    "src/source/native-terrain-joints.ts": "249440d6763c0b4e745defc1da85bd39ef66ab150b12130634fc13c045dcded6",
+    "src/source/terrace-model.ts": "37f7cf76d2154bfa73c2b2aa03989a01a791d39d0c5d2be6be0a39f3b7d7f0fd",
+    "src/source/world.ts": "f9fd0e75a55c95a9f4baac426aa8b2ab25cb5e137b3cf3131c0e9806d726d79d",
+    "src/source/main.ts": "6f48648768efb0e6f7684912d019f015fec16309ca9940f0724bed8fb71ea9ee",
+    "src/source/native-terrain-world.test.ts": "e9cde914eed0b563c7f8962d2b4f2482ccedb6c6b151b4572169718334a98b9f",
+    "scripts/production-terrain-test-support.ts": "37e8c385d28dd6d88090fc8d8e774c4ef1bc8eb297140d9c73ef51f74b7ca495",
+    "src/source/terrain-world.test.ts": "c4ce75051c5e928cfd9a6e90470196fa3c2f1a226aa9d2b45a0979745246d3f3",
+    "src/source/terrain-scenery.ts": "3fddad2d92f4977d411ea7ebb90b07d53307599c6f1d859d3c73494c5868b2e9",
+    "public/source/terraces/0.json": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323"
+  },
+  "sourceStable": true
+}
