@@ -46,7 +46,7 @@ test('actual Sprout Tower 3F script2 pans virtual241 five north then five south 
  assert.equal(Math.min(...s.positions.map(p=>p.z)),12.5);assert.equal(s.positions.at(-1)?.z,17.5);
  assert.ok(s.positions.some(p=>p.z===17.25));assert.ok(s.positions.every(p=>p.x===13.5&&Math.abs(p.y-(2+p.z/10))<1e-12));
  assert.deepEqual([s.objects.get('obj_D15R0103_gsrivel')?.x,s.objects.get('obj_D15R0103_gsrivel')?.z],[12,13]);
- assert.equal(s.objects.get('obj_D15R0103_gsrivel')?.shown,false);assert.equal(s.messages.length,3);
+ assert.equal(s.objects.snapshot().find(object=>object.id==='obj_D15R0103_gsrivel')?.visible,false);assert.equal(s.objects.get('obj_D15R0103_gsrivel')?.shown,undefined);assert.equal(s.messages.length,3);
  assert.ok(s.vm.supported.has('CreateCameraTarget')&&s.vm.supported.has('RemoveCameraTarget'));
 });
 

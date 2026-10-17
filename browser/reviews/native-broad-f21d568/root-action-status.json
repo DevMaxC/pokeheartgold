@@ -1,0 +1,20 @@
+{
+  "reviewedCommit": "f21d56866643e055efde7566afd2106129b841c6",
+  "scope": "Exact original source snapshot only; later commits are not approved by this review.",
+  "findings": {
+    "P2-1 escape": "Validated; isolated runtime correction under separate actual Opus review, not yet integrated.",
+    "P2-2 burn": "Validated; isolated runtime correction under separate actual Opus review, not yet integrated.",
+    "P2-3 Mom savings": "Validated; source module being implemented, no hosted behavior yet.",
+    "P3-1 first-rival criticals": "Validated; pending.",
+    "P3-2 background interaction facing": "Validated; pending.",
+    "P3-3 ordinary Pokemon gender": "Validated; pending.",
+    "P3-4 Continue entry lifecycle": "Validated; pending.",
+    "Struggle effectiveness": "Additional static finding, pending dedicated verification."
+  },
+  "noClaim": [
+    "full game parity",
+    "whole-code correctness",
+    "rendering/manual visual approval",
+    "later commit approval"
+  ]
+}
