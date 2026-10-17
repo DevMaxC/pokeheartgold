@@ -1,0 +1,26 @@
+{
+  "baselineCommit": "c2a026bed2b00c944980ac5a17c08d7ff099bbfa",
+  "acceptedLeaf": "55dc665973e2470340dbe14c859d95249e73afc8",
+  "pins": {
+    "browser/src/source/world.ts": "e72124de383e591f0f633ae8629d9832a29c9a13bd90480e9aefa51ae62aee32",
+    "browser/src/source/background-cliff-shells.ts": "1d0c633464ea5992630211b0341d0891b471df0f768399a991fd4007809ecffc",
+    "browser/src/source/background-cliff-shells.test.ts": "ee17cda2ac8d0b90a77deef8a113e1a676198188e79da92e08a57a455c61537c",
+    "browser/reviews/background-cliff-current-root/source/world-before-c2.ts.txt": "2806f7ee08e1cc23be481d6d6fcd42fb2148e4cc5bfc7f9605752bea26f9894c"
+  },
+  "helperEqualsAccepted55dc": true,
+  "testSupportEqualsAccepted55dc": true,
+  "C2MainAndAzaleaRuntime": {
+    "browser/src/source/main.ts": {
+      "sha256": "8da3540b341604c2ffb675e5d7650451538fdbc6ff1bbbb4d9eb0459204c8b6a",
+      "exactBaselineBytes": true
+    },
+    "browser/src/source/gym-azalea-host.ts": {
+      "sha256": "36e3e33c404b586c18970ea3bcb22c343d975d5418835b174e8ece586e785c6f",
+      "exactBaselineBytes": true
+    },
+    "browser/src/source/gym-azalea-world.ts": {
+      "sha256": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46",
+      "exactBaselineBytes": true
+    }
+  }
+}
