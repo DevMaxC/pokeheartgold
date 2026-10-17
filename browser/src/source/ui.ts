@@ -22,7 +22,7 @@ export class UI{
   constructor(){
     $('dialogue-next').onclick=()=>this.advance();
     addEventListener('keydown',e=>this.keydown(e),{capture:true});
-    addEventListener('focusin',e=>{if(this.panelOpen&&!$('panel-content').contains(e.target as Node))this.focusPanel();});
+    addEventListener('focusin',e=>{if(this.panelOpen&&!(e.target as HTMLElement|null)?.closest('[data-global-audio]')&&!$('panel-content').contains(e.target as Node))this.focusPanel();});
   }
   get busy(){return this.panelOpen||this.dialogueOpen;}
   advance(){this.next?.();}
@@ -35,12 +35,13 @@ export class UI{
   }
   private hidePanel(){clearTimeout(this.focusTimer);this.focusTimer=undefined;if(this.replacingPanel)return;++this.panelVersion;this.panelOpen=false;this.panelCancel=null;this.canDismiss=true;$('panel').hidden=true;for(const entry of this.panelInert)entry.element.inert=entry.previous;this.panelInert=[];const target=this.returnFocus;this.returnFocus=null;if(target?.isConnected&&target.tabIndex>=0&&!(target as HTMLButtonElement).disabled&&!target.closest('[hidden],[inert]'))target.focus();else $('original-world').focus();}
   close(){if(this.panelTask)this.panelTask.cancel(replaced());else this.hidePanel();}
-  private focusables(){return Array.from($('panel-content').querySelectorAll<HTMLElement>('button,input,select,textarea,a[href],[tabindex]')).filter(element=>!(element as HTMLButtonElement).disabled&&element.tabIndex>=0&&element.getAttribute('aria-disabled')!=='true'&&!element.closest('[hidden],[inert]')&&(typeof element.getClientRects!=='function'||element.getClientRects().length>0));}
+  private focusables(){return [...Array.from($('panel-content').querySelectorAll<HTMLElement>('button,input,select,textarea,a[href],[tabindex]')),...Array.from(document.querySelectorAll<HTMLElement>('[data-global-audio]'))].filter(element=>!(element as HTMLButtonElement).disabled&&element.tabIndex>=0&&element.getAttribute('aria-disabled')!=='true'&&!element.closest('[hidden],[inert]')&&(typeof element.getClientRects!=='function'||element.getClientRects().length>0));}
   private focusPanel(){const controls=this.focusables(),first=controls.find(element=>element.getAttribute('data-panel-focus')!==null)??controls[0];if(first)first.focus();else{$('panel-content').tabIndex=-1;$('panel-content').focus();}}
   private editable(element:HTMLElement|null){return !!element&&(['INPUT','TEXTAREA','SELECT'].includes(element.tagName)||element.isContentEditable);}
   private keydown(event:KeyboardEvent){
     if(event.defaultPrevented||event.ctrlKey||event.metaKey||event.altKey)return;
     const target=event.target as HTMLElement|null;
+    if(target?.closest('[data-global-audio]')&&event.code!=='Tab')return;
     if(this.panelOpen){
       if(['Enter','Space','KeyF'].includes(event.code)&&target?.closest('[data-panel-neutral]')&&$('panel-content').contains(target)){event.preventDefault();return;}
       const controls=this.focusables(),active=document.activeElement as HTMLElement|null,index=controls.indexOf(active!);
