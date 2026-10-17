@@ -1,4 +1,9 @@
 import unittest
+import tempfile
+import subprocess
+import sys
+import shutil
+from pathlib import Path
 
 from ledge_corner_topology import DIRECTIONS, ledge_corners
 
@@ -46,6 +51,21 @@ class NativeLedgeCornerTopology(unittest.TestCase):
         self.assertEqual(ledge_corners(source, lambda x, z: blocked.get((x, z), 2)), [[603, 396, 56, 59], [588, 401, 57, 59]])
         jumps, permission = self.corner(permission=0x803E)
         self.assertEqual(ledge_corners(jumps, permission), [[10, 10, 56, 59]])
+
+    def test_failed_new_export_invalidates_the_previous_stage(self):
+        with tempfile.TemporaryDirectory(prefix='hg-terrace-failed-export-') as directory:
+            browser = Path(directory)
+            scripts = browser / 'scripts'
+            scripts.mkdir()
+            for name in ['export_terraces.py', 'ledge_corner_topology.py']:
+                shutil.copyfile(Path(__file__).parent/name, scripts/name)
+            stage = browser / '.generated/terraces/999.json'
+            stage.parent.mkdir(parents=True)
+            stage.write_text('{"oldStage":true}')
+            failed = subprocess.run([sys.executable, str(scripts/'export_terraces.py'), '999'], capture_output=True, text=True)
+            self.assertNotEqual(failed.returncode, 0)
+            self.assertIn('matrices/999.json', failed.stderr)
+            self.assertFalse(stage.exists(), 'An upstream solve failure cannot leave a publishable old stage')
 
 
 if __name__ == '__main__':

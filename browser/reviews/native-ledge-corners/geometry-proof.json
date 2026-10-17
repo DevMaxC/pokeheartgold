@@ -1,6 +1,6 @@
 {
   "baseCommit": "93bf982b0d866a1150f22eae6ad6caf91da46bc5",
-  "createdUTC": "2026-10-17T13:47:06.198501+00:00",
+  "createdUTC": "2026-10-17T14:31:49.774285+00:00",
   "oldDataSHA256": "2088d879949bc6adacf2f1235c20bd76eac70991df6c94c43d8bae211e121132",
   "candidateDataSHA256": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
   "nativeJumpRows": 1453,
@@ -22,8 +22,8 @@
   "nativeArtProfileSamples": 9294,
   "nativeFloorFallbacks": 0,
   "targetedTests": {
-    "nodePass": 26,
-    "pythonPass": 7,
+    "nodePass": 36,
+    "pythonPass": 8,
     "tscExit": 0
   },
   "baselineRegressionFailures": 2,
@@ -45,11 +45,15 @@
     "Existing native decorative rim overlay above the base floor is preserved."
   ],
   "publicationValidation": {
-    "stagedExport": "v2-export.log",
-    "freshProfilePromotion": "v2-profiles.log",
+    "stagedExport": "v3-export.log",
+    "freshProfilePromotion": "v3-profiles.log",
     "publishedSha256": "277bac25178f99dfe3caa9ace134cf9097fbe5149e7e3733fb58f16ebfd87323",
     "unchangedAfterStage": true,
     "byteIdenticalAfterFreshProof": true,
-    "nativeFallbackSamples": 0
-  }
+    "nativeFallbackSamples": 0,
+    "sourceGenerationProvenance": true,
+    "explicitStagedPromotion": true,
+    "minimumCornerDrop": 0.8359375
+  },
+  "geometryCaptureCreatedUTC": "2026-10-17T13:47:06.198501+00:00"
 }

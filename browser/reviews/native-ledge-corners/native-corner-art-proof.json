@@ -2,24 +2,34 @@
   {
     "x": 1330,
     "z": 45,
+    "cell": {
+      "x": 41,
+      "z": 1,
+      "altitude": 0
+    },
+    "asset": "land/146-13.glb",
+    "nativeFloor": 3,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      41,
-      1
-    ],
-    "asset": "land/146-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1330.5,
+          45.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             36,
             49,
@@ -36,30 +46,90 @@
             -48
           ]
         ]
+      },
+      {
+        "point": [
+          1331,
+          45.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            36,
+            49,
+            -32
+          ],
+          [
+            48,
+            49,
+            -32
+          ],
+          [
+            48,
+            49,
+            -48
+          ]
+        ]
+      },
+      {
+        "point": [
+          1330.5,
+          46
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            36,
+            49,
+            -32
+          ],
+          [
+            48,
+            49,
+            -32
+          ],
+          [
+            48,
+            49,
+            -48
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1335,
     "z": 45,
+    "cell": {
+      "x": 41,
+      "z": 1,
+      "altitude": 0
+    },
+    "asset": "land/146-13.glb",
+    "nativeFloor": 3,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      41,
-      1
-    ],
-    "asset": "land/146-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1335.5,
+          45.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             112,
             49,
@@ -76,30 +146,90 @@
             -48
           ]
         ]
+      },
+      {
+        "point": [
+          1335,
+          45.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            112,
+            49,
+            -48
+          ],
+          [
+            112,
+            49,
+            -32
+          ],
+          [
+            124,
+            49,
+            -32
+          ]
+        ]
+      },
+      {
+        "point": [
+          1335.5,
+          46
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            112,
+            49,
+            -48
+          ],
+          [
+            112,
+            49,
+            -32
+          ],
+          [
+            124,
+            49,
+            -32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1069,
     "z": 78,
+    "cell": {
+      "x": 33,
+      "z": 2,
+      "altitude": 0
+    },
+    "asset": "land/193-17.glb",
+    "nativeFloor": 4,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
     ],
-    "cell": [
-      33,
-      2
-    ],
-    "asset": "land/193-17.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1069.5,
+          78.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -44,
             65,
@@ -116,30 +246,90 @@
             -32
           ]
         ]
+      },
+      {
+        "point": [
+          1070,
+          78.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -44,
+            65,
+            -16
+          ],
+          [
+            -32,
+            65,
+            -16
+          ],
+          [
+            -32,
+            65,
+            -32
+          ]
+        ]
+      },
+      {
+        "point": [
+          1069.5,
+          79
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -44,
+            65,
+            -16
+          ],
+          [
+            -32,
+            65,
+            -16
+          ],
+          [
+            -32,
+            65,
+            -32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1252,
     "z": 109,
+    "cell": {
+      "x": 39,
+      "z": 3,
+      "altitude": 0
+    },
+    "asset": "land/152-13.glb",
+    "nativeFloor": 3,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
-    ],
-    "cell": [
-      39,
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
       3
     ],
-    "asset": "land/152-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1252.5,
+          109.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -192,
             49,
@@ -156,30 +346,90 @@
             -48
           ]
         ]
+      },
+      {
+        "point": [
+          1252,
+          109.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -192,
+            49,
+            -48
+          ],
+          [
+            -192,
+            49,
+            -32
+          ],
+          [
+            -180,
+            49,
+            -32
+          ]
+        ]
+      },
+      {
+        "point": [
+          1252.5,
+          110
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -192,
+            49,
+            -48
+          ],
+          [
+            -192,
+            49,
+            -32
+          ],
+          [
+            -180,
+            49,
+            -32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1214,
     "z": 112,
+    "cell": {
+      "x": 37,
+      "z": 3,
+      "altitude": 0
+    },
+    "asset": "land/150-13.glb",
+    "nativeFloor": 4,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
     ],
-    "cell": [
-      37,
-      3
-    ],
-    "asset": "land/150-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1214.5,
+          112.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             224,
             65,
@@ -196,30 +446,90 @@
             0
           ]
         ]
+      },
+      {
+        "point": [
+          1214,
+          112.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            224,
+            65,
+            0
+          ],
+          [
+            224,
+            65,
+            16
+          ],
+          [
+            236,
+            65,
+            16
+          ]
+        ]
+      },
+      {
+        "point": [
+          1214.5,
+          113
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            224,
+            65,
+            0
+          ],
+          [
+            224,
+            65,
+            16
+          ],
+          [
+            236,
+            65,
+            16
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1222,
     "z": 112,
+    "cell": {
+      "x": 38,
+      "z": 3,
+      "altitude": 0
+    },
+    "asset": "land/151-13.glb",
+    "nativeFloor": 4,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
     ],
-    "cell": [
-      38,
-      3
-    ],
-    "asset": "land/151-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1222.5,
+          112.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -156,
             65,
@@ -236,30 +546,90 @@
             0
           ]
         ]
+      },
+      {
+        "point": [
+          1223,
+          112.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -156,
+            65,
+            16
+          ],
+          [
+            -144,
+            65,
+            16
+          ],
+          [
+            -144,
+            65,
+            0
+          ]
+        ]
+      },
+      {
+        "point": [
+          1222.5,
+          113
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -156,
+            65,
+            16
+          ],
+          [
+            -144,
+            65,
+            16
+          ],
+          [
+            -144,
+            65,
+            0
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1245,
     "z": 113,
+    "cell": {
+      "x": 38,
+      "z": 3,
+      "altitude": 0
+    },
+    "asset": "land/151-13.glb",
+    "nativeFloor": 3,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
-    ],
-    "cell": [
-      38,
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
       3
     ],
-    "asset": "land/151-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1245.5,
+          113.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             208,
             49,
@@ -276,30 +646,90 @@
             16
           ]
         ]
+      },
+      {
+        "point": [
+          1245,
+          113.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            208,
+            49,
+            16
+          ],
+          [
+            208,
+            49,
+            32
+          ],
+          [
+            220,
+            49,
+            32
+          ]
+        ]
+      },
+      {
+        "point": [
+          1245.5,
+          114
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            208,
+            49,
+            16
+          ],
+          [
+            208,
+            49,
+            32
+          ],
+          [
+            220,
+            49,
+            32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1226,
     "z": 116,
+    "cell": {
+      "x": 38,
+      "z": 3,
+      "altitude": 0
+    },
+    "asset": "land/151-13.glb",
+    "nativeFloor": 4,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
     ],
-    "cell": [
-      38,
-      3
-    ],
-    "asset": "land/151-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1226.5,
+          116.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -92,
             65,
@@ -316,30 +746,90 @@
             64
           ]
         ]
+      },
+      {
+        "point": [
+          1227,
+          116.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -92,
+            65,
+            80
+          ],
+          [
+            -80,
+            65,
+            80
+          ],
+          [
+            -80,
+            65,
+            64
+          ]
+        ]
+      },
+      {
+        "point": [
+          1226.5,
+          117
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -92,
+            65,
+            80
+          ],
+          [
+            -80,
+            65,
+            80
+          ],
+          [
+            -80,
+            65,
+            64
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1239,
     "z": 117,
+    "cell": {
+      "x": 38,
+      "z": 3,
+      "altitude": 0
+    },
+    "asset": "land/151-13.glb",
+    "nativeFloor": 3,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
-    ],
-    "cell": [
-      38,
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
       3
     ],
-    "asset": "land/151-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1239.5,
+          117.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             112,
             49,
@@ -356,30 +846,90 @@
             80
           ]
         ]
+      },
+      {
+        "point": [
+          1239,
+          117.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            112,
+            49,
+            80
+          ],
+          [
+            112,
+            49,
+            96
+          ],
+          [
+            124,
+            49,
+            96
+          ]
+        ]
+      },
+      {
+        "point": [
+          1239.5,
+          118
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            112,
+            49,
+            80
+          ],
+          [
+            112,
+            49,
+            96
+          ],
+          [
+            124,
+            49,
+            96
+          ]
+        ]
       }
     ]
   },
   {
     "x": 518,
     "z": 172,
+    "cell": {
+      "x": 16,
+      "z": 5,
+      "altitude": 0
+    },
+    "asset": "land/85-8.glb",
+    "nativeFloor": 4,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x0"
+    "floorProfile": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
     ],
-    "cell": [
-      16,
-      5
-    ],
-    "asset": "land/85-8.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          518.5,
+          172.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -160,
             65,
@@ -396,30 +946,90 @@
             -64
           ]
         ]
+      },
+      {
+        "point": [
+          518,
+          172.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -160,
+            65,
+            -64
+          ],
+          [
+            -160,
+            65,
+            -48
+          ],
+          [
+            -148,
+            65,
+            -48
+          ]
+        ]
+      },
+      {
+        "point": [
+          518.5,
+          173
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -160,
+            65,
+            -64
+          ],
+          [
+            -160,
+            65,
+            -48
+          ],
+          [
+            -148,
+            65,
+            -48
+          ]
+        ]
       }
     ]
   },
   {
     "x": 630,
     "z": 173,
+    "cell": {
+      "x": 19,
+      "z": 5,
+      "altitude": 0
+    },
+    "asset": "land/103-8.glb",
+    "nativeFloor": 7,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      7,
+      7,
+      7,
+      7,
+      7,
+      7
     ],
-    "cell": [
-      19,
-      5
-    ],
-    "asset": "land/103-8.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          630.5,
+          173.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             96,
             113,
@@ -438,22 +1048,52 @@
         ]
       },
       {
-        "material": "cliff01",
-        "points": [
+        "point": [
+          630,
+          173.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
           [
-            132,
-            62,
-            40
+            96,
+            113,
+            -48
           ],
           [
-            132,
-            62,
-            -112
+            96,
+            113,
+            -32
           ],
           [
-            0,
-            62,
-            -112
+            108,
+            113,
+            -32
+          ]
+        ]
+      },
+      {
+        "point": [
+          630.5,
+          174
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            96,
+            113,
+            -48
+          ],
+          [
+            96,
+            113,
+            -32
+          ],
+          [
+            108,
+            113,
+            -32
           ]
         ]
       }
@@ -462,24 +1102,34 @@
   {
     "x": 312,
     "z": 178,
+    "cell": {
+      "x": 9,
+      "z": 5,
+      "altitude": 0
+    },
+    "asset": "land/54-7.glb",
+    "nativeFloor": 3,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      9,
-      5
-    ],
-    "asset": "land/54-7.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          312.5,
+          178.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             128,
             49,
@@ -496,30 +1146,90 @@
             32
           ]
         ]
+      },
+      {
+        "point": [
+          312,
+          178.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            128,
+            49,
+            32
+          ],
+          [
+            128,
+            49,
+            48
+          ],
+          [
+            140,
+            49,
+            48
+          ]
+        ]
+      },
+      {
+        "point": [
+          312.5,
+          179
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            128,
+            49,
+            32
+          ],
+          [
+            128,
+            49,
+            48
+          ],
+          [
+            140,
+            49,
+            48
+          ]
+        ]
       }
     ]
   },
   {
     "x": 327,
     "z": 178,
+    "cell": {
+      "x": 10,
+      "z": 5,
+      "altitude": 0
+    },
+    "asset": "land/55-7.glb",
+    "nativeFloor": 3,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x400",
-      "0x0"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      10,
-      5
-    ],
-    "asset": "land/55-7.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          327.5,
+          178.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -140,
             49,
@@ -536,30 +1246,90 @@
             32
           ]
         ]
+      },
+      {
+        "point": [
+          328,
+          178.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -140,
+            49,
+            48
+          ],
+          [
+            -128,
+            49,
+            48
+          ],
+          [
+            -128,
+            49,
+            32
+          ]
+        ]
+      },
+      {
+        "point": [
+          327.5,
+          179
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -140,
+            49,
+            48
+          ],
+          [
+            -128,
+            49,
+            48
+          ],
+          [
+            -128,
+            49,
+            32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1294,
     "z": 178,
+    "cell": {
+      "x": 40,
+      "z": 5,
+      "altitude": 0
+    },
+    "asset": "land/153-13.glb",
+    "nativeFloor": 2,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
     ],
-    "cell": [
-      40,
-      5
-    ],
-    "asset": "land/153-13.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1294.5,
+          178.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -32,
             33,
@@ -576,30 +1346,90 @@
             32
           ]
         ]
+      },
+      {
+        "point": [
+          1294,
+          178.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -32,
+            33,
+            32
+          ],
+          [
+            -32,
+            33,
+            48
+          ],
+          [
+            -20,
+            33,
+            48
+          ]
+        ]
+      },
+      {
+        "point": [
+          1294.5,
+          179
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -32,
+            33,
+            32
+          ],
+          [
+            -32,
+            33,
+            48
+          ],
+          [
+            -20,
+            33,
+            48
+          ]
+        ]
       }
     ]
   },
   {
     "x": 304,
     "z": 183,
+    "cell": {
+      "x": 9,
+      "z": 5,
+      "altitude": 0
+    },
+    "asset": "land/54-7.glb",
+    "nativeFloor": 3,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      9,
-      5
-    ],
-    "asset": "land/54-7.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          304.5,
+          183.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             4,
             49,
@@ -616,30 +1446,90 @@
             112
           ]
         ]
+      },
+      {
+        "point": [
+          305,
+          183.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            4,
+            49,
+            128
+          ],
+          [
+            16,
+            49,
+            128
+          ],
+          [
+            16,
+            49,
+            112
+          ]
+        ]
+      },
+      {
+        "point": [
+          304.5,
+          184
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            4,
+            49,
+            128
+          ],
+          [
+            16,
+            49,
+            128
+          ],
+          [
+            16,
+            49,
+            112
+          ]
+        ]
       }
     ]
   },
   {
     "x": 265,
     "z": 201,
+    "cell": {
+      "x": 8,
+      "z": 6,
+      "altitude": 0
+    },
+    "asset": "land/57-7.glb",
+    "nativeFloor": 2,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x8039"
+    "floorProfile": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
     ],
-    "cell": [
-      8,
-      6
-    ],
-    "asset": "land/57-7.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          265.5,
+          201.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -112,
             33,
@@ -656,30 +1546,90 @@
             -112
           ]
         ]
+      },
+      {
+        "point": [
+          265,
+          201.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -112,
+            33,
+            -112
+          ],
+          [
+            -112,
+            33,
+            -96
+          ],
+          [
+            -100,
+            33,
+            -96
+          ]
+        ]
+      },
+      {
+        "point": [
+          265.5,
+          202
+        ],
+        "material": "allpeak_p",
+        "normalY": 1,
+        "triangle": [
+          [
+            -112,
+            33,
+            -96
+          ],
+          [
+            -100,
+            33,
+            -64
+          ],
+          [
+            -100,
+            33,
+            -96
+          ]
+        ]
       }
     ]
   },
   {
     "x": 265,
     "z": 204,
+    "cell": {
+      "x": 8,
+      "z": 6,
+      "altitude": 0
+    },
+    "asset": "land/57-7.glb",
+    "nativeFloor": 2,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x8039"
+    "floorProfile": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
     ],
-    "cell": [
-      8,
-      6
-    ],
-    "asset": "land/57-7.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          265.5,
+          204.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -112,
             33,
@@ -696,30 +1646,90 @@
             -64
           ]
         ]
+      },
+      {
+        "point": [
+          265,
+          204.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -112,
+            33,
+            -64
+          ],
+          [
+            -112,
+            33,
+            -48
+          ],
+          [
+            -100,
+            33,
+            -48
+          ]
+        ]
+      },
+      {
+        "point": [
+          265.5,
+          205
+        ],
+        "material": "allpeak_p",
+        "normalY": 1,
+        "triangle": [
+          [
+            -112,
+            33,
+            -48
+          ],
+          [
+            -100,
+            33,
+            -16
+          ],
+          [
+            -100,
+            33,
+            -48
+          ]
+        ]
       }
     ]
   },
   {
     "x": 265,
     "z": 207,
+    "cell": {
+      "x": 8,
+      "z": 6,
+      "altitude": 0
+    },
+    "asset": "land/57-7.glb",
+    "nativeFloor": 2,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x400"
+    "floorProfile": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
     ],
-    "cell": [
-      8,
-      6
-    ],
-    "asset": "land/57-7.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          265.5,
+          207.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -112,
             33,
@@ -736,30 +1746,90 @@
             -16
           ]
         ]
+      },
+      {
+        "point": [
+          265,
+          207.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -112,
+            33,
+            -16
+          ],
+          [
+            -112,
+            33,
+            0
+          ],
+          [
+            -100,
+            33,
+            0
+          ]
+        ]
+      },
+      {
+        "point": [
+          265.5,
+          208
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -112,
+            33,
+            -16
+          ],
+          [
+            -112,
+            33,
+            0
+          ],
+          [
+            -100,
+            33,
+            0
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1263,
     "z": 237,
+    "cell": {
+      "x": 39,
+      "z": 7,
+      "altitude": 0
+    },
+    "asset": "land/169-15.glb",
+    "nativeFloor": 2,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x2",
-      "0x400"
+    "floorProfile": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
     ],
-    "cell": [
-      39,
-      7
-    ],
-    "asset": "land/169-15.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1263.5,
+          237.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -12,
             33,
@@ -772,6 +1842,56 @@
           ],
           [
             -12,
+            33,
+            -48
+          ]
+        ]
+      },
+      {
+        "point": [
+          1264,
+          237.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -12,
+            33,
+            -32
+          ],
+          [
+            0,
+            33,
+            -32
+          ],
+          [
+            0,
+            33,
+            -48
+          ]
+        ]
+      },
+      {
+        "point": [
+          1263.5,
+          238
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -12,
+            33,
+            -32
+          ],
+          [
+            0,
+            33,
+            -32
+          ],
+          [
+            0,
             33,
             -48
           ]
@@ -782,24 +1902,34 @@
   {
     "x": 816,
     "z": 269,
+    "cell": {
+      "x": 25,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/125-10.glb",
+    "nativeFloor": 11,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      11,
+      11,
+      11,
+      11,
+      11,
+      11
     ],
-    "cell": [
-      25,
-      8
-    ],
-    "asset": "land/125-10.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          816.5,
+          269.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             0,
             177,
@@ -816,30 +1946,90 @@
             -48
           ]
         ]
+      },
+      {
+        "point": [
+          816,
+          269.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            0,
+            177,
+            -48
+          ],
+          [
+            0,
+            177,
+            -32
+          ],
+          [
+            12,
+            177,
+            -32
+          ]
+        ]
+      },
+      {
+        "point": [
+          816.5,
+          270
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            0,
+            177,
+            -48
+          ],
+          [
+            0,
+            177,
+            -32
+          ],
+          [
+            12,
+            177,
+            -32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 861,
     "z": 269,
+    "cell": {
+      "x": 26,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/123-10.glb",
+    "nativeFloor": 8,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x2"
-    ],
-    "cell": [
-      26,
+    "floorProfile": [
+      8,
+      8,
+      8,
+      8,
+      8,
       8
     ],
-    "asset": "land/123-10.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          861.5,
+          269.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             208,
             129,
@@ -856,30 +2046,90 @@
             -48
           ]
         ]
+      },
+      {
+        "point": [
+          861,
+          269.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            208,
+            129,
+            -48
+          ],
+          [
+            208,
+            129,
+            -32
+          ],
+          [
+            220,
+            129,
+            -32
+          ]
+        ]
+      },
+      {
+        "point": [
+          861.5,
+          270
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            208,
+            129,
+            -48
+          ],
+          [
+            208,
+            129,
+            -32
+          ],
+          [
+            220,
+            129,
+            -32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 878,
     "z": 273,
+    "cell": {
+      "x": 27,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/124-10.glb",
+    "nativeFloor": 8,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
-    ],
-    "cell": [
-      27,
+    "floorProfile": [
+      8,
+      8,
+      8,
+      8,
+      8,
       8
     ],
-    "asset": "land/124-10.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          878.5,
+          273.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -32,
             129,
@@ -896,30 +2146,90 @@
             16
           ]
         ]
+      },
+      {
+        "point": [
+          878,
+          273.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -32,
+            129,
+            16
+          ],
+          [
+            -32,
+            129,
+            32
+          ],
+          [
+            -20,
+            129,
+            32
+          ]
+        ]
+      },
+      {
+        "point": [
+          878.5,
+          274
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -32,
+            129,
+            16
+          ],
+          [
+            -32,
+            129,
+            32
+          ],
+          [
+            -20,
+            129,
+            32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 533,
     "z": 274,
+    "cell": {
+      "x": 16,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/9-2.glb",
+    "nativeFloor": 3,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x8006",
-      "0x2"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      16,
-      8
-    ],
-    "asset": "land/9-2.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          533.5,
+          274.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             84,
             49,
@@ -936,30 +2246,90 @@
             32
           ]
         ]
+      },
+      {
+        "point": [
+          534,
+          274.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            84,
+            49,
+            48
+          ],
+          [
+            96,
+            49,
+            48
+          ],
+          [
+            96,
+            49,
+            32
+          ]
+        ]
+      },
+      {
+        "point": [
+          533.5,
+          275
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            84,
+            49,
+            48
+          ],
+          [
+            96,
+            49,
+            48
+          ],
+          [
+            96,
+            49,
+            32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 810,
     "z": 279,
+    "cell": {
+      "x": 25,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/125-10.glb",
+    "nativeFloor": 10,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
     ],
-    "cell": [
-      25,
-      8
-    ],
-    "asset": "land/125-10.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          810.5,
+          279.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -92,
             161,
@@ -976,30 +2346,90 @@
             112
           ]
         ]
+      },
+      {
+        "point": [
+          811,
+          279.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -92,
+            161,
+            128
+          ],
+          [
+            -80,
+            161,
+            128
+          ],
+          [
+            -80,
+            161,
+            112
+          ]
+        ]
+      },
+      {
+        "point": [
+          810.5,
+          280
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -92,
+            161,
+            128
+          ],
+          [
+            -80,
+            161,
+            128
+          ],
+          [
+            -80,
+            161,
+            112
+          ]
+        ]
       }
     ]
   },
   {
     "x": 835,
     "z": 280,
+    "cell": {
+      "x": 26,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/123-10.glb",
+    "nativeFloor": 9,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x2"
+    "floorProfile": [
+      9,
+      9,
+      9,
+      9,
+      9,
+      9
     ],
-    "cell": [
-      26,
-      8
-    ],
-    "asset": "land/123-10.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          835.5,
+          280.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -208,
             145,
@@ -1016,30 +2446,90 @@
             128
           ]
         ]
+      },
+      {
+        "point": [
+          835,
+          280.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -208,
+            145,
+            128
+          ],
+          [
+            -208,
+            145,
+            144
+          ],
+          [
+            -196,
+            145,
+            144
+          ]
+        ]
+      },
+      {
+        "point": [
+          835.5,
+          281
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -208,
+            145,
+            128
+          ],
+          [
+            -208,
+            145,
+            144
+          ],
+          [
+            -196,
+            145,
+            144
+          ]
+        ]
       }
     ]
   },
   {
     "x": 841,
     "z": 280,
+    "cell": {
+      "x": 26,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/123-10.glb",
+    "nativeFloor": 9,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      9,
+      9,
+      9,
+      9,
+      9,
+      9
     ],
-    "cell": [
-      26,
-      8
-    ],
-    "asset": "land/123-10.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          841.5,
+          280.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -108,
             145,
@@ -1056,30 +2546,90 @@
             128
           ]
         ]
+      },
+      {
+        "point": [
+          842,
+          280.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -108,
+            145,
+            144
+          ],
+          [
+            -96,
+            145,
+            144
+          ],
+          [
+            -96,
+            145,
+            128
+          ]
+        ]
+      },
+      {
+        "point": [
+          841.5,
+          281
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -108,
+            145,
+            144
+          ],
+          [
+            -96,
+            145,
+            144
+          ],
+          [
+            -96,
+            145,
+            128
+          ]
+        ]
       }
     ]
   },
   {
     "x": 659,
     "z": 281,
+    "cell": {
+      "x": 20,
+      "z": 8,
+      "altitude": 0
+    },
+    "asset": "land/110-9.glb",
+    "nativeFloor": 5,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x0",
-      "0x2"
+    "floorProfile": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
     ],
-    "cell": [
-      20,
-      8
-    ],
-    "asset": "land/110-9.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          659.5,
+          281.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             48,
             81,
@@ -1096,30 +2646,90 @@
             144
           ]
         ]
+      },
+      {
+        "point": [
+          659,
+          281.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            48,
+            81,
+            144
+          ],
+          [
+            48,
+            81,
+            160
+          ],
+          [
+            60,
+            81,
+            160
+          ]
+        ]
+      },
+      {
+        "point": [
+          659.5,
+          282
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            48,
+            81,
+            144
+          ],
+          [
+            48,
+            81,
+            160
+          ],
+          [
+            60,
+            81,
+            160
+          ]
+        ]
       }
     ]
   },
   {
     "x": 474,
     "z": 315,
+    "cell": {
+      "x": 14,
+      "z": 9,
+      "altitude": 0
+    },
+    "asset": "land/25-3.glb",
+    "nativeFloor": 3,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      14,
-      9
-    ],
-    "asset": "land/25-3.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          474.5,
+          315.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             164,
             49,
@@ -1136,30 +2746,90 @@
             176
           ]
         ]
+      },
+      {
+        "point": [
+          475,
+          315.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            164,
+            49,
+            192
+          ],
+          [
+            176,
+            49,
+            192
+          ],
+          [
+            176,
+            49,
+            176
+          ]
+        ]
+      },
+      {
+        "point": [
+          474.5,
+          316
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            164,
+            49,
+            192
+          ],
+          [
+            176,
+            49,
+            192
+          ],
+          [
+            176,
+            49,
+            176
+          ]
+        ]
       }
     ]
   },
   {
     "x": 428,
     "z": 316,
+    "cell": {
+      "x": 13,
+      "z": 9,
+      "altitude": 0
+    },
+    "asset": "land/31-20.glb",
+    "nativeFloor": 3,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      13,
-      9
-    ],
-    "asset": "land/31-20.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          428.5,
+          316.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -60,
             49,
@@ -1176,30 +2846,90 @@
             192
           ]
         ]
+      },
+      {
+        "point": [
+          429,
+          316.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -60,
+            49,
+            208
+          ],
+          [
+            -48,
+            49,
+            208
+          ],
+          [
+            -48,
+            49,
+            192
+          ]
+        ]
+      },
+      {
+        "point": [
+          428.5,
+          317
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -60,
+            49,
+            208
+          ],
+          [
+            -48,
+            49,
+            208
+          ],
+          [
+            -48,
+            49,
+            192
+          ]
+        ]
       }
     ]
   },
   {
     "x": 644,
     "z": 329,
+    "cell": {
+      "x": 20,
+      "z": 10,
+      "altitude": 0
+    },
+    "asset": "land/112-9.glb",
+    "nativeFloor": 3,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      20,
-      10
-    ],
-    "asset": "land/112-9.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          644.5,
+          329.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -192,
             49,
@@ -1216,30 +2946,90 @@
             -112
           ]
         ]
+      },
+      {
+        "point": [
+          644,
+          329.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -192,
+            49,
+            -112
+          ],
+          [
+            -192,
+            49,
+            -96
+          ],
+          [
+            -180,
+            49,
+            -96
+          ]
+        ]
+      },
+      {
+        "point": [
+          644.5,
+          330
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -192,
+            49,
+            -112
+          ],
+          [
+            -192,
+            49,
+            -96
+          ],
+          [
+            -180,
+            49,
+            -96
+          ]
+        ]
       }
     ]
   },
   {
     "x": 178,
     "z": 333,
+    "cell": {
+      "x": 5,
+      "z": 10,
+      "altitude": 0
+    },
+    "asset": "land/68-7.glb",
+    "nativeFloor": 1,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x521",
-      "0x521"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      5,
-      10
-    ],
-    "asset": "land/68-7.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          178.5,
+          333.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             36,
             17,
@@ -1256,30 +3046,90 @@
             -48
           ]
         ]
+      },
+      {
+        "point": [
+          179,
+          333.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            36,
+            17,
+            -32
+          ],
+          [
+            48,
+            17,
+            -32
+          ],
+          [
+            48,
+            17,
+            -48
+          ]
+        ]
+      },
+      {
+        "point": [
+          178.5,
+          334
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            36,
+            17,
+            -32
+          ],
+          [
+            48,
+            17,
+            -32
+          ],
+          [
+            48,
+            17,
+            -48
+          ]
+        ]
       }
     ]
   },
   {
     "x": 619,
     "z": 362,
+    "cell": {
+      "x": 19,
+      "z": 11,
+      "altitude": 0
+    },
+    "asset": "land/114-9.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      19,
-      11
-    ],
-    "asset": "land/114-9.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          619.5,
+          362.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -80,
             17,
@@ -1296,30 +3146,90 @@
             -96
           ]
         ]
+      },
+      {
+        "point": [
+          619,
+          362.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -80,
+            17,
+            -96
+          ],
+          [
+            -80,
+            17,
+            -80
+          ],
+          [
+            -68,
+            17,
+            -80
+          ]
+        ]
+      },
+      {
+        "point": [
+          619.5,
+          363
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -80,
+            17,
+            -96
+          ],
+          [
+            -80,
+            17,
+            -80
+          ],
+          [
+            -68,
+            17,
+            -80
+          ]
+        ]
       }
     ]
   },
   {
     "x": 908,
     "z": 377,
+    "cell": {
+      "x": 28,
+      "z": 11,
+      "altitude": 0
+    },
+    "asset": "land/19-2.glb",
+    "nativeFloor": 3,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x2"
+    "floorProfile": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
     ],
-    "cell": [
-      28,
-      11
-    ],
-    "asset": "land/19-2.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          908.5,
+          377.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -64,
             49,
@@ -1336,30 +3246,90 @@
             144
           ]
         ]
+      },
+      {
+        "point": [
+          908,
+          377.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -64,
+            49,
+            144
+          ],
+          [
+            -64,
+            49,
+            160
+          ],
+          [
+            -52,
+            49,
+            160
+          ]
+        ]
+      },
+      {
+        "point": [
+          908.5,
+          378
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -64,
+            49,
+            144
+          ],
+          [
+            -64,
+            49,
+            160
+          ],
+          [
+            -52,
+            49,
+            160
+          ]
+        ]
       }
     ]
   },
   {
     "x": 603,
     "z": 396,
+    "cell": {
+      "x": 18,
+      "z": 12,
+      "altitude": 0
+    },
+    "asset": "land/1-2.glb",
+    "nativeFloor": 1,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      18,
-      12
-    ],
-    "asset": "land/1-2.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          603.5,
+          396.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             180,
             17,
@@ -1376,30 +3346,90 @@
             -64
           ]
         ]
+      },
+      {
+        "point": [
+          604,
+          396.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            180,
+            17,
+            -48
+          ],
+          [
+            192,
+            17,
+            -48
+          ],
+          [
+            192,
+            17,
+            -64
+          ]
+        ]
+      },
+      {
+        "point": [
+          603.5,
+          397
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            180,
+            17,
+            -48
+          ],
+          [
+            192,
+            17,
+            -48
+          ],
+          [
+            192,
+            17,
+            -64
+          ]
+        ]
       }
     ]
   },
   {
     "x": 588,
     "z": 401,
+    "cell": {
+      "x": 18,
+      "z": 12,
+      "altitude": 0
+    },
+    "asset": "land/1-2.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      18,
-      12
-    ],
-    "asset": "land/1-2.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          588.5,
+          401.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -64,
             17,
@@ -1416,30 +3446,90 @@
             16
           ]
         ]
+      },
+      {
+        "point": [
+          588,
+          401.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -64,
+            17,
+            16
+          ],
+          [
+            -64,
+            17,
+            32
+          ],
+          [
+            -52,
+            17,
+            32
+          ]
+        ]
+      },
+      {
+        "point": [
+          588.5,
+          402
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -64,
+            17,
+            16
+          ],
+          [
+            -64,
+            17,
+            32
+          ],
+          [
+            -52,
+            17,
+            32
+          ]
+        ]
       }
     ]
   },
   {
     "x": 746,
     "z": 403,
+    "cell": {
+      "x": 23,
+      "z": 12,
+      "altitude": 0
+    },
+    "asset": "land/12-2.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      23,
-      12
-    ],
-    "asset": "land/12-2.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          746.5,
+          403.5
+        ],
         "material": "allpeakgs_lm1",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -96,
             17,
@@ -1456,30 +3546,90 @@
             48
           ]
         ]
+      },
+      {
+        "point": [
+          746,
+          403.5
+        ],
+        "material": "allpeakgs_lm1",
+        "normalY": 1,
+        "triangle": [
+          [
+            -96,
+            17,
+            48
+          ],
+          [
+            -96,
+            17,
+            64
+          ],
+          [
+            -84,
+            17,
+            64
+          ]
+        ]
+      },
+      {
+        "point": [
+          746.5,
+          404
+        ],
+        "material": "allpeakgs_lm1",
+        "normalY": 1,
+        "triangle": [
+          [
+            -96,
+            17,
+            48
+          ],
+          [
+            -96,
+            17,
+            64
+          ],
+          [
+            -84,
+            17,
+            64
+          ]
+        ]
       }
     ]
   },
   {
     "x": 627,
     "z": 407,
+    "cell": {
+      "x": 19,
+      "z": 12,
+      "altitude": 0
+    },
+    "asset": "land/2-2.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      19,
-      12
-    ],
-    "asset": "land/2-2.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          627.5,
+          407.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             48,
             17,
@@ -1496,30 +3646,90 @@
             112
           ]
         ]
+      },
+      {
+        "point": [
+          627,
+          407.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            48,
+            17,
+            112
+          ],
+          [
+            48,
+            17,
+            128
+          ],
+          [
+            60,
+            17,
+            128
+          ]
+        ]
+      },
+      {
+        "point": [
+          627.5,
+          408
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            48,
+            17,
+            112
+          ],
+          [
+            48,
+            17,
+            128
+          ],
+          [
+            60,
+            17,
+            128
+          ]
+        ]
       }
     ]
   },
   {
     "x": 651,
     "z": 407,
+    "cell": {
+      "x": 20,
+      "z": 12,
+      "altitude": 0
+    },
+    "asset": "land/3-2.glb",
+    "nativeFloor": 1,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      20,
-      12
-    ],
-    "asset": "land/3-2.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          651.5,
+          407.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -76,
             17,
@@ -1536,30 +3746,90 @@
             112
           ]
         ]
+      },
+      {
+        "point": [
+          652,
+          407.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -76,
+            17,
+            128
+          ],
+          [
+            -64,
+            17,
+            128
+          ],
+          [
+            -64,
+            17,
+            112
+          ]
+        ]
+      },
+      {
+        "point": [
+          651.5,
+          408
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -76,
+            17,
+            128
+          ],
+          [
+            -64,
+            17,
+            128
+          ],
+          [
+            -64,
+            17,
+            112
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1260,
     "z": 426,
+    "cell": {
+      "x": 39,
+      "z": 13,
+      "altitude": 0
+    },
+    "asset": "land/165-14.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x0",
-      "0x2"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      39,
-      13
-    ],
-    "asset": "land/165-14.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1260.5,
+          426.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -64,
             17,
@@ -1576,30 +3846,90 @@
             -96
           ]
         ]
+      },
+      {
+        "point": [
+          1260,
+          426.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -64,
+            17,
+            -96
+          ],
+          [
+            -64,
+            17,
+            -80
+          ],
+          [
+            -52,
+            17,
+            -80
+          ]
+        ]
+      },
+      {
+        "point": [
+          1260.5,
+          427
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -64,
+            17,
+            -96
+          ],
+          [
+            -64,
+            17,
+            -80
+          ],
+          [
+            -52,
+            17,
+            -80
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1288,
     "z": 426,
+    "cell": {
+      "x": 40,
+      "z": 13,
+      "altitude": 0
+    },
+    "asset": "land/166-14.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x8006",
-      "0x400"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      40,
-      13
-    ],
-    "asset": "land/166-14.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1288.5,
+          426.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -128,
             17,
@@ -1616,30 +3946,90 @@
             -96
           ]
         ]
+      },
+      {
+        "point": [
+          1288,
+          426.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -128,
+            17,
+            -96
+          ],
+          [
+            -128,
+            17,
+            -80
+          ],
+          [
+            -116,
+            17,
+            -80
+          ]
+        ]
+      },
+      {
+        "point": [
+          1288.5,
+          427
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -128,
+            17,
+            -96
+          ],
+          [
+            -128,
+            17,
+            -80
+          ],
+          [
+            -116,
+            17,
+            -80
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1318,
     "z": 426,
+    "cell": {
+      "x": 41,
+      "z": 13,
+      "altitude": 0
+    },
+    "asset": "land/167-14.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x8006",
-      "0x400"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      41,
-      13
-    ],
-    "asset": "land/167-14.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1318.5,
+          426.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -160,
             17,
@@ -1656,30 +4046,90 @@
             -96
           ]
         ]
+      },
+      {
+        "point": [
+          1318,
+          426.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -160,
+            17,
+            -96
+          ],
+          [
+            -160,
+            17,
+            -80
+          ],
+          [
+            -148,
+            17,
+            -80
+          ]
+        ]
+      },
+      {
+        "point": [
+          1318.5,
+          427
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -160,
+            17,
+            -96
+          ],
+          [
+            -160,
+            17,
+            -80
+          ],
+          [
+            -148,
+            17,
+            -80
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1303,
     "z": 430,
+    "cell": {
+      "x": 40,
+      "z": 13,
+      "altitude": 0
+    },
+    "asset": "land/166-14.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x2",
-      "0x2"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      40,
-      13
-    ],
-    "asset": "land/166-14.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1303.5,
+          430.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             112,
             17,
@@ -1696,30 +4146,90 @@
             -32
           ]
         ]
+      },
+      {
+        "point": [
+          1303,
+          430.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            112,
+            17,
+            -32
+          ],
+          [
+            112,
+            17,
+            -16
+          ],
+          [
+            124,
+            17,
+            -16
+          ]
+        ]
+      },
+      {
+        "point": [
+          1303.5,
+          431
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            112,
+            17,
+            -32
+          ],
+          [
+            112,
+            17,
+            -16
+          ],
+          [
+            124,
+            17,
+            -16
+          ]
+        ]
       }
     ]
   },
   {
     "x": 465,
     "z": 433,
+    "cell": {
+      "x": 14,
+      "z": 13,
+      "altitude": 0
+    },
+    "asset": "land/29-3.glb",
+    "nativeFloor": 1,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      14,
-      13
-    ],
-    "asset": "land/29-3.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          465.5,
+          433.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             20,
             17,
@@ -1736,30 +4246,90 @@
             16
           ]
         ]
+      },
+      {
+        "point": [
+          466,
+          433.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            20,
+            17,
+            32
+          ],
+          [
+            32,
+            17,
+            32
+          ],
+          [
+            32,
+            17,
+            16
+          ]
+        ]
+      },
+      {
+        "point": [
+          465.5,
+          434
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            20,
+            17,
+            32
+          ],
+          [
+            32,
+            17,
+            32
+          ],
+          [
+            32,
+            17,
+            16
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1190,
     "z": 443,
+    "cell": {
+      "x": 37,
+      "z": 13,
+      "altitude": 0
+    },
+    "asset": "land/184-16.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      37,
-      13
-    ],
-    "asset": "land/184-16.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1190.5,
+          443.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -160,
             17,
@@ -1776,30 +4346,90 @@
             176
           ]
         ]
+      },
+      {
+        "point": [
+          1190,
+          443.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -160,
+            17,
+            176
+          ],
+          [
+            -160,
+            17,
+            192
+          ],
+          [
+            -148,
+            17,
+            192
+          ]
+        ]
+      },
+      {
+        "point": [
+          1190.5,
+          444
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -160,
+            17,
+            176
+          ],
+          [
+            -160,
+            17,
+            192
+          ],
+          [
+            -148,
+            17,
+            192
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1213,
     "z": 443,
+    "cell": {
+      "x": 37,
+      "z": 13,
+      "altitude": 0
+    },
+    "asset": "land/184-16.glb",
+    "nativeFloor": 1,
     "directions": [
       56,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x8006",
-      "0x400"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      37,
-      13
-    ],
-    "asset": "land/184-16.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1213.5,
+          443.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             212,
             17,
@@ -1816,30 +4446,90 @@
             176
           ]
         ]
+      },
+      {
+        "point": [
+          1214,
+          443.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            212,
+            17,
+            192
+          ],
+          [
+            224,
+            17,
+            192
+          ],
+          [
+            224,
+            17,
+            176
+          ]
+        ]
+      },
+      {
+        "point": [
+          1213.5,
+          444
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            212,
+            17,
+            192
+          ],
+          [
+            224,
+            17,
+            192
+          ],
+          [
+            224,
+            17,
+            176
+          ]
+        ]
       }
     ]
   },
   {
     "x": 462,
     "z": 467,
+    "cell": {
+      "x": 14,
+      "z": 14,
+      "altitude": 0
+    },
+    "asset": "land/32-4.glb",
+    "nativeFloor": 1,
     "directions": [
       57,
       59
     ],
-    "permission": "0x8000",
-    "lower": [
-      "0x400",
-      "0x400"
+    "floorProfile": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
     ],
-    "cell": [
-      14,
-      14
-    ],
-    "asset": "land/32-4.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          462.5,
+          467.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -32,
             17,
@@ -1856,30 +4546,90 @@
             48
           ]
         ]
+      },
+      {
+        "point": [
+          462,
+          467.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -32,
+            17,
+            48
+          ],
+          [
+            -32,
+            17,
+            64
+          ],
+          [
+            -20,
+            17,
+            64
+          ]
+        ]
+      },
+      {
+        "point": [
+          462.5,
+          468
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -32,
+            17,
+            48
+          ],
+          [
+            -32,
+            17,
+            64
+          ],
+          [
+            -20,
+            17,
+            64
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1033,
     "z": 495,
+    "cell": {
+      "x": 32,
+      "z": 15,
+      "altitude": 0
+    },
+    "asset": "land/205-18.glb",
+    "nativeFloor": 2,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x0",
-      "0x8000"
+    "floorProfile": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
     ],
-    "cell": [
-      32,
-      15
-    ],
-    "asset": "land/205-18.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1033.5,
+          495.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             -108,
             33,
@@ -1896,30 +4646,90 @@
             -16
           ]
         ]
+      },
+      {
+        "point": [
+          1034,
+          495.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -108,
+            33,
+            0
+          ],
+          [
+            -96,
+            33,
+            0
+          ],
+          [
+            -96,
+            33,
+            -16
+          ]
+        ]
+      },
+      {
+        "point": [
+          1033.5,
+          496
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            -108,
+            33,
+            0
+          ],
+          [
+            -96,
+            33,
+            0
+          ],
+          [
+            -96,
+            33,
+            -16
+          ]
+        ]
       }
     ]
   },
   {
     "x": 1048,
     "z": 498,
+    "cell": {
+      "x": 32,
+      "z": 15,
+      "altitude": 0
+    },
+    "asset": "land/205-18.glb",
+    "nativeFloor": 4,
     "directions": [
       56,
       59
     ],
-    "permission": "0x803e",
-    "lower": [
-      "0x0",
-      "0x0"
+    "floorProfile": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
     ],
-    "cell": [
-      32,
-      15
-    ],
-    "asset": "land/205-18.glb",
-    "covered": [
+    "witnesses": [
       {
+        "point": [
+          1048.5,
+          498.5
+        ],
         "material": "allpeak",
-        "points": [
+        "normalY": 1,
+        "triangle": [
           [
             132,
             65,
@@ -1932,6 +4742,56 @@
           ],
           [
             132,
+            65,
+            32
+          ]
+        ]
+      },
+      {
+        "point": [
+          1049,
+          498.5
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            132,
+            65,
+            48
+          ],
+          [
+            144,
+            65,
+            48
+          ],
+          [
+            144,
+            65,
+            32
+          ]
+        ]
+      },
+      {
+        "point": [
+          1048.5,
+          499
+        ],
+        "material": "allpeak",
+        "normalY": 1,
+        "triangle": [
+          [
+            132,
+            65,
+            48
+          ],
+          [
+            144,
+            65,
+            48
+          ],
+          [
+            144,
             65,
             32
           ]
