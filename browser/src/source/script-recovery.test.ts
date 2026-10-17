@@ -1,11 +1,14 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import {stripTypeScriptTypes} from 'node:module';
+import {runInNewContext} from 'node:vm';
 import {loadData,newState,createMon,giveMon} from './data.ts';
 import {FieldObjects} from './objects.ts';
 import {ScriptVM,UnsupportedScript,type ScriptHooks} from './script.ts';
 import {SourceActionRecovery,SourceRecoveryError,SourceTriggerGate,restoreStateInPlace,runRecoverableSourceAction,runFieldBattleAction} from './script-recovery.ts';
 import {sourceJSON,type SourceMap,type Script,type State} from './types.ts';
+import {TrainerAttemptLatch} from './trainer-encounters.ts';
 
 globalThis.fetch=async input=>{
   const path=String(input);assert.ok(path.startsWith('/source/'));
@@ -38,6 +41,18 @@ async function harness(id=156){
   return{state,objects,hooks,recovery,save,script,get ready(){return ready;},set ready(value){ready=value;},get map(){return map;},get vm(){return vm;},get weather(){return weather;},get visible(){return visible;},set visible(value){visible=value;},get saved(){return saved;},get writes(){return writes;},get hydrations(){return hydrations;},set failHydration(value){failHydration=value;},
     async enter(id:number){state.map=id;state.x=4.5;state.z=5.5;map=await sourceJSON<SourceMap>(`maps/${id}.json`);objects.load(map.events.objects);weather=0;visible=false;},
   };
+}
+
+// Exercise the real bootstrap binding without loading its WebGL/UI imports.
+// The recovery controller and both failure gates are the production classes.
+const main=await readFile(new URL('main.ts',import.meta.url),'utf8');
+const bindingStart=main.indexOf('async function executeSourceAction<'),bindingEnd=main.indexOf('\nasync function runScript(',bindingStart);
+assert.ok(bindingStart>=0&&bindingEnd>bindingStart,'main source-action binding moved; update the fixture');
+const actionBindingSource=stripTypeScriptTypes(main.slice(bindingStart,bindingEnd));
+function bindMainAction(h:Awaited<ReturnType<typeof harness>>,gate:SourceTriggerGate,trainers:TrainerAttemptLatch,choose:()=>Promise<number>){
+  const context={sourceActions:h.recovery,frameTriggerGate:gate,trainerAttempts:trainers,runRecoverableSourceAction,UnsupportedScript,state:h.state,recoveryPrompt:false,lastError:'',keys:new Set(['w']),ui:{choose},console:{error:()=>{}},save:()=>{assert.equal(context.recoveryPrompt,false);h.save();}};
+  const execute=runInNewContext(actionBindingSource+';executeSourceAction;',context)as<T>(action:()=>Promise<T>)=>ReturnType<typeof runRecoverableSourceAction<T,unknown>>;
+  return{execute,context};
 }
 
 test('actual Sprout Tower 3F failure restores both scene-variable aliases and remains explicitly retryable',async()=>{
@@ -264,4 +279,55 @@ test('retrying the failing frame action reopens that frame while preserving othe
   gate.failed('156','current-frame');assert.equal(gate.allows('earlier-frame'),false);assert.equal(gate.allows('current-frame'),false);
   gate.restore(beforeAction);assert.equal(gate.allows('earlier-frame'),false);assert.equal(gate.allows('current-frame'),true);
   gate.failed('156','current-frame');gate.retry('current-frame');assert.equal(gate.allows('earlier-frame'),false);assert.equal(gate.allows('current-frame'),true);
+});
+
+test('actual main Return restores an earlier map pause after a failed cross-map visit',async()=>{
+  const h=await harness(),gate=new SourceTriggerGate(),trainers=new TrainerAttemptLatch();
+  gate.failed('156','paused-A');const paused=gate.snapshot(),before=structuredClone(h.state);let prompts=0;
+  const binding=bindMainAction(h,gate,trainers,async()=>{prompts++;assert.equal(binding.context.recoveryPrompt,true);assert.equal(h.state.map,156);assert.equal(h.recovery.busy,false);return 1;});
+  const result=await binding.execute(async()=>{
+    await h.enter(61);gate.visit('61');gate.failed('61','failed-B');h.state.money=1;
+    await h.vm.run(h.script([['SetFlag',['UNFINISHED_B']],['UnportedMapEntry',[]]]),1);
+  });
+  assert.deepEqual(result,{ok:false});assert.equal(prompts,1);assert.equal(h.state.money,before.money);assert.equal(h.state.flags.UNFINISHED_B,undefined);assert.equal(h.map.id,156);
+  // This is the next idle poll after Return; it must not reopen paused-A.
+  gate.visit(String(h.state.map));assert.deepEqual(gate.snapshot(),paused);assert.equal(gate.allows('paused-A'),false);
+  assert.equal(binding.context.keys.size,0);assert.equal(binding.context.recoveryPrompt,false);assert.match(binding.context.lastError,/UnportedMapEntry/);assert.equal(h.writes,1);assert.equal(JSON.parse(h.saved).map,156);
+});
+
+test('actual main Return retains newly paused triggers when recovery stays on the same map',async()=>{
+  const h=await harness(),gate=new SourceTriggerGate(),trainers=new TrainerAttemptLatch();gate.failed('156','earlier-frame');
+  const binding=bindMainAction(h,gate,trainers,async()=>1);
+  const result=await binding.execute(async()=>{gate.failed('156','current-frame');await h.vm.run(h.script([['UnportedFrame',[]]]),1);});
+  assert.deepEqual(result,{ok:false});gate.visit(String(h.state.map));assert.equal(gate.allows('earlier-frame'),false);assert.equal(gate.allows('current-frame'),false);assert.equal(h.writes,1);
+});
+
+test('actual main Return merges old and new pauses after a failed A to B to A excursion',async()=>{
+  const h=await harness(),gate=new SourceTriggerGate(),trainers=new TrainerAttemptLatch();gate.failed('156','earlier-A');
+  const binding=bindMainAction(h,gate,trainers,async()=>1);
+  const result=await binding.execute(async()=>{
+    await h.enter(61);gate.failed('61','temporary-B');await h.enter(156);gate.failed('156','newly-failed-A');
+    await h.vm.run(h.script([['UnportedFrame',[]]]),1);
+  });
+  assert.deepEqual(result,{ok:false});gate.visit(String(h.state.map));assert.deepEqual(gate.snapshot(),{location:'156',blocked:['earlier-A','newly-failed-A']});assert.equal(gate.allows('temporary-B'),true);assert.equal(h.writes,1);
+});
+
+test('actual main successful map visits keep normal pause clearing rather than restoring failure snapshots',async()=>{
+  const h=await harness(),gate=new SourceTriggerGate(),trainers=new TrainerAttemptLatch();gate.failed('156','earlier-A');
+  const binding=bindMainAction(h,gate,trainers,async()=>assert.fail('successful visits do not prompt'));
+  const result=await binding.execute(async()=>{await h.enter(61);gate.visit('61');await h.enter(156);gate.visit('156');});
+  assert.equal(result.ok,true);assert.equal(gate.allows('earlier-A'),true);assert.equal(h.writes,1);
+});
+
+test('actual main explicit Retry restores both pre-outer frame and trainer gates before replay',async()=>{
+  const h=await harness(),gate=new SourceTriggerGate(),trainers=new TrainerAttemptLatch();gate.failed('156','earlier-frame');trainers.admit(h.state,'earlier-trainer');
+  const frameBefore=gate.snapshot(),trainerBefore=trainers.snapshot();let attempts=0,prompts=0;
+  const binding=bindMainAction(h,gate,trainers,async()=>{prompts++;assert.equal(h.state.map,156);return 0;});
+  const result=await binding.execute(async()=>{
+    attempts++;
+    if(attempts===1){await h.enter(61);gate.failed('61','failed-B');trainers.admit(h.state,'failed-trainer');await h.vm.run(h.script([['SetFlag',['UNFINISHED_B']],['UnportedMapEntry',[]]]),1);}
+    assert.equal(h.state.map,156);assert.equal(h.map.id,156);assert.deepEqual(gate.snapshot(),frameBefore);assert.deepEqual(trainers.snapshot(),trainerBefore);assert.equal(h.state.flags.UNFINISHED_B,undefined);
+    h.state.flags.RETRY_FINISHED=true;
+  });
+  assert.equal(result.ok,true);assert.equal(attempts,2);assert.equal(prompts,1);assert.equal(h.writes,1);assert.equal(JSON.parse(h.saved).flags.RETRY_FINISHED,true);assert.equal(binding.context.recoveryPrompt,false);
 });

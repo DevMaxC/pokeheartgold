@@ -163,7 +163,16 @@ async function executeSourceAction<T>(action:()=>Promise<T>){
     failed:async cause=>{
       lastError=String(cause);console.error(cause);recoveryPrompt=true;keys.clear();
       const detail=(cause instanceof UnsupportedScript?`This scene needs the source command ${cause.command} (${cause.map}:${cause.pc}). `:'The scene could not finish. ')+ 'Changes from this scene were undone. Progress from completed earlier scenes is retained.';
-      try{return await ui.choose('Scene not completed',['Retry scene','Return to field'],detail)===0?'retry':'return';}finally{recoveryPrompt=false;}
+      try{
+        const choice=await ui.choose('Scene not completed',['Retry scene','Return to field'],detail);
+        if(choice!==0){
+          // Failed visits may have cleared the restored map's earlier pauses.
+          // Retain its new failures too, including an A -> B -> A excursion.
+          const location=String(state.map),current=frameTriggerGate.snapshot();
+          frameTriggerGate.restore({location,blocked:[...new Set([...(triggerState.location===location?triggerState.blocked:[]),...(current.location===location?current.blocked:[])])]});
+        }
+        return choice===0?'retry':'return';
+      }finally{recoveryPrompt=false;}
     },
   });
 }

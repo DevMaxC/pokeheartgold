@@ -1,0 +1,125 @@
+{
+  "commit": "8b33642d9f07351194f6c5a824fa2811e074f286",
+  "snapshot": "/tmp/hg-native-integration-review-8b33642-visual-agent",
+  "graphSha256": "437f52d3f828d2c95343a19855e02e9185bb2f1bf58339250f9c264c2b7ae8e8",
+  "manualVerdict": "No concrete integration blocker found in source inspection",
+  "sourceReviewOnly": true,
+  "testsBuildBrowser": "No tests/build/browser executed by this reviewer; root reports503tests/TSC/buildPASS at8b. Not browser approval or fullsource parity.",
+  "reviewedPaths": [
+    "browser/src/source/main.ts",
+    "browser/src/source/world.ts",
+    "browser/src/source/script-recovery.ts",
+    "browser/src/source/script.ts",
+    "browser/src/source/script-camera.ts",
+    "browser/src/source/gym-violet.ts",
+    "browser/src/source/camera.ts",
+    "browser/src/source/trainer-encounters.ts",
+    "browser/src/source/objects.ts",
+    "browser/src/source/movement.ts",
+    "browser/src/source/types.ts",
+    "browser/public/source/maps/135.json",
+    "browser/public/source/maps/156.json"
+  ],
+  "checks": [
+    {
+      "property": "State/root identity and whole-action save gate",
+      "evidence": [
+        "main.ts:43",
+        "main.ts:128",
+        "main.ts:150",
+        "script-recovery.ts:71"
+      ]
+    },
+    {
+      "property": "ExplicitRetry restores both entry gate snapshots; automaticReturn keeps failures paused",
+      "evidence": [
+        "main.ts:156",
+        "main.ts:158",
+        "trainer-encounters.ts:20",
+        "trainer-encounters.ts:21"
+      ]
+    },
+    {
+      "property": "Approach external tasks drained before freshVM and field hydration",
+      "evidence": [
+        "main.ts:175",
+        "main.ts:132",
+        "main.ts:150",
+        "script.ts:236"
+      ]
+    },
+    {
+      "property": "Startup save guard and successfulhydration Return remain compatible",
+      "evidence": [
+        "main.ts:43",
+        "main.ts:151",
+        "main.ts:166",
+        "main.ts:336"
+      ]
+    },
+    {
+      "property": "Owner header synchronized before trainer/coord/warp priority",
+      "evidence": [
+        "main.ts:234",
+        "main.ts:235",
+        "main.ts:236"
+      ]
+    },
+    {
+      "property": "Standalone wildcatch/blackout commit precedes source resume; trainerVM stays atomic",
+      "evidence": [
+        "main.ts:247",
+        "main.ts:260",
+        "main.ts:269",
+        "main.ts:275",
+        "script-recovery.ts:113"
+      ]
+    },
+    {
+      "property": "ActualY/restoredlift hydration precedes camera entry and no native init sideeffects",
+      "evidence": [
+        "main.ts:128",
+        "main.ts:140",
+        "main.ts:144",
+        "world.ts:116"
+      ]
+    },
+    {
+      "property": "VioletInit onlyOnTransition so OnResume doesnot drop raised platform; realwarp clears whileContinue preserves",
+      "evidence": [
+        "maps/135.json:initScripts.OnTransition",
+        "gym-violet.ts:34",
+        "main.ts:185",
+        "main.ts:203",
+        "gym-violet.ts:89"
+      ]
+    },
+    {
+      "property": "Scriptcamera actor cleaned onVMfinally/recovery/roomchange; camera rig frozen during roomload and connected border has no orbit reset",
+      "evidence": [
+        "main.ts:138",
+        "main.ts:183",
+        "script.ts:236",
+        "script-camera.ts:31",
+        "world.ts:105",
+        "world.ts:121",
+        "world.ts:225",
+        "camera.ts:15"
+      ]
+    }
+  ],
+  "currentHeadQualification": {
+    "comparedCommit": "3c15b8a",
+    "allSourceChangesSince8b": [
+      "browser/src/source/house-building-shells.test.ts",
+      "browser/src/source/house-building-shells.ts"
+    ],
+    "sameBytesForReviewedGameplayCore": true,
+    "newHouseChangesExcludedFromThisSourceActionReview": true
+  },
+  "snapshotFilesUnchangedBeforeOpusCompletes": true,
+  "independentOpusResult": "/tmp/hg-native-integration-review-8b33642-opus-result.json",
+  "independentOpusStatus": "complete",
+  "postReviewAll183FilesStillMatchManifestAndCommittedGitBlobs": true,
+  "independentOpusVerdict": "PASS with one low-severity Return-side framegate finding; no high/medium defects"
+}
