@@ -118,7 +118,7 @@ export class Battle{
     if(playerFainted){const next=await new Promise<Action>(resolve=>{this.actions=resolve;this.partyMenu(true);});this.actions=null;if(next.kind==='switch')await this.switch(next.index);}
 
   }}
-  private effectiveSpeed(playerSide:boolean){const mon=playerSide?this.player:this.enemy,stages=playerSide?this.playerStages:this.enemyStages;const speed=Math.floor(mon.stats.speed*stageMultiplier(stages.speed));return Math.max(1,mon.status==='PAR'?Math.floor(speed/4):speed);}
+  private effectiveSpeed(playerSide:boolean){const mon=playerSide?this.player:this.enemy,stages=playerSide?this.playerStages:this.enemyStages;const speed=Math.floor(mon.stats.speed*stageMultiplier(stages.speed));return mon.status==='PAR'?Math.floor(speed/4):speed;}
   private selectMove(mon:Mon,slot:number){return slot<0?this.data.moves[165]:this.data.moves[mon.moves[slot].id];}
   private prepareRageTurn(mon:Mon,slot?:number){
     // Native BEFORE_TURN uses status2 &= STATUS2_RAGE, retaining Rage while

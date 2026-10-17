@@ -1,0 +1,17 @@
+{
+  "commit": "b30324e8b66fabf0747449be81568c814cfb69cd",
+  "fixture": "Actual Battle.start with both level1 HP1, speed stages−6 (reachable by supported StringShot), playerGeodudePAR; rng.25 allows paralyzedplayer to act if selected",
+  "result": "won",
+  "playerHP": 1,
+  "enemyHP": 0,
+  "messages": [
+    "A wild RATTATA appeared!",
+    "Go! GEODUDE!",
+    "GEODUDE used Tackle!",
+    "RATTATA fainted!",
+    "GEODUDE gained 8 Exp. Points!",
+    "You won the battle!"
+  ],
+  "nativeExpectedFirst": "enemy (effective1>0)",
+  "browserActualFirst": "player (clamped1=1 and tie.25)"
+}

@@ -2,6 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {Battle} from './battle.ts';
+import {freshStages} from './battle-math.ts';
 import {loadData,newState,createMon} from './data.ts';
 import type {Mon} from './types.ts';
 import type {UI} from './ui.ts';
@@ -56,4 +57,11 @@ test('equal-speed residuals use a fresh native low-bit tie instead of reusing th
     const draws=[0,0,0,0,residualBit/0x10000];let used=0;const{battle}=fixture(player,()=>{assert.ok(used<draws.length);return draws[used++];});
     assert.equal(await battle.start([enemy]),residualBit?'won':'lost');assert.equal(used,5);
   }
+});
+
+test('native integer paralysis speed may be zero and must lose strictly to speed one without a fabricated tie',async()=>{
+ const player=mon(74,1),enemy=mon(19,1);for(const battler of[player,enemy]){battler.hp=1;move(battler,'MOVE_TACKLE');}player.status='PAR';
+ assert.equal(player.stats.speed,5);assert.equal(enemy.stats.speed,6);
+ const {battle,messages}=fixture(player,()=>.25);Reflect.set(battle,'nextAction',async()=>{Reflect.set(battle,'playerStages',{...freshStages(),speed:-6});Reflect.set(battle,'enemyStages',{...freshStages(),speed:-6});return{kind:'move',slot:0};});
+ assert.equal(await battle.start([enemy]),'lost');assert.equal(messages.find(text=>text.includes(' used ')),`The opposing ${enemy.name} used Tackle!`);assert.equal(Reflect.get(battle,'effectiveSpeed').call(battle,true),0);assert.equal(Reflect.get(battle,'effectiveSpeed').call(battle,false),1);
 });
