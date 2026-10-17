@@ -7,6 +7,7 @@ import {stripTypeScriptTypes} from 'node:module';
 import {createContext,runInContext} from 'node:vm';
 import * as THREE from 'three';
 import {loadData,newState} from './data.ts';
+import {migrateLegacyBrowserForms,UnsupportedBrowserFormAdmission} from './mon-form.ts';
 import {migrateLegacyBrowserNicknames} from './mon-nickname.ts';
 import {runOpeningSession} from './opening.ts';
 import {fieldEntryScripts} from './field-transitions.ts';
@@ -20,6 +21,7 @@ import {sourceJSON} from './types.ts';
 globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('../../public'+String(input),import.meta.url)));}catch{return new Response('',{status:404});}};
 const data=await loadData(),main=await readFile(new URL('./main.ts',import.meta.url),'utf8');
 const section=(start,end)=>{const a=main.indexOf(start),b=main.indexOf(end,a);assert.ok(a>=0&&b>a,'Actual main binding '+start);return main.slice(a,b);};
+const evolutionCancel=section('async function cancelEvolutionField(', '\nfunction reportInputError(');
 const enterSource=section('async function runFieldEntry(','async function checkFrameTriggers('),titleSource=section('async function title(){','async function scriptWarp('),beginSource=section('async function begin(','async function boot(){');
 const admissionSource=section('function admitNicknameMetadata(',"async function begin(");
 const compile=source=>stripTypeScriptTypes(source,{mode:'transform'});
@@ -44,7 +46,7 @@ async function entryFixture(id=60){
  c.runScript=async(script,object)=>{log.push(['script',script]);await c.vm.run(c.map,script,object);};
  c.sourceActions=new SourceActionRecovery(state,{capture:()=>({actors:objects.save(state.map)}),restore:async snapshot=>{objects.load(native.events.objects);objects.restore(state.map,snapshot.actors);}});
  c.executeSourceAction=work=>c.sourceActions.run(work);
- createContext(c);runInContext(compile(enterSource)+';globalThis.actualEnter=enterMap;',c);
+ Object.assign(c,{DOMException,evolutionHost:undefined,battleMusicParent:undefined});createContext(c);runInContext(compile(evolutionCancel+enterSource)+';globalThis.actualEnter=enterMap;',c);
  return Object.assign(c,{log,native});
 }
 
@@ -57,7 +59,7 @@ async function titleFixture(saved,answers){
   },
  };
  c.ui.startScreen=async profile=>{log.push('title');return profile?(choices.shift()===0?'continue':'new'):'new';};c.ui.choose=async()=>choices.shift();
- createContext(c);runInContext(compile(titleSource)+';globalThis.actualTitle=title;',c);await c.actualTitle();assert.equal(choices.length,0);return{...c,entered,log};
+ Object.assign(c,{DOMException,evolutionHost:undefined,battleMusicParent:undefined});createContext(c);runInContext(compile(titleSource)+';globalThis.actualTitle=title;',c);await c.actualTitle();assert.equal(choices.length,0);return{...c,entered,log};
 }
 
 test('native normal Continue restores objects without InitMapOnEnter; field loading still runs OnLoad then OnResume',async t=>{
@@ -108,8 +110,8 @@ test('actual begin forwards explicit entry mode separately from actor restoratio
    beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,scriptWarp:unexpected,
    enterMap:async(...args)=>{calls.push(['enter',...args]);assert.equal(c.started,true);},save(){calls.push(['save']);},$:()=>({focus(){calls.push(['focus']);}}),
   };
-  createContext(c);runInContext(compile(admissionSource+beginSource)+';globalThis.actualBegin=begin;',c);const pending=c.actualBegin(mode);await entered;assert.deepEqual(calls,[['install-azalea']]);assert.equal(c.started,false);finishInstall();await pending;assert.equal(c.vm.hooks.azaleaGym,gymPorts);
-  assert.deepEqual(calls[1],['enter',state.map,state.x,state.z,true,mode==='continue',false,false,mode]);assert.deepEqual(calls.slice(2),[['save'],['focus']]);assert.equal(c.ready,true);
+  Object.assign(c,{DOMException,formAdmission:null,migrateLegacyBrowserForms,UnsupportedBrowserFormAdmission,savedStateOrigins:new WeakSet(c.state?[c.state]:[]),installEvolutionField:async()=>{calls.push(['install-evolution']);},evolutionHost:undefined,battleMusicParent:undefined});createContext(c);runInContext(compile(admissionSource+beginSource)+';globalThis.actualBegin=begin;',c);const pending=c.actualBegin(mode);await entered;assert.deepEqual(calls,[['install-azalea']]);assert.equal(c.started,false);finishInstall();await pending;assert.equal(c.vm.hooks.azaleaGym,gymPorts);
+  assert.deepEqual(calls[1],['install-evolution']);assert.deepEqual(calls[2],['enter',state.map,state.x,state.z,true,mode==='continue',false,false,mode]);assert.deepEqual(calls.slice(3),[['save'],['focus']]);assert.equal(c.ready,true);
  }
 });
 

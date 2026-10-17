@@ -1,3 +1,5 @@
+import {migrateLegacyBrowserForms,UnsupportedBrowserFormAdmission} from './mon-form.ts';
+import {noLevelUpHostFixture,noLevelUpBattleFixture} from './main-evolution-fixture.test.ts';
 // @ts-nocheck — execute actual Main bodies/hooks with bounded UI/GPU ports.
 import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
@@ -47,10 +49,10 @@ function fixture(){
   resetFieldInput:no,encounterChecks:{reset:no},momSavingsActive:()=>false,settleMomBattleMoney:()=>({}),withBattleMusic:async(_attempt,_trainer,action)=>action(),battleMoneyLoss:()=>0,healParty:no,trainerPrize:async()=>0,runFieldEntry:asyncNo,checkFrameTriggers:async()=>false,runFieldBattleAction,structuredClone,DOMException,AbortController,
  };
  c.executeSourceAction=async action=>{try{return{ok:true,value:await c.sourceActions.run(action)};}catch(error){errors.push(error);return{ok:false};}};
- createContext(c);
- const wanted=['requestNativeNickname','nicknamePartyMon','nicknameCapturedMon','admitNicknameMetadata','begin','startBattle'];
+ Object.assign(c,{formAdmission:null,migrateLegacyBrowserForms,UnsupportedBrowserFormAdmission,savedStateOrigins:new WeakSet([c.state]),installEvolutionField:async()=>{c.evolutionHost=noLevelUpHostFixture(c.state);noLevelUpBattleFixture(c.battle,c.state,()=>'caught');},evolutionHost:undefined,battleMusicParent:undefined});createContext(c);
+ const wanted=['requestNativeNickname','nicknamePartyMon','nicknameCapturedMon','admitNicknameMetadata','admitFormMetadata','begin','startBattle','drainBattleEvolution'];
  runInContext(compile(wanted.filter(name=>functions.has(name)).map(name=>functions.get(name)).join('\n')+'\nvm='+vmSource+';'),c);
- c.sourceActions=new SourceActionRecovery(c.state,{capture:()=>({}),restore:async()=>{}});c.started=true;c.ready=true;c.battle=new c.Battle();
+ c.sourceActions=new SourceActionRecovery(c.state,{capture:()=>({}),restore:async()=>{}});c.started=true;c.ready=true;c.battle=noLevelUpBattleFixture(new c.Battle(),c.state,()=>'caught');c.evolutionHost=noLevelUpHostFixture(c.state);
  c.hatchNickname=runInContext(compile('('+hatchNickname+')'),c);
  return c;
 }
@@ -98,17 +100,17 @@ test('late capture UI cannot mutate detached subject and rejects unresolved choi
 
 test('actual begin admits/persists legacy custom/default before recovery and never reinfers after saved marker',async()=>{
  const c=fixture();delete c.state.nicknameMetadata;delete c.state.party[0].hasNickname;const custom=createMon(data,158,18,'Case',()=>.5);custom.name='Old Custom';delete custom.hasNickname;c.state.boxes.push(custom);
- await c.begin('continue');assert.equal(c.state.party[0].hasNickname,false);assert.equal(c.state.boxes[0].hasNickname,true);assert.equal(c.nicknameAdmission.admission,'migrated');
+ c.savedStateOrigins.add(c.state);await c.begin('continue');assert.equal(c.state.party[0].hasNickname,false);assert.equal(c.state.boxes[0].hasNickname,true);assert.equal(c.nicknameAdmission.admission,'migrated');
  const created=c.log.find(row=>row[0]==='recovery-created');assert.equal(created[1].origin,'migrated-local-v2');assert.deepEqual(created[2],[false]);assert.ok(c.log.findIndex(row=>row[0]==='persist')<c.log.findIndex(row=>row[0]==='recovery-created'));
  const saved=c.writes[0];assert.equal(saved.party[0].hasNickname,false);assert.equal(saved.boxes[0].hasNickname,true);assert.equal(saved.nicknameMetadata.version,1);
  await assert.rejects(c.sourceActions.run(async()=>{c.state.party[0].hasNickname=true;throw Error('rollback after admission');}));assert.equal(c.state.party[0].hasNickname,false);assert.equal(c.state.nicknameMetadata.origin,'migrated-local-v2');
- const missing=createMon(data,155,14,'Case',()=>.5);delete missing.hasNickname;c.state.party.push(missing);await c.begin('continue');assert.equal(missing.hasNickname,undefined);assert.equal(c.nicknameAdmission.admission,'already-marked');assert.equal(c.nicknameAdmission.kind,'partial');
+ const missing=createMon(data,155,14,'Case',()=>.5);delete missing.hasNickname;c.state.party.push(missing);c.savedStateOrigins.add(c.state);await c.begin('continue');assert.equal(missing.hasNickname,undefined);assert.equal(c.nicknameAdmission.admission,'already-marked');assert.equal(c.nicknameAdmission.kind,'partial');
 });
 
 test('actual begin retains unknown/foreign/corrupt/Egg exclusions, and tolerates unavailable storage without fabricating flags',async()=>{
  const c=fixture();delete c.state.nicknameMetadata;delete c.state.party[0].hasNickname;
  c.state.boxes=[{...structuredClone(c.state.party[0]),isEgg:true},{...structuredClone(c.state.party[0]),checksumFailed:true},{...structuredClone(c.state.party[0]),provenance:{language:1}}];
- c.localStorage.setItem=()=>{throw Error('storage unavailable');};await c.begin('continue');assert.equal(c.nicknameAdmission.kind,'partial');assert.equal(c.nicknameAdmission.skippedEggs,1);assert.equal(c.nicknameAdmission.unresolved.length,2);for(const mon of c.state.boxes)assert.equal(mon.hasNickname,undefined);assert.equal(c.state.party[0].hasNickname,false);
+ c.localStorage.setItem=()=>{throw Error('storage unavailable');};c.savedStateOrigins.add(c.state);await c.begin('continue');assert.equal(c.nicknameAdmission.kind,'partial');assert.equal(c.nicknameAdmission.skippedEggs,1);assert.equal(c.nicknameAdmission.unresolved.length,2);for(const mon of c.state.boxes)assert.equal(mon.hasNickname,undefined);assert.equal(c.state.party[0].hasNickname,false);
  assert.ok(c.log.some(row=>row[0]==='warn'));assert.ok(c.sourceActions);
 });
 

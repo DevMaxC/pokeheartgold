@@ -38,7 +38,7 @@ function fixture(){
   const fieldActions:string[]=[],actions:unknown[]=[];
   Reflect.set(battle,'actions',(action:unknown)=>actions.push(action));
   const context:any={ui,battle,world:{fieldTransitionActive:false},ready:true,recoveryPrompt:false,sourceActions:null,hatching:false,sourceSceneOwners:0,preservedControlScripts:0,ordinaryInputOwners:0,started:true,pickupRecoveryBlocked:false,battleSoundOwned:false,transitioning:false,connecting:false,vm:{busy:false},keys:new Set<string>(),unlockSound(){},async interact(){fieldActions.push('interact');},async menu(){fieldActions.push('menu');},reportInputError(error:unknown){throw error;}};
-  createContext(context);runInContext(compiled,context);dom.listen('keydown',context.fieldKeydown);
+  Object.assign(context,{evolutionHost:undefined,battleMusicParent:undefined});createContext(context);runInContext(compiled,context);dom.listen('keydown',context.fieldKeydown);
   // Real browsers supply default button activation only when no listener
   // prevents it. This headless fixture supplies that default; it is not a
   // browser/layout assertion or an implementation of the battle handlers.

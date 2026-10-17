@@ -1,0 +1,57 @@
+{
+  "createdUTC": "2026-10-17T22:25:40.202183+00:00",
+  "immutableRuntimeReview": "a25f629df53236e76afb34bd6f91b45788e8141b",
+  "runtimeUnchanged": {
+    "browser/src/source/main.ts": "ac5a8362f4d774d187aabff119bc3cd26be0acc3826ad436a60d2b1d724bdc00",
+    "browser/src/source/ui.ts": "da60fe4fe736e6710b22b6463a0aa93da408ae217441edcce6f35e5c212aacc3",
+    "browser/src/source/evolution-view.ts": "8b84fc07e5ec1ae512c2f125220f2faa5d60056d64bb373d875431cb38a725ce",
+    "browser/src/source/evolution-field-host.ts": "14232f0709b110d85142ed90771919aa3ab752769bd7ffeb086f6f5bd467f0a7",
+    "browser/src/source/evolution-move-learning.ts": "f70d351118e9da81dc557ce0f03c1f9a5ea6c903f7f5267983a40d5ae5fbd84a",
+    "browser/src/source/native-text.ts": "209da729d113c0c6bc4e3ac44c1b435a57563221599e972cc4a7f6d2b2338c65",
+    "browser/src/source/field-music.ts": "82d014c5913b5f87b244ace91bb8a6c068728ce7d6e90179e282c13a93c95813",
+    "browser/src/source/azalea-field-sound.ts": "610836d29b9393f1ecb5d8b16b2d565c55cda441587a822487fa7b175f7fcf27",
+    "browser/src/source/evolution-audio.ts": "e4d2d58314a76d5ffb264414c5a0562dca58c60a7148b352f55f249848a5d5cd"
+  },
+  "changes": "TESTS ONLY: actual cancel/camera/drain extraction; attested local-v2 begin fixture + real form admission; no-EXP combat ports with live zero-mask completion and actual level/EXP invariants; retain all cue handle methods; source-backed map73 music region; fail-closed retained ownership then real retry.",
+  "initialAdjacent": {
+    "tests": 187,
+    "pass": 64,
+    "fail": 123
+  },
+  "finalAdjacentRunnerCases": {
+    "tests": 192,
+    "pass": 192,
+    "fail": 0,
+    "note": "Shared negative-control test executes in five importing processes; no claim of192 unique cases."
+  },
+  "typescriptExit": 0,
+  "diffCheckExit": 0,
+  "logs": {
+    "hg-evolution-main-adjacent-initial.log.gz": {
+      "originalSHA256": "d2e757deac762eeeb079c6b137428b0e0803e84db80801a5bd675a70b920e2a7",
+      "archiveSHA256": "568457a943a336984d735249a35356409ea3df2d9b370fde29b90023e2267c98",
+      "bytes": 172709
+    },
+    "hg-evolution-main-adjacent-ports7.log.gz": {
+      "originalSHA256": "bbb658f62901fc8df0d238b035cbee10c4803e101d07cc7456d0c0a98d038abd",
+      "archiveSHA256": "745e0fe0f296ec4ad2aefb81e3ff2a54a928f86a46910d233e8df6ed14676531",
+      "bytes": 37622
+    },
+    "hg-evolution-main-adjacent-final.log.gz": {
+      "originalSHA256": "bef6a777633a30dbb5e7b33b840d65dc348efbc2a2f9d314e660f0698049f5f4",
+      "archiveSHA256": "c0d0d754d74dfe7a1092e8b678010d6ef6956f701e9273622b89049d884ec8a7",
+      "bytes": 57949
+    },
+    "hg-evolution-main-adjacent-negative-complete.log.gz": {
+      "originalSHA256": "cc632de8279372df3c7aa7a6e2df801c914d009276e5fe0ef1d24eb4b2bf7263",
+      "archiveSHA256": "7ae5b348a628b12811d8d9995c0192b3fcc1c31c89ae3081bec789576f677cbd",
+      "bytes": 57225
+    },
+    "hg-evolution-main-test-migration-tsc.log.gz": {
+      "originalSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    }
+  },
+  "scope": "No runtime changes; old immutable review contains the original fixtures and initial failure evidence. Updated tests are separately qualified. No full campaign suite/build/browser/audio/deploy approval."
+}

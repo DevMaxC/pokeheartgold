@@ -1,3 +1,4 @@
+import {noLevelUpHostFixture,noLevelUpBattleFixture} from './main-evolution-fixture.test.ts';
 import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -40,7 +41,7 @@ const data=await loadData(),nativeMap=await sourceJSON('maps/73.json');
 const main=await readFile(root+'/browser/src/source/main.ts','utf8');
 const ast=ts.createSourceFile('main.ts',main,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);
 const functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node.getText(ast)]));
-const names=['requestNativeNickname','nicknamePartyMon','nicknameCapturedMon','abortBagUse','resetFieldInput','running','retainFieldInput','textDelay','save','tweenPlayer','captureField','restoreField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','wildEncounter','runFieldEntry','enterMap','pollFieldInput','refreshPhoneIndicator','answerPhone','fieldRTCObservation','pollPhoneAdmission','scriptWarp'];
+const names=['requestNativeNickname','nicknamePartyMon','nicknameCapturedMon','abortBagUse','resetFieldInput','running','retainFieldInput','textDelay','save','tweenPlayer','captureField','restoreField','cancelEvolutionField','executeSourceAction','runScript','checkFrameTriggers','checkEvents','step','moveActor','hatchEgg','startBattle','drainBattleEvolution','wildEncounter','runFieldEntry','enterMap','pollFieldInput','refreshPhoneIndicator','answerPhone','fieldRTCObservation','pollPhoneAdmission','scriptWarp'];
 for(const name of names)assert.ok(functions.has(name),'actual main function missing: '+name);
 const begin=ast.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='begin');
 let vmInitializer;function visit(node){if(ts.isBinaryExpression(node)&&node.left.getText(ast)==='vm'&&ts.isNewExpression(node.right)&&node.right.expression.getText(ast)==='ScriptVM')vmInitializer=node.right.getText(ast);ts.forEachChild(node,visit);}visit(begin);assert.ok(vmInitializer,'actual begin ScriptVM initializer');
@@ -88,7 +89,7 @@ async function fixture({counter=4,readyEgg=false,fainted=false}={}){
   tween:async(seconds,frame)=>{log.push(['tween',seconds,state.x,state.z,c.sourceActions.busy]);frame(.5);await controls.tween?.();frame(1);},encounterChecks:{step(){log.push('encounter-step');},reset(){},roll(){assert.equal(c.sourceActions.busy,false,'wild admission must follow committed step');return true;}},landSlot:()=>0,
   tryTrainerEncounter:async()=>{log.push('trainer');return controls.trainer;},warp:async(...args)=>{log.push(['warp',...args]);await controls.warp?.();},enterMap:unexpected,
   scriptCameraMovement:()=>null,setScriptCameraTarget:unexpected,SCRIPT_CAMERA_ACTOR:241,beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,mapWeather:()=>7,refreshNPCs(){log.push('refresh');},updateHUD(){},requestAnimationFrame:unexpected};
- createContext(c);runInContext(compile(boundSource+'\nvm='+vmInitializer+';'),c);c.sourceActions=new SourceActionRecovery(state,{capture:()=>c.captureField(),restore:(snapshot,error)=>c.restoreField(snapshot,error)});
+ Object.assign(c,{evolutionHost:noLevelUpHostFixture(c.state),battleMusicParent:undefined});if(c.battle)noLevelUpBattleFixture(c.battle,c.state);createContext(c);runInContext(compile(boundSource+'\nvm='+vmInitializer+';'),c);c.sourceActions=new SourceActionRecovery(state,{capture:()=>c.captureField(),restore:(snapshot,error)=>c.restoreField(snapshot,error)});
  const wildActual=c.wildEncounter;c.wildEncounter=async()=>{log.push('wild-admission');return wildActual();};
  return Object.assign(c,{log,writes,controls,phoneButton,audioFactories,audioTransports,audioNodes,audioGains});
 }
