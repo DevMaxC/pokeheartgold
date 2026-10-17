@@ -21,6 +21,8 @@ import {terraceModel,terraceWalls,terraceCliffMaterial} from './terrace-model.ts
 import {terrainPause} from './terrain-work.ts';
 import {VioletGym,VIOLET_GYM,type VioletLiftState} from './gym-violet.ts';
 import {ScriptCameraTarget,type ScriptCameraTween} from './script-camera.ts';
+import {AZALEA_GYM_KEY,AZALEA_MANAGED_MODELS} from './gym-azalea-world.ts';
+import type {AzaleaGymHost,AzaleaGymEntry} from './gym-azalea-host.ts';
 
 type LoadedCell = {cell:Cell;land:Land;group:THREE.Group;map:SourceMap;furniture?:FurnitureObstacle[]};
 export class OriginalWorld {
@@ -45,6 +47,8 @@ export class OriginalWorld {
   private pending:Promise<void>|null=null;private grassTime=0;
   readonly sky:WorldSky;
   private violetGymInstance:VioletGym|undefined;
+  azaleaGym:AzaleaGymHost|null=null;
+  private azaleaCameraZ=0;
   get violetGym(){return this.violetGymInstance??=new VioletGym(this.scene,path=>this.asset(path));}
   private cameraReady=false;
   private cameraTransition=false;
@@ -88,7 +92,7 @@ export class OriginalWorld {
   private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-joint','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface'||object.name==='source-terrace-joint')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
   /** Keep the last rendered view while an asynchronous warp replaces the
    * scene. Incoming player coordinates must never steer the outgoing rig. */
-  beginFieldTransition(){this.fieldTasks?.cancel(Error('Field transition interrupted native field tasks'));this.fieldEffect?.cancel(Error('Field transition interrupted the field presentation'));this.cameraTransition=true;}
+  beginFieldTransition(){this.azaleaGym?.leave();this.fieldTasks?.cancel(Error('Field transition interrupted native field tasks'));this.fieldEffect?.cancel(Error('Field transition interrupted the field presentation'));this.cameraTransition=true;}
   endFieldTransition(){this.cameraTransition=false;if(this.cameraResizePending){this.cameraResizePending=false;this.resizeRenderer();}}
   private resizeRenderer(){this.camera.aspect=innerWidth/innerHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(innerWidth,innerHeight);}
   /** Check the shared budget and build in the same continuation. Returning
@@ -99,6 +103,9 @@ export class OriginalWorld {
   get fieldMapID(){return this.activeHeader;}
   get fieldMapRunning(){return this.activeHeader>=0&&!this.cameraTransition&&!this.battleStage?.active&&!this.fieldEffect?.active;}
   get scriptCameraPosition(){return this.scriptCameraTarget?.position??null;}
+  /** Native shake offsets BOTH look-at and camera; changing it never changes
+   * the user's yaw/pitch/distance or reinitializes the camera rig. */
+  setAzaleaCameraOffset(owner:AzaleaGymHost,offset:number){if(this.azaleaGym!==owner)return;if(!Number.isFinite(offset))throw Error('Invalid Azalea camera offset');const delta=offset-(this.azaleaCameraZ??0);this.azaleaCameraZ=offset;this.target.z+=delta;this.camera.position.z+=delta;}
   createScriptCameraTarget(map:number,x:number,z:number){
     if(map!==this.activeHeader)throw Error('Camera target belongs to an inactive source field');
     this.scriptCameraTarget??=new ScriptCameraTarget((x,z,y,fromX,fromZ)=>this.height(x,z,y,fromX,fromZ));
@@ -109,7 +116,7 @@ export class OriginalWorld {
     if(this.scriptCameraPosition?.map!==this.activeHeader)throw Error('Missing original camera movement object 241');
     return this.scriptCameraTarget.move(map,label,tween);
   }
-  async enter(id:number,x:number,z:number,weather=0,initialHeight=0,violetLift:VioletLiftState=0){
+  async enter(id:number,x:number,z:number,weather=0,initialHeight=0,violetLift:VioletLiftState=0,azaleaEntry:AzaleaGymEntry='warp'){
     this.clearScriptCameraTarget();
     const ownsTransition=!this.cameraTransition;
     this.beginFieldTransition();
@@ -120,12 +127,13 @@ export class OriginalWorld {
     if(matrixChanged||roomChanged){this.generation++;this.streamCenter='';for(const c of this.cells.values())this.releaseCell(c);this.cells.clear();if(matrixChanged){const matrix=await sourceJSON<Matrix>(`matrices/${map.matrix}.json`);let terraces:Terraces|null=null;if(map.matrix===0){this.terraceData??=sourceJSON<TerraceData>('terraces/0.json').then(data=>new Terraces(data)).catch(error=>{this.terraceData=null;throw error;});terraces=await this.terraceData;}this.activeMatrix=map.matrix;this.matrix=matrix;this.terraces=terraces;}}
     this.activeHeader=id;
     this.latestStream={matrix:this.activeMatrix,id,x,z};
-    await this.stream(id,x,z);await this.violetGym.enter(map,violetLift);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z,initialHeight)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance,true);this.cameraReady=true;
+    await this.stream(id,x,z);await this.violetGym.enter(map,violetLift);await this.azaleaGym?.enter(map,azaleaEntry);fieldCameraEntry(this.camera,this.target,new THREE.Vector3(x,this.height(x,z,initialHeight)+.9,z),!this.cameraReady,this.yaw,this.pitch,this.distance,true);this.cameraReady=true;
     this.sky.enter(map,weather);
     return map;
     }finally{if(ownsTransition)this.endFieldTransition();}
   }
   async connect(id:number,x:number,z:number,weather=0){
+    if(id!==this.activeHeader)this.azaleaGym?.leave();
     if(id!==this.activeHeader)this.fieldTasks?.cancel(Error('Connected field changed during native field tasks'));
     if(id!==this.activeHeader)this.fieldEffect?.cancel(Error('Connected field changed during the field presentation'));
     if(id!==this.activeHeader)this.clearScriptCameraTarget();
@@ -137,6 +145,7 @@ export class OriginalWorld {
    * in the player's movement lock. A loaded adjacent header is already safe. */
   updateStreaming(id:number,x:number,z:number){
     const focus=this.scriptCameraPosition;if(focus?.map===id){x=focus.x;z=focus.z;}
+    const held=this.azaleaGym?.streamingTarget??this.azaleaGym?.riderPosition;if(held&&id===this.activeHeader){x=held.x;z=held.z;}
     this.latestStream={matrix:this.activeMatrix,id,x,z};const key=this.activeMatrix+':'+Math.floor(x/32)+','+Math.floor(z/32);
     if(this.streamRequest||this.loading||key===this.streamCenter||performance.now()<this.nextStreamAttempt)return;
     this.streamCenter=key;this.streamRequest=true;
@@ -192,7 +201,7 @@ export class OriginalWorld {
           if(!await this.runSceneryWork(generation,()=>{closeTerrainScenery(group,sceneryContext,cliff,sceneryPlan);}))return;
         }
         }
-        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;if(generation!==this.generation)return;const p=clone(await this.asset(prop.asset));group.add(p);if(generation!==this.generation)return;p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);const entrances=await doors();if(!await this.runSceneryWork(generation,()=>{closeBuildingExterior(p,prop.asset,entrances);if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}))return;}));for(const result of props)if(result.status==='rejected')throw result.reason;
+        const props=await Promise.allSettled(cell.props.map(async (prop,propIndex)=>{if(this.azaleaGym&&map.key===AZALEA_GYM_KEY&&AZALEA_MANAGED_MODELS.has(prop.id))return;const foundation=terraces?.data.foundations?.[xx+','+zz+':'+propIndex];let offset=0;if(generation!==this.generation)return;const p=clone(await this.asset(prop.asset));group.add(p);if(generation!==this.generation)return;p.scale.set(prop.scale[0]/16,prop.scale[1]/16,prop.scale[2]/16);p.position.fromArray(prop.position);if(terraces){const anchor=foundation??[xx*32+16+p.position.x,zz*32+16+p.position.z];offset=terraces.height(anchor[0],anchor[1]);p.position.y+=offset;}p.rotation.set(prop.rotation[0]*Math.PI/180,prop.rotation[1]*Math.PI/180,prop.rotation[2]*Math.PI/180);const entrances=await doors();if(!await this.runSceneryWork(generation,()=>{closeBuildingExterior(p,prop.asset,entrances);if(terraces&&foundation)closeBuildingFooting(p,terraces,offset);}))return;}));for(const result of props)if(result.status==='rejected')throw result.reason;
         if(generation!==this.generation)return;this.scene.add(group);group.updateMatrixWorld(true);this.cells.set(key,{cell,land,group,map,furniture:furnitureObstacles(group)});retained=true;
         }finally{if(!retained)this.releaseCell({cell,land,group,map});}
       })());
@@ -254,7 +263,8 @@ export class OriginalWorld {
     this.grassTime+=dt;updateGrass(this.grassTime,x,actorY??this.height(x,z),z);
     if(this.battleStage?.active){this.battleStage.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
     if(this.fieldEffect?.active){this.fieldEffect.update(dt);for(const npc of this.npcSprites.values())this.animate(npc,npc.npc.facingDirection,npc.npc.step);this.sky.update(dt,x,actorY??this.height(x,z),z);this.renderer.render(this.scene,this.camera);return;}
-    const focus=this.scriptCameraPosition,height=focus?.y??actorY??this.height(x,z,this.target.y-.9,this.target.x,this.target.z);const target=new THREE.Vector3(focus?.x??x,height+.9,focus?.z??z);this.target.lerp(target,1-Math.exp(-dt*9));
+    const rider=this.azaleaGym?.riderPosition;if(rider){x=rider.x;z=rider.z;actorY=rider.y;}
+    const focus=this.scriptCameraPosition,height=focus?.y??actorY??this.height(x,z,this.target.y-.9,this.target.x,this.target.z);const target=new THREE.Vector3(focus?.x??x,height+.9,(focus?.z??z)+(this.azaleaCameraZ??0));this.target.lerp(target,1-Math.exp(-dt*9));
     const orbit=new THREE.Vector3(Math.sin(this.yaw)*Math.cos(this.pitch),Math.sin(this.pitch),Math.cos(this.yaw)*Math.cos(this.pitch));
     const ray=new THREE.Raycaster(this.target,orbit,.5,this.distance),obstacles=[...this.cells.values()].flatMap(c=>fieldCameraObstacles(c.group));const collisions=ray.intersectObjects(obstacles,false);const first=collisions.find(c=>c.distance>1.2);const d=first?Math.max(2.2,first.distance-.6):this.distance;
     const desired=this.target.clone().addScaledVector(orbit,d);this.camera.position.lerp(desired,1-Math.exp(-dt*12));this.camera.lookAt(this.target);

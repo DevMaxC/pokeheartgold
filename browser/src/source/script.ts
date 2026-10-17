@@ -26,6 +26,8 @@ import {SCRIPT_CAMERA_PERSON,SCRIPT_CAMERA_ACTOR} from './script-camera.ts';
  * when signal aborts. startEffect starts now; its Promise means finished and
  * resources released, not merely scheduled. The VM owns doneVar and draining. */
 export type ScriptFieldMoveContext={map:SourceMap;object:string;signal:AbortSignal};
+export type ScriptGymContext={map:SourceMap;signal:AbortSignal};
+export type ScriptAzaleaGymPorts={init:(context:ScriptGymContext)=>void|Promise<void>;spinarak:(station:number,context:ScriptGymContext)=>Promise<void>;switch:(index:number,context:ScriptGymContext)=>Promise<void>};
 export type ScriptFieldMovePorts={
  cutIn:(partyIndex:number,context:ScriptFieldMoveContext)=>Promise<void>;
  startEffect:(kind:0|3,context:ScriptFieldMoveContext)=>Promise<void>;
@@ -58,6 +60,7 @@ export type ScriptHooks={
   trainerPath?:(index:number,trainer:EngagedTrainer)=>Promise<void>;trainerStep?:(index:number,trainer:EngagedTrainer)=>Promise<boolean>;
   trainerCandle?:(action:'bind'|'unbind'|'extinguish',useLastInteracted:boolean)=>Promise<void>|void;
   violetGym?:{init:()=>void|Promise<void>;elevator:()=>Promise<void>};
+  azaleaGym?:ScriptAzaleaGymPorts;
   cameraTarget?:(target:{map:SourceMap;x:number;z:number}|null)=>void;
   fieldMoves?:ScriptFieldMovePorts;
 };
@@ -260,6 +263,13 @@ export class ScriptVM{
         if(cmd==='GetGameVersion'){this.set(a[0],this.data.constants.GAME_VERSION);continue;}
         if(cmd==='GetWeatherType'){this.set(a[0],this.hooks.weather?.()??mapWeather(map,this.state));continue;}
         if(cmd==='VioletGymInit'||cmd==='VioletGymElevator'){if(!this.hooks.violetGym)throw new UnsupportedScript(map.code,cmd,pc-1);if(cmd==='VioletGymInit')await this.hooks.violetGym.init();else await this.hooks.violetGym.elevator();continue;}
+        if(cmd==='AzaleaGymInit'||cmd==='AzaleaGymSpinarak'||cmd==='AzaleaGymSwitch'){
+          const ports=this.hooks.azaleaGym;if(!ports||originMap.id!==180||originMap.key!=='MAP_AZALEA_GYM'||this.state.map!==180)throw new UnsupportedScript(map.code,cmd,pc-1);
+          const context:ScriptGymContext={map:originMap,signal:controller.signal};
+          if(cmd==='AzaleaGymInit')await ports.init(context);
+          else{const index=raw(a[0],8);await awaitedField(cmd==='AzaleaGymSpinarak'?ports.spinarak(index,context):ports.switch(index,context));}
+          assertLive();continue;
+        }
         if(cmd==='SetWeather'||cmd==='FlashEffect'){if(!this.hooks.weather)throw new UnsupportedScript(map.code,cmd,pc-1);this.hooks.weather(cmd==='FlashEffect'?12:v(a[0]));continue;}
         if(cmd==='FlashAction'||cmd==='DefogAction'){const flag=cmd==='FlashAction'?'FLAG_SYS_FLASH':'FLAG_SYS_DEFOG',action=v(a[0]);if(action===2)this.set(a[1],Number(!!this.state.flags[flag]));else if(action===0||action===1)this.state.flags[flag]=!!action;else throw new UnsupportedScript(map.code,cmd,pc-1);continue;}
         if(cmd==='GivePokedex'){this.state.pokedexEnabled=true;continue;}
