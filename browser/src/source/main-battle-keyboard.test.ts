@@ -85,3 +85,11 @@ test('real owned UI choices consume Enter and Space once before the production f
     }
   }finally{f.dispose();}
 });
+
+
+test('global audio focus preserves Enter/Space defaults without stealing subsequent field movement or interaction',()=>{
+ const f=fixture();try{const button=f.dom.document.createElement('button');button.setAttribute('data-global-audio','');f.dom.document.body.appendChild(button);button.focus();let toggles=0;button.onclick=()=>{toggles++;};
+ for(const code of['Enter','Space']as const){const event=f.dom.key(code);assert.equal(event.defaultPrevented,false);if(!event.defaultPrevented)button.click();}assert.equal(toggles,2);assert.equal(f.context.keys.size,0);assert.deepEqual(f.fieldActions,[]);
+ for(const code of['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE']){assert.equal(f.dom.key(code).defaultPrevented,true);assert.ok(f.context.keys.has(code));}f.dom.key('KeyF');assert.deepEqual(f.fieldActions,['interact']);assert.equal(toggles,2);
+ }finally{f.dispose();}
+});
