@@ -1,0 +1,100 @@
+TAP version 13
+# (node:84644) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: World field task hook preserves free camera updates and runs before transition/battle/egg branches
+ok 1 - World field task hook preserves free camera updates and runs before transition/battle/egg branches
+  ---
+  duration_ms: 10.9635
+  type: 'test'
+  ...
+# Subtest: actualVM10000 plus native Cut model hides at dispatch+9, uses same-tick queue start and completes after47 queue passes
+ok 2 - actualVM10000 plus native Cut model hides at dispatch+9, uses same-tick queue start and completes after47 queue passes
+  ---
+  duration_ms: 418.763833
+  type: 'test'
+  ...
+# Subtest: performers use logical follower tile/baseY and explicit visible flag, never an interpolated/hopping render coordinate
+ok 3 - performers use logical follower tile/baseY and explicit visible flag, never an interpolated/hopping render coordinate
+  ---
+  duration_ms: 173.86275
+  type: 'test'
+  ...
+# Subtest: transition cancels owned VM/effect/waits, drains rollback and keeps cached native templates intact
+ok 4 - transition cancels owned VM/effect/waits, drains rollback and keeps cached native templates intact
+  ---
+  duration_ms: 111.204375
+  type: 'test'
+  ...
+# Subtest: missing actor ports never attach or dispatch; UI-busy is not a model-running substitute
+ok 5 - missing actor ports never attach or dispatch; UI-busy is not a model-running substitute
+  ---
+  duration_ms: 8.460875
+  type: 'test'
+  ...
+# Subtest: persistent audio status failure blocks dispatch and is separately observed without creating a private Context
+ok 6 - persistent audio status failure blocks dispatch and is separately observed without creating a private Context
+  ---
+  duration_ms: 9.270458
+  type: 'test'
+  ...
+# Subtest: ordinary transitions and native connected Warp do not cancel unrelated VM when no Cut action is owned
+ok 7 - ordinary transitions and native connected Warp do not cancel unrelated VM when no Cut action is owned
+  ---
+  duration_ms: 11.139417
+  type: 'test'
+  ...
+# Subtest: required source cancellation drains an admitted owned UI wait before recovery returns, with no late flags
+ok 8 - required source cancellation drains an admitted owned UI wait before recovery returns, with no late flags
+  ---
+  duration_ms: 14.130375
+  type: 'test'
+  ...
+# Subtest: local Cut cancellation leaves an independently owned field controller and persistent World clock running
+ok 9 - local Cut cancellation leaves an independently owned field controller and persistent World clock running
+  ---
+  duration_ms: 238.807792
+  type: 'test'
+  ...
+# Subtest: Cut admission from another task-phase continuation cannot leak its action and prevent retry
+ok 10 - Cut admission from another task-phase continuation cannot leak its action and prevent retry
+  ---
+  duration_ms: 277.118875
+  type: 'test'
+  ...
+# Subtest: queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+ok 11 - queue-phase native banner completion is polled next script tick then bytecode resumes one tick later
+  ---
+  duration_ms: 21.330708
+  type: 'test'
+  ...
+# Subtest: real sound native callback observes cry completion before the following bytecode tick
+not ok 12 - real sound native callback observes cry completion before the following bytecode tick
+  ---
+  duration_ms: 0.455584
+  type: 'test'
+  location: '/private/tmp/hg-sound-phase-cut-context/browser/src/source/cut-field-host.test.ts:104:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/private/tmp/hg-sound-phase-cut-context/src/scrcmd_sound.c'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1249:14)
+    async TestContext.<anonymous> (/private/tmp/hg-sound-phase-cut-context/browser/src/source/cut-field-host.test.ts:105:14)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual transition reason reaches the owned source VM instead of generic cancellation
+ok 13 - actual transition reason reaches the owned source VM instead of generic cancellation
+  ---
+  duration_ms: 12.078458
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 12
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4173.962792
