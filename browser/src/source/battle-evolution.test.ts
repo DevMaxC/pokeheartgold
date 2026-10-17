@@ -84,7 +84,8 @@ test('outer abort during a scene or after an earlier completed candidate restore
 test('a concurrent run cannot steal the active queue owner or consume its pending batch',{timeout:3000},async()=>{
  const f=fixture();let enter!:()=>void,release!:()=>void;const entered=new Promise<void>(resolve=>{enter=resolve;}),gate=new Promise<void>(resolve=>{release=resolve;});
  f.ports.present=async(s,cb,signal)=>{enter();await gate;return scene(s,cb,signal);};const first=f.queue.run(data,f.state,f.record,f.ports);await entered;
- try{await assert.rejects(f.queue.run(data,f.state,f.record,f.ports),/already owns the field/);assert.equal(f.state.party[0].species,155);}finally{release();await first;}
+ let secondError:unknown;try{await f.queue.run(data,f.state,f.record,f.ports);}catch(error){secondError=error;}
+ release();const[firstResult]=await Promise.allSettled([first]);assert.ok(secondError instanceof Error,'the second run must reject before stealing the active owner');assert.match(secondError.message,/already owns the field/);assert.equal(firstResult.status,'fulfilled');
  assert.equal(f.state.party[0].species,156);assert.equal(f.queue.pending(f.record),0);
 });
 
