@@ -1,0 +1,26 @@
+{
+  "reviewedRuntime": "fc8c039a095edb4470cb3a95cd45894590ce9c81",
+  "runtimeUnchanged": true,
+  "scope": "TEST ONLY after immutable review: same actual Main hatch\u2192Li scenario for immediate asset error AND hung asset causing1500ms restore deadlines. Both pass.149 affected cases/TSC pass. Does not exhaustively prove arbitrary microtask interleavings.",
+  "files": {
+    "main-evolution.test.ts": "052b78abe15ebae4075058977305c9eb26b4256f88ef7dabfb72e3cb5e540f49",
+    "main-hatch-ownership.test.ts": "eb236f9560a7e4a4e0b63d9f4a08ae684e2dc1cc91752f61a1731fa43b3e342b"
+  },
+  "logs": {
+    "hg-hatch-owned-restore-timeout-main-tests.log": {
+      "sha256": "380f5a4db3ac57609e01898c69525bac3c13e0e4eeee1c05c10ce09bbbc82680",
+      "archiveSHA256": "df29eba6548e506de25b90bb5da1cffc60aaafa8ed25a2063d7f01ad8b61ccf6",
+      "bytes": 1002
+    },
+    "hg-hatch-owned-restore-final-affected-tests.log": {
+      "sha256": "79882faae04652bf6e6373bf9d11ef260378bb40621f14a14d809949f723a4d1",
+      "archiveSHA256": "2aa9ce7ce7e5a1d363c49832bf6d77fe30b8c1a58ce12d6e08770229fd5b0596",
+      "bytes": 43192
+    },
+    "hg-hatch-owned-restore-final-after-review-tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    }
+  }
+}
