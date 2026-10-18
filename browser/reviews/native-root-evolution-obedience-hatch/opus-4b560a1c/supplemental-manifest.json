@@ -1,0 +1,26 @@
+{
+  "recordedUTC": "2026-10-18T09:10:47.460518+00:00",
+  "qualification": "Supplemental input bytes recorded while actual review is running; main source-manifest and prompt remain immutable and prelaunch-pinned. This does not change reviewed inputs.",
+  "files": {
+    "accepted-leaf-comparison.json": {
+      "sha256": "85aed578ab93e955a851e54264b3b2ff9b60fe9515d2c945afe1cf097b6fd5fc",
+      "bytes": 17584
+    },
+    "owned-runtime.patch": {
+      "sha256": "13a5b00672392015a549f79f273e97709e285171839f6b330a92d537f617f8fd",
+      "bytes": 36660
+    },
+    "fixture-successor.ts": {
+      "sha256": "c52a35d88b33e37d564ab3319ebc7d7cf6a00ae4f0f9c80674453374e3c11535",
+      "bytes": 66011
+    },
+    "fixture-successor.patch": {
+      "sha256": "9be4e66f6485ea56b41f788f9aef14c98fadc56f48f4155ab3f5a96a50d626fa",
+      "bytes": 6970
+    },
+    "archive-receipt.json": {
+      "sha256": "647fb52504e0d3f4e16e0bf6f920a52a7a07488a555fc565a81de7c667914022",
+      "bytes": 427
+    }
+  }
+}

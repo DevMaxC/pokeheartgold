@@ -1,0 +1,106 @@
+{
+  "reviewedCommit": "4b560a1c5e070fdd6e8259f4001f33b98f5c9bfe",
+  "kind": "actual independent narrow immutable Root composition review",
+  "verdict": "ACCEPT",
+  "numTurns": 46,
+  "durationMs": 311102,
+  "wallSeconds": 313.75098862499,
+  "modelRequested": "claude-opus-5-5",
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2325,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0024249999999999996,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 78,
+      "outputTokens": 23649,
+      "cacheReadInputTokens": 4640677,
+      "cacheCreationInputTokens": 178676,
+      "webSearchRequests": 0,
+      "costUSD": 2.294807399999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 15505,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "tools": [
+    "Read",
+    "Grep",
+    "Glob"
+  ],
+  "permissionDenials": [],
+  "isError": false,
+  "sourceGraphSHA256": "500be8aa79cb1aebf25b20cfcf936687c4e1642c5ee25045cfa72b4f51192a29",
+  "inputFileCount": 8219,
+  "sourceManifestSHA256": "2e4fd69a0b9b498a9014b3b2823c545db8dcee72fdfb7d6c07c5112cd3a2c806",
+  "rawResultSHA256": "4a2f3e21495a53104d31129a70dd94f56fece8b2b28bb8675a29dfa7ffd25827",
+  "promptSHA256": "c8d9a0e7a73932145fbe0e43b95365b6a6704969db6605a2a214f72878c4f9bd",
+  "sourcePreserved": {
+    "verifiedUTC": "2026-10-18T09:14:56.281074+00:00",
+    "files": 8219,
+    "graphSHA256": "500be8aa79cb1aebf25b20cfcf936687c4e1642c5ee25045cfa72b4f51192a29",
+    "changed": [],
+    "unexpected": [],
+    "missing": [],
+    "sourceManifestUnchanged": true,
+    "promptUnchanged": true
+  },
+  "fixtureSuccessor": {
+    "commit": "3ee2550ad2b5936a8980c904ada849929362bb63",
+    "kind": "test-only, NOT substituted into immutable candidate",
+    "sourcePath": "browser/src/source/main-native-interface.test.ts",
+    "sha256": "c52a35d88b33e37d564ab3319ebc7d7cf6a00ae4f0f9c80674453374e3c11535",
+    "oldBefore": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1
+    },
+    "finalAfter": {
+      "tests": 37,
+      "pass": 37,
+      "fail": 0
+    },
+    "tscExitCode": 0
+  },
+  "parentValidationAtReview": {
+    "focused": {
+      "tests": 36,
+      "pass": 36,
+      "fail": 0
+    },
+    "fullFrozen4b": {
+      "tests": 1912,
+      "pass": 1911,
+      "fail": 1,
+      "failure": "obsolete raw field-audio fixture lacks real createCueSession; separate successor only"
+    },
+    "fixtureFirstAfter": {
+      "tests": 37,
+      "pass": 36,
+      "fail": 1,
+      "failure": "local sparse evidence checkout lacked src/encounter.c native pin; exact pin restored before final37/37"
+    }
+  },
+  "scopeLimits": [
+    "No new concrete reachable introduced merge defect was found.",
+    "Inherited all-player XP policy for trades remains separate partial parity; no claim imported arbitrary saves or later trade integration are supported.",
+    "Inherited bounded restore abort/restoreFailed microtask race remains qualified fail-explicit availability possibility; no exhaustive interleaving claim.",
+    "No new runtime correction. Main/queue/presentation/naming/clock equal accepted bd13, attack/ownership/maths equal da88, field-music/hatch equal accepted a451, World equal BCC.",
+    "No build/browser/GPU/audible/device/live/CI/full-campaign approval; Parent owns later validation.",
+    "Binary public assets omitted; complete copied source/metadata/exporter closure archived."
+  ],
+  "recordedUTC": "2026-10-18T09:16:12.610128+00:00"
+}

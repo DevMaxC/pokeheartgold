@@ -1,0 +1,358 @@
+diff --git a/browser/src/source/battle-math.ts b/browser/src/source/battle-math.ts
+index c2b1f74f..af834282 100644
+--- a/browser/src/source/battle-math.ts
++++ b/browser/src/source/battle-math.ts
+@@ -80,9 +80,18 @@ export function fixedMoveDamage(data:GameData,attacker:Mon,defender:Mon,move:Mov
+  * 0,self,self,1), then ApplyDamageRange. No STAB/type, screens or weather.
+  * Caller preflights unported damage-affecting ability/item branches. */
+ export function confusionDamage(data:GameData,mon:Mon,stages:Stages,rawRange:number){
++  return selfHitDamage(data,mon,stages,rawRange,40);
++}
++/** TryDisobedience calls POUND, not confusion's STRUGGLE. Technician therefore
++ * raises this path's power40 to60. Both calls use field0 and critical1;
++ * the controller must still admit the live ability/item/Attack-stage context. */
++export function disobedienceDamage(data:GameData,mon:Mon,stages:Stages,rawRange:number){
++  return selfHitDamage(data,mon,stages,rawRange,monAbility(data,mon)==='ABILITY_TECHNICIAN'?60:40);
++}
++function selfHitDamage(data:GameData,mon:Mon,stages:Stages,rawRange:number,power:number){
+   const ability=monAbility(data,mon),rawAttack=ability==='ABILITY_HUSTLE'||ability==='ABILITY_GUTS'&&mon.status?Math.floor(mon.stats.atk*150/100):mon.stats.atk;
+   const attack=Math.max(1,Math.floor(rawAttack*stageMultiplier(stages.atk))),defense=Math.max(1,Math.floor(mon.stats.def*stageMultiplier(stages.def)));
+-  let damage=Math.floor(Math.floor((Math.floor(mon.level*2/5)+2)*40*attack/defense)/50);if(mon.status==='BRN'&&ability!=='ABILITY_GUTS')damage=Math.floor(damage/2);damage+=2;
++  let damage=Math.floor(Math.floor((Math.floor(mon.level*2/5)+2)*power*attack/defense)/50);if(mon.status==='BRN'&&ability!=='ABILITY_GUTS')damage=Math.floor(damage/2);damage+=2;
+   return Math.max(1,Math.floor(damage*(100-(rawRange%16))/100));
+ }
+ // BtlCmd_GetMonBallCatchRate: integer divisions and nested square roots match the source path.
+diff --git a/browser/src/source/battle-obedience.ts b/browser/src/source/battle-obedience.ts
+new file mode 100644
+index 00000000..bbfb522c
+--- /dev/null
++++ b/browser/src/source/battle-obedience.ts
+@@ -0,0 +1,45 @@
++import type {NativeDraw16} from './battle-volatiles.ts';
++
++export type NativeObedienceContext={
++  level:number;badges:readonly number[];playerOT:boolean;
++  linkOrFrontier:boolean;opponentSide:boolean;aiPartner:boolean;canSelectAction:boolean;bideChargeHit:boolean;
++  move:number;moveSlot:number;status:number;status2:number;ability:number;uproar:boolean;
++  /** StruggleCheck with all flags. The selected slot is excluded here, not by the caller. */
++  blockedMoves:()=>number;
++};
++export type NativeObedienceResult={outcome:'obey'|'asleep'|'nothing'|'other-move'|'nap'|'self-hit';status2:number;returnCode:0|1|2|3;slot?:number};
++function integer(n:number,min:number,max:number,label:string){if(!Number.isInteger(n)||n<min||n>max)throw RangeError('Invalid native obedience '+label);return n;}
++
++/** TryDisobedience, battle_controller_player.c. RNG is the local native u16
++ * draw tape; this does not claim that the browser shares the cartridge LCG.
++ * Damage, target selection and subscripts belong to the battle controller. */
++export function nativeObedience(c:NativeObedienceContext,rng:NativeDraw16):NativeObedienceResult{
++  integer(c.level,1,100,'level');integer(c.move,0,467,'move');integer(c.moveSlot,0,3,'move slot');
++  integer(c.status,0,0xffffffff,'status');integer(c.status2,0,0xffffffff,'status2');integer(c.ability,0,123,'ability');
++  if(!Array.isArray(c.badges)||c.badges.length>16||new Set(c.badges).size!==c.badges.length)throw RangeError('Invalid native obedience badges');
++  for(const badge of c.badges)integer(badge,0,15,'badge');
++  for(const key of['playerOT','linkOrFrontier','opponentSide','aiPartner','canSelectAction','bideChargeHit','uproar'] as const)if(typeof c[key]!=='boolean')throw TypeError('Invalid native obedience '+key);
++  const result=(outcome:NativeObedienceResult['outcome'],returnCode:NativeObedienceResult['returnCode'],status2=c.status2,slot?:number):NativeObedienceResult=>slot===undefined?{outcome,returnCode,status2}:{outcome,returnCode,status2,slot};
++  if(c.linkOrFrontier||c.opponentSide||c.aiPartner||c.playerOT||!c.canSelectAction||c.move===117&&c.bideChargeHit||c.badges.length>=8)return result('obey',0);
++  let threshold=10;if(c.badges.length>=1)threshold=20;if(c.badges.length>=2)threshold=30;if(c.badges.includes(3))threshold=50;if(c.badges.includes(5))threshold=70;
++  if(c.level<=threshold)return result('obey',0);
++  const draw=()=>integer(rng(),0,65535,'u16 RNG result');
++  const scaled=()=>((draw()&255)*(c.level+threshold))>>8;
++  if(scaled()<threshold)return result('obey',0);
++  const status2=c.move===99?(c.status2&~0x00800000)>>>0:c.status2;
++  if((c.status&7)&&(c.move===173||c.move===214))return result('asleep',1,status2);
++  if(scaled()<threshold){
++    const blocked=integer(c.blockedMoves(),0,15,'blocked move mask')|(1<<c.moveSlot);
++    if(blocked===15)return result('nothing',1,status2);
++    let slot:number;do{slot=draw()&3;}while(blocked&(1<<slot));
++    return result('other-move',2,status2,slot);
++  }
++  const delta=c.level-threshold;let random=draw()&255;
++  if(random<delta&&!(c.status&0xff)&&c.ability!==72&&c.ability!==15&&!c.uproar)return result('nap',1,status2);
++  random-=delta;
++  if(random<delta)return result('self-hit',3,status2);
++  return result('nothing',1,status2);
++}
++
++/** DisobeyNothing0255 Random3,0: four messages, consuming one native draw. */
++export function nativeDisobedienceMessage(rng:NativeDraw16){return integer(rng(),0,65535,'u16 RNG result')%4;}
+diff --git a/browser/src/source/battle.ts b/browser/src/source/battle.ts
+index 424fbc66..9b9c0832 100644
+--- a/browser/src/source/battle.ts
++++ b/browser/src/source/battle.ts
+@@ -1,6 +1,6 @@
+ import type {GameData,State,Mon,MoveData} from './types.ts';
+ import {calculateStats,createMon,giveMon,speciesName,titleCase,itemName,moveName,trainerName} from './data.ts';
+-import {catchShakes,confusionDamage,fixedMoveDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
++import {catchShakes,confusionDamage,disobedienceDamage,fixedMoveDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
+ import {UI,$,escapeHTML as esc} from './ui.ts';
+ import {takeBagItem,isCaptureBall} from './bag.ts';
+ import type {BattleView} from './battle-view.ts';
+@@ -9,6 +9,8 @@ import {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
+ import {spriteGender,genderSymbol} from './gender.ts';
+ import {nativeTrainerReplacement,type TrainerReplacementMon} from './battle-replacement.ts';
+ import {planNativeExperience} from './battle-experience.ts';
++import {nativeBattleMonOwnership} from './mon-ownership.ts';
++import {nativeObedience,nativeDisobedienceMessage} from './battle-obedience.ts';
+ import {nativeBattleWeight,UnsupportedBattleWeight} from './battle-weight.ts';
+ import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
+ import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusionDuration,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativeGhostCurseCost,nativeCurseResidual,nativeReflectStart,nativeReflectTick,type NativeBattlerVolatile} from './battle-volatiles.ts';
+@@ -449,7 +451,10 @@ export class Battle{
+   private async attack(playerSide:boolean,slot:number,selectedMoveId?:number){
+     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
+     if(attacker.hp<=0)return;
+-    const move=this.selectMove(attacker,slot);
++    // Source OT identity is admitted before action state/RNG changes. Missing
++    // old browser identity retains the explicitly labelled prior policy.
++    const playerOT=!playerSide||nativeBattleMonOwnership(this.state,attacker).ownership==='player';
++    let move=this.selectMove(attacker,slot),disobedientTarget=false;
+     this.volatile(attacker).previousMove=nativePreviousMove(this.volatile(attacker).previousMove,0,{noMoveSet:false,moveSucceededFlag:false});
+     // Native sleep state1 permits Snore/SleepTalk instead of blocking them.
+     // Their effects remain unported: never silently consume a sleeping turn.
+@@ -459,11 +464,47 @@ export class Battle{
+     if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
+     if(await this.checkConfusion(attacker,as,playerSide,move))return;
+     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
++    if(playerSide){
++      const value=this.volatile(attacker),status=attacker.status==='SLP'?attacker.sleepTurns:({PSN:8,BRN:16,FRZ:32,PAR:64,TOX:128} as Record<string,number>)[attacker.status]??0;
++      const obedience=nativeObedience({level:attacker.level,badges:this.state.badges,playerOT,linkOrFrontier:false,opponentSide:false,aiPartner:false,canSelectAction:!(value.status2&((1<<22)|(3<<10)|(7<<4)|(1<<12))),bideChargeHit:false,move:move.id,moveSlot:Math.max(0,slot),status,status2:value.status2,ability:this.data.constants[monAbility(this.data,attacker)],uproar:false,blockedMoves:()=>{
++        // Disable/Torment/Taunt/Encore/Imprison/Gravity/HealBlock/choice-lock
++        // producers are not admitted by this battle engine. Its represented
++        // StruggleCheck mask is therefore empty slots and exhausted PP only;
++        // unsafe held-item hooks still reject before using a replacement.
++        this.assertItemScope(attacker,defender);let mask=0;for(let i=0;i<4;i++)if(!attacker.moves[i]?.id||attacker.moves[i].pp<=0)mask|=1<<i;return mask;
++      }},()=>this.random16());
++      if(obedience.outcome==='self-hit'){
++        if(this.unresolvedAttackEntryWithoutTarget||this.unresolvedAttackEntry.has(attacker)||[this.player,this.enemy].some(mon=>mon.hp>0&&monAbility(this.data,mon)==='ABILITY_TRACE'))throw Error('Unsupported native disobedience prior Attack/Trace entry');
++        this.assertDamageScope(attacker,attacker);
++      }
++      if(obedience.outcome==='nap'){
++        // This path bypasses0018's ordinary sleep-immunity checks, but must
++        // not introduce status into an unrepresented residual/ability host.
++        try{this.assertYawnSleepScope(attacker);}catch(error){throw Error('Unsupported native disobedience sleep prerequisites: '+String(error));}
++      }
++      value.status2=obedience.status2;if(!(value.status2&nativeStatus2.rage))this.raging.delete(attacker);
++      if(obedience.outcome==='other-move'){
++        slot=obedience.slot!;move=this.selectMove(attacker,slot);this.selectedMoveSlots.set(attacker,slot);disobedientTarget=true;
++        await this.say(`${attacker.name} ignored orders!`);
++      }else if(obedience.outcome!=='obey'){
++        if(obedience.outcome==='asleep')await this.say(`${attacker.name} ignored orders while asleep!`);
++        else if(obedience.outcome==='nothing')await this.say([`${attacker.name} is loafing around!`,`${attacker.name} won’t obey!`,`${attacker.name} turned away!`,`${attacker.name} pretended not to notice!`][nativeDisobedienceMessage(()=>this.random16())]);
++        else if(obedience.outcome==='nap'){
++          await this.say(`${attacker.name} began to nap!`);attacker.status='SLP';attacker.sleepTurns=nativeSleepDuration(()=>this.random16());await this.say(`${attacker.name} fell asleep!`);
++        }else{
++          const damage=disobedienceDamage(this.data,attacker,as,this.random16());
++          await this.say(`${attacker.name} won’t obey!`);await this.say('It hurt itself in its confusion!');attacker.hp=Math.max(0,attacker.hp-damage);this.draw();await this.view?.hit(true);
++          // Controller34→37 clears Rage after this self-hit for non-Rage.
++          if(move.id!==this.data.constants.MOVE_RAGE){this.raging.delete(attacker);value.status2&=~nativeStatus2.rage;}
++        }
++        await this.healAbility(attacker);return;
++      }
++    }
+     // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
+     // too unless FightInput has reselected a changed slot; OPPONENT_SIDE(128)
+     // retains a side target even if its active mon fainted. Their unported
+     // effects must not be silently accepted as a no-target action.
+-    const noTarget=!unportedChargeEffects.has(move.effect)&&defender.hp<=0&&(singleBattleLiveOpponentTargets.has(move.target)||(move.target===1024&&(selectedMoveId===undefined||selectedMoveId===move.id)));
++    const noTarget=!unportedChargeEffects.has(move.effect)&&defender.hp<=0&&(singleBattleLiveOpponentTargets.has(move.target)||(move.target===1024&&!disobedientTarget&&(selectedMoveId===undefined||selectedMoveId===move.id)));
+     if(slot>=0&&!implementedEffects.has(move.effect)&&!noTarget)throw Error(`Unported original move effect ${move.effect}: ${move.key}`);
+     if(slot>=0&&attacker.moves[slot].pp<=0){await this.say('But there was no PP left for the move!');return;}
+     this.assertActionScope(attacker,defender,move,playerSide);
+diff --git a/browser/src/source/field-music.ts b/browser/src/source/field-music.ts
+index a7df0d1d..7b079968 100644
+--- a/browser/src/source/field-music.ts
++++ b/browser/src/source/field-music.ts
+@@ -51,6 +51,7 @@ function decodeAudio(ctx:AudioContext,data:ArrayBuffer):Promise<AudioBuffer>{ret
+ async function digest(data:ArrayBuffer){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data)),value=>value.toString(16).padStart(2,'0')).join('');}
+ function validCue(cue:NativeMusicCue){if(!Number.isInteger(cue.id)||cue.id<0||!/^SEQ_\w+$/.test(cue.key))throw Error('Invalid original music cue');}
+ function validateBuffer(buffer:AudioBuffer,frames:number,rate:number,context:AudioContext){if(buffer.numberOfChannels!==2||Math.abs(buffer.duration-frames/rate)>1/rate+1/context.sampleRate)throw Error('Original audio decoded with unexpected sample timing or channels');}
++export type NativeCueSessionOptions={readonly beforeFieldRestore?:(signal:AbortSignal)=>Promise<void>};
+ 
+ /** One actual field voice/context. Constructing a player does not create audio
+  * or request a song. unlock() must be invoked directly by a user gesture; its
+@@ -65,7 +66,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+  let enabled=options.enabled,volume=options.volume,context:AudioContext|undefined,gain:GainNode|undefined,unlocked=false,disposed=false,pageActive=true;
+  let manifest:Promise<NativeFieldCatalog>|undefined,desired:NativeFieldSelection|null=null,current:{selection:NativeFieldSelection;identity:string;voice:Voice}|null=null;
+  let serial=0,generation=0,intent=0,loading:AbortController|undefined,interrupted=false;
+- type CueSessionOwner={preferences?:()=>Promise<void>;takeRetainedRestore?:(next:CueSessionOwner)=>{saved:EffectiveMusic;drain:Promise<unknown>}};
++ type CueSessionOwner={preferences?:()=>Promise<void>;takeRetainedRestore?:(next:CueSessionOwner)=>{saved:EffectiveMusic;drain:Promise<unknown>;barriers:readonly NonNullable<NativeCueSessionOptions['beforeFieldRestore']>[]}};
+  let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:CueSessionOwner|undefined;
+  const fetchBytes=options.fetchBytes??bytes;
+  const assertOpen=()=>{if(disposed)throw Error('Native field music player is disposed');};
+@@ -184,8 +185,12 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+   setPageActive(active:boolean){assertOpen();pageActive=active;updateGain();},
+   capture:snapshot,
+   /** A non-field native cue (e.g. battle) with an owned interruption. */
+-  createCueSession(){
+-   assertOpen();const owner:CueSessionOwner={};let abort=new AbortController();
++  createCueSession(options:NativeCueSessionOptions={}){
++   assertOpen();const beforeFieldRestore=options.beforeFieldRestore;if(beforeFieldRestore!==undefined&&typeof beforeFieldRestore!=='function')throw new UnsupportedNativeMusic('Invalid native field restoration barrier');
++   const owner:CueSessionOwner={};let abort=new AbortController();
++   // Capture callbacks once. A later application inherits these same immutable
++   // dependencies with the original paused phase, never expired source signals.
++   let barriers=beforeFieldRestore?[beforeFieldRestore]:[];
+    let saved:EffectiveMusic|undefined,owned:Voice|undefined,track:NativeFieldTrack|undefined;
+    let started=false,starting=false,failed=false,closed=false,restored=false,restoring:Promise<void>|undefined,preparing:Promise<void>|undefined;
+    let child:{controller:AbortController;released:boolean}|undefined,silentParent=false,restoreFailed=false,superseded=false;let restoreAbort:AbortController|undefined;
+@@ -210,7 +215,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+     loading?.abort(Error('Retained native restore transferred'));generation++;current?.voice.pause();interrupted=true;
+     const original=saved;superseded=true;restored=true;cueSession=next;
+     restoreAbort?.abort(Error('Retained native restore superseded'));
+-    return{saved:original,drain:Promise.allSettled([restoring,preparing].filter((work):work is Promise<void>=>!!work))};
++    return{saved:original,barriers:Object.freeze([...barriers]),drain:Promise.allSettled([restoring,preparing].filter((work):work is Promise<void>=>!!work))};
+    };
+    async function startSilent(signal:AbortSignal,takeRetained=false){
+     assertOpen();check(signal);check(lifetime.signal);
+@@ -218,7 +223,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+     let retired:Promise<unknown>|undefined;
+     if(takeRetained){
+      if(started||saved||child||!cueSession||cueSession===owner||!cueSession.takeRetainedRestore)throw Error('No closed failed native restore is retained');
+-     const transfer=cueSession.takeRetainedRestore(owner);saved=transfer.saved;retired=transfer.drain;
++     const transfer=cueSession.takeRetainedRestore(owner);saved=transfer.saved;retired=transfer.drain;barriers=[...new Set([...transfer.barriers,...barriers])];
+     }
+     if(child||cueSession&&cueSession!==owner||interrupted&&!saved)throw Error('Another native music interruption is active');
+     if(saved&&!interrupted)throw Error('Native silent interruption lost its suspended field owner');
+@@ -271,7 +276,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+     restore(signal?:AbortSignal){
+      if(restored)return Promise.resolve();if(restoring)return observe(()=>restoring!,signal?[signal]:[]);closed=true;detach();abort.abort(Error('Native cue session restored'));owned?.stop();
+      const controller=new AbortController();restoreAbort=controller;const input=AbortSignal.any([controller.signal,lifetime.signal,...signal?[signal]:[]]);
+-     const pending=(async()=>{check(input);if(saved)await field.restore(saved,input);restored=true;restoreFailed=false;if(cueSession===owner)cueSession=undefined;})();restoring=pending;
++     const pending=(async()=>{try{check(input);if(saved){if(barriers.length)await io(async signal=>{for(const barrier of barriers)await observe(()=>barrier(signal),[signal]);},[input],'cue restore barrier');check(input);await field.restore(saved,input);}restored=true;restoreFailed=false;if(cueSession===owner)cueSession=undefined;}catch(error){if(superseded)return;throw error;}})();restoring=pending;
+      void pending.catch(()=>{if(!superseded)restoreFailed=true;if(restoring===pending)restoring=undefined;});return pending;
+     },
+    };
+diff --git a/browser/src/source/hatch-host-audio.ts b/browser/src/source/hatch-host-audio.ts
+index ea166ea7..26ffefcd 100644
+--- a/browser/src/source/hatch-host-audio.ts
++++ b/browser/src/source/hatch-host-audio.ts
+@@ -5,7 +5,8 @@ export class UnsupportedHatchHostAudio extends Error{constructor(message:string)
+ export class HatchHostAudioFailure extends Error{
+  constructor(readonly operation:string,cause:unknown){super('Original hatch audio '+operation+' unavailable: '+String(cause??'no error value'),{cause});this.name='HatchHostAudioFailure';}
+ }
+-export type HatchAudioPlayer={field:{capture:()=>EffectiveFieldMusic;suspend:(snapshot:EffectiveFieldMusic)=>Promise<EffectiveFieldMusic>;restore:(snapshot:EffectiveFieldMusic,signal?:AbortSignal)=>Promise<void>};createHatchTransport:()=>NativeMusicTransport};
++type HatchCueParent={startSilent:(signal:AbortSignal)=>Promise<void>;startSilentAfterRetainedRestore:(signal:AbortSignal)=>Promise<void>;restore:(signal?:AbortSignal)=>Promise<void>};
++export type HatchAudioPlayer={field:{capture:()=>EffectiveFieldMusic};createCueSession:(options?:{readonly beforeFieldRestore?:(signal:AbortSignal)=>Promise<void>})=>HatchCueParent;createHatchTransport:()=>NativeMusicTransport};
+ export type SharedHatchAudioOutput={context:AudioContext;output:AudioNode;signal:AbortSignal};
+ export type HatchHostAudioPorts={
+  /** Read current global preference at each admission/restore boundary. Master
+@@ -42,12 +43,12 @@ async function manifest(signal:AbortSignal){const response=await fetch('/source/
+  * Missing/wrong source/configuration and cancellation remain explicit failures.
+  */
+ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusicSession;cry:(scene:EggHatchVisualScene,signal:AbortSignal)=>Promise<void>}{
+- if(!ports||typeof ports.enabled!=='function'||typeof ports.player?.field?.capture!=='function'||typeof ports.player.field.suspend!=='function'||typeof ports.player.field.restore!=='function'||typeof ports.player.createHatchTransport!=='function'||typeof ports.sharedAudioOutput!=='function'||typeof ports.drainFieldWork!=='function'||typeof ports.report!=='function'||typeof ports.retainRestore!=='function')throw new UnsupportedHatchHostAudio('Native hatch requires shared player/output, field drain, failure report and retained restore ports');
++ if(!ports||typeof ports.enabled!=='function'||typeof ports.player?.field?.capture!=='function'||typeof ports.player.createCueSession!=='function'||typeof ports.player.createHatchTransport!=='function'||typeof ports.sharedAudioOutput!=='function'||typeof ports.drainFieldWork!=='function'||typeof ports.report!=='function'||typeof ports.retainRestore!=='function')throw new UnsupportedHatchHostAudio('Native hatch requires shared player/output, owned cue parent, field drain, failure report and retained restore ports');
+  const timeout=ports.timeoutMs??1500;if(!Number.isInteger(timeout)||timeout<1||timeout>120000)throw new UnsupportedHatchHostAudio('Invalid hatch audio operation deadline');
+  const preparationTimeout=ports.preparationTimeoutMs??4000;if(!Number.isInteger(preparationTimeout)||preparationTimeout<1||preparationTimeout>120000)throw new UnsupportedHatchHostAudio('Invalid hatch audio preparation deadline');
+  const owner=new AbortController(),lifetimes=new Map<AbortSignal,()=>void>(),links=new Set<{controller:AbortController;release:()=>void}>(),voices=new Set<NativeMusicVoice>();
+- let fault:UnsupportedHatchHostAudio|undefined,started=false,closed=false,restored=false,suspended=false,retained=false,fanfareStarted=false,drainIncomplete=false;
+- let saved:EffectiveFieldMusic={kind:'none'},transport:NativeMusicTransport|undefined,background:NativeMusicVoice|undefined,external:AbortSignal|undefined,detach=()=>{};
++ let fault:UnsupportedHatchHostAudio|undefined,started=false,closed=false,restored=false,retained=false,fanfareStarted=false;
++ let parent:HatchCueParent|undefined,transport:NativeMusicTransport|undefined,background:NativeMusicVoice|undefined,external:AbortSignal|undefined,detach=()=>{};
+  let cleanup:Promise<void>|undefined,restoration:Promise<void>|undefined,tracks:Record<string,NativeHatchTrack>|undefined,cryBuffer:AudioBuffer|undefined,manifestAttempted=false;
+  const prepared=new Set<number>(),preparationAttempted=new Set<number>(),wait=ports.wait??sleep;
+  const guard=()=>{if(fault)throw fault;};
+@@ -84,7 +85,7 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
+  function bind(signal:AbortSignal){check(signal);if(external&&external!==signal)throw new UnsupportedHatchHostAudio('Hatch audio cannot change its owning source-action signal');if(!external){external=signal;const abort=()=>owner.abort(why(signal));signal.addEventListener('abort',abort,{once:true});detach=()=>signal.removeEventListener('abort',abort);}check(owner.signal);}
+  async function retryRestore(signal?:AbortSignal){
+   if(restored)return;if(signal)check(signal);if(restoration)return signal?observe(restoration,signal):restoration;
+-  const pending=(async()=>{if(suspended&&drainIncomplete){await bounded(ports.drainFieldWork,signal?[signal]:[],'prior field work drain');drainIncomplete=false;}if(suspended&&enabled()&&saved.kind==='playing'){const output=ports.sharedAudioOutput();if(!output?.context||!output.output||output.output.context!==output.context||!output.signal)throw new UnsupportedHatchHostAudio('Missing shared hatch restoration output');check(output.signal);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running for field restoration');}if(suspended)await bounded(input=>ports.player.field.restore(structuredClone(saved),input),signal?[signal]:[],'field restore');restored=true;})();restoration=pending;try{await pending;}finally{if(restoration===pending)restoration=undefined;}
++  const pending=(async()=>{if(parent)await bounded(input=>parent!.restore(input),signal?[signal]:[],'field restore');restored=true;})();restoration=pending;try{await pending;}finally{if(restoration===pending)restoration=undefined;}
+  }
+  const music:HatchMusicSession={
+   async start(value,signal){
+@@ -92,8 +93,16 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
+    // Main sets hatching before this call. Drain is bounded; regardless of drain
+    // failure, suspend is invoked synchronously even for kind:none. Its native
+    // player latch cancels generations before any late unlock/map continuation.
+-   drainIncomplete=!(await attempt('field drain',signal,async input=>{await ports.drainFieldWork(input);return true;}));check(signal);check(owner.signal);saved=snapshot(ports.player.field.capture());suspended=true;
+-   try{const pausing=Promise.resolve(ports.player.field.suspend(structuredClone(saved)));void pausing.catch(()=>{});saved=snapshot(await bounded(()=>pausing,[signal,owner.signal],'field suspend'));}catch(error){fatal(error,signal);throw new UnsupportedHatchHostAudio('Shared field suspension could not establish hatch ownership: '+String(error));}
++   await attempt('field drain',signal,async input=>{await ports.drainFieldWork(input);});check(signal);check(owner.signal);
++   const captured=snapshot(ports.player.field.capture());
++   parent=ports.player.createCueSession({beforeFieldRestore:async input=>{
++    // This SAME fixed pre-hatch work must drain before ANY successor unlatches
++    // the field. It is independent of the finished source-action/voice owner.
++    await ports.drainFieldWork(input);check(input);
++    if(enabled()&&captured.kind==='playing'){const output=ports.sharedAudioOutput();if(!output?.context||!output.output||output.output.context!==output.context||!output.signal)throw new UnsupportedHatchHostAudio('Missing shared hatch restoration output');check(output.signal);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running for field restoration');}
++   }});
++   if(!parent||typeof parent.startSilent!=='function'||typeof parent.startSilentAfterRetainedRestore!=='function'||typeof parent.restore!=='function')throw new UnsupportedHatchHostAudio('Missing real hatch cue parent');
++   try{await bounded(async input=>{try{await parent!.startSilent(input);}catch(error){check(input);check(owner.signal);await parent!.startSilentAfterRetainedRestore(input);}},[signal,owner.signal],'field suspend');}catch(error){fatal(error,signal);throw new UnsupportedHatchHostAudio('Shared field suspension could not establish hatch ownership: '+String(error));}
+    await prepareMusic([1011,1188],signal);
+    if(!prepared.has(1011)||!enabled())return;
+    try{background=await startVoice(tracks!['1011'],signal);const current=background;void current.ended.then(()=>{if(!closed&&!owner.signal.aborted)report('hatch background ended',Error('Looping native hatch music ended unexpectedly'));},error=>{if(!closed&&!owner.signal.aborted)report('hatch background playback',error);}).catch(()=>{});}catch(error){fatal(error,signal);report('hatch music start',error);}
+diff --git a/browser/src/source/mon-ownership.ts b/browser/src/source/mon-ownership.ts
+new file mode 100644
+index 00000000..8f3679bd
+--- /dev/null
++++ b/browser/src/source/mon-ownership.ts
+@@ -0,0 +1,43 @@
++import {nativeNicknameCodes,UnsupportedNativeNickname} from './mon-nickname.ts';
++import type {Mon,State} from './types.ts';
++
++export type NativeMonOwnership={
++ ownership:'player'|'traded-domestic'|'traded-international';
++ basis:'native-full-ot-profile'|'browser-legacy-unknown-identity'|'browser-unrepresented-trainer-name';
++};
++const uint32=(value:unknown)=>typeof value==='number'&&Number.isInteger(value)&&value>=0&&value<=0xffffffff;
++function nameCodes(value:string){const codes=nativeNicknameCodes(value);if(codes.length>8)throw new UnsupportedNativeNickname('Native trainer name exceeds seven units');return codes;}
++/** battle_util.c:BattleSystem_IsPlayerOT: FULL u32 OTID, OTgender, original
++ * seven-unit name comparison. PartyMonIsMine is a DIFFERENT opcode (u16 ID
++ * truncation/inverted bool), and obedience remains a separate controller.
++ *
++ * Prior browser party data treated every slot as player-owned. Missing old
++ * identity/profile retains that explicit compatibility policy; no name-only
++ * inference, Mon.id use, current-profile backfill or State mutation. */
++export function nativeBattleMonOwnership(state:Pick<State,'trainerId'|'name'|'gender'>,mon:Pick<Mon,'provenance'|'ot'>):NativeMonOwnership{
++ const profile=state.trainerId,origin=mon.provenance;
++ if(profile!==undefined&&!uint32(profile))throw Error('Malformed present native player trainer ID');
++ if(origin!==undefined&&(!origin||!uint32(origin.otId)||!['boy','girl'].includes(origin.otGender)||![1,2,3,4,5,7,8].includes(origin.language)))throw Error('Malformed present native Mon OT identity');
++ if(profile===undefined||origin===undefined)return{ownership:'player',basis:'browser-legacy-unknown-identity'};
++ if(!['boy','girl'].includes(state.gender))throw Error('Malformed native player gender');
++ const foreign=origin.language===2?'traded-domestic' as const:'traded-international' as const;
++ // ORIGINAL C short-circuits before touching name units when either numeric
++ // field differs. An unrelated browser profile glyph cannot invalidate that
++ // proven false predicate, including a newly received NPC trade.
++ if(profile!==origin.otId||state.gender!==origin.otGender)return{ownership:foreign,basis:'native-full-ot-profile'};
++ if(typeof state.name!=='string'||typeof mon.ot!=='string')throw Error('Malformed present trainer name');
++ let a:readonly number[],b:readonly number[];
++ try{a=nameCodes(state.name);b=nameCodes(mon.ot);}catch(error){
++  if(!(error instanceof UnsupportedNativeNickname))throw error;
++  // Existing browser profile UI admitted Unicode/free text. Real native Egg
++  // acquisition already copied that SAME text to its OT with real ID/gender.
++  // Preserve it without inventing DS character units or breaking an unrelated
++  // EXP award/obedience query. This is a visible BROWSER compatibility policy,
++  // never a claim that arbitrary text came from the original naming keyboard.
++  return{ownership:state.name===mon.ot?'player':foreign,basis:'browser-unrepresented-trainer-name'};
++ }
++ // Source StringNotEqualN tests EOS too. Both represented names are <=7 units,
++ // so its comparison is exact, including the terminator and no case folding.
++ const same=a.length===b.length&&a.every((value,index)=>value===b[index]);
++ return{ownership:same?'player':foreign,basis:'native-full-ot-profile'};
++}
+diff --git a/browser/src/source/world.ts b/browser/src/source/world.ts
+index 177cb132..37840ff6 100644
+--- a/browser/src/source/world.ts
++++ b/browser/src/source/world.ts
+@@ -12,6 +12,7 @@ import {sourceTallGrass,updateGrass} from './grass.ts';
+ import {WorldSky} from './sky.ts';
+ import {fieldCameraEntry,fieldCameraObstacles} from './camera.ts';
+ import {forestFoundation} from './foundations.ts';
++import {backgroundCliffShell} from './background-cliff-shells.ts';
+ import {planTerrainSceneryAsync,closeTerrainScenery,terrainSceneryEntrances} from './terrain-scenery.ts';
+ import {furnitureObstacles,furnitureBlocksStep,type FurnitureObstacle} from './furniture-collision.ts';
+ import {closeBuildingFooting} from './building-footing.ts';
+@@ -89,7 +90,7 @@ export class OriginalWorld {
+       if(path!==VIOLET_GYM.asset)repairOriginalAsset(gltf.scene,path.startsWith('props/'));return gltf.scene;
+     }).catch(error=>{this.assets.delete(path);throw error;}));return this.assets.get(path)!;
+   }
+-  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-shoreline-underlay','source-terrace-surface','source-terrace-joint','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface'||object.name==='source-terrace-joint')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
++  private releaseCell(c:LoadedCell){const skeletons=new Set<THREE.Skeleton>(),geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();c.group.traverse(object=>{if(object instanceof THREE.SkinnedMesh&&!skeletons.has(object.skeleton)){skeletons.add(object.skeleton);object.skeleton.dispose();}if(!(object instanceof THREE.Mesh)||!ownsBuildingExteriorResources(object.name)&&!object.name.startsWith('terrain-scenery-')&&!['source-tall-grass','source-background-foundation','source-background-cliff-shell','source-shoreline-underlay','source-terrace-surface','source-terrace-joint','source-terrace-wall','source-building-footing'].includes(object.name))return;if(!geometries.has(object.geometry)){geometries.add(object.geometry);object.geometry.dispose();}if(object.name==='source-terrace-surface'||object.name==='source-terrace-joint')return;for(const m of Array.isArray(object.material)?object.material:[object.material])if(!materials.has(m)){materials.add(m);m.dispose();}});this.scene.remove(c.group);}
+   /** Keep the last rendered view while an asynchronous warp replaces the
+    * scene. Incoming player coordinates must never steer the outgoing rig. */
+   beginFieldTransition(){this.azaleaGym?.leave();this.fieldTasks?.cancel(Error('Field transition interrupted native field tasks'));this.fieldEffect?.cancel(Error('Field transition interrupted the field presentation'));this.cameraTransition=true;}
+@@ -185,6 +186,9 @@ export class OriginalWorld {
+             const walls=terraceWalls(terraces,cell,land,cliff??this.terraceFallback);if(walls)group.add(walls);
+           }
+         }
++        if(!this.terrainSceneryEnabled&&matrixID===0&&owner===0&&landID===210&&(cell.x===21&&cell.z===10&&cell.altitude===14||cell.x===22&&cell.z===11&&cell.altitude===4||cell.x===23&&cell.z===11&&cell.altitude===6)){
++          const shell=backgroundCliffShell(group,cell,matrix,land,await this.land(208),await doors(),terraces??undefined,await this.asset('land/112-9.glb'));if(shell)group.add(shell);
++        }
+         // Whole-map terrain closure is opt-in until its independent visibility
+         // audit passes. Ordinary campaign worlds use released terrain above.
+         if(this.terrainSceneryEnabled){
