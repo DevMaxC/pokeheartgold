@@ -1,0 +1,36 @@
+TAP version 13
+# (node:22183) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: campaign5298 old/new OriginalWorld 19,5 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+ok 1 - campaign5298 old/new OriginalWorld 19,5 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+  ---
+  duration_ms: 105041.95575
+  type: 'test'
+  ...
+# Subtest: campaign5298 old/new OriginalWorld 17,12 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+ok 2 - campaign5298 old/new OriginalWorld 17,12 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+  ---
+  duration_ms: 30440.529834
+  type: 'test'
+  ...
+# Subtest: campaign5298 old/new OriginalWorld 21,10 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+ok 3 - campaign5298 old/new OriginalWorld 21,10 keeps literal upward buffers, floor first hits, movement/entries and owned resources
+  ---
+  duration_ms: 4080.140459
+  type: 'test'
+  ...
+# Subtest: campaign integration keeps the whole default-off scenery/Violet/script-camera/actor World except owned-joint disposal
+ok 4 - campaign integration keeps the whole default-off scenery/Violet/script-camera/actor World except owned-joint disposal
+  ---
+  duration_ms: 47.672792
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 141895.554459

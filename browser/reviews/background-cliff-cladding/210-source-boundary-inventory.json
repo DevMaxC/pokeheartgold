@@ -1,0 +1,5681 @@
+{
+  "scope": "96 same-model source metadata placements only; no full source-world cloning, no792scenery scan, no T2 activation, no whole-scene closed-boundary assertion",
+  "pins": {
+    "matrices/0.json": "1a2e88994928d0480136e04a2783401e6da6b85203b8f8eaa2deac2a70a53b69",
+    "land/210-0.glb": "ed5036caec6fdacdd3a463d3e6c6b542eb457b80aa1d885ae8a860d6f347bcab",
+    "maps/0.json": "5098800ea9da3cd7e2332c1a945b413e9f1dc9c1ce26f96a830b661db8538474",
+    "lands/210.json": "ad0ad54a32c02b6d137ceda9c10c0a77fd257830d6a6960a35f812810aa1ed65"
+  },
+  "nativeCap": {
+    "triangles": 32,
+    "authoredTopOnly": true,
+    "solidVolumeFromThisAssetAlone": false
+  },
+  "enabledExactFingerprintCount": 3,
+  "records": [
+    {
+      "cell": [
+        18,
+        0
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            17,
+            0
+          ],
+          "land": 208,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            19,
+            0
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            18,
+            -1
+          ],
+          "land": 65535,
+          "altitude": null,
+          "header": null,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            18,
+            1
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        40,
+        0
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            39,
+            0
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            41,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            40,
+            -1
+          ],
+          "land": 65535,
+          "altitude": null,
+          "header": null,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            40,
+            1
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        41,
+        0
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            40,
+            0
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            42,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            41,
+            -1
+          ],
+          "land": 65535,
+          "altitude": null,
+          "header": null,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            41,
+            1
+          ],
+          "land": 146,
+          "altitude": 0,
+          "header": 29,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        42,
+        0
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            41,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            43,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            42,
+            -1
+          ],
+          "land": 65535,
+          "altitude": null,
+          "header": null,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            42,
+            1
+          ],
+          "land": 147,
+          "altitude": 0,
+          "header": 29,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        43,
+        0
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            42,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            44,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            43,
+            -1
+          ],
+          "land": 65535,
+          "altitude": null,
+          "header": null,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            43,
+            1
+          ],
+          "land": 148,
+          "altitude": 0,
+          "header": 29,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        44,
+        0
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            43,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            45,
+            0
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            44,
+            -1
+          ],
+          "land": 65535,
+          "altitude": null,
+          "header": null,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            44,
+            1
+          ],
+          "land": 149,
+          "altitude": 0,
+          "header": 29,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        18,
+        1
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            17,
+            1
+          ],
+          "land": 91,
+          "altitude": 0,
+          "header": 88,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            19,
+            1
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            18,
+            0
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            18,
+            2
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        40,
+        1
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            39,
+            1
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            41,
+            1
+          ],
+          "land": 146,
+          "altitude": 0,
+          "header": 29,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            40,
+            0
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            40,
+            2
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        18,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            17,
+            2
+          ],
+          "land": 94,
+          "altitude": 0,
+          "header": 88,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            19,
+            2
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            18,
+            1
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            18,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        31,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 10,
+      "rawCapWorldY": 5,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            30,
+            2
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            32,
+            2
+          ],
+          "land": 192,
+          "altitude": 0,
+          "header": 51,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            31,
+            1
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            31,
+            3
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        34,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 10,
+      "rawCapWorldY": 5,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            33,
+            2
+          ],
+          "land": 193,
+          "altitude": 0,
+          "header": 51,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            35,
+            2
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            34,
+            1
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            34,
+            3
+          ],
+          "land": 196,
+          "altitude": 0,
+          "header": 11,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        35,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 10,
+      "rawCapWorldY": 5,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            34,
+            2
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            36,
+            2
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            35,
+            1
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            35,
+            3
+          ],
+          "land": 197,
+          "altitude": 0,
+          "header": 11,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        36,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 10,
+      "rawCapWorldY": 5,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            35,
+            2
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            37,
+            2
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            36,
+            1
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            36,
+            3
+          ],
+          "land": 198,
+          "altitude": 0,
+          "header": 11,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        37,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            36,
+            2
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            38,
+            2
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            37,
+            1
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            37,
+            3
+          ],
+          "land": 150,
+          "altitude": 0,
+          "header": 12,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        38,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            37,
+            2
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            39,
+            2
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            38,
+            1
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            38,
+            3
+          ],
+          "land": 151,
+          "altitude": 0,
+          "header": 12,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        39,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            38,
+            2
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            40,
+            2
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            39,
+            1
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            39,
+            3
+          ],
+          "land": 152,
+          "altitude": 0,
+          "header": 12,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        40,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            39,
+            2
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            41,
+            2
+          ],
+          "land": 145,
+          "altitude": 0,
+          "header": 28,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            40,
+            1
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            40,
+            3
+          ],
+          "land": 141,
+          "altitude": 0,
+          "header": 52,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        42,
+        2
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            41,
+            2
+          ],
+          "land": 145,
+          "altitude": 0,
+          "header": 28,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            43,
+            2
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            42,
+            1
+          ],
+          "land": 147,
+          "altitude": 0,
+          "header": 29,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            42,
+            3
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        17,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            16,
+            3
+          ],
+          "land": 87,
+          "altitude": 0,
+          "header": 45,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            18,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            17,
+            2
+          ],
+          "land": 94,
+          "altitude": 0,
+          "header": 88,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            17,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        18,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            17,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            19,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            18,
+            2
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            18,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        19,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            18,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            20,
+            3
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            19,
+            2
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            19,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        20,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 18,
+      "rawCapWorldY": 9,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            19,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            21,
+            3
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            20,
+            2
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            20,
+            4
+          ],
+          "land": 104,
+          "altitude": 0,
+          "header": 89,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        21,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 18,
+      "rawCapWorldY": 9,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            20,
+            3
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            22,
+            3
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            21,
+            2
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            21,
+            4
+          ],
+          "land": 105,
+          "altitude": 0,
+          "header": 89,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        22,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 18,
+      "rawCapWorldY": 9,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            21,
+            3
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            23,
+            3
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            22,
+            2
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            22,
+            4
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        42,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            41,
+            3
+          ],
+          "land": 142,
+          "altitude": 0,
+          "header": 52,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            43,
+            3
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            42,
+            2
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            42,
+            4
+          ],
+          "land": 137,
+          "altitude": 0,
+          "header": 17,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        43,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 10,
+      "rawCapWorldY": 5,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            42,
+            3
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            44,
+            3
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            43,
+            2
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            43,
+            4
+          ],
+          "land": 138,
+          "altitude": 0,
+          "header": 17,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        44,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            43,
+            3
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            45,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            44,
+            2
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            44,
+            4
+          ],
+          "land": 139,
+          "altitude": 0,
+          "header": 17,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        45,
+        3
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            44,
+            3
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            46,
+            3
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            45,
+            2
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            45,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        14,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            13,
+            4
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            15,
+            4
+          ],
+          "land": 208,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            14,
+            3
+          ],
+          "land": 208,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            14,
+            5
+          ],
+          "land": 83,
+          "altitude": 0,
+          "header": 44,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        17,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            16,
+            4
+          ],
+          "land": 88,
+          "altitude": 0,
+          "header": 45,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            18,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            17,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            17,
+            5
+          ],
+          "land": 101,
+          "altitude": 0,
+          "header": 46,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        18,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            17,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            19,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            18,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            18,
+            5
+          ],
+          "land": 102,
+          "altitude": 0,
+          "header": 46,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        19,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            18,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            20,
+            4
+          ],
+          "land": 104,
+          "altitude": 0,
+          "header": 89,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            19,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            19,
+            5
+          ],
+          "land": 103,
+          "altitude": 0,
+          "header": 46,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        22,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 20,
+      "rawCapWorldY": 10,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            21,
+            4
+          ],
+          "land": 105,
+          "altitude": 0,
+          "header": 89,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            23,
+            4
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            22,
+            3
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            22,
+            5
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        34,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            33,
+            4
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            35,
+            4
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            34,
+            3
+          ],
+          "land": 196,
+          "altitude": 0,
+          "header": 11,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            34,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        35,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            34,
+            4
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            36,
+            4
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            35,
+            3
+          ],
+          "land": 197,
+          "altitude": 0,
+          "header": 11,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            35,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        36,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            35,
+            4
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            37,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            36,
+            3
+          ],
+          "land": 198,
+          "altitude": 0,
+          "header": 11,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            36,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        37,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            36,
+            4
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            38,
+            4
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            37,
+            3
+          ],
+          "land": 150,
+          "altitude": 0,
+          "header": 12,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            37,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        38,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            37,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            39,
+            4
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            38,
+            3
+          ],
+          "land": 151,
+          "altitude": 0,
+          "header": 12,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            38,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        39,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            38,
+            4
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            40,
+            4
+          ],
+          "land": 143,
+          "altitude": 0,
+          "header": 52,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            39,
+            3
+          ],
+          "land": 152,
+          "altitude": 0,
+          "header": 12,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            39,
+            5
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        45,
+        4
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            44,
+            4
+          ],
+          "land": 139,
+          "altitude": 0,
+          "header": 17,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            46,
+            4
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            45,
+            3
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            45,
+            5
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        22,
+        5
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 20,
+      "rawCapWorldY": 10,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            21,
+            5
+          ],
+          "land": 107,
+          "altitude": 0,
+          "header": 89,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            23,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            22,
+            4
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            22,
+            6
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        27,
+        5
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 26,
+      "rawCapWorldY": 13,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            26,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            28,
+            5
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            27,
+            4
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            27,
+            6
+          ],
+          "land": 210,
+          "altitude": 24,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        28,
+        5
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            27,
+            5
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            29,
+            5
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            28,
+            4
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            28,
+            6
+          ],
+          "land": 115,
+          "altitude": 0,
+          "header": 58,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        29,
+        5
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            28,
+            5
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            30,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            29,
+            4
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            29,
+            6
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        42,
+        5
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            41,
+            5
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            43,
+            5
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            42,
+            4
+          ],
+          "land": 137,
+          "altitude": 0,
+          "header": 17,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            42,
+            6
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        43,
+        5
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            42,
+            5
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            44,
+            5
+          ],
+          "land": 140,
+          "altitude": 0,
+          "header": 18,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            43,
+            4
+          ],
+          "land": 138,
+          "altitude": 0,
+          "header": 17,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            43,
+            6
+          ],
+          "land": 210,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        45,
+        5
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            44,
+            5
+          ],
+          "land": 140,
+          "altitude": 0,
+          "header": 18,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            46,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            45,
+            4
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            45,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        16,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            15,
+            6
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            17,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            16,
+            5
+          ],
+          "land": 85,
+          "altitude": 0,
+          "header": 87,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            16,
+            7
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        17,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            16,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            18,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            17,
+            5
+          ],
+          "land": 101,
+          "altitude": 0,
+          "header": 46,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            17,
+            7
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        18,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            17,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            19,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            18,
+            5
+          ],
+          "land": 102,
+          "altitude": 0,
+          "header": 46,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            18,
+            7
+          ],
+          "land": 208,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        19,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            18,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            20,
+            6
+          ],
+          "land": 108,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            19,
+            5
+          ],
+          "land": 103,
+          "altitude": 0,
+          "header": 46,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            19,
+            7
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        21,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 20,
+      "rawCapWorldY": 10,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            20,
+            6
+          ],
+          "land": 108,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            22,
+            6
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            21,
+            5
+          ],
+          "land": 107,
+          "altitude": 0,
+          "header": 89,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            21,
+            7
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        22,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 0,
+      "rawCapWorldY": 0,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            21,
+            6
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            23,
+            6
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            22,
+            5
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            22,
+            7
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        27,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 24,
+      "rawCapWorldY": 12,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            26,
+            6
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            28,
+            6
+          ],
+          "land": 115,
+          "altitude": 0,
+          "header": 58,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            27,
+            5
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            27,
+            7
+          ],
+          "land": 210,
+          "altitude": 22,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        29,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            28,
+            6
+          ],
+          "land": 115,
+          "altitude": 0,
+          "header": 58,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            30,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            29,
+            5
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            29,
+            7
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        30,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            29,
+            6
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            31,
+            6
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            30,
+            5
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            30,
+            7
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        43,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 2,
+      "rawCapWorldY": 1,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            42,
+            6
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            44,
+            6
+          ],
+          "land": 157,
+          "altitude": 0,
+          "header": 388,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            43,
+            5
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            43,
+            7
+          ],
+          "land": 155,
+          "altitude": 0,
+          "header": 16,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        45,
+        6
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            44,
+            6
+          ],
+          "land": 157,
+          "altitude": 0,
+          "header": 388,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            46,
+            6
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            45,
+            5
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            45,
+            7
+          ],
+          "land": 210,
+          "altitude": 8,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        19,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 20,
+      "rawCapWorldY": 10,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            18,
+            7
+          ],
+          "land": 208,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            20,
+            7
+          ],
+          "land": 109,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            19,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            19,
+            8
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        21,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 20,
+      "rawCapWorldY": 10,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            20,
+            7
+          ],
+          "land": 109,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            22,
+            7
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            21,
+            6
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            21,
+            8
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        24,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 26,
+      "rawCapWorldY": 13,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            23,
+            7
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            25,
+            7
+          ],
+          "land": 210,
+          "altitude": 32,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            24,
+            6
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            24,
+            8
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        25,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 32,
+      "rawCapWorldY": 16,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            24,
+            7
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            26,
+            7
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            25,
+            6
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            25,
+            8
+          ],
+          "land": 125,
+          "altitude": 0,
+          "header": 90,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        26,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 26,
+      "rawCapWorldY": 13,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            25,
+            7
+          ],
+          "land": 210,
+          "altitude": 32,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            27,
+            7
+          ],
+          "land": 210,
+          "altitude": 22,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            26,
+            6
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            26,
+            8
+          ],
+          "land": 123,
+          "altitude": 0,
+          "header": 32,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        27,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 22,
+      "rawCapWorldY": 11,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            26,
+            7
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            28,
+            7
+          ],
+          "land": 210,
+          "altitude": 36,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            27,
+            6
+          ],
+          "land": 210,
+          "altitude": 24,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            27,
+            8
+          ],
+          "land": 124,
+          "altitude": 0,
+          "header": 32,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        28,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 36,
+      "rawCapWorldY": 18,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            27,
+            7
+          ],
+          "land": 210,
+          "altitude": 22,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            29,
+            7
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            28,
+            6
+          ],
+          "land": 115,
+          "altitude": 0,
+          "header": 58,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            28,
+            8
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        29,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 20,
+      "rawCapWorldY": 10,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            28,
+            7
+          ],
+          "land": 210,
+          "altitude": 36,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            30,
+            7
+          ],
+          "land": 210,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            29,
+            6
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            29,
+            8
+          ],
+          "land": 121,
+          "altitude": 0,
+          "header": 27,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        30,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 10,
+      "rawCapWorldY": 5,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            29,
+            7
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            31,
+            7
+          ],
+          "land": 117,
+          "altitude": 0,
+          "header": 50,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            30,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            30,
+            8
+          ],
+          "land": 122,
+          "altitude": 0,
+          "header": 27,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        34,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            33,
+            7
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            35,
+            7
+          ],
+          "land": 208,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            34,
+            6
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            34,
+            8
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        45,
+        7
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 8,
+      "rawCapWorldY": 4,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            44,
+            7
+          ],
+          "land": 156,
+          "altitude": 0,
+          "header": 53,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            46,
+            7
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            45,
+            6
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            45,
+            8
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        4,
+        8
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 4,
+      "rawCapWorldY": 2,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            3,
+            8
+          ],
+          "land": 71,
+          "altitude": 0,
+          "header": 174,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            5,
+            8
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            4,
+            7
+          ],
+          "land": 208,
+          "altitude": 28,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            4,
+            9
+          ],
+          "land": 210,
+          "altitude": 4,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        19,
+        8
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            18,
+            8
+          ],
+          "land": 208,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            20,
+            8
+          ],
+          "land": 110,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            19,
+            7
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            19,
+            9
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        21,
+        8
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            20,
+            8
+          ],
+          "land": 110,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            22,
+            8
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            21,
+            7
+          ],
+          "land": 210,
+          "altitude": 20,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            21,
+            9
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        24,
+        8
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 26,
+      "rawCapWorldY": 13,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            23,
+            8
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            25,
+            8
+          ],
+          "land": 125,
+          "altitude": 0,
+          "header": 90,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            24,
+            7
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            24,
+            9
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        28,
+        8
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 18,
+      "rawCapWorldY": 9,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            27,
+            8
+          ],
+          "land": 124,
+          "altitude": 0,
+          "header": 32,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            29,
+            8
+          ],
+          "land": 121,
+          "altitude": 0,
+          "header": 27,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            28,
+            7
+          ],
+          "land": 210,
+          "altitude": 36,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            28,
+            9
+          ],
+          "land": 17,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        34,
+        8
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            33,
+            8
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            35,
+            8
+          ],
+          "land": 175,
+          "altitude": 0,
+          "header": 24,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            34,
+            7
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            34,
+            9
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        4,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 4,
+      "rawCapWorldY": 2,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            3,
+            9
+          ],
+          "land": 73,
+          "altitude": 0,
+          "header": 174,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            5,
+            9
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            4,
+            8
+          ],
+          "land": 210,
+          "altitude": 4,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            4,
+            10
+          ],
+          "land": 210,
+          "altitude": 4,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        19,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            18,
+            9
+          ],
+          "land": 208,
+          "altitude": 10,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            20,
+            9
+          ],
+          "land": 111,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            19,
+            8
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            19,
+            10
+          ],
+          "land": 113,
+          "altitude": 0,
+          "header": 48,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        21,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            20,
+            9
+          ],
+          "land": 111,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            22,
+            9
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            21,
+            8
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            21,
+            10
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        24,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 26,
+      "rawCapWorldY": 13,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            23,
+            9
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            25,
+            9
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            24,
+            8
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            24,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        25,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 26,
+      "rawCapWorldY": 13,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            24,
+            9
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            26,
+            9
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            25,
+            8
+          ],
+          "land": 125,
+          "altitude": 0,
+          "header": 90,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            25,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        26,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 26,
+      "rawCapWorldY": 13,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            25,
+            9
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            27,
+            9
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            26,
+            8
+          ],
+          "land": 123,
+          "altitude": 0,
+          "header": 32,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            26,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        27,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            26,
+            9
+          ],
+          "land": 210,
+          "altitude": 26,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            28,
+            9
+          ],
+          "land": 17,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            27,
+            8
+          ],
+          "land": 124,
+          "altitude": 0,
+          "header": 32,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            27,
+            10
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        29,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 0,
+      "rawCapWorldY": 0,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            28,
+            9
+          ],
+          "land": 17,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            30,
+            9
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            29,
+            8
+          ],
+          "land": 121,
+          "altitude": 0,
+          "header": 27,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            29,
+            10
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        30,
+        9
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            29,
+            9
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            31,
+            9
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            30,
+            8
+          ],
+          "land": 122,
+          "altitude": 0,
+          "header": 27,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            30,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        }
+      ]
+    },
+    {
+      "cell": [
+        4,
+        10
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 4,
+      "rawCapWorldY": 2,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            3,
+            10
+          ],
+          "land": 75,
+          "altitude": 0,
+          "header": 152,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            5,
+            10
+          ],
+          "land": 68,
+          "altitude": 0,
+          "header": 75,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            4,
+            9
+          ],
+          "land": 210,
+          "altitude": 4,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            4,
+            11
+          ],
+          "land": 78,
+          "altitude": 0,
+          "header": 151,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        21,
+        10
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "exact enabled designed3D shell; native cap retained",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            20,
+            10
+          ],
+          "land": 112,
+          "altitude": 0,
+          "header": 47,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            22,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            21,
+            9
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            21,
+            11
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        27,
+        10
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 14,
+      "rawCapWorldY": 7,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            26,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "east",
+          "cell": [
+            28,
+            10
+          ],
+          "land": 18,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            27,
+            9
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            27,
+            11
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        29,
+        10
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 0,
+      "rawCapWorldY": 0,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            28,
+            10
+          ],
+          "land": 18,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            30,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            29,
+            9
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            29,
+            11
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        22,
+        11
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 4,
+      "rawCapWorldY": 2,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "exact enabled designed3D shell; native cap retained",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            21,
+            11
+          ],
+          "land": 208,
+          "altitude": 2,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            23,
+            11
+          ],
+          "land": 210,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            22,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            22,
+            12
+          ],
+          "land": 11,
+          "altitude": 0,
+          "header": 31,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        23,
+        11
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 6,
+      "rawCapWorldY": 3,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "exact enabled designed3D shell; native cap retained",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            22,
+            11
+          ],
+          "land": 210,
+          "altitude": 4,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            24,
+            11
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            23,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            23,
+            12
+          ],
+          "land": 12,
+          "altitude": 0,
+          "header": 31,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        24,
+        11
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 18,
+      "rawCapWorldY": 9,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            23,
+            11
+          ],
+          "land": 210,
+          "altitude": 6,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            25,
+            11
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            24,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            24,
+            12
+          ],
+          "land": 13,
+          "altitude": 0,
+          "header": 31,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        25,
+        11
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 16,
+      "rawCapWorldY": 8,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            24,
+            11
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            26,
+            11
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            25,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            25,
+            12
+          ],
+          "land": 14,
+          "altitude": 0,
+          "header": 31,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        26,
+        11
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 18,
+      "rawCapWorldY": 9,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            25,
+            11
+          ],
+          "land": 210,
+          "altitude": 16,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            27,
+            11
+          ],
+          "land": 210,
+          "altitude": 12,
+          "header": 0,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            26,
+            10
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "south",
+          "cell": [
+            26,
+            12
+          ],
+          "land": 15,
+          "altitude": 0,
+          "header": 31,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        27,
+        11
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 12,
+      "rawCapWorldY": 6,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            26,
+            11
+          ],
+          "land": 210,
+          "altitude": 18,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            28,
+            11
+          ],
+          "land": 19,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "north",
+          "cell": [
+            27,
+            10
+          ],
+          "land": 210,
+          "altitude": 14,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            27,
+            12
+          ],
+          "land": 16,
+          "altitude": 0,
+          "header": 31,
+          "rawTopRelation": "lower matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        29,
+        11
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 0,
+      "rawCapWorldY": 0,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            28,
+            11
+          ],
+          "land": 19,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            30,
+            11
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            29,
+            10
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            29,
+            12
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    },
+    {
+      "cell": [
+        29,
+        12
+      ],
+      "asset": "land/210-0.glb",
+      "header": 0,
+      "altitude": 0,
+      "rawCapWorldY": 0,
+      "all1024NativePermissionsBlocked": true,
+      "sourceProps": 0,
+      "classification": "native top sheet alone is not a closed volume; whole-scene boundary/support/portals not audited; NO activation",
+      "neighbors": [
+        {
+          "side": "west",
+          "cell": [
+            28,
+            12
+          ],
+          "land": 20,
+          "altitude": 0,
+          "header": 30,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "east",
+          "cell": [
+            30,
+            12
+          ],
+          "land": 65535,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "matrix void"
+        },
+        {
+          "side": "north",
+          "cell": [
+            29,
+            11
+          ],
+          "land": 210,
+          "altitude": 0,
+          "header": 0,
+          "rawTopRelation": "equal matrix datum; native wall coverage not evaluated"
+        },
+        {
+          "side": "south",
+          "cell": [
+            29,
+            13
+          ],
+          "land": 209,
+          "altitude": 1,
+          "header": 0,
+          "rawTopRelation": "higher matrix datum; native wall coverage not evaluated"
+        }
+      ]
+    }
+  ]
+}

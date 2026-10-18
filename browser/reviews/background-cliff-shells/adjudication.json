@@ -1,0 +1,66 @@
+{
+  "baseCommit": "1f83a40156857652ebc0b8ce2329fb2af7e28da7",
+  "helperSHA256": "5a741c3cbe6836facd165bd0e9fd33da89248da88e0c14d743cd87578a13d7ca",
+  "worldSHA256": "e5c4a4cc8a8a8a8accfc38b0c15c9ad243a73fc274e6e1a47bdc9321365dcce8",
+  "originalReviewSnapshotStable": true,
+  "originalReviewManifestSHA256": "09d1311187f707804b01413647f39cf454661a42d3cc169f24afa4912f88fe6c",
+  "originalReviewVerdict": "No production blocker; medium candidate test fixture and eager-I/O low corrected; actual followup pending",
+  "sourceReferencePixelTest": "8/8 focused tests pass; bounded original opaque geology only, no complete-scene GPU approval",
+  "memoryFailure": {
+    "status": "terminated, inconclusive; never pass",
+    "originalWholesale112": true,
+    "samplePhysicalFootprint": "101.9GB",
+    "originalLog": "logs/target-tests-profile-full.log",
+    "sample": "logs/native112-worker-sample.txt",
+    "replacement": "scripts/background-cliff-pixel-reference.ts; no repairOriginalAsset or whole-template clone; checked input/output bounds and64MiB external/256MiB resident-growth limits"
+  },
+  "globalTerrainSceneryEnabled": false,
+  "productionCallEnabledForExactTwoPlacements": true,
+  "completeSceneGPU": "Root exact-camera actualcandidate image confirms holes closed but cladding looks like a large stone-mosaic rectangle; bare flat native top and23,11thin cap remain. Visual design not approved; authorized new isolated donor-cladding/thirdfingerprint leaf follows.",
+  "neighboringSheets": "21,9 and23,11 remain unmodified; no claim their rear closure solved",
+  "remainingQualification": [
+    "Designed world0 datum follows released forestFoundation convention, not native support in void65535.",
+    "Source cap/exterior buffers and floor/movement/portal queries unchanged; seeing through the former cut end to opposite interior112 faces is intentionally occluded.",
+    "No broad terrain safety/parity/deployment or whole792 sweep."
+  ],
+  "existingCampaignWorldTests": "4/4pass; exact5298-vs-candidate3native cells and byte qualification; 141.9s",
+  "candidateCommit": "28182091dbc1c4b41390e0d73b9c2e8319d788ab",
+  "followupActualModel": "claude-opus-5-5",
+  "followupManifestSHA256": "fe6e480560ebfc3942315e90ad7a641e34f227f6260d9ca9bfc50c5253b63003",
+  "followupSnapshotStable": true,
+  "followupVerdict": "No blocker/medium; original medium and eager-I/O low explicitly closed. Raw remaining LOW camera-scope and joint-cut test-prebudget findings retained; bounded test-only corrections after immutable review are separately recorded, not independent-review approval.",
+  "testOnlyAfterReview": "8/8PASS plusTSC; input1188 exact five materials; joint-aware upper104356 / output20488; Route27fullendpoints137880rays clear; native112reference1200rays has314intentional designed-volume Surf collisions /0foot changes. Full-scene qualifications retained.",
+  "gpuContext": {
+    "camera": [
+      695.5,
+      6.96243845,
+      410.47379292
+    ],
+    "target": [
+      695.5,
+      1.9,
+      398.5
+    ],
+    "map": 60,
+    "player": [
+      695.5,
+      1,
+      398.5
+    ],
+    "sourceHelperSHA256": "5a741c3cbe6836facd165bd0e9fd33da89248da88e0c14d743cd87578a13d7ca",
+    "rootIntegratedWorldPrefix": "ce4d3179",
+    "rootBundle": "CZ1RpjeI",
+    "images": [
+      {
+        "path": "actual-before-1f83.png",
+        "source": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcuossc-e4f2697e.png",
+        "sha256": "808c111bcbf720a97bf74384a3e2baea6c875c36c8aa927e33a29d6348ec3765"
+      },
+      {
+        "path": "actual-candidate-281.png",
+        "source": "/Users/maxchurch/.t3/userdata/browser-artifacts/browser-screenshot-localhost-mvcwjm96-57b14d56.png",
+        "sha256": "5aca4b37637f47328eb6ba1e9fb730902e7325b1480b5e6b409a5e321ecbdf86"
+      }
+    ]
+  }
+}
