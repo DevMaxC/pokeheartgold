@@ -5,7 +5,8 @@ export class UnsupportedHatchHostAudio extends Error{constructor(message:string)
 export class HatchHostAudioFailure extends Error{
  constructor(readonly operation:string,cause:unknown){super('Original hatch audio '+operation+' unavailable: '+String(cause??'no error value'),{cause});this.name='HatchHostAudioFailure';}
 }
-export type HatchAudioPlayer={field:{capture:()=>EffectiveFieldMusic;suspend:(snapshot:EffectiveFieldMusic)=>Promise<EffectiveFieldMusic>;restore:(snapshot:EffectiveFieldMusic,signal?:AbortSignal)=>Promise<void>};createHatchTransport:()=>NativeMusicTransport};
+type HatchCueParent={startSilent:(signal:AbortSignal)=>Promise<void>;startSilentAfterRetainedRestore:(signal:AbortSignal)=>Promise<void>;restore:(signal?:AbortSignal)=>Promise<void>};
+export type HatchAudioPlayer={field:{capture:()=>EffectiveFieldMusic};createCueSession:(options?:{readonly beforeFieldRestore?:(signal:AbortSignal)=>Promise<void>})=>HatchCueParent;createHatchTransport:()=>NativeMusicTransport};
 export type SharedHatchAudioOutput={context:AudioContext;output:AudioNode;signal:AbortSignal};
 export type HatchHostAudioPorts={
  /** Read current global preference at each admission/restore boundary. Master
@@ -42,12 +43,12 @@ async function manifest(signal:AbortSignal){const response=await fetch('/source/
  * Missing/wrong source/configuration and cancellation remain explicit failures.
  */
 export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusicSession;cry:(scene:EggHatchVisualScene,signal:AbortSignal)=>Promise<void>}{
- if(!ports||typeof ports.enabled!=='function'||typeof ports.player?.field?.capture!=='function'||typeof ports.player.field.suspend!=='function'||typeof ports.player.field.restore!=='function'||typeof ports.player.createHatchTransport!=='function'||typeof ports.sharedAudioOutput!=='function'||typeof ports.drainFieldWork!=='function'||typeof ports.report!=='function'||typeof ports.retainRestore!=='function')throw new UnsupportedHatchHostAudio('Native hatch requires shared player/output, field drain, failure report and retained restore ports');
+ if(!ports||typeof ports.enabled!=='function'||typeof ports.player?.field?.capture!=='function'||typeof ports.player.createCueSession!=='function'||typeof ports.player.createHatchTransport!=='function'||typeof ports.sharedAudioOutput!=='function'||typeof ports.drainFieldWork!=='function'||typeof ports.report!=='function'||typeof ports.retainRestore!=='function')throw new UnsupportedHatchHostAudio('Native hatch requires shared player/output, owned cue parent, field drain, failure report and retained restore ports');
  const timeout=ports.timeoutMs??1500;if(!Number.isInteger(timeout)||timeout<1||timeout>120000)throw new UnsupportedHatchHostAudio('Invalid hatch audio operation deadline');
  const preparationTimeout=ports.preparationTimeoutMs??4000;if(!Number.isInteger(preparationTimeout)||preparationTimeout<1||preparationTimeout>120000)throw new UnsupportedHatchHostAudio('Invalid hatch audio preparation deadline');
  const owner=new AbortController(),lifetimes=new Map<AbortSignal,()=>void>(),links=new Set<{controller:AbortController;release:()=>void}>(),voices=new Set<NativeMusicVoice>();
- let fault:UnsupportedHatchHostAudio|undefined,started=false,closed=false,restored=false,suspended=false,retained=false,fanfareStarted=false,drainIncomplete=false;
- let saved:EffectiveFieldMusic={kind:'none'},transport:NativeMusicTransport|undefined,background:NativeMusicVoice|undefined,external:AbortSignal|undefined,detach=()=>{};
+ let fault:UnsupportedHatchHostAudio|undefined,started=false,closed=false,restored=false,retained=false,fanfareStarted=false;
+ let parent:HatchCueParent|undefined,transport:NativeMusicTransport|undefined,background:NativeMusicVoice|undefined,external:AbortSignal|undefined,detach=()=>{};
  let cleanup:Promise<void>|undefined,restoration:Promise<void>|undefined,tracks:Record<string,NativeHatchTrack>|undefined,cryBuffer:AudioBuffer|undefined,manifestAttempted=false;
  const prepared=new Set<number>(),preparationAttempted=new Set<number>(),wait=ports.wait??sleep;
  const guard=()=>{if(fault)throw fault;};
@@ -84,7 +85,7 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
  function bind(signal:AbortSignal){check(signal);if(external&&external!==signal)throw new UnsupportedHatchHostAudio('Hatch audio cannot change its owning source-action signal');if(!external){external=signal;const abort=()=>owner.abort(why(signal));signal.addEventListener('abort',abort,{once:true});detach=()=>signal.removeEventListener('abort',abort);}check(owner.signal);}
  async function retryRestore(signal?:AbortSignal){
   if(restored)return;if(signal)check(signal);if(restoration)return signal?observe(restoration,signal):restoration;
-  const pending=(async()=>{if(suspended&&drainIncomplete){await bounded(ports.drainFieldWork,signal?[signal]:[],'prior field work drain');drainIncomplete=false;}if(suspended&&enabled()&&saved.kind==='playing'){const output=ports.sharedAudioOutput();if(!output?.context||!output.output||output.output.context!==output.context||!output.signal)throw new UnsupportedHatchHostAudio('Missing shared hatch restoration output');check(output.signal);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running for field restoration');}if(suspended)await bounded(input=>ports.player.field.restore(structuredClone(saved),input),signal?[signal]:[],'field restore');restored=true;})();restoration=pending;try{await pending;}finally{if(restoration===pending)restoration=undefined;}
+  const pending=(async()=>{if(parent)await bounded(input=>parent!.restore(input),signal?[signal]:[],'field restore');restored=true;})();restoration=pending;try{await pending;}finally{if(restoration===pending)restoration=undefined;}
  }
  const music:HatchMusicSession={
   async start(value,signal){
@@ -92,8 +93,16 @@ export function createHatchHostAudio(ports:HatchHostAudioPorts):{music:HatchMusi
    // Main sets hatching before this call. Drain is bounded; regardless of drain
    // failure, suspend is invoked synchronously even for kind:none. Its native
    // player latch cancels generations before any late unlock/map continuation.
-   drainIncomplete=!(await attempt('field drain',signal,async input=>{await ports.drainFieldWork(input);return true;}));check(signal);check(owner.signal);saved=snapshot(ports.player.field.capture());suspended=true;
-   try{const pausing=Promise.resolve(ports.player.field.suspend(structuredClone(saved)));void pausing.catch(()=>{});saved=snapshot(await bounded(()=>pausing,[signal,owner.signal],'field suspend'));}catch(error){fatal(error,signal);throw new UnsupportedHatchHostAudio('Shared field suspension could not establish hatch ownership: '+String(error));}
+   await attempt('field drain',signal,async input=>{await ports.drainFieldWork(input);});check(signal);check(owner.signal);
+   const captured=snapshot(ports.player.field.capture());
+   parent=ports.player.createCueSession({beforeFieldRestore:async input=>{
+    // This SAME fixed pre-hatch work must drain before ANY successor unlatches
+    // the field. It is independent of the finished source-action/voice owner.
+    await ports.drainFieldWork(input);check(input);
+    if(enabled()&&captured.kind==='playing'){const output=ports.sharedAudioOutput();if(!output?.context||!output.output||output.output.context!==output.context||!output.signal)throw new UnsupportedHatchHostAudio('Missing shared hatch restoration output');check(output.signal);if(output.context.state!=='running')throw Error('Shared hatch AudioContext is not running for field restoration');}
+   }});
+   if(!parent||typeof parent.startSilent!=='function'||typeof parent.startSilentAfterRetainedRestore!=='function'||typeof parent.restore!=='function')throw new UnsupportedHatchHostAudio('Missing real hatch cue parent');
+   try{await bounded(async input=>{try{await parent!.startSilent(input);}catch(error){check(input);check(owner.signal);await parent!.startSilentAfterRetainedRestore(input);}},[signal,owner.signal],'field suspend');}catch(error){fatal(error,signal);throw new UnsupportedHatchHostAudio('Shared field suspension could not establish hatch ownership: '+String(error));}
    await prepareMusic([1011,1188],signal);
    if(!prepared.has(1011)||!enabled())return;
    try{background=await startVoice(tracks!['1011'],signal);const current=background;void current.ended.then(()=>{if(!closed&&!owner.signal.aborted)report('hatch background ended',Error('Looping native hatch music ended unexpectedly'));},error=>{if(!closed&&!owner.signal.aborted)report('hatch background playback',error);}).catch(()=>{});}catch(error){fatal(error,signal);report('hatch music start',error);}

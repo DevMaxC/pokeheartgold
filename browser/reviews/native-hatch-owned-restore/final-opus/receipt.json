@@ -1,0 +1,120 @@
+{
+  "createdUTC": "2026-10-18T08:58:21.831381+00:00",
+  "verdict": "ACCEPT, with qualifications; no concrete reachable new defect; inherited hatch-without-parent availability Low closed",
+  "reviewedCommit": "fc8c039a095edb4470cb3a95cd45894590ce9c81",
+  "runtimeCommit": "2ef9ce0e",
+  "base": "bd13bdadb1b2ba5b1e9b98272abcbccf3059c9cd",
+  "model": "claude-opus-5-5",
+  "numTurns": 26,
+  "durationMs": 341431,
+  "wallSeconds": 345.39826070799995,
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2332,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0024319999999999997,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 34,
+      "outputTokens": 33966,
+      "cacheReadInputTokens": 910527,
+      "cacheCreationInputTokens": 89949,
+      "webSearchRequests": 0,
+      "costUSD": 1.3113063999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 28614,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permissionDenials": [],
+  "inputCount": 8210,
+  "graphSHA256": "9139508860de0c6052fc29ae7410192cb568485803120c3bfc8da09807fe91da",
+  "integrity": {
+    "verifiedUTC": "2026-10-18T08:54:30.891938+00:00",
+    "files": 8210,
+    "graphSHA256": "9139508860de0c6052fc29ae7410192cb568485803120c3bfc8da09807fe91da",
+    "changed": [],
+    "unexpected": [],
+    "missing": [],
+    "sourceManifestUnchanged": true,
+    "promptUnchanged": true
+  },
+  "files": {
+    "raw-result.json": {
+      "sha256": "0fc3eff85ada56ea34def92091c90b70c5f202beae7a59e9b32344726bb07490",
+      "bytes": 7898
+    },
+    "review-prompt.txt": {
+      "sha256": "329ffc0ac0e23338cd70478cf974b259a05b55579a3987a7df27457de8073dd3",
+      "bytes": 6197
+    },
+    "source-manifest.json": {
+      "sha256": "fb4809dee546cbafe60e656252e79a7ee79c4154188b50be3df4897ec416f0a1",
+      "bytes": 2377140
+    },
+    "execution.json": {
+      "sha256": "0aec18288c6550946b411966184ac45e8e76956e7739a3b6a8861d96a251c068",
+      "bytes": 1367
+    },
+    "integrity-after.json": {
+      "sha256": "e7f1546dd5d6eae770871aeef7a75eb77ac95f00dec68bdc4fc5a9ce90411a78",
+      "bytes": 274
+    },
+    "stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "owned-runtime.patch": {
+      "sha256": "c33226b958b2cd4a36b57130840b7bd890c963d430ad3425b438167af52eb6b8",
+      "bytes": 15440
+    },
+    "copied-source.tar.gz": {
+      "sha256": "acf62b95f4b71c61a56285835a5bfccf6b0b136591cca52e05c1010af3cbdda3",
+      "bytes": 13728842
+    },
+    "archive-receipt.json": {
+      "sha256": "8f9e6272dfc6bfa959c7ed01c5e9966bde797485808a9500d7e135b534af4193",
+      "bytes": 812
+    }
+  },
+  "runtimeFiles": {
+    "browser/src/source/field-music.ts": {
+      "sha256": "a30dcaaab12ad85f34d4c74aebe8711df3c0012acd3e2b53e5b22d30a2c0acf5",
+      "gitBlob": "7b079968a2c1f377036706db2338ae05cf782a42"
+    },
+    "browser/src/source/hatch-host-audio.ts": {
+      "sha256": "0446b9e8975365bdab1bb315ee45ef7731624ddeb515ef2810765f23e198773c",
+      "gitBlob": "26ffefcdf16ebeb8f921d7d78289036b85a66112"
+    }
+  },
+  "protectedUnchanged": {
+    "browser/src/source/main.ts": "507df60dcb04a669af6b793042f19e5da2d0ffb8aa937e9d4dd817d7e564ef67",
+    "browser/src/source/world.ts": "2806f7ee08e1cc23be481d6d6fcd42fb2148e4cc5bfc7f9605752bea26f9894c",
+    "browser/src/source/script.ts": "754ee848bc2c8376f17f9613e52ec06a4603492b5a5fac1b48fc38fefc6d1fed",
+    "browser/src/source/egg-hatch-presentation.ts": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f",
+    "browser/src/source/egg-hatching.ts": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23",
+    "browser/src/source/egg-hatch-view.ts": "ba11e722a9d56af1974cfe21111331bd59df0ed52aaa6c5d179010b6afa7a60d",
+    "browser/src/source/evolution-field-host.ts": "abe26dcba6b92b0ef126671d5570874b276835a63e5c8ecea41be5c003d3b050",
+    "browser/src/source/evolution-audio.ts": "e4d2d58314a76d5ffb264414c5a0562dca58c60a7148b352f55f249848a5d5cd",
+    "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
+    "browser/src/source/mon-nickname.ts": "9c092a075e923b245f69ec12b30702fc5965ef448b0d65205a53267855ba97bb"
+  },
+  "qualification": "Only field-music and hatch-host-audio change at runtime. Accepted Evolution/Main/World/VM/native controller/view/cues/clock/naming remain unchanged. Later tests explicitly qualified outside snapshot.",
+  "notApproved": [
+    "Browser/GPU/audible/build/deploy",
+    "Full campaign/DS hardware parity",
+    "Future poison graphics lease or Trade/Main composition"
+  ]
+}

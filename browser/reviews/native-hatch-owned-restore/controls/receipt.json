@@ -1,0 +1,42 @@
+[
+  {
+    "control": "drop-transferred-barriers",
+    "exitCode": 1,
+    "detected": true,
+    "sourceSHA256": "cf1e47e5902a8746a4a9395f771dae0487bb0030d678c828f833af8a7862c4d5",
+    "logSHA256": "bcbd027193099948861bd603c9d504c657f2b1adf70cf60b6ebc39733182a0b9",
+    "log": "/tmp/hg-hatch-owned-restore-controls/drop-transferred-barriers/result.log"
+  },
+  {
+    "control": "duplicate-transferred-barriers",
+    "exitCode": 1,
+    "detected": true,
+    "sourceSHA256": "4204049b043d37b4ee053733463e2c039eb64ad2fbdd129566466bbf84a7c2dd",
+    "logSHA256": "09cb818ffce593d4e61ee3e6d1f3c50f59a8824a42ba60d4f9a1be5f8226c60e",
+    "log": "/tmp/hg-hatch-owned-restore-controls/duplicate-transferred-barriers/result.log"
+  },
+  {
+    "control": "skip-barriers",
+    "exitCode": 1,
+    "detected": true,
+    "sourceSHA256": "207aa9c76459607afbe02c963468a53718084467b219d2dc9b6e06112122f819",
+    "logSHA256": "6f7b47a9a92fac15b6958d57a101115be05c5354e44a9274472ead51eb1f06e9",
+    "log": "/tmp/hg-hatch-owned-restore-controls/skip-barriers/result.log"
+  },
+  {
+    "control": "revive-retired-retry",
+    "exitCode": 1,
+    "detected": true,
+    "sourceSHA256": "68e054b001012fd3c147fa6c5401d1d7d752f4284b1c92e75ae2ad1ce80326ad",
+    "logSHA256": "1a4eb7ecc2005c315ef9abcb3acf45fbef54dd42685c4adf5ae53af7edf9cc0e",
+    "log": "/tmp/hg-hatch-owned-restore-controls/revive-retired-retry/result.log"
+  },
+  {
+    "control": "reject-retired-inflight-observer",
+    "exitCode": 1,
+    "detected": true,
+    "sourceSHA256": "bb167c0c9c9822fbe8778b726ab7744b16692e83e21c958ba38dfbbee23693dc",
+    "logSHA256": "553c4e5aa0f1c837bc9010a257966d64960ce881b62c37beb1f325e11053542c",
+    "log": "/tmp/hg-hatch-owned-restore-controls/reject-retired-inflight-observer/result.log"
+  }
+]

@@ -51,6 +51,7 @@ function decodeAudio(ctx:AudioContext,data:ArrayBuffer):Promise<AudioBuffer>{ret
 async function digest(data:ArrayBuffer){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data)),value=>value.toString(16).padStart(2,'0')).join('');}
 function validCue(cue:NativeMusicCue){if(!Number.isInteger(cue.id)||cue.id<0||!/^SEQ_\w+$/.test(cue.key))throw Error('Invalid original music cue');}
 function validateBuffer(buffer:AudioBuffer,frames:number,rate:number,context:AudioContext){if(buffer.numberOfChannels!==2||Math.abs(buffer.duration-frames/rate)>1/rate+1/context.sampleRate)throw Error('Original audio decoded with unexpected sample timing or channels');}
+export type NativeCueSessionOptions={readonly beforeFieldRestore?:(signal:AbortSignal)=>Promise<void>};
 
 /** One actual field voice/context. Constructing a player does not create audio
  * or request a song. unlock() must be invoked directly by a user gesture; its
@@ -65,7 +66,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
  let enabled=options.enabled,volume=options.volume,context:AudioContext|undefined,gain:GainNode|undefined,unlocked=false,disposed=false,pageActive=true;
  let manifest:Promise<NativeFieldCatalog>|undefined,desired:NativeFieldSelection|null=null,current:{selection:NativeFieldSelection;identity:string;voice:Voice}|null=null;
  let serial=0,generation=0,intent=0,loading:AbortController|undefined,interrupted=false;
- type CueSessionOwner={preferences?:()=>Promise<void>;takeRetainedRestore?:(next:CueSessionOwner)=>{saved:EffectiveMusic;drain:Promise<unknown>}};
+ type CueSessionOwner={preferences?:()=>Promise<void>;takeRetainedRestore?:(next:CueSessionOwner)=>{saved:EffectiveMusic;drain:Promise<unknown>;barriers:readonly NonNullable<NativeCueSessionOptions['beforeFieldRestore']>[]}};
  let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:CueSessionOwner|undefined;
  const fetchBytes=options.fetchBytes??bytes;
  const assertOpen=()=>{if(disposed)throw Error('Native field music player is disposed');};
@@ -184,8 +185,12 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
   setPageActive(active:boolean){assertOpen();pageActive=active;updateGain();},
   capture:snapshot,
   /** A non-field native cue (e.g. battle) with an owned interruption. */
-  createCueSession(){
-   assertOpen();const owner:CueSessionOwner={};let abort=new AbortController();
+  createCueSession(options:NativeCueSessionOptions={}){
+   assertOpen();const beforeFieldRestore=options.beforeFieldRestore;if(beforeFieldRestore!==undefined&&typeof beforeFieldRestore!=='function')throw new UnsupportedNativeMusic('Invalid native field restoration barrier');
+   const owner:CueSessionOwner={};let abort=new AbortController();
+   // Capture callbacks once. A later application inherits these same immutable
+   // dependencies with the original paused phase, never expired source signals.
+   let barriers=beforeFieldRestore?[beforeFieldRestore]:[];
    let saved:EffectiveMusic|undefined,owned:Voice|undefined,track:NativeFieldTrack|undefined;
    let started=false,starting=false,failed=false,closed=false,restored=false,restoring:Promise<void>|undefined,preparing:Promise<void>|undefined;
    let child:{controller:AbortController;released:boolean}|undefined,silentParent=false,restoreFailed=false,superseded=false;let restoreAbort:AbortController|undefined;
@@ -210,7 +215,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
     loading?.abort(Error('Retained native restore transferred'));generation++;current?.voice.pause();interrupted=true;
     const original=saved;superseded=true;restored=true;cueSession=next;
     restoreAbort?.abort(Error('Retained native restore superseded'));
-    return{saved:original,drain:Promise.allSettled([restoring,preparing].filter((work):work is Promise<void>=>!!work))};
+    return{saved:original,barriers:Object.freeze([...barriers]),drain:Promise.allSettled([restoring,preparing].filter((work):work is Promise<void>=>!!work))};
    };
    async function startSilent(signal:AbortSignal,takeRetained=false){
     assertOpen();check(signal);check(lifetime.signal);
@@ -218,7 +223,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
     let retired:Promise<unknown>|undefined;
     if(takeRetained){
      if(started||saved||child||!cueSession||cueSession===owner||!cueSession.takeRetainedRestore)throw Error('No closed failed native restore is retained');
-     const transfer=cueSession.takeRetainedRestore(owner);saved=transfer.saved;retired=transfer.drain;
+     const transfer=cueSession.takeRetainedRestore(owner);saved=transfer.saved;retired=transfer.drain;barriers=[...new Set([...transfer.barriers,...barriers])];
     }
     if(child||cueSession&&cueSession!==owner||interrupted&&!saved)throw Error('Another native music interruption is active');
     if(saved&&!interrupted)throw Error('Native silent interruption lost its suspended field owner');
@@ -271,7 +276,7 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
     restore(signal?:AbortSignal){
      if(restored)return Promise.resolve();if(restoring)return observe(()=>restoring!,signal?[signal]:[]);closed=true;detach();abort.abort(Error('Native cue session restored'));owned?.stop();
      const controller=new AbortController();restoreAbort=controller;const input=AbortSignal.any([controller.signal,lifetime.signal,...signal?[signal]:[]]);
-     const pending=(async()=>{check(input);if(saved)await field.restore(saved,input);restored=true;restoreFailed=false;if(cueSession===owner)cueSession=undefined;})();restoring=pending;
+     const pending=(async()=>{try{check(input);if(saved){if(barriers.length)await io(async signal=>{for(const barrier of barriers)await observe(()=>barrier(signal),[signal]);},[input],'cue restore barrier');check(input);await field.restore(saved,input);}restored=true;restoreFailed=false;if(cueSession===owner)cueSession=undefined;}catch(error){if(superseded)return;throw error;}})();restoring=pending;
      void pending.catch(()=>{if(!superseded)restoreFailed=true;if(restoring===pending)restoring=undefined;});return pending;
     },
    };
