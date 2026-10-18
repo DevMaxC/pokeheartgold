@@ -39,8 +39,9 @@ const hookEnd=main.indexOf(');\n  sourceActions=',hookStart);
 assert.ok(hookStart>=0&&hookEnd>=0,'actual main hook expression moved');
 const hookExpression=main.slice(hookStart+'vm='.length,hookEnd+1);
 const capture=main.match(/^function captureField\(\).*$/m)?.[0];
+const cancelEvolution=main.match(/^async function cancelEvolutionField\(.*$/m)?.[0];
 const restore=main.slice(main.indexOf('async function restoreField('),main.indexOf('async function executeSourceAction'));
-assert.ok(capture&&restore.startsWith('async function restoreField('));
+assert.ok(capture&&cancelEvolution&&restore.startsWith('async function restoreField('));
 const compile=source=>ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
 const unexpected=()=>{throw Error('Unexpected gameplay hook: this fixture never fabricates trainer wins or source movement');};
 async function fixture(height=2,restoreSave=false){
@@ -56,7 +57,8 @@ async function fixture(height=2,restoreSave=false){
  const player={group:new THREE.Group()},follower={group:new THREE.Group()};player.group.position.set(state.x,height,state.z);follower.group.position.set(state.x,height,state.z+1);world.scene.add(player.group,follower.group);
  const objects=new FieldObjects(data,state);objects.load(map.events.objects);
  const context={fieldActors:undefined,preferences:{music:state.options.sound,textSpeed:state.options.textSpeed},abortBagUse(){},syncInputContext(){},syncMusic(){},musicKey:'',musicRequestSerial:0,resetFieldInput(){context.keys.clear();},state,world,data,map,fieldPhone:new FieldPhoneHost(phoneRules,1000,12),phoneAdmissionGate:new SourceTriggerGate(),objects,player,follower,restoringGym:restoreSave,followerMoving:false,followSpecies:152,followMon:state.party[0],started:true,ready:true,walking:false,transitioning:false,followerPrevious:null,playerTweenY:undefined,stepFrame:-1,followerStep:-1,followerFacing:1,followerSuppressed:false,playerDirectionLocked:false,previousStepJump:false,lastWarp:'',lastCoord:'',keys:new Set(),drag:false,npcTweenY:new Map(),ScriptVM,UnsupportedScript,FieldObjects,setScriptCameraTarget,SCRIPT_CAMERA_ACTOR,firstFollowerMon,mapWeather,console,requestAnimationFrame:unexpected,ui:{loading(){},message:unexpected,choose:unexpected},refreshNPCs(){},updateHUD(){},beginTrainerPath:unexpected,finishTrainerPath:unexpected,whiteOut:unexpected,moveActor:unexpected,setPosition:unexpected,face:unexpected,showPerson:unexpected,chooseStarter:unexpected,trainerBattle:unexpected,enterMap:unexpected,scriptWarp:unexpected,encounterChecks:{reset(){}}};
- createContext(context);context.vm=runInContext(compile(hookExpression),context);runInContext(compile(capture+'\n'+restore+'\nglobalThis.captureActual=captureField;globalThis.restoreActual=restoreField;'),context);
+ Object.assign(context,{evolutionHost:undefined});
+ createContext(context);context.vm=runInContext(compile(hookExpression),context);runInContext(compile(capture+'\n'+cancelEvolution+'\n'+restore+'\nglobalThis.captureActual=captureField;globalThis.restoreActual=restoreField;'),context);
  return context;
 }
 
@@ -75,4 +77,18 @@ test('actual main recovery rehydrates raised lift, actor/follower height and orb
  const c=await fixture(31,true);await c.vm.run(map,map.initScripts.OnTransition);const recovery=new SourceActionRecovery(c.state,{capture:c.captureActual,restore:c.restoreActual}),error=new UnsupportedScript(map.code,'SyntheticAfterLiftFailure',999),rotation=c.world.camera.quaternion.clone();
  await assert.rejects(recovery.run(async()=>{await c.vm.run(map,map.events.coords[0].scriptId);assert.equal(c.player.group.position.y,2);c.state.flags.AFTER_LIFT=true;c.world.createScriptCameraTarget(135,15,18);throw error;}),value=>value===error);
  assert.equal(recovery.busy,false);assert.equal(c.state.flags.AFTER_LIFT,undefined);assert.equal(c.state.gymmick.liftState,1);assert.equal(c.world.violetGym.platform.position.y,31);assert.equal(c.world.height(c.state.x,c.state.z,31),31);assert.equal(c.player.group.position.y,31);assert.equal(c.follower.group.position.y,31);assert.equal(c.world.scriptCameraPosition,null);assert.equal(c.vm.lastUnsupported.command,'SyntheticAfterLiftFailure');assert.deepEqual([c.world.yaw,c.world.pitch,c.world.distance],[1.2,.5,17]);assert.ok(c.world.camera.quaternion.angleTo(rotation)<1e-7);
+});
+
+test('actual main recovery drains the evolution owner before rehydrating the raised lift and actors',async()=>{
+ const c=await fixture(31,true);await c.vm.run(map,map.initScripts.OnTransition);
+ const error=new UnsupportedScript(map.code,'SyntheticAfterLiftFailure',999),trace=[];
+ let entered,release;const cancelled=new Promise(resolve=>{entered=resolve;}),drained=new Promise(resolve=>{release=resolve;});
+ c.evolutionHost={cancel(reason){assert.equal(reason,error);trace.push('cancel');entered();},settled(){trace.push('settled');return drained;}};
+ const begin=c.world.beginFieldTransition.bind(c.world);c.world.beginFieldTransition=()=>{trace.push('hydrate');return begin();};
+ const recovery=new SourceActionRecovery(c.state,{capture:c.captureActual,restore:c.restoreActual});
+ const pending=assert.rejects(recovery.run(async()=>{await c.vm.run(map,map.events.coords[0].scriptId);assert.equal(c.player.group.position.y,2);throw error;}),value=>value===error);
+ await cancelled;
+ try{assert.deepEqual(trace,['cancel','settled']);assert.equal(c.player.group.position.y,2);}finally{release();}
+ await pending;
+ assert.ok(trace.length>2);assert.deepEqual(trace.slice(0,2),['cancel','settled']);assert.ok(trace.slice(2).every(event=>event==='hydrate'));assert.equal(recovery.busy,false);assert.equal(c.state.gymmick.liftState,1);assert.equal(c.world.violetGym.platform.position.y,31);assert.equal(c.player.group.position.y,31);assert.equal(c.follower.group.position.y,31);assert.deepEqual([c.world.yaw,c.world.pitch,c.world.distance],[1.2,.5,17]);
 });
