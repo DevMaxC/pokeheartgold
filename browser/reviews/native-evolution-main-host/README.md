@@ -1,6 +1,6 @@
-# Native battle evolution field host — integration checkpoint
+# Native battle evolution field host — accepted source handoff
 
-This isolated host is based on Root6262bfac, accepted atomic nickname54787f84, base-form731efe65, Evolution audio5ca737f6 and shared menu PLAYER4a73963cd. Those reviews cover their own source slices, not this new Main/UI/view composition. Final independent host review and adjacent fixture migrations are pending at this checkpoint. No build, browser, GPU, audible playback, deployment or complete campaign parity is claimed.
+This isolated host is based on Root6262bfac, accepted atomic nickname54787f84, base-form731efe65, Evolution audio5ca737f6 and shared menu PLAYER4a73963cd. Those reviews cover their own source slices, not this new Main/UI/view composition. Final actual Opus follow-up ACCEPTS exact80f4fdde/runtimecbad0d23 after closing all three initial findings; see final-opus/receipt.json. The inherited direct-hatch music availability gap remains a separate unapproved scope. Historical checkpoint and test qualifications are retained below. No build, browser, GPU, audible playback, deployment or complete campaign parity is claimed.
 
 Main installs one persistent BattleEvolutionQueue per actual Battle, under the existing root NativeFieldClock after its real settled boundary. It drains the actual ephemeral battle completion inside withBattleMusic before field restoration, rewards, source return or durable save. The same real cue handle admits owned silence after a technical preparation failure; an unsupported source configuration remains explicit. Child leases never restore field music. Root cleanup retains failed child ownership before parent restoration.
 
