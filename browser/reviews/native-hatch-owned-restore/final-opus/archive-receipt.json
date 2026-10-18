@@ -1,0 +1,23 @@
+{
+  "createdUTC": "2026-10-18T08:49:31.423830+00:00",
+  "candidate": "fc8c039a095edb4470cb3a95cd45894590ce9c81",
+  "files": {
+    "copied-source.tar.gz": {
+      "sha256": "acf62b95f4b71c61a56285835a5bfccf6b0b136591cca52e05c1010af3cbdda3",
+      "bytes": 13728842
+    },
+    "source-manifest.json": {
+      "sha256": "fb4809dee546cbafe60e656252e79a7ee79c4154188b50be3df4897ec416f0a1",
+      "bytes": 2377140
+    },
+    "review-prompt.txt": {
+      "sha256": "329ffc0ac0e23338cd70478cf974b259a05b55579a3987a7df27457de8073dd3",
+      "bytes": 6197
+    },
+    "owned-runtime.patch": {
+      "sha256": "c33226b958b2cd4a36b57130840b7bd890c963d430ad3425b438167af52eb6b8",
+      "bytes": 15440
+    }
+  },
+  "scope": "Complete copied source/reference inputs, final raw/integrity saved separately after actual review."
+}
