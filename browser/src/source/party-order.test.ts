@@ -67,7 +67,7 @@ test('gift Egg can move to the lead, hatch there with its original identity, the
  assert.equal(state.party[0],egg);assert.equal(egg.isEgg,false);assert.equal(isOriginalTogepiGift(data,state,egg),true);
  const lab=await sourceJSON<SourceMap>('maps/61.json'),messages:string[]=[];
  state.map=lab.id;state.vars.VAR_SCENE_ELMS_LAB=7;
- const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>{throw Error('Elm visit cannot battle');},warp:async()=>{}};
+ const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>{throw Error('Elm visit cannot battle');},warp:async()=>{}};
  const run=async()=>{const vm=new ScriptVM(data,state,hooks);await vm.run(lab,1);assert.equal(vm.lastUnsupported,null);};
  // A healthy starter leading hides the hatched Togepi from the native
  // GetPartyLeadAlive query. No special gift/quest bypass is introduced.

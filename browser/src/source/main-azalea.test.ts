@@ -102,8 +102,8 @@ async function fixture(withFollower=true){
   encounterChecks:{reset(){events.push('reset-encounter');},step(){events.push('completed-step');}},mapBlackoutSpawn:async()=>null,save(){if(c.sourceActions?.busy)return false;writes.push(structuredClone(state));return true;},
   $:(id:string)=>dom.ids.get(id)??dom.document.createElement('div'),followMon:state.party[0]??null,followSpecies:state.party[0]?.species??0,
  };
- createContext(c);
- const names=['initializeNativeField','installAzaleaField','abortBagUse','captureField','restoreField','executeSourceAction','runScript','runFieldEntry','enterMap','checkFrameTriggers','fieldControlsAvailable','menu','save','updatePreferences','step','interact','tryTrainerEncounter','pollFieldInput','answerPhone','refreshPhoneIndicator','useBagItem','running','tween','tweenPlayer','checkEvents','trainerCollision','retainFieldInput'];
+ Object.assign(c,{evolutionHost:undefined,battleMusicParent:undefined});createContext(c);
+ const names=['initializeNativeField','installAzaleaField','abortBagUse','captureField','restoreField','cancelEvolutionField','executeSourceAction','runScript','runFieldEntry','enterMap','checkFrameTriggers','fieldControlsAvailable','cameraControlsAvailable','menu','save','updatePreferences','step','interact','tryTrainerEncounter','pollFieldInput','answerPhone','refreshPhoneIndicator','useBagItem','running','tween','tweenPlayer','checkEvents','trainerCollision','retainFieldInput'];
  // Save is a real binding too; its storage/field ownership gates must remain.
  const prefStore=new Map<string,string>();Object.assign(c,{writeInterfacePreferences,preferenceStorage:{getItem:(key:string)=>prefStore.get(key)??null,setItem:(key:string,value:string)=>prefStore.set(key,value)},SAVE_KEY:'azalea-unit-save',localStorage:{setItem(_key:string,value:string){writes.push(JSON.parse(value));}}});
  runInContext(compile(names.map(name=>{assert.ok(functions.has(name),name);return functions.get(name)!.getText(ast);}).join('\n')),c);
@@ -221,7 +221,7 @@ test('native capture handlers never unlock from the global mute target while fie
  };
  try{
   const events=ast.statements.filter(node=>ts.isExpressionStatement(node)&&ts.isCallExpression(node.expression)&&node.expression.expression.getText(ast)==='addEventListener').map(node=>node.getText(ast)).join('\n');
-  createContext(c);runInContext(compile(functions.get('unlockSound')!.getText(ast)+'\n'+functions.get('fieldControlsAvailable')!.getText(ast)+'\n'+events),c);
+  Object.assign(c,{evolutionHost:undefined,battleMusicParent:undefined});createContext(c);runInContext(compile(functions.get('unlockSound')!.getText(ast)+'\n'+functions.get('fieldControlsAvailable')!.getText(ast)+'\n'+events),c);
   const button=dom.document.createElement('button');button.setAttribute('data-global-audio','');dom.document.body.appendChild(button);button.onclick=()=>{toggles++;};const icon=button.appendChild(dom.document.createElement('span'));button.focus();
   registered.get('pointerdown')![0]({target:icon});
   for(const code of['Enter','Space']){const event=dom.key(code);assert.equal(event.defaultPrevented,false);button.click();}
@@ -252,7 +252,7 @@ test('native cart ownership blocks independent field actions without relying on 
 test('eight source walking ticks map to one Paper walk cycle for player and follower',()=>{
  const paper=()=>({group:new THREE.Group(),texture:new THREE.Texture(),sprite:new THREE.Mesh(),info:{frames:16,columns:4,rows:4}}),player=paper(),follower=paper(),state={x:3.5,z:32.5,facing:0};
  let step=0;const columns:number[][]=[[],[]],world={azaleaGym:{riderPosition:null,playerHeld:false},violetGym:{riderHeight:undefined},height:()=>0,yaw:0,animate:OriginalWorld.prototype.animate};
- const c=createContext({world,state,player,follower,lead:{},followerSuppressed:false,followerFacing:0,followerMoving:false,walking:false,stepFrame:-1,playerTweenY:undefined,fieldActors:{movement:()=>({direction:0,step})}});
+ const c=createContext({evolutionHost:undefined,world,state,player,follower,lead:{},followerSuppressed:false,followerFacing:0,followerMoving:false,walking:false,stepFrame:-1,playerTweenY:undefined,fieldActors:{movement:()=>({direction:0,step})}});
  const draw=compile(renderStatement('player')+'\n'+renderStatement('follower'));
  for(step=0;step<8;step++){runInContext(draw,c);columns[0].push(player.texture.offset.x*4);columns[1].push(follower.texture.offset.x*4);}
  for(const frames of columns)assert.deepEqual(frames,[0,0,1,1,2,2,3,3],'source displacement ticks are not atlas column indices');

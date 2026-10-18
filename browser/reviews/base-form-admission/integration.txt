@@ -1,0 +1,61 @@
+Base-form prerequisite from exact6262bfac42497c01f92143df899d7a274a7207d4.
+No Main/World/VM/view/audio edits. Fresh createMon now always sets form:0.
+Native pokemon.c:CreateBoxMon starts ZeroBoxMonData; PokemonDataBlockB.form is
+5bits and remains0. Literal C test uses actual creation/zero/locks/GetSubstruct
+and structs plus gender assignment. Cipher, RNG/stat results and move creation
+are explicit non-form stand-ins, NOT complete DS creation or encryption parity.
+The omitted-zero negative control retains31. Old browser factory blob+hash are
+preserved; prove_base_form_before --expect-native-form deliberately fails there.
+
+API: migrateLegacyBrowserForms(data,state,{origin:'local-browser-v2'}).
+Data needs original personal/moves/growth/constants. State needs version2,
+party, flat boxes, optional formMetadata. Host MUST attest the local browser
+SAVE_KEY read, and invoke BEFORE persistent evolution queue and ANY Recovery
+checkpoint; coordinate after nickname compatibility. No per-record user prompt.
+Return receipt: policy local-browser-v2-base-form; admission migrated/already-marked;
+kind complete/partial; changed location/index/species/form0/basis, retained count,
+unresolved location/index/reason. Host must surface/diagnose unresolved slots and
+keep required form ports explicit. Do not infer again during evolution/polling.
+
+This is a ONE-TIME explicit BROWSER BASE-FORM COMPATIBILITY POLICY. It does NOT
+recover historical native form, provenance, ownership or OT. The old factory
+accepted arbitrary OT labels; own/traded legacy mons cannot be distinguished.
+State.name/profile/trainerID and Mon.id/name/ot are NEVER ownership evidence.
+Record text/IDs are only checked for factory shape. No OT fields are synthesized.
+
+Only ordinary, plain-own-data factory-shaped records, existing source species,
+valid fields/moves/PP/nature/PID/gender/EV/experience and plausible cached stats
+are eligible. Stats may fall between zero-EV and current-EV calculations because
+ordinary browser battles update EVs before the next stat recalculation. This is
+compatibility validation, not reconstructed native history. Known forms0..31
+are retained before missing-form compatibility checks, including valid known
+forms on actual hatched/native-provenance/Egg/extended records. Corrupt/invalid
+flag records stay unresolved. Nonzero retention is NOT admission to the form0
+evolution adapter.
+Missing forms on native/foreign provenance, Eggs/Bad Eggs/corrupt records,
+unknown extensions, accessors/malformed data, aliased records, unrepresented
+native multi-form families and unwritable records are unresolved, unchanged.
+Form-family exclusions are actual SanitizeMonForm cases, resolved with original
+species constants, not transcribed numeric IDs. Sparse/invalid save structure,
+unknown marker/origin/original data are explicit errors with no planned writes.
+
+State.formMetadata is {version:1,origin:'fresh-browser'|'migrated-local-v2'}.
+newState has fresh-browser. First legacy admission plans all records and writes
+marker even if partial; unresolved records stay unresolved, never reinferred.
+This helper reports later missing metadata, never repairs it. Marker and metadata become
+part of the normal later save and Recovery checkpoint; this leaf does not save.
+All writes are synchronous own-data definitions after validation/preflight;
+if an unexpected final marker write fails, previous form descriptors roll back.
+This boundary expects attested JSON records, not hostile Proxy traps/reentrancy.
+
+Minimal shared deltas: data.ts createMon form0, newState formMetadata; types.ts
+BrowserFormMetadataAdmission and optional State.formMetadata. Nickname owner's
+name/hasNickname/nicknameMetadata changes must be retained when merging the two
+one-line factory/newState/State declarations. No original naming/provenance edits.
+
+Scope limit: createMon is the ONLY existing creator changed here. Separate
+eggs.ts still omits form in its native Egg draft, and egg-hatching.ts still uses
+its pre-existing form??0 hatch policy. Neither is covered by this helper marker
+or changed here. Missing-form Eggs are unresolved; a real hatched mon with
+known form0 is retained without requiring the legacy factory shape. No claim
+that all application creators or all later metadata inference have been fixed.

@@ -1,0 +1,73 @@
+{
+  "scope": "Root shared menu PLAYER4 prerequisite, unhosted source leaf",
+  "base": "c2a026bed2b00c944980ac5a17c08d7ff099bbfa",
+  "ownCommits": [
+    "a73963cdb4aab60f5062a56c43a9bdd1a8d192cc",
+    "4f01cb8c378b347de0b28c1d5af18de1ed10c749"
+  ],
+  "duplicateDependency": "local7b758578 duplicates reviewed original89f5c7d50f6557d4f8d4a11aab07140344fdffda; exclude duplicate",
+  "runtimeUnchangedSinceInitialReview": true,
+  "sourceHashes": {
+    "browser/src/source/azalea-field-sound.ts": "610836d29b9393f1ecb5d8b16b2d565c55cda441587a822487fa7b175f7fcf27",
+    "browser/src/source/repel-audio.ts": "1a0fed422124ed88b782261f58b8de5ab6b06b454537cbf6f005b162eb86dde3",
+    "browser/src/source/gym-azalea-audio.ts": "0cbec1a1c2570d4d433ef3918213586211a92bb455a6a38455b28cdb69cbb1a7",
+    "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
+    "browser/src/source/menu-player4.test.ts": "93fdfbf0d9f0e1fa53f5ca9b48c46f8a7d7ba640970525aa8c5cc6b6f51fe2af",
+    "browser/scripts/test_menu_player4_controls.py": "c3635e4300e27a68b45d673df5481c2193a16cdb9600530b66685f1eac4ce027"
+  },
+  "reviews": [
+    {
+      "phase": "initial",
+      "manifestSHA256": "0a563fec20e7bcbe4cba8e140f37f6c57bd18a918a74ea5bf9b6a93e4c3c0b40",
+      "inputs": 2515,
+      "allInputsUnchanged": true,
+      "rawSHA256": "f5083854203619471169d2751056e72be8c4b2116c7d71f6bf3ba2b6520245d4",
+      "archiveSHA256": "89764ec2db22b54ce60129305dab24a2a6e78fe1ccc796032b05ae2b0b147634",
+      "turns": 23,
+      "durationMs": 229168,
+      "modelUsage": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "verdict": "ACCEPT_WITH_QUALIFICATIONS",
+      "newConfirmedDefects": 0
+    },
+    {
+      "phase": "followup",
+      "manifestSHA256": "11bd3bc46e30205dd1f07ce51e7dd52c5e264a7296b138a954c6bf878dc934fa",
+      "inputs": 2535,
+      "allInputsUnchanged": true,
+      "rawSHA256": "8f01c34a7b880ffab0e5119dadc0512896b2a1e41b2b2d73c249862ec74b8ed2",
+      "archiveSHA256": "2a98eb4c9033900057e30751b14b41e919f2c01f0407dbbb141201791b1cbb1a",
+      "turns": 30,
+      "durationMs": 133341,
+      "modelUsage": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "verdict": "ACCEPT_WITH_QUALIFICATIONS",
+      "newConfirmedDefects": 0
+    }
+  ],
+  "originalProofNotes": "All6closed; additive-only accepted P4 file/class independently proven with exact original copy.",
+  "wordingCorrection": "Only started-report failure has a foreign admission BEFORE its failure cleanup microtask. Prepared-report failure is awaited, so foreign admission follows cleanup. Both remain local and preserve Root/foreign voice; original overbroad prompt wording is not a timing proof.",
+  "verification": {
+    "nodeTestExecutions": 48,
+    "nativeSDATCSDKReexportTests": 5,
+    "tscExitCode": 0,
+    "negativeControlsDetected": 10,
+    "negativeControlsTotal": 10,
+    "rawOldFailures": "Initial incomplete cue-set/unawaited switch fixtures, sparse native script setup and nonexistent test diagnostic getter retained; all corrected tests without runtime edits."
+  },
+  "qualifications": [
+    "No Main/evolution learner/Repel host/browser/playback/unlock approval transferred",
+    "Root alone updates/disposes registries; borrowers must not do either",
+    "Production uses authenticated default metadata loader; injections are test ports",
+    "Locked no-voice admission requires explicit reprepare after unlock",
+    "P5/P6 remain uncreated/Unsupported; anySE covers actualP3/P4 only",
+    "P4 timeout includes P3 metadata admission",
+    "No DS global16channel/ARM7 natural-end/fullSSEQ/DAC claim; SELECT trackend6145 vs PCMrelease25776"
+  ],
+  "durablePacket": "/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-menu-player4-final-4f01cb8c",
+  "createdUTC": "2026-10-17T22:10:40.123443+00:00"
+}

@@ -1,0 +1,17 @@
+# Native battle obedience: immutable Opus review
+
+Runtime freeze: `da88feccfa4e0f8bcf02ae6e38b659b671758b9c`. The completed actual Claude Opus5.5 review reports **no confirmed reachable correctness/regression defects**, qualified to this scoped offline source/controller delta. This is not full battle, campaign, browser, audio, 3D, GX or hardware approval. No runtime source was changed by this review.
+
+The first actual run ended `error_max_turns`/exit1 after61turns and produced no final conclusion. Its raw result, modelUsage, command, prompt, complete inputmanifest and unchanged-input verification are preserved under `initial/`. Its wallclock timestamps span an overnight host clock jump; monotonic elapsed was835.621s. JSON/no-session mode did not retain intermediate tool transcripts, and no missing conclusion is inferred.
+
+The independent follow-up used the same sourcebytes with tighter source navigation and a120turncap, finished exit0/success in66actual turns/501.949s monotonic, and preserved all3800 inputs unchanged. Raw `modelUsage` confirms canonical `claude-opus-5-5`; auxiliaryHaiku usage is retained too. The prose's approximate about50turns is not the authoritative CLI count. Full source/dependency copies remained available, with0missing relative TS imports. No CLI shell/test/build/browser/network execution was allowed.
+
+The one conditional Low concerns malformed, edited or foreign saves with duplicate/out-of-range/non-array badges. Normal `giveBadge` prevents these; it was not classified as a confirmed reachable shipped regression and no fix was made. The reviewer also notes that this frozen baseline has no shipped foreignOT acquisition producer. Real `Battle.attack` fixtures exercise source-known foreignOT identities; natural NPC-trade/Main and campaign composition still need their own evidence. Explicit unported producers stay unsupported.
+
+Root's supplied final107affected tests passed with0fail/skip/cancel; supplied TSC log is empty and Root reported exit0. The reviewer read these logs and original-C fixture source but executed nothing. Original2648decision cases,248Technician branchcases, fullu16message selector and12096accepted-confusion comparisons are finite evidence rather than complete engine or data/hardware proof. Before-fix five-control failures and exact source copies are preserved; fixed cases do not replace independent review reasoning.
+
+`SOURCE-CHECKLIST.md` maps the native controller, subscripts, damage, target and ownership contracts. `ADJUDICATION.json` records scope and conditional observations. `scripts/` preserves the exact local snapshot/runner recipes; its absolute historical paths reflect the actual run. The immutable source copies can also be reconstructed from Git `da88fecc` and ownership evidence `956099e4`, with copied checks/priorfindings/prompt metadata verified by the manifests.
+
+Full original packets are durable at `/Users/maxchurch/Documents/pokeheartgold-review-artifacts/native-battle-obedience-opus-da88-20261018`, with the completed independent packet under `followup/`. This repository evidence records raw results and input hashes without duplicating all40MB of native/application source already in Git.
+
+The original before-fix TAP assertion log retains eight whitespace-only lines exactly as emitted. Plain `git diff --check` diagnoses those raw-log lines; they are preserved for byte-level provenance. The authored metadata and all other staged evidence pass the same check when that one raw log is excluded.

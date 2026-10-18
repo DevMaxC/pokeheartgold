@@ -1,0 +1,64 @@
+{
+  "sourceCommit": "da88feccfa4e0f8bcf02ae6e38b659b671758b9c",
+  "sourceBase": "54787f84",
+  "ownershipHelperSHA256": "1cf816360b2c7ace41116acbd5cf03cd4e2062f0443a9dcb2e38c78fd30939a7",
+  "ownershipEvidenceCommit": "956099e4",
+  "initial": {
+    "outcome": "error_max_turns, no final result/approval",
+    "exitCode": 1,
+    "actualTurns": 61,
+    "inputCount": 3792,
+    "allInputsUnchanged": true,
+    "durationSecondsMonotonic": 835.6213212078437,
+    "wallClockQualification": "Host wallclock jumped overnight. Do not describe that jump as9hours of review work.",
+    "partialTranscript": "JSON-only/no-session persistence produced no intermediate tool transcript. Raw finalerror/modelUsage preserved; no hidden findings/approval inferred."
+  },
+  "followup": {
+    "outcome": "qualified offline source/controller acceptance; no confirmed reachable final-delta findings",
+    "exitCode": 0,
+    "actualTurns": 66,
+    "inputCount": 3800,
+    "allInputsUnchanged": true,
+    "durationSecondsMonotonic": 501.9487989170011,
+    "actualPrimaryModel": "claude-opus-5-5",
+    "auxiliaryModelUsage": "Haiku token/cost metadata preserved in rawresult. Result prose says about50turns; authoritative CLI metadata is66."
+  },
+  "conditionalObservations": [
+    {
+      "kind": "Low, malformed/edited/foreignsave only; not confirmed shipped regression",
+      "detail": "Badges validator runs before playerOT bypass; invalid/duplicate badges reject allplayer attacks. giveBadge produces validunique flags. No source fix made; do not bypass valid-data checks on review inference."
+    },
+    {
+      "kind": "baseline acquisition scope",
+      "detail": "Frozen baseline has no shipped foreignOT acquisition producer. ForeignOT Battle.attack tests use source-known fixture identity; natural NPC-trade/completecampaign composition remains separate integration work."
+    },
+    {
+      "kind": "intentional unsupported/conservative",
+      "detail": "Unported alternate move can reject after ignoredorders/RNG/local turnstate, with existing battle/recovery policy; defender item guard is conservative; asleep outcome/lockedBideUproar/doublelinkTorment producers remain unhosted."
+    }
+  ],
+  "tests": {
+    "producer": "Root, before immutable review",
+    "affected": 107,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "tsc": "Rootreportedexit0; empty suppliedlog preserved",
+    "independentReviewExecution": "None. CLIRead/Grep/Glob only; no build/browser/test rerun by reviewer.",
+    "finiteOriginalProof": "2648 originalTryDisobedience Ccases,248 originalTechnician branchcases, fullu16messageselector,12096 oldformula comparisons; finite ABI/arithmetic evidence, not allgame data/hardware."
+  },
+  "scopeLimits": [
+    "No fullbattle/campaign/browser/3D/audio/GX/hardware approval.",
+    "No runtime/Main/World/source edits made by review agent.",
+    "Only new obedience/controller integration and self-hit split plus corrected knownOT dependency reviewed.",
+    "Inherited confusion berry handling and existingstatusRNG implementation not newly approved.",
+    "No production push/merge/build/browser performed; Root owns integration."
+  ],
+  "createdUTC": "2026-10-18T08:51:25.699849+00:00",
+  "metadataChecks": {
+    "runtimeUnchanged": 6,
+    "durableInputComparisons": 7592,
+    "evidenceJSON": "allvalid",
+    "whitespace": "Eight original whitespace-only TAP assertion lines retained in checks/hg-obedience-five-findings-before.log; authored/other evidence passes diffcheck when rawlog excluded."
+  }
+}

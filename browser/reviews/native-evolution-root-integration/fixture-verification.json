@@ -1,0 +1,54 @@
+{
+  "base": "7ae8da09008b43649c16318e8c070b79272a9c17",
+  "acceptedEvolution": "bd13bdadb1b2ba5b1e9b98272abcbccf3059c9cd",
+  "releasedWorld": "bcc6d48c089735430543b965c15bfecbbf23eefb",
+  "runtime": {
+    "main.ts": {
+      "sha256": "507df60dcb04a669af6b793042f19e5da2d0ffb8aa937e9d4dd817d7e564ef67",
+      "identicalToAcceptedBd13": true
+    },
+    "battle.ts": {
+      "sha256": "6047335626fc05985ac202121179b661274005697a6ec32e7bda05b75e238722",
+      "identicalToAcceptedBd13": true
+    },
+    "field-music.ts": {
+      "sha256": "992ac65d602d5572f5692eedadd77509efe25466b0f12a3976b0320b4c0132dd",
+      "identicalToAcceptedBd13": true
+    }
+  },
+  "initialFull": {
+    "tests": 1874,
+    "pass": 1865,
+    "fail": 9,
+    "status": "FAILED; all nine were old fixture contracts, preserved"
+  },
+  "fixtureFirst": {
+    "tests": 19,
+    "pass": 18,
+    "fail": 1,
+    "reason": "new ordering assertion expected exactly one transition call; real World.enter also begins the transition"
+  },
+  "fixtureFinal": {
+    "tests": 19,
+    "pass": 19,
+    "fail": 0,
+    "scope": "real Main Violet restore drain ordering and opening source script/name contract; no full-suite pass inferred"
+  },
+  "logs": [
+    {
+      "file": "hg-evolution-current-root-full-tests-first.log",
+      "sha256": "610e1d87ef09431ecd547888c63b84c1fb56e31e333884f7a0ca6cba0a8c644a",
+      "bytes": 555704
+    },
+    {
+      "file": "hg-evolution-current-root-test-fixtures.log",
+      "sha256": "fc7008367110dc635039f0dec82ac7d1bfdf6b2b344ee9aebc96d62affe9f503",
+      "bytes": 5432
+    },
+    {
+      "file": "hg-evolution-current-root-test-fixtures-final.log",
+      "sha256": "9bce105f2e1232b778f4ca5dfaa00a103f287f6c3de9bb53e16c0c11b0fe957b",
+      "bytes": 4612
+    }
+  ]
+}

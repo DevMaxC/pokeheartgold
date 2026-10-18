@@ -1,0 +1,77 @@
+{
+  "sourceCommit": "1f2f654dfc0d806d31fcf127ffdf3edeb8926a98",
+  "runtimeSourceCommit": "d3bfb166070a5424af0476a37713b6a460f036f8",
+  "initialSourceCommit": "ffb402db6a31b37fa57890385ce63c144d7572e3",
+  "verdict": "ACCEPT",
+  "actualModel": "claude-opus-5-5",
+  "durationMs": 59868,
+  "rawSHA256": "99bfff7ab3a43c50d1caad1b8e703d323bcf84ca6002c40f0af7ba5352eae6d2",
+  "manifestSHA256": "30e4fa5ce265f6fffdb496b358f3032f152c3cc103be1ecc658ffc10e3210982",
+  "all41SnapshotAndCurrentFileHashesMatch": true,
+  "runtimeSHA256": "9dbd45631fac97e52f687523be8a417c283643d7d89edd24f37fabec2a8bc968",
+  "testSHA256": "21aa3c13f9244cae725f41d26659b5249df47d2519068c25baca5499cda45605",
+  "checks": {
+    "nodeTests": 13,
+    "nodeFailures": 0,
+    "nativeCComparisons": 9359,
+    "methodsObserved": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "originalCSelfTests": 2,
+    "tscExitCode": 0,
+    "originalDataChanged": false,
+    "existingRuntimeFilesChanged": false
+  },
+  "beforeControls": {
+    "source": "ffb402db",
+    "tests": 13,
+    "pass": 11,
+    "fail": 2,
+    "rawPreservedGzip": true
+  },
+  "scope": "Data/predicate/loader only, no queue/scene/Main/Battle/World/audio integration approval",
+  "integration": [
+    "Cherry-pick the complete leaf range after base873de2c1 through finalmetadata HEAD; runtime commitsffb402db andd3bfb166, all later commits are immutable review/evidence packaging.",
+    "Load existing evolutions.json with loadNativeEvolutionData(GameData); do not fabricate unavailable beauty or Pichu form",
+    "Use explicit RTC night and HGSS nativeMapEvolutionMethod(mapId)=0; preserve unsupported decisions",
+    "Battle controller owns real levelUp flags/outcomes/legal Egg-subject exclusion, persistent transition, presentation and effects; it may admit only its reviewed subset of eligible methods"
+  ],
+  "reviewLimits": [
+    "Actual initial review compares full native mapping; follow-up only independently rechecks two source boundary changes and new tests",
+    "Reviewer did not execute tests or hash files; agent independently executed recorded checks and verified snapshot bytes",
+    "No browser/audio/build/DS storage/hardware/full-campaign parity proof"
+  ],
+  "reviewInputPatch": {
+    "path": "changes.patch.gz",
+    "encoding": "gzip",
+    "uncompressedSHA256": "cfd03c660fd96e3d26292b4521307c8472c64bafbde5182ad432594e1d0a0e51",
+    "gzipSHA256": "771d6e3f0c581d4c627bbd66dbbf6abfde90a6c86a35d911cb516d9ec78ff7bd",
+    "rawBytesPreserved": true,
+    "reproduction": "Decompress to changes.patch beside the private review snapshot before rerunning the preserved prompt."
+  }
+}

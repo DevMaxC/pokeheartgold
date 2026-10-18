@@ -1,0 +1,43 @@
+{
+  "base": "6262bfac42497c01f92143df899d7a274a7207d4",
+  "freshForm": 0,
+  "nativeFieldBits": 5,
+  "nativeCFormCreationCases": 31552,
+  "negativeControlForm": 31,
+  "compatibilityIsNativeHistory": false,
+  "ownershipOrOTInferred": false,
+  "inputs": {
+    "src/pokemon.c": {
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65",
+      "bytes": 159083
+    },
+    "include/pokemon_types_def.h": {
+      "sha256": "adf14e74756e1a5b63ab939b28b8f62a90ca06640c1b43ff82025979f9ac20c8",
+      "bytes": 8890
+    },
+    "include/constants/pokemon.h": {
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74",
+      "bytes": 19409
+    },
+    "include/constants/species.h": {
+      "sha256": "a72ce01027d83aabd9ff61dc8f3afbbf43eee30b25c39b6e23ed42c5ac587732",
+      "bytes": 16128
+    },
+    "include/constants/items.h": {
+      "sha256": "20576a5dc04bd40cb1d212f1dad2de8e0083cf966e9535e3c10baac36cbd7193",
+      "bytes": 32040
+    },
+    "include/constants/global.h": {
+      "sha256": "40eefe14cdec8507effe5b624bc035afb6d234ada97eae50f3c88ef8b26c07ee",
+      "bytes": 483
+    },
+    "browser/reviews/base-form-admission/old-factory-data.ts.txt": {
+      "sha256": "28bc41b2f0f63478863ad6d54ebb62b2cbdd3f003a731e21097e28dff9dc7174",
+      "bytes": 5051
+    },
+    "browser/reviews/base-form-admission/old-factory.json": {
+      "sha256": "9be19d8926e7bf4445684ce2eb6d8c21a8b85a7f022b14789e21c2d07b9bf353",
+      "bytes": 253
+    }
+  }
+}

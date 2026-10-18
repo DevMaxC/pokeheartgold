@@ -1,0 +1,204 @@
+{
+  "commit": "873de2c1e119736344b0a3754cfcd9b88ca504a4",
+  "mainSha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+  "input": "Earned exact Mon from legal5→13 whole-battle trace; no XP/HP/species injection in this action",
+  "trainer": 290,
+  "script": "D15R0103 entry3/ElderLi",
+  "nativeEvolution": {
+    "baseSpecies": "SPECIES_CYNDAQUIL",
+    "evos": [
+      {
+        "method": "EVO_LEVEL",
+        "param": 14,
+        "target": "SPECIES_QUILAVA"
+      }
+    ]
+  },
+  "before": {
+    "species": 155,
+    "level": 13,
+    "name": "CYNDAQUIL",
+    "gender": "female",
+    "maxHP": 35,
+    "stats": {
+      "atk": 20,
+      "def": 18,
+      "speed": 24,
+      "spatk": 19,
+      "spdef": 22
+    },
+    "hp": 35,
+    "exp": 1403,
+    "ivs": [
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+    ],
+    "evs": [
+      6,
+      13,
+      0,
+      4,
+      0,
+      0
+    ],
+    "nature": 23,
+    "personality": 2147483648,
+    "status": "",
+    "sleepTurns": 0,
+    "moves": [
+      {
+        "id": 98,
+        "pp": 30,
+        "maxPP": 30
+      },
+      {
+        "id": 43,
+        "pp": 30,
+        "maxPP": 30
+      },
+      {
+        "id": 108,
+        "pp": 20,
+        "maxPP": 20
+      },
+      {
+        "id": 52,
+        "pp": 25,
+        "maxPP": 25
+      }
+    ],
+    "friendship": 70,
+    "heldItem": null,
+    "ot": "Ethan",
+    "id": 2147483647
+  },
+  "after": {
+    "species": 155,
+    "level": 14,
+    "name": "CYNDAQUIL",
+    "gender": "female",
+    "maxHP": 37,
+    "stats": {
+      "atk": 22,
+      "def": 19,
+      "speed": 25,
+      "spatk": 21,
+      "spdef": 23
+    },
+    "hp": 22,
+    "exp": 1778,
+    "ivs": [
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+    ],
+    "evs": [
+      7,
+      15,
+      0,
+      4,
+      0,
+      0
+    ],
+    "nature": 23,
+    "personality": 2147483648,
+    "status": "",
+    "sleepTurns": 0,
+    "moves": [
+      {
+        "id": 98,
+        "pp": 27,
+        "maxPP": 30
+      },
+      {
+        "id": 43,
+        "pp": 30,
+        "maxPP": 30
+      },
+      {
+        "id": 108,
+        "pp": 20,
+        "maxPP": 20
+      },
+      {
+        "id": 52,
+        "pp": 23,
+        "maxPP": 25
+      }
+    ],
+    "friendship": 70,
+    "heldItem": null,
+    "ot": "Ethan",
+    "id": 2147483647
+  },
+  "sourceReward": 1,
+  "sceneFlag": true,
+  "events": [
+    "phone-reset",
+    "input-reset",
+    "silent-battle",
+    "hud",
+    "input-reset",
+    "field-resume",
+    "frame-check",
+    "hud"
+  ],
+  "messages": [
+    "So good of you to come here!\\rSprout Tower is a place of training.\nPeople and Pokémon test their bonds\\fto build a bright future together.\\fI am the final test.\\rAllow me to check the ties between\nyou and your Pokémon!\\r",
+    "Elder Li wants to battle!",
+    "Elder Li sent out BELLSPROUT!",
+    "Go! CYNDAQUIL!",
+    "CYNDAQUIL used Ember!",
+    "It’s super effective!",
+    "BELLSPROUT fainted!",
+    "CYNDAQUIL gained 126 Exp. Points!",
+    "The opposing Trainer sent out HOOTHOOT!",
+    "CYNDAQUIL used Quick Attack!",
+    "The opposing HOOTHOOT used Peck!",
+    "A critical hit!",
+    "CYNDAQUIL used Quick Attack!",
+    "The opposing HOOTHOOT used Hypnosis!",
+    "CYNDAQUIL fell asleep! ",
+    "CYNDAQUIL is fast asleep.",
+    "The opposing HOOTHOOT used Peck!",
+    "CYNDAQUIL is fast asleep.",
+    "The opposing HOOTHOOT used Hypnosis!",
+    "But it failed!",
+    "CYNDAQUIL woke up!",
+    "CYNDAQUIL used Quick Attack!",
+    "HOOTHOOT fainted!",
+    "CYNDAQUIL gained 123 Exp. Points!",
+    "CYNDAQUIL grew to Lv. 14!",
+    "The opposing Trainer sent out BELLSPROUT!",
+    "CYNDAQUIL used Ember!",
+    "It’s super effective!",
+    "BELLSPROUT fainted!",
+    "CYNDAQUIL gained 126 Exp. Points!",
+    "You defeated the opposing Trainer!",
+    "Ethan got ₽1200 for winning!",
+    "Hmmm...\nThe way you battle is quite elegant.\\rYou should be able to stand up\nto Falkner.\\rAnd you should be able to make good use\nof this...\\rIt is a Technical Machine called Flash.\nTake it with you!\\r",
+    "Obtained the TM70!",
+    "Ethan put the TM70\nin the TMs & HMs Pocket.\\r",
+    "When a Pokémon learns Flash, you can\nilluminate caves no matter how dark\\fthey may be.\\rYou can try it on BELLSPROUT,\nfor example..."
+  ],
+  "saves": [
+    {
+      "species": 155,
+      "level": 14,
+      "TM70": 1
+    }
+  ],
+  "ports": [
+    "silent music action wrapper",
+    "UI messages/actions",
+    "field resume/hud/phone reset",
+    "no WebGL/browser/audio/nativeAI/globalLCG claim"
+  ]
+}

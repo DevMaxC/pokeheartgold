@@ -1,0 +1,43 @@
+{
+  "stateTrainerId": 305419896,
+  "mon": {
+    "id": 2147483647,
+    "personality": 2147483648,
+    "ot": "Case",
+    "form": null,
+    "hasProvenance": false
+  },
+  "draws": 8,
+  "instanceFallbackXor": 0,
+  "knownFreshAcquisitionProfileXor": 50252,
+  "actualCurrentView": {
+    "kind": "rejected",
+    "message": "Original shiny evolution artwork is not exported: 155"
+  },
+  "controlledIdentityOnlyFixtures": [
+    {
+      "label": "known source OT normal, id would falsely signal shiny",
+      "otId": 305419896,
+      "instanceId": 2147483647,
+      "pid": 2147483648,
+      "nativeXor": 50252,
+      "art": {
+        "kind": "path",
+        "path": "/source/pokemon/155-female-front.png"
+      }
+    },
+    {
+      "label": "known source OT shiny, instance id would signal normal",
+      "otId": 2147483648,
+      "instanceId": 305419896,
+      "pid": 2147483648,
+      "nativeXor": 0,
+      "art": {
+        "kind": "rejected",
+        "message": "Original shiny evolution artwork is not exported: 155"
+      }
+    }
+  ],
+  "monUnchanged": true,
+  "qualification": "Executed real loadData/newState/createMon and pure evolutionArtPath only; no renderer, browser, media, audio, State edits or actual provenance writes. Controlled art fixtures expose only the function OT identity port; they do not propose partial MonProvenance records. Fresh ownership is known from this controlled creation caller, never inferred for arbitrary old saves."
+}

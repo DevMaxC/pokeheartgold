@@ -1,0 +1,56 @@
+{
+  "sourceCommit": "70eca907ed6d600a44f5f98d4d2582d05aa98017",
+  "qualification": "Supplementary read-only imported-input comparison. Not all-game/runtime/visual proof and not part of the frozen Opus source snapshot. Initial review inspected Main only and its two-caller count omits existing trainers/tutorial; this receipt explicitly corrects that review-scope limit. All four runtime caller sites are national-source row paths, with no missing canonical row found in the finite imported inputs.",
+  "comparison": {
+    "trainers": {
+      "sourceReferences": 1776,
+      "uniqueSpecies": 321,
+      "withoutOriginalCanonical": []
+    },
+    "encounters": {
+      "sourceReferences": 6834,
+      "uniqueSpecies": 181,
+      "withoutOriginalCanonical": []
+    },
+    "tutorial": {
+      "sourceReferences": 2,
+      "uniqueSpecies": 2,
+      "withoutOriginalCanonical": []
+    },
+    "starters": {
+      "sourceReferences": 3,
+      "uniqueSpecies": 3,
+      "withoutOriginalCanonical": []
+    }
+  },
+  "sources": [
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538"
+    },
+    {
+      "path": "browser/src/source/trainers.ts",
+      "sha256": "155234fdc9988b56ee88b0069a4cc6372dcff8d300091221572fbc32fe7f676d"
+    },
+    {
+      "path": "browser/src/source/tutorial.ts",
+      "sha256": "2e012a228c82632891c883a31a73a5b97de3646af5efd7c280c31effc422ac53"
+    },
+    {
+      "path": "browser/public/source/constants.json",
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+    },
+    {
+      "path": "browser/public/source/names.json",
+      "sha256": "c14bc3f85810a0b6a66882362d1edfe08f0dc0a99012c2eff5fbfe73694ab922"
+    },
+    {
+      "path": "browser/public/source/trainers.json",
+      "sha256": "da80e4f5746d0ed0d49caeae63a35f70b96b7b32f5fdc929b006c46cdb94d7e2"
+    },
+    {
+      "path": "browser/public/source/encounters.json",
+      "sha256": "7aa85c587bc597a5c7744e73b50fd9fd4b30eeee7497597ac438880d1ece6789"
+    }
+  ]
+}

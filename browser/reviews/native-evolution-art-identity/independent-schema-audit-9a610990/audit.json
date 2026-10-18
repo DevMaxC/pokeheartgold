@@ -1,0 +1,205 @@
+{
+  "kind": "read-only-source-prerequisite",
+  "campaignCommit": "9a6109900b0bd28a600d5012869142f5d3040b16",
+  "viewCommit": "55676511f459fa566ce4d2cc2a97ef718b6cfcdd",
+  "viewBlobEqual": true,
+  "sourceFiles": [
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "28bc41b2f0f63478863ad6d54ebb62b2cbdd3f003a731e21097e28dff9dc7174"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378"
+    },
+    {
+      "path": "browser/src/source/native-rng.ts",
+      "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538"
+    },
+    {
+      "path": "browser/src/source/battle.ts",
+      "sha256": "6047335626fc05985ac202121179b661274005697a6ec32e7bda05b75e238722"
+    },
+    {
+      "path": "browser/src/source/trainers.ts",
+      "sha256": "155234fdc9988b56ee88b0069a4cc6372dcff8d300091221572fbc32fe7f676d"
+    },
+    {
+      "path": "browser/src/source/tutorial.ts",
+      "sha256": "2e012a228c82632891c883a31a73a5b97de3646af5efd7c280c31effc422ac53"
+    },
+    {
+      "path": "browser/src/source/eggs.ts",
+      "sha256": "8adb4f18df6819d77535bc8e9662da18b70c392558e99147383410f0cdd48a96"
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "sha256": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23"
+    },
+    {
+      "path": "browser/src/source/battle-evolution.ts",
+      "sha256": "3f5d314f8a32c5525dd23dbc7cbbcafa04cb98b7721857d143acdbd5dec61365"
+    },
+    {
+      "path": "browser/src/source/battle-evolution-types.ts",
+      "sha256": "85c2f750780aa221384dc78c7a2a428df26e527d480b2ae7b96c205153434a42"
+    },
+    {
+      "path": "browser/src/source/evolution-view.ts",
+      "sha256": "a19d90f23bfa475ab34c7bb054b14a7e13b4cade83137037d8bba37e1499f0ed"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "fd3971a5ec460a36333b835191226201bc03ae5b292f63bc2be175a867a8022e"
+    },
+    {
+      "path": "src/pokemon.c",
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    },
+    {
+      "path": "include/constants/pokemon.h",
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+    },
+    {
+      "path": "include/pokemon_types_def.h",
+      "sha256": "adf14e74756e1a5b63ab939b28b8f62a90ca06640c1b43ff82025979f9ac20c8"
+    },
+    {
+      "path": "src/player_data.c",
+      "sha256": "7fb2c673e134a7ad075241681bdd40eaf3847529e562dfd89f33338fbf89c814"
+    },
+    {
+      "path": "src/choose_starter.c",
+      "sha256": "5cc4951372b7921da3abc19b93a578c78661838a696a409683480e15b744e4c0"
+    },
+    {
+      "path": "src/trainer_memo.c",
+      "sha256": "c68f7f7da5fb3c0ea7df00404a873a29864899a6025c081151d36f05eb050f9c"
+    },
+    {
+      "path": "src/field/encounter_check.c",
+      "sha256": "9404f4f8484866c830b848bb4c7e2eff332b1b8bba287c2b9937df2b585d84ca"
+    },
+    {
+      "path": "src/trainer_data.c",
+      "sha256": "2e5232c4989f6f2752087bf46579e8207b90b2e5abf65f04dac72e2b03496803"
+    },
+    {
+      "path": "src/npc_trade.c",
+      "sha256": "f331e080ef87eed6dccbb3e8d710fbf057db658d7c7e1201868fbd3ecb4af8f7"
+    },
+    {
+      "path": "src/get_egg.c",
+      "sha256": "0908b443c2ea2c94893c4c073bceada92a7f7382011838ce989fcba8daa8cf40"
+    },
+    {
+      "path": "src/script_pokemon_util.c",
+      "sha256": "5cde9651d058236036df9ee9386d3199e8a1759c19b086443dc116770369f4fc"
+    },
+    {
+      "path": "src/scrcmd_party.c",
+      "sha256": "df64cfc7080caa0d4350dcb1aeb0f4790629f7a9c80fc04efc5c11e79312d8cd"
+    }
+  ],
+  "checkedCurrentFilesEqualPinned": 25,
+  "mismatches": 0,
+  "runtimeMutations": false,
+  "findings": [
+    {
+      "id": "OT-1",
+      "status": "confirmed",
+      "summary": "Mon.id is an independent browser instance token, not native OT identity. Ordinary factory receives only OT text, not State or trainerId; capture only rewrites OT text.",
+      "evidence": [
+        "data.ts33-38",
+        "types.ts18-22",
+        "eggs.ts23-26",
+        "battle.ts581"
+      ]
+    },
+    {
+      "id": "OT-2",
+      "status": "confirmed",
+      "summary": "Using Mon.id for shiny rejection falsely blocks the controlled ordinary starter. No native shiny classification is possible for arbitrary missing-OT legacy saves.",
+      "witness": "actual-factory-view.json",
+      "nativeKernel": "native-shiny-kernel.json"
+    },
+    {
+      "id": "OT-3",
+      "status": "confirmed",
+      "summary": "State.trainerId is a real separate profile field on newState and Egg gifts; old states may lack it and lazy Egg initialization can occur after ordinary acquisition, so later profile ID/name equality is not historical OT proof.",
+      "evidence": [
+        "data.ts15",
+        "native-rng.ts7-8",
+        "eggs.ts31-34",
+        "egg-hatching.ts99-102"
+      ]
+    },
+    {
+      "id": "FORM-1",
+      "status": "confirmed",
+      "summary": "Ordinary createMon omits form. Native default CreateBoxMon starts from zeroed data; native form is a distinct5-bit field later modified by explicit callers. Fresh ordinary0 is source-supported, but missing old metadata is not raw-native proof.",
+      "evidence": [
+        "data.ts33-38",
+        "types.ts19",
+        "battle-evolution.ts40-43",
+        "pokemon.c103-108/188-205",
+        "pokemon_types_def.h98",
+        "pokemon.c725-727/1187-1189"
+      ]
+    }
+  ],
+  "currentCallerCoverage": [
+    {
+      "family": "starter",
+      "browser": "main.ts236-239",
+      "idFormProvenance": "factory random id; missing form/provenance",
+      "native": "choose_starter.c59-60: CreateMon defaults then MonSetCatchData(profile)"
+    },
+    {
+      "family": "wild/capture",
+      "browser": "main.ts416; battle.ts581; data.ts41",
+      "idFormProvenance": "factory random id; capture changes OT text only, party/PC retain original object",
+      "native": "encounter_check.c817/848/873/1394 source profile OT; pokemon.c3721 catch memo"
+    },
+    {
+      "family": "trainer",
+      "browser": "trainers.ts6-16",
+      "idFormProvenance": "factory random id then PID/stat overrides; no true trainer OT/form stored",
+      "native": "trainer_data.c334/343 and3 variants: OT_ID_RANDOM_NO_SHINY and explicit packed form"
+    },
+    {
+      "family": "tutorial",
+      "browser": "tutorial.ts4",
+      "idFormProvenance": "clone demo profile, factory default art, results not saved; not root-player OT proof",
+      "native": "independent tutorial party; no transplanted field-owner identity proposed"
+    },
+    {
+      "family": "Togepi gift/hatch",
+      "browser": "script.ts320; eggs.ts13-34; egg-hatching.ts95-102",
+      "idFormProvenance": "actual provenance.otId; browser id intentionally PID token; hatch preserves token and explicitly updates owner provenance/form",
+      "native": "get_egg.c567-590,943-961 real profile/parent data"
+    },
+    {
+      "family": "general gifts/NPC trades",
+      "browser": "No GiveMon/NPCTrade acquisition implementation found in current ScriptVM; unknown command remains unsupported. Not claimed supported.",
+      "native": "script_pokemon_util.c21-47 and npc_trade.c197-226 specify own profile/preset OT and explicit form rules."
+    }
+  ],
+  "proposal": {
+    "freshForm": "Store explicit form0 for ordinary source-backed default creations; caller-specific source form remains explicit for gifts/trainers/special encounters. Do not alter instance id or add RNG draws to obtain form.",
+    "freshOT": "Thread a validated explicit known profile/preset OT identity from each actual source-owned creator/acquisition. Do not overload/rename/rewrite Mon.id or infer OT from name/current profile. Keep existing complete MonProvenance contract strict; use complete real origin context, or a separately typed narrow native-OT field/port if only OT is known, with explicit conflict validation instead of fake met/date/ball fields. A factory cannot discover an OT identity from its present text-only parameter.",
+    "oldArt": "Explicit local-browser-v2 normal/base-art presentation compatibility when provenance is absent. No OT synthesized and no Mon/State writes in view. Valid present true OT uses native XOR and genuine shiny remains unsupported until real art; malformed present provenance must reject rather than fall through to legacy.",
+    "oldLogicalForm": "Separate one-time explicit local-v2 base-form compatibility admission before queue/recovery; minimally admit old supported ordinary starter records as form0 with a compatibility receipt. Retain explicit nonzero/malformed/foreign forms as unsupported, never blanket queue-call default. This is browser policy, not recovery of native form. Do not synthesize OT as part of form policy.",
+    "queue": "metadata.form stays required; current port may receive source-backed fresh form0 or an explicit legacy-adapter result. Current queue rejects ordinary nonzero transitions and must not guess."
+  },
+  "limits": [
+    "Finite read-only audit pinned to listed commits. No current Main/view/factory/State changes, build/Vite/browser/audio/push/PR.",
+    "No raw DS save import or original OT/form recovery claimed.",
+    "Node witness calls real factory and pure path function only; source native shiny oracle is bounded eight-case original macro/function, not full Mon/SDK simulation.",
+    "View556 is present as leaf in campaign; Main9a has no evolution binding yet, so this is an integration prerequisite, not proof of a currently live evolution scene."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "baselineCommit": "5ca737f61704edf67369078b9b5b334ce5a0955b",
+  "baselineExactSHA256": "82d014c5913b5f87b244ace91bb8a6c068728ce7d6e90179e282c13a93c95813",
+  "currentSourceSHA256": "992ac65d602d5572f5692eedadd77509efe25466b0f12a3976b0320b4c0132dd",
+  "checks": [
+    {
+      "name": "old-5ca-behavior-compatibility-alias",
+      "exitCode": 1,
+      "detected": true,
+      "sourceSHA256": "69a43f9c21b98679349d9eb39ff62fb58722ec700ce626fa4c4ec4e3083b528b",
+      "testsSHA256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "logSHA256": "46d832657b4491a63999e81535a2582a8c524619728e159d70ff3c767dc69c25",
+      "qualification": "Exact baseline separately retained. Test-only alias forwards to old ordinary startSilent, proving actual foreign-closed rejection rather than claiming a missing-method assertion is behavioral parity."
+    },
+    {
+      "name": "snapshot-recaptured-from-none",
+      "exitCode": 1,
+      "detected": true,
+      "sourceSHA256": "f06bb3d5a7f79e39bfb35471f1a5d6e496a718f9582398f1b7712ee57eed81b9",
+      "testsSHA256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "logSHA256": "53c55404107cc653474655ddd3873dff4962dc91c1c1005ed48837d01cb6348b",
+      "qualification": "Rejects substituting current none for original snapshot."
+    },
+    {
+      "name": "old-owner-still-restorable",
+      "exitCode": 1,
+      "detected": true,
+      "sourceSHA256": "14f520175fe8ce2c41441d3125c222e05616b917b0292380948318b262830851",
+      "testsSHA256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "logSHA256": "ac53b6039199e52fdd24ce3cadb61fc2a79e68f6697bfc7d072e974aa84e1c75",
+      "qualification": "Old queued retry attempts field restoration during new silent child."
+    },
+    {
+      "name": "active-parent-taken",
+      "exitCode": 1,
+      "detected": true,
+      "sourceSHA256": "74e9fa465d19835c0a138ab729a9f7449500fbc72602a92b362e2a748eae1c25",
+      "testsSHA256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "logSHA256": "83a19ab69dc1fd2585dc38b37ca3530300ade17c7c917fa75f53b404bb5c063a",
+      "qualification": "Active owner without failed restore must remain unadmitted."
+    }
+  ],
+  "allDetected": true
+}

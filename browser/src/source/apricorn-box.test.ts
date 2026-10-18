@@ -11,7 +11,7 @@ globalThis.fetch=async input=>{try{return new Response(await readFile(new URL('.
 const data=await loadData(),map=await sourceJSON<SourceMap>('maps/164.json');
 function fixture(){
   const state=newState(data,'Case','girl'),messages:string[]=[],moves:string[]=[];state.map=164;
-  const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async(_,label)=>{moves.push(label);},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>{throw Error('No battle in this source branch');},warp:async()=>{throw Error('No warp in this source branch');}};
+  const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async(_,label)=>{moves.push(label);},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>{throw Error('No battle in this source branch');},warp:async()=>{throw Error('No warp in this source branch');}};
   const vm=new ScriptVM(data,state,hooks);return{state,messages,moves,vm};
 }
 

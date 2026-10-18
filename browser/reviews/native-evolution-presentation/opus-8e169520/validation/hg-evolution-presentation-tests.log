@@ -1,0 +1,153 @@
+TAP version 13
+# (node:74812) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual paper view carries Cyndaquil155→156 through native flags3 semantic order and original source text/fanfare controls
+ok 1 - actual paper view carries Cyndaquil155→156 through native flags3 semantic order and original source text/fanfare controls
+  ---
+  duration_ms: 279.008125
+  type: 'test'
+  ...
+# Subtest: B cancellation is an ordinary outcome only inside OSCILLATE and never changes gameplay
+ok 2 - B cancellation is an ordinary outcome only inside OSCILLATE and never changes gameplay
+  ---
+  duration_ms: 41.813584
+  type: 'test'
+  ...
+# Subtest: B on the same tick as final particle completion still wins over evolution
+ok 3 - B on the same tick as final particle completion still wins over evolution
+  ---
+  duration_ms: 33.774542
+  type: 'test'
+  ...
+# Subtest: source glyph callbacks are live polls and no fanfare is invented when a printer never emits glyph3
+ok 4 - source glyph callbacks are live polls and no fanfare is invented when a printer never emits glyph3
+  ---
+  duration_ms: 215.706625
+  type: 'test'
+  ...
+# Subtest: audio remains on the required borrowed master, muted admission never asks for Context or creates a second player
+ok 5 - audio remains on the required borrowed master, muted admission never asks for Context or creates a second player
+  ---
+  duration_ms: 38.345
+  type: 'test'
+  ...
+# Subtest: a technical failure is thrown, not converted into native cancellation, and releases voices/camera/actors
+ok 6 - a technical failure is thrown, not converted into native cancellation, and releases voices/camera/actors
+  ---
+  duration_ms: 193.29175
+  type: 'test'
+  ...
+# Subtest: source cancellation during owned learning waits for the mutating task to drain before returning a technical abort
+ok 7 - source cancellation during owned learning waits for the mutating task to drain before returning a technical abort
+  ---
+  duration_ms: 8.491708
+  type: 'test'
+  ...
+# Subtest: simultaneous scenes reject, external abort cancels before later semantic callbacks, failed presentation can be retried
+ok 8 - simultaneous scenes reject, external abort cancels before later semantic callbacks, failed presentation can be retried
+  ---
+  duration_ms: 4.075958
+  type: 'test'
+  ...
+# Subtest: hung borrowed preparation is bounded with an owned session handle, and late completion cannot start the scene
+ok 9 - hung borrowed preparation is bounded with an owned session handle, and late completion cannot start the scene
+  ---
+  duration_ms: 16.917792
+  type: 'test'
+  ...
+# Subtest: bad flags/form/shiny artwork fail before audio ownership or any gameplay callback
+ok 10 - bad flags/form/shiny artwork fail before audio ownership or any gameplay callback
+  ---
+  duration_ms: 0.54875
+  type: 'test'
+  ...
+# Subtest: borrowed audio restoration watchdog aborts stalled cleanup and preserves an explicit technical failure
+ok 11 - borrowed audio restoration watchdog aborts stalled cleanup and preserves an explicit technical failure
+  ---
+  duration_ms: 23.123208
+  type: 'test'
+  ...
+# Subtest: outer cancellation during independent audio restoration cannot return a successful native outcome
+ok 12 - outer cancellation during independent audio restoration cannot return a successful native outcome
+  ---
+  duration_ms: 4.52525
+  type: 'test'
+  ...
+# Subtest: phase ownership is grounded in literal native flags3 source, callback glyphs and actual original messages
+ok 13 - phase ownership is grounded in literal native flags3 source, callback glyphs and actual original messages
+  ---
+  duration_ms: 270.704083
+  type: 'test'
+  ...
+# (node:74821) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: real 3D field paper art keeps native image identity/crop and free orbit, and returns smoothly without resetting orbit
+ok 14 - real 3D field paper art keeps native image identity/crop and free orbit, and returns smoothly without resetting orbit
+  ---
+  duration_ms: 129.926041
+  type: 'test'
+  ...
+# Subtest: native source scale steps animate actual silhouettes and particles have real finite, disposed lifetimes
+ok 15 - native source scale steps animate actual silhouettes and particles have real finite, disposed lifetimes
+  ---
+  duration_ms: 83.73075
+  type: 'test'
+  ...
+# Subtest: cached native textures survive while each temporary geometry/material is released once and stale actors are not resurrected
+ok 16 - cached native textures survive while each temporary geometry/material is released once and stale actors are not resurrected
+  ---
+  duration_ms: 2.615292
+  type: 'test'
+  ...
+# Subtest: late art completion cannot revive an aborted view, field transition cancellation restores only the owned camera
+ok 17 - late art completion cannot revive an aborted view, field transition cancellation restores only the owned camera
+  ---
+  duration_ms: 4.900459
+  type: 'test'
+  ...
+# Subtest: external abort and map changes cancel live effects, and unsupported form/shiny identities fail before claiming the field
+ok 18 - external abort and map changes cancel live effects, and unsupported form/shiny identities fail before claiming the field
+  ---
+  duration_ms: 2.155958
+  type: 'test'
+  ...
+# Subtest: an old rejected artwork waiter cannot cancel a replacement scene on the same view
+ok 19 - an old rejected artwork waiter cannot cancel a replacement scene on the same view
+  ---
+  duration_ms: 1.190334
+  type: 'test'
+  ...
+# (node:74821) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# Subtest: a hung injected art loader has a technical deadline and cannot retain camera/actor ownership
+ok 20 - a hung injected art loader has a technical deadline and cannot retain camera/actor ownership
+  ---
+  duration_ms: 16.606875
+  type: 'test'
+  ...
+# Subtest: actual native-art cache evicts a timed-out decode without a late old completion removing its successful retry
+ok 21 - actual native-art cache evicts a timed-out decode without a late old completion removing its successful retry
+  ---
+  duration_ms: 0.885541
+  type: 'test'
+  ...
+# Subtest: 155/156 native front art really exists with PNG payloads, no generated sprite is substituted
+ok 22 - 155/156 native front art really exists with PNG payloads, no generated sprite is substituted
+  ---
+  duration_ms: 2.888083
+  type: 'test'
+  ...
+# Subtest: actual World field-effect draw and transition hooks drive/release this view without replacing the field scene
+ok 23 - actual World field-effect draw and transition hooks drive/release this view without replacing the field scene
+  ---
+  duration_ms: 1.511375
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3074.834

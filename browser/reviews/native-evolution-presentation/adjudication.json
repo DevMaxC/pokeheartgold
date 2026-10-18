@@ -1,0 +1,62 @@
+{
+  "originalRuntime": "8e16952057a49532bd4e4789765e726633317755",
+  "correctedRuntime": "78e1a137f9a6c0a451e2ee4150377f4efc0e502c",
+  "originalReview": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "M1",
+      "confirmed": true,
+      "issue": "White fade restarts reveal evolved/cancel art early",
+      "fix": "Hold already-white16\u219216 through widening/cancel; colour only16\u21920 reveal",
+      "negative": "two real-shader-uniform timeline regressions fail on8e and pass on78e"
+    },
+    {
+      "id": "L1",
+      "confirmedAsRequiredPortFailure": true,
+      "issue": "Falsy printer rejection could advance registration",
+      "fix": "Track failed boolean, normalize non-Error rejection",
+      "negative": "918 rejects undefined; old source returns success/new source rejects before register"
+    },
+    {
+      "id": "L2",
+      "confirmedAsRequiredPortFailure": true,
+      "issue": "Abort-ignoring pure frame promise retained scene ownership",
+      "fix": "Independently observe source signal; never race/detach mutating learner",
+      "negative": "stalled frame plusabort rejects and permits nextscene; old source fails"
+    },
+    {
+      "id": "L3",
+      "confirmedAsCompetingFactoryAdmission": true,
+      "issue": "Separate factories opened audio before shared field ownership",
+      "fix": "Reserve World before audio preparation and preflight existing field/battle owners",
+      "negative": "competing factory canary audio.open nevercalled; old source calls it"
+    }
+  ],
+  "untransferredHostConditions": [
+    "Real audio cry poll immediate active unless native noVoice",
+    "Fanfare poll performs native stop/unpause lifecycle",
+    "Learner signal and all tasks are owned/drained by logical controller",
+    "Cancel field effect before replacing its slot; old actor is never resurrected",
+    "Root source-action resume/commit stays deferred through cleanup"
+  ],
+  "validation": {
+    "before": "five/five fail against original8e runtime using added fixture now committed78e",
+    "after": "28/28Node and TSC exit0 at78e; actual narrow follow-up ACCEPT"
+  },
+  "reviewBoundary": "Original raw unchanged; no Main/controller/audio backend/GPU/browser/audible/fullcampaign approval",
+  "finalRuntime": "78e1a137f9a6c0a451e2ee4150377f4efc0e502c",
+  "followupReview": {
+    "verdict": "ACCEPT for changed presenter bytes and regressions",
+    "turns": 18,
+    "wallSeconds": 162.839983875,
+    "raw": "opus-78e1a137/raw-result.json",
+    "inputs": 5840,
+    "graphSHA256": "04a47c0db5800aee8b5ce4a81ec7b9f56324c8353fb5a8411c021dac62f1f904",
+    "allInputsUnchanged": true
+  },
+  "sourceHashes": {
+    "evolution-view.ts": "a19d90f23bfa475ab34c7bb054b14a7e13b4cade83137037d8bba37e1499f0ed",
+    "evolution-presentation.ts": "154dff4a0b88973fb7150c4642f32b5cfb1dba06409df7c70f85458e1d7ff605",
+    "battle-evolution-types.ts": "07cfe8590f05445efdf0f7f06ec79297bfffe47e3883a0999531817811515dc6"
+  }
+}

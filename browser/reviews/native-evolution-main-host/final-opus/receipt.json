@@ -1,0 +1,130 @@
+{
+  "createdUTC": "2026-10-18T08:30:59.729855+00:00",
+  "verdict": "ACCEPT - three confirmed initial findings closed; no new reachable delta defect",
+  "reviewedCommit": "80f4fdde2dae5041df61a2a7c2b98eda47a0b597",
+  "runtimeSourceCommit": "cbad0d23",
+  "currentBeforeEvidence": "4bcd3a3e94150af43b9fd18740b5f151819e6626",
+  "model": "claude-opus-5-5",
+  "numTurns": 33,
+  "durationMs": 310379,
+  "wallSeconds": 313.586067292,
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2559,
+      "outputTokens": 19,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.002654,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-opus-5-5": {
+      "inputTokens": 58,
+      "outputTokens": 25201,
+      "cacheReadInputTokens": 1980856,
+      "cacheCreationInputTokens": 116568,
+      "webSearchRequests": 0,
+      "costUSD": 1.4832632,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 18486,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permissionDenials": [
+    {
+      "tool_name": "Glob",
+      "tool_use_id": "toolu_013dmz4e4tzki9dcCkifqNhG",
+      "tool_input": {
+        "pattern": "*",
+        "path": "/tmp/hg-evolution-main-host-opus-80f4fdde/.."
+      }
+    }
+  ],
+  "permissionQualification": "One denied Glob targeted packet/..; boundary held. No execution/browser/network/MCP tools were permitted. Result and denial retained unchanged.",
+  "inputCount": 8243,
+  "graphSHA256": "18613c44df2b171cfaf7172411b881bb29d3e7ebec3feb4bb4ae913e4575b40a",
+  "integrity": {
+    "verifiedUTC": "2026-10-17T22:49:12.801608+00:00",
+    "files": 8243,
+    "graphSHA256": "18613c44df2b171cfaf7172411b881bb29d3e7ebec3feb4bb4ae913e4575b40a",
+    "changed": [],
+    "unexpected": [],
+    "missing": [],
+    "sourceManifestUnchanged": true,
+    "promptUnchanged": true
+  },
+  "files": {
+    "raw-result.json": {
+      "sha256": "dc25adb62bfea2a2e24c51234d7db83cefaf72b4c088e57c3e8ddb0e1f6b25bf",
+      "bytes": 7641
+    },
+    "review-prompt.txt": {
+      "sha256": "5cdc149d4746414f25be6b9b03c36d47c1c76b1b52be4c06e13bad5448add388",
+      "bytes": 6805
+    },
+    "source-manifest.json": {
+      "sha256": "cbf2a93e532105c733231dc5ec3cab3480a9331c96f40a84bb71055b5991778e",
+      "bytes": 2389685
+    },
+    "execution.json": {
+      "sha256": "066bf37d4096d0e952de62ea3bdc5331035f7f962d152c05867959fcb68c31d2",
+      "bytes": 1363
+    },
+    "integrity-after.json": {
+      "sha256": "b7a3cc1c9439ec8532e622fe91b48e1841a7d315cd645a2f900f6a6e51128b21",
+      "bytes": 274
+    },
+    "stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "owned-runtime.patch": {
+      "sha256": "a5694ccd96484fa27d5b408c7d4f41e1860db6c96d37deb7f232a9748344bee1",
+      "bytes": 16943
+    },
+    "copied-source.tar.gz": {
+      "sha256": "88083535fabc8d8c69736ca1aa079a0ac12d64210e33465b304c90fce6af3a48",
+      "bytes": 29669613
+    },
+    "archive-receipt.json": {
+      "sha256": "839151902d3282a112a16d5369d228504e2b0dd9d0277f8e4065ccea25e54d29",
+      "bytes": 820
+    },
+    "source-preservation.json": {
+      "sha256": "ee7b391f3f45fb8725f4b4ac172815b373c2b93250b7a1fd1a713a35896541c1",
+      "bytes": 4389
+    }
+  },
+  "sourceHashes": {
+    "browser/src/source/main.ts": {
+      "blob": "bde82b21f0d8fba8ed056604ae578e0e1edb6e82",
+      "sha256": "507df60dcb04a669af6b793042f19e5da2d0ffb8aa937e9d4dd817d7e564ef67"
+    },
+    "browser/src/source/evolution-field-host.ts": {
+      "blob": "876fe0b83073bd4009138ae777136978f667bbfc",
+      "sha256": "abe26dcba6b92b0ef126671d5570874b276835a63e5c8ecea41be5c003d3b050"
+    },
+    "browser/src/source/field-music.ts": {
+      "blob": "a7df0d1d41747672cc16b6b163099c83afb319db",
+      "sha256": "992ac65d602d5572f5692eedadd77509efe25466b0f12a3976b0320b4c0132dd"
+    }
+  },
+  "laterChanges": [
+    "de1b0f5b adds accepted retained-player metadata only",
+    "4bcd3a3e strengthens TEST ONLY first failed restore to actual wild Battle/startBattle then original Li evolution;11/11+TSC. These later test bytes were not substituted into immutable80f snapshot."
+  ],
+  "notApproved": [
+    "Inherited direct hatch field-restore availability gap, separate followup required",
+    "Browser/GPU/audible/build/deploy/production",
+    "Full campaign or DS hardware parity",
+    "Future poison/Repel/Cut/trade Main integration not in6262 base"
+  ]
+}

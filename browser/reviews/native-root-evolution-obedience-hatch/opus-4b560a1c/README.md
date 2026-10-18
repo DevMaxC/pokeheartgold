@@ -1,0 +1,7 @@
+Actual Root composition review, pinned to 4b560a1c5e070fdd6e8259f4001f33b98f5c9bfe. Verdict: ACCEPT, with the limits in adjudication.md and receipt.json. Runtime is unchanged. Scope: accepted bd13 Evolution/Main, BCC World, fixture-only 9c1f6725, accepted da88 obedience, and accepted a451 hatch ownership.
+
+Read raw-result.json for the actual 46-turn result and modelUsage; execution.json for the restricted command, cwd and CLI version; source-manifest.json for the 8,219 copied inputs; integrity-after.json for preservation; accepted-leaf-comparison.json for independent byte and AST comparisons; and copied-source.tar.gz/archive-receipt.json for the complete immutable copied closure. prepare-review.py reproduces input selection and the command. External filesystem paths record historical provenance and are not runtime dependencies.
+
+The candidate contains the old failing fixture. fixture-successor.ts and its patch are separately pinned TEST ONLY at 3ee2550a. Original and successor logs are gzip preserved. The successor is not silently substituted into the runtime review or represented as complete-suite approval. Later Root checks require their own exact commit and source qualification.
+
+The local .gitattributes disables whitespace lint only for exact copied patch artifacts. Their original context-line markers are preserved; executable source and the fixture remain subject to normal whitespace checks.

@@ -1,0 +1,73 @@
+{
+  "base": "873de2c1e119736344b0a3754cfcd9b88ca504a4",
+  "sharedTypesOriginalCommit": "2a4da72a69a9282e26b5d141f5b12bc8a8624f68",
+  "sharedTypesCherry": "1b6ae640",
+  "sourceFiles": {
+    "src/evolution_scene.c": "e16a57e130b7367a4ecc8b13c1d954dc208d97e50e5991275ce27f838aefab33",
+    "src/battle/battle_022378C0.c": "a04d37e849b5242224008cb9bc4d460b5e81c644f5ae133870ad88ebb6e6a50d",
+    "src/sound_playback.c": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
+    "include/evolution_scene.h": "fd38b4501e30b4ce531976f0c2a059a9128b615bbe5f944fd07a48fbfb954e2d",
+    "include/constants/sndseq.h": "8d6b246a5eca81b8711a410aa260cf5d87f4c33286955f6d0d0155ef3f28dca1",
+    "files/msgdata/msg/msg_0197.gmm": "3311dd2b5be57f471ae62fcc26851ca41e131b393f9f697deff7ee62927a494f",
+    "browser/scripts/export_battle_sprites.py": "2b056a6063b4e57841d03cec6c0dfe685f9cc0af5fb214aa4947d77b82682076"
+  },
+  "nativeSemantics": {
+    "flags": 3,
+    "BWindow": "EVO_STATE_OSCILLATE only, sampled before particle completion",
+    "timers": {
+      "initial": 2,
+      "beforeParticles": 20,
+      "narrow": 40,
+      "afterWhiteFade": 8,
+      "afterCongratulationsPrinter": 40,
+      "afterStoppedMessage": 20
+    },
+    "successCallbacks": [
+      "evolve after new cry and actual picture-animation completion",
+      "register after congratulations printer and40 ticks",
+      "await learnMoves",
+      "finish after final fade (ApplyEvolutionEffects)"
+    ],
+    "textBank": 197,
+    "texts": [
+      916,
+      917,
+      918,
+      919
+    ],
+    "glyphs": {
+      "1": "poll anySE",
+      "2": "poll fanfare",
+      "3": "start fanfare1188",
+      "4": "start SE1510",
+      "5": "start fanfare1184"
+    },
+    "audio": {
+      "BGM": 1011,
+      "SE": [
+        1528,
+        1529,
+        1530,
+        1531
+      ],
+      "successFanfare": "1188 only from printer glyph3, not unconditional",
+      "cry": "oldSpecies then newSpecies, captured old form for both"
+    }
+  },
+  "deliberate3DAdaptations": {
+    "art": "original base/non-shiny front image, cropped alpha bounds, original normal palette",
+    "pose": "real16-tick paper nod, not original pokepic script",
+    "palette": "real16-tick shader white/opacity transition, not DS hardware fade-rate equivalence",
+    "particles": "actual finite3D octahedra; transformation lifetime120 native ticks is one complete accelerated8\u219216\u219232\u219264 silhouette cycle; original emitter resources are not recreated",
+    "camera": "live field/free orbit, exponential camera convergence; real owned return must converge before release",
+    "notClaimed": [
+      "DS particle-resource equivalence",
+      "DS pokepic/NANR equivalence",
+      "exact ARM9/VBlank scheduler",
+      "GPU/browser rendering approval",
+      "audible/original audio adapter approval",
+      "Root battle/field admission",
+      "full campaign evolution integration"
+    ]
+  }
+}

@@ -23,7 +23,7 @@ async function harness(id=156){
     message:async()=>{},choice:async()=>1,move:async()=>{},
     position:(id,x,z,facing)=>{if(id==='obj_player'){state.x=x+.5;state.z=z+.5;}else objects.position(id,x,z,facing);},
     face:()=>{},visible:(id,shown)=>objects.show(id,shown),
-    chooseStarter:async()=>{giveMon(state,createMon(data,155,5,state.name,()=>.5));state.starter=155;},nickname:async()=>{},refresh:async()=>{},battle:async()=>true,warp:async()=>{},
+    chooseStarter:async()=>{giveMon(state,createMon(data,155,5,state.name,()=>.5));state.starter=155;},nickname:async()=>1,refresh:async()=>{},battle:async()=>true,warp:async()=>{},
     weather:value=>{if(value!==undefined)weather=value;return weather;},
   };
   let vm=new ScriptVM(data,state,hooks),saved=JSON.stringify(state),writes=0;

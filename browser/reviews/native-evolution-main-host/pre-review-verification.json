@@ -1,0 +1,57 @@
+{
+  "createdUTC": "2026-10-17T22:12:12.399693+00:00",
+  "base": "6262bfac42497c01f92143df899d7a274a7207d4",
+  "nickname": "54787f8414904d1b672660ee5190b3812d97d1de",
+  "form": "731efe6531bdb9ac2e1ee760aba278f00b7cbc80",
+  "audioRuntime": "5ca737f6",
+  "menuPlayer4Runtime": "a73963cd",
+  "focusedTests": {
+    "tests": 170,
+    "pass": 170,
+    "fail": 0,
+    "log": "/tmp/hg-evolution-main-final-owned-tests.log"
+  },
+  "typescript": {
+    "exitCode": 0,
+    "log": "/tmp/hg-evolution-main-owned-tsc.log"
+  },
+  "adjacentHistoricalHarness": {
+    "tests": 187,
+    "pass": 64,
+    "fail": 123,
+    "log": "/tmp/hg-evolution-main-adjacent-initial.log",
+    "status": "Required new DI ports missing; scoped test-only migration authorized after runtime freeze. No full-suite approval."
+  },
+  "files": {
+    "browser/src/source/main.ts": {
+      "sha256": "ac5a8362f4d774d187aabff119bc3cd26be0acc3826ad436a60d2b1d724bdc00",
+      "bytes": 78351
+    },
+    "browser/src/source/ui.ts": {
+      "sha256": "da60fe4fe736e6710b22b6463a0aa93da408ae217441edcce6f35e5c212aacc3",
+      "bytes": 23537
+    },
+    "browser/src/source/evolution-view.ts": {
+      "sha256": "8b84fc07e5ec1ae512c2f125220f2faa5d60056d64bb373d875431cb38a725ce",
+      "bytes": 17711
+    },
+    "browser/src/source/evolution-field-host.ts": {
+      "sha256": "14232f0709b110d85142ed90771919aa3ab752769bd7ffeb086f6f5bd467f0a7",
+      "bytes": 11254
+    },
+    "browser/src/source/evolution-move-learning.ts": {
+      "sha256": "f70d351118e9da81dc557ce0f03c1f9a5ea6c903f7f5267983a40d5ae5fbd84a",
+      "bytes": 6334
+    },
+    "browser/src/source/native-text.ts": {
+      "sha256": "209da729d113c0c6bc4e3ac44c1b435a57563221599e972cc4a7f6d2b2338c65",
+      "bytes": 1994
+    }
+  },
+  "limits": [
+    "Independent host review pending",
+    "No browser/GPU/audio/build/deploy",
+    "Ordinary form0 EVO_LEVEL only",
+    "Full campaign parity unmet"
+  ]
+}

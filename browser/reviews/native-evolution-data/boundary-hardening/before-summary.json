@@ -1,0 +1,23 @@
+{
+  "sourceCommit": "ffb402db6a31b37fa57890385ce63c144d7572e3",
+  "sourceSHA256": "3d240d1d4b4828954c338bdfb180f0377b3467edbc96a561a6687ff69d5725c7",
+  "testCommand": "node --experimental-transform-types --test browser/src/source/evolution-native.test.ts",
+  "tests": 13,
+  "pass": 11,
+  "fail": 2,
+  "failures": [
+    {
+      "test": "malformed inherited held-item keys remain unsupported instead of acting like native ITEM_NONE",
+      "actual": "eligible",
+      "expected": "unsupported"
+    },
+    {
+      "test": "level-up wrapper owns the native context even when a structurally widened environment carries kind",
+      "actual": 65,
+      "expected": 0
+    }
+  ],
+  "rawLog": "before.log.gz",
+  "rawLogSHA256": "75814d197e6821d62c1b8dbc2c78a94e69815246df6ac4ee4085f43597216a20",
+  "rawBytesPreserved": true
+}

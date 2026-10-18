@@ -1,0 +1,108 @@
+TAP version 13
+# (node:16695) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original manifest validates exact finite SELECT PLAYER4 versus CARD2 PLAYER3 and both original WAVs
+ok 1 - original manifest validates exact finite SELECT PLAYER4 versus CARD2 PLAYER3 and both original WAVs
+  ---
+  duration_ms: 151.83575
+  type: 'test'
+  ...
+# Subtest: finite onended remains counted until injected source sound-update and each native player is independent
+ok 2 - finite onended remains counted until injected source sound-update and each native player is independent
+  ---
+  duration_ms: 26.34275
+  type: 'test'
+  ...
+# Subtest: native SELECT-only flag returns no-voice BEFORE allocation and does not mean master mute
+ok 3 - native SELECT-only flag returns no-voice BEFORE allocation and does not mean master mute
+  ---
+  duration_ms: 15.763209
+  type: 'test'
+  ...
+# Subtest: shared PLAYER3 preserves equal-priority preemption against actual external Cut metadata
+ok 4 - shared PLAYER3 preserves equal-priority preemption against actual external Cut metadata
+  ---
+  duration_ms: 3.366833
+  type: 'test'
+  ...
+# Subtest: PLAYER4 lower actual priority rejects, equal replaces, fade1 stays counted at priority0 until sound update
+ok 5 - PLAYER4 lower actual priority rejects, equal replaces, fade1 stays counted at priority0 until sound update
+  ---
+  duration_ms: 1.08425
+  type: 'test'
+  ...
+# Subtest: one action owner can hold both source players; cancelling old replay cannot stop newer or sibling voices
+ok 6 - one action owner can hold both source players; cancelling old replay cannot stop newer or sibling voices
+  ---
+  duration_ms: 6.571792
+  type: 'test'
+  ...
+# Subtest: transport disposal cancels only its private tokens, never shared players/external replacement owners
+ok 7 - transport disposal cancels only its private tokens, never shared players/external replacement owners
+  ---
+  duration_ms: 2.418166
+  type: 'test'
+  ...
+# Subtest: bad manifest/WAV/decoded timing fail explicitly instead of an absent-source no-op
+ok 8 - bad manifest/WAV/decoded timing fail explicitly instead of an absent-source no-op
+  ---
+  duration_ms: 3.43675
+  type: 'test'
+  ...
+# Subtest: technical preparation failure is explicit no-voice and retryable; allocation still precedes failed start
+ok 9 - technical preparation failure is explicit no-voice and retryable; allocation still precedes failed start
+  ---
+  duration_ms: 3.0735
+  type: 'test'
+  ...
+# Subtest: owned decoder barrier aborts immediately; ignored late completion cannot create a voice
+ok 10 - owned decoder barrier aborts immediately; ignored late completion cannot create a voice
+  ---
+  duration_ms: 1.620458
+  type: 'test'
+  ...
+# Subtest: deadline remains a real bounded ignored-decoder failure, separate from ordinary resource readiness
+ok 11 - deadline remains a real bounded ignored-decoder failure, separate from ordinary resource readiness
+  ---
+  duration_ms: 31.339292
+  type: 'test'
+  ...
+# Subtest: shared Context suspension/root abort drains only owned voices and waiting scopes
+ok 12 - shared Context suspension/root abort drains only owned voices and waiting scopes
+  ---
+  duration_ms: 1.845
+  type: 'test'
+  ...
+# Subtest: shared output identity and callback failure reject without creating or leaking a separate audio owner
+ok 13 - shared output identity and callback failure reject without creating or leaking a separate audio owner
+  ---
+  duration_ms: 3.962958
+  type: 'test'
+  ...
+# Subtest: PLAYER4 rejects foreign metadata/reentrant allocation and drains root-disposed admitted voices
+ok 14 - PLAYER4 rejects foreign metadata/reentrant allocation and drains root-disposed admitted voices
+  ---
+  duration_ms: 0.701584
+  type: 'test'
+  ...
+# Subtest: native WaitSE must inspect live entire-player state again after an idle interval
+ok 15 - native WaitSE must inspect live entire-player state again after an idle interval
+  ---
+  duration_ms: 2.486209
+  type: 'test'
+  ...
+# Subtest: finite completion status failure remains observable without an unhandled source event exception
+ok 16 - finite completion status failure remains observable without an unhandled source event exception
+  ---
+  duration_ms: 1.814125
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 927.800292

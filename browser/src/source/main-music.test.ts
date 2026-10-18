@@ -1,3 +1,5 @@
+import {UnsupportedBattleEvolution} from './battle-evolution.ts';
+import {noLevelUpHostFixture,noLevelUpBattleFixture} from './main-evolution-fixture.test.ts';
 import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -22,7 +24,7 @@ const parse=(text:string)=>ts.createSourceFile('fixture.ts',text,ts.ScriptTarget
 const compile=(text:string)=>ts.transpileModule(text,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
 const read=(name:string)=>readFileSync(new URL(name,import.meta.url),'utf8');
 const source=read('main.ts'),ast=parse(source),functions=new Map(ast.statements.filter(ts.isFunctionDeclaration).map(node=>[node.name?.text,node.getText(ast)]));
-const names=['abortBagUse','fieldControlsAvailable','retainFieldInput','captureField','restoreField','executeSourceAction','pollFieldInput','runScript','musicChanged','watchMusic','musicFailed','clearMusicFailure','musicStatus','musicDeadline','finishMusicUnlock','retryMusic','retryMusicRestores','unlockSound','syncMusic','resetFieldInput','syncInputContext','save','checkFrameTriggers','withBattleMusic','startBattle','step','menu','interact'];
+const names=['abortBagUse','fieldControlsAvailable','cameraControlsAvailable','retainFieldInput','captureField','restoreField','cancelEvolutionField','executeSourceAction','pollFieldInput','runScript','musicChanged','watchMusic','musicFailed','clearMusicFailure','musicStatus','musicDeadline','finishMusicUnlock','retryMusic','retryMusicRestores','unlockSound','syncMusic','resetFieldInput','syncInputContext','save','checkFrameTriggers','withBattleMusic','startBattle','drainBattleEvolution','step','menu','interact'];
 for(const name of names)assert.ok(functions.has(name),'Main music binding moved: '+name);
 function initializer(name:string){for(const statement of ast.statements)if(ts.isVariableStatement(statement))for(const declaration of statement.declarationList.declarations)if(declaration.name.getText(ast)===name)return declaration.initializer!;throw Error('Main initializer moved: '+name);}
 const cameraPorts=(initializer('camera')as ts.NewExpression).arguments![1].getText(ast),touchActions=(initializer('touch')as ts.NewExpression).arguments![1].getText(ast);
@@ -62,11 +64,11 @@ function map(id=60){return{id,events:{objects:[],coords:[],warps:[],bgs:[]},init
 function mon(species=155,hp=10){return{species,hp,name:'Fixture',gender:'male',level:5};}
 function fixture(){
  const f=makePlayer(),log:any[]=[],controls:any={},writes:any[]=[],listeners=new Map<string,any>(),music=f.player;
- f.catalog.battle=native.catalog.battle;
+ f.catalog.battle={...native.catalog.battle,mapRegions:{...native.catalog.battle.mapRegions,73:JSON.parse(read('../../public/source/music/catalog.json')).battle.mapRegions['73']}};
  // Distinct native cue IDs/paths use the adapter's checksummed synthetic audio.
  const sample=f.catalog.tracks['1019'];for(const {cue}of native.catalog.battle.parameters){if(f.catalog.tracks[cue.id])continue;f.catalog.tracks[cue.id]={...structuredClone(sample),...cue,formats:sample.formats.map((format:any)=>{const file=cue.id+'-'+cue.key+(format.codec==='aac'?'.m4a':'.mp3');f.files.set('/source/music/'+file,f.files.get('/source/music/'+format.file));return{...format,file};})};}
  const realPlayMap=music.playMap.bind(music);music.playMap=async(m:any,s:any,signal?:AbortSignal)=>{log.push(['map-music',m.id]);if(controls.playMap)return controls.playMap(m,s,signal);return realPlayMap(m,s,signal);};
- const session=music.createCueSession.bind(music);music.createCueSession=()=>{const owned=session();return{start(cue:any,signal:AbortSignal){log.push(['cue',cue]);return owned.start(cue,signal);},restore(signal?:AbortSignal){log.push(['restore',c.map.id]);return owned.restore(signal);}};};
+ const session=music.createCueSession.bind(music);music.createCueSession=()=>{const owned=session();return{...owned,start(cue:any,signal:AbortSignal){log.push(['cue',cue]);return owned.start(cue,signal);},restore(signal?:AbortSignal){log.push(['restore',c.map.id]);return owned.restore(signal);}};};
  const suspend=music.field.suspend.bind(music.field);music.field.suspend=async(snapshot:EffectiveMusic)=>{log.push(['suspend',snapshot]);return suspend(snapshot);};
  const preferences=readInterfacePreferences(null),state:any={name:'Ethan',map:60,x:10.5,z:10.5,facing:1,playSeconds:0,boxes:[],phoneTriggers:[],pokegear:{contacts:[0,1,2]},runningShoes:true,money:3000,badges:[],party:[mon()],flags:{},vars:{},bag:{},options:{sound:false,textSpeed:0,battleStyle:'shift'}};
  const c:any={music,preferences,state,map:map(),data:{personal:{155:{species:'CYNDAQUIL'}},sprites:{},constants:native.ids,trainers:[{class:'TRAINERCLASS_LEADER_FALKNER'},{class:'TRAINERCLASS_PASSERBY'}]},musicKey:'',musicError:'',musicNotice:'',musicRetryable:true,musicPreferencePending:0,musicListeners:new Set(),MUSIC_WAIT_MS:Number(initializer('MUSIC_WAIT_MS').getText(ast)),soundUnlocked:false,unlockPending:null,battleSoundOwned:false,musicRequestPending:null,musicRequestSerial:0,musicSettledRequest:0,musicSettledLocked:false,pendingMusicRestores:new Set(),sourceActions:null,recoveryPrompt:false,hatching:false,sourceSceneOwners:0,preservedControlScripts:0,ordinaryInputOwners:0,fieldPolling:false,activeBagUse:null,restoringGym:false,hatchFollowerPendingCommit:false,playerDirectionLocked:false,followerSuppressed:false,followerFacing:1,followerMoving:false,followerStep:-1,followerPrevious:null,followMon:null,followSpecies:0,playerTweenY:undefined,previousStepJump:false,stepFrame:-1,npcTweenY:new Map(),lastCoord:'',fieldPhone:new FieldPhoneHost(phoneRules,1000,12),frameTriggerGate:new SourceTriggerGate(),phoneAdmissionGate:new SourceTriggerGate(),trainerAttempts:new TrainerAttemptLatch(),trainerApproachTasks:new Map(),started:true,ready:true,walking:false,transitioning:false,connecting:false,keys:new Set(),lastError:'',lastWarp:'',deltas:[{x:0,z:-1},{x:0,z:1},{x:-1,z:0},{x:1,z:0}],preferenceStorage:null,
@@ -77,7 +79,7 @@ function fixture(){
   catchingTutorialState:()=>({state:{...state,gender:'girl'},enemy:mon(19)}),Battle:class{async start(enemies:any,trainer:any,options:any){log.push(['tutorial-battle',enemies,trainer,options]);controls.tutorialEntered?.resolve();await controls.tutorialGate?.promise;if(controls.tutorialError)throw controls.tutorialError;return'won';}},WorldBattleView:class{},player:{group:new THREE.Group()},follower:null,displayMapName:()=> 'New Bark',console:{warn(error:any){log.push(['warn',String(error)]);},error(){}},DOMException,AbortController,UnsupportedNativeMusic,setTimeout,clearTimeout,Date:class extends Date{getHours(){return 12;}},
   addEventListener(type:string,handler:any){listeners.set(type,handler);},document:{addEventListener(){}},
  };
- c.fieldActors=undefined;createContext(c);runInContext(compile(bindings+events),c);c.sourceActions=new SourceActionRecovery(state,{capture:()=>c.captureField(),restore:(snapshot:any,error:any)=>c.restoreField(snapshot,error)});c.cameraAllowed=runInContext(compile('('+cameraPorts+').allowed'),c);c.touchActions=runInContext(compile('('+touchActions+')'),c);
+ c.fieldActors=undefined;Object.assign(c,{UnsupportedBattleEvolution,evolutionHost:noLevelUpHostFixture(c.state),battleMusicParent:undefined});if(c.battle)noLevelUpBattleFixture(c.battle,c.state);createContext(c);runInContext(compile(bindings+events),c);c.sourceActions=new SourceActionRecovery(state,{capture:()=>c.captureField(),restore:(snapshot:any,error:any)=>c.restoreField(snapshot,error)});c.cameraAllowed=runInContext(compile('('+cameraPorts+').allowed'),c);c.touchActions=runInContext(compile('('+touchActions+')'),c);
  return Object.assign(c,{f,log,controls,writes,listeners,async prepare(){await music.playMap(c.map,{hour:12,flags:state.flags});await music.unlock();c.soundUnlocked=true;f.contexts[0].currentTime=6;log.length=0;},async dispose(){await music.dispose();}});
 }
 
@@ -183,19 +185,17 @@ test('a stalled blackout restore releases gameplay at the return deadline and la
  }finally{gate.resolve();c.f.controls.fetch=undefined;try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
 });
 
-test('background restores stop at the current battle owner and cannot resume a second retained fallback or clear its error',async()=>{
+test('unreleased prior interruption fails new combat closed; retry after real cleanup owns exactly one parent',async()=>{
  const c=fixture(),gate=deferred(),entered=deferred();let clock:ReturnType<typeof deadlineClock>|undefined,pending:Promise<any>|undefined;
  try{await c.prepare();clock=deadlineClock(c);
-  // Source-equivalent retained entries: an interrupted cue session plus the
-  // snapshot used by a later silent fallback. Keep the real player/closures;
-  // only their admission into the existing queue is arranged by this fixture.
   const session=c.music.createCueSession(),signal=new AbortController();await session.start({id:1019,key:'SEQ_GS_C_YOSHINO'},signal.signal);const saved=c.music.capture();signal.abort();c.state.map=73;c.map=map(73);
-  // The destination must require actual uncached I/O rather than the session
-  // track above, so select Surf, whose bytes were not prepared by either cue.
   c.f.catalog.maps['73']={day:{id:1014,key:'SEQ_GS_NAMINORI'},night:{id:1014,key:'SEQ_GS_NAMINORI'}};
   c.f.controls.fetch=async(url:string)=>{entered.resolve();await gate.promise;return c.f.files.get(url).slice(0);};c.pendingMusicRestores.add((signal?:AbortSignal)=>session.restore(signal));c.pendingMusicRestores.add((signal?:AbortSignal)=>c.music.field.restore(saved,signal));c.syncMusic();await entered.promise;
-  c.controls.battleGate=deferred();pending=c.startBattle([mon(16)]);await clock.advance(1500);assert.equal(c.battle.active,true);assert.notEqual(c.musicError,'');const count=c.f.sources.length;c.f.controls.fetch=undefined;gate.resolve();await flush();assert.equal(c.f.sources.length,count,'an old background loop must not run its next fallback through a newer battle suspension');assert.notEqual(c.musicError,'','the old map request must not clear the current battle failure');assert.ok(c.pendingMusicRestores.size,'the next restore remains owned until the battle return');c.controls.battleGate.resolve();await pending;assert.equal(c.battleSoundOwned,false);assert.equal((c.music.capture()as any).cue.id,1014);assert.equal(c.pendingMusicRestores.size,0);
- }finally{gate.resolve();c.controls.battleGate?.resolve();c.f.controls.fetch=undefined;try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
+  pending=c.startBattle([mon(16)]);await clock.advance(1500);assert.equal(c.battle.active,false,'cannot fabricate a battle parent through retained ownership');await clock.advance(1500);await pending;
+  assert.equal(c.battleSoundOwned,false);assert.equal(c.sourceActions.busy,false);assert.equal(c.log.some((row:any)=>Array.isArray(row)&&row[0]==='battle'),false);assert.equal(c.state.money,3000);assert.ok(c.log.some((row:any)=>Array.isArray(row)&&row[0]==='choice'&&row[1]==='Scene not completed'));assert.ok(c.pendingMusicRestores.size);assert.notEqual(c.musicError,'');
+  c.f.controls.fetch=undefined;gate.resolve();await flush();await c.musicRequestPending;await c.retryMusicRestores();await c.startBattle([mon(16)]);
+  assert.equal(c.log.filter((row:any)=>Array.isArray(row)&&row[0]==='battle').length,1,JSON.stringify({log:c.log.slice(-30),lastError:c.lastError,musicError:c.musicError}));assert.equal(c.battleSoundOwned,false);assert.equal((c.music.capture()as any).cue.id,1014);assert.equal(c.pendingMusicRestores.size,0);
+ }finally{gate.resolve();c.f.controls.fetch=undefined;try{await pending?.catch(()=>{});await c.dispose();await flush();}finally{clock?.restore();}}
 });
 
 test('failed cue decoding still runs the battle with old field phase paused, then restores it',async()=>{

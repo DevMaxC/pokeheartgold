@@ -1,0 +1,79 @@
+TAP version 13
+# (node:67738) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# {"originalCComparisons":9359,"observedMethods":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],"functions":{"GetMonEvolution":"942bb07230a5c9e5c3fbe86e07a96c93aea872d8f3158e30619421282ef717d8","MonHasMove":"32066adc70fda27fb1dae291a492ee9292561dd2b61455470c791021fe85fac7","GetGenderBySpeciesAndPersonality_PreloadedPersonal":"339ddd17fd37085125cd52d22e5f92eb1deb576ddd385572acb6d1b70a3ca05e","Party_HasMon":"465c66869cee61c20760af1012ee98ad003e817b6f89228e42b52577e548a858","IsNighttime":"1c8f5df0c531ab5c678181ec5dae1623167976888cb6ea2298095e27bfafd805","GF_RTC_GetTimeOfDayByHour":"4f884446fd5db6143021d408a2a7eb5fd02629be0ab3d18fd3fa7b849b6da95e","MapHeader_GetMapEvolutionMethod":"d0e68811ded3ef47d1c328f101a3044efd2c3d3ba72c7553e1307290d0c3cceb"},"wrapperSHA256":"d3ae49e4e6c7d40eec62a9afaeee59b58fdbf8657feff3fb32ab75ef6c0bed0c"}
+# Subtest: original230 declarations/247 rules compile to229 species/246 rules; all26 methods/seven slots and native enum retained
+ok 1 - original230 declarations/247 rules compile to229 species/246 rules; all26 methods/seven slots and native enum retained
+  ---
+  duration_ms: 4.975792
+  type: 'test'
+  ...
+# Subtest: actual three starters select only at native thresholds; fainted HP does not invent an eligibility guard
+ok 2 - actual three starters select only at native thresholds; fainted HP does not invent an eligibility guard
+  ---
+  duration_ms: 0.713084
+  type: 'test'
+  ...
+# Subtest: Everstone uses raw held effect despite ability, while Kadabra and item-use retain original exceptions
+ok 3 - Everstone uses raw held effect despite ability, while Kadabra and item-use retain original exceptions
+  ---
+  duration_ms: 153.639375
+  type: 'test'
+  ...
+# Subtest: Pichu requires actual form and spiky-ear form1 is blocked in every source context
+ok 4 - Pichu requires actual form and spiky-ear form1 is blocked in every source context
+  ---
+  duration_ms: 0.356375
+  type: 'test'
+  ...
+# Subtest: RTC uses exact native four-hour late bucket; map location is always EVO_NONE in HGSS and first matching row wins
+ok 5 - RTC uses exact native four-hour late bucket; map location is always EVO_NONE in HGSS and first matching row wins
+  ---
+  duration_ms: 0.395333
+  type: 'test'
+  ...
+# Subtest: gender methods use new personal/PID calculation, never the cached gender label
+ok 6 - gender methods use new personal/PID calculation, never the cached gender label
+  ---
+  duration_ms: 0.155334
+  type: 'test'
+  ...
+# Subtest: native Atk/Def and PID-high-word branches, learned moves and raw held item/time all match source
+ok 7 - native Atk/Def and PID-high-word branches, learned moves and raw held item/time all match source
+  ---
+  duration_ms: 0.611875
+  type: 'test'
+  ...
+# Subtest: party species-or-egg semantics exclude Eggs/corruption, retain fainted Remoraid and accept actual NULL party
+ok 8 - party species-or-egg semantics exclude Eggs/corruption, retain fainted Remoraid and accept actual NULL party
+  ---
+  duration_ms: 0.22925
+  type: 'test'
+  ...
+# Subtest: missing beauty/night/state is explicit unsupported; Nincada preserves method_ret-only row and no Shedinja target
+ok 9 - missing beauty/night/state is explicit unsupported; Nincada preserves method_ret-only row and no Shedinja target
+  ---
+  duration_ms: 0.52975
+  type: 'test'
+  ...
+# Subtest: loader is explicit, immutable, validates every method/parameter and propagates I/O failure without fallback
+ok 10 - loader is explicit, immutable, validates every method/parameter and propagates I/O failure without fallback
+  ---
+  duration_ms: 8.330791
+  type: 'test'
+  ...
+# Subtest: differential all real evolution records against seven unchanged original C kernels and original headers
+ok 11 - differential all real evolution records against seven unchanged original C kernels and original headers
+  ---
+  duration_ms: 3071.434375
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4002.071

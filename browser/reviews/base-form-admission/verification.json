@@ -1,0 +1,117 @@
+{
+  "status": "reviewed bounded factory/browser-compatibility prerequisite; no production host binding",
+  "sourceCommit": "731efe6531bdb9ac2e1ee760aba278f00b7cbc80",
+  "sourceBranch": "feat/browser-base-form-admission",
+  "base": "6262bfac42497c01f92143df899d7a274a7207d4",
+  "newTests": 13,
+  "affectedTests": 55,
+  "standaloneTests": 55,
+  "testFailures": 0,
+  "tscExit": 0,
+  "tscObservedToolSession": 65889,
+  "snapshotInputs": 371,
+  "repositoryInputs": 362,
+  "allSourceInputsMatchCommittedBlobs": true,
+  "snapshotHashStable": true,
+  "nativeCFormCases": 31552,
+  "nativeZeroNegativeControl": 31,
+  "oldFactoryExpectedForm0Fails": true,
+  "knownFormOldHelperFails": true,
+  "knownFormBeforeHelperHashProven": true,
+  "freshFactoryForm": 0,
+  "compatibilityIsNativeHistoryProof": false,
+  "ownershipOrOTInferred": false,
+  "productionHostBindingChanged": false,
+  "sourceChanges": [
+    "A\tbrowser/reviews/base-form-admission/integration.txt",
+    "A\tbrowser/reviews/base-form-admission/old-factory-data.ts.txt",
+    "A\tbrowser/reviews/base-form-admission/old-factory.json",
+    "A\tbrowser/reviews/base-form-admission/source-proof.json",
+    "A\tbrowser/scripts/prove_base_form_before.ts",
+    "M\tbrowser/src/source/data.ts",
+    "A\tbrowser/src/source/mon-form-native.test.ts",
+    "A\tbrowser/src/source/mon-form.test.ts",
+    "A\tbrowser/src/source/mon-form.ts",
+    "M\tbrowser/src/source/types.ts"
+  ],
+  "limits": [
+    "Existing eggs.ts draft still omits form; existing hatch??0 unchanged outside this leaf",
+    "Legacy compatibility requires host SAVE_KEY local-v2 origin attestation before queue/Recovery",
+    "Unresolved missing-form records are not repaired later after marker",
+    "Known nonzero forms retained but not form0 evolution admission",
+    "No native historical form/ownership/OT reconstruction",
+    "Native C proof is form-initialization only with explicit non-form dependency/cipher stand-ins"
+  ],
+  "reviews": [
+    {
+      "stage": 1,
+      "status": "findings-preserved-and-closed-by-followup",
+      "models": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "durationMs": 332943,
+      "files": {
+        "immutable-inputs.tar.gz": {
+          "bytes": 1553739,
+          "sha256": "5c11634fd981fcecc831b3ff3339f91c9b7876b5658b26d1ec18692f015f3d65"
+        },
+        "input-manifest.json": {
+          "bytes": 60026,
+          "sha256": "33ad35954cb1e60e4a13e16e7e0ca27524f793a4aec270b7d524ac1796b6565a"
+        },
+        "prompt.txt": {
+          "bytes": 3728,
+          "sha256": "22ac826d10beb830a82687d4337b59df37ac2b1d2d23ec053ccefb3bf1d0f48d"
+        },
+        "raw-result.json": {
+          "bytes": 7647,
+          "sha256": "e7258f7ca9165948c649a623e5c8717b866a866f3c731adbd4f3198a8f30337c"
+        },
+        "standalone-tests.log": {
+          "bytes": 17105,
+          "sha256": "f9ca3ee835bcb508af0f585445046ab5a1f2743b4236cb7d747e32a6963eab37"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "stage": 2,
+      "status": "closed-no-new-actionable-defects",
+      "models": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5-5"
+      ],
+      "durationMs": 59972,
+      "files": {
+        "immutable-inputs.tar.gz": {
+          "bytes": 1564673,
+          "sha256": "85366f8a6fee30aea748558f41c0a0d6917f7ce7d608f9ce3265449feefcfe7d"
+        },
+        "input-manifest.json": {
+          "bytes": 60645,
+          "sha256": "25d162f9ed4a40e3bc5c0ac233f8d10b0221c6dfb281a62bf7ad4d1062bd3cc2"
+        },
+        "prompt.txt": {
+          "bytes": 2838,
+          "sha256": "e4e9e61baba6da56fa715ba4bd85d54695bd71fab96421430eac068c900d04ac"
+        },
+        "raw-result.json": {
+          "bytes": 5852,
+          "sha256": "cfc33c1d5ce3b71c17f1e4627486d33b3e437b210c58accec86bd278d38fa593"
+        },
+        "standalone-tests.log": {
+          "bytes": 17381,
+          "sha256": "ce7d4fa262ba316c28e8b38b5bea9c24802786ce5b0a8ff82c2c8c6fbab146e9"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  ]
+}

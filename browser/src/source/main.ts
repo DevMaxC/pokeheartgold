@@ -2,6 +2,7 @@ import {findCoordinateTrigger} from './coordinate-triggers.ts';
 import {findInteractedBackgroundEvent,backgroundFlagSet} from './background-events.ts';
 import './style.css';
 import {loadData,newState,titleCase,speciesName,createMon,giveMon,healParty,itemName,moveName} from './data.ts';
+import {applyNativeFieldNicknameInput,applyNativeNicknameResult,resolveNativeNicknameInput,migrateLegacyBrowserNicknames,UnsupportedNativeNickname,type NativeNicknameInputCode,type NativeNicknameResult,type BrowserNicknameMigrationReceipt} from './mon-nickname.ts';
 import {OriginalWorld} from './world.ts';
 import {mapWeather} from './atmosphere.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
@@ -28,6 +29,11 @@ import {NativeFieldClock} from './native-field-clock.ts';
 import {AzaleaGymHost} from './gym-azalea-host.ts';
 import {AzaleaFieldActors} from './azalea-field-bindings.ts';
 import {AzaleaFieldSound} from './azalea-field-sound.ts';
+import {EvolutionFieldHost} from './evolution-field-host.ts';
+import {loadNativeEvolutionData,type NativeEvolutionData} from './evolution-native.ts';
+import {createEvolutionAudio} from './evolution-audio.ts';
+import {UnsupportedBattleEvolution} from './battle-evolution.ts';
+import {migrateLegacyBrowserForms,UnsupportedBrowserFormAdmission,type BrowserFormMigrationReceipt} from './mon-form.ts';
 import {isUsableBattler,firstFollowerMon,NATIVE_EGG_ICON} from './eggs.ts';
 import {partyHUD,partyRow,partySummary} from './party-display.ts';
 import {chooseFieldPartySwitchTarget,swapFieldPartySlots} from './party-order.ts';
@@ -47,7 +53,7 @@ import {InterfacePanels,type InterfaceBagUseContext} from './interface-panels.ts
 import {bindAudioControls} from './audio-controls.ts';
 import {loadNativeFieldMoveData,type NativeFieldMoveData} from './field-moves.ts';
 import {useFieldBagItem} from './field-bag-actions.ts';
-import {createNativeFieldMusicPlayer,UnsupportedNativeMusic,type EffectiveMusic} from './field-music.ts';
+import {createNativeFieldMusicPlayer,UnsupportedNativeMusic } from './field-music.ts';
 import {nativeBattleMusic} from './battle-music.ts';
 import {sourceJSON,type State,type SourceMap,type NPC,type Mon,type GameData} from './types.ts';
 
@@ -57,6 +63,8 @@ const encounterChecks=new EncounterChecks();
 const frameTriggerGate=new SourceTriggerGate();
 const phoneAdmissionGate=new SourceTriggerGate();
 let state:State,world:OriginalWorld,map:SourceMap,vm:ScriptVM,battle:Battle,data:GameData,objects:FieldObjects;
+let nicknameAdmission:BrowserNicknameMigrationReceipt|null=null;
+let formAdmission:BrowserFormMigrationReceipt|null=null;const savedStateOrigins=new WeakSet<State>();
 let ready=false,transitioning=false,connecting=false,walking=false,started=false,stepFrame=0,elapsed=0,saveClock=0;
 let openingView:OpeningView|null=null;
 let player:ReturnType<OriginalWorld['paper']>,follower:ReturnType<OriginalWorld['paper']>|null=null,followSpecies=0;
@@ -70,6 +78,9 @@ let followerSuppressed=false;let playerDirectionLocked=false;let followerFacing=
 let followerPrevious:{x:number;z:number;height:number}|null=null;let playerTweenY:number|undefined;let previousStepJump=false;let restoringGym=false;
 let hatching=false,hatchFollowerPendingCommit=false;
 let fieldClock:NativeFieldClock,fieldSound:AzaleaFieldSound,fieldActors:AzaleaFieldActors|undefined;
+let evolutionHost:EvolutionFieldHost|undefined;
+let nativeEvolutionData:NativeEvolutionData,evolutionMessages:Record<string,string>;
+let evolutionAudio:ReturnType<typeof createEvolutionAudio>|undefined,battleMusicParent:ReturnType<typeof music.createCueSession>|undefined;
 // Retaining a held vector is distinct from admitting a new action. Ordinary
 // steps and connection OnLoad scripts may own a transaction without dropping
 // its pointer; real scenes and recovery always cancel field input.
@@ -98,6 +109,36 @@ async function installAzaleaField(){
   });
   new AzaleaGymHost(world,state,fieldClock,{actors:()=>fieldActors!.actors(),followerMoving:()=>followerMoving,audio:fieldSound.audio});
 }
+async function prepareEvolutionAudio(){
+  // Required source metadata is admitted before title/Oak identity creation.
+  // A technical startup failure must not discard a completed introduction.
+  if(evolutionAudio)return;
+  const registry=await fieldSound.preparePlayer(music.lifetimeSignal);
+  // Battle completion may arrive from tasks/after-tasks. Constructors register
+  // root hooks only after THIS clock drains its genuine task boundaries.
+  await fieldClock.settled();music.lifetimeSignal.throwIfAborted();
+  if(!evolutionAudio)evolutionAudio=createEvolutionAudio({lifetime:music.lifetimeSignal,player3:registry,
+    borrowParent:()=>{if(!battleSoundOwned||!battleMusicParent)throw new UnsupportedBattleEvolution('Evolution needs its active real battle sound parent');return battleMusicParent.borrow({resumeOnRelease:false});},
+    anySEPlaying:()=>fieldSound.anySEPlaying(),onAfterTasks:(callback,owner)=>fieldClock.onAfterTasks(callback,owner),
+    report:status=>{if(status.stage==='no-voice')console.warn('Original evolution audio admitted no voice',status);},
+  });
+}
+async function installEvolutionField(){
+  if(evolutionHost){evolutionHost.dispose();await evolutionHost.settled();evolutionHost=undefined;}
+  await prepareEvolutionAudio();await fieldClock.settled();music.lifetimeSignal.throwIfAborted();
+  if(!evolutionAudio)throw new UnsupportedBattleEvolution('Native evolution audio backend is not admitted');
+  evolutionHost=new EvolutionFieldHost({data,native:nativeEvolutionData,fieldMoves:nativeFieldMoveData,messages:evolutionMessages,state:()=>state,
+    field:()=>{const actor=player,companion=follower;return{map:state.map,x:actor.group.position.x,y:actor.group.position.y,z:actor.group.position.z,actors:[
+      {object:actor.group,current:()=>player===actor},...(companion?[{object:companion.group,current:()=>follower===companion}]:[]),
+      ...[...world.npcSprites.entries()].map(([id,npc])=>({object:npc.group,current:()=>world.npcSprites.get(id)===npc})),
+    ]};},world,clock:fieldClock,lifetime:music.lifetimeSignal,ui,enabled:()=>preferences.music,sharedOutput:()=>music.sharedAudioOutput(),textDelay,hour:()=>new Date().getHours(),audio:evolutionAudio,
+    retainRestore:restore=>{pendingMusicRestores.add(async signal=>{if(signal)return restore(signal);const cleanup=musicDeadline('Evolution audio cleanup took too long.');try{await restore(cleanup.controller.signal);}finally{cleanup.clear();}});},
+    prepareMenu:async signal=>{await fieldSound.prepareMenuPlayer(signal);},menuSE:(owner,signal)=>fieldSound.menuSE1500(owner,signal,{selectMuted:false}),cancelMenuOwner:owner=>fieldSound.cancelMenuOwner(owner),
+    keyboard:window,controls:$('game'),
+  });
+}
+async function cancelEvolutionField(reason:unknown){evolutionHost?.cancel(reason);await evolutionHost?.settled();}
+
 function reportInputError(error:unknown){if(error instanceof DOMException&&error.name==='AbortError')return;console.error(error);lastError=String(error);ui.toast('That action could not finish. Please try again.');}
 function musicChanged(){for(const listener of musicListeners)try{listener();}catch(error){console.warn(error);}}
 function watchMusic(listener:()=>void){musicListeners.add(listener);return()=>{musicListeners.delete(listener);};}
@@ -137,14 +178,18 @@ bindAudioControls({button:$<HTMLButtonElement>('audio-toggle'),preferences:()=>p
 function textDelay(){return [8,4,1][preferences.textSpeed]*1000/60;}
 const touch=new TouchControls($('touch-pad'),{interact:()=>{unlockSound();void interact().catch(reportInputError);},menu:()=>{unlockSound();void menu().catch(reportInputError);}});
 function fieldControlsAvailable(){return !!world&&started&&ready&&!recoveryPrompt&&!sourceActions?.recovering&&!hatching&&!battleSoundOwned&&!world.azaleaGym?.moving&&!sourceSceneOwners&&(!transitioning||connecting)&&(!vm?.busy||preservedControlScripts>0)&&!ui.busy&&!battle?.active&&!world.fieldTransitionActive&&(!sourceActions?.busy||ordinaryInputOwners>0||connecting||preservedControlScripts>0);}
-const camera=new CameraInput($('original-world'),{allowed:fieldControlsAvailable,read:()=>({yaw:world.yaw,pitch:world.pitch,distance:world.distance}),write:orbit=>{world.yaw=orbit.yaw;world.pitch=orbit.pitch;world.distance=orbit.distance;},sensitivity:()=>preferences.cameraSensitivity});
+function cameraControlsAvailable(){return fieldControlsAvailable()||!!world&&started&&ready&&!!evolutionHost?.cameraActive&&battleSoundOwned&&!transitioning&&!hatching&&!recoveryPrompt&&!sourceActions?.recovering;}
+const camera=new CameraInput($('original-world'),{allowed:cameraControlsAvailable,read:()=>({yaw:world.yaw,pitch:world.pitch,distance:world.distance}),write:orbit=>{world.yaw=orbit.yaw;world.pitch=orbit.pitch;world.distance=orbit.distance;},sensitivity:()=>preferences.cameraSensitivity});
 function resetFieldInput(){keys.clear();touch.reset();camera.reset();}
 function syncInputContext(){const field=fieldControlsAvailable();touch.setContext({movement:field,run:field&&!!state?.runningShoes,interact:ui.dialogueOpen||field&&!walking,menu:field&&!walking});camera.sync();$('game').dataset.gameState=!started?'title':battle?.active?'battle':'field';}
 function running(){return !!state.runningShoes&&fieldInput(keys,touch.read()).run;}
 async function retainFieldInput<T>(action:()=>Promise<T>){ordinaryInputOwners++;try{return await action();}finally{ordinaryInputOwners--;}}
 
 function save(){if(!ready||!started||sourceActions?.busy||recoveryPrompt||transitioning||vm?.busy||battle?.active||walking||hatching||battleSoundOwned||world.azaleaGym?.moving)return false;try{state.fieldHeight=player.group.position.y;state.objectEvents=objects.save(state.map);localStorage.setItem(SAVE_KEY,JSON.stringify(state));return true;}catch{console.warn('Local save is unavailable');return false;}}
-function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag?s:null;}catch{return null;}}
+function readSave():State|null{try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(!(s?.version===2&&typeof s.name==='string'&&Number.isFinite(s.x)&&Number.isFinite(s.z)&&data.index.maps[s.map]&&Array.isArray(s.party)&&s.flags&&s.vars&&s.bag))return null;
+  // Attest the actual local browser-v2 read, not OT/name/random-id ownership.
+  savedStateOrigins.add(s);return s;
+}catch{return null;}}
 function displayMapName(m:SourceMap){const names:Record<string,string>={T20:'New Bark Town',T20R0202:'Your room',T20R0201:'Home',T20R0101:'Professor Elm’s Lab',T20R0102:'Elm’s home',T21:'Cherrygrove City',T22:'Violet City'};if(names[m.code])return names[m.code];return m.key.replace('MAP_','').split('_').map(word=>/^\d+$/.test(word)?word:word[0]+word.slice(1).toLowerCase()).join(' ');}
 function updateHUD(){
   $('map-name').textContent=displayMapName(map);$('map-detail').textContent=state.name?`${state.name} · ${state.badges.length} Badges · ₽${state.money.toLocaleString()}`:'';
@@ -273,13 +318,14 @@ async function hatchEgg(){
     phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),
     message:(text,signal)=>ui.printMessage(text,(state.options.textSpeed===0?8:state.options.textSpeed===1?4:1)*1000/60,signal),
     choose:(text,options,signal)=>ui.choose(text,options,'',signal),
-    nickname:(scene,signal)=>ui.input('Pokémon nickname',10,scene.speciesName,signal),
+    nickname:async(scene,signal)=>{const result=await requestNativeNickname(scene.speciesName,()=>signal.throwIfAborted(),signal);return result.kind==='no-input'?null:result.name;},
     resumeField:async()=>{refreshNPCs();updateHUD();resetFieldInput();},
   });}finally{hatching=false;musicKey='';syncMusic();}
 }
 // Live actors are newer than state.objectEvents until the next durable save.
 function captureField(){return{azaleaActors:fieldActors?.snapshot(),actors:map?objects.save(state.map):state.objectEvents,phone:fieldPhone.snapshot(),phoneAdmission:phoneAdmissionGate.snapshot(),playerHeight:map?player.group.position.y:(state as State&{fieldHeight?:number}).fieldHeight,playerVisible:player.group.visible,playerDirectionLocked,followerSuppressed,followerFacing,followerPosition:follower?.group.position.toArray(),lastWarp,lastCoord,previousStepJump,weather:map?world.sky.currentWeather:undefined,camera:{yaw:world.yaw,pitch:world.pitch,distance:world.distance}};}
 async function restoreField(snapshot:ReturnType<typeof captureField>,error:unknown){
+  await cancelEvolutionField(error);
   // Global preferences can change during an owned scene or recovery prompt.
   // State rollback restores gameplay options, while these current UI values
   // remain authoritative for audio and text, including the next browser save.
@@ -357,7 +403,7 @@ async function enterMap(id:number,x:number,z:number,runEntry=true,restoreObjects
   const continuing=entryMode==='continue';
   if(continuing&&(connection||!restoreObjects))throw Error('Continue requires saved actors and cannot be a connection');
   await executeSourceAction(async()=>{
-  if(!connection){abortBagUse();fieldPhone.resetForSourceEvent();}
+  if(!connection){await cancelEvolutionField(new DOMException('Evolution field changed','AbortError'));abortBagUse();fieldPhone.resetForSourceEvent();}
   world.clearScriptCameraTarget();
   encounterChecks.reset();
   const {initialHeight,violetLift}=gymFieldEntry(state,restoreObjects,connection),previousRestore=restoringGym;restoringGym=restoreObjects;
@@ -439,22 +485,39 @@ async function wildEncounter(){
 }
 async function whiteOut(runEntry=true,deferTriggers=false){healParty(state);state.facing=0;await enterMap(state.lastHeal.map,state.lastHeal.x,state.lastHeal.z,runEntry,false,false,deferTriggers);}
 async function withBattleMusic<T>(enemies:Mon[],trainer:number|null,action:()=>Promise<T>,battleType=trainer===null?0:1){
-  battleSoundOwned=true;const preparation=musicDeadline('Music preparation took too long.');let session:ReturnType<typeof music.createCueSession>|undefined,fallback:EffectiveMusic|undefined;
+  if(battleSoundOwned)throw Error('Another native battle application owns sound');
+  battleSoundOwned=true;const preparation=musicDeadline('Music preparation took too long.');let session:ReturnType<typeof music.createCueSession>|undefined;
   try{
-    try{await retryMusicRestores(preparation.controller.signal);session=music.createCueSession();const {cue}=nativeBattleMusic(await music.catalog(preparation.controller.signal),{battleType,mapId:state.map,trainerClass:trainer===null?undefined:data.constants[data.trainers[trainer].class],leadSpecies:enemies.find(mon=>mon.hp>0)?.species,flags:state.flags});await session.start(cue,preparation.controller.signal);}
-    catch(error){musicFailed(error);try{fallback=await music.field.suspend(music.capture());}catch(suspendError){musicFailed(suspendError);}}
+    try{await retryMusicRestores(preparation.controller.signal);session=music.createCueSession();const catalog=await music.catalog(preparation.controller.signal);let cue;try{cue=nativeBattleMusic(catalog,{battleType,mapId:state.map,trainerClass:trainer===null?undefined:data.constants[data.trainers[trainer].class],leadSpecies:enemies.find(mon=>mon.hp>0)?.species,flags:state.flags}).cue;}catch(cause){throw new UnsupportedNativeMusic('Original battle music configuration is unsupported: '+String(cause));}await session.start(cue,preparation.controller.signal);}
+    catch(error){
+      musicFailed(error);
+      if(error instanceof UnsupportedNativeMusic||music.lifetimeSignal.aborted)throw error;
+      // A technical fetch/decode failure still needs a REAL parent owner.
+      // A prior CLOSED failed restore transfers its exact paused snapshot;
+      // active foreign ownership still rejects rather than resuming field audio.
+      const retained=!session;if(!session)session=music.createCueSession();
+      const silent=musicDeadline('Silent battle ownership took too long.');
+      try{if(retained)await session.startSilentAfterRetainedRestore(silent.controller.signal);else await session.startSilent(silent.controller.signal);}finally{silent.clear();}
+    }
     finally{preparation.clear();}
+    battleMusicParent=session;
     return await action();
   }finally{
+    if(battleMusicParent===session)battleMusicParent=undefined;
     preparation.clear();preparation.controller.abort(new DOMException('Battle music completed','AbortError'));
-    // Keep failed restore ownership for explicit Settings retry or a new map;
-    // selecting the current map first prevents reviving an old blackout cue.
-    if(session||fallback){const restore=async(signal?:AbortSignal)=>{if(session)await session.restore(signal);if(fallback)await music.field.restore(fallback,signal);};pendingMusicRestores.add(restore);}
+    // Child cleanup is retained first; only the outer real session can resume
+    // field music, after selecting the current (possibly blackout) map.
+    if(session)pendingMusicRestores.add(signal=>session!.restore(signal));
     const returning=musicDeadline('Music restoration took too long.');
     try{let selected=false;try{await music.playMap(map,{hour:new Date().getHours(),flags:state.flags},returning.controller.signal);selected=true;}catch(error){musicFailed(error);}
       if(selected)try{await retryMusicRestores(returning.controller.signal);}catch(error){musicFailed(error);}
     }finally{returning.clear();returning.controller.abort(new DOMException('Music return work completed','AbortError'));battleSoundOwned=false;musicKey='';syncMusic();}
   }
+}
+async function drainBattleEvolution(){
+  const completion=battle.evolutionCompletion;if(!completion)throw new UnsupportedBattleEvolution('Battle completed without native evolution results');
+  if(!evolutionHost)throw new UnsupportedBattleEvolution('Native battle evolution host is not admitted');
+  await evolutionHost.run(completion);
 }
 async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false){
   const nested=!!sourceActions?.busy,battleMap=state.map,opponents=structuredClone(enemies),momDraws:number[]=[];let blackedOut=false;
@@ -472,6 +535,9 @@ async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false)
       };
       const result=await withBattleMusic(attempt,trainer,async()=>{
         const result=await battle.start(attempt,trainer,{weather:world.sky.currentWeather});
+        // Native evolution runs after combat exits, inside this SAME owned
+        // battle/app span, before any field music, rewards or source return.
+        await drainBattleEvolution();
         if(result==='lost'){
           if(canLose)healParty(state);
           else state.money-=battleMoneyLoss(state.party,state.badges.length,state.money);
@@ -480,7 +546,7 @@ async function startBattle(enemies:Mon[],trainer:number|null=null,canLose=false)
         }
         return result;
       });
-      if(result==='caught'){const mon=attempt[0];if(await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No'])===0)mon.name=await ui.input('Pokémon nickname',10,mon.name);}
+      if(result==='caught')await nicknameCapturedMon(attempt[0]);
       if(result==='won'&&trainer!==null){const prize=await trainerPrize(data,trainer);state.money=Math.min(999999,state.money+prize);if(prize)await ui.message(`${state.name} got ₽${prize} for winning!${sentToMom?'\nSent some to Mom!':''}`,textDelay());}
       if(result!=='lost')settleMoney();
       updateHUD();return result==='won';
@@ -598,23 +664,73 @@ async function title(){
   }
 }
 async function scriptWarp(id:number,x:number,z:number,facing?:number){if(facing!==undefined)state.facing=facing;await enterMap(id,x+.5,z+.5);}
+// Input validation is local to the naming task. It must not undo an already
+// completed catch/starter scene; ownership, UI and configuration errors still
+// escape to their real recovery owner.
+async function requestNativeNickname(initial:string,current:()=>void,signal?:AbortSignal):Promise<NativeNicknameResult>{
+  for(;;){
+    signal?.throwIfAborted();current();
+    const input=await ui.input('Pokémon nickname',10,initial,signal);
+    signal?.throwIfAborted();current();
+    if(typeof input!=='string')throw new UnsupportedNativeNickname('Naming UI did not return an explicit string');
+    try{return resolveNativeNicknameInput(input);}catch(error){
+      if(!(error instanceof UnsupportedNativeNickname))throw error;
+    }
+    await ui.message('That name contains a character unavailable in the original naming alphabet. Please choose another name.',textDelay(),signal);
+    signal?.throwIfAborted();current();
+  }
+}
+// A field naming task returns the original noInput0/1 ABI. Its subject must
+// still be the same party slot after the owned UI finishes.
+async function nicknamePartyMon(index:number):Promise<NativeNicknameInputCode>{
+  const owner=state,field=state.map,mon=state.party[index];
+  if(!Number.isInteger(index)||index<0||!mon)throw new UnsupportedNativeNickname('Missing native party naming subject');
+  const current=()=>{if(state!==owner||state.map!==field||owner.party[index]!==mon)throw new UnsupportedNativeNickname('Native party naming subject changed');};
+  const result=await requestNativeNickname(mon.name,current);current();
+  return applyNativeFieldNicknameInput(data,mon,result.kind==='no-input'?null:result.name);
+}
+async function nicknameCapturedMon(mon:Mon){
+  const owner=state,field=state.map;
+  const current=()=>{if(state!==owner||state.map!==field||!owner.party.includes(mon)&&!owner.boxes.includes(mon))throw new UnsupportedNativeNickname('Native capture naming subject changed');};
+  current();const choice=await ui.choose(`Give a nickname to ${mon.name}?`,['Yes','No']);current();
+  if(choice!==0&&choice!==1)throw new UnsupportedNativeNickname('Native capture naming choice was not resolved');
+  if(choice===0){const result=await requestNativeNickname(mon.name,current);current();applyNativeNicknameResult(data,mon,result);}
+}
+// Persist legacy admission before constructing any recovery owner/checkpoint.
+// Marked saves perform no further inference; actual unresolved slots remain
+// unsupported rather than receiving manufactured false metadata.
+function admitNicknameMetadata(entryMode:'warp'|'continue'){
+  const receipt=migrateLegacyBrowserNicknames(data,state,{origin:'local-browser-v2'});
+  if(receipt.unresolved.length)console.warn('Saved nickname metadata remains unsupported',receipt.unresolved);
+  if(entryMode==='continue'&&receipt.admission==='migrated')try{localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Nickname admission could not yet be saved');}
+  return receipt;
+}
+function admitFormMetadata(entryMode:'warp'|'continue'){
+  if(entryMode==='continue'&&!savedStateOrigins.has(state)||entryMode==='warp'&&state.formMetadata?.origin!=='fresh-browser')throw new UnsupportedBrowserFormAdmission('Form admission requires the actual local browser save or a fresh browser state');
+  const receipt=migrateLegacyBrowserForms(data,state,{origin:'local-browser-v2'});
+  if(receipt.unresolved.length)console.warn('Saved form metadata remains unsupported',receipt.unresolved);
+  if(entryMode==='continue'&&receipt.admission==='migrated')try{localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch{console.warn('Form admission could not yet be saved');}
+  return receipt;
+}
 async function begin(entryMode:'warp'|'continue'='warp'){
   state.options.sound=preferences.music;state.options.textSpeed=preferences.textSpeed;
+  if(entryMode==='continue'&&!savedStateOrigins.has(state))throw new UnsupportedBrowserFormAdmission('Continue requires an admitted local browser-v2 save');
+  nicknameAdmission=admitNicknameMetadata(entryMode);formAdmission=admitFormMetadata(entryMode);
   const rtc=fieldRTCObservation();fieldPhone=new FieldPhoneHost(await sourceJSON<PhoneAdmissionRules>('phone-triggers.json'),rtc.seconds,rtc.hour);
   player=world.paper(state.gender==='boy'?'SPRITE_HERO':'SPRITE_HEROINE');battle=new Battle(data,state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));objects=new FieldObjects(data,state);
-  await installAzaleaField();
-  vm=new ScriptVM(data,state,{azaleaGym:world.azaleaGym?.scriptPorts,eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text,textDelay());},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{resetFieldInput();const demo=catchingTutorialState(data,state),demoBattle=new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));await withBattleMusic([demo.enemy],null,()=>demoBattle.start([demo.enemy],null,{tutorial:true}),1<<10);resetFieldInput();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>{const mon=state.party[i];if(mon)mon.name=await ui.input('Pokémon nickname',10,mon.name);},refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:scriptWarp});
+  await installAzaleaField();await installEvolutionField();
+  vm=new ScriptVM(data,state,{azaleaGym:world.azaleaGym?.scriptPorts,eggHatchAnim:()=>hatchEgg(),phoneTrigger:(id,accelerate)=>fieldPhone.triggerQueued(id,accelerate),cameraTarget:target=>setScriptCameraTarget(world,state.map,target),violetGym:{init:()=>world.violetGym.init(state,restoringGym),elevator:()=>world.violetGym.ride(state,{waitFollower:async signal=>{while(followerMoving){if(signal.aborted)throw Error('Follower wait cancelled');await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));}},player:()=>({x:state.x,y:player.group.position.y,z:state.z}),placeRiders:y=>{player.group.position.y=y;if(follower)follower.group.position.y=y;}})},objectMovement:(id,next)=>objects.movement(id,next),objectFacing:id=>objects.facing(id),followerActive:()=>!!follower&&!followerSuppressed&&follower.group.visible,trainerPath:beginTrainerPath,trainerStep:finishTrainerPath,weather:value=>{if(value!==undefined)world.sky.setWeather(value);return world.sky.currentWeather;},objectName:id=>map.events.objects.find(n=>map.constants[n.id]===id)?.id,healAnimation:count=>world.healAnimation(count,state.x,state.z-3),followerVisible:visible=>{followerSuppressed=!visible;},message:async text=>{refreshNPCs();await ui.message(text,textDelay());},choice:text=>ui.choose('',['Yes','No'],text),coordinates:id=>{if(id===SCRIPT_CAMERA_ACTOR){const point=world.scriptCameraPosition;if(!point)throw Error('Missing original camera movement object 241');return{x:Math.floor(point.x),z:Math.floor(point.z)};}const n=objects.get(id);return n?{x:Math.floor(n.x),z:Math.floor(n.z)}:{x:255,z:255};},nameRival:()=>ui.input('What was your rival’s name?',7,'Silver'),whiteOut,catchingTutorial:async()=>{resetFieldInput();const demo=catchingTutorialState(data,state),demoBattle=new Battle(data,demo.state,ui,Math.random,new WorldBattleView(world,()=>({x:state.x,z:state.z,y:player.group.position.y,facing:state.facing,location:displayMapName(map),gender:demo.state.gender,actors:[player.group,...(follower?[follower.group]:[])]})));await withBattleMusic([demo.enemy],null,()=>demoBattle.start([demo.enemy],null,{tutorial:true}),1<<10);resetFieldInput();await runFieldEntry('resume');},move:moveActor,position:setPosition,face,visible:showPerson,chooseStarter,nickname:async i=>nicknamePartyMon(i),refresh:async()=>{followerSuppressed=false;refreshNPCs();updateHUD();},battle:trainerBattle,warp:scriptWarp});
   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
 }
 async function boot(){
-  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
+  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);[nativeEvolutionData,evolutionMessages]=await Promise.all([loadNativeEvolutionData(data),sourceJSON<Record<string,string>>('messages/197.json')]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();await prepareEvolutionAudio();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
   // Owned steps carry eight native displacement ticks; Paper uses four atlas phases per tile.
   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started){openingView?.draw(dt);return;}syncMusic();
     state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){const rider=world.azaleaGym?.riderPosition,movement=fieldActors?.movement('player');if(rider)player.group.position.set(rider.x,rider.y,rider.z);else player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,movement?.direction??state.facing,movement?movement.step/2:(world.azaleaGym?.playerHeld?-1:walking?stepFrame:-1));}
     if(hatchFollowerPendingCommit&&!sourceActions?.busy)hatchFollowerPendingCommit=false;
-    const lead=firstFollowerMon(state.party);if(!hatchFollowerPendingCommit&&(followMon!==(lead??null)||followSpecies!==(lead?.species??0))){const position=follower?.group.position.clone()??player.group.position.clone();if(follower)world.removePaper(follower);follower=null;followSpecies=lead?.species??0;followMon=lead??null;const key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';if(lead&&data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(position);}}
-    if(follower){const movement=fieldActors?.movement('follower');world.animate(follower,movement?.direction??followerFacing,movement?movement.step/2:(world.azaleaGym?.playerHeld?-1:followerMoving?followerStep:-1));follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active;}
-    if(fieldControlsAvailable()){if(keys.has('KeyQ'))world.yaw+=dt*1.4*preferences.cameraSensitivity;if(keys.has('KeyE'))world.yaw-=dt*1.4*preferences.cameraSensitivity;}
+    const lead=firstFollowerMon(state.party);if(!evolutionHost?.active&&!hatchFollowerPendingCommit&&(followMon!==(lead??null)||followSpecies!==(lead?.species??0))){const position=follower?.group.position.clone()??player.group.position.clone();if(follower)world.removePaper(follower);follower=null;followSpecies=lead?.species??0;followMon=lead??null;const key=lead?'SPRITE_FOLLOWER_MON_'+data.personal[lead.species].species:'';if(lead&&data.sprites[key]){follower=world.paper(key,1.5);follower.group.position.copy(position);}}
+    if(follower){const movement=fieldActors?.movement('follower');world.animate(follower,movement?.direction??followerFacing,movement?movement.step/2:(world.azaleaGym?.playerHeld?-1:followerMoving?followerStep:-1));follower.group.visible=!!lead&&!followerSuppressed&&!world.battleStage?.active&&!evolutionHost?.view.active;}
+    if(cameraControlsAvailable()){if(keys.has('KeyQ'))world.yaw+=dt*1.4*preferences.cameraSensitivity;if(keys.has('KeyE'))world.yaw-=dt*1.4*preferences.cameraSensitivity;}
     if(ready&&!transitioning&&!sourceActions?.recovering)world.updateStreaming(state.map,state.x,state.z);
     if(ready&&!hatching&&!battleSoundOwned&&!world.azaleaGym?.moving&&!sourceActions?.busy&&!recoveryPrompt&&!walking&&!transitioning&&!vm.busy&&!ui.busy&&!battle.active)void pollFieldInput().catch(error=>{console.error(error);lastError=String(error);});
     world.draw(state.x,state.z,dt,player.group.position.y);saveClock+=dt;if(saveClock>10&&!walking&&!vm.busy){saveClock=0;save();}
@@ -626,7 +742,7 @@ async function boot(){
 // retried here; only Settings' explicit Retry can request it again.
 addEventListener('pointerdown',e=>{const target=e.target as HTMLElement|null;if(!target?.closest?.('[data-global-audio]'))unlockSound();},{capture:true,passive:true});
 addEventListener('keydown',e=>{const target=e.target as HTMLElement|null;if(!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!target?.closest?.('[data-global-audio]'))unlockSound();},{capture:true});
-addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.closest?.('[data-global-audio]')&&['Enter','Space'].includes(e.code))return;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(ui.busy)return;
+addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const target=e.target as HTMLElement|null;if(target?.closest?.('[data-global-audio]')&&['Enter','Space'].includes(e.code))return;if(target?.isContentEditable||target&&['INPUT','TEXTAREA','SELECT'].includes(target.tagName))return;if(evolutionHost?.cameraActive&&cameraControlsAvailable()&&['KeyQ','KeyE'].includes(e.code)){e.preventDefault();keys.add(e.code);return;}if(ui.busy)return;
   if(e.code==='KeyR'&&!e.repeat){e.preventDefault();void answerPhone().catch(reportInputError);return;}
   if(e.code==='Escape'){e.preventDefault();if(!e.repeat)void menu().catch(reportInputError);return;}
   if(!fieldControlsAvailable())return;

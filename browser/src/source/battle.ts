@@ -1,18 +1,21 @@
 import type {GameData,State,Mon,MoveData} from './types.ts';
 import {calculateStats,createMon,giveMon,speciesName,titleCase,itemName,moveName,trainerName} from './data.ts';
-import {catchShakes,confusionDamage,fixedMoveDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
+import {catchShakes,confusionDamage,disobedienceDamage,fixedMoveDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
 import {takeBagItem,isCaptureBall} from './bag.ts';
 import type {BattleView} from './battle-view.ts';
+import type {BattleEvolutionCompletion,NativeBattleOutcome} from './battle-evolution-types.ts';
 import {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
 import {spriteGender,genderSymbol} from './gender.ts';
 import {nativeTrainerReplacement,type TrainerReplacementMon} from './battle-replacement.ts';
 import {planNativeExperience} from './battle-experience.ts';
+import {nativeBattleMonOwnership} from './mon-ownership.ts';
+import {nativeObedience,nativeDisobedienceMessage} from './battle-obedience.ts';
 import {nativeBattleWeight,UnsupportedBattleWeight} from './battle-weight.ts';
 import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
 import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusionDuration,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativeGhostCurseCost,nativeCurseResidual,nativeReflectStart,nativeReflectTick,type NativeBattlerVolatile} from './battle-volatiles.ts';
 
-type Result='won'|'lost'|'caught'|'ran';
+type Result=NativeBattleOutcome;
 type Action={kind:'move';slot:number}|{kind:'switch';index:number}|{kind:'item';item:string}|{kind:'run'};
 const implementedEffects=new Set([0,1,2,3,4,5,6,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,31,32,33,40,41,42,43,44,47,48,49,50,51,52,53,54,55,56,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,81,85,87,100,103,106,109,113,132,149,156,187,196,201,210,214,228]);
 // constants/moves.h: SINGLE, RANDOM_OPPONENT, ADJACENT_OPPONENTS, ALL_ADJACENT.
@@ -24,6 +27,9 @@ const singleBattleLiveOpponentTargets=new Set([0,2,4,8]);
 // these effects unsupported instead of claiming a completed no-target action.
 const unportedChargeEffects=new Set([26,39,75,145,151,155,255,256,263,272]);
 export class Battle{
+  private levelUpEvolutionMask=0;private evolutionSerial=0;private latestEvolutionCompletion:BattleEvolutionCompletion|null=null;
+  /** Field host awaits its evolution controller before source rewards/resume. */
+  get evolutionCompletion(){return this.latestEvolutionCompletion;}
   active=false;private enemies:Mon[]=[];private enemyIndex=0;private playerIndex=0;private trainer:number|null=null;
   private playerStages=freshStages();private enemyStages=freshStages();private resolve:((r:Result)=>void)|null=null;private actions:((a:Action)=>void)|null=null;
   private experienceMask=0;private fleeAttempts=0;private turns=0;private flinch=false;private messageText='';
@@ -259,6 +265,7 @@ export class Battle{
   }
   async start(enemies:Mon[],trainer:number|null=null,options:{tutorial?:boolean;noCritical?:boolean;weather?:number}={}):Promise<Result>{
     const lead=firstUsableBattlerIndex(this.state.party);if(lead<0)throw Error('No Pokémon is able to battle.');
+    this.levelUpEvolutionMask=0;this.latestEvolutionCompletion=null;
     this.tutorial=!!options.tutorial;this.noCritical=this.tutorial||!!options.noCritical;
     // Capture the native field weather once; sky animation and later map
     // changes never decide healing amounts during a battle.
@@ -277,8 +284,8 @@ export class Battle{
     })().catch(error=>{Object.assign(this.state,before);this.finishError();fail(error);});
     return complete;
   }
-  private finishError(){this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;this.resolve=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;}
-  private finish(result:Result){this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;this.resolve?.(result);this.resolve=null;}
+  private finishError(){this.levelUpEvolutionMask=0;this.latestEvolutionCompletion=null;this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;this.resolve=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;}
+  private finish(result:Result){const completion:BattleEvolutionCompletion=Object.freeze({serial:++this.evolutionSerial,result,levelUpMask:this.levelUpEvolutionMask,party:Object.freeze([...this.state.party]),isCurrent:()=>this.latestEvolutionCompletion===completion});this.latestEvolutionCompletion=completion;this.experienceMask=0;this.clearBattleVolatiles();this.view?.end();document.body?.classList.remove('in-battle');this.active=false;this.actions=null;$('battle-screen').hidden=true;$('game-hud').hidden=false;$('touch-pad').hidden=false;this.resolve?.(result);this.resolve=null;}
   private image(mon:Mon,facing:'front'|'back'){return `/source/pokemon/${mon.species}-${spriteGender(mon.gender)}-${facing}.png`;}
   private status(mon:Mon){return `<div class="mon-line"><span>${esc(mon.name)} <small>${mon.isEgg||([29,32].includes(mon.species)&&!mon.hasNickname)?'':genderSymbol(mon.gender)}</small></span><small>Lv.${mon.level}</small></div><span class="hp-bar"><i style="width:${Math.max(0,mon.hp/mon.maxHP*100)}%;background:${mon.hp/mon.maxHP<.2?'#cd745c':mon.hp/mon.maxHP<.5?'#ccb262':'#73a775'}"></i></span><span class="hp-value">${mon.status?mon.status+' · ':''}${mon.hp} / ${mon.maxHP}</span>`;}
   private draw(){
@@ -444,7 +451,10 @@ export class Battle{
   private async attack(playerSide:boolean,slot:number,selectedMoveId?:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
     if(attacker.hp<=0)return;
-    const move=this.selectMove(attacker,slot);
+    // Source OT identity is admitted before action state/RNG changes. Missing
+    // old browser identity retains the explicitly labelled prior policy.
+    const playerOT=!playerSide||nativeBattleMonOwnership(this.state,attacker).ownership==='player';
+    let move=this.selectMove(attacker,slot),disobedientTarget=false;
     this.volatile(attacker).previousMove=nativePreviousMove(this.volatile(attacker).previousMove,0,{noMoveSet:false,moveSucceededFlag:false});
     // Native sleep state1 permits Snore/SleepTalk instead of blocking them.
     // Their effects remain unported: never silently consume a sleeping turn.
@@ -454,11 +464,47 @@ export class Battle{
     if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
     if(await this.checkConfusion(attacker,as,playerSide,move))return;
     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
+    if(playerSide){
+      const value=this.volatile(attacker),status=attacker.status==='SLP'?attacker.sleepTurns:({PSN:8,BRN:16,FRZ:32,PAR:64,TOX:128} as Record<string,number>)[attacker.status]??0;
+      const obedience=nativeObedience({level:attacker.level,badges:this.state.badges,playerOT,linkOrFrontier:false,opponentSide:false,aiPartner:false,canSelectAction:!(value.status2&((1<<22)|(3<<10)|(7<<4)|(1<<12))),bideChargeHit:false,move:move.id,moveSlot:Math.max(0,slot),status,status2:value.status2,ability:this.data.constants[monAbility(this.data,attacker)],uproar:false,blockedMoves:()=>{
+        // Disable/Torment/Taunt/Encore/Imprison/Gravity/HealBlock/choice-lock
+        // producers are not admitted by this battle engine. Its represented
+        // StruggleCheck mask is therefore empty slots and exhausted PP only;
+        // unsafe held-item hooks still reject before using a replacement.
+        this.assertItemScope(attacker,defender);let mask=0;for(let i=0;i<4;i++)if(!attacker.moves[i]?.id||attacker.moves[i].pp<=0)mask|=1<<i;return mask;
+      }},()=>this.random16());
+      if(obedience.outcome==='self-hit'){
+        if(this.unresolvedAttackEntryWithoutTarget||this.unresolvedAttackEntry.has(attacker)||[this.player,this.enemy].some(mon=>mon.hp>0&&monAbility(this.data,mon)==='ABILITY_TRACE'))throw Error('Unsupported native disobedience prior Attack/Trace entry');
+        this.assertDamageScope(attacker,attacker);
+      }
+      if(obedience.outcome==='nap'){
+        // This path bypasses0018's ordinary sleep-immunity checks, but must
+        // not introduce status into an unrepresented residual/ability host.
+        try{this.assertYawnSleepScope(attacker);}catch(error){throw Error('Unsupported native disobedience sleep prerequisites: '+String(error));}
+      }
+      value.status2=obedience.status2;if(!(value.status2&nativeStatus2.rage))this.raging.delete(attacker);
+      if(obedience.outcome==='other-move'){
+        slot=obedience.slot!;move=this.selectMove(attacker,slot);this.selectedMoveSlots.set(attacker,slot);disobedientTarget=true;
+        await this.say(`${attacker.name} ignored orders!`);
+      }else if(obedience.outcome!=='obey'){
+        if(obedience.outcome==='asleep')await this.say(`${attacker.name} ignored orders while asleep!`);
+        else if(obedience.outcome==='nothing')await this.say([`${attacker.name} is loafing around!`,`${attacker.name} won’t obey!`,`${attacker.name} turned away!`,`${attacker.name} pretended not to notice!`][nativeDisobedienceMessage(()=>this.random16())]);
+        else if(obedience.outcome==='nap'){
+          await this.say(`${attacker.name} began to nap!`);attacker.status='SLP';attacker.sleepTurns=nativeSleepDuration(()=>this.random16());await this.say(`${attacker.name} fell asleep!`);
+        }else{
+          const damage=disobedienceDamage(this.data,attacker,as,this.random16());
+          await this.say(`${attacker.name} won’t obey!`);await this.say('It hurt itself in its confusion!');attacker.hp=Math.max(0,attacker.hp-damage);this.draw();await this.view?.hit(true);
+          // Controller34→37 clears Rage after this self-hit for non-Rage.
+          if(move.id!==this.data.constants.MOVE_RAGE){this.raging.delete(attacker);value.status2&=~nativeStatus2.rage;}
+        }
+        await this.healAbility(attacker);return;
+      }
+    }
     // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
     // too unless FightInput has reselected a changed slot; OPPONENT_SIDE(128)
     // retains a side target even if its active mon fainted. Their unported
     // effects must not be silently accepted as a no-target action.
-    const noTarget=!unportedChargeEffects.has(move.effect)&&defender.hp<=0&&(singleBattleLiveOpponentTargets.has(move.target)||(move.target===1024&&(selectedMoveId===undefined||selectedMoveId===move.id)));
+    const noTarget=!unportedChargeEffects.has(move.effect)&&defender.hp<=0&&(singleBattleLiveOpponentTargets.has(move.target)||(move.target===1024&&!disobedientTarget&&(selectedMoveId===undefined||selectedMoveId===move.id)));
     if(slot>=0&&!implementedEffects.has(move.effect)&&!noTarget)throw Error(`Unported original move effect ${move.effect}: ${move.key}`);
     if(slot>=0&&attacker.moves[slot].pp<=0){await this.say('But there was no PP left for the move!');return;}
     this.assertActionScope(attacker,defender,move,playerSide);
@@ -596,6 +642,7 @@ export class Battle{
     mon.exp=Math.min(growth[100],mon.exp+reward.amount);await this.say(`${mon.name} gained ${reward.boosted?'a boosted ':''}${reward.amount} Exp. Points!`);
     const yields=['hp_yield','atk_yield','def_yield','speed_yield','spatk_yield','spdef_yield'];for(let i=0;i<6;i++){const total=mon.evs.reduce((a,b)=>a+b,0);mon.evs[i]+=Math.max(0,Math.min(Number(base[yields[i]])||0,255-mon.evs[i],510-total));}
     while(mon.level<100&&mon.exp>=growth[mon.level+1]){
+      this.levelUpEvolutionMask|=1<<reward.index;
       mon.level++;const previous=mon.maxHP;const next=calculateStats(this.data.personal[mon.species],mon.level,mon.ivs,mon.evs,mon.nature);mon.maxHP=next.maxHP;mon.stats=next.stats;mon.hp+=mon.maxHP-previous;await this.say(`${mon.name} grew to Lv. ${mon.level}!`);
       for(const learned of this.data.learnsets[mon.species].filter(m=>m.level===mon.level))if(!mon.moves.some(m=>m.id===learned.move)){
         const move=this.data.moves[learned.move];if(mon.moves.length<4){mon.moves.push({id:move.id,pp:move.pp,maxPP:move.pp});await this.say(`${mon.name} learned ${moveName(this.data,move.id)}!`);}else{

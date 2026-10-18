@@ -22,7 +22,7 @@ const maps=await Promise.all(Object.keys(data.index.maps).map(id=>sourceJSON<Sou
 const placements=maps.flatMap(map=>map.events.objects.filter(object=>object.scriptId==='std_moms_gift_deliveryman').map(object=>({map,object})));
 const call:MotherGiftCall={trigger:12,contact:0,scripted:3,script:27,forcePickUp:false};
 function state():State&MomSavingsState{const value:State&MomSavingsState=newState(data,'Ethan','boy',()=>.5);value.map=60;value.momSavings={balance:2900,normalGiftsGiven:1,gifts:[{item:c.ITEM_SUPER_POTION,quantity:1},{item:c.ITEM_OCCA_BERRY,quantity:5}]};value.phoneTriggers=[12,0];return value;}
-const baseHooks=():ScriptHooks=>({message:async()=>{},choice:async()=>assert.fail('native gift delivery has no choice'),move:async()=>{},position(){},face(){},visible(){},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async()=>assert.fail(),warp:async()=>assert.fail('delivery never warps')});
+const baseHooks=():ScriptHooks=>({message:async()=>{},choice:async()=>assert.fail('native gift delivery has no choice'),move:async()=>{},position(){},face(){},visible(){},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async()=>assert.fail(),warp:async()=>assert.fail('delivery never warps')});
 function delivery(row=placements[0]){
   const value=state();value.map=row.map.id;
   // This isolated Mother-host fixture starts after COMMON0144 init; actual

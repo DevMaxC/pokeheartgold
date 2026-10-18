@@ -1,0 +1,170 @@
+{
+  "sourceCommit": "1f2f654dfc0d806d31fcf127ffdf3edeb8926a98",
+  "runtimeSourceCommit": "d3bfb166",
+  "files": [
+    {
+      "path": "browser/public/source/constants.json",
+      "sha256": "61cae5bc82daa02434452fdf7595a87582ee6024ea729e09b1fad57c15e62b31"
+    },
+    {
+      "path": "browser/public/source/evolutions.json",
+      "sha256": "81bee0b46e4b2e936264c2759a1b8c535388c94f63aab58261f7abd8936237a7"
+    },
+    {
+      "path": "browser/public/source/items.json",
+      "sha256": "17d17ad7765e82b22d8f2255bd16858a6c7755d2c758fb41db863f6d4dd58eab"
+    },
+    {
+      "path": "browser/public/source/pokemon.json",
+      "sha256": "708ab21adcce76448faee29674c3b1e83bb0c12d030a17ca684b2511de88570d"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/README.md",
+      "sha256": "8904f66833d1e799ef779f69347cbc18afa09a92b19a994ea294b9444a9f4a42"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/boundary-hardening/after.log",
+      "sha256": "e950e07f9da688b5dfa1dcf510298a100d8aa42a1a98676b63b711ecbfc628d2"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/boundary-hardening/before-summary.json",
+      "sha256": "aeae25afbbf24c9c99a658f0580152ec2cd9ce7f4f3bf810c39dc9487c525a8b"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/boundary-hardening/before.log.gz",
+      "sha256": "e60e7fa8fedeffd64c8fa7f74253f73ad92add2cb401a4a7d7e27acbb99fcf08"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/boundary-hardening/evolution-native-before.ts",
+      "sha256": "3d240d1d4b4828954c338bdfb180f0377b3467edbc96a561a6687ff69d5725c7"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/boundary-hardening/tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/node-tests.log",
+      "sha256": "f1b0ccaa2a328dc79cd15b3ee805864865be08239a172c0073e6b48dfb543448"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/opus-ffb402db/adjudication.json",
+      "sha256": "b33abe7f56d6f6f2a39fe33718d6df751522621b0d4dbda9224ac817d9dd5fe6"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/opus-ffb402db/manifest.json",
+      "sha256": "970724c18801a9ee68bbec411b80b96eed87e910ab6063b6cf080b1f4b23b69f"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/opus-ffb402db/opus-result.json",
+      "sha256": "ee49688f23bb21c5088b8abd127e0c7004906b98ddcd29c5b8233a003835b810"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/opus-ffb402db/opus-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/opus-ffb402db/review-prompt.txt",
+      "sha256": "2b28bab74ce6feac871872c86255c37398ba2210fefc82308ff3f5aac9ba3652"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/original-c-tests.log",
+      "sha256": "a29dfbaa53786794488b6f106afd553b99f2cb420f6d2b040bcb5f1720f87bfd"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/tsc.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/validation-hardening.json",
+      "sha256": "0fa9af83d476e7e58b90fa786bfb0a0964f698b6341f5033384f03b9d8004af5"
+    },
+    {
+      "path": "browser/reviews/native-evolution-data/validation.json",
+      "sha256": "44f18c04fbd919282f34f14069cb4e1d9d10e542a5f723976040aaf860b42e7b"
+    },
+    {
+      "path": "browser/scripts/test_evolution_native.py",
+      "sha256": "4ab99c7db1da8e6faab5d0720f20b6f94b7d5044004eee19a795257facda88bc"
+    },
+    {
+      "path": "browser/src/source/evolution-native.test.ts",
+      "sha256": "21aa3c13f9244cae725f41d26659b5249df47d2519068c25baca5499cda45605"
+    },
+    {
+      "path": "browser/src/source/evolution-native.ts",
+      "sha256": "9dbd45631fac97e52f687523be8a417c283643d7d89edd24f37fabec2a8bc968"
+    },
+    {
+      "path": "browser/src/source/gender.ts",
+      "sha256": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378"
+    },
+    {
+      "path": "files/itemtool/itemdata/item_data.csv",
+      "sha256": "d4f1f80e8a79504599837912c59f18acd77c3c111d892dfa094f6d0a7c455ac1"
+    },
+    {
+      "path": "files/poketool/personal/evo.json",
+      "sha256": "5d6cd7d450b19062b70afd496d3703f18ccadd6244d49fc3597eae3ae9cd18c1"
+    },
+    {
+      "path": "files/poketool/personal/evo.json.txt",
+      "sha256": "0c83ccae51764f54327367b1144ef979701b829de63aaf972a30e6d04473e57f"
+    },
+    {
+      "path": "files/poketool/personal/personal.json",
+      "sha256": "8efcb2a809186a8ba85eb9dd123f4d210e06444405b613f9aa04876f19567f29"
+    },
+    {
+      "path": "include/constants/items.h",
+      "sha256": "20576a5dc04bd40cb1d212f1dad2de8e0083cf966e9535e3c10baac36cbd7193"
+    },
+    {
+      "path": "include/constants/moves.h",
+      "sha256": "72c58ed137cd5737e5c5fb8f43dfe70904f6f09618c75ab7b92b97062444b6d9"
+    },
+    {
+      "path": "include/constants/pokemon.h",
+      "sha256": "64d5d0cee8001830298ec7175c1863165ffccdf037685a51ea27037273187c74"
+    },
+    {
+      "path": "include/constants/species.h",
+      "sha256": "a72ce01027d83aabd9ff61dc8f3afbbf43eee30b25c39b6e23ed42c5ac587732"
+    },
+    {
+      "path": "include/gf_rtc.h",
+      "sha256": "a746aa6d30ca001d9e578c11fe8725309e5939ec6cdd0786d5471cdb560f46e0"
+    },
+    {
+      "path": "src/battle/battle_setup.c",
+      "sha256": "1f029d6c401b9b9f59bfe0ab67a3a0aa988b62ba77f6ca98156032aeef759235"
+    },
+    {
+      "path": "src/battle/battle_system.c",
+      "sha256": "00bdbdc5d780d7562cfa8f5ab8907d8e2cbc1b2e0d563c7b3e236d88ac96cdc4"
+    },
+    {
+      "path": "src/evolution_scene.c",
+      "sha256": "e16a57e130b7367a4ecc8b13c1d954dc208d97e50e5991275ce27f838aefab33"
+    },
+    {
+      "path": "src/gf_rtc.c",
+      "sha256": "817b085ed44dfd8462caf93ef3cc4a37f8c4b86f79eba88bb2dbc1ee5ee5dfae"
+    },
+    {
+      "path": "src/map_header.c",
+      "sha256": "d99890d2ed3a58b04a6e561ebabe89e6e182862e131b8bafec1cb1372a3adc15"
+    },
+    {
+      "path": "src/party.c",
+      "sha256": "db230106eb6b9d1e030a8bfd50719b4764e26196a3b360dc7ff2598880cbbd15"
+    },
+    {
+      "path": "src/pokemon.c",
+      "sha256": "6ce5b2fce2e911772f04913e6b57e580156e08ebc4ef28d25322ab647e5cbf65"
+    }
+  ]
+}

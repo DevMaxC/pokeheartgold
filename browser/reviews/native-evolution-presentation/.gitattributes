@@ -1,0 +1,4 @@
+# Raw review/validation evidence must retain its exact original whitespace.
+*.log -whitespace
+*.patch -whitespace
+validation-environment.txt -whitespace

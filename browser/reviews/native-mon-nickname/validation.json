@@ -1,0 +1,92 @@
+{
+  "base": "41493524d78b6d62ff5b0a3656bb1fcce0bee985",
+  "scope": "Nickname predicate/storage metadata and explicitly separate local-browser-v2 migration only. No Main/VM/UI/evolution integration or browser approval.",
+  "focused": {
+    "exit": 0,
+    "tests": 62,
+    "pass": 62,
+    "fail": 0,
+    "command": "node --experimental-transform-types --test browser/src/source/mon-nickname.test.ts browser/src/source/evolution-native.test.ts browser/src/source/gender.test.ts browser/src/source/trainer-gender.test.ts browser/src/source/eggs.test.ts browser/src/source/battle-experience.test.ts browser/src/source/battle-experience-plan.test.ts browser/src/source/battle-experience-integration.test.ts",
+    "nicknameComparisons": 23480,
+    "evolutionComparisons": 9359
+  },
+  "originalC": {
+    "exit": 0,
+    "tests": 2,
+    "command": "python3 browser/scripts/test_mon_nickname.py"
+  },
+  "tsc": {
+    "exit": 0,
+    "command": "./browser/node_modules/.bin/tsc --noEmit -p browser/tsconfig.json"
+  },
+  "beforeControl": {
+    "runtime": "exact original data.ts from41493524 temporarily substituted and restored in finally",
+    "sameTest": "fresh createMon",
+    "exit": 1,
+    "failed": 1,
+    "reason": "hasNickname undefined instead of false"
+  },
+  "environmentFailures": {
+    "first": "49pass/5fail: missing tracked sparse fixtures only",
+    "second": "61pass/1fail: missing original personal.json.txt only",
+    "resolution": "Populated exact unchanged tracked fixtures, then all62PASS. No unrelated source/test edits."
+  },
+  "sourceFiles": [
+    {
+      "path": "browser/src/source/mon-nickname.ts",
+      "sha256": "3ddee0cb68ade9da6a8cc0b8ec5a57ca8f39ec3fb2296de7d07874f1ef280313"
+    },
+    {
+      "path": "browser/src/source/nickname-data.ts",
+      "sha256": "ba4f5725558ac980f98e6c8fe1943923f6908e4285bf9d114ede9619cd32b563"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "73d265136629ca57473bfccea94f3318522b1ae26ba7991a27505cd96b0646cd"
+    },
+    {
+      "path": "browser/src/source/mon-nickname.test.ts",
+      "sha256": "f44bbaf4990a3da3381e90c53e10dc47980e1680eba5a19cd4c10d68fa431f7d"
+    },
+    {
+      "path": "browser/scripts/export_nickname_data.py",
+      "sha256": "b88f577dd37c9e7417fa37afddb0f08f3dd4878f706642f84ef86f929b66cb18"
+    },
+    {
+      "path": "browser/scripts/test_mon_nickname.py",
+      "sha256": "9f510c7cc372834df79f46a10aa5710a291602c0cdd2d5804019e0e0ade8e3af"
+    }
+  ],
+  "logs": [
+    {
+      "path": "browser/reviews/native-mon-nickname/focused-tests.log.gz",
+      "sha256": "903dd8c48ed27d9cee459219d188952e7d8215f3b275d96044f4483c67dad7cb",
+      "uncompressedSHA256": "37d06e27d992229c5da8e14989a7eee4e6a0d30f7fda9ecd60fbe4db5a511504"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/original-c-tests.log.gz",
+      "sha256": "248bf0fb855eaf1d3a96be13fdcbfab49c84c05ac59fc81f52345eb9132c975d",
+      "uncompressedSHA256": "dbb007f1330cfb4c063d47d8393845f1af20b130ebaa78816610e47182cac018"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/tsc.log.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "uncompressedSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/old-factory-fail.log.gz",
+      "sha256": "e5b79257d78a13d61c78104b164383ae9c0065826a426e3e6d864313b7173eda",
+      "uncompressedSHA256": "ef54313c76f22efdc543cf05497a26aa098157e59c58b04c3114d02fe60a6f6c"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/sparse-missing-fixtures-first.log.gz",
+      "sha256": "e5fa63cd44f2a25cd1ea848bfd8a160c6405e1d60138cafb2e7c008391f85325",
+      "uncompressedSHA256": "829242a37d293f0f4e7058e5357c14b50d8de5a45cc2b38447805c70fbded170"
+    },
+    {
+      "path": "browser/reviews/native-mon-nickname/sparse-missing-fixtures-second.log.gz",
+      "sha256": "902521a82f69a84584505b7309523d9537b96c8aa06b3e98e5cec01304ea03af",
+      "uncompressedSHA256": "d8a2f45c2164f509e4e08404eb12cf5bc0c2adb6cedaaefaf51e1ec472893194"
+    }
+  ]
+}

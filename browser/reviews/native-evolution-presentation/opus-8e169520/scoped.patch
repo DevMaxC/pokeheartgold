@@ -1,0 +1,488 @@
+diff --git a/browser/src/source/battle-evolution-types.ts b/browser/src/source/battle-evolution-types.ts
+new file mode 100644
+index 00000000..ac57566b
+--- /dev/null
++++ b/browser/src/source/battle-evolution-types.ts
+@@ -0,0 +1,50 @@
++import type {Mon} from './types.ts';
++
++/** Detached display data; the scene never receives the live party object. */
++export type EvolutionMonSnapshot=Readonly<Omit<Mon,'moves'|'ivs'|'evs'|'stats'|'provenance'>> & {
++ readonly moves:readonly Readonly<Mon['moves'][number]>[];
++ readonly ivs:readonly number[];readonly evs:readonly number[];
++ readonly stats:Readonly<Mon['stats']>;
++ readonly provenance?:Readonly<NonNullable<Mon['provenance']>>;
++};
++
++/** Battle_022378C0 passes flags3: PRINT_WHAT and CAN_CANCEL. */
++export type BattleEvolutionScene={
++ readonly flags:3;
++ readonly partyIndex:number;
++ readonly before:EvolutionMonSnapshot;
++ readonly after:EvolutionMonSnapshot;
++ readonly method:number;
++ readonly methodKey:string;
++ readonly param:number;
++};
++
++export type EvolutionCongratulations={readonly nickname:string;readonly speciesName:string};
++
++/**
++ * EvolutionScene's native state boundaries, in this exact order. The view
++ * drives readiness/polls; the controller alone changes gameplay State.
++ * evolve: EVO_STATE_EVOLVE, after the new picture/cry completion gates.
++ * register: EVO_STATE_REGISTER, after congratulations text and40 frames.
++ * learnMoves: EVO_STATE_TRY_LEARN_MOVE through its awaited native menus.
++ * finish: successful final fade, where ApplyEvolutionEffects is called.
++ * A B-cancel admitted in OSCILLATE invokes none of these callbacks.
++ */
++export type BattleEvolutionCallbacks={
++ evolve:()=>EvolutionCongratulations;
++ register:()=>void;
++ learnMoves:()=>Promise<void>;
++ finish:()=>void;
++};
++
++/** Cancellation is an ordinary native result. Technical failure must throw. */
++export type BattleEvolutionScenePort=(scene:BattleEvolutionScene,callbacks:BattleEvolutionCallbacks,signal?:AbortSignal)=>Promise<'evolved'|'cancelled'>;
++
++/** A final, confirmed result of the native move-learning dialogue/summary. */
++export type EvolutionMoveChoice={kind:'replace';slot:number}|{kind:'decline'};
++export type EvolutionMoveRequest={
++ readonly mon:EvolutionMonSnapshot;
++ readonly move:number;
++ readonly existing:readonly Readonly<Mon['moves'][number]>[];
++ readonly unforgettablyHM:readonly boolean[];
++};
+diff --git a/browser/src/source/evolution-presentation.test.ts b/browser/src/source/evolution-presentation.test.ts
+new file mode 100644
+index 00000000..ad0467b2
+--- /dev/null
++++ b/browser/src/source/evolution-presentation.test.ts
+@@ -0,0 +1,82 @@
++import {test} from 'node:test';
++import assert from 'node:assert/strict';
++import {readFile} from 'node:fs/promises';
++import {createEvolutionPresentation,type EvolutionAudioSession,type EvolutionPresentationPorts,type EvolutionSharedOutput} from './evolution-presentation.ts';
++import {evolutionScene,viewFixture} from './evolution-test-fixtures.ts';
++import type {BattleEvolutionCallbacks} from './battle-evolution-types.ts';
++
++const flush=()=>new Promise<void>(resolve=>setImmediate(resolve));
++type Fixture=ReturnType<typeof fixture>;
++function fixture(){const f=viewFixture(),events:{kind:string;frame:number;value?:unknown}[]=[],phases:{phase:string;frame:number}[]=[];let frame=0,cryUntil=0,fanfareUntil=0,enabled=true,sharedReads=0,restores=0,cancels=0,opened=0,bCount=0;const callbacks:BattleEvolutionCallbacks={evolve(){event('evolve');return{nickname:'Cyndaquil',speciesName:'Quilava'};},register(){event('register');},async learnMoves(){event('learn');},finish(){event('finish');}};
++ let printerTask:(()=>void)|undefined;
++ const output={context:{state:'running'},output:{},signal:new AbortController().signal}as unknown as EvolutionSharedOutput;let outputPort:(()=>EvolutionSharedOutput|null)|undefined;
++ const event=(kind:string,value?:unknown)=>events.push({kind,frame,value});
++ const audio:EvolutionAudioSession={async prepare(){event('prepared');},bgm(id){event('bgm',id);},stopBGM(id){event('stop-bgm',id);},cry(species,form){event('cry',[species,form]);cryUntil=frame+24;outputPort!();},cryPlaying:()=>frame<cryUntil,se(id){event('se',id);outputPort!();},anySEPlaying:()=>false,fanfare(id){event('fanfare',id);fanfareUntil=frame+50;outputPort!();},fanfarePlaying:()=>frame<fanfareUntil,cancel(){cancels++;event('audio-cancel');},async restore(){restores++;event('restore');}};
++ const retained:((signal:AbortSignal)=>Promise<void>)[]=[];
++ const ports:EvolutionPresentationPorts={view:f.view,async nextFrame(signal){if(signal.aborted)throw signal.reason;frame++;if(phases.at(-1)?.phase!==f.view.phase)phases.push({phase:f.view.phase,frame});f.view.update(1/60);printerTask?.();await Promise.resolve();},takeBCancel(){bCount++;return false;},enabled:()=>enabled,sharedOutput(){sharedReads++;return output;},retainRestore:retry=>retained.push(retry),audio:{open(_scene,borrowed){opened++;outputPort=borrowed;event('open');return audio;}},print(bank,id,operands,glyph,signal){event('print',{bank,id,operands});let active=true,resolve!:()=>void,reject!:(reason:unknown)=>void;const done=new Promise<void>((yes,no)=>{resolve=yes;reject=no;});if(id===918)glyph(3);printerTask=()=>{try{if(signal.aborted)throw signal.reason;if(id===918&&glyph(2))return;event('printed',id);printerTask=undefined;resolve();}catch(error){printerTask=undefined;reject(error);}};return{done,clear(){if(active){event('clear',id);active=false;printerTask=undefined;}}};}};
++ return{...f,ports,audio,callbacks,events,phases,event,retained,present:createEvolutionPresentation(ports),get frame(){return frame;},get bCount(){return bCount;},get opened(){return opened;},get restores(){return restores;},get cancels(){return cancels;},get sharedReads(){return sharedReads;},setEnabled(value:boolean){enabled=value;},get outputPort(){return outputPort!;},output};
++}
++function of(f:Fixture,kind:string){return f.events.filter(event=>event.kind===kind);}
++const semantic=(f:Fixture)=>f.events.filter(event=>['evolve','register','learn','finish'].includes(event.kind)).map(event=>event.kind);
++
++test('actual paper view carries Cyndaquil155→156 through native flags3 semantic order and original source text/fanfare controls',async()=>{
++ const f=fixture(),scene=evolutionScene(),before=structuredClone(scene);assert.equal(await f.present(scene,f.callbacks),'evolved');assert.deepEqual(semantic(f),['evolve','register','learn','finish']);assert.deepEqual(of(f,'cry').map(e=>e.value),[[155,0],[156,0]]);assert.deepEqual(of(f,'bgm').map(e=>e.value),[1011]);assert.deepEqual(of(f,'se').map(e=>e.value),[1528,1529,1530,1531]);assert.deepEqual(of(f,'fanfare').map(e=>e.value),[1188]);
++ assert.deepEqual(of(f,'print').map(e=>e.value),[{bank:197,id:916,operands:[]},{bank:197,id:917,operands:['Cyndaquil']},{bank:197,id:918,operands:['Cyndaquil','Quilava']}]);assert.equal(f.bCount,120);assert.equal(f.restores,1);assert.equal(f.cancels,1);assert.equal(f.view.active,false);assert.equal(f.actors[0].visible,true);assert.deepEqual(scene,before);
++ const phase=(name:string)=>f.phases.find(value=>value.phase===name)!.frame;
++ assert.equal(phase('narrow')-phase('gather'),20);assert.equal(phase('oscillate')-phase('narrow'),40);assert.equal(phase('reveal')-phase('widen'),24,'sixteen real visual fade ticks, then native timer8');assert.equal(of(f,'register')[0].frame-of(f,'printed').find(e=>e.value===918)!.frame,40);
++ assert.ok(of(f,'evolve')[0].frame>=of(f,'cry')[1].frame+24,'new cry completion must precede gameplay change');assert.ok(of(f,'finish')[0].frame>of(f,'learn')[0].frame,'actual return motion must finish first');
++});
++
++test('B cancellation is an ordinary outcome only inside OSCILLATE and never changes gameplay',async()=>{
++ const f=fixture();let polls=0;f.ports.takeBCancel=()=>++polls===3;assert.equal(await f.present(evolutionScene(),f.callbacks),'cancelled');assert.equal(polls,3);assert.deepEqual(semantic(f),[]);assert.deepEqual(of(f,'cry').map(e=>e.value),[[155,0],[155,0]]);assert.deepEqual(of(f,'stop-bgm').map(e=>e.value),[1011]);assert.deepEqual(of(f,'se').map(e=>e.value),[1528,1529]);assert.deepEqual(of(f,'fanfare'),[]);assert.equal((of(f,'print').at(-1)!.value as any).id,919);const cancelledPrint=of(f,'printed').find(e=>e.value===919)!;assert.equal(f.phases.find(e=>e.phase==='closing')!.frame-cancelledPrint.frame,21);assert.equal(f.restores,1);assert.equal(f.world.fieldEffect,null);
++});
++
++test('B on the same tick as final particle completion still wins over evolution',async()=>{
++ const f=fixture();let polls=0;f.ports.takeBCancel=()=>++polls===120;assert.equal(await f.present(evolutionScene(),f.callbacks),'cancelled');assert.deepEqual(semantic(f),[]);assert.equal(f.world.fieldEffect,null);
++});
++
++test('source glyph callbacks are live polls and no fanfare is invented when a printer never emits glyph3',async()=>{
++ const f=fixture();const seen:boolean[]=[];f.ports.print=(_bank,id,_args,glyph)=>{if(id===918){seen.push(glyph(1));seen.push(glyph(2));glyph(4);glyph(5);seen.push(glyph(2));}return{done:Promise.resolve(),clear(){}};};await f.present(evolutionScene(),f.callbacks);assert.deepEqual(of(f,'fanfare').map(e=>e.value),[1184]);assert.deepEqual(seen,[false,false,true]);assert.ok(of(f,'se').some(e=>e.value===1510));
++ const g=fixture();g.ports.print=(_bank,_id,_args,glyph)=>{glyph(77);return{done:Promise.resolve(),clear(){}};};await assert.rejects(g.present(evolutionScene(),g.callbacks),/Unsupported native evolution text callback 77/);assert.equal(g.restores,1);assert.equal(g.view.active,false);assert.deepEqual(semantic(g),[]);
++});
++
++test('audio remains on the required borrowed master, muted admission never asks for Context or creates a second player',async()=>{
++ const f=fixture();f.setEnabled(false);assert.equal(await f.present(evolutionScene(),f.callbacks),'evolved');assert.equal(f.sharedReads,0);assert.equal(f.outputPort(),null);f.setEnabled(true);assert.equal(f.outputPort(),f.output);assert.equal(f.sharedReads,1);
++ const source=await readFile(new URL('./evolution-presentation.ts',import.meta.url),'utf8');assert.doesNotMatch(source,/new\s+(Audio|AudioContext|webkitAudioContext)\s*\(/);assert.match(source,/ports\.enabled\(\)\?ports\.sharedOutput\(\):null/);
++});
++
++test('a technical failure is thrown, not converted into native cancellation, and releases voices/camera/actors',async()=>{
++ for(const checkpoint of['old-cry','evolve','register','learn','finish']){const f=fixture();if(checkpoint==='old-cry')f.audio.cry=()=>{throw Error('Required borrowed cry missing');};else f.callbacks[checkpoint==='learn'?'learnMoves':checkpoint as 'evolve'|'register'|'finish']=(()=>{throw Error(`Failed ${checkpoint}`);})as never;
++  await assert.rejects(f.present(evolutionScene(),f.callbacks),/Required borrowed cry missing|Failed/);assert.equal(f.world.fieldEffect,null,checkpoint);assert.equal(f.actors[0].visible,true,checkpoint);assert.equal(f.cancels,1,checkpoint);assert.equal(f.restores,1,checkpoint);
++ }
++});
++
++test('source cancellation during owned learning waits for the mutating task to drain before returning a technical abort',async()=>{
++ const f=fixture(),abort=new AbortController();let release!:()=>void,learning=false;f.callbacks.learnMoves=()=>{learning=true;return new Promise<void>(resolve=>release=resolve);};let done=false;const action=f.present(evolutionScene(),f.callbacks,abort.signal);const rejected=assert.rejects(action,/Rollback requested/).then(()=>done=true);for(let i=0;i<20&&!learning;i++)await flush();assert.equal(learning,true);abort.abort(Error('Rollback requested'));await flush();assert.equal(f.view.active,false);assert.equal(done,false,'mutating menu task must not be detached');release();await rejected;assert.equal(of(f,'finish').length,0);assert.equal(f.restores,1);
++});
++
++test('simultaneous scenes reject, external abort cancels before later semantic callbacks, failed presentation can be retried',async()=>{
++ const f=fixture(),abort=new AbortController();let release!:()=>void;const original=f.audio.prepare;f.audio.prepare=()=>new Promise<void>(resolve=>release=resolve);const first=f.present(evolutionScene(),f.callbacks,abort.signal);const rejection=assert.rejects(first,/Cancelled prepare/);await assert.rejects(f.present(evolutionScene(),f.callbacks),/already owned/);abort.abort(Error('Cancelled prepare'));await rejection;assert.deepEqual(semantic(f),[]);assert.equal(f.restores,1);release();f.audio.prepare=original;assert.equal(await f.present(evolutionScene(),f.callbacks),'evolved');
++});
++
++test('hung borrowed preparation is bounded with an owned session handle, and late completion cannot start the scene',async()=>{
++ const f=fixture();f.ports.preparationTimeoutMs=15;let release!:()=>void,aborted=false;f.audio.prepare=signal=>{signal.addEventListener('abort',()=>aborted=true,{once:true});return new Promise<void>(resolve=>release=resolve);};await assert.rejects(f.present(evolutionScene(),f.callbacks),/audio preparation timed out/);assert.equal(aborted,true);assert.equal(f.cancels,1);assert.equal(f.restores,1);assert.equal(f.world.fieldEffect,null);release();await flush();assert.deepEqual(of(f,'bgm'),[]);assert.deepEqual(semantic(f),[]);
++});
++
++test('bad flags/form/shiny artwork fail before audio ownership or any gameplay callback',async()=>{
++ for(const patch of[{flags:1},{before:{...evolutionScene().before,form:1}},{before:{...evolutionScene().before,id:0,personality:0}}]){const f=fixture(),scene={...evolutionScene(),...patch};await assert.rejects(f.present(scene as any,f.callbacks),/flags3|not exported/);assert.equal(f.opened,0);assert.deepEqual(semantic(f),[]);assert.equal(f.world.fieldEffect,null);}
++});
++
++test('borrowed audio restoration watchdog aborts stalled cleanup and preserves an explicit technical failure',async()=>{
++ const f=fixture();f.ports.cleanupTimeoutMs=20;let aborted=false;f.audio.restore=signal=>new Promise((_resolve,reject)=>{signal.addEventListener('abort',()=>{aborted=true;reject(signal.reason);},{once:true});});await assert.rejects(f.present(evolutionScene(),f.callbacks),/restoration timed out/);assert.equal(aborted,true);assert.equal(f.world.fieldEffect,null);assert.equal(f.cancels,1);assert.equal(f.retained.length,1);let retry=0;f.audio.restore=async()=>{retry++;};await f.retained[0](new AbortController().signal);assert.equal(retry,1);
++});
++
++test('outer cancellation during independent audio restoration cannot return a successful native outcome',async()=>{
++ const f=fixture(),abort=new AbortController();let restoring=false,release!:()=>void;f.audio.restore=()=>{restoring=true;return new Promise<void>(resolve=>release=resolve);};const action=f.present(evolutionScene(),f.callbacks,abort.signal),rejected=assert.rejects(action,/Exit while restoring/);for(let i=0;i<20&&!restoring;i++)await flush();assert.equal(restoring,true);abort.abort(Error('Exit while restoring'));release();await rejected;assert.equal(f.world.fieldEffect,null);
++});
++
++test('phase ownership is grounded in literal native flags3 source, callback glyphs and actual original messages',async()=>{
++ const root=new URL('../../../',import.meta.url),native=await readFile(new URL('src/evolution_scene.c',root),'utf8'),battle=await readFile(new URL('src/battle/battle_022378C0.c',root),'utf8'),messages=await readFile(new URL('files/msgdata/msg/msg_0197.gmm',root),'utf8');
++ assert.match(native,/data->state == EVO_STATE_OSCILLATE && \(gSystem.newKeys & PAD_BUTTON_B\)/);assert.match(native,/case 3:\s*PlayFanfare\(SEQ_ME_SHINKAOME\)/);assert.match(native,/case 2:\s*result = IsFanfarePlaying\(\)/);assert.match(native,/case EVO_STATE_REGISTER:[\s\S]*?data->timer == 0[\s\S]*?Pokedex_SetMonCaughtFlag/);assert.match(battle,/evolutionCondition, 3, HEAP_ID_EVOLUTION/);
++ for(const[id,text]of[[916,'What?\\r'],[917,'{STRVAR_1 1, 0, 0} is evolving!'],[918,'{WAIT 3}Congratulations!'],[919,'stopped evolving!\\r']]as const){const match=messages.match(new RegExp(`<row id="msg_0197_${String(id).padStart(5,'0')}"[\\s\\S]*?<language name="English">([\\s\\S]*?)</language>`));assert.ok(match);assert.ok(match[1].includes(text));}
++});
+diff --git a/browser/src/source/evolution-presentation.ts b/browser/src/source/evolution-presentation.ts
+new file mode 100644
+index 00000000..e15a0af6
+--- /dev/null
++++ b/browser/src/source/evolution-presentation.ts
+@@ -0,0 +1,105 @@
++import type {BattleEvolutionScene,BattleEvolutionCallbacks,BattleEvolutionScenePort,EvolutionCongratulations} from './battle-evolution-types.ts';
++import {WorldEvolutionView,evolutionArtPath} from './evolution-view.ts';
++
++export type EvolutionSharedOutput={readonly context:AudioContext;readonly output:AudioNode;readonly signal:AbortSignal};
++export type EvolutionAudioSession={
++ /** Prepare under an owned signal before any native playback command. */
++ prepare:(signal:AbortSignal)=>Promise<void>;
++ /** All voices must borrow the supplied master output, including cries/SE. */
++ bgm:(id:1011)=>void;stopBGM:(id:1011)=>void;
++ cry:(species:number,form:number)=>void;cryPlaying:()=>boolean;
++ se:(id:1510|1528|1529|1530|1531)=>void;anySEPlaying:()=>boolean;
++ fanfare:(id:1184|1188)=>void;fanfarePlaying:()=>boolean;
++ /** Synchronously stop this scene's voices. Never stop a newer owner's audio. */
++ cancel:(reason?:unknown)=>void;
++ /** Bounded, retryable borrowed-field restoration; retain failed cleanup at host. */
++ restore:(signal:AbortSignal)=>Promise<void>;
++};
++export type EvolutionPrinter={done:Promise<void>;clear:()=>void};
++export type EvolutionPresentationPorts={
++ view:WorldEvolutionView;
++ /** One awaited native scene task frame. No wall-time completion substitute. */
++ nextFrame:(signal:AbortSignal)=>Promise<void>;
++ /** Edge-triggered B. Poll only in OSCILLATE; held/earlier B is not queued. */
++ takeBCancel:()=>boolean;
++ enabled:()=>boolean;
++ sharedOutput:()=>EvolutionSharedOutput;
++ /** Synchronous ownership handle, so even hung preparation can be cancelled. */
++ audio:{open:(scene:BattleEvolutionScene,output:()=>EvolutionSharedOutput|null,signal:AbortSignal)=>EvolutionAudioSession};
++ /** Preserve failed/aborted field-restoration ownership for an explicit host retry. */
++ retainRestore:(retry:(signal:AbortSignal)=>Promise<void>)=>void;
++ /** Honor original page waits; add no final acknowledgement. Native WAIT glyph callback. */
++ print:(bank:197,id:916|917|918|919,operands:readonly string[],callback:(glyph:number)=>boolean,signal:AbortSignal)=>EvolutionPrinter;
++ /** Watchdog for a technical cleanup failure, not a native scene duration. */
++ cleanupTimeoutMs?:number;
++ preparationTimeoutMs?:number;
++};
++const error=(reason?:unknown)=>reason instanceof Error?reason:new DOMException('Evolution presentation interrupted','AbortError');
++const check=(signal:AbortSignal)=>{if(signal.aborted)throw error(signal.reason);};
++
++/**
++ * Native semantic checkpoints from evolution_scene.c, flags3. Rendering is an
++ * explicit field3D adaptation: the view owns real paper/particle completion.
++ * Gameplay, move learning and post-evolution effects stay in callbacks.
++ */
++export function createEvolutionPresentation(ports:EvolutionPresentationPorts):BattleEvolutionScenePort{
++ let owned=false;
++ return async(scene:BattleEvolutionScene,callbacks:BattleEvolutionCallbacks,outer?:AbortSignal)=>{
++  if(owned)throw Error('An evolution scene is already owned');
++  if(scene.flags!==3)throw Error('This native battle evolution presentation requires flags3');
++  evolutionArtPath(scene.before);evolutionArtPath(scene.after);
++  if(scene.before.species===scene.after.species||scene.before.isEgg||scene.after.isEgg)throw Error('Evolution requires different non-Egg species');
++  const timeout=ports.cleanupTimeoutMs??1500,prepareTimeout=ports.preparationTimeoutMs??4000;if(!Number.isFinite(timeout)||timeout<=0||!Number.isFinite(prepareTimeout)||prepareTimeout<=0)throw Error('Invalid evolution resource watchdog');
++  const controller=new AbortController(),signal=controller.signal,abort=()=>controller.abort(outer?.reason);if(outer?.aborted)abort();check(signal);outer?.addEventListener('abort',abort,{once:true});owned=true;
++  let audio:EvolutionAudioSession|undefined,primary:unknown,result:'evolved'|'cancelled'|undefined,printer:EvolutionPrinter|undefined,viewOwner:symbol|undefined;
++  const clear=()=>{const previous=printer;printer=undefined;previous?.clear();};
++  const prepare=(promise:Promise<void>)=>new Promise<void>((resolve,reject)=>{const finish=()=>{clearTimeout(timer);signal.removeEventListener('abort',stopped);},stopped=()=>{finish();reject(error(signal.reason));},timer=setTimeout(()=>{const failure=Error('Evolution borrowed audio preparation timed out');controller.abort(failure);},prepareTimeout);signal.addEventListener('abort',stopped,{once:true});promise.then(()=>{finish();if(signal.aborted)reject(error(signal.reason));else resolve();},cause=>{finish();reject(cause);});if(signal.aborted)stopped();});
++  const guard=()=>{check(signal);if(!viewOwner)throw Error('Evolution lost its live field presentation');ports.view.assertOwned(viewOwner);};
++  const frame=async()=>{guard();await ports.nextFrame(signal);guard();ports.view.tick();};
++  const frames=async(count:number)=>{for(let i=0;i<count;i++)await frame();};
++  const until=async(done:()=>boolean)=>{while(!done())await frame();guard();};
++  const glyph=(id:number)=>{guard();switch(id){case 1:return audio!.anySEPlaying();case 2:return audio!.fanfarePlaying();case 3:audio!.fanfare(1188);return false;case 4:audio!.se(1510);return false;case 5:audio!.fanfare(1184);return false;default:throw Error(`Unsupported native evolution text callback ${id}`);}};
++  const print=async(id:916|917|918|919,operands:readonly string[])=>{guard();clear();printer=ports.print(197,id,operands,glyph,signal);let done=false,failure:unknown;void printer.done.then(()=>{done=true;},cause=>{failure=cause;done=true;});await until(()=>done);if(failure)throw failure;};
++  const cry=async(which:'old'|'new')=>{guard();const mon=which==='old'?scene.before:scene.after;ports.view.startPose(which);audio!.cry(mon.species,scene.before.form??0);await until(()=>!audio!.cryPlaying()&&!ports.view.poseActive);};
++  const white=async(from:number,to:number)=>{ports.view.fade(0xffffff,from,to);await until(()=>!ports.view.paletteActive);};
++  const close=async()=>{ports.view.setPhase('closing');ports.view.fade(0,0,16);await until(()=>!ports.view.paletteActive);ports.view.beginReturn();await until(()=>ports.view.cameraReturned);ports.view.complete();};
++  try{
++   // open owns source audio admission; its callback is live and never unlocks.
++   audio=ports.audio.open(scene,()=>ports.enabled()?ports.sharedOutput():null,signal);await prepare(audio.prepare(signal));check(signal);
++   await ports.view.begin(scene,signal);viewOwner=ports.view.owner!;await frames(2);
++   await print(916,[]);
++   ports.view.setPhase('old-cry');ports.view.startPose('old');audio.cry(scene.before.species,scene.before.form??0);
++   await print(917,[scene.before.name]);await until(()=>!audio!.cryPlaying()&&!ports.view.poseActive);
++   audio.bgm(1011);ports.view.setPhase('gather');await frames(20);
++   ports.view.setPhase('narrow');ports.view.fade(0xffffff,0,16);audio.se(1528);await frames(40);
++   ports.view.setPhase('oscillate');audio.se(1529);
++   let cancelled=false;
++   // B is checked before particle completion, exactly as the native task does.
++   do{await frame();if(ports.takeBCancel()){cancelled=true;break;}}while(ports.view.particlesActive);
++   if(cancelled){
++    ports.view.setPhase('cancel');await white(0,16);audio.stopBGM(1011);await white(16,0);
++    ports.view.setPhase('cancel-cry');await cry('old');await print(919,[scene.before.name]);await frames(20);await close();result='cancelled';
++   }else{
++    ports.view.setPhase('widen');ports.view.fade(0xffffff,0,16);audio.se(1530);await until(()=>!ports.view.paletteActive);await frames(8);
++    ports.view.setPhase('reveal');ports.view.fade(0xffffff,16,0);audio.se(1531);await until(()=>!ports.view.paletteActive&&!ports.view.particlesActive);
++    ports.view.setPhase('new-cry');await cry('new');guard();const congratulations:EvolutionCongratulations=callbacks.evolve();guard();
++    ports.view.setPhase('congratulations');await print(918,[congratulations.nickname,congratulations.speciesName]);await frames(40);guard();callbacks.register();guard();
++    ports.view.setPhase('learning');clear();
++    // The logical controller links its native menu tasks to this same signal
++    // and drains them before rollback. Never race/detach a mutating callback.
++    await callbacks.learnMoves();guard();await close();check(signal);callbacks.finish();result='evolved';
++   }
++  }catch(cause){primary=cause;}
++  finally{
++   outer?.removeEventListener('abort',abort);controller.abort(primary??new DOMException('Evolution scene completed','AbortError'));
++   try{clear();}catch(cause){primary??=cause;}
++   if(viewOwner&&ports.view.owner===viewOwner)ports.view.cancel(primary??Error('Evolution scene cleanup'));
++   if(audio){try{audio.cancel(primary);}catch(cause){primary??=cause;}
++    const cleanup=new AbortController();let timer:ReturnType<typeof setTimeout>|undefined;
++    try{await Promise.race([audio.restore(cleanup.signal),new Promise<never>((_resolve,reject)=>{timer=setTimeout(()=>{const failure=Error('Evolution borrowed audio restoration timed out');cleanup.abort(failure);reject(failure);},timeout);})]);}catch(cause){primary??=cause;try{ports.retainRestore(retrySignal=>audio!.restore(retrySignal));}catch(retainFailure){primary=new AggregateError([primary,retainFailure],'Evolution failed to retain borrowed audio ownership');}}finally{if(timer)clearTimeout(timer);cleanup.abort(new DOMException('Evolution cleanup completed','AbortError'));}
++   }
++   owned=false;
++  }
++  if(primary!==undefined)throw primary;if(outer?.aborted)throw error(outer.reason);if(!result)throw Error('Evolution scene ended without a native outcome');return result;
++ };
++}
+diff --git a/browser/src/source/evolution-test-fixtures.ts b/browser/src/source/evolution-test-fixtures.ts
+new file mode 100644
+index 00000000..3f15102d
+--- /dev/null
++++ b/browser/src/source/evolution-test-fixtures.ts
+@@ -0,0 +1,13 @@
++import * as THREE from 'three';
++import {WorldEvolutionView,type EvolutionArt,type EvolutionField,type EvolutionFieldWorld} from './evolution-view.ts';
++import type {BattleEvolutionScene,EvolutionMonSnapshot} from './battle-evolution-types.ts';
++
++export function evolutionScene():BattleEvolutionScene{const before:EvolutionMonSnapshot={species:155,form:0,level:14,name:'Cyndaquil',gender:'male',id:0x12345678,personality:0xabcddcba,hp:34,maxHP:40,exp:2700,ivs:[1,2,3,4,5,6],evs:[0,0,0,0,0,0],nature:1,status:'',sleepTurns:0,moves:[{id:33,pp:30,maxPP:35}],stats:{atk:22,def:22,spatk:22,spdef:22,speed:22},friendship:80,heldItem:null,ot:'Gold'};return{flags:3,partyIndex:0,before,after:{...structuredClone(before),species:156,name:'Quilava',maxHP:45,hp:39},method:4,methodKey:'EVO_LEVEL',param:14};}
++export function viewFixture(artPort?:(path:string,signal:AbortSignal)=>Promise<EvolutionArt>){
++ const camera=new THREE.PerspectiveCamera(52,1,.05,140),target=new THREE.Vector3(12.5,3.9,9.5),actors=[new THREE.Group(),new THREE.Group()];actors[1].visible=false;let current=true;
++ const field:EvolutionField={map:67,x:12.5,y:3,z:9.5,actors:actors.map(object=>({object,current:()=>current}))};
++ const world:EvolutionFieldWorld={scene:new THREE.Scene(),camera,target,yaw:1.1,pitch:.45,distance:13,cells:new Map(),fieldEffect:null,battleStage:null,scriptCameraPosition:null};camera.position.set(20,9,16);camera.lookAt(target);
++ const oldArt:EvolutionArt={texture:new THREE.Texture(),aspect:.8,uv:[.1,.05,.9,.95]},newArt:EvolutionArt={texture:new THREE.Texture(),aspect:1.2,uv:[0,0,1,1]},requests:string[]=[];
++ const view=new WorldEvolutionView(world,()=>field,{art:artPort??(async path=>{requests.push(path);return path.includes('/155-')?oldArt:newArt;})});
++ return{world,field,actors,view,requests,oldArt,newArt,stale(){current=false;}};
++}
+diff --git a/browser/src/source/evolution-view.test.ts b/browser/src/source/evolution-view.test.ts
+new file mode 100644
+index 00000000..59cdb596
+--- /dev/null
++++ b/browser/src/source/evolution-view.test.ts
+@@ -0,0 +1,76 @@
++import {test} from 'node:test';
++import assert from 'node:assert/strict';
++import {readFile} from 'node:fs/promises';
++import * as THREE from 'three';
++import {WorldEvolutionView,evolutionArtPath,loadEvolutionArt,type EvolutionArt} from './evolution-view.ts';
++import {evolutionScene,viewFixture} from './evolution-test-fixtures.ts';
++import {OriginalWorld} from './world.ts';
++
++const flush=()=>new Promise<void>(resolve=>setImmediate(resolve));
++async function finish(view:WorldEvolutionView){view.beginReturn();for(let i=0;i<240&&!view.cameraReturned;i++)view.update(1/60);assert.ok(view.cameraReturned);view.complete();}
++
++test('real 3D field paper art keeps native image identity/crop and free orbit, and returns smoothly without resetting orbit',async()=>{
++ const f=viewFixture(),backdrop=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshBasicMaterial());f.world.scene.add(backdrop);const scene=evolutionScene(),before=structuredClone(scene);await f.view.begin(scene,new AbortController().signal);
++ assert.deepEqual(f.requests,['/source/pokemon/155-male-front.png','/source/pokemon/156-male-front.png']);assert.equal(f.world.fieldEffect,f.view);assert.equal(backdrop.parent,f.world.scene);assert.deepEqual(f.view.group.position.toArray(),[12.5,3,9.5]);assert.equal(f.actors[0].visible,false);assert.equal(f.actors[1].visible,false);
++ const old=f.view.group.children.find(object=>object instanceof THREE.Mesh&&object.material instanceof THREE.ShaderMaterial&&object.material.uniforms.art.value===f.oldArt.texture)as THREE.Mesh<THREE.PlaneGeometry,THREE.ShaderMaterial>;assert.ok(old);const uv=old.geometry.getAttribute('uv');assert.equal(uv.getX(0),Math.fround(.1));assert.equal(uv.getY(0),Math.fround(.95));assert.match(old.material.fragmentShader,/c\.a<0\.15/);
++ const position=f.world.camera.position.clone();f.world.yaw+=.4;f.world.pitch+=.1;f.view.update(1/60);assert.ok(f.world.camera.position.distanceTo(position)>0);assert.deepEqual([f.world.yaw,f.world.pitch,f.world.distance],[1.5,.55,13]);
++ f.world.scriptCameraPosition={x:8,y:4,z:7};f.view.beginReturn();const returning=f.world.camera.position.clone();f.view.update(1/60);assert.equal(f.view.cameraReturned,false);assert.ok(f.world.camera.position.distanceTo(returning)<2,'camera must move rather than snap');await finish(f.view);
++ assert.equal(f.world.fieldEffect,null);assert.equal(f.actors[0].visible,true);assert.equal(f.actors[1].visible,false);assert.equal(backdrop.parent,f.world.scene);assert.equal(f.world.scriptCameraPosition.x,8);assert.deepEqual(scene,before);
++});
++
++test('native source scale steps animate actual silhouettes and particles have real finite, disposed lifetimes',async()=>{
++ const f=viewFixture();await f.view.begin(evolutionScene(),new AbortController().signal);f.view.setPhase('oscillate');assert.equal(f.view.particlesActive,true);
++ const sprites=f.view.group.children.filter(object=>object instanceof THREE.Mesh&&object.material instanceof THREE.ShaderMaterial)as THREE.Mesh[];assert.equal(sprites.length,2);f.view.tick();assert.equal(sprites[0].scale.x,248/256);assert.equal(sprites[1].scale.x,8/256);
++ for(let i=1;i<32;i++)f.view.tick();assert.equal(sprites[0].scale.x,0);assert.equal(sprites[1].scale.x,1);
++ const particles=f.view.group.children.filter(object=>object instanceof THREE.Mesh&&object.geometry instanceof THREE.OctahedronGeometry)as THREE.Mesh[];const first=particles[0],position=first.position.clone();f.view.tick();assert.ok(first.position.distanceTo(position)>0);for(let i=33;i<119;i++)f.view.tick();assert.equal(f.view.particlesActive,true);f.view.tick();assert.equal(f.view.particlesActive,false);assert.ok(particles.every(p=>p.parent===null));
++ f.view.setPhase('widen');assert.equal(f.view.particlesActive,true);f.view.fade(0xffffff,0,16);for(let i=0;i<15;i++)f.view.tick();assert.equal(f.view.paletteActive,true);f.view.tick();assert.equal(f.view.paletteActive,false);assert.equal(f.view.particlesActive,false);assert.equal((sprites[1].material as THREE.ShaderMaterial).uniforms.white.value,1);
++ f.view.startPose('new');for(let i=0;i<15;i++)f.view.tick();assert.equal(f.view.poseActive,true);f.view.tick();assert.equal(f.view.poseActive,false);assert.ok(Math.abs(sprites[1].position.y)<1e-10);f.view.cancel();
++});
++
++test('cached native textures survive while each temporary geometry/material is released once and stale actors are not resurrected',async()=>{
++ const f=viewFixture();await f.view.begin(evolutionScene(),new AbortController().signal);f.view.setPhase('oscillate');let textures=0;f.oldArt.texture.addEventListener('dispose',()=>textures++);f.newArt.texture.addEventListener('dispose',()=>textures++);
++ const geometry=new Map<THREE.BufferGeometry,number>(),material=new Map<THREE.Material,number>();f.view.group.traverse(object=>{if(object instanceof THREE.Mesh){geometry.set(object.geometry,0);for(const value of Array.isArray(object.material)?object.material:[object.material])material.set(value,0);}});for(const entry of geometry.keys())entry.addEventListener('dispose',()=>geometry.set(entry,geometry.get(entry)!+1));for(const entry of material.keys())entry.addEventListener('dispose',()=>material.set(entry,material.get(entry)!+1));
++ f.stale();f.view.cancel(Error('Map unloaded'));f.view.cancel();assert.equal(f.actors[0].visible,false);assert.equal(textures,0);assert.ok([...geometry.values()].every(n=>n===1));assert.ok([...material.values()].every(n=>n===1));assert.equal(f.view.group.children.length,0);
++});
++
++test('late art completion cannot revive an aborted view, field transition cancellation restores only the owned camera',async()=>{
++ let resolve!:(art:EvolutionArt)=>void;const pending=new Promise<EvolutionArt>(done=>resolve=done),f=viewFixture(()=>pending),snapshot={position:f.world.camera.position.clone(),target:f.world.target.clone(),rotation:f.world.camera.quaternion.clone()};const loading=f.view.begin(evolutionScene(),new AbortController().signal);const rejected=assert.rejects(loading,/Map reload/);f.view.update(.05);f.view.cancel(Error('Map reload'));await rejected;assert.deepEqual(f.world.camera.position.toArray(),snapshot.position.toArray());assert.deepEqual(f.world.target.toArray(),snapshot.target.toArray());assert.deepEqual(f.world.camera.quaternion.toArray(),snapshot.rotation.toArray());resolve(f.oldArt);await flush();assert.equal(f.view.group.children.length,0);assert.equal(f.world.fieldEffect,null);
++ const g=viewFixture();await g.view.begin(evolutionScene(),new AbortController().signal);const next={active:true,update(){},cancel(){}};g.world.fieldEffect=next;g.world.camera.position.set(99,88,77);g.view.update(1/60);assert.deepEqual(g.world.camera.position.toArray(),[99,88,77]);assert.equal(g.world.fieldEffect,next);assert.equal(g.view.active,false);assert.equal(g.actors[0].visible,false);
++});
++
++test('external abort and map changes cancel live effects, and unsupported form/shiny identities fail before claiming the field',async()=>{
++ const f=viewFixture(),abort=new AbortController();await f.view.begin(evolutionScene(),abort.signal);abort.abort(Error('Source action rollback'));assert.equal(f.view.active,false);assert.equal(f.actors[0].visible,true);assert.equal(f.world.fieldEffect,null);
++ const g=viewFixture();await g.view.begin(evolutionScene(),new AbortController().signal);g.field.map++;g.view.update(1/60);assert.equal(g.view.active,false);
++ for(const patch of[{form:1},{personality:0,id:0},{species:494},{gender:'invalid'}]){const h=viewFixture(),scene=evolutionScene();Object.assign(scene.before,patch);await assert.rejects(h.view.begin(scene,new AbortController().signal),/not exported|identity/);assert.equal(h.world.fieldEffect,null);assert.deepEqual(h.requests,[]);}
++ const scene=evolutionScene();assert.equal(evolutionArtPath({...scene.before,species:81,gender:'genderless'}),'/source/pokemon/81-male-front.png');assert.equal(evolutionArtPath({...scene.before,gender:'female'}),'/source/pokemon/155-female-front.png');
++});
++
++test('an old rejected artwork waiter cannot cancel a replacement scene on the same view',async()=>{
++ let resolve!:(art:EvolutionArt)=>void,first=true;const pending=new Promise<EvolutionArt>(done=>resolve=done),f=viewFixture(async()=>first?pending:f.oldArt),scene=evolutionScene();const old=f.view.begin(scene,new AbortController().signal),rejected=assert.rejects(old,/Old load cancelled/);f.view.cancel(Error('Old load cancelled'));first=false;const replacement=f.view.begin(scene,new AbortController().signal);await rejected;await replacement;assert.equal(f.view.active,true);assert.equal(f.world.fieldEffect,f.view);resolve(f.oldArt);await flush();assert.equal(f.view.active,true);f.view.cancel();
++});
++
++test('a hung injected art loader has a technical deadline and cannot retain camera/actor ownership',async()=>{
++ const f=viewFixture(),view=new WorldEvolutionView(f.world,()=>f.field,{art:()=>new Promise(()=>{}),artTimeoutMs:15});await assert.rejects(view.begin(evolutionScene(),new AbortController().signal),/artwork preparation timed out/);assert.equal(f.world.fieldEffect,null);assert.equal(view.active,false);assert.equal(f.actors[0].visible,true);
++});
++
++test('actual native-art cache evicts a timed-out decode without a late old completion removing its successful retry',async t=>{
++ const previous=THREE.TextureLoader.prototype.loadAsync,priorDocument=globalThis.document,requests:{resolve:(texture:THREE.Texture)=>void}[]=[];let lateDisposals=0;
++ t.mock.timers.enable({apis:['setTimeout']});THREE.TextureLoader.prototype.loadAsync=function(){return new Promise<THREE.Texture>(resolve=>requests.push({resolve}));};
++ globalThis.document={createElement:()=>({width:0,height:0,getContext:()=>({drawImage(){},getImageData:()=>({data:new Uint8ClampedArray([255,0,0,255,0,0,0,0,0,0,0,0,255,0,0,255])})})})}as any;
++ try{const first=loadEvolutionArt('/test-native-cache-front.png',new AbortController().signal),rejected=assert.rejects(first,/preparation timed out/);t.mock.timers.tick(4000);await rejected;
++  const retry=loadEvolutionArt('/test-native-cache-front.png',new AbortController().signal);assert.equal(requests.length,2);const next=new THREE.Texture({width:2,height:2}as any);requests[1].resolve(next);const result=await retry;assert.equal(result.texture,next);const late=new THREE.Texture();late.addEventListener('dispose',()=>lateDisposals++);requests[0].resolve(late);await Promise.resolve();await Promise.resolve();assert.equal(lateDisposals,1);
++  assert.equal((await loadEvolutionArt('/test-native-cache-front.png',new AbortController().signal)).texture,next);assert.equal(requests.length,2);
++ }finally{THREE.TextureLoader.prototype.loadAsync=previous;globalThis.document=priorDocument;t.mock.timers.reset();}
++});
++
++test('155/156 native front art really exists with PNG payloads, no generated sprite is substituted',async()=>{
++ for(const species of[155,156])for(const gender of['male','female']){const png=await readFile(new URL(`../../public/source/pokemon/${species}-${gender}-front.png`,import.meta.url));assert.deepEqual([...png.subarray(0,8)],[137,80,78,71,13,10,26,10]);assert.ok(png.readUInt32BE(16)>0&&png.readUInt32BE(20)>0);}
++});
++
++test('actual World field-effect draw and transition hooks drive/release this view without replacing the field scene',async()=>{
++ const f=viewFixture(),world=Object.create(OriginalWorld.prototype)as OriginalWorld;let renders=0;
++ const {scriptCameraPosition,...surface}=f.world;void scriptCameraPosition;
++ Object.assign(world,{...surface,activeHeader:67,cameraTransition:false,grassTime:0,npcSprites:new Map(),sky:{update(){}},renderer:{render(scene:THREE.Scene,camera:THREE.Camera){assert.equal(scene,world.scene);assert.equal(camera,world.camera);renders++;}},height:()=>3});
++ const view=new WorldEvolutionView(world,()=>f.field,{art:async()=>f.oldArt});await view.begin(evolutionScene(),new AbortController().signal);const before=world.camera.position.clone();world.draw(f.field.x,f.field.z,1/60,f.field.y);assert.equal(renders,1);assert.ok(world.camera.position.distanceTo(before)>0);assert.equal(world.fieldMapRunning,false);assert.equal(view.group.parent,world.scene);
++ world.beginFieldTransition();assert.equal(view.active,false);assert.equal(world.fieldEffect,null);assert.equal(f.actors[0].visible,true);world.draw(f.field.x,f.field.z,1/60,f.field.y);assert.equal(renders,1);
++});
+diff --git a/browser/src/source/evolution-view.ts b/browser/src/source/evolution-view.ts
+new file mode 100644
+index 00000000..73369cfd
+--- /dev/null
++++ b/browser/src/source/evolution-view.ts
+@@ -0,0 +1,126 @@
++import * as THREE from 'three';
++import type {BattleEvolutionScene,EvolutionMonSnapshot} from './battle-evolution-types.ts';
++import {fieldCameraObstacles} from './camera.ts';
++
++export type EvolutionArt={texture:THREE.Texture;aspect:number;uv:readonly[number,number,number,number]};
++export type EvolutionField={map:number;x:number;y:number;z:number;actors:readonly {object:THREE.Object3D;current:()=>boolean}[]};
++export type EvolutionFieldWorld={scene:THREE.Scene;camera:THREE.PerspectiveCamera;target:THREE.Vector3;yaw:number;pitch:number;distance:number;cells:Map<unknown,{group:THREE.Group}>;scriptCameraPosition?:{x:number;y:number;z:number}|null;fieldEffect:{active:boolean;update:(dt:number)=>void;cancel:(reason?:unknown)=>void}|null;battleStage?:{active:boolean}|null};
++export type EvolutionPhase='opening'|'old-cry'|'gather'|'narrow'|'oscillate'|'widen'|'reveal'|'new-cry'|'congratulations'|'learning'|'cancel'|'cancel-cry'|'closing';
++type Ports={art?:(path:string,signal:AbortSignal)=>Promise<EvolutionArt>;artTimeoutMs?:number};
++type Particle=THREE.Mesh<THREE.OctahedronGeometry,THREE.MeshBasicMaterial>&{userData:{age:number;life:number;angle:number;radius:number}};
++const artCache=new Map<string,Promise<EvolutionArt>>();
++const abortError=(reason?:unknown)=>reason instanceof Error?reason:new DOMException('Evolution presentation interrupted','AbortError');
++const check=(signal:AbortSignal)=>{if(signal.aborted)throw abortError(signal.reason);};
++
++/** These exports contain the original base-form, non-shiny front art only. */
++export function evolutionArtPath(mon:EvolutionMonSnapshot){
++ if(!Number.isInteger(mon.species)||mon.species<1||mon.species>493||!['male','female','genderless'].includes(mon.gender)||!Number.isInteger(mon.personality)||mon.personality<0||mon.personality>0xffffffff)throw Error('Invalid original evolution artwork identity');
++ if((mon.form??0)!==0)throw Error(`Original evolution form artwork is not exported: ${mon.species} form${mon.form}`);
++ const ot=mon.provenance?.otId??mon.id;
++ if(!Number.isInteger(ot)||ot<0||ot>0xffffffff)throw Error('Original evolution artwork needs a valid OT identity');
++ if(((ot>>>16)^(ot&65535)^(mon.personality>>>16)^(mon.personality&65535))<8)throw Error(`Original shiny evolution artwork is not exported: ${mon.species}`);
++ return `/source/pokemon/${mon.species}-${mon.gender==='female'?'female':'male'}-front.png`;
++}
++
++/** Cached native textures are borrowed. A view disposes only its own meshes. */
++export async function loadEvolutionArt(path:string,signal:AbortSignal):Promise<EvolutionArt>{
++ check(signal);
++ let promise=artCache.get(path);
++ if(!promise){let texture:THREE.Texture|undefined,expired=false,timer:ReturnType<typeof setTimeout>|undefined;
++  const decoded=new THREE.TextureLoader().loadAsync(path).then(loaded=>{if(expired){loaded.dispose();throw Error('Late evolution artwork was discarded');}texture=loaded;loaded.colorSpace=THREE.SRGBColorSpace;loaded.magFilter=THREE.NearestFilter;loaded.minFilter=THREE.NearestFilter;loaded.generateMipmaps=false;
++   const image=loaded.image as HTMLImageElement;if(!image.width||!image.height)throw Error(`Empty original evolution artwork ${path}`);
++   const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const context=canvas.getContext('2d');if(!context)throw Error('Evolution artwork requires its real image decoder');context.drawImage(image,0,0);
++   const pixels=context.getImageData(0,0,image.width,image.height).data;let left=image.width,right=0,top=image.height,bottom=0;
++   for(let y=0;y<image.height;y++)for(let x=0;x<image.width;x++)if(pixels[(y*image.width+x)*4+3]>30){left=Math.min(left,x);right=Math.max(right,x+1);top=Math.min(top,y);bottom=Math.max(bottom,y+1);}
++   if(right<=left||bottom<=top)throw Error(`Transparent original evolution artwork ${path}`);
++   return{texture:loaded,aspect:(right-left)/(bottom-top),uv:[left/image.width,1-bottom/image.height,right/image.width,1-top/image.height]as const};
++  });
++  const evict=()=>{if(artCache.get(path)===promise)artCache.delete(path);};
++  promise=new Promise<EvolutionArt>((resolve,reject)=>{timer=setTimeout(()=>{expired=true;evict();reject(Error('Original evolution artwork preparation timed out'));},4000);decoded.then(value=>{if(timer)clearTimeout(timer);if(!expired)resolve(value);},error=>{if(timer)clearTimeout(timer);evict();texture?.dispose();reject(error);});});artCache.set(path,promise);
++ }
++ return new Promise((resolve,reject)=>{const abort=()=>reject(abortError(signal.reason));signal.addEventListener('abort',abort,{once:true});promise!.then(value=>{signal.removeEventListener('abort',abort);if(signal.aborted)reject(abortError(signal.reason));else resolve(value);},error=>{signal.removeEventListener('abort',abort);reject(error);});if(signal.aborted)abort();});
++}
++
++/**
++ * An intentional 3D paper-art adaptation in the existing field scene. Source
++ * ticks drive real mesh/particle lifetimes; draw(dt) only smooths the free
++ * camera. This does not emulate the DS particle resource or pokepic script.
++ */
++export class WorldEvolutionView{
++ active=false;
++ readonly group=new THREE.Group();
++ phase:EvolutionPhase='opening';
++ private scene:BattleEvolutionScene|null=null;
++ private signal:AbortSignal|null=null;
++ private external:AbortSignal|null=null;
++ private controller=new AbortController();
++ private generation=Symbol('evolution-view');
++ private signalAbort=()=>this.cancel(this.external?.reason);
++ private failure:unknown=null;
++ private hidden:{object:THREE.Object3D;visible:boolean;current:()=>boolean}[]=[];
++ private snapshot:{target:THREE.Vector3;position:THREE.Vector3;rotation:THREE.Quaternion;fov:number}|null=null;
++ private old:THREE.Mesh<THREE.PlaneGeometry,THREE.ShaderMaterial>|null=null;
++ private next:THREE.Mesh<THREE.PlaneGeometry,THREE.ShaderMaterial>|null=null;
++ private particles:Particle[]=[];
++ private anchor=new THREE.Vector3();
++ private pose:{which:'old'|'new';frame:number}|null=null;
++ private palette:{color:number;from:number;to:number;frame:number}|null=null;
++ private oldScale=256;private newScale=0;private scaleStep=8;private oldShrinks=true;
++ private returning=false;private returnBlend=0;
++ private lastCameraTarget=new THREE.Vector3();private lastCameraPosition=new THREE.Vector3();
++ constructor(readonly world:EvolutionFieldWorld,private readonly field:()=>EvolutionField,private readonly ports:Ports={}){this.group.name='native-evolution-paper-field';}
++ // beforeMap is kept outside the immutable controller scene.
++ private beforeMap=-1;
++ private guarded(){if(!this.active||this.failure)throw abortError(this.failure);if(!this.signal)throw Error('Evolution has no lifecycle');check(this.signal);if(this.world.fieldEffect!==this)throw Error('Evolution presentation lost the field owner');if(this.field().map!==this.beforeMap)throw Error('Evolution presentation changed map');}
++ get owner(){return this.active?this.generation:null;}
++ assertOwned(owner:symbol){this.guarded();if(owner!==this.generation)throw Error('Evolution presentation belongs to a newer scene');}
++ private plane(art:EvolutionArt){
++  if(!(art.texture instanceof THREE.Texture)||!Number.isFinite(art.aspect)||art.aspect<=0||art.uv.length!==4||art.uv.some(v=>!Number.isFinite(v))||art.uv[0]<0||art.uv[1]<0||art.uv[2]>1||art.uv[3]>1||art.uv[0]>=art.uv[2]||art.uv[1]>=art.uv[3])throw Error('Invalid original evolution texture crop');
++  const geometry=new THREE.PlaneGeometry(1.8*art.aspect,1.8);geometry.translate(0,.9,0);const uv=geometry.getAttribute('uv'),[u0,v0,u1,v1]=art.uv;for(let i=0;i<uv.count;i++)uv.setXY(i,u0+(u1-u0)*uv.getX(i),v0+(v1-v0)*uv.getY(i));
++  return new THREE.Mesh(geometry,new THREE.ShaderMaterial({transparent:true,side:THREE.DoubleSide,uniforms:{art:{value:art.texture},white:{value:0},opacity:{value:1}},vertexShader:'varying vec2 artUV;void main(){artUV=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',fragmentShader:'uniform sampler2D art;uniform float white;uniform float opacity;varying vec2 artUV;void main(){vec4 c=texture2D(art,artUV);if(c.a<0.15)discard;gl_FragColor=vec4(mix(c.rgb,vec3(1.0),white),c.a*opacity);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}'}));
++ }
++ async begin(scene:BattleEvolutionScene,signal:AbortSignal){
++  if(this.active||this.world.fieldEffect?.active||this.world.battleStage?.active)throw Error('Evolution requires sole field presentation ownership');check(signal);
++  const timeout=this.ports.artTimeoutMs??4000;if(!Number.isFinite(timeout)||timeout<=0)throw Error('Invalid evolution artwork watchdog');
++  const paths=[evolutionArtPath(scene.before),evolutionArtPath(scene.after)],field=this.field();if(!Number.isInteger(field.map)||![field.x,field.y,field.z].every(Number.isFinite))throw Error('Invalid live evolution anchor');
++  this.controller=new AbortController();this.generation=Symbol('evolution-view');const generation=this.generation;this.external=signal;this.scene=scene;this.signal=this.controller.signal;this.failure=null;this.beforeMap=field.map;this.returning=false;this.returnBlend=0;this.phase='opening';this.oldScale=256;this.newScale=0;this.scaleStep=8;this.oldShrinks=true;
++  this.snapshot={target:this.world.target.clone(),position:this.world.camera.position.clone(),rotation:this.world.camera.quaternion.clone(),fov:this.world.camera.fov};this.anchor.set(field.x,field.y,field.z);this.group.position.copy(this.anchor);
++  this.active=true;this.world.fieldEffect=this;this.world.scene.add(this.group);signal.addEventListener('abort',this.signalAbort,{once:true});
++  try{const art=await this.waitArt(Promise.all(paths.map(path=>(this.ports.art??loadEvolutionArt)(path,this.signal!))));this.assertOwned(generation);this.old=this.plane(art[0]);this.group.add(this.old);this.next=this.plane(art[1]);this.next.visible=false;this.group.add(this.next);
++   const shadow=new THREE.Mesh(new THREE.CircleGeometry(.6,32),new THREE.MeshBasicMaterial({color:0x143127,transparent:true,opacity:.2,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.02;this.group.add(shadow);this.hideActors();
++  }catch(error){if(this.generation===generation)this.cancel(error);throw error;}
++ }
++ private waitArt<T>(promise:Promise<T>):Promise<T>{const signal=this.signal!,timeout=this.ports.artTimeoutMs??4000;if(!Number.isFinite(timeout)||timeout<=0)throw Error('Invalid evolution artwork watchdog');return new Promise((resolve,reject)=>{const finish=()=>{clearTimeout(timer);signal.removeEventListener('abort',abort);},abort=()=>{finish();reject(abortError(signal.reason));},timer=setTimeout(()=>{finish();reject(Error('Original evolution artwork preparation timed out'));},timeout);signal.addEventListener('abort',abort,{once:true});promise.then(value=>{finish();if(signal.aborted)reject(abortError(signal.reason));else resolve(value);},error=>{finish();reject(error);});if(signal.aborted)abort();});}
++ private hideActors(){for(const actor of this.field().actors)if(actor.current()&&!this.hidden.some(entry=>entry.object===actor.object)){this.hidden.push({...actor,visible:actor.object.visible});actor.object.visible=false;}}
++ setPhase(phase:EvolutionPhase){this.guarded();this.phase=phase;if(phase==='oscillate'){this.spawn(18,120);this.oldScale=256;this.newScale=0;this.scaleStep=8;this.oldShrinks=true;}if(phase==='widen'){this.oldScale=0;this.newScale=256;this.spawn(14,16);}if(phase==='reveal')this.spawn(10,16);if(phase==='cancel'){this.clearParticles();this.oldScale=256;this.newScale=0;}if(phase==='gather')this.spawn(12,40);}
++ startPose(which:'old'|'new'){this.guarded();this.pose={which,frame:0};}
++ get poseActive(){return this.pose!==null;}
++ fade(color:number,from:number,to:number){this.guarded();this.palette={color,from,to,frame:0};}
++ get paletteActive(){return this.palette!==null;}
++ get particlesActive(){return this.particles.length>0;}
++ private spawn(count:number,life:number){for(let i=0;i<count;i++){const mesh=new THREE.Mesh(new THREE.OctahedronGeometry(.045),new THREE.MeshBasicMaterial({color:0xfff4c8,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}))as Particle;mesh.userData={age:0,life,angle:i*Math.PI*2/count,radius:.6+i%3*.12};this.particles.push(mesh);this.group.add(mesh);}}
++ private clearParticles(){for(const particle of this.particles){this.group.remove(particle);particle.geometry.dispose();particle.material.dispose();}this.particles=[];}
++ /** Exactly one call per admitted source evolution task tick, never a dt catch-up loop. */
++ tick(){this.guarded();this.hideActors();
++  if(this.phase==='oscillate'){if(this.oldShrinks){this.oldScale=Math.max(0,this.oldScale-this.scaleStep);this.newScale=Math.min(256,this.newScale+this.scaleStep);if(this.oldScale===0)this.oldShrinks=false;}else{this.oldScale=Math.min(256,this.oldScale+this.scaleStep);this.newScale=Math.max(0,this.newScale-this.scaleStep);if(this.newScale===0){this.oldShrinks=true;this.scaleStep=Math.min(64,this.scaleStep*2);}}}
++  if(this.old&&this.next){this.old.scale.setScalar(this.oldScale/256);this.next.scale.setScalar(this.newScale/256);this.old.visible=this.oldScale>0;this.next.visible=this.newScale>0;}
++  if(this.pose){const t=++this.pose.frame/16,pic=this.pose.which==='old'?this.old:this.next;if(pic){pic.rotation.z=Math.sin(t*Math.PI*2)*.045;pic.position.y=Math.sin(t*Math.PI)*.08;}if(t>=1)this.pose=null;}
++  if(this.palette){const t=Math.min(1,++this.palette.frame/16),value=this.palette.from+(this.palette.to-this.palette.from)*t;for(const pic of[this.old,this.next])if(pic){if(this.palette.color===0xffffff)pic.material.uniforms.white.value=value/16;else pic.material.uniforms.opacity.value=1-value/16;}if(t===1)this.palette=null;}
++  const alive:Particle[]=[];for(const particle of this.particles){const t=++particle.userData.age/particle.userData.life;if(t>=1){this.group.remove(particle);particle.geometry.dispose();particle.material.dispose();continue;}const angle=particle.userData.angle+t*Math.PI*4,radius=particle.userData.radius*(.6+Math.sin(t*Math.PI));particle.position.set(Math.cos(angle)*radius,.15+t*1.8,Math.sin(angle)*radius);particle.material.opacity=Math.sin(t*Math.PI);alive.push(particle);}this.particles=alive;
++ }
++ update(dt:number){if(!this.active)return;try{this.guarded();if(!Number.isFinite(dt)||dt<0)throw Error('Invalid evolution camera delta');const smooth=1-Math.exp(-Math.min(dt,.1)*8);if(this.returning)this.returnBlend+=(1-this.returnBlend)*smooth;
++   const field=this.field(),script=this.world.scriptCameraPosition,fieldTarget=script?new THREE.Vector3(script.x,script.y+.9,script.z):new THREE.Vector3(field.x,field.y+.9,field.z),look=this.anchor.clone().add(new THREE.Vector3(0,.9,0)).lerp(fieldTarget,this.returnBlend);
++   this.world.target.lerp(look,smooth);const orbit=new THREE.Vector3(Math.sin(this.world.yaw)*Math.cos(this.world.pitch),Math.sin(this.world.pitch),Math.cos(this.world.yaw)*Math.cos(this.world.pitch)),distance=this.world.distance*(.72+.28*this.returnBlend);
++   const obstacles=[...this.world.cells.values()].flatMap(cell=>fieldCameraObstacles(cell.group)),ray=new THREE.Raycaster(this.world.target,orbit,.5,distance),hit=ray.intersectObjects(obstacles,false).find(value=>value.distance>1.2),safe=hit?Math.max(2.2,hit.distance-.6):distance;
++   this.lastCameraTarget.copy(fieldTarget);this.lastCameraPosition.copy(fieldTarget).addScaledVector(orbit,this.returning?Math.min(this.world.distance,safe):this.world.distance);
++   this.world.camera.position.lerp(this.world.target.clone().addScaledVector(orbit,safe),smooth);this.world.camera.lookAt(this.world.target);const yaw=Math.atan2(this.world.camera.position.x-this.anchor.x,this.world.camera.position.z-this.anchor.z);for(const pic of[this.old,this.next])if(pic)pic.rotation.y=yaw;
++  }catch(error){this.cancel(error);}}
++ beginReturn(){this.guarded();this.returning=true;}
++ get cameraReturned(){return this.returning&&this.returnBlend>.999&&this.world.target.distanceTo(this.lastCameraTarget)<.01&&this.world.camera.position.distanceTo(this.lastCameraPosition)<.02;}
++ complete(){this.guarded();if(!this.cameraReturned)throw Error('Evolution camera has not completed its owned return');this.cleanup(false);}
++ cancel(reason?:unknown){if(!this.active)return;this.failure=abortError(reason);this.controller.abort(this.failure);this.cleanup(true);}
++ private cleanup(restore:boolean){const owns=this.world.fieldEffect===this;this.active=false;this.external?.removeEventListener('abort',this.signalAbort);this.clearParticles();for(const actor of this.hidden)if(owns&&actor.current()&&actor.object.visible===false)actor.object.visible=actor.visible;this.hidden=[];
++  if(restore&&owns&&this.snapshot){this.world.target.copy(this.snapshot.target);this.world.camera.position.copy(this.snapshot.position);this.world.camera.quaternion.copy(this.snapshot.rotation);this.world.camera.fov=this.snapshot.fov;this.world.camera.updateProjectionMatrix();}
++  this.world.scene.remove(this.group);const geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();this.group.traverse(object=>{if(object instanceof THREE.Mesh){geometries.add(object.geometry);for(const material of Array.isArray(object.material)?object.material:[object.material])materials.add(material);}});for(const geometry of geometries)geometry.dispose();for(const material of materials)material.dispose();this.group.clear();this.old=null;this.next=null;this.pose=null;this.palette=null;this.scene=null;this.snapshot=null;if(owns)this.world.fieldEffect=null;
++ }
++}

@@ -1,0 +1,1993 @@
+{
+  "schemaVersion": 1,
+  "createdUTC": "2026-10-17T22:37:08.630227+00:00",
+  "candidateCommit": "a826594ddb6605ba8fbc2b32103f696e02e40527",
+  "baseCommit": "5ca737f61704edf67369078b9b5b334ce5a0955b",
+  "scope": "Only field-music.ts and field-music.test.ts; dedicated closed failed restore takeover. Main contextual and not reviewed/edited by this leaf.",
+  "counts": {
+    "playerTests": 64,
+    "newTests": 5,
+    "oldBehaviorControlsDetected": 1,
+    "mutationControlsDetected": 3,
+    "typeScriptExitCode": 0
+  },
+  "initialTypeScriptSetupFailure": "npx invoked from worktree root resolved wrong tsc shim; explicit browser/node_modules/.bin/tsc in browser passed. Raw initial log retained.",
+  "contextualHostFailureCommit": "a25f629df53236e76afb34bd6f91b45788e8141b",
+  "contextualHostFieldMusicSHA256": "82d014c5913b5f87b244ace91bb8a6c068728ce7d6e90179e282c13a93c95813",
+  "entries": [
+    {
+      "path": "browser/package.json",
+      "sha256": "184807b5b8af88b3164525627c0229574aeaff32e58e7d20186bea0c20d01251",
+      "bytes": 462,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/package.json"
+    },
+    {
+      "path": "browser/src/main.ts",
+      "sha256": "1a0b502b61032d7ae411c92a97be6e7a2481e639d030e4c002e5629f469822b5",
+      "bytes": 29621,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/main.ts"
+    },
+    {
+      "path": "browser/src/scene.ts",
+      "sha256": "e5fb2a326e4f186159b40e72bab58e0a463e81c2cc760e5560e2f891803d8ba1",
+      "bytes": 12505,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/scene.ts"
+    },
+    {
+      "path": "browser/src/source/apricorn-box.test.ts",
+      "sha256": "b39542415dc226a4df6c7ba291b5d8541de4e69c1c9af39db32881aba4b37e51",
+      "bytes": 9624,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/apricorn-box.test.ts"
+    },
+    {
+      "path": "browser/src/source/apricorn-box.ts",
+      "sha256": "10e00123d5ffcee3b7fcc694910fed3bc2bb101ab090c331ac63a4da428875bb",
+      "bytes": 3686,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/apricorn-box.ts"
+    },
+    {
+      "path": "browser/src/source/aquatic-gate-building-shells.test.ts",
+      "sha256": "9ab07a45833e6150d6f5f90ffb79eda8ea02ba085ff8ca43d82fb53057e417b2",
+      "bytes": 12348,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/aquatic-gate-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/aquatic-gate-building-shells.ts",
+      "sha256": "95da8f25d92454130155cc0ecea476a00536dedf2ccd9d56aaae1affc1050998",
+      "bytes": 7757,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/aquatic-gate-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/atmosphere.test.ts",
+      "sha256": "c554009f63b6a5edfc2c16515df2e57aed4caab242c3099fea626ac5584bd905",
+      "bytes": 6882,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/atmosphere.test.ts"
+    },
+    {
+      "path": "browser/src/source/atmosphere.ts",
+      "sha256": "a48dddb097c65f6d50b755d5135faf5968faf1f028bc306c5dd99f37f3ed88ab",
+      "bytes": 3324,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/atmosphere.ts"
+    },
+    {
+      "path": "browser/src/source/audio-controls.test.ts",
+      "sha256": "0a8d5e6495e08c0df7f3ac4a4f6d1d233302dbf01b7a6710df558fc72a3f0221",
+      "bytes": 3637,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/audio-controls.test.ts"
+    },
+    {
+      "path": "browser/src/source/audio-controls.ts",
+      "sha256": "8edc37b6c6c2a11edd94896ecd5d17e7c7c20754d4a576f6b8ae5a96adf5c655",
+      "bytes": 1886,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/audio-controls.ts"
+    },
+    {
+      "path": "browser/src/source/azalea-battle-integration.test.ts",
+      "sha256": "a80a5f2e190fd7c1128d8ba8914d34824f305c97163c6a247f580870f74e4635",
+      "bytes": 34955,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/azalea-battle-integration.test.ts"
+    },
+    {
+      "path": "browser/src/source/azalea-gym-rules.ts",
+      "sha256": "ec3a989daf8865f8b84b4ba098b43ab5286b5bce2196a567f9fa977aefdbf5ff",
+      "bytes": 3504,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/azalea-gym-rules.ts"
+    },
+    {
+      "path": "browser/src/source/background-events.test.ts",
+      "sha256": "56ee839709a2b03586732141f675daad7fc0061cf25f820eff7199af0fc74b11",
+      "bytes": 6381,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/background-events.test.ts"
+    },
+    {
+      "path": "browser/src/source/background-events.ts",
+      "sha256": "07ed75c523ade5cae1a10970f6020ad4171ee31d8d20caf3d558f43aca8f8e56",
+      "bytes": 2178,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/background-events.ts"
+    },
+    {
+      "path": "browser/src/source/bag.ts",
+      "sha256": "d70c869d89b08e3b32ef78e1a030838dbe6e1caa7297998526de52e939b17338",
+      "bytes": 1576,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/bag.ts"
+    },
+    {
+      "path": "browser/src/source/battle-accuracy.test.ts",
+      "sha256": "15710b6f6f92fb1fbb844275c375f9536e9b05b4b8c53bc2d4b0c68e0a3ba13c",
+      "bytes": 5901,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-accuracy.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-action-end.test.ts",
+      "sha256": "c23a1321f6611f585cf33df6a1256fd14c0e78604d2f2eea226a95ada52c14e8",
+      "bytes": 16916,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-action-end.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-binding-yawn-native.test.ts",
+      "sha256": "ca7a9bbe82dbe1438ce51477ebd5ff9f6c200b2e219ba66e260e277c0a0fe2ed",
+      "bytes": 10234,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-binding-yawn-native.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-binding-yawn.test.ts",
+      "sha256": "89bc30be2e428aaa8f7b8a3ffc1c7dd7872e8b5bf02c76086207da2ba60df7f3",
+      "bytes": 38926,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-binding-yawn.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-binding-yawn.ts",
+      "sha256": "73763f19808e0ce36329bb8d3229e5983c1e2b467282425c55b74fed3f8ad5d9",
+      "bytes": 4306,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-binding-yawn.ts"
+    },
+    {
+      "path": "browser/src/source/battle-camera.test.ts",
+      "sha256": "697c0a6d2326e85fd8b108ec76e7802eeb1304148c1a2b54855099eea7bbcfb0",
+      "bytes": 1894,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-camera.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-camera.ts",
+      "sha256": "8630f858a9906e4829100634447949747629a8bdf3f33da638452fc87d5a46bc",
+      "bytes": 1887,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-camera.ts"
+    },
+    {
+      "path": "browser/src/source/battle-escape-burn.test.ts",
+      "sha256": "709ea6a76c5f14ee717ac88685a5f5fdf5c849a2aa8a3b8beb8ca0011c38d3c9",
+      "bytes": 11215,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-escape-burn.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-evolution-types.ts",
+      "sha256": "07cfe8590f05445efdf0f7f06ec79297bfffe47e3883a0999531817811515dc6",
+      "bytes": 2111,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-evolution-types.ts"
+    },
+    {
+      "path": "browser/src/source/battle-experience-integration.test.ts",
+      "sha256": "ab3d1fa95b5b69916e7a60724cbfba2731edc6e63145d741d744c1b0c2631f82",
+      "bytes": 3358,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-experience-integration.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-experience-plan.test.ts",
+      "sha256": "01a3a592dd9f7b2bc2621e90f8d717dad7c9bb568c281ddd9640871c000106fc",
+      "bytes": 4936,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-experience-plan.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-experience.test.ts",
+      "sha256": "59c6314d8747cad5813c688b70d4c454572484fbe1e35d08b1cddb3363b0635e",
+      "bytes": 6632,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-experience.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-experience.ts",
+      "sha256": "7814ae132f8d968376d48b29955ace542d09b4cb88145b8bc1b2577054edc794",
+      "bytes": 6106,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-experience.ts"
+    },
+    {
+      "path": "browser/src/source/battle-layout.test.ts",
+      "sha256": "330f2888fc8788e3dee47d0b62415c14afbc2c29dd0aa27506a950a619d5f23c",
+      "bytes": 2420,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-layout.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-layout.ts",
+      "sha256": "327b54eb2414696dec1311519c51c8e6e9c00a5f9078b247c000385de4d92d1b",
+      "bytes": 2956,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-layout.ts"
+    },
+    {
+      "path": "browser/src/source/battle-low-kick.test.ts",
+      "sha256": "273f6238edba735d3d5cb29c9ec3fe3a4dad2b5a35e6b94b65e55bc4d5eabd4d",
+      "bytes": 18191,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-low-kick.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-math.ts",
+      "sha256": "0cc6a15c2b3b81f41c3ac05ce061280bcddeced8e52a4c9782d2f07f9339fb5b",
+      "bytes": 10184,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-math.ts"
+    },
+    {
+      "path": "browser/src/source/battle-music.test.ts",
+      "sha256": "03fb1aa3f661d333085a93d81aabc66b10f8a3e9c29b684b6f37adca5cc92fa8",
+      "bytes": 4821,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-music.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-music.ts",
+      "sha256": "26fb99ac53207e50fb18af224d1fd6298423525f502b5528e6852246a6619cc0",
+      "bytes": 2748,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-music.ts"
+    },
+    {
+      "path": "browser/src/source/battle-party.test.ts",
+      "sha256": "91bf74f1225f267925cbb1a070be60305166f90c1552438bb54f1c21d564eb11",
+      "bytes": 4516,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-party.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-party.ts",
+      "sha256": "e283c422284a434f3e0fcc563d89ec0771220dcf5ddb79d8434c690a4c498775",
+      "bytes": 476,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-party.ts"
+    },
+    {
+      "path": "browser/src/source/battle-replacement.test.ts",
+      "sha256": "f87e0dfc1ebd169324a451c108ce2ce8f7f7de51cf460d243df2b08a322453f8",
+      "bytes": 21502,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-replacement.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-replacement.ts",
+      "sha256": "10aba7042db71a4f97c70b358d90abb20f70db05a40f198afe480e2e8deb16c1",
+      "bytes": 9620,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-replacement.ts"
+    },
+    {
+      "path": "browser/src/source/battle-sports.test.ts",
+      "sha256": "ad0d147c4d8013adcaa999d691266b5c6149ad19470c47b9c6d31bd3d9e4b3c7",
+      "bytes": 16100,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-sports.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-stage.ts",
+      "sha256": "52cc7835ec0ca1341ef9f7c2ef30a28a96dcb56e43b532338d7e7088d2ba9f71",
+      "bytes": 13416,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-stage.ts"
+    },
+    {
+      "path": "browser/src/source/battle-turn-phase.test.ts",
+      "sha256": "896d78af0c0c3f61e076f8e6c191f03494a4c7c70c2ab3fdc28cca5da2db3272",
+      "bytes": 5857,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-turn-phase.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-view.ts",
+      "sha256": "56bbd6e95f04056c58cd18948c18c31aa0baf4fabe55565acbb015904a2a3aa8",
+      "bytes": 471,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-view.ts"
+    },
+    {
+      "path": "browser/src/source/battle-volatiles.test.ts",
+      "sha256": "fe07f4ffa44fb7644ffe2170fb1d2c68feec616ddea4f24ed2a01f572e9c605a",
+      "bytes": 16562,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-volatiles.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-volatiles.ts",
+      "sha256": "8fb66a10dc90d09efe1ccda636fe589344218cd531631d3e3a08712026984102",
+      "bytes": 8371,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-volatiles.ts"
+    },
+    {
+      "path": "browser/src/source/battle-weight.test.ts",
+      "sha256": "9132660b14ac610bd26224a0b1a037a25a0d3e81f3ac11ed594e4c3797baa830",
+      "bytes": 13299,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-weight.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle-weight.ts",
+      "sha256": "85040d93469f6dc25c21d1b679c314e7cfe5a4c06aefaa78c7b920eef4af2ba1",
+      "bytes": 4039,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle-weight.ts"
+    },
+    {
+      "path": "browser/src/source/battle.test.ts",
+      "sha256": "86771c40739ec54e715d73c65267b7a1de70a6c3790e0c5ed9a55dc89402e590",
+      "bytes": 3769,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle.test.ts"
+    },
+    {
+      "path": "browser/src/source/battle.ts",
+      "sha256": "504b2f1809f9ecaa6b80b8e25a728be8391053a0beb391253ff2f7ff7796a107",
+      "bytes": 68842,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/battle.ts"
+    },
+    {
+      "path": "browser/src/source/building-exterior.test.ts",
+      "sha256": "15134b65f77399a0a55891502a171d2e85326100ca6dc5ad6a82bfee09aae7ed",
+      "bytes": 9016,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/building-exterior.test.ts"
+    },
+    {
+      "path": "browser/src/source/building-exterior.ts",
+      "sha256": "53bdd6734b108e2ac1f21a5e2e9718cc979a06963ed2e06416a49ae84e8eb024",
+      "bytes": 4965,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/building-exterior.ts"
+    },
+    {
+      "path": "browser/src/source/building-footing.test.ts",
+      "sha256": "528a2956a7268098521718c3a93092f9a263835414efe08a1a892555f2f32952",
+      "bytes": 4837,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/building-footing.test.ts"
+    },
+    {
+      "path": "browser/src/source/building-footing.ts",
+      "sha256": "46082354d6f7ab248a1688b4b1e3b358fcc111e8b84aa073e1dce9b12eff8d90",
+      "bytes": 3876,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/building-footing.ts"
+    },
+    {
+      "path": "browser/src/source/building-gallery.ts",
+      "sha256": "df7898ce940914b5e8b584331fdef9bf1c942f4a661bfc94973b19a01eb352ed",
+      "bytes": 20892,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/building-gallery.ts"
+    },
+    {
+      "path": "browser/src/source/burned-tower-shells.test.ts",
+      "sha256": "a3107d6ea9d8f86d888df8596b73743526fa821d2448cc054d5f0ba2965a2425",
+      "bytes": 12232,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/burned-tower-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/burned-tower-shells.ts",
+      "sha256": "01135aae05bf146d609e34b908311bc85f04d9dd834278233b6bab31351d63e0",
+      "bytes": 6288,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/burned-tower-shells.ts"
+    },
+    {
+      "path": "browser/src/source/camera-input.test.ts",
+      "sha256": "cfb49a71cf084c7e03b01e17b01198c94e95eb4f730c832dd21185f8161811c9",
+      "bytes": 9814,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/camera-input.test.ts"
+    },
+    {
+      "path": "browser/src/source/camera-input.ts",
+      "sha256": "8d1489a3a618c8a71aa1ffad891fa0e24f7e94915203f15e89ada98dccd47e7a",
+      "bytes": 3935,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/camera-input.ts"
+    },
+    {
+      "path": "browser/src/source/camera-transition.test.ts",
+      "sha256": "f074b73324937f6c3afe21b8059b69e64064892222d15bf57afcaf9d3d53e0fd",
+      "bytes": 3936,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/camera-transition.test.ts"
+    },
+    {
+      "path": "browser/src/source/camera.test.ts",
+      "sha256": "6d72a427c6cffafb43593c3fccdf59e6ab4084a683ca31b196cae25a98d10408",
+      "bytes": 4367,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/camera.test.ts"
+    },
+    {
+      "path": "browser/src/source/camera.ts",
+      "sha256": "3b2f47cc7d2dbc4ac3c67ce78fa7e7aeb5d72772362a308ae4b12fa3d18de84e",
+      "bytes": 1552,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/camera.ts"
+    },
+    {
+      "path": "browser/src/source/canopy-occlusion.test.ts",
+      "sha256": "e6767b6bbd0186c5f5838b73dc5ebd99646c1728bebb0a8c77d5fa41ad41acc5",
+      "bytes": 2765,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/canopy-occlusion.test.ts"
+    },
+    {
+      "path": "browser/src/source/canopy-occlusion.ts",
+      "sha256": "2aef37c7e92f5e5c417d6941ca1eacde12fc5a2450330720abdbf823ec78b25b",
+      "bytes": 3362,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/canopy-occlusion.ts"
+    },
+    {
+      "path": "browser/src/source/civic-building-shells.test.ts",
+      "sha256": "8c69301b50092a4d275bb8243faa12f21ef277de9145dd560496dbaa90408d9c",
+      "bytes": 19885,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/civic-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/civic-building-shells.ts",
+      "sha256": "1d7d40acac002d4894e864fbafdcc544d7d084a7e94f6fa5b1d146c5ffee3c8d",
+      "bytes": 21781,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/civic-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/coordinate-triggers.test.ts",
+      "sha256": "862e17e58039fe8389d96d61e433a63e3e00fc752f023de7706203a0678b567d",
+      "bytes": 10181,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/coordinate-triggers.test.ts"
+    },
+    {
+      "path": "browser/src/source/coordinate-triggers.ts",
+      "sha256": "4ba625243c63fc2d2ac4def024f4070b44da43d9aeb73354345c39d4f6fab04a",
+      "bytes": 1389,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/coordinate-triggers.ts"
+    },
+    {
+      "path": "browser/src/source/cut-field-effect.test.ts",
+      "sha256": "f18bf9036873e13b330e9eb6b1a6ab585040be8ff4dd8dbe4df75423bcc507ca",
+      "bytes": 27039,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/cut-field-effect.test.ts"
+    },
+    {
+      "path": "browser/src/source/cut-field-effect.ts",
+      "sha256": "3f154a2070791241d57aefc57138a6cd301f4905c4794772d6e89c837abed31c",
+      "bytes": 24823,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/cut-field-effect.ts"
+    },
+    {
+      "path": "browser/src/source/cut-field-host.test.ts",
+      "sha256": "08452161827ebf117be3191767d5b06c96dfc6ceac3b04aa5ee9f20038fc5e62",
+      "bytes": 17911,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/cut-field-host.test.ts"
+    },
+    {
+      "path": "browser/src/source/cut-field-host.ts",
+      "sha256": "271f1c1f0ea06a09ff6716a77d5c76647f3341f712f6262bf91645c08c76c0db",
+      "bytes": 12023,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/cut-field-host.ts"
+    },
+    {
+      "path": "browser/src/source/cut-script.test.ts",
+      "sha256": "a78c5b165ebe2a95cf44ed150d7028b473e2825a536e86b8c6c3cf2cb711efa4",
+      "bytes": 21015,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/cut-script.test.ts"
+    },
+    {
+      "path": "browser/src/source/data.ts",
+      "sha256": "28bc41b2f0f63478863ad6d54ebb62b2cbdd3f003a731e21097e28dff9dc7174",
+      "bytes": 5051,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/data.ts"
+    },
+    {
+      "path": "browser/src/source/decorative-building-shells.test.ts",
+      "sha256": "d6b88bc28258fd3339e000d51b8189510da9abfb380f0c822bf7815527e571c9",
+      "bytes": 28637,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/decorative-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/decorative-building-shells.ts",
+      "sha256": "54e2d8601e138c7064ce9613b25d1317e2a7aab7c39bb25460fdd261f8cd3d72",
+      "bytes": 30738,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/decorative-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/early-battle-effects.test.ts",
+      "sha256": "d26f35fb6e50814110037ec0f5c5d4a1b691d4696abfe543f6fba59803e90e6e",
+      "bytes": 21043,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/early-battle-effects.test.ts"
+    },
+    {
+      "path": "browser/src/source/egg-consumers.test.ts",
+      "sha256": "5a14ee6c4fb630ae121c98a7b041a3e0826a58300a14a0ffbc89581bfb67ff7e",
+      "bytes": 5293,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-consumers.test.ts"
+    },
+    {
+      "path": "browser/src/source/egg-field-main.test.ts",
+      "sha256": "d662d3d555e5c4287e7a5ca5ced179187c7182b1598f229f5903a0457ff058ea",
+      "bytes": 49828,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-field-main.test.ts"
+    },
+    {
+      "path": "browser/src/source/egg-hatch-integration.test.ts",
+      "sha256": "fe71df2aa9437af7ee2686b2474fb5486b9db4fa801d002772cee1376bdf71ab",
+      "bytes": 8942,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-hatch-integration.test.ts"
+    },
+    {
+      "path": "browser/src/source/egg-hatch-phone-trigger.test.ts",
+      "sha256": "2873375caba0f01d0ea0405f912a0647ced9f23cf0f0fb86128ededa7fa203c1",
+      "bytes": 8194,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-hatch-phone-trigger.test.ts"
+    },
+    {
+      "path": "browser/src/source/egg-hatch-presentation.ts",
+      "sha256": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f",
+      "bytes": 3757,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-hatch-presentation.ts"
+    },
+    {
+      "path": "browser/src/source/egg-hatch-view.test.ts",
+      "sha256": "bf209f248deb7f2216cbbcffcdfdd7f902713212cfd110f15dba42d855976693",
+      "bytes": 13566,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-hatch-view.test.ts"
+    },
+    {
+      "path": "browser/src/source/egg-hatch-view.ts",
+      "sha256": "ba11e722a9d56af1974cfe21111331bd59df0ed52aaa6c5d179010b6afa7a60d",
+      "bytes": 15031,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-hatch-view.ts"
+    },
+    {
+      "path": "browser/src/source/egg-hatching.test.ts",
+      "sha256": "bdec38d580f4dfdf691387e680322cacb024a176dea5757471b8098edc8b1977",
+      "bytes": 21807,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-hatching.test.ts"
+    },
+    {
+      "path": "browser/src/source/egg-hatching.ts",
+      "sha256": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23",
+      "bytes": 14190,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/egg-hatching.ts"
+    },
+    {
+      "path": "browser/src/source/eggs.test.ts",
+      "sha256": "915b9c233d70dfd81ea8ee257614f0584d51713d28f2c75812d589d2bfb040f5",
+      "bytes": 9756,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/eggs.test.ts"
+    },
+    {
+      "path": "browser/src/source/eggs.ts",
+      "sha256": "8adb4f18df6819d77535bc8e9662da18b70c392558e99147383410f0cdd48a96",
+      "bytes": 4682,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/eggs.ts"
+    },
+    {
+      "path": "browser/src/source/encounter.test.ts",
+      "sha256": "3a6b45a884d6173cc29c580e2e03d2163364a56e311f5a460f6977dbc971500a",
+      "bytes": 1603,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/encounter.test.ts"
+    },
+    {
+      "path": "browser/src/source/encounter.ts",
+      "sha256": "0f3a4040fb000935ec40b7da231e10e6e0a5a03d84d775e318ec79318ab61ab0",
+      "bytes": 1214,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/encounter.ts"
+    },
+    {
+      "path": "browser/src/source/evolution-audio-binding.test.ts",
+      "sha256": "6eb120e59b224571262a0fa5652340f81c6c7b15d5597de2e3ba1653d80f35f1",
+      "bytes": 3585,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/evolution-audio-binding.test.ts"
+    },
+    {
+      "path": "browser/src/source/evolution-audio-data.ts",
+      "sha256": "4917d4e620d8c304b796cd513731a8176793396644d78e3fc1157bb60f3458b2",
+      "bytes": 191,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/evolution-audio-data.ts"
+    },
+    {
+      "path": "browser/src/source/evolution-audio.test.ts",
+      "sha256": "ce4eb1207ff2137031ea86673f18b3645ca0932a8ebfc97064fdd2446a4a6418",
+      "bytes": 34786,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/evolution-audio.test.ts"
+    },
+    {
+      "path": "browser/src/source/evolution-audio.ts",
+      "sha256": "e4d2d58314a76d5ffb264414c5a0562dca58c60a7148b352f55f249848a5d5cd",
+      "bytes": 17532,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/evolution-audio.ts"
+    },
+    {
+      "path": "browser/src/source/facility-building-shells.test.ts",
+      "sha256": "f952c5276da526af51cf2d075c3f285264cdf9180d1774b9c7a10b6febeddf8b",
+      "bytes": 12831,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/facility-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/facility-building-shells.ts",
+      "sha256": "064b80764d2952eedc5d41a54157c4f26c0edee3fa879ba072e2e0835a8a8b06",
+      "bytes": 12829,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/facility-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/field-bag-actions.test.ts",
+      "sha256": "e0cdb4b3d23bdfbf4472251e394e717982d31e5de2519f838694a305a11c7d7b",
+      "bytes": 20197,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-bag-actions.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-bag-actions.ts",
+      "sha256": "4dba2a7bee053eba24c6917db471c43867d6399ae000b358951c0d36a2c89969",
+      "bytes": 10389,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-bag-actions.ts"
+    },
+    {
+      "path": "browser/src/source/field-entry-main.test.ts",
+      "sha256": "29b183a501396c327b211c73cbee7766deb0885612f0ad7a315ad0f7c741cd48",
+      "bytes": 11980,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-entry-main.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-input.test.ts",
+      "sha256": "b766aad8df7e2df2e3e81aa150dd07223bf12f37362b722ab8155a867682ad5f",
+      "bytes": 2391,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-input.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-input.ts",
+      "sha256": "7ca18f1ed16bf7232de0baf9b42cec4aa0472031350ae83c60fa2a294f08b8a8",
+      "bytes": 1355,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-input.ts"
+    },
+    {
+      "path": "browser/src/source/field-medicine.test.ts",
+      "sha256": "3bbcf7139732f315fc4a63b9f94b739caf23df86b5438981b92ebb050c22d61c",
+      "bytes": 14982,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-medicine.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-medicine.ts",
+      "sha256": "87aafe35e23fe868b8f2d4b047339650963f6495aeed29a29f117524cc242c0f",
+      "bytes": 8856,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-medicine.ts"
+    },
+    {
+      "path": "browser/src/source/field-moves.test.ts",
+      "sha256": "2ba4e8c57a041d39acd6af5525d5b32116a46df9f2f6dd5f503b3bfcda0603c9",
+      "bytes": 13018,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-moves.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-moves.ts",
+      "sha256": "724dbe21c4beffdd9a77ee2c3df357ffbf1e894d433192d3318a4c9f2dbfa5c6",
+      "bytes": 11092,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-moves.ts"
+    },
+    {
+      "path": "browser/src/source/field-music-assets.test.ts",
+      "sha256": "62a5140ecad37369a520bdda869d9a552ad8ceb26860458a1b62cae85cfc71ba",
+      "bytes": 9705,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-music-assets.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-music.test.ts",
+      "sha256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "bytes": 55086,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-music.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-music.ts",
+      "sha256": "992ac65d602d5572f5692eedadd77509efe25466b0f12a3976b0320b4c0132dd",
+      "bytes": 31650,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-music.ts"
+    },
+    {
+      "path": "browser/src/source/field-services.ts",
+      "sha256": "b462b4865d52e71504d85b03fbb7fedb97703b2b98887af83ef7b420b5ce17c6",
+      "bytes": 687,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-services.ts"
+    },
+    {
+      "path": "browser/src/source/field-sprite-scale.ts",
+      "sha256": "58fc958cf514a16808b3515132af4ceb8fc71f3e115e31c8d6b7afa7b95429cb",
+      "bytes": 486,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-sprite-scale.ts"
+    },
+    {
+      "path": "browser/src/source/field-transitions.test.ts",
+      "sha256": "41479b31f575d382f7b882db53479efca9e42078c2f2f172b528edd0bc8aac3a",
+      "bytes": 1987,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-transitions.test.ts"
+    },
+    {
+      "path": "browser/src/source/field-transitions.ts",
+      "sha256": "1320ca3214ad3c1df7ff67ad7fa9a3e79f0ee6ab3f49d96157a9fa57f123eeab",
+      "bytes": 1525,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/field-transitions.ts"
+    },
+    {
+      "path": "browser/src/source/first-badge.test.ts",
+      "sha256": "1be8015293320bc19c1aedeab5fce41af39397951b580d13e4146749822e3f94",
+      "bytes": 11002,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/first-badge.test.ts"
+    },
+    {
+      "path": "browser/src/source/fixed-damage-battle.test.ts",
+      "sha256": "d6db89779a206720e43badc5aa2b6256171df19f04e4c3b3483032d59459b5d9",
+      "bytes": 6733,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/fixed-damage-battle.test.ts"
+    },
+    {
+      "path": "browser/src/source/fixtures/mystery-gift-legacy-v2.json",
+      "sha256": "584f22e8c3adcec6135d28bb7be2f184226f0276631c88adfc79978cee472ce1",
+      "bytes": 5223,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/fixtures/mystery-gift-legacy-v2.json"
+    },
+    {
+      "path": "browser/src/source/foundations.test.ts",
+      "sha256": "c0fc1e760fd9e6f191e572b86180343e8a8707a14643e775e0d1c08c9161f7e2",
+      "bytes": 1072,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/foundations.test.ts"
+    },
+    {
+      "path": "browser/src/source/foundations.ts",
+      "sha256": "6505e58b1f31a7047f84407c13fd1a7f940e7aeeaa2a549599627fa2ff3c35f1",
+      "bytes": 1475,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/foundations.ts"
+    },
+    {
+      "path": "browser/src/source/frontier-building-shells.test.ts",
+      "sha256": "24a1572a24fa270ee696f52132187fffa0e19ab0d117b99e4656bd8b7725e640",
+      "bytes": 16990,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/frontier-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/frontier-building-shells.ts",
+      "sha256": "97e6d0965a01a614204fc7bd064f2bcbcd183939e7c214e4cf88e917f7b41267",
+      "bytes": 18800,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/frontier-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/furniture-collision.test.ts",
+      "sha256": "0e8605622d3e2ca0df205aa3cd9fbd74e7a564d40ac61889773abe7b1cce158d",
+      "bytes": 4175,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/furniture-collision.test.ts"
+    },
+    {
+      "path": "browser/src/source/furniture-collision.ts",
+      "sha256": "229e75c36ac495dff147782fb39e38bac5e4975e866c3adf03865af06aee7ef4",
+      "bytes": 4245,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/furniture-collision.ts"
+    },
+    {
+      "path": "browser/src/source/furniture.test.ts",
+      "sha256": "24e59c3e9647e33c72bc7bf71625197f7a02446c82f35a9cc5ac4f99e4c409cc",
+      "bytes": 2282,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/furniture.test.ts"
+    },
+    {
+      "path": "browser/src/source/furniture.ts",
+      "sha256": "baf4b364137fe2d7ac203a32b2fdc68f8cf3c8c9c4208b399ef71e9374d17b2c",
+      "bytes": 7650,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/furniture.ts"
+    },
+    {
+      "path": "browser/src/source/game-stat-rules.ts",
+      "sha256": "81879799f94c62357ff096c2378a1759ed9f0e892d3d3956b0f702cbf718b581",
+      "bytes": 1389,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/game-stat-rules.ts"
+    },
+    {
+      "path": "browser/src/source/game-stats.ts",
+      "sha256": "d25f75f482681605ca728ee8e09bd31a42da6124965763cb172bca939aced477",
+      "bytes": 1552,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/game-stats.ts"
+    },
+    {
+      "path": "browser/src/source/gate-building-shells.test.ts",
+      "sha256": "263b973ab8be10eeff9440f40575068c78dc3e99efa02804ea20869c86429032",
+      "bytes": 21183,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gate-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/gate-building-shells.ts",
+      "sha256": "df6cdbaaf92d5ba56867a1ea9bef4a29ce4fb3c3f898ddab4da2672afc8474f2",
+      "bytes": 14369,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gate-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/gender-presentation.test.ts",
+      "sha256": "03b943c4aa6d4e7e17f7734200c6fc8b4cd0c0d895b648ecd4762c7322535520",
+      "bytes": 5148,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gender-presentation.test.ts"
+    },
+    {
+      "path": "browser/src/source/gender.test.ts",
+      "sha256": "b1ae47cc98cef4b25b270c0f113db9030dc66f3fd726233d554ee01be77d2a1d",
+      "bytes": 3632,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gender.test.ts"
+    },
+    {
+      "path": "browser/src/source/gender.ts",
+      "sha256": "bccb81abf78101cc8bd4cae101350f480511ec9912c28a3d0b6e0d6ec150faf6",
+      "bytes": 909,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gender.ts"
+    },
+    {
+      "path": "browser/src/source/grass.test.ts",
+      "sha256": "e6522d5459552e409fc20bf8451e91fbf455217790dad198e341b591395d1f3b",
+      "bytes": 1135,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/grass.test.ts"
+    },
+    {
+      "path": "browser/src/source/grass.ts",
+      "sha256": "f1d46d8592ae9f95afe0b6ca139c09597b17cff71a3b1f565565057a48aba1d6",
+      "bytes": 3521,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/grass.ts"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-plan.test.ts",
+      "sha256": "f9e5623ff9443ca0c1d8e89c0524fb0cbe3a8ac0e557bf0e044682e2287a2526",
+      "bytes": 11526,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-azalea-plan.test.ts"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-plan.ts",
+      "sha256": "35f411f42dc34c22b07f14a14d5cf715a2274d3c4b0758ea65d44e38d4559730",
+      "bytes": 7542,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-azalea-plan.ts"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-world.test.ts",
+      "sha256": "61a7b05fffa51c350567dff23c1960623ae364084bd9e7ff088d860951d8bc25",
+      "bytes": 24007,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-azalea-world.test.ts"
+    },
+    {
+      "path": "browser/src/source/gym-azalea-world.ts",
+      "sha256": "f102ac4d8b1282bae81d699c2bf9005172c123155325b4e03b20958d1c309d46",
+      "bytes": 25218,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-azalea-world.ts"
+    },
+    {
+      "path": "browser/src/source/gym-building-shells.test.ts",
+      "sha256": "5554901ff36a5fef0af1e07688f042d695206b26fe0714eecfaaf7784a9a01a3",
+      "bytes": 13910,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/gym-building-shells.ts",
+      "sha256": "6e01f1b5d9ca12f742ed65daa13050b2deb057973309613e70f1c64a8cdaf29f",
+      "bytes": 11742,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/gym-violet-integration.test.ts",
+      "sha256": "d4229157055e114e380ea18c509c3eeaeb40c873a2312f38cea33a2a533aca04",
+      "bytes": 10084,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-violet-integration.test.ts"
+    },
+    {
+      "path": "browser/src/source/gym-violet.test.ts",
+      "sha256": "38233b58d840fe50be64b315c1122b7c5dc46d4e71faba68528c61d7e7af9532",
+      "bytes": 20869,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-violet.test.ts"
+    },
+    {
+      "path": "browser/src/source/gym-violet.ts",
+      "sha256": "9cc7ddacbafe03144a1c9b53b81e02cb617e9664e5adfaf49181c865ac86e055",
+      "bytes": 7324,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/gym-violet.ts"
+    },
+    {
+      "path": "browser/src/source/hatch-host-audio.test.ts",
+      "sha256": "c8d942d92bef55d92b750d52c0ad4e2ee98a0541185843c4796951bea96233e0",
+      "bytes": 46413,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/hatch-host-audio.test.ts"
+    },
+    {
+      "path": "browser/src/source/hatch-host-audio.ts",
+      "sha256": "167d7165d2d06bc0e0a58e660bcfcf1e3b1053276e5683283246ca17c66fa396",
+      "bytes": 21530,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/hatch-host-audio.ts"
+    },
+    {
+      "path": "browser/src/source/hatch-music.test.ts",
+      "sha256": "53577f4c20e7c974bb695c890c5dabc7f4943a29bac3dbbdbb99bf80f0781631",
+      "bytes": 17198,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/hatch-music.test.ts"
+    },
+    {
+      "path": "browser/src/source/hatch-music.ts",
+      "sha256": "3d8d712966b43b0d8f3c786a49cf226654368eec0e3dc06c9c65563af9ea6860",
+      "bytes": 13596,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/hatch-music.ts"
+    },
+    {
+      "path": "browser/src/source/house-building-shells.test.ts",
+      "sha256": "50ae7624cef0f61192136674d74657ebf97a8ff5ef1577a57bcce68ff73e2e4f",
+      "bytes": 36835,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/house-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/house-building-shells.ts",
+      "sha256": "4a5734efd044b9d6be5628dd75ab07f127c10263f26a7b124b66d03d2a953367",
+      "bytes": 47039,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/house-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/industrial-building-shells.test.ts",
+      "sha256": "3b0c19d0da694460073037722a1f80dc2f61f89c9d6e0573971f662819ee2b6a",
+      "bytes": 17759,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/industrial-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/industrial-building-shells.ts",
+      "sha256": "5e1ce530bcf05ac762c70f65d378de605c04e2a2535b1eb24ec69396844d44c1",
+      "bytes": 13872,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/industrial-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/interface-panels.test.ts",
+      "sha256": "6c5b23b48b4b167cc9157bdfaf19c8ade331dcef7e9e464b226d46bf02309678",
+      "bytes": 22732,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/interface-panels.test.ts"
+    },
+    {
+      "path": "browser/src/source/interface-panels.ts",
+      "sha256": "0e59715b39942960e191d791bde714a6c674fbee7e5086bf3ee1aa5ab6ee7c94",
+      "bytes": 15052,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/interface-panels.ts"
+    },
+    {
+      "path": "browser/src/source/interface-preferences.ts",
+      "sha256": "fbe1e2adf42cffc3c770b829cb33700a9bbcae860c01f5a03c0e01597fc90114",
+      "bytes": 1656,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/interface-preferences.ts"
+    },
+    {
+      "path": "browser/src/source/item-pickup.test.ts",
+      "sha256": "b0e2f0b2c0262daf8ec7c4d0de3e4140328b3870714326193fa580398a1056a1",
+      "bytes": 19381,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/item-pickup.test.ts"
+    },
+    {
+      "path": "browser/src/source/item-pickup.ts",
+      "sha256": "9a0eddb71f99fd80f5608ce63e14cbfaf05e06a0e611712e3d741a9cdd2bf08b",
+      "bytes": 1862,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/item-pickup.ts"
+    },
+    {
+      "path": "browser/src/source/landmark-annex-shells.test.ts",
+      "sha256": "445c107147d8be45366444ca6da840b1b37a06887cfb38364b2cc907941a5106",
+      "bytes": 11387,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/landmark-annex-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/landmark-annex-shells.ts",
+      "sha256": "d6c79086fc843dd734c5d70975313028807ae5773002dfda1ac004b4763d3a81",
+      "bytes": 10068,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/landmark-annex-shells.ts"
+    },
+    {
+      "path": "browser/src/source/landmark-building-shells.test.ts",
+      "sha256": "25772ad4ffe3794333a152f3401947971083c8f77e487afea45018e0881cb686",
+      "bytes": 16450,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/landmark-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/landmark-building-shells.ts",
+      "sha256": "2a8408983817938faf01e9331bf75708f578e849802bdff6cba2861455cd5e0d",
+      "bytes": 19649,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/landmark-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/ledge-corner-art.test.ts",
+      "sha256": "1809e9d5f40af9de939deff9bbc35440bfc8d5e5f00d044d0260abb04785bcd3",
+      "bytes": 2491,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ledge-corner-art.test.ts"
+    },
+    {
+      "path": "browser/src/source/ledge-corners.test.ts",
+      "sha256": "c055bf71afa4c0992e68a7249056a5218b59c1c47352b7b5f30ca097ce910759",
+      "bytes": 11350,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ledge-corners.test.ts"
+    },
+    {
+      "path": "browser/src/source/ledge-route-transitions.test.ts",
+      "sha256": "c0e7a0fe5d4049dad66474eabab4fd28998ca46ec570a5894c1633c9d8827c19",
+      "bytes": 5739,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ledge-route-transitions.test.ts"
+    },
+    {
+      "path": "browser/src/source/ledges.test.ts",
+      "sha256": "b5bd7def248fa9deb0d3cdd69afda064d3978833d6202dbce5a47f939645b19a",
+      "bytes": 4423,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ledges.test.ts"
+    },
+    {
+      "path": "browser/src/source/ledges.ts",
+      "sha256": "126b80dfa767b2e7b20e0d14b731a63b374ad661a67cd8a8ebaf94dc08d94966",
+      "bytes": 3187,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ledges.ts"
+    },
+    {
+      "path": "browser/src/source/main-battle-keyboard.test.ts",
+      "sha256": "f1b83757b6c107e78d46d34f569bb0865ec859eb3cdb4e3bd1e70e4355854e12",
+      "bytes": 7710,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/main-battle-keyboard.test.ts"
+    },
+    {
+      "path": "browser/src/source/main-interface.test.ts",
+      "sha256": "f559cfc8af9a236b23bf35b6637944f1e81184a2780b19e734a26a2f9b1e73dc",
+      "bytes": 30658,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/main-interface.test.ts"
+    },
+    {
+      "path": "browser/src/source/main-item-pickup.test.ts",
+      "sha256": "111f0f4ac727f7a9204809c5249aff25b759ac5d0822d42726dbb2a27209690e",
+      "bytes": 19598,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/main-item-pickup.test.ts"
+    },
+    {
+      "path": "browser/src/source/main-music.test.ts",
+      "sha256": "cde4dea06212c6d97f2411be476c3855d64e111d34c98e5e9e5a82497b48d97e",
+      "bytes": 41001,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/main-music.test.ts"
+    },
+    {
+      "path": "browser/src/source/main-native-interface.test.ts",
+      "sha256": "04818b138874fd155d7038bdef8b4a7da60825231a6dff2cb5d59f2b74742338",
+      "bytes": 63960,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/main-native-interface.test.ts"
+    },
+    {
+      "path": "browser/src/source/main.ts",
+      "sha256": "ce3a64584de8f572222087d9f2839f4a6c5df573a36bd2ec269c54145ee2b538",
+      "bytes": 65947,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/main.ts"
+    },
+    {
+      "path": "browser/src/source/misc-building-shells.test.ts",
+      "sha256": "f01555c82a4bc0e98d43912c0902ab5ead05737a57f1b022ef9258fec9a3f7d6",
+      "bytes": 21608,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/misc-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/misc-building-shells.ts",
+      "sha256": "46387f5cdfabb626c8120e8e3e3d6ddb2817dd64d9ff7c39c21551fb4f1700c6",
+      "bytes": 19020,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/misc-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/mom-gift-host.test.ts",
+      "sha256": "b25010e7648a2535687719d5503b44c482b0cf18bbf2b832beacca6d7cf5ccb9",
+      "bytes": 20656,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/mom-gift-host.test.ts"
+    },
+    {
+      "path": "browser/src/source/mom-gifts.ts",
+      "sha256": "118cd5d368b30465c05ee6b3fb6029fe7f05ea6f6d18ab534b577af116550b48",
+      "bytes": 1000,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/mom-gifts.ts"
+    },
+    {
+      "path": "browser/src/source/mom-savings.test.ts",
+      "sha256": "48eeb30a12082d482cd5c64b826b7649801e423e639964d4543a57d433e8e50e",
+      "bytes": 17242,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/mom-savings.test.ts"
+    },
+    {
+      "path": "browser/src/source/mom-savings.ts",
+      "sha256": "22d0c6b133a6446ef55d5a5cad3e2102aa48c796e25410a1c5a06da67fdeb39a",
+      "bytes": 6255,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/mom-savings.ts"
+    },
+    {
+      "path": "browser/src/source/movement.ts",
+      "sha256": "2842bc55427aa209c30371570b412ddf06f11136a3a49e1e69e62e92b20387fb",
+      "bytes": 1639,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/movement.ts"
+    },
+    {
+      "path": "browser/src/source/mystery-gifts.test.ts",
+      "sha256": "58567c401f509444a70cdebe478fae3fef5c7abe68bff531dfedd188ad5d6447",
+      "bytes": 16690,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/mystery-gifts.test.ts"
+    },
+    {
+      "path": "browser/src/source/mystery-gifts.ts",
+      "sha256": "7f08092031440aea353d43bba36351b5e545beff1d2a064a4f58073e793d97e4",
+      "bytes": 2673,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/mystery-gifts.ts"
+    },
+    {
+      "path": "browser/src/source/name-rater-game-building-shells.test.ts",
+      "sha256": "2d35320914fa850620c451672b70f325e4aca8ad7c42d9656c87d651e175f354",
+      "bytes": 10039,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/name-rater-game-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/name-rater-game-building-shells.ts",
+      "sha256": "25ae9f0176d649d8fb5e5323d9f345714fbb2ea78e3445ae32c30790f673cfa9",
+      "bytes": 10329,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/name-rater-game-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/native-field-clock.test.ts",
+      "sha256": "4796b430c4fc71f4568f19b624e7b60a6368983304061549481b92090d091b6e",
+      "bytes": 7443,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-field-clock.test.ts"
+    },
+    {
+      "path": "browser/src/source/native-field-clock.ts",
+      "sha256": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
+      "bytes": 11555,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-field-clock.ts"
+    },
+    {
+      "path": "browser/src/source/native-rng.ts",
+      "sha256": "666c7e96a0fa24a6aacfe8df490d3a11bbc025b8373ef9ec755cfe38f2ead34e",
+      "bytes": 686,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-rng.ts"
+    },
+    {
+      "path": "browser/src/source/native-route-traversal.test.ts",
+      "sha256": "9ec5d40c00143651a59701b2b78985a0a16dc56451b9282001e04c13bb8b0224",
+      "bytes": 9565,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-route-traversal.test.ts"
+    },
+    {
+      "path": "browser/src/source/native-sound-phase.test.ts",
+      "sha256": "fa0f4df7ec62c0eed9dd25e43c70d9283752660437c2a3683185c47da757f80a",
+      "bytes": 10479,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-sound-phase.test.ts"
+    },
+    {
+      "path": "browser/src/source/native-terrain-joints-source.test.ts",
+      "sha256": "03efb5dbfacf390810081c27dd48b53d065d220df179ae6cb747e33259635b52",
+      "bytes": 17882,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-terrain-joints-source.test.ts"
+    },
+    {
+      "path": "browser/src/source/native-terrain-joints.test.ts",
+      "sha256": "83aac38d24d3d3434a7723f171620ee9bd9e2524174bac70959fae41d769d2a9",
+      "bytes": 7878,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-terrain-joints.test.ts"
+    },
+    {
+      "path": "browser/src/source/native-terrain-joints.ts",
+      "sha256": "249440d6763c0b4e745defc1da85bd39ef66ab150b12130634fc13c045dcded6",
+      "bytes": 21169,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-terrain-joints.ts"
+    },
+    {
+      "path": "browser/src/source/native-terrain-world.test.ts",
+      "sha256": "e9cde914eed0b563c7f8962d2b4f2482ccedb6c6b151b4572169718334a98b9f",
+      "bytes": 12993,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-terrain-world.test.ts"
+    },
+    {
+      "path": "browser/src/source/native-upward-relief-joints.test.ts",
+      "sha256": "cdda48740ef8c5c58adbab6fac9eaf1c37a061e665c4ab2f57dfef7143290dcd",
+      "bytes": 10286,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/native-upward-relief-joints.test.ts"
+    },
+    {
+      "path": "browser/src/source/objects.test.ts",
+      "sha256": "fc7b89bc566b1764c1e4a90b6c1fa26bd8db29c944d36e2a78fbaf7c081766f7",
+      "bytes": 3822,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/objects.test.ts"
+    },
+    {
+      "path": "browser/src/source/objects.ts",
+      "sha256": "268e80f013e5d2869c987cb3081e848ebbaf9dcb48f2f81e827b2f08cf50baaa",
+      "bytes": 3263,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/objects.ts"
+    },
+    {
+      "path": "browser/src/source/opening-art.test.ts",
+      "sha256": "10c703baca7a6146387ca59cf80123525a1c6ca3b29e8e32706a3f04a675375f",
+      "bytes": 3120,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-art.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-art.ts",
+      "sha256": "a8cdfadb04f292f42ccfc3fce482bd3b0ca5e8f0871e6b509260b56bf70b1c96",
+      "bytes": 2337,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-art.ts"
+    },
+    {
+      "path": "browser/src/source/opening-assets.test.ts",
+      "sha256": "05fd2123bce1f73f2483f0a3789c8b6cfd8a2d7455bc145b09a460d9847af241",
+      "bytes": 7532,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-assets.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-audio-main.test.ts",
+      "sha256": "2bd1e4e7ecf40a79e9544ebeeef80484cfa6c7ebf8a5708b85cc608d29180e91",
+      "bytes": 1620,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-audio-main.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-audio.test.ts",
+      "sha256": "3bdbfbdd32454168d4ea45d82567a62ed8e010acad5e7c879177d425f933fb43",
+      "bytes": 7290,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-audio.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-audio.ts",
+      "sha256": "5768ad5f960540d234d93e004c4960ac3b50965714069f2119cb835b934b1693",
+      "bytes": 2691,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-audio.ts"
+    },
+    {
+      "path": "browser/src/source/opening-input.test.ts",
+      "sha256": "8c3984e8982f16eb7e9a93864796e80fa1b7f59f4584fd30d2e000d14e9f43dd",
+      "bytes": 2041,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-input.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-input.ts",
+      "sha256": "4aa5c21e6acbf3fb3a98d07add3df809430b32abf55b7d3f00df208669320248",
+      "bytes": 1639,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-input.ts"
+    },
+    {
+      "path": "browser/src/source/opening-interface.test.ts",
+      "sha256": "38a5b999ff594b060db60288c0536dbd0771915cecd69a0019d3961b53215c1a",
+      "bytes": 6114,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-interface.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-save.test.ts",
+      "sha256": "49c51446588229179a2cb1acd2872b4955d6e2841357759474c7e30150518876",
+      "bytes": 1941,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-save.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-stage.ts",
+      "sha256": "aab2a990c7f7dfb143c460e007defa96c0dddcc0b24b6b497b5ff4cf685501e4",
+      "bytes": 4550,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-stage.ts"
+    },
+    {
+      "path": "browser/src/source/opening-ui.test.ts",
+      "sha256": "a9dea0be5ac78b3f0dada8a3f66122d4c0096f66b0f3cafd1832c646f50efa0f",
+      "bytes": 2735,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-ui.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-view-audio.test.ts",
+      "sha256": "5177a4ab997e60886dc433e71f7fc1d9564c5e0a5b892c1f1657a8e4dd20554e",
+      "bytes": 1866,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-view-audio.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening-view.ts",
+      "sha256": "6cb5db0a0ca5762cd1de02fae1607b6316a9d5e083f4bd88b691fe1f0f1115e0",
+      "bytes": 9612,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening-view.ts"
+    },
+    {
+      "path": "browser/src/source/opening.css",
+      "sha256": "dd63aa8e158bbbf62e387d00c7cf1ba0ec8da6b85bc7608c3a44dbddc37c96dc",
+      "bytes": 4163,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening.css"
+    },
+    {
+      "path": "browser/src/source/opening.test.ts",
+      "sha256": "aa9ab55b6834c910cd24a5f735b5cc71a2b6accae253b287e85f7ef1eb74ca45",
+      "bytes": 9707,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening.test.ts"
+    },
+    {
+      "path": "browser/src/source/opening.ts",
+      "sha256": "81e1d48700c5ff9211443f16f337949c3507d0ec057bd9d8c0b6baa3f874e72f",
+      "bytes": 7497,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/opening.ts"
+    },
+    {
+      "path": "browser/src/source/pagoda-building-shells.test.ts",
+      "sha256": "111469f89deda454a6b8cdeec58b093481e8ee022eeaded5f2fa6220de0a9186",
+      "bytes": 11679,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/pagoda-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/pagoda-building-shells.ts",
+      "sha256": "fd4426f6c85c837c3cf8068d1fc337eb8aa67638941fa55df17a764bef137f99",
+      "bytes": 3097,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/pagoda-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/paper-lifecycle.test.ts",
+      "sha256": "863649a1c9b85065ecbfe774bb382a393e8aabeda8e39d4a1bf29e95a56a1715",
+      "bytes": 6814,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/paper-lifecycle.test.ts"
+    },
+    {
+      "path": "browser/src/source/party-display.test.ts",
+      "sha256": "3ae13a9298f06aa31c61050a1627a0085d4c53f74725ee545704152316b642e4",
+      "bytes": 2098,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/party-display.test.ts"
+    },
+    {
+      "path": "browser/src/source/party-display.ts",
+      "sha256": "95641d15503f2585e3ea2206389071198900663a32847d66799e5a37ca7f1499",
+      "bytes": 2160,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/party-display.ts"
+    },
+    {
+      "path": "browser/src/source/party-field-main.test.ts",
+      "sha256": "ec5721575da5d337f001693224fcf95ae4191bf41b560ebd407a4d70dfd91c62",
+      "bytes": 19115,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/party-field-main.test.ts"
+    },
+    {
+      "path": "browser/src/source/party-global-ui.test.ts",
+      "sha256": "5f6e90c8fa40760361756de2182326cbe37ac842f86153bd480c6173e290cc12",
+      "bytes": 9128,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/party-global-ui.test.ts"
+    },
+    {
+      "path": "browser/src/source/party-order.test.ts",
+      "sha256": "59dc43f5a9c6c8602c022664203b3296473bae207a654a03251cb5cac63d76de",
+      "bytes": 9225,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/party-order.test.ts"
+    },
+    {
+      "path": "browser/src/source/party-order.ts",
+      "sha256": "ba0979064cd72441edc94935d007f6464cbc9640c65de72431d46f365cbaae33",
+      "bytes": 3213,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/party-order.ts"
+    },
+    {
+      "path": "browser/src/source/phone-field-host.test.ts",
+      "sha256": "0ed422bc10b427554c8082f08beb5856a0628d0ee99bb5bc1b69e0c5073deda0",
+      "bytes": 20104,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone-field-host.test.ts"
+    },
+    {
+      "path": "browser/src/source/phone-field-host.ts",
+      "sha256": "bbf3677cf424153825f665e9c88101e3fdbb60250daef5a455a81fc8c64f241f",
+      "bytes": 9436,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone-field-host.ts"
+    },
+    {
+      "path": "browser/src/source/phone-random.test.ts",
+      "sha256": "824b9af805524b456f1525dd03bae650f570e4e3a8302aa36270e1799090797a",
+      "bytes": 8757,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone-random.test.ts"
+    },
+    {
+      "path": "browser/src/source/phone-random.ts",
+      "sha256": "6043d3677e91cd9b287e927334b480b93a1ba2538a36825dc6b936616648be5f",
+      "bytes": 4634,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone-random.ts"
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.test.ts",
+      "sha256": "cfccb30cee98f8f1816ffdebd6220e8a5d3858b0ed7237630dd5c11e89f354d3",
+      "bytes": 8493,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone-scheduler.test.ts"
+    },
+    {
+      "path": "browser/src/source/phone-scheduler.ts",
+      "sha256": "216e30b3c5a7a8abc0da72686ef0cb6996ffed0606fe0cc2533ef6bf96c957a5",
+      "bytes": 5494,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone-scheduler.ts"
+    },
+    {
+      "path": "browser/src/source/phone.test.ts",
+      "sha256": "e0717f3df0ce68ce0ed1ecce5bb9af8f2c7bb9417a806d17a1e1588eeee62630",
+      "bytes": 6797,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone.test.ts"
+    },
+    {
+      "path": "browser/src/source/phone.ts",
+      "sha256": "116333139f5aca00ed7a0e787a8fb74ae9ef309d21432a1931413d366b128473",
+      "bytes": 3194,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/phone.ts"
+    },
+    {
+      "path": "browser/src/source/pokeathlon-building-shells.test.ts",
+      "sha256": "e4743c48f06bf82dd2e04347ce9c180a03a417c92c01857fd3bb0596f22ce131",
+      "bytes": 21023,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/pokeathlon-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/pokeathlon-building-shells.ts",
+      "sha256": "5ae748a8e9f2ae412711e1d75eeb727731a942abc6f198a804269ea623892a0c",
+      "bytes": 19724,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/pokeathlon-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/render-repair.test.ts",
+      "sha256": "0b5cc02561f32384a410ba0a4f9388b17d3ba94b33690432291ca903c02fb415",
+      "bytes": 22354,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/render-repair.test.ts"
+    },
+    {
+      "path": "browser/src/source/render-repair.ts",
+      "sha256": "60c619ae2c845737d1743f40cb6453288a59f634cbd276cadb2f881a7d8305bc",
+      "bytes": 54907,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/render-repair.ts"
+    },
+    {
+      "path": "browser/src/source/render-review.ts",
+      "sha256": "52fc380d718110e797b65cb5656fff1ea7e4802e48bd8c5140977fee8dd56477",
+      "bytes": 2940,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/render-review.ts"
+    },
+    {
+      "path": "browser/src/source/runtime.test.ts",
+      "sha256": "2af2d81f83e8735be0e4d6a60e82747527dbffdcd28ea898ea082435b0489936",
+      "bytes": 9008,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/runtime.test.ts"
+    },
+    {
+      "path": "browser/src/source/script-cache.test.ts",
+      "sha256": "7488b3b3bb02492b759ca01c15264d8757b402930101a0d429333056f40a5398",
+      "bytes": 1989,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/script-cache.test.ts"
+    },
+    {
+      "path": "browser/src/source/script-camera.test.ts",
+      "sha256": "07893efffa54c0a807f035b05dfb947e08a53c9b8fc6b103117a459d474c4ae7",
+      "bytes": 9941,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/script-camera.test.ts"
+    },
+    {
+      "path": "browser/src/source/script-camera.ts",
+      "sha256": "6c3b312c0aefd3eacf0c2c6ce1b97a73914308f87ad3ea2e0fa3cf4424284914",
+      "bytes": 3428,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/script-camera.ts"
+    },
+    {
+      "path": "browser/src/source/script-recovery.test.ts",
+      "sha256": "616c2f2a4ec68531f192a5f6de0b70a40c3e2144900473cc6c2de9ecb005dcae",
+      "bytes": 28532,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/script-recovery.test.ts"
+    },
+    {
+      "path": "browser/src/source/script-recovery.ts",
+      "sha256": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+      "bytes": 5940,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/script-recovery.ts"
+    },
+    {
+      "path": "browser/src/source/script-warp.test.ts",
+      "sha256": "3fde4015f796e70077d5c828034a00dbe1c9850c89f185e01019c4dd3e847275",
+      "bytes": 4998,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/script-warp.test.ts"
+    },
+    {
+      "path": "browser/src/source/script.ts",
+      "sha256": "fd3971a5ec460a36333b835191226201bc03ae5b292f63bc2be175a867a8022e",
+      "bytes": 48253,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/script.ts"
+    },
+    {
+      "path": "browser/src/source/shoreline-native.test.ts",
+      "sha256": "4b161c4fdbbdfde776983c59a112642fd6c3cc93716a26efcf8b8494d3f255f3",
+      "bytes": 11107,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/shoreline-native.test.ts"
+    },
+    {
+      "path": "browser/src/source/shoreline.test.ts",
+      "sha256": "62ef20a63175078e216881d5603a7b619be6cbce5238cffc7434d252c97f24ad",
+      "bytes": 1221,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/shoreline.test.ts"
+    },
+    {
+      "path": "browser/src/source/shoreline.ts",
+      "sha256": "7e3b52da0246c1823fea261e96759bbfb4fde7323c59e365f10439019d7848b7",
+      "bytes": 1754,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/shoreline.ts"
+    },
+    {
+      "path": "browser/src/source/shrine-building-shells.test.ts",
+      "sha256": "e5d6a6a8606151ec540af9643e3308eadeb1feeaaa527516da3b65334b6b07bc",
+      "bytes": 12161,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/shrine-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/shrine-building-shells.ts",
+      "sha256": "1fb2046749d4c2452865ad3bb038660bb8ce5bc7935a8779eb677ed905efc8b3",
+      "bytes": 8327,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/shrine-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/sky.ts",
+      "sha256": "2243d41a90a16462d9da75b9896adb16131b6cb7e081c43952e7814926c56381",
+      "bytes": 13772,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/sky.ts"
+    },
+    {
+      "path": "browser/src/source/small-building-shells.test.ts",
+      "sha256": "d18eb1fd3b8dace68f8730c776fb479fc67972b8766919298fc553ebcbf0fc65",
+      "bytes": 15030,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/small-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/small-building-shells.ts",
+      "sha256": "ea4df3814ebfefaa8afb13f05774fbe38bc440dd15e531ca6c4df120396ee05b",
+      "bytes": 12245,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/small-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/source-assets.test.ts",
+      "sha256": "495e9c3573dbaffe8da35f350099d81cd4cc7091525a01d82f3e7ccbf993b69b",
+      "bytes": 16419,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/source-assets.test.ts"
+    },
+    {
+      "path": "browser/src/source/spawns.test.ts",
+      "sha256": "3efd4cfa86de1dc24c598c5a44bc07305bd99a77b8428ca3767442d33c04428b",
+      "bytes": 1416,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/spawns.test.ts"
+    },
+    {
+      "path": "browser/src/source/spawns.ts",
+      "sha256": "32854207437a0857bca71eb67b66b3b056b424c4c21f5080170c31854a591429",
+      "bytes": 677,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/spawns.ts"
+    },
+    {
+      "path": "browser/src/source/special-building-shells.test.ts",
+      "sha256": "92709a703fb6444e838db0113425f312c4b3c2002673e1a63866ecd4565ddfeb",
+      "bytes": 10386,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/special-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/special-building-shells.ts",
+      "sha256": "f0783e7837578d8253ba5937c2aefe886bebb35b551c8714ce156f543814f439",
+      "bytes": 13575,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/special-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/species-weights-data.ts",
+      "sha256": "62a55af2a84085f0c30399675429317f0a670d0410da4782f0dbd6c6ed31bb05",
+      "bytes": 14943,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/species-weights-data.ts"
+    },
+    {
+      "path": "browser/src/source/station-building-shells.test.ts",
+      "sha256": "f17044526f6b5dbf5ec633c759598865a45c61a4c0f888fa8c3a46720329acce",
+      "bytes": 10988,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/station-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/station-building-shells.ts",
+      "sha256": "efcfb6d82a56eb7d780f20161c088c4d4b4e761a762e3b293275313c03ae2452",
+      "bytes": 10220,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/station-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/story.test.ts",
+      "sha256": "9fbecd6dd20923a922cbefff97d0de4feadf564638679213e515458bcac104a2",
+      "bytes": 6609,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/story.test.ts"
+    },
+    {
+      "path": "browser/src/source/streaming.test.ts",
+      "sha256": "1daddfad4bb63c9e407541ba0f12e550d882f2b2691a3d4685faec81e9d7842d",
+      "bytes": 8883,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/streaming.test.ts"
+    },
+    {
+      "path": "browser/src/source/style.css",
+      "sha256": "35465053f1778e75a5fbdeccbf5d7a5e474cc0483137e3dce32ae6d65348c6de",
+      "bytes": 46392,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/style.css"
+    },
+    {
+      "path": "browser/src/source/terrace-model.test.ts",
+      "sha256": "2353d32e66b4accfcdc05bf6c8d66e7600ac3e108e26dcc9a43926310d08093e",
+      "bytes": 11532,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrace-model.test.ts"
+    },
+    {
+      "path": "browser/src/source/terrace-model.ts",
+      "sha256": "37f7cf76d2154bfa73c2b2aa03989a01a791d39d0c5d2be6be0a39f3b7d7f0fd",
+      "bytes": 11712,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrace-model.ts"
+    },
+    {
+      "path": "browser/src/source/terrace-publication.test.ts",
+      "sha256": "48e4af650b15803e58c79922c6c1098c3e6650cbf78b43611e32a173905d9869",
+      "bytes": 7237,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrace-publication.test.ts"
+    },
+    {
+      "path": "browser/src/source/terrain-scenery.test.ts",
+      "sha256": "c340eec1cc009ba35bec26d45b879f6094163576f052cfab4206bf4bb4c41aa5",
+      "bytes": 33589,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrain-scenery.test.ts"
+    },
+    {
+      "path": "browser/src/source/terrain-scenery.ts",
+      "sha256": "3fddad2d92f4977d411ea7ebb90b07d53307599c6f1d859d3c73494c5868b2e9",
+      "bytes": 29380,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrain-scenery.ts"
+    },
+    {
+      "path": "browser/src/source/terrain-work.ts",
+      "sha256": "7c5f5ca96fbae174a82b8a952c76c71de2ab4312126f8738ca09528dd354a9b2",
+      "bytes": 660,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrain-work.ts"
+    },
+    {
+      "path": "browser/src/source/terrain-world.test.ts",
+      "sha256": "c4ce75051c5e928cfd9a6e90470196fa3c2f1a226aa9d2b45a0979745246d3f3",
+      "bytes": 17815,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrain-world.test.ts"
+    },
+    {
+      "path": "browser/src/source/terrain.ts",
+      "sha256": "7b35543ec261ac04cdfbe45d3ed2f22e4ef3087ed605d195f19d4ca5ff9fc3e1",
+      "bytes": 1248,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/terrain.ts"
+    },
+    {
+      "path": "browser/src/source/tmhm.ts",
+      "sha256": "0f15b6eded9369a7de7d835ab99db960a112f876a2f9589f8ae7b43666a39b98",
+      "bytes": 1053,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tmhm.ts"
+    },
+    {
+      "path": "browser/src/source/touch-controls.test.ts",
+      "sha256": "414f4acf564d821f61609170e75f57a54f4d539f62f5e4898a500a3d9667c95a",
+      "bytes": 19679,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/touch-controls.test.ts"
+    },
+    {
+      "path": "browser/src/source/touch-controls.ts",
+      "sha256": "c4344ae7fa90c73c0fd7267c6edec0556500393a3cc06106bf24d2483d8592c4",
+      "bytes": 15051,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/touch-controls.ts"
+    },
+    {
+      "path": "browser/src/source/trainer-encounters.test.ts",
+      "sha256": "b1774c6336fee6bc6cb8c2bb8742999104d547852c557fb2bbae5208b43c7525",
+      "bytes": 15885,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/trainer-encounters.test.ts"
+    },
+    {
+      "path": "browser/src/source/trainer-encounters.ts",
+      "sha256": "7785274b0f0748194fe380d63e5c2c08e15f5ee66b201c214b837eb175730c5e",
+      "bytes": 9006,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/trainer-encounters.ts"
+    },
+    {
+      "path": "browser/src/source/trainer-gender.test.ts",
+      "sha256": "6d7aba1de66336982184962c1213fba81852fd4e2e603f3ba2e42ae17646128f",
+      "bytes": 5739,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/trainer-gender.test.ts"
+    },
+    {
+      "path": "browser/src/source/trainer-script-state.ts",
+      "sha256": "450d7a114b0a9fa9443f33dceac6912b7d28b69beafafe86e4c6685993a2dd36",
+      "bytes": 2206,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/trainer-script-state.ts"
+    },
+    {
+      "path": "browser/src/source/trainer-scripts.test.ts",
+      "sha256": "6c393f7c303c6533c4549993bb811936929c58a149d88f19d6752e4c85914ad5",
+      "bytes": 12693,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/trainer-scripts.test.ts"
+    },
+    {
+      "path": "browser/src/source/trainers.ts",
+      "sha256": "155234fdc9988b56ee88b0069a4cc6372dcff8d300091221572fbc32fe7f676d",
+      "bytes": 2299,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/trainers.ts"
+    },
+    {
+      "path": "browser/src/source/tree-antenna.ts",
+      "sha256": "318f8aa6cc9f30fc5a285aa80f3ad483b005fec60923ec407fedfee137149254",
+      "bytes": 3798,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-antenna.ts"
+    },
+    {
+      "path": "browser/src/source/tree-fixture.test.ts",
+      "sha256": "cfcf807c53227ee85352e4afb9f4847d0a92fdecd1cf28ed2ae1042697e5c12d",
+      "bytes": 6595,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-fixture.test.ts"
+    },
+    {
+      "path": "browser/src/source/tree-fronds.test.ts",
+      "sha256": "ed70fbc18abfcd693a9478904d70ca38f76819221aefb869929037db7f20eff6",
+      "bytes": 4077,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-fronds.test.ts"
+    },
+    {
+      "path": "browser/src/source/tree-fronds.ts",
+      "sha256": "4dd5d7f7cbfe9d21881962d5db3cf4195e5ba27810194a2aeff4f9bb1acdfb69",
+      "bytes": 10837,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-fronds.ts"
+    },
+    {
+      "path": "browser/src/source/tree-native.test.ts",
+      "sha256": "ff1da8eb079ca45384e36d9059c767080173e8ff937c8983730bf63453913c82",
+      "bytes": 15811,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-native.test.ts"
+    },
+    {
+      "path": "browser/src/source/tree-targeting.test.ts",
+      "sha256": "4c2acfb7c7863bcc42a22403fbfbe751c540f1a61bd599b1bf717e3d8ae88445",
+      "bytes": 11395,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-targeting.test.ts"
+    },
+    {
+      "path": "browser/src/source/tree-texture.test.ts",
+      "sha256": "e6cb5784edf2ec311f604b05b2c7252c014e4507280b95d43dbbc11f7f8930b9",
+      "bytes": 1996,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-texture.test.ts"
+    },
+    {
+      "path": "browser/src/source/tree-texture.ts",
+      "sha256": "570e0aa6b83b040d537e6723befc39ec9b7e42872f2a13b88c232cf7ba36d32b",
+      "bytes": 6474,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-texture.ts"
+    },
+    {
+      "path": "browser/src/source/tree-volume.test.ts",
+      "sha256": "0bd350bfc4418a0e17e75b39d7124b4a23da569977c533ee12f8d8651c02276d",
+      "bytes": 8477,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-volume.test.ts"
+    },
+    {
+      "path": "browser/src/source/tree-volume.ts",
+      "sha256": "f0f5f433bdc81fc98d97d1cc9df9f394045770c7590d2dab7fadc1d6f6ff605f",
+      "bytes": 7238,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tree-volume.ts"
+    },
+    {
+      "path": "browser/src/source/tutorial.ts",
+      "sha256": "2e012a228c82632891c883a31a73a5b97de3646af5efd7c280c31effc422ac53",
+      "bytes": 541,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/tutorial.ts"
+    },
+    {
+      "path": "browser/src/source/types.ts",
+      "sha256": "52d54d49cbac1e07747c8fcf91612717034dfd0873b0db7e0cab261a80fc3378",
+      "bytes": 5537,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/types.ts"
+    },
+    {
+      "path": "browser/src/source/ui-cancellation.test.ts",
+      "sha256": "6d13ee3914fbce1687cb4ec20d85cb76cf1610e0ab749e9406ff5ce335c4a3be",
+      "bytes": 12062,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ui-cancellation.test.ts"
+    },
+    {
+      "path": "browser/src/source/ui-framework.test.ts",
+      "sha256": "4d36647cbb16aa601de26926a77a2371db1039a9c8ee16d89a79b334d93096f8",
+      "bytes": 13705,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ui-framework.test.ts"
+    },
+    {
+      "path": "browser/src/source/ui-test-dom.ts",
+      "sha256": "5ccfad9716e6f42aa32745da67ec407c667fc79790c72ca2b8f03d7be9ca8a52",
+      "bytes": 7543,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ui-test-dom.ts"
+    },
+    {
+      "path": "browser/src/source/ui.ts",
+      "sha256": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4",
+      "bytes": 17996,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/ui.ts"
+    },
+    {
+      "path": "browser/src/source/urban-building-shells.test.ts",
+      "sha256": "4199f6a0812f509cf560cecc2258a5070333738cfc303ae1a882863669aefe4e",
+      "bytes": 11836,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/urban-building-shells.test.ts"
+    },
+    {
+      "path": "browser/src/source/urban-building-shells.ts",
+      "sha256": "1e54116ecd4244229562c07697f23545c30ab44202585cf34891bbf4ddcd0115",
+      "bytes": 12083,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/urban-building-shells.ts"
+    },
+    {
+      "path": "browser/src/source/world-streaming.test.ts",
+      "sha256": "29d9fb4565a399016a5534f42da11f6abb7aeaa2754c9b1ad8ba70572fd1bcc7",
+      "bytes": 6595,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/world-streaming.test.ts"
+    },
+    {
+      "path": "browser/src/source/world.ts",
+      "sha256": "f9fd0e75a55c95a9f4baac426aa8b2ab25cb5e137b3cf3131c0e9806d726d79d",
+      "bytes": 27391,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/source/world.ts"
+    },
+    {
+      "path": "browser/src/style.css",
+      "sha256": "bfd79fc1218e7f12da4f37ed1ddeb95f20277ed697e684fcb0a6dd5babcf0851",
+      "bytes": 10522,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/style.css"
+    },
+    {
+      "path": "browser/src/world.test.ts",
+      "sha256": "a117c0848acbf2250b264b576f0f49c8f34252be14c99c062d60b39058e1617a",
+      "bytes": 1256,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/world.test.ts"
+    },
+    {
+      "path": "browser/src/world.ts",
+      "sha256": "41ef9c658581e6fa7db355343da587d0e93b12cd5de8f59651e5c8e0ba38d9a9",
+      "bytes": 2748,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/src/world.ts"
+    },
+    {
+      "path": "browser/tsconfig.json",
+      "sha256": "747b1c0b46fe4f5b984d4da84223849dddd2b49b04331d3398b5aa867f5dd1a0",
+      "bytes": 249,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-retained-music-parent/browser/tsconfig.json"
+    },
+    {
+      "path": "context/5ca737f6/browser/src/source/field-music.ts",
+      "sha256": "82d014c5913b5f87b244ace91bb8a6c068728ce7d6e90179e282c13a93c95813",
+      "bytes": 29731,
+      "origin": "git:5ca737f6:browser/src/source/field-music.ts"
+    },
+    {
+      "path": "context/a25f629d/browser/src/source/main.ts",
+      "sha256": "ac5a8362f4d774d187aabff119bc3cd26be0acc3826ad436a60d2b1d724bdc00",
+      "bytes": 78351,
+      "origin": "git:a25f629d:browser/src/source/main.ts"
+    },
+    {
+      "path": "context/failed-host-review/execution.json",
+      "sha256": "300dbda67882d540b7927352089debdf8af3ece51d8fd6d39733a1eb58af139f",
+      "bytes": 1362,
+      "origin": "/tmp/hg-evolution-main-host-opus-a25f629d/execution.json"
+    },
+    {
+      "path": "context/failed-host-review/integrity-after.json",
+      "sha256": "bdd85d15f1428b61fee51486998de939b73cd942195790d7975bda67251709dd",
+      "bytes": 274,
+      "origin": "/tmp/hg-evolution-main-host-opus-a25f629d/integrity-after.json"
+    },
+    {
+      "path": "context/failed-host-review/raw-result.json",
+      "sha256": "b788033cb271a3f9ba5e2560ad4c856fcbce47b6605c55fccfeb7c15d3c47008",
+      "bytes": 10311,
+      "origin": "/tmp/hg-evolution-main-host-opus-a25f629d/raw-result.json"
+    },
+    {
+      "path": "context/failed-host-review/review-prompt.txt",
+      "sha256": "8261e4fd995ff11bbdb81f8d75f64d51ebeeb5e915fae3fc201e16c6a7204c52",
+      "bytes": 5975,
+      "origin": "/tmp/hg-evolution-main-host-opus-a25f629d/review-prompt.txt"
+    },
+    {
+      "path": "native/include/sound.h",
+      "sha256": "69fb8dd6730e8eab33e21d000143ab31b9ba16a03ec2773c83b56705008e585b",
+      "bytes": 1933,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-npc-trade-audio/include/sound.h"
+    },
+    {
+      "path": "native/src/field/fieldmap.c",
+      "sha256": "1acb4bd760aa242fe27e3a88b6d994f427cf8c03d25f7cc4fd67c26967e5d660",
+      "bytes": 32214,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-npc-trade-audio/src/field/fieldmap.c"
+    },
+    {
+      "path": "native/src/field_overworld_transition.c",
+      "sha256": "abd7152a7ef0c64ed159773967d1197c5fea2be4e1c8bc32e107f78a85f35229",
+      "bytes": 3885,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-npc-trade-audio/src/field_overworld_transition.c"
+    },
+    {
+      "path": "native/src/sound.c",
+      "sha256": "602b63ad508782142b3ef8033f5e00513d05fd8880e30d9633543e0b22300ea9",
+      "bytes": 13154,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-npc-trade-audio/src/sound.c"
+    },
+    {
+      "path": "native/src/sound_playback.c",
+      "sha256": "4b1573e4e8a70354dfcc8cd42cc4b8753d74afb0a430a5ba234a99c1f62ae2bb",
+      "bytes": 26853,
+      "origin": "/Users/maxchurch/Documents/pokeheartgold-npc-trade-audio/src/sound_playback.c"
+    },
+    {
+      "path": "owned.patch",
+      "sha256": "4849be89e2447b60c628dd0fa50ddeb9ae1ad9fbc1b5561f2c3b654007520704",
+      "bytes": 17679,
+      "origin": "git:5ca737f6..HEAD:owned two-file diff"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/active-parent-taken/field-music.test.ts",
+      "sha256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "bytes": 55086,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/active-parent-taken/field-music.test.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/active-parent-taken/field-music.ts",
+      "sha256": "74e9fa465d19835c0a138ab729a9f7449500fbc72602a92b362e2a748eae1c25",
+      "bytes": 31625,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/active-parent-taken/field-music.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/active-parent-taken/test.log",
+      "sha256": "83a19ab69dc1fd2585dc38b37ca3530300ade17c7c917fa75f53b404bb5c063a",
+      "bytes": 1207,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/active-parent-taken/test.log"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/baseline-exact.ts",
+      "sha256": "82d014c5913b5f87b244ace91bb8a6c068728ce7d6e90179e282c13a93c95813",
+      "bytes": 29731,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/baseline-exact.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/old-5ca-behavior-compatibility-alias/field-music.test.ts",
+      "sha256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "bytes": 55086,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/old-5ca-behavior-compatibility-alias/field-music.test.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/old-5ca-behavior-compatibility-alias/field-music.ts",
+      "sha256": "69a43f9c21b98679349d9eb39ff62fb58722ec700ce626fa4c4ec4e3083b528b",
+      "bytes": 29822,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/old-5ca-behavior-compatibility-alias/field-music.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/old-5ca-behavior-compatibility-alias/test.log",
+      "sha256": "46d832657b4491a63999e81535a2582a8c524619728e159d70ff3c767dc69c25",
+      "bytes": 1430,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/old-5ca-behavior-compatibility-alias/test.log"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/old-owner-still-restorable/field-music.test.ts",
+      "sha256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "bytes": 55086,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/old-owner-still-restorable/field-music.test.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/old-owner-still-restorable/field-music.ts",
+      "sha256": "14f520175fe8ce2c41441d3125c222e05616b917b0292380948318b262830851",
+      "bytes": 31636,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/old-owner-still-restorable/field-music.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/old-owner-still-restorable/test.log",
+      "sha256": "ac53b6039199e52fdd24ce3cadb61fc2a79e68f6697bfc7d072e974aa84e1c75",
+      "bytes": 1017,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/old-owner-still-restorable/test.log"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/receipt.json",
+      "sha256": "c7f3a22abe20c515b24ef81685c049b703a77b9ba18c99a97d5f1d817b0d43af",
+      "bytes": 2258,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/receipt.json"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/snapshot-recaptured-from-none/field-music.test.ts",
+      "sha256": "2f4920578f7d03325c3840f1287736ffda790eae1ea23e2d4c6c9f33d959b79b",
+      "bytes": 55086,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/snapshot-recaptured-from-none/field-music.test.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/snapshot-recaptured-from-none/field-music.ts",
+      "sha256": "f06bb3d5a7f79e39bfb35471f1a5d6e496a718f9582398f1b7712ee57eed81b9",
+      "bytes": 31655,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/snapshot-recaptured-from-none/field-music.ts"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1/snapshot-recaptured-from-none/test.log",
+      "sha256": "53c55404107cc653474655ddd3873dff4962dc91c1c1005ed48837d01cb6348b",
+      "bytes": 1652,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1/snapshot-recaptured-from-none/test.log"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls-v1.log",
+      "sha256": "c7f3a22abe20c515b24ef81685c049b703a77b9ba18c99a97d5f1d817b0d43af",
+      "bytes": 2258,
+      "origin": "/tmp/hg-retained-music-parent-controls-v1.log"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-controls.py",
+      "sha256": "e067341dfb82ea86b9b3b0eac29f1e648b8cdea5fe9a03cbf1a7fb9a285e1b8c",
+      "bytes": 3098,
+      "origin": "/tmp/hg-retained-music-parent-controls.py"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-initial-tsc.log",
+      "sha256": "7c15b3332e4499e079231e6358190fe040a1ade2fd0c51233afa399fbc42411f",
+      "bytes": 544,
+      "origin": "/tmp/hg-retained-music-parent-initial-tsc.log"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-tests-v1.log",
+      "sha256": "e0e27c1a524c2bf9ac43fd9b164f282f170bea30a4ed43271348a70297da0a9b",
+      "bytes": 17397,
+      "origin": "/tmp/hg-retained-music-parent-tests-v1.log"
+    },
+    {
+      "path": "validation/hg-retained-music-parent-tsc-v2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "/tmp/hg-retained-music-parent-tsc-v2.log"
+    }
+  ]
+}

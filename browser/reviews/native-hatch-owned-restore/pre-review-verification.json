@@ -1,0 +1,74 @@
+{
+  "createdUTC": "2026-10-18T08:47:32.349370+00:00",
+  "base": "bd13bdadb1b2ba5b1e9b98272abcbccf3059c9cd",
+  "scope": "Separate inherited hatch interruption availability fix; accepted Evolution branch unchanged",
+  "runtimeFiles": {
+    "field-music.ts": "a30dcaaab12ad85f34d4c74aebe8711df3c0012acd3e2b53e5b22d30a2c0acf5",
+    "hatch-host-audio.ts": "0446b9e8975365bdab1bb315ee45ef7731624ddeb515ef2810765f23e198773c"
+  },
+  "protectedUnchanged": {
+    "browser/src/source/main.ts": "507df60dcb04a669af6b793042f19e5da2d0ffb8aa937e9d4dd817d7e564ef67",
+    "browser/src/source/world.ts": "2806f7ee08e1cc23be481d6d6fcd42fb2148e4cc5bfc7f9605752bea26f9894c",
+    "browser/src/source/script.ts": "754ee848bc2c8376f17f9613e52ec06a4603492b5a5fac1b48fc38fefc6d1fed",
+    "browser/src/source/egg-hatch-presentation.ts": "75bdc276b56dd4bf26277565d42e147356e90bffec2a16576d83a986b490a46f",
+    "browser/src/source/egg-hatching.ts": "c1ee31356e49dde169e8026581fd19d05cda8a1b09017969523ba4daf5398a23",
+    "browser/src/source/egg-hatch-view.ts": "ba11e722a9d56af1974cfe21111331bd59df0ed52aaa6c5d179010b6afa7a60d",
+    "browser/src/source/evolution-field-host.ts": "abe26dcba6b92b0ef126671d5570874b276835a63e5c8ecea41be5c003d3b050",
+    "browser/src/source/evolution-audio.ts": "e4d2d58314a76d5ffb264414c5a0562dca58c60a7148b352f55f249848a5d5cd",
+    "browser/src/source/native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749",
+    "browser/src/source/mon-nickname.ts": "9c092a075e923b245f69ec12b30702fc5965ef448b0d65205a53267855ba97bb"
+  },
+  "validation": {
+    "affectedRunnerCases": 148,
+    "pass": 148,
+    "fail": 0,
+    "typescriptExit": 0,
+    "semanticFaultControls": 5,
+    "allDetected": true
+  },
+  "logs": {
+    "hg-hatch-owned-restore-initial-tests.log": {
+      "sha256": "85908238ce5562891ff7d75720727225ed9ed3dacd02fd7c4d2d38e456ddd933",
+      "bytes": 29142,
+      "archiveSHA256": "0a2e3200b0a6e00a1e6dc508add353dbab076b1d0509e7da8500fd0e52558783"
+    },
+    "hg-hatch-owned-restore-initial-tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    "hg-hatch-owned-restore-player-adapter-tests.log": {
+      "sha256": "7d7a4ed172d9a1024dd578de3dcd90b76e9346e7ba5fb1b74e97da289e8ec874",
+      "bytes": 30462,
+      "archiveSHA256": "4351a06931a71b78e3d50acda2712d3a9555b859501a1490ec26959fe694f8ae"
+    },
+    "hg-hatch-owned-restore-main-before-failure.log": {
+      "sha256": "c0820e3e1da8e2ae449d4d87ee16aaa2161c2de4a02d88db68f2298729990d45",
+      "bytes": 1869,
+      "archiveSHA256": "1f71e26561e2a5b9fc1343b54572e2a3abd2a75746378629ffba21fd8145cfbe"
+    },
+    "hg-hatch-owned-restore-main-tests-v2.log": {
+      "sha256": "aa8587ced629c939b44555c03aa06f54940f5766f98fd23dc96e1e8bcee9415a",
+      "bytes": 659,
+      "archiveSHA256": "7d07744516b72e4d8ba16b8857089b55702aefdc7dee7b6c5653fc1a3c8ef172"
+    },
+    "hg-hatch-owned-restore-affected-tests.log": {
+      "sha256": "649b07073e57f750d2c388947b78f39e38ca5a0a1001fee4e5ba466699db2a75",
+      "bytes": 42886,
+      "archiveSHA256": "4d6bd03fa8038f6cfb09fb8db5153c39358ab73bc1dd22c36721774c80d9831f"
+    },
+    "hg-hatch-owned-restore-final-tsc.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "archiveSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  },
+  "beforeFailure": "Exact bd13 field-music+hatch-host-audio, same current actual Main/Battle/view/queue: native hatch succeeds but next battle fails No closed failed native restore is retained/false!=true.",
+  "testQualification": "Synthetic CPU decoded buffers and injected texture art/render ticks; actual native hatch controller, Main.hatchEgg, real3D view, Battle XP/evolution/rewards/SourceRecovery execute. No audible/GPU approval.",
+  "review": "Pending immutable actual narrow Opus5.5",
+  "limits": [
+    "No build/browser/audio/deployment/full campaign or ARM7 mixer parity",
+    "Source cues/fanfare/cry/naming/flags unchanged",
+    "Future awaitable graphics lease remains separately integrated in Main by Root/House"
+  ]
+}

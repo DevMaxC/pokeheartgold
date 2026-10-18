@@ -2,6 +2,7 @@ import {NATIVE_SPECIES_WEIGHTS} from './species-weights-data.ts';
 import {newMysteryGiftSave} from './mystery-gifts.ts';
 import {sampleUint32} from './native-rng.ts';
 import {nativeMonGender} from './gender.ts';
+import {canonicalNativeSpeciesName} from './mon-nickname.ts';
 import {sourceJSON,type GameData,type State,type Mon,type Personal,type MoveData,type Trainer,type SpriteInfo,type SourceIndex} from './types.ts';
 
 export async function loadData():Promise<GameData>{
@@ -12,7 +13,7 @@ export async function loadData():Promise<GameData>{
   return {nativeWeights:NATIVE_SPECIES_WEIGHTS,index,constants,sprites,personal:personal.baseStats,moves,learnsets,growth,encounters:encounters.encounters,trainers:trainers.trainers,items,typeChart,initial,intro,names,eggSummary};
 }
 export function newState(data:GameData,name:string,gender:'boy'|'girl',random:()=>number=Math.random):State{
-  return {version:2,mysteryGifts:newMysteryGiftSave(),trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
+  return {version:2,formMetadata:{version:1,origin:'fresh-browser'},nicknameMetadata:{version:1,origin:'fresh-browser'},mysteryGifts:newMysteryGiftSave(),trainerId:sampleUint32(random),gameStats:{},name,gender,rivalName:'???',map:64,x:6.5,z:6.5,facing:1,money:3000,flags:{...data.initial.flags},vars:{...data.initial.vars},party:[],boxes:[],bag:{},badges:[],seen:[],caught:[],starter:0,story:0,lastHeal:{map:63,x:6.5,z:8.5},playSeconds:0,options:{textSpeed:1,battleStyle:'shift',sound:false}};
 }
 export function titleCase(key:string){return key.replace(/^(SPECIES|MOVE|ITEM|TYPE|ABILITY)_/,'').toLowerCase().replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());}
 export function speciesName(data:GameData,id:number){return data.names?.species[id]||titleCase(data.personal[id]?.species||`Pokémon ${id}`);}
@@ -35,7 +36,7 @@ export function createMon(data:GameData,species:number,level:number,ot:string,rn
   const ivs=Array.from({length:6},()=>Math.floor(rng()*32)),evs=Array(6).fill(0),personality=Math.floor(rng()*0x100000000),nature=personality%25;
   const stats=calculateStats(base,level,ivs,evs,nature),gender=nativeMonGender(base.genderRatio,personality);
   const moves:number[]=[];for(const row of data.learnsets[species]||[])if(row.level<=level){const previous=moves.indexOf(row.move);if(previous>=0)moves.splice(previous,1);moves.push(row.move);if(moves.length>4)moves.shift();}
-  return {species,level,name:speciesName(data,species),gender,...stats,hp:stats.maxHP,exp:data.growth[base.growthRate]?.[level]||0,ivs,evs,nature,personality,status:'',sleepTurns:0,moves:moves.map(id=>({id,pp:data.moves[id].pp,maxPP:data.moves[id].pp})),friendship:base.friendship,heldItem:null,ot,id:Math.floor(rng()*0xffffffff)};
+  return {species,form:0,level,name:canonicalNativeSpeciesName(data,species),hasNickname:false,gender,...stats,hp:stats.maxHP,exp:data.growth[base.growthRate]?.[level]||0,ivs,evs,nature,personality,status:'',sleepTurns:0,moves:moves.map(id=>({id,pp:data.moves[id].pp,maxPP:data.moves[id].pp})),friendship:base.friendship,heldItem:null,ot,id:Math.floor(rng()*0xffffffff)};
 }
 export function healParty(state:State){for(const mon of state.party){mon.hp=mon.maxHP;mon.status='';mon.sleepTurns=0;for(const move of mon.moves)move.pp=move.maxPP;}}
 export function giveMon(state:State,mon:Mon){if(state.party.length<6)state.party.push(mon);else if(state.boxes.length<540)state.boxes.push(mon);else return false;if(!mon.isEgg)for(const list of [state.seen,state.caught])if(!list.includes(mon.species))list.push(mon.species);return true;}

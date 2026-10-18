@@ -1,0 +1,77 @@
+{
+  "kind": "initial-Opus-F1-correction",
+  "reviewedBefore": "ef358dbc",
+  "base": "6262bfac42497c01f92143df899d7a274a7207d4",
+  "finding": "unsupported browser name text rolled back a completed source catch",
+  "adjudication": "accepted and fixed with local validation-only reprompt; owner/UI/nonstring/configuration failures retained",
+  "tests": {
+    "callerSuite": {
+      "tests": 409,
+      "pass": 409,
+      "fail": 0,
+      "files": 31,
+      "concurrency": 4
+    },
+    "typescript": "npx tsc --noEmit exit0",
+    "sourceBeforeNegative": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "expected": "exact ef358 Main loses real capture and Ball/Dex commit"
+    }
+  },
+  "sourcePins": {
+    "browser/src/source/main.ts": "a3b7ab9cf8fb973daa442bacc4dd405d9dc9baf0bc6ad84ad7c3f7da860217e2",
+    "browser/src/source/script.ts": "754ee848bc2c8376f17f9613e52ec06a4603492b5a5fac1b48fc38fefc6d1fed",
+    "browser/src/source/data.ts": "6440446e47ea254bfec0234443d2a1bd5d434d980118616c10ebb0350c9d9524",
+    "browser/src/source/types.ts": "6b5c8c4c408957ee2e23cde8f503b6fc24eb1c5e176124d91f1256c6b2c5620d",
+    "browser/src/source/mon-nickname.ts": "9c092a075e923b245f69ec12b30702fc5965ef448b0d65205a53267855ba97bb",
+    "browser/src/source/nickname-data.ts": "472acc983877b58d104e409b12bbc1481f7baeeced895252874b6193abc99376",
+    "browser/src/source/main-nickname.test.ts": "caf3e93951e1f70591cb196386127cced2c716d1e6b82c48362dc6124b4b4279",
+    "browser/src/source/main-azalea.test.ts": "725fc9a9523257822ed48b8cb0a10304ac4a3ba74fa36c88abc72bc0f809e982",
+    "browser/src/source/egg-field-main.test.ts": "7fc725a9d22830a0d52fa4693eaa450a5d172488f6e4f87c7071289b27807c7c",
+    "browser/src/source/main-native-interface.test.ts": "e47101751a698612a0fcf56f5c5795dc62afdc208211a4e970463297ecb73808",
+    "browser/src/source/ui.ts": "828f728b56d48a4ae1ec346aa5b91b50e2a83953578747a227604ab8d46ce7f4",
+    "browser/src/source/script-recovery.ts": "3e29f48cf7eb1788b385641066d48ce58f76b592fb71a5889788f06908c134bd",
+    "browser/src/source/battle.ts": "6047335626fc05985ac202121179b661274005697a6ec32e7bda05b75e238722"
+  },
+  "logs": {
+    "f1-final-callers": {
+      "file": "f1-final-callers.log.gz",
+      "rawSHA256": "3ff79671b9197ec4178c98fa7213fa8b4ef87f7b7588ed1953288ce8e89dfe10",
+      "rawBytes": 119484
+    },
+    "f1-final-tsc": {
+      "file": "f1-final-tsc.log.gz",
+      "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawBytes": 0
+    },
+    "f1-held-source-negative": {
+      "file": "f1-held-source-negative.log.gz",
+      "rawSHA256": "f7b072b79baeee641c9e48c0c3a63936e5f0a26ba3cb44357a83f949ff8dd109",
+      "rawBytes": 3589
+    }
+  },
+  "helperUnchangedFromAccepted70eca907": true,
+  "productionBattlePath": "actual Battle.item with deterministic RNG; display say/finish are explicit test ports; Main/source recovery/giveMon/Ball and Dex writes are production implementations",
+  "extraBoundaryControls": [
+    "invalid then valid field/hatch/capture",
+    "stale during explanation",
+    "stale immediately after helper completion",
+    "rejected UI",
+    "nonstring UI return",
+    "missing original species row",
+    "hatch abort during explanation"
+  ],
+  "noApprovalTransfer": true,
+  "notClaimed": [
+    "fullNativeKeyboard",
+    "fullBattleVisuals",
+    "browser",
+    "audioOutput",
+    "build",
+    "freshOTorForm",
+    "evolutionCompletionBinding",
+    "productionRelease"
+  ]
+}

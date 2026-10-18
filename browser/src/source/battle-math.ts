@@ -80,9 +80,18 @@ export function fixedMoveDamage(data:GameData,attacker:Mon,defender:Mon,move:Mov
  * 0,self,self,1), then ApplyDamageRange. No STAB/type, screens or weather.
  * Caller preflights unported damage-affecting ability/item branches. */
 export function confusionDamage(data:GameData,mon:Mon,stages:Stages,rawRange:number){
+  return selfHitDamage(data,mon,stages,rawRange,40);
+}
+/** TryDisobedience calls POUND, not confusion's STRUGGLE. Technician therefore
+ * raises this path's power40 to60. Both calls use field0 and critical1;
+ * the controller must still admit the live ability/item/Attack-stage context. */
+export function disobedienceDamage(data:GameData,mon:Mon,stages:Stages,rawRange:number){
+  return selfHitDamage(data,mon,stages,rawRange,monAbility(data,mon)==='ABILITY_TECHNICIAN'?60:40);
+}
+function selfHitDamage(data:GameData,mon:Mon,stages:Stages,rawRange:number,power:number){
   const ability=monAbility(data,mon),rawAttack=ability==='ABILITY_HUSTLE'||ability==='ABILITY_GUTS'&&mon.status?Math.floor(mon.stats.atk*150/100):mon.stats.atk;
   const attack=Math.max(1,Math.floor(rawAttack*stageMultiplier(stages.atk))),defense=Math.max(1,Math.floor(mon.stats.def*stageMultiplier(stages.def)));
-  let damage=Math.floor(Math.floor((Math.floor(mon.level*2/5)+2)*40*attack/defense)/50);if(mon.status==='BRN'&&ability!=='ABILITY_GUTS')damage=Math.floor(damage/2);damage+=2;
+  let damage=Math.floor(Math.floor((Math.floor(mon.level*2/5)+2)*power*attack/defense)/50);if(mon.status==='BRN'&&ability!=='ABILITY_GUTS')damage=Math.floor(damage/2);damage+=2;
   return Math.max(1,Math.floor(damage*(100-(rawRange%16))/100));
 }
 // BtlCmd_GetMonBallCatchRate: integer divisions and nested square roots match the source path.

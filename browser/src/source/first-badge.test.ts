@@ -15,7 +15,7 @@ const data=await loadData();
 async function fixture(){
  const map=await sourceJSON<SourceMap>('maps/135.json'),npc=map.events.objects.find(n=>n.spriteId==='SPRITE_GSLEADER1')!;assert.ok(npc);const state=newState(data,'Case','girl');state.map=135;state.flags.FLAG_HIDE_NEW_BARK_FRIENDS_ROOM_FRIEND=true;
  const messages:string[]=[],battles:{id:number;options:Parameters<ScriptHooks['battle']>[1]}[]=[];let won=true,whiteouts=0;
- const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>{},refresh:async()=>{},battle:async(id,options)=>{battles.push({id,options});return won;},warp:async()=>{},whiteOut:async()=>{whiteouts++;}};
+ const hooks:ScriptHooks={message:async text=>{messages.push(text);},choice:async()=>0,move:async()=>{},position:()=>{},face:()=>{},visible:()=>{},chooseStarter:async()=>{},nickname:async()=>1,refresh:async()=>{},battle:async(id,options)=>{battles.push({id,options});return won;},warp:async()=>{},whiteOut:async()=>{whiteouts++;}};
  let active=state;const run=()=>new ScriptVM(data,active,hooks).run(map,npc.scriptId,npc.id);
  return{state,map,npc,hooks,messages,battles,run,win:(value:boolean)=>{won=value;},whiteouts:()=>whiteouts,reload:()=>{active=JSON.parse(JSON.stringify(active));return active;}};
 }

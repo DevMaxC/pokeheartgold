@@ -1,0 +1,49 @@
+{
+  "source": "src/pokemon.c",
+  "macroSHA256": "ed315d9a738739358e562386700018bf0869663595b0499b2466c319b04daae7",
+  "functionSHA256": "2978bdab0b27a453ce57922a47be5284b7018a9eabdb777b85e7a312f86eb563",
+  "wrapperSHA256": "d612c4902fd7e1a5580ae4ac2bb998f2fbc1f7586b35020532e599e7e500b08a",
+  "cases": [
+    {
+      "otId": 2147483647,
+      "pid": 2147483648,
+      "nativeShiny": true
+    },
+    {
+      "otId": 305419896,
+      "pid": 2147483648,
+      "nativeShiny": false
+    },
+    {
+      "otId": 2147483648,
+      "pid": 2147483648,
+      "nativeShiny": true
+    },
+    {
+      "otId": 0,
+      "pid": 0,
+      "nativeShiny": true
+    },
+    {
+      "otId": 0,
+      "pid": 7,
+      "nativeShiny": true
+    },
+    {
+      "otId": 0,
+      "pid": 8,
+      "nativeShiny": false
+    },
+    {
+      "otId": 4294967295,
+      "pid": 0,
+      "nativeShiny": true
+    },
+    {
+      "otId": 4294967295,
+      "pid": 4294967295,
+      "nativeShiny": true
+    }
+  ],
+  "qualification": "Original unchanged shiny macro/function compiled with primitive fixed-width typedefs only. Not full Mon/encryption/profile creation."
+}

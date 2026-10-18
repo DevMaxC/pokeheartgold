@@ -1,0 +1,170 @@
+diff --git a/browser/src/source/evolution-field-host.ts b/browser/src/source/evolution-field-host.ts
+index 0a914d6f..876fe0b8 100644
+--- a/browser/src/source/evolution-field-host.ts
++++ b/browser/src/source/evolution-field-host.ts
+@@ -42,7 +42,7 @@ export class EvolutionFieldHost{
+   this.learning=new EvolutionMoveLearning({ui:ports.ui,data:ports.data,messages:ports.messages,textDelay:ports.textDelay,nextFrame:this.nextFrame,audio:()=>{if(!this.currentAudio)throw Error('Evolution learner has no current borrowed audio session');return this.currentAudio;},prepareMenu:ports.prepareMenu,selectSound:signal=>{if(!this.menuOwner)throw Error('Evolution menu has no current owner');ports.menuSE(this.menuOwner,signal);}});
+   ports.lifetime.addEventListener('abort',this.rootEnded,{once:true});
+   ports.keyboard?.addEventListener('keydown',this.keyDown,{capture:true});ports.keyboard?.addEventListener('keyup',this.keyUp,{capture:true});ports.keyboard?.addEventListener('blur',this.blur);
+-  void ports.clock.failure.catch(error=>this.cancel(error));
++  void ports.clock.failure.catch(error=>this.dispose(error));
+  }
+  get active(){return this.controller!==null;}
+  get cameraActive(){return this.active&&this.view.active&&this.ports.world.fieldEffect===this.view&&!this.ports.ui.panelOpen;}
+diff --git a/browser/src/source/field-music.ts b/browser/src/source/field-music.ts
+index d5f9ef43..a7df0d1d 100644
+--- a/browser/src/source/field-music.ts
++++ b/browser/src/source/field-music.ts
+@@ -65,7 +65,8 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+  let enabled=options.enabled,volume=options.volume,context:AudioContext|undefined,gain:GainNode|undefined,unlocked=false,disposed=false,pageActive=true;
+  let manifest:Promise<NativeFieldCatalog>|undefined,desired:NativeFieldSelection|null=null,current:{selection:NativeFieldSelection;identity:string;voice:Voice}|null=null;
+  let serial=0,generation=0,intent=0,loading:AbortController|undefined,interrupted=false;
+- let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:{preferences?:()=>Promise<void>}|undefined;
++ type CueSessionOwner={preferences?:()=>Promise<void>;takeRetainedRestore?:(next:CueSessionOwner)=>{saved:EffectiveMusic;drain:Promise<unknown>}};
++ let pendingPlayback:Promise<FieldPlaybackResult>|undefined;let cueSession:CueSessionOwner|undefined;
+  const fetchBytes=options.fetchBytes??bytes;
+  const assertOpen=()=>{if(disposed)throw Error('Native field music player is disposed');};
+  const updateGain=()=>{if(gain)gain.gain.value=enabled&&pageActive?volume:0;};
+@@ -184,10 +185,10 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+   capture:snapshot,
+   /** A non-field native cue (e.g. battle) with an owned interruption. */
+   createCueSession(){
+-   assertOpen();const owner:{preferences?:()=>Promise<void>}={};let abort=new AbortController();
++   assertOpen();const owner:CueSessionOwner={};let abort=new AbortController();
+    let saved:EffectiveMusic|undefined,owned:Voice|undefined,track:NativeFieldTrack|undefined;
+    let started=false,starting=false,failed=false,closed=false,restored=false,restoring:Promise<void>|undefined,preparing:Promise<void>|undefined;
+-   let child:{controller:AbortController;released:boolean}|undefined,silentParent=false;
++   let child:{controller:AbortController;released:boolean}|undefined,silentParent=false,restoreFailed=false,superseded=false;let restoreAbort:AbortController|undefined;
+    const cancelChild=()=>{const previous=child;child=undefined;previous?.controller.abort(reason(abort.signal));};abort.signal.addEventListener('abort',cancelChild,{once:true});
+    let detach=()=>{};
+    const update=async()=>{
+@@ -202,6 +203,36 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+     })();preparing=pending;try{await pending;}finally{if(preparing===pending)preparing=undefined;}
+    };
+    owner.preferences=update;
++   owner.takeRetainedRestore=next=>{
++    if(cueSession!==owner||!closed||restored||!restoreFailed||!saved)throw Error('No closed failed native restore is retained');
++    // A retry may already be decoding with interrupted=false. Fence it BEFORE
++    // aborting/draining so its late result cannot publish or re-arm ownership.
++    loading?.abort(Error('Retained native restore transferred'));generation++;current?.voice.pause();interrupted=true;
++    const original=saved;superseded=true;restored=true;cueSession=next;
++    restoreAbort?.abort(Error('Retained native restore superseded'));
++    return{saved:original,drain:Promise.allSettled([restoring,preparing].filter((work):work is Promise<void>=>!!work))};
++   };
++   async function startSilent(signal:AbortSignal,takeRetained=false){
++    assertOpen();check(signal);check(lifetime.signal);
++    if(starting||closed||restored||started&&!failed)throw Error('Native silent interruption requires an unused or failed parent');
++    let retired:Promise<unknown>|undefined;
++    if(takeRetained){
++     if(started||saved||child||!cueSession||cueSession===owner||!cueSession.takeRetainedRestore)throw Error('No closed failed native restore is retained');
++     const transfer=cueSession.takeRetainedRestore(owner);saved=transfer.saved;retired=transfer.drain;
++    }
++    if(child||cueSession&&cueSession!==owner||interrupted&&!saved)throw Error('Another native music interruption is active');
++    if(saved&&!interrupted)throw Error('Native silent interruption lost its suspended field owner');
++    const previous=abort,prior=preparing;started=true;starting=true;failed=false;silentParent=true;track=undefined;cueSession=owner;detach();previous.abort(Error('Native cue preparation replaced by owned silence'));owned?.stop();owned=undefined;
++    abort=new AbortController();abort.signal.addEventListener('abort',cancelChild,{once:true});
++    const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));signal.addEventListener('abort',cancel,{once:true});lifetime.signal.addEventListener('abort',destroy,{once:true});detach=()=>{signal.removeEventListener('abort',cancel);lifetime.signal.removeEventListener('abort',destroy);};
++    try{
++     // Suspend captures the ACTUAL paused phase. A retained transfer instead
++     // carries its original snapshot; recapturing a stopped current is wrong.
++     if(!saved){const pausing=field.suspend(snapshot());saved=snapshot();await observe(()=>pausing,[signal,abort.signal,lifetime.signal]);}
++     if(prior)await Promise.allSettled([prior]);if(retired)await retired;check(signal);check(abort.signal);assertOpen();
++     if(!interrupted||cueSession!==owner)throw Error('Native silent interruption lost ownership');starting=false;
++    }catch(error){starting=false;failed=true;detach();abort.abort(error);if(cueSession===owner&&!saved)cueSession=undefined;throw error;}
++   }
+    return{
+     /** Native post-battle evolution may replace the battle cue without an
+      * intervening field resume. The paused parent stays silent across all
+@@ -218,22 +249,12 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+      * its already-suspended field phase is never briefly restored. No cue,
+      * catalog, Context or voice is invented. Only outer restore resumes field.
+      */
+-    async startSilent(signal:AbortSignal){
+-     assertOpen();check(signal);check(lifetime.signal);
+-     if(starting||closed||restored||started&&!failed)throw Error('Native silent interruption requires an unused or failed parent');
+-     if(child||cueSession&&cueSession!==owner||interrupted&&!saved)throw Error('Another native music interruption is active');
+-     if(saved&&!interrupted)throw Error('Native silent interruption lost its suspended field owner');
+-     const previous=abort,prior=preparing;started=true;starting=true;failed=false;silentParent=true;track=undefined;cueSession=owner;detach();previous.abort(Error('Native cue preparation replaced by owned silence'));owned?.stop();owned=undefined;
+-     abort=new AbortController();abort.signal.addEventListener('abort',cancelChild,{once:true});
+-     const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));signal.addEventListener('abort',cancel,{once:true});lifetime.signal.addEventListener('abort',destroy,{once:true});detach=()=>{signal.removeEventListener('abort',cancel);lifetime.signal.removeEventListener('abort',destroy);};
+-     try{
+-      // suspend runs synchronously up to its returned Promise. Snapshot after
+-      // that boundary records the ACTUAL paused phase, not stale prep time.
+-      if(!saved){const pausing=field.suspend(snapshot());saved=snapshot();await observe(()=>pausing,[signal,abort.signal,lifetime.signal]);}
+-      if(prior)await Promise.allSettled([prior]);check(signal);check(abort.signal);assertOpen();
+-      if(!interrupted||cueSession!==owner)throw Error('Native silent interruption lost ownership');starting=false;
+-     }catch(error){starting=false;failed=true;detach();abort.abort(error);if(cueSession===owner&&!saved)cueSession=undefined;throw error;}
+-    },
++    startSilent:(signal:AbortSignal)=>startSilent(signal),
++    /** Explicit recovery for a later action after a CLOSED parent's field
++     * restore failed. Active parents never qualify. The original snapshot
++     * and interruption transfer atomically; stale restore retries are drained
++     * and become terminal cleanup, never a later field resume. */
++    startSilentAfterRetainedRestore:(signal:AbortSignal)=>startSilent(signal,true),
+     async start(cue:NativeMusicCue,signal:AbortSignal){
+      assertOpen();check(signal);if(started||closed)throw Error('Native cue session already started or closed');if(interrupted||cueSession)throw Error('Another native music interruption is active');started=true;starting=true;failed=false;cueSession=owner;
+      const cancel=()=>abort.abort(reason(signal)),destroy=()=>abort.abort(reason(lifetime.signal));
+@@ -249,7 +270,9 @@ export function createNativeFieldMusicPlayer(options:FieldMusicOptions){
+     },
+     restore(signal?:AbortSignal){
+      if(restored)return Promise.resolve();if(restoring)return observe(()=>restoring!,signal?[signal]:[]);closed=true;detach();abort.abort(Error('Native cue session restored'));owned?.stop();
+-     const pending=(async()=>{if(signal)check(signal);if(saved)await field.restore(saved,signal);restored=true;if(cueSession===owner)cueSession=undefined;})();restoring=pending;void pending.catch(()=>{if(restoring===pending)restoring=undefined;});return pending;
++     const controller=new AbortController();restoreAbort=controller;const input=AbortSignal.any([controller.signal,lifetime.signal,...signal?[signal]:[]]);
++     const pending=(async()=>{check(input);if(saved)await field.restore(saved,input);restored=true;restoreFailed=false;if(cueSession===owner)cueSession=undefined;})();restoring=pending;
++     void pending.catch(()=>{if(!superseded)restoreFailed=true;if(restoring===pending)restoring=undefined;});return pending;
+     },
+    };
+   },
+diff --git a/browser/src/source/main.ts b/browser/src/source/main.ts
+index b646240d..bde82b21 100644
+--- a/browser/src/source/main.ts
++++ b/browser/src/source/main.ts
+@@ -109,8 +109,10 @@ async function installAzaleaField(){
+   });
+   new AzaleaGymHost(world,state,fieldClock,{actors:()=>fieldActors!.actors(),followerMoving:()=>followerMoving,audio:fieldSound.audio});
+ }
+-async function installEvolutionField(){
+-  if(evolutionHost){evolutionHost.dispose();await evolutionHost.settled();evolutionHost=undefined;}
++async function prepareEvolutionAudio(){
++  // Required source metadata is admitted before title/Oak identity creation.
++  // A technical startup failure must not discard a completed introduction.
++  if(evolutionAudio)return;
+   const registry=await fieldSound.preparePlayer(music.lifetimeSignal);
+   // Battle completion may arrive from tasks/after-tasks. Constructors register
+   // root hooks only after THIS clock drains its genuine task boundaries.
+@@ -120,6 +122,11 @@ async function installEvolutionField(){
+     anySEPlaying:()=>fieldSound.anySEPlaying(),onAfterTasks:(callback,owner)=>fieldClock.onAfterTasks(callback,owner),
+     report:status=>{if(status.stage==='no-voice')console.warn('Original evolution audio admitted no voice',status);},
+   });
++}
++async function installEvolutionField(){
++  if(evolutionHost){evolutionHost.dispose();await evolutionHost.settled();evolutionHost=undefined;}
++  await prepareEvolutionAudio();await fieldClock.settled();music.lifetimeSignal.throwIfAborted();
++  if(!evolutionAudio)throw new UnsupportedBattleEvolution('Native evolution audio backend is not admitted');
+   evolutionHost=new EvolutionFieldHost({data,native:nativeEvolutionData,fieldMoves:nativeFieldMoveData,messages:evolutionMessages,state:()=>state,
+     field:()=>{const actor=player,companion=follower;return{map:state.map,x:actor.group.position.x,y:actor.group.position.y,z:actor.group.position.z,actors:[
+       {object:actor.group,current:()=>player===actor},...(companion?[{object:companion.group,current:()=>follower===companion}]:[]),
+@@ -486,10 +493,11 @@ async function withBattleMusic<T>(enemies:Mon[],trainer:number|null,action:()=>P
+       musicFailed(error);
+       if(error instanceof UnsupportedNativeMusic||music.lifetimeSignal.aborted)throw error;
+       // A technical fetch/decode failure still needs a REAL parent owner.
+-      // Reuse this handle without restoring its already-suspended field phase.
+-      if(!session)throw new UnsupportedBattleEvolution('Native battle sound ownership could not be admitted');
++      // A prior CLOSED failed restore transfers its exact paused snapshot;
++      // active foreign ownership still rejects rather than resuming field audio.
++      const retained=!session;if(!session)session=music.createCueSession();
+       const silent=musicDeadline('Silent battle ownership took too long.');
+-      try{await session.startSilent(silent.controller.signal);}finally{silent.clear();}
++      try{if(retained)await session.startSilentAfterRetainedRestore(silent.controller.signal);else await session.startSilent(silent.controller.signal);}finally{silent.clear();}
+     }
+     finally{preparation.clear();}
+     battleMusicParent=session;
+@@ -715,7 +723,7 @@ async function begin(entryMode:'warp'|'continue'='warp'){
+   sourceActions=new SourceActionRecovery(state,{capture:captureField,restore:restoreField});started=true;try{await enterMap(state.map,state.x,state.z,true,entryMode==='continue',false,false,entryMode);}catch(error){started=false;ready=false;throw error;}ready=true;save();$('original-world').focus();
+ }
+ async function boot(){
+-  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);[nativeEvolutionData,evolutionMessages]=await Promise.all([loadNativeEvolutionData(data),sourceJSON<Record<string,string>>('messages/197.json')]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
++  [data,nativeFieldMoveData]=await Promise.all([loadData(),loadNativeFieldMoveData()]);[nativeEvolutionData,evolutionMessages]=await Promise.all([loadNativeEvolutionData(data),sourceJSON<Record<string,string>>('messages/197.json')]);world=new OriginalWorld($<HTMLCanvasElement>('original-world'),data.index,data.sprites);initializeNativeField();await prepareEvolutionAudio();panels=new InterfacePanels(ui,data,{state:()=>started?state:null,location:()=>displayMapName(map),save,useItem:useBagItem,party:()=>partyMenu(),onChild:()=>fieldPhone.resetForSourceEvent(),preferences:()=>preferences,updatePreferences,touch,gesture:unlockSound,musicStatus,retryMusic,watchMusic});ui.loading(null);
+   // Owned steps carry eight native displacement ticks; Paper uses four atlas phases per tile.
+   let previous=performance.now();function render(now:number){requestAnimationFrame(render);const dt=Math.min(.05,(now-previous)/1000);previous=now;elapsed+=dt;syncInputContext();if(!started){openingView?.draw(dt);return;}syncMusic();
+     state.playSeconds+=dt;const rtc=fieldRTCObservation();fieldPhone.advanceRTC(rtc.seconds,rtc.hour);refreshPhoneIndicator();if(player){const rider=world.azaleaGym?.riderPosition,movement=fieldActors?.movement('player');if(rider)player.group.position.set(rider.x,rider.y,rider.z);else player.group.position.set(state.x,world.violetGym.riderHeight??playerTweenY??world.height(state.x,state.z,player.group.position.y,player.group.position.x,player.group.position.z),state.z);world.animate(player,movement?.direction??state.facing,movement?movement.step/2:(world.azaleaGym?.playerHeld?-1:walking?stepFrame:-1));}

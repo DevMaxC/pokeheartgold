@@ -1,0 +1,136 @@
+{
+  "createdUTC": "2026-10-17T22:42:58.407458+00:00",
+  "initialRuntime": "a25f629df53236e76afb34bd6f91b45788e8141b",
+  "initialReview": "NOT ACCEPTED; Medium1/Low2/Low3 confirmed, original packet untouched",
+  "fixRuntime": "cbad0d23caa4726d1c31798f0e2a292ffe09ffca",
+  "sourceCommits": {
+    "lowFixes": "522c9fd2",
+    "retainedPlayerLocal": "e12ea23c",
+    "retainedPlayerOriginal": "a826594ddb6605ba8fbc2b32103f696e02e40527",
+    "mainRetainedBinding": "cbad0d23"
+  },
+  "files": {
+    "main.ts": "507df60dcb04a669af6b793042f19e5da2d0ffb8aa937e9d4dd817d7e564ef67",
+    "evolution-field-host.ts": "abe26dcba6b92b0ef126671d5570874b276835a63e5c8ecea41be5c003d3b050",
+    "field-music.ts": "992ac65d602d5572f5692eedadd77509efe25466b0f12a3976b0320b4c0132dd",
+    "ui.ts": "da60fe4fe736e6710b22b6463a0aa93da408ae217441edcce6f35e5c212aacc3",
+    "native-text.ts": "209da729d113c0c6bc4e3ac44c1b435a57563221599e972cc4a7f6d2b2338c65",
+    "evolution-move-learning.ts": "f70d351118e9da81dc557ce0f03c1f9a5ea6c903f7f5267983a40d5ae5fbd84a",
+    "evolution-view.ts": "8b84fc07e5ec1ae512c2f125220f2faa5d60056d64bb373d875431cb38a725ce",
+    "evolution-audio.ts": "e4d2d58314a76d5ffb264414c5a0562dca58c60a7148b352f55f249848a5d5cd",
+    "azalea-field-sound.ts": "610836d29b9393f1ecb5d8b16b2d565c55cda441587a822487fa7b175f7fcf27",
+    "native-field-clock.ts": "c689b2017d919ee533123c97ab25236d5f15d712e421ebbc7695d521cb12c749"
+  },
+  "logs": {
+    "hg-evolution-main-low-fixes-tests.log": {
+      "bytes": 7163,
+      "sha256": "b597bbecc7d6977551513071c3d10f88cce355790a79849e86f7efea62aafc51",
+      "archiveSHA256": "806268da2fef3cb9f98d649333714a2dfa935d0ff053a38d1aa54202b8c871fa",
+      "tests": 22,
+      "pass": 22,
+      "fail": 0
+    },
+    "hg-evolution-main-low-fixes-tsc.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    "hg-evolution-main-pretitle-before-failure.log": {
+      "bytes": 1266,
+      "sha256": "14614d5282a6a8ad840517142efa04ca5c90884042b04eae605275fb994769a4",
+      "archiveSHA256": "b25afda25d4106aedf98b2eeb4caabf48104d83d2d339222ab604c535b0a755d",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1
+    },
+    "hg-evolution-clock-before-failure.log": {
+      "bytes": 1121,
+      "sha256": "cbbb8e93043f4b1304fbcc562868016666ddca0c38e3d7c7aed50c0acf3bad50",
+      "archiveSHA256": "50f22d62565c62454374467b846f2242017bcfab21710122c5cdde74b6bc53c8",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1
+    },
+    "hg-evolution-main-retained-before-failure.log": {
+      "bytes": 1296,
+      "sha256": "4a4633e3d96ffbb3f06152ddbf90873d5ab37785c6fbacef85e93ba9cdb2d2df",
+      "archiveSHA256": "0839cb18cd02e9dc2d25de3a026007fedecd32ce94d03f5f2d8f24aa5cd645dd",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1
+    },
+    "hg-evolution-main-retained-after-tests.log": {
+      "bytes": 620,
+      "sha256": "cb75ca96d435852001afa573587844d657e5e7ac8c388bbd27083da0428c345a",
+      "archiveSHA256": "d6a540f7026804a0db1eb71e022a8b3a1345635ad9dac7fa5a2116025ff9119c",
+      "tests": 1,
+      "pass": 1,
+      "fail": 0
+    },
+    "hg-evolution-main-three-fixes-tests.log": {
+      "bytes": 32318,
+      "sha256": "e12a59042607076c64888a18f85a8bfbd29ebd7494815d61ced66290ec6b8009",
+      "archiveSHA256": "649128edb14c70e5d35531695680a580d7cb9dacf0cb20e22d653d10d83d264f",
+      "tests": 113,
+      "pass": 113,
+      "fail": 0
+    },
+    "hg-evolution-main-three-fixes-owned-tests.log": {
+      "bytes": 50276,
+      "sha256": "246ad12975a3768b9b785b7457037a41dd7be9a69293249572f5e9ab613c84cd",
+      "archiveSHA256": "84476ed7ae7b2316aaceb2599417cc68aa75071467a9d812ca6b360ec1f842aa",
+      "tests": 166,
+      "pass": 166,
+      "fail": 0
+    },
+    "hg-evolution-main-three-fixes-adjacent-tests.log": {
+      "bytes": 47761,
+      "sha256": "6f5a1b48e453c8c307448ad224c3a8365a5913109ec575170447e4883574d149",
+      "archiveSHA256": "5d5e76a2be633d2af52e14051e38ab2a4cfd7ea3872b83f05d9b78a6da51e568",
+      "tests": 160,
+      "pass": 160,
+      "fail": 0
+    },
+    "hg-evolution-main-three-fixes-additional-tests.log": {
+      "bytes": 18786,
+      "sha256": "14547ef1b5476d9152e549dcd2692ac836dc7a56b2d95c8e6a63a9512ddc390e",
+      "archiveSHA256": "b0281b71b8039ecbcf277f7f413f95e818e602f9a794c6e04114f62623a0ea7e",
+      "tests": 61,
+      "pass": 61,
+      "fail": 0
+    },
+    "hg-evolution-main-three-fixes-menu-opening-tests.log": {
+      "bytes": 6712,
+      "sha256": "b8d04ae7b78a9c25cfd250057a2bdc3869ac01cd6446c78b722fe60372116340",
+      "archiveSHA256": "08507fae9206e0456190f98d94cf649de3b5d820e97faa10756a6039b8e9c443",
+      "tests": 20,
+      "pass": 19,
+      "fail": 1
+    },
+    "hg-evolution-main-three-fixes-menu-opening-rerun.log": {
+      "bytes": 5951,
+      "sha256": "de81e3099262a20023e7d6e17de73cfbcf12e359a45da8361331a470a8cfd7d2",
+      "archiveSHA256": "687e7db1b16d304e291fd0ead5b8d56fc21845a21c6f6dd8c8b1a3f9c5106c61",
+      "tests": 20,
+      "pass": 20,
+      "fail": 0
+    },
+    "hg-evolution-main-three-fixes-tsc.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  },
+  "negativeControls": {
+    "startup": "Exact a25 Main: identity1 before metadata error, expected0. Fixed required prep BEFORE title.",
+    "fatalClock": "Exact a25 host: later run does not throw (missing expected exception). Fixed host disposes and actual earned action recovers.",
+    "retainedRestore": "Exact522c Main with SAME a826 player: next required battle returns false. New Main really earns15513\u219214\u2192156 thenTM70/save; old restore called duringOSCILLATE cannot resumefield."
+  },
+  "sparseInputQualification": "First menu rerun lacked committed accepted Repel reference under sparse checkout; materialized exact committed path, no test/runtime edits, then reran. Failed log retained.",
+  "limits": [
+    "Final actual host follow-up review pending",
+    "No build/browser/GPU/audible/deploy",
+    "Multiple scoped Node runs reuse tests, not a unique full-suite count",
+    "Only ordinary stored form0 EVO_LEVEL, full campaign parity unmet"
+  ]
+}

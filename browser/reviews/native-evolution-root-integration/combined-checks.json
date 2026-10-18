@@ -1,0 +1,62 @@
+{
+  "runtimeFreeze": "4b560a1c5e070fdd6e8259f4001f33b98f5c9bfe",
+  "testOnlySuccessor": "0c30f066",
+  "fullFirst": {
+    "tests": 1912,
+    "pass": 1911,
+    "fail": 1,
+    "status": "FAILED; old no-voice hatch fixture lacked actual owned cue parent"
+  },
+  "affectedSuccessor": {
+    "tests": 37,
+    "pass": 37,
+    "fail": 0,
+    "scope": "entire main-native-interface fixture file, real locked field music/cue session; no Context/catalog/unlock"
+  },
+  "fullSuccessor": "pending CI; no full-pass inferred",
+  "focusedComposition": {
+    "tests": 36,
+    "pass": 36,
+    "fail": 0
+  },
+  "build": "tsc + Vite passed; browser checks ongoing",
+  "derivedSourceDeduplication": {
+    "scope": "Derived dist/source compared byte-for-byte to current tracked public/source after this exact Root build; original assets unchanged and retained. Only derived copy replaced with relative symlink.",
+    "sourceCommit": "4b560a1c5e070fdd6e8259f4001f33b98f5c9bfe",
+    "files": 7857,
+    "bytes": 455605136,
+    "inventorySHA256": "f7d3e34f379566fef392ffb642b86b2b3a79adac308f2e9f666734288ba82d87"
+  },
+  "logs": [
+    {
+      "file": "hg-evolution-obedience-hatch-root-full-tests.log",
+      "bytes": 561335,
+      "sha256": "8a0e7c13be0c62461f45a692e1b77ab78aa8f7baa4998477d54d79353388c160"
+    },
+    {
+      "file": "hg-root-composition-no-voice-before.log",
+      "bytes": 1296,
+      "sha256": "46b2a9e90bc628940d9b22d6eb9306fb3155e94087029d272f7270ea48505f7e"
+    },
+    {
+      "file": "hg-root-composition-native-interface-final.log",
+      "bytes": 10512,
+      "sha256": "da6122772f5e8d7e017991153a14751f74e9060d1563328fed08e0d1e4d9a68d"
+    },
+    {
+      "file": "hg-root-composition-fixture-tsc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "hg-evolution-obedience-root-focused.log",
+      "bytes": 10755,
+      "sha256": "5aaa61c3bd65ba42fdffddbd3e3fd378c0d5f7d57dba7dfb1a19c94aba6f96d6"
+    },
+    {
+      "file": "hg-evolution-obedience-hatch-root-build.log",
+      "bytes": 806,
+      "sha256": "b6f90d22f38ff42d77bf24d3f39c58942136f25a77e0389538e2723034d855cd"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Actual hatch ownership review adjudication
+
+Actual restricted Opus5.5 ACCEPTS exactfc8c039a/runtime2ef9ce0e with qualifications:26turns/341431ms, no concrete reachable defect introduced. It confirms the inherited Low (direct hatch field restore without a cue parent blocking the next battle) is closed. Complete raw/modelUsage/prompts/8210-file Gitblob+SHA manifest/full source archive/integrity are preserved. No execution/browser/network/MCP tools were enabled; no denials. All copied inputs/prompt/manifest remained unchanged.
+
+The callback is captured once, restores close before bounded independent barriers, exact snapshots and ordered identity-deduped callbacks transfer only from CLOSED failed owners, and retired observers stop/drain before later publication. The adapter uses one real cue parent, existing shared transports and the same immutable pre-hatch work. Native fanfare/cry/cues/Main/SourceRecovery are unchanged. External test logs are supplied evidence, not tests run by the reviewer.
+
+Qualifications are retained, not declared universally fixed: a possible one-attempt microtask timeout/takeover race was not proved reachable by static review; an inherited pre-hatch request self-wait is bounded and may require retry; suspended-context permission guards transfer; fallback diagnostics replace the initial admission error; disposed-player construction may throw plain Error before any suspension. These do not permit fabricated completion or permanent ownership loss. The later actual-Main error AND timeout scenarios pass (separately qualified tests), but arbitrary microtask interleavings are not exhaustively proved.
+
+The later TEST-ONLY timeout extension does not change reviewed runtime. Its receipt/logs live in ../timeout-followup. The old immutable test snapshot is not overwritten. Only two runtime files differ from acceptedbd13; the protected-source receipt proves Main/World/VM/hatch controller/view/clock/cues/naming/Evolution host/audio unchanged. Accepted Evolution handoff remains independently releasable.
+
+No build/browser/GPU/audible/device/deployment or full-campaign/native-hardware approval is transferred. Future graphics-only application leases must be awaited by their Main owner and get separate composition review.

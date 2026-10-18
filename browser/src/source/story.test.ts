@@ -10,12 +10,13 @@ import {timeOfDay,trainerCardStars} from './field-services.ts';
 const fixtureData=await loadData();
 
 for(const gender of ['boy','girl'] as const)for(const starter of [152,155,158])test(`original opening quest state: ${gender}, starter ${starter}`,async()=>{
-  const {state,data,checkpoints,battles,messages,vm,tutorials}=await openingFixture({starter,gender});
+  const {state,data,checkpoints,battles,messages,vm,tutorials,nicknameResults}=await openingFixture({starter,gender});
   assert.equal(vm.lastUnsupported,null);assert.equal(state.party.length,1);assert.equal(state.party[0].species,starter);assert.equal(state.starter,starter);assert.equal(checkpoints['Aide gift'].bag.ITEM_POTION,5);
   assert.equal(checkpoints['Mr. Pokémon and Oak'].bag.ITEM_MYSTERY_EGG,1);assert.equal(checkpoints['Mr. Pokémon and Oak'].pokedexEnabled,true);assert.equal(checkpoints['Mr. Pokémon and Oak'].flags.FLAG_GOT_POKEDEX,true);assert.equal(state.runningShoes,true);assert.ok(state.pokegear?.cards.length);assert.ok(state.pokegear?.contacts.includes('PHONE_CONTACT_PROF__OAK'));
   assert.equal(state.rivalName,'Silver');assert.equal(state.bag.ITEM_MYSTERY_EGG,undefined);assert.equal(state.flags.FLAG_GAVE_RIVAL_NAME_TO_OFFICER,true);assert.equal(state.flags.FLAG_SYS_MOMS_SAVINGS,true);assert.deepEqual(state.lastHeal,{map:69,x:8.5,z:13.5,facing:0});
   assert.equal(battles.length,1);assert.equal(battles[0].canLose,true);assert.equal(data.constants[data.trainers[battles[0].id].party[0].species],starter===152?155:starter===155?158:152);assert.ok(messages.some(message=>message.includes('disaster')));assert.ok(messages.some(message=>message.includes(gender==='boy'?'Lyra':'Ethan')));
   assert.equal(tutorials,1);assert.equal(state.bag.ITEM_POKE_BALL,5);assert.equal(state.vars.VAR_UNK_408B,0);assert.equal(state.flags.FLAG_UNK_09A,true);assert.equal(state.party.length,1);
+  assert.deepEqual(nicknameResults,[{slot:0,code:1}]);assert.equal(state.party[0].hasNickname,false);assert.equal(state.party[0].name,data.names.species[starter]);
 });
 test('losing the initial rival battle still follows the original story branch',async()=>{const {state,checkpoints}=await openingFixture({battleWon:false,motherSaving:false});assert.equal(checkpoints['Rival battle'].flags.FLAG_MET_PASSERBY_BOY,true);assert.equal(checkpoints['Rival battle'].vars.VAR_SCENE_CHERRYGROVE_CITY_OW,4);assert.equal(state.flags.FLAG_GAVE_RIVAL_NAME_TO_OFFICER,true);assert.equal(!!state.flags.FLAG_SYS_MOMS_SAVINGS,false);});
 test('bag additions and removals are atomic at original stack and pocket limits',async()=>{
