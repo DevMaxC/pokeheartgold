@@ -1,6 +1,6 @@
 import type {GameData,State,Mon,MoveData} from './types.ts';
 import {calculateStats,createMon,giveMon,speciesName,titleCase,itemName,moveName,trainerName} from './data.ts';
-import {catchShakes,confusionDamage,fixedMoveDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
+import {catchShakes,confusionDamage,disobedienceDamage,fixedMoveDamage,fieldBattleWeather,freshStages,monAbility,moveBaseDamage,moveDamage,multiHitCount,stageHitChance,stageMultiplier,weatherHPRecovery,type BattleWeather,type Stages} from './battle-math.ts';
 import {UI,$,escapeHTML as esc} from './ui.ts';
 import {takeBagItem,isCaptureBall} from './bag.ts';
 import type {BattleView} from './battle-view.ts';
@@ -9,6 +9,8 @@ import {isUsableBattler,firstUsableBattlerIndex} from './battle-party.ts';
 import {spriteGender,genderSymbol} from './gender.ts';
 import {nativeTrainerReplacement,type TrainerReplacementMon} from './battle-replacement.ts';
 import {planNativeExperience} from './battle-experience.ts';
+import {nativeBattleMonOwnership} from './mon-ownership.ts';
+import {nativeObedience,nativeDisobedienceMessage} from './battle-obedience.ts';
 import {nativeBattleWeight,UnsupportedBattleWeight} from './battle-weight.ts';
 import {nativeBindingStart,nativeBindingTick,nativeBindingBlocks,nativeYawnStart,nativeYawnTick,nativeYawnSleepGate,nativeSleepDuration,nativeSleepTick} from './battle-binding-yawn.ts';
 import {initialNativeVolatile,nativeStatus2,nativeConfusionCheck,nativeConfusionDuration,nativeFocusEnergy,nativeCriticalMultiplier,nativeSpite,nativePreviousMove,nativeGhostCurseCost,nativeCurseResidual,nativeReflectStart,nativeReflectTick,type NativeBattlerVolatile} from './battle-volatiles.ts';
@@ -449,7 +451,10 @@ export class Battle{
   private async attack(playerSide:boolean,slot:number,selectedMoveId?:number){
     const attacker=playerSide?this.player:this.enemy,defender=playerSide?this.enemy:this.player,as=playerSide?this.playerStages:this.enemyStages,ds=playerSide?this.enemyStages:this.playerStages;
     if(attacker.hp<=0)return;
-    const move=this.selectMove(attacker,slot);
+    // Source OT identity is admitted before action state/RNG changes. Missing
+    // old browser identity retains the explicitly labelled prior policy.
+    const playerOT=!playerSide||nativeBattleMonOwnership(this.state,attacker).ownership==='player';
+    let move=this.selectMove(attacker,slot),disobedientTarget=false;
     this.volatile(attacker).previousMove=nativePreviousMove(this.volatile(attacker).previousMove,0,{noMoveSet:false,moveSucceededFlag:false});
     // Native sleep state1 permits Snore/SleepTalk instead of blocking them.
     // Their effects remain unported: never silently consume a sleeping turn.
@@ -459,11 +464,47 @@ export class Battle{
     if(this.flinch){this.flinch=false;await this.say(`${attacker.name} flinched!`);return;}
     if(await this.checkConfusion(attacker,as,playerSide,move))return;
     if(attacker.status==='PAR'&&this.rng()<.25){await this.say(`${attacker.name} is paralyzed! It can’t move!`);return;}
+    if(playerSide){
+      const value=this.volatile(attacker),status=attacker.status==='SLP'?attacker.sleepTurns:({PSN:8,BRN:16,FRZ:32,PAR:64,TOX:128} as Record<string,number>)[attacker.status]??0;
+      const obedience=nativeObedience({level:attacker.level,badges:this.state.badges,playerOT,linkOrFrontier:false,opponentSide:false,aiPartner:false,canSelectAction:!(value.status2&((1<<22)|(3<<10)|(7<<4)|(1<<12))),bideChargeHit:false,move:move.id,moveSlot:Math.max(0,slot),status,status2:value.status2,ability:this.data.constants[monAbility(this.data,attacker)],uproar:false,blockedMoves:()=>{
+        // Disable/Torment/Taunt/Encore/Imprison/Gravity/HealBlock/choice-lock
+        // producers are not admitted by this battle engine. Its represented
+        // StruggleCheck mask is therefore empty slots and exhausted PP only;
+        // unsafe held-item hooks still reject before using a replacement.
+        this.assertItemScope(attacker,defender);let mask=0;for(let i=0;i<4;i++)if(!attacker.moves[i]?.id||attacker.moves[i].pp<=0)mask|=1<<i;return mask;
+      }},()=>this.random16());
+      if(obedience.outcome==='self-hit'){
+        if(this.unresolvedAttackEntryWithoutTarget||this.unresolvedAttackEntry.has(attacker)||[this.player,this.enemy].some(mon=>mon.hp>0&&monAbility(this.data,mon)==='ABILITY_TRACE'))throw Error('Unsupported native disobedience prior Attack/Trace entry');
+        this.assertDamageScope(attacker,attacker);
+      }
+      if(obedience.outcome==='nap'){
+        // This path bypasses0018's ordinary sleep-immunity checks, but must
+        // not introduce status into an unrepresented residual/ability host.
+        try{this.assertYawnSleepScope(attacker);}catch(error){throw Error('Unsupported native disobedience sleep prerequisites: '+String(error));}
+      }
+      value.status2=obedience.status2;if(!(value.status2&nativeStatus2.rage))this.raging.delete(attacker);
+      if(obedience.outcome==='other-move'){
+        slot=obedience.slot!;move=this.selectMove(attacker,slot);this.selectedMoveSlots.set(attacker,slot);disobedientTarget=true;
+        await this.say(`${attacker.name} ignored orders!`);
+      }else if(obedience.outcome!=='obey'){
+        if(obedience.outcome==='asleep')await this.say(`${attacker.name} ignored orders while asleep!`);
+        else if(obedience.outcome==='nothing')await this.say([`${attacker.name} is loafing around!`,`${attacker.name} won’t obey!`,`${attacker.name} turned away!`,`${attacker.name} pretended not to notice!`][nativeDisobedienceMessage(()=>this.random16())]);
+        else if(obedience.outcome==='nap'){
+          await this.say(`${attacker.name} began to nap!`);attacker.status='SLP';attacker.sleepTurns=nativeSleepDuration(()=>this.random16());await this.say(`${attacker.name} fell asleep!`);
+        }else{
+          const damage=disobedienceDamage(this.data,attacker,as,this.random16());
+          await this.say(`${attacker.name} won’t obey!`);await this.say('It hurt itself in its confusion!');attacker.hp=Math.max(0,attacker.hp-damage);this.draw();await this.view?.hit(true);
+          // Controller34→37 clears Rage after this self-hit for non-Rage.
+          if(move.id!==this.data.constants.MOVE_RAGE){this.raging.delete(attacker);value.status2&=~nativeStatus2.rage;}
+        }
+        await this.healAbility(attacker);return;
+      }
+    }
     // GetMoveTarget filters live opponents for these ranges. FRONT(1024) does
     // too unless FightInput has reselected a changed slot; OPPONENT_SIDE(128)
     // retains a side target even if its active mon fainted. Their unported
     // effects must not be silently accepted as a no-target action.
-    const noTarget=!unportedChargeEffects.has(move.effect)&&defender.hp<=0&&(singleBattleLiveOpponentTargets.has(move.target)||(move.target===1024&&(selectedMoveId===undefined||selectedMoveId===move.id)));
+    const noTarget=!unportedChargeEffects.has(move.effect)&&defender.hp<=0&&(singleBattleLiveOpponentTargets.has(move.target)||(move.target===1024&&!disobedientTarget&&(selectedMoveId===undefined||selectedMoveId===move.id)));
     if(slot>=0&&!implementedEffects.has(move.effect)&&!noTarget)throw Error(`Unported original move effect ${move.effect}: ${move.key}`);
     if(slot>=0&&attacker.moves[slot].pp<=0){await this.say('But there was no PP left for the move!');return;}
     this.assertActionScope(attacker,defender,move,playerSide);
