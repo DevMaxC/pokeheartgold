@@ -1,0 +1,668 @@
+TAP version 13
+# (node:71391) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+ok 1 - a living foe still uses native self/field moves after the faster player recoil-faints with a usable bench
+  ---
+  duration_ms: 653.11775
+  type: 'test'
+  ...
+# Subtest: an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+ok 2 - an opponent-targeting move spends PP and prints original no-target text without damaging the fainted opponent
+  ---
+  duration_ms: 151.829167
+  type: 'test'
+  ...
+# Subtest: the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+ok 3 - the surviving actor still processes sleep/waking/paralysis before PP and no-target resolution
+  ---
+  duration_ms: 455.609958
+  type: 'test'
+  ...
+# Subtest: enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+ok 4 - enemy recoil-faint grants EXP/level-up HP and re-reads the selected learned move before the surviving player acts
+  ---
+  duration_ms: 153.981208
+  type: 'test'
+  ...
+# Subtest: the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+ok 5 - the surviving player spends opponent-target PP against no target before the enemy replacement arrives
+  ---
+  duration_ms: 156.577583
+  type: 'test'
+  ...
+# Subtest: a learned unsupported opponent effect still completes native no-target processing without running the effect
+ok 6 - a learned unsupported opponent effect still completes native no-target processing without running the effect
+  ---
+  duration_ms: 152.902584
+  type: 'test'
+  ...
+# Subtest: a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+ok 7 - a surviving foe with an unsupported opponent effect spends PP and gets no target after player recoil
+  ---
+  duration_ms: 150.438917
+  type: 'test'
+  ...
+# Subtest: unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+ok 8 - unsupported effects still fail when their native target exists, including user/field/opponent-side targets
+  ---
+  duration_ms: 452.66325
+  type: 'test'
+  ...
+# Subtest: native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+ok 9 - native FRONT targeting distinguishes an unchanged Me First from a newly learned selected slot
+  ---
+  duration_ms: 303.488542
+  type: 'test'
+  ...
+# Subtest: the source-owned single-battle target matrix bypasses only the native no-target paths
+    # Subtest: RANGE_SINGLE_TARGET
+    ok 1 - RANGE_SINGLE_TARGET
+      ---
+      duration_ms: 0.960334
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_SPECIAL
+    ok 2 - RANGE_SINGLE_TARGET_SPECIAL
+      ---
+      duration_ms: 0.292125
+      type: 'test'
+      ...
+    # Subtest: RANGE_RANDOM_OPPONENT
+    ok 3 - RANGE_RANDOM_OPPONENT
+      ---
+      duration_ms: 0.188583
+      type: 'test'
+      ...
+    # Subtest: RANGE_ADJACENT_OPPONENTS
+    ok 4 - RANGE_ADJACENT_OPPONENTS
+      ---
+      duration_ms: 0.149541
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALL_ADJACENT
+    ok 5 - RANGE_ALL_ADJACENT
+      ---
+      duration_ms: 0.142375
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER
+    ok 6 - RANGE_USER
+      ---
+      duration_ms: 0.170292
+      type: 'test'
+      ...
+    # Subtest: RANGE_USER_SIDE
+    ok 7 - RANGE_USER_SIDE
+      ---
+      duration_ms: 0.171375
+      type: 'test'
+      ...
+    # Subtest: RANGE_FIELD
+    ok 8 - RANGE_FIELD
+      ---
+      duration_ms: 0.168167
+      type: 'test'
+      ...
+    # Subtest: RANGE_OPPONENT_SIDE
+    ok 9 - RANGE_OPPONENT_SIDE
+      ---
+      duration_ms: 0.275583
+      type: 'test'
+      ...
+    # Subtest: RANGE_ALLY
+    ok 10 - RANGE_ALLY
+      ---
+      duration_ms: 0.213541
+      type: 'test'
+      ...
+    # Subtest: RANGE_SINGLE_TARGET_USER_SIDE
+    ok 11 - RANGE_SINGLE_TARGET_USER_SIDE
+      ---
+      duration_ms: 0.172083
+      type: 'test'
+      ...
+    # Subtest: RANGE_FRONT
+    ok 12 - RANGE_FRONT
+      ---
+      duration_ms: 0.15525
+      type: 'test'
+      ...
+    1..12
+ok 10 - the source-owned single-battle target matrix bypasses only the native no-target paths
+  ---
+  duration_ms: 3.876709
+  type: 'test'
+  ...
+# Subtest: the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+    # Subtest: MOVE_EFFECT_BIDE
+    ok 1 - MOVE_EFFECT_BIDE
+      ---
+      duration_ms: 0.356708
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+    ok 2 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT
+      ---
+      duration_ms: 152.592917
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+    ok 3 - MOVE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
+      ---
+      duration_ms: 150.925041
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_CHARGE_TURN_DEF_UP
+    ok 4 - MOVE_EFFECT_CHARGE_TURN_DEF_UP
+      ---
+      duration_ms: 150.188459
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_151
+    ok 5 - MOVE_EFFECT_151
+      ---
+      duration_ms: 151.181
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_FLY
+    ok 6 - MOVE_EFFECT_FLY
+      ---
+      duration_ms: 151.079667
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIVE
+    ok 7 - MOVE_EFFECT_DIVE
+      ---
+      duration_ms: 151.071666
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_DIG
+    ok 8 - MOVE_EFFECT_DIG
+      ---
+      duration_ms: 152.485083
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_BOUNCE
+    ok 9 - MOVE_EFFECT_BOUNCE
+      ---
+      duration_ms: 151.230792
+      type: 'test'
+      ...
+    # Subtest: MOVE_EFFECT_SHADOW_FORCE
+    ok 10 - MOVE_EFFECT_SHADOW_FORCE
+      ---
+      duration_ms: 151.051292
+      type: 'test'
+      ...
+    1..10
+ok 11 - the native predicate table keeps every unmodeled first-turn charge effect unsupported without a live opponent
+  ---
+  duration_ms: 1363.304167
+  type: 'test'
+  ...
+# Subtest: the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+ok 12 - the original Diglett17→18 learnset cannot silently turn its unported Dig charge into a no-target completion
+  ---
+  duration_ms: 151.280458
+  type: 'test'
+  ...
+# Subtest: a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+ok 13 - a final enemy recoil-KO ends after EXP/learning with none of the surviving player move PP spent
+  ---
+  duration_ms: 151.771417
+  type: 'test'
+  ...
+# Subtest: fainting the last player by recoil stops before a surviving foe spends its selected move PP
+ok 14 - fainting the last player by recoil stops before a surviving foe spends its selected move PP
+  ---
+  duration_ms: 149.887667
+  type: 'test'
+  ...
+# Subtest: a recoil-fainted participant gets no EXP while a living Share holder receives its pool and the gifted Egg stays unchanged
+ok 15 - a recoil-fainted participant gets no EXP while a living Share holder receives its pool and the gifted Egg stays unchanged
+  ---
+  duration_ms: 154.346417
+  type: 'test'
+  ...
+# (node:71393) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original0141 and0018 assembly replays all relevant Yawn ability/status/field branches, including delayed nonignorable gates
+ok 16 - original0141 and0018 assembly replays all relevant Yawn ability/status/field branches, including delayed nonignorable gates
+  ---
+  duration_ms: 4586.572625
+  type: 'test'
+  ...
+# Subtest: original TryYawn and UMC_YAWN C preserve other move flags and count down2→1→sleep; sleep raw modulo and EarlyBird are exact
+ok 17 - original TryYawn and UMC_YAWN C preserve other move flags and count down2→1→sleep; sleep raw modulo and EarlyBird are exact
+  ---
+  duration_ms: 961.495875
+  type: 'test'
+  ...
+# (node:71394) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: literal native binding controller and Random C replay all u16 durations and complete countdowns
+ok 18 - literal native binding controller and Random C replay all u16 durations and complete countdowns
+  ---
+  duration_ms: 1476.162834
+  type: 'test'
+  ...
+# Subtest: actual Daniel Onix11 and SlowpokeWell Grunt Ekans11 bind once after damage, without resetting count on a second hit
+ok 19 - actual Daniel Onix11 and SlowpokeWell Grunt Ekans11 bind once after damage, without resetting count on a second hit
+  ---
+  duration_ms: 697.330666
+  type: 'test'
+  ...
+# Subtest: native hit gates do not draw or bind after a miss, Normal immunity or a knockout
+ok 20 - native hit gates do not draw or bind after a miss, Normal immunity or a knockout
+  ---
+  duration_ms: 304.842208
+  type: 'test'
+  ...
+# Subtest: GripClaw keeps the native draw then forces six; MagicGuard still ticks and the expiration turn does no damage
+ok 21 - GripClaw keeps the native draw then forces six; MagicGuard still ticks and the expiration turn does no damage
+  ---
+  duration_ms: 302.029708
+  type: 'test'
+  ...
+# Subtest: switch and escape use distinct native bypasses; source or target departure releases binding
+ok 22 - switch and escape use distinct native bypasses; source or target departure releases binding
+  ---
+  duration_ms: 305.977875
+  type: 'test'
+  ...
+# Subtest: native Rage mask removes Bind and battle cleanup preserves saved party identity and data
+ok 23 - native Rage mask removes Bind and battle cleanup preserves saved party identity and data
+  ---
+  duration_ms: 151.349625
+  type: 'test'
+  ...
+# Subtest: real end-turn loop ticks Bind and a preceding burn KO releases the source before its slower victim ticks
+ok 24 - real end-turn loop ticks Bind and a preceding burn KO releases the source before its slower victim ticks
+  ---
+  duration_ms: 304.363417
+  type: 'test'
+  ...
+# Subtest: native binding admits no unported adjacent effects and preflights unresolved on-hit/weather/Pressure before PP
+ok 25 - native binding admits no unported adjacent effects and preflights unresolved on-hit/weather/Pressure before PP
+  ---
+  duration_ms: 2.089042
+  type: 'test'
+  ...
+# Subtest: actual Larry Slowpoke11 Yawn has no hit draw, never refreshes, and sleeps at the second real end-turn before Chesto/Lum
+ok 26 - actual Larry Slowpoke11 Yawn has no hit draw, never refreshes, and sleeps at the second real end-turn before Chesto/Lum
+  ---
+  duration_ms: 3.651791
+  type: 'test'
+  ...
+# Subtest: Yawn fails on existing status and sleep-blocking abilities; Soundproof itself does not block drowsiness
+ok 27 - Yawn fails on existing status and sleep-blocking abilities; Soundproof itself does not block drowsiness
+  ---
+  duration_ms: 1.334916
+  type: 'test'
+  ...
+# Subtest: native delayed sleep ignores the vanished caster MoldBreaker and rechecks current status without consuming a draw
+ok 28 - native delayed sleep ignores the vanished caster MoldBreaker and rechecks current status without consuming a draw
+  ---
+  duration_ms: 0.567375
+  type: 'test'
+  ...
+# Subtest: withdrawing Yawn caster retains drowsiness; target leaving or fainting clears it; Rage retains its separate move-effect countdown
+ok 29 - withdrawing Yawn caster retains drowsiness; target leaving or fainting clears it; Rage retains its separate move-effect countdown
+  ---
+  duration_ms: 0.964083
+  type: 'test'
+  ...
+# Subtest: Yawn sleep uses native raw modulo and EarlyBird checks before PP, then permits the wake-up action
+ok 30 - Yawn sleep uses native raw modulo and EarlyBird checks before PP, then permits the wake-up action
+  ---
+  duration_ms: 0.64025
+  type: 'test'
+  ...
+# Subtest: actual native UnionCave Onix6 and SlowpokeWell Slowpoke6 expose the admitted effects without extra side effects
+ok 31 - actual native UnionCave Onix6 and SlowpokeWell Slowpoke6 expose the admitted effects without extra side effects
+  ---
+  duration_ms: 150.982209
+  type: 'test'
+  ...
+# Subtest: Yawn preflights Pressure, unsupported consumption abilities and unresolved weather without spending PP
+ok 32 - Yawn preflights Pressure, unsupported consumption abilities and unresolved weather without spending PP
+  ---
+  duration_ms: 1.286208
+  type: 'test'
+  ...
+# Subtest: native trainer battles resolve via actual actions and clean both new states, without injected victories
+ok 33 - native trainer battles resolve via actual actions and clean both new states, without injected victories
+  ---
+  duration_ms: 607.077958
+  type: 'test'
+  ...
+# Subtest: ordinary bound switch/run rejection consumes no turn; a legal Uturn bypasses binding and targets the replacement correctly
+ok 34 - ordinary bound switch/run rejection consumes no turn; a legal Uturn bypasses binding and targets the replacement correctly
+  ---
+  duration_ms: 452.097833
+  type: 'test'
+  ...
+# Subtest: Unsupported after a real Yawn restores saved data and clears drowsiness and owned binding state
+ok 35 - Unsupported after a real Yawn restores saved data and clears drowsiness and owned binding state
+  ---
+  duration_ms: 1.664042
+  type: 'test'
+  ...
+# Subtest: new binding effects reject unported typed absorption and Yawn rejects BadDreams before any PP or random draw
+ok 36 - new binding effects reject unported typed absorption and Yawn rejects BadDreams before any PP or random draw
+  ---
+  duration_ms: 0.650667
+  type: 'test'
+  ...
+# Subtest: review regression: an actual PowderSnow freeze is thawed by FireSpin after binding and held-status recovery
+ok 37 - review regression: an actual PowderSnow freeze is thawed by FireSpin after binding and held-status recovery
+  ---
+  duration_ms: 906.244458
+  type: 'test'
+  ...
+# Subtest: review regression: native sleep decrements or wakes before an actual Bite flinch without spending PP
+ok 38 - review regression: native sleep decrements or wakes before an actual Bite flinch without spending PP
+  ---
+  duration_ms: 302.82325
+  type: 'test'
+  ...
+# Subtest: review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+ok 39 - review regression: sleeping Snore and SleepTalk fail explicitly before changing sleep, PP or RNG
+  ---
+  duration_ms: 0.8725
+  type: 'test'
+  ...
+# Subtest: review regression: Yawn rejects newly sleep-activated unported abilities and a Truant caster before PP
+ok 40 - review regression: Yawn rejects newly sleep-activated unported abilities and a Truant caster before PP
+  ---
+  duration_ms: 0.770708
+  type: 'test'
+  ...
+# Subtest: review regression: delayed Yawn rechecks an incoming BadDreams provider before sleep mutation or draw
+ok 41 - review regression: delayed Yawn rechecks an incoming BadDreams provider before sleep mutation or draw
+  ---
+  duration_ms: 0.271792
+  type: 'test'
+  ...
+# Subtest: binding and Yawn reject unhosted Trace/weather entry, and target Intimidate cannot silently change binding damage
+ok 42 - binding and Yawn reject unhosted Trace/weather entry, and target Intimidate cannot silently change binding damage
+  ---
+  duration_ms: 2.102708
+  type: 'test'
+  ...
+# Subtest: history regression: native Intimidate Attack context survives its provider leaving before the source Ekans Wrap
+ok 43 - history regression: native Intimidate Attack context survives its provider leaving before the source Ekans Wrap
+  ---
+  duration_ms: 152.541917
+  type: 'test'
+  ...
+# Subtest: history regression: permanent ability weather stays unknown after a native provider switches out before Bind or Yawn
+ok 44 - history regression: permanent ability weather stays unknown after a native provider switches out before Bind or Yawn
+  ---
+  duration_ms: 604.515875
+  type: 'test'
+  ...
+# Subtest: freeze is checked before a Bite flinch and uses its thaw draw before returning without PP
+ok 45 - freeze is checked before a Bite flinch and uses its thaw draw before returning without PP
+  ---
+  duration_ms: 605.590334
+  type: 'test'
+  ...
+# Subtest: the native thaw callback treats Normalize as Normal without executing unported Normalize damage or Mimic
+ok 46 - the native thaw callback treats Normalize as Normal without executing unported Normalize damage or Mimic
+  ---
+  duration_ms: 0.981833
+  type: 'test'
+  ...
+# Subtest: an affected actor leaving resets unresolved Attack context, while its provider leaving does not
+ok 47 - an affected actor leaving resets unresolved Attack context, while its provider leaving does not
+  ---
+  duration_ms: 151.433
+  type: 'test'
+  ...
+# (node:71395) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual battle switches retain living participants and split Route29 Pidgey experience11+11
+ok 48 - actual battle switches retain living participants and split Route29 Pidgey experience11+11
+  ---
+  duration_ms: 354.275667
+  type: 'test'
+  ...
+# Subtest: actual held Exp. Share receives its native pool while both participants receive theirs
+ok 49 - actual held Exp. Share receives its native pool while both participants receive theirs
+  ---
+  duration_ms: 304.420375
+  type: 'test'
+  ...
+# Subtest: each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+ok 50 - each new Falkner opponent resets the source participation mask instead of rewarding an old switch-out again
+  ---
+  duration_ms: 457.556
+  type: 'test'
+  ...
+# Subtest: level100 participants count in the split but get no experience or effort award
+ok 51 - level100 participants count in the split but get no experience or effort award
+  ---
+  duration_ms: 302.542417
+  type: 'test'
+  ...
+# Subtest: a recipient near level100 caps cumulative EXP at its own native growth limit
+ok 52 - a recipient near level100 caps cumulative EXP at its own native growth limit
+  ---
+  duration_ms: 153.93875
+  type: 'test'
+  ...
+# (node:71396) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual attack obeys original trainer, eight badges and explicit legacy identity with no obedience draw
+ok 53 - actual attack obeys original trainer, eight badges and explicit legacy identity with no obedience draw
+  ---
+  duration_ms: 6.338958
+  type: 'test'
+  ...
+# Subtest: old browser Unicode trainer names preserve known original identity in actual attack with a labelled compatibility basis
+ok 54 - old browser Unicode trainer names preserve known original identity in actual attack with a labelled compatibility basis
+  ---
+  duration_ms: 1.637875
+  type: 'test'
+  ...
+# Subtest: actual traded Rocky loafs without PP/HP changes and consumes the native fourth-message draw
+ok 55 - actual traded Rocky loafs without PP/HP changes and consumes the native fourth-message draw
+  ---
+  duration_ms: 0.658917
+  type: 'test'
+  ...
+# Subtest: actual trade disobedience nap uses native Random3,2 and bypasses the selected move
+ok 56 - actual trade disobedience nap uses native Random3,2 and bypasses the selected move
+  ---
+  duration_ms: 0.539292
+  type: 'test'
+  ...
+# Subtest: actual self-hit damages only Rocky, spends no PP and follows controller34 Rage cleanup
+ok 57 - actual self-hit damages only Rocky, spends no PP and follows controller34 Rage cleanup
+  ---
+  duration_ms: 0.572709
+  type: 'test'
+  ...
+# Subtest: actual alternate-move branch rejects selected/empty slots, spends only replacement PP, and clears selected Rage
+ok 58 - actual alternate-move branch rejects selected/empty slots, spends only replacement PP, and clears selected Rage
+  ---
+  duration_ms: 0.4935
+  type: 'test'
+  ...
+# Subtest: actual no-alternative branch goes to native message without spending selected PP
+ok 59 - actual no-alternative branch goes to native message without spending selected PP
+  ---
+  duration_ms: 250.6725
+  type: 'test'
+  ...
+# Subtest: status inability precedes obedience and malformed present identity precedes even status RNG/state
+ok 60 - status inability precedes obedience and malformed present identity precedes even status RNG/state
+  ---
+  duration_ms: 2.151
+  type: 'test'
+  ...
+# Subtest: opposing actor bypasses player obedience and original supplied level10 Rocky obeys before badge1
+ok 61 - opposing actor bypasses player obedience and original supplied level10 Rocky obeys before badge1
+  ---
+  duration_ms: 1.620291
+  type: 'test'
+  ...
+# Subtest: disobedient Technician uses native Pound power60, independently of confusion Struggle power40
+ok 62 - disobedient Technician uses native Pound power60, independently of confusion Struggle power40
+  ---
+  duration_ms: 1.24825
+  type: 'test'
+  ...
+# Subtest: self-hit skips controller31 berry checks until the next ordinary move/residual phase
+ok 63 - self-hit skips controller31 berry checks until the next ordinary move/residual phase
+  ---
+  duration_ms: 0.4635
+  type: 'test'
+  ...
+# Subtest: alternate FRONT move retains native target slot and never admits unported MeFirst as no-target
+ok 64 - alternate FRONT move retains native target slot and never admits unported MeFirst as no-target
+  ---
+  duration_ms: 0.483167
+  type: 'test'
+  ...
+# Subtest: self-hit rejects original recorded Intimidate/Trace Attack provenance instead of using a fabricated stage0
+ok 65 - self-hit rejects original recorded Intimidate/Trace Attack provenance instead of using a fabricated stage0
+  ---
+  duration_ms: 0.54175
+  type: 'test'
+  ...
+# Subtest: nap rejects the currently unimplemented BadDreams residual producer before status or duration changes
+ok 66 - nap rejects the currently unimplemented BadDreams residual producer before status or duration changes
+  ---
+  duration_ms: 0.694625
+  type: 'test'
+  ...
+# Subtest: shared arithmetic refactor keeps accepted Struggle confusion results byte-source equivalent
+ok 67 - shared arithmetic refactor keeps accepted Struggle confusion results byte-source equivalent
+  ---
+  duration_ms: 283.709209
+  type: 'test'
+  ...
+# (node:71399) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native obedience bypasses without RNG and preserves the selected Rage state
+ok 68 - native obedience bypasses without RNG and preserves the selected Rage state
+  ---
+  duration_ms: 2.287542
+  type: 'test'
+  ...
+# Subtest: native disobedience branches retain draw order, blocked selection, and signed subtraction
+ok 69 - native disobedience branches retain draw order, blocked selection, and signed subtraction
+  ---
+  duration_ms: 295.371166
+  type: 'test'
+  ...
+# Subtest: malformed data rejects before any RNG or move availability callbacks
+ok 70 - malformed data rejects before any RNG or move availability callbacks
+  ---
+  duration_ms: 0.936958
+  type: 'test'
+  ...
+# Subtest: original C Technician branch boosts Pound but explicitly excludes confusion Struggle
+ok 71 - original C Technician branch boosts Pound but explicitly excludes confusion Struggle
+  ---
+  duration_ms: 545.356708
+  type: 'test'
+  ...
+# Subtest: literal original C TryDisobedience agrees on outcomes, Rage, slot and exact RNG count
+ok 72 - literal original C TryDisobedience agrees on outcomes, Rage, slot and exact RNG count
+  ---
+  duration_ms: 922.859834
+  type: 'test'
+  ...
+# (node:71400) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: historical contract pins native sources/data; all7 effects now have engine integration
+ok 73 - historical contract pins native sources/data; all7 effects now have engine integration
+  ---
+  duration_ms: 211.510667
+  type: 'test'
+  ...
+# Subtest: native status2 bits and Rage masking retain only Rage before a non-Rage selection
+ok 74 - native status2 bits and Rage masking retain only Rage before a non-Rage selection
+  ---
+  duration_ms: 1.039792
+  type: 'test'
+  ...
+# Subtest: Supersonic duration uses raw modulo and attacker confusion decrements before a50percent low-bit check
+ok 75 - Supersonic duration uses raw modulo and attacker confusion decrements before a50percent low-bit check
+  ---
+  duration_ms: 1.404875
+  type: 'test'
+  ...
+# Subtest: FocusEnergy boosts native critical stage by2 without stacking and armor still consumes the critical draw
+ok 76 - FocusEnergy boosts native critical stage by2 without stacking and armor still consumes the critical draw
+  ---
+  duration_ms: 0.628125
+  type: 'test'
+  ...
+# Subtest: Spite targets the first native matching TryMove-recorded move, caps at remaining PP and preserves other slot data
+ok 77 - Spite targets the first native matching TryMove-recorded move, caps at remaining PP and preserves other slot data
+  ---
+  duration_ms: 0.555583
+  type: 'test'
+  ...
+# Subtest: MeanLook retains native single-battler provenance and its switch versus escape bypasses differ
+ok 78 - MeanLook retains native single-battler provenance and its switch versus escape bypasses differ
+  ---
+  duration_ms: 0.32375
+  type: 'test'
+  ...
+# Subtest: actual rival Ghost Curse uses current types, integer half sacrifice and quarter residual with MagicGuard immunity
+ok 79 - actual rival Ghost Curse uses current types, integer half sacrifice and quarter residual with MagicGuard immunity
+  ---
+  duration_ms: 0.306875
+  type: 'test'
+  ...
+# Subtest: Reflect activation counts its own turn, never refreshes and modifies the physical pre+2 intermediate
+ok 80 - Reflect activation counts its own turn, never refreshes and modifies the physical pre+2 intermediate
+  ---
+  duration_ms: 0.245458
+  type: 'test'
+  ...
+# Subtest: actual Bugsy Uturn has usable reserves but its pure gate does not claim an executed pivot or victory
+ok 81 - actual Bugsy Uturn has usable reserves but its pure gate does not claim an executed pivot or victory
+  ---
+  duration_ms: 0.630958
+  type: 'test'
+  ...
+# Subtest: Spite history records native MOVE_SUCCEEDED before later miss/effect failure, with FAIL mask provenance kept exact
+ok 82 - Spite history records native MOVE_SUCCEEDED before later miss/effect failure, with FAIL mask provenance kept exact
+  ---
+  duration_ms: 8.241
+  type: 'test'
+  ...
+# Subtest: both additional actual Azalea rival variants contain the source volatile move set
+ok 83 - both additional actual Azalea rival variants contain the source volatile move set
+  ---
+  duration_ms: 0.493084
+  type: 'test'
+  ...
+# Subtest: actual3bit Reflect packing and sole LightClay modifier match logical5/8turn expiry and reject refresh
+ok 84 - actual3bit Reflect packing and sole LightClay modifier match logical5/8turn expiry and reject refresh
+  ---
+  duration_ms: 0.904708
+  type: 'test'
+  ...
+# Subtest: all15 pivot protocol phases follow the pinned native0175 and ShowParty010 source sequence
+ok 85 - all15 pivot protocol phases follow the pinned native0175 and ShowParty010 source sequence
+  ---
+  duration_ms: 1.399667
+  type: 'test'
+  ...
+1..85
+# tests 107
+# suites 0
+# pass 107
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9771.104667

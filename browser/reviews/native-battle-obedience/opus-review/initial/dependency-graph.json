@@ -1,0 +1,1653 @@
+{
+  "sourceImports": {
+    "browser/src/main.ts": [
+      "browser/src/style.css"
+    ],
+    "browser/src/scene.ts": [],
+    "browser/src/source/apricorn-box.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/apricorn-box.ts"
+    ],
+    "browser/src/source/apricorn-box.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/aquatic-gate-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/aquatic-gate-building-shells.ts"
+    ],
+    "browser/src/source/aquatic-gate-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/atmosphere.test.ts": [
+      "browser/src/source/atmosphere.ts",
+      "browser/src/source/sky.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/atmosphere.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/audio-controls.test.ts": [
+      "browser/src/source/audio-controls.ts",
+      "browser/src/source/interface-preferences.ts"
+    ],
+    "browser/src/source/audio-controls.ts": [
+      "browser/src/source/interface-preferences.ts"
+    ],
+    "browser/src/source/azalea-audio-data.ts": [],
+    "browser/src/source/azalea-battle-integration.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/battle-volatiles.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/battle-view.ts"
+    ],
+    "browser/src/source/azalea-field-bindings.test.ts": [
+      "browser/src/source/azalea-field-bindings.ts",
+      "browser/src/source/gym-azalea-plan.ts"
+    ],
+    "browser/src/source/azalea-field-bindings.ts": [
+      "browser/src/source/gym-azalea-host.ts"
+    ],
+    "browser/src/source/azalea-field-sound.test.ts": [
+      "browser/src/source/azalea-field-sound.ts",
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/gym-azalea-audio.ts",
+      "browser/src/source/azalea-audio-data.ts"
+    ],
+    "browser/src/source/azalea-field-sound.ts": [
+      "browser/src/source/gym-azalea-audio.ts",
+      "browser/src/source/gym-azalea-host.ts",
+      "browser/src/source/native-field-clock.ts"
+    ],
+    "browser/src/source/azalea-gym-rules.ts": [],
+    "browser/src/source/background-events.test.ts": [
+      "browser/src/source/background-events.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/background-events.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/bag.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/battle-accuracy.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/battle-view.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/battle-action-end.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/battle-binding-yawn-native.test.ts": [
+      "browser/src/source/battle-binding-yawn.ts"
+    ],
+    "browser/src/source/battle-binding-yawn.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/battle-volatiles.ts",
+      "browser/src/source/battle-binding-yawn.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/battle-view.ts"
+    ],
+    "browser/src/source/battle-binding-yawn.ts": [
+      "browser/src/source/battle-volatiles.ts"
+    ],
+    "browser/src/source/battle-camera.test.ts": [
+      "browser/src/source/battle-camera.ts"
+    ],
+    "browser/src/source/battle-camera.ts": [
+      "browser/src/source/canopy-occlusion.ts"
+    ],
+    "browser/src/source/battle-escape-burn.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/battle-view.ts"
+    ],
+    "browser/src/source/battle-evolution-integration.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/battle-evolution.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/evolution-native.ts",
+      "browser/src/source/script-recovery.ts"
+    ],
+    "browser/src/source/battle-evolution-types.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/battle-evolution.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/battle-evolution.ts",
+      "browser/src/source/battle-evolution-types.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/evolution-native.ts",
+      "browser/src/source/field-moves.ts",
+      "browser/src/source/battle-math.ts"
+    ],
+    "browser/src/source/battle-evolution.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/game-stats.ts",
+      "browser/src/source/evolution-native.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/battle-evolution-types.ts"
+    ],
+    "browser/src/source/battle-experience-integration.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/battle-experience-plan.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/battle-experience.ts"
+    ],
+    "browser/src/source/battle-experience.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-experience.ts"
+    ],
+    "browser/src/source/battle-experience.ts": [],
+    "browser/src/source/battle-layout.test.ts": [
+      "browser/src/source/battle-layout.ts",
+      "browser/src/source/battle-layout.ts"
+    ],
+    "browser/src/source/battle-layout.ts": [],
+    "browser/src/source/battle-low-kick.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/battle-weight.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/battle-view.ts"
+    ],
+    "browser/src/source/battle-math.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/battle-volatiles.ts",
+      "browser/src/source/battle-weight.ts"
+    ],
+    "browser/src/source/battle-music.test.ts": [
+      "browser/src/source/battle-music.ts",
+      "browser/src/source/field-music.ts"
+    ],
+    "browser/src/source/battle-music.ts": [
+      "browser/src/source/field-music.ts"
+    ],
+    "browser/src/source/battle-obedience-integration.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/mon-ownership.ts",
+      "browser/src/source/battle-math.ts"
+    ],
+    "browser/src/source/battle-obedience.test.ts": [
+      "browser/src/source/battle-obedience.ts"
+    ],
+    "browser/src/source/battle-obedience.ts": [
+      "browser/src/source/battle-volatiles.ts"
+    ],
+    "browser/src/source/battle-party.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/battle-party.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/battle-party.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/battle-replacement.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-replacement.ts"
+    ],
+    "browser/src/source/battle-replacement.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/battle-sports.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/battle-volatiles.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/battle-view.ts"
+    ],
+    "browser/src/source/battle-stage.ts": [
+      "browser/src/source/battle-layout.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/battle-camera.ts",
+      "browser/src/source/canopy-occlusion.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/battle-view.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/gender.ts"
+    ],
+    "browser/src/source/battle-turn-phase.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/battle-view.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/battle-volatiles.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-volatiles.ts"
+    ],
+    "browser/src/source/battle-volatiles.ts": [],
+    "browser/src/source/battle-weight.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/battle-weight.ts",
+      "browser/src/source/species-weights-data.ts"
+    ],
+    "browser/src/source/battle-weight.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/species-weights-data.ts"
+    ],
+    "browser/src/source/battle.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/battle-view.ts"
+    ],
+    "browser/src/source/battle.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/bag.ts",
+      "browser/src/source/battle-view.ts",
+      "browser/src/source/battle-evolution-types.ts",
+      "browser/src/source/battle-party.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/battle-replacement.ts",
+      "browser/src/source/battle-experience.ts",
+      "browser/src/source/mon-ownership.ts",
+      "browser/src/source/battle-obedience.ts",
+      "browser/src/source/battle-weight.ts",
+      "browser/src/source/battle-binding-yawn.ts",
+      "browser/src/source/battle-volatiles.ts"
+    ],
+    "browser/src/source/building-exterior.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/building-exterior.ts",
+      "browser/src/source/world.ts"
+    ],
+    "browser/src/source/building-exterior.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/house-building-shells.ts",
+      "browser/src/source/special-building-shells.ts",
+      "browser/src/source/landmark-building-shells.ts",
+      "browser/src/source/civic-building-shells.ts",
+      "browser/src/source/station-building-shells.ts",
+      "browser/src/source/burned-tower-shells.ts",
+      "browser/src/source/urban-building-shells.ts",
+      "browser/src/source/facility-building-shells.ts",
+      "browser/src/source/gym-building-shells.ts",
+      "browser/src/source/misc-building-shells.ts",
+      "browser/src/source/industrial-building-shells.ts",
+      "browser/src/source/pagoda-building-shells.ts",
+      "browser/src/source/pokeathlon-building-shells.ts",
+      "browser/src/source/shrine-building-shells.ts",
+      "browser/src/source/decorative-building-shells.ts",
+      "browser/src/source/small-building-shells.ts",
+      "browser/src/source/gate-building-shells.ts",
+      "browser/src/source/landmark-annex-shells.ts",
+      "browser/src/source/frontier-building-shells.ts",
+      "browser/src/source/name-rater-game-building-shells.ts",
+      "browser/src/source/aquatic-gate-building-shells.ts"
+    ],
+    "browser/src/source/building-footing.test.ts": [
+      "browser/src/source/building-footing.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/world.ts"
+    ],
+    "browser/src/source/building-footing.ts": [
+      "browser/src/source/ledges.ts"
+    ],
+    "browser/src/source/building-gallery.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/building-exterior.ts"
+    ],
+    "browser/src/source/burned-tower-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/burned-tower-shells.ts"
+    ],
+    "browser/src/source/burned-tower-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/camera-input.test.ts": [
+      "browser/src/source/camera-input.ts"
+    ],
+    "browser/src/source/camera-input.ts": [],
+    "browser/src/source/camera-transition.test.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/camera.ts"
+    ],
+    "browser/src/source/camera.test.ts": [
+      "browser/src/source/camera.ts"
+    ],
+    "browser/src/source/camera.ts": [],
+    "browser/src/source/canopy-occlusion.test.ts": [
+      "browser/src/source/tree-volume.ts",
+      "browser/src/source/tree-fixture.test.ts",
+      "browser/src/source/canopy-occlusion.ts",
+      "browser/src/source/battle-camera.ts"
+    ],
+    "browser/src/source/canopy-occlusion.ts": [],
+    "browser/src/source/civic-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/civic-building-shells.ts"
+    ],
+    "browser/src/source/civic-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/coordinate-triggers.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/movement.ts",
+      "browser/src/source/coordinate-triggers.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/coordinate-triggers.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/cut-field-effect.test.ts": [
+      "browser/src/source/cut-field-effect.ts"
+    ],
+    "browser/src/source/cut-field-effect.ts": [],
+    "browser/src/source/cut-field-host.test.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/cut-field-effect.ts",
+      "browser/src/source/cut-field-host.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/cut-field-host.ts": [
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/cut-field-effect.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/native-field-clock.ts"
+    ],
+    "browser/src/source/cut-script.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/data.ts": [
+      "browser/src/source/species-weights-data.ts",
+      "browser/src/source/mystery-gifts.ts",
+      "browser/src/source/native-rng.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/mon-nickname.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/decorative-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/decorative-building-shells.ts"
+    ],
+    "browser/src/source/decorative-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/early-battle-effects.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-view.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/egg-consumers.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/battle-view.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/egg-field-main.test.ts": [],
+    "browser/src/source/egg-hatch-integration.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/egg-hatch-presentation.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/egg-hatch-phone-trigger.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/egg-hatching.ts",
+      "browser/src/source/egg-hatch-presentation.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/phone-scheduler.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/egg-hatch-presentation.ts": [
+      "browser/src/source/egg-hatching.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/egg-hatch-view.test.ts": [
+      "browser/src/source/egg-hatch-view.ts",
+      "browser/src/source/world.ts"
+    ],
+    "browser/src/source/egg-hatch-view.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/gender.ts"
+    ],
+    "browser/src/source/egg-hatching.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/native-rng.ts",
+      "browser/src/source/game-stats.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/egg-hatching.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/egg-hatching.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/native-rng.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/game-stats.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/eggs.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/native-rng.ts",
+      "browser/src/source/eggs.ts"
+    ],
+    "browser/src/source/eggs.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/native-rng.ts",
+      "browser/src/source/battle-party.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/battle-party.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/encounter.test.ts": [
+      "browser/src/source/encounter.ts"
+    ],
+    "browser/src/source/encounter.ts": [],
+    "browser/src/source/evolution-native.test.ts": [
+      "browser/src/source/evolution-native.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/evolution-native.ts": [
+      "browser/src/source/gender.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/evolution-presentation.test.ts": [
+      "browser/src/source/evolution-presentation.ts",
+      "browser/src/source/evolution-view.ts",
+      "browser/src/source/evolution-test-fixtures.ts",
+      "browser/src/source/battle-evolution-types.ts"
+    ],
+    "browser/src/source/evolution-presentation.ts": [
+      "browser/src/source/battle-evolution-types.ts",
+      "browser/src/source/evolution-view.ts"
+    ],
+    "browser/src/source/evolution-test-fixtures.ts": [
+      "browser/src/source/evolution-view.ts",
+      "browser/src/source/battle-evolution-types.ts"
+    ],
+    "browser/src/source/evolution-view.test.ts": [
+      "browser/src/source/evolution-view.ts",
+      "browser/src/source/evolution-test-fixtures.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/data.ts"
+    ],
+    "browser/src/source/evolution-view.ts": [
+      "browser/src/source/battle-evolution-types.ts",
+      "browser/src/source/camera.ts"
+    ],
+    "browser/src/source/facility-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/facility-building-shells.ts"
+    ],
+    "browser/src/source/facility-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/field-bag-actions.test.ts": [
+      "browser/src/source/audio-controls.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/interface-panels.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/field-moves.ts",
+      "browser/src/source/field-bag-actions.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/ui-test-dom.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-bag-actions.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/field-moves.ts",
+      "browser/src/source/field-medicine.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-entry-main.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/mon-nickname.ts",
+      "browser/src/source/opening.ts",
+      "browser/src/source/field-transitions.ts",
+      "browser/src/source/gym-violet.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-input.test.ts": [
+      "browser/src/source/field-input.ts",
+      "browser/src/source/interface-preferences.ts"
+    ],
+    "browser/src/source/field-input.ts": [
+      "browser/src/source/touch-controls.ts"
+    ],
+    "browser/src/source/field-medicine.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/field-medicine.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-medicine.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-moves.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/field-moves.ts"
+    ],
+    "browser/src/source/field-moves.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-music-assets.test.ts": [
+      "browser/src/source/field-music.ts",
+      "browser/src/source/battle-music.ts"
+    ],
+    "browser/src/source/field-music.test.ts": [
+      "browser/src/source/field-music.ts"
+    ],
+    "browser/src/source/field-music.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-services.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-sprite-scale.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/field-transitions.test.ts": [
+      "browser/src/source/field-transitions.ts"
+    ],
+    "browser/src/source/field-transitions.ts": [],
+    "browser/src/source/first-badge.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/game-stats.ts",
+      "browser/src/source/game-stat-rules.ts",
+      "browser/src/source/trainer-script-state.ts",
+      "browser/src/source/bag.ts"
+    ],
+    "browser/src/source/fixed-damage-battle.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/foundations.test.ts": [
+      "browser/src/source/foundations.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/foundations.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/frontier-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/frontier-building-shells.ts"
+    ],
+    "browser/src/source/frontier-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/furniture-collision.test.ts": [
+      "browser/src/source/furniture-collision.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/furniture.ts"
+    ],
+    "browser/src/source/furniture-collision.ts": [],
+    "browser/src/source/furniture.test.ts": [
+      "browser/src/source/furniture.ts"
+    ],
+    "browser/src/source/furniture.ts": [],
+    "browser/src/source/game-stat-rules.ts": [],
+    "browser/src/source/game-stats.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/game-stat-rules.ts"
+    ],
+    "browser/src/source/gate-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/gate-building-shells.ts"
+    ],
+    "browser/src/source/gate-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/gender-presentation.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/party-display.ts",
+      "browser/src/source/battle-stage.ts",
+      "browser/src/source/world.ts"
+    ],
+    "browser/src/source/gender.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts"
+    ],
+    "browser/src/source/gender.ts": [],
+    "browser/src/source/grass.test.ts": [
+      "browser/src/source/grass.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/grass.ts": [
+      "browser/src/source/terrain.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/gym-azalea-audio.test.ts": [
+      "browser/src/source/gym-azalea-audio.ts"
+    ],
+    "browser/src/source/gym-azalea-audio.ts": [
+      "browser/src/source/azalea-audio-data.ts",
+      "browser/src/source/gym-azalea-host.ts"
+    ],
+    "browser/src/source/gym-azalea-host.test.ts": [
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/gym-azalea-host.ts",
+      "browser/src/source/gym-azalea-world.ts",
+      "browser/src/source/gym-azalea-plan.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/world.ts"
+    ],
+    "browser/src/source/gym-azalea-host.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/gym-azalea-world.ts",
+      "browser/src/source/gym-azalea-plan.ts"
+    ],
+    "browser/src/source/gym-azalea-plan.test.ts": [
+      "browser/src/source/azalea-gym-rules.ts",
+      "browser/src/source/gym-azalea-plan.ts"
+    ],
+    "browser/src/source/gym-azalea-plan.ts": [
+      "browser/src/source/azalea-gym-rules.ts"
+    ],
+    "browser/src/source/gym-azalea-world.test.ts": [
+      "browser/src/source/gym-azalea-world.ts",
+      "browser/src/source/gym-azalea-plan.ts",
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/gym-azalea-world.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/gym-azalea-plan.ts",
+      "browser/src/source/azalea-gym-rules.ts"
+    ],
+    "browser/src/source/gym-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/gym-building-shells.ts"
+    ],
+    "browser/src/source/gym-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/gym-violet-integration.test.ts": [],
+    "browser/src/source/gym-violet.test.ts": [
+      "browser/src/source/gym-violet.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/gym-violet.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/hatch-host-audio.test.ts": [
+      "browser/src/source/hatch-host-audio.ts",
+      "browser/src/source/hatch-music.ts",
+      "browser/src/source/egg-hatch-view.ts",
+      "browser/src/source/field-music.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/egg-hatch-presentation.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/hatch-host-audio.ts": [
+      "browser/src/source/hatch-music.ts",
+      "browser/src/source/egg-hatch-view.ts"
+    ],
+    "browser/src/source/hatch-music.test.ts": [
+      "browser/src/source/hatch-music.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/egg-hatching.ts"
+    ],
+    "browser/src/source/hatch-music.ts": [],
+    "browser/src/source/house-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/house-building-shells.ts"
+    ],
+    "browser/src/source/house-building-shells.ts": [],
+    "browser/src/source/industrial-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/industrial-building-shells.ts"
+    ],
+    "browser/src/source/industrial-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/interface-panels.test.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/interface-panels.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/touch-controls.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/interface-panels.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/touch-controls.ts",
+      "browser/src/source/interface-preferences.ts"
+    ],
+    "browser/src/source/interface-preferences.ts": [],
+    "browser/src/source/item-pickup.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/item-pickup.ts",
+      "browser/src/source/tmhm.ts",
+      "browser/src/source/field-sprite-scale.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/item-pickup.ts": [
+      "browser/src/source/objects.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/landmark-annex-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/landmark-annex-shells.ts"
+    ],
+    "browser/src/source/landmark-annex-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/landmark-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/landmark-building-shells.ts"
+    ],
+    "browser/src/source/landmark-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/ledge-corner-art.test.ts": [
+      "browser/scripts/ledge_corner_art.ts"
+    ],
+    "browser/src/source/ledge-corners.test.ts": [
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/ledge-route-transitions.test.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/ledges.test.ts": [
+      "browser/src/source/ledges.ts"
+    ],
+    "browser/src/source/ledges.ts": [],
+    "browser/src/source/main-azalea.test.ts": [
+      "browser/src/source/gym-azalea-plan.ts",
+      "browser/src/source/gym-azalea-host.ts",
+      "browser/src/source/azalea-field-bindings.ts",
+      "browser/src/source/azalea-field-sound.ts",
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/furniture-collision.ts",
+      "browser/src/source/coordinate-triggers.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/field-transitions.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/field-music.ts",
+      "browser/src/source/gym-violet.ts",
+      "browser/src/source/field-transitions.ts",
+      "browser/src/source/atmosphere.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/ui-test-dom.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/gym-azalea-world.ts"
+    ],
+    "browser/src/source/main-battle-keyboard.test.ts": [
+      "browser/src/source/battle.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/main-interface.test.ts": [
+      "browser/src/source/touch-controls.ts",
+      "browser/src/source/camera-input.ts",
+      "browser/src/source/field-input.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/mom-savings.ts",
+      "browser/src/source/opening.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/main-item-pickup.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/item-pickup.ts",
+      "browser/src/source/field-sprite-scale.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/field-transitions.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/party-display.ts",
+      "browser/src/source/field-input.ts",
+      "browser/src/source/background-events.ts"
+    ],
+    "browser/src/source/main-music.test.ts": [
+      "browser/src/source/field-music.ts",
+      "browser/src/source/battle-music.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/field-input.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/mom-savings.ts",
+      "browser/src/source/script.ts"
+    ],
+    "browser/src/source/main-native-interface.test.ts": [
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/touch-controls.ts",
+      "browser/src/source/camera-input.ts",
+      "browser/src/source/field-input.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/party-order.ts",
+      "browser/src/source/field-bag-actions.ts",
+      "browser/src/source/party-display.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/mon-nickname.ts",
+      "browser/src/source/battle.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/hatch-host-audio.ts",
+      "browser/src/source/egg-hatch-presentation.ts",
+      "browser/src/source/mom-savings.ts",
+      "browser/src/source/phone.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/interface-panels.ts",
+      "browser/src/source/opening.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/audio-controls.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/main-nickname.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/battle.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/mon-nickname.ts"
+    ],
+    "browser/src/source/main.ts": [
+      "browser/src/source/coordinate-triggers.ts",
+      "browser/src/source/background-events.ts",
+      "browser/src/source/style.css",
+      "browser/src/source/data.ts",
+      "browser/src/source/mon-nickname.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/atmosphere.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/opening.ts",
+      "browser/src/source/opening-view.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/battle.ts",
+      "browser/src/source/battle-stage.ts",
+      "browser/src/source/encounter.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/field-transitions.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/furniture-collision.ts",
+      "browser/src/source/movement.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/script-camera.ts",
+      "browser/src/source/spawns.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/tutorial.ts",
+      "browser/src/source/gym-violet.ts",
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/gym-azalea-host.ts",
+      "browser/src/source/azalea-field-bindings.ts",
+      "browser/src/source/azalea-field-sound.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/party-display.ts",
+      "browser/src/source/party-order.ts",
+      "browser/src/source/egg-hatching.ts",
+      "browser/src/source/egg-hatch-presentation.ts",
+      "browser/src/source/egg-hatch-view.ts",
+      "browser/src/source/hatch-host-audio.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/phone-random.ts",
+      "browser/src/source/phone.ts",
+      "browser/src/source/mom-savings.ts",
+      "browser/src/source/touch-controls.ts",
+      "browser/src/source/camera-input.ts",
+      "browser/src/source/field-input.ts",
+      "browser/src/source/interface-preferences.ts",
+      "browser/src/source/interface-panels.ts",
+      "browser/src/source/audio-controls.ts",
+      "browser/src/source/field-moves.ts",
+      "browser/src/source/field-bag-actions.ts",
+      "browser/src/source/field-music.ts",
+      "browser/src/source/battle-music.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/misc-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/misc-building-shells.ts"
+    ],
+    "browser/src/source/misc-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/mom-gift-host.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/phone-random.ts",
+      "browser/src/source/phone.ts",
+      "browser/src/source/mom-gifts.ts",
+      "browser/src/source/mom-savings.ts",
+      "browser/src/source/script-recovery.ts"
+    ],
+    "browser/src/source/mom-gifts.ts": [
+      "browser/src/source/mom-savings.ts"
+    ],
+    "browser/src/source/mom-savings.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/phone-random.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/phone.ts",
+      "browser/src/source/mom-savings.ts"
+    ],
+    "browser/src/source/mom-savings.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/mon-nickname.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/mon-nickname.ts",
+      "browser/src/source/nickname-data.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/mon-nickname.ts": [
+      "browser/src/source/nickname-data.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/mon-ownership.ts": [
+      "browser/src/source/mon-nickname.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/movement.ts": [],
+    "browser/src/source/mystery-gifts.test.ts": [
+      "browser/src/source/native-rng.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/mystery-gifts.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/mom-savings.ts",
+      "browser/src/source/script-recovery.ts"
+    ],
+    "browser/src/source/mystery-gifts.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/name-rater-game-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/name-rater-game-building-shells.ts"
+    ],
+    "browser/src/source/name-rater-game-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/native-field-clock.test.ts": [
+      "browser/src/source/native-field-clock.ts"
+    ],
+    "browser/src/source/native-field-clock.ts": [],
+    "browser/src/source/native-rng.ts": [],
+    "browser/src/source/native-route-traversal.test.ts": [
+      "browser/scripts/native-route-fixture.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/field-transitions.ts"
+    ],
+    "browser/src/source/native-sound-phase.test.ts": [
+      "browser/src/source/native-field-clock.ts",
+      "browser/src/source/field-music.ts",
+      "browser/reviews/native-sound-phase/frozen-azalea-dependency/gym-azalea-audio.ts"
+    ],
+    "browser/src/source/native-terrain-joints-source.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/scripts/terrain-emission-witness.ts",
+      "browser/scripts/native-upward-joint-evidence.ts",
+      "browser/scripts/terrain-deformation-joint.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/scripts/terrain-native-test-support.ts"
+    ],
+    "browser/src/source/native-terrain-joints.test.ts": [
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/scripts/terrain-native-test-support.ts"
+    ],
+    "browser/src/source/native-terrain-joints.ts": [
+      "browser/src/source/ledges.ts"
+    ],
+    "browser/src/source/native-terrain-world.test.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/tree-fixture.test.ts",
+      "browser/scripts/production-terrain-test-support.ts"
+    ],
+    "browser/src/source/native-upward-relief-joints.test.ts": [
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/world.ts",
+      "browser/scripts/terrain-native-test-support.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/terrace-model.ts"
+    ],
+    "browser/src/source/nickname-data.ts": [],
+    "browser/src/source/objects.test.ts": [
+      "browser/src/source/objects.ts",
+      "browser/src/source/movement.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/objects.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/opening-art.test.ts": [
+      "browser/src/source/opening-art.ts"
+    ],
+    "browser/src/source/opening-art.ts": [],
+    "browser/src/source/opening-assets.test.ts": [
+      "browser/src/source/opening-stage.ts"
+    ],
+    "browser/src/source/opening-audio-main.test.ts": [],
+    "browser/src/source/opening-audio.test.ts": [
+      "browser/src/source/opening-audio.ts",
+      "browser/src/source/field-music.ts"
+    ],
+    "browser/src/source/opening-audio.ts": [
+      "browser/src/source/field-music.ts"
+    ],
+    "browser/src/source/opening-input.test.ts": [
+      "browser/src/source/opening-input.ts"
+    ],
+    "browser/src/source/opening-input.ts": [],
+    "browser/src/source/opening-interface.test.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/opening-input.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/opening-save.test.ts": [],
+    "browser/src/source/opening-stage.ts": [],
+    "browser/src/source/opening-ui.test.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/opening-view-audio.test.ts": [
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/opening-view.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/opening-stage.ts",
+      "browser/src/source/opening.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/opening-art.ts",
+      "browser/src/source/opening-input.ts",
+      "browser/src/source/opening-audio.ts",
+      "browser/src/source/field-music.ts",
+      "browser/src/source/opening.css"
+    ],
+    "browser/src/source/opening.test.ts": [
+      "browser/src/source/opening.ts"
+    ],
+    "browser/src/source/opening.ts": [],
+    "browser/src/source/pagoda-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/pagoda-building-shells.ts"
+    ],
+    "browser/src/source/pagoda-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/paper-lifecycle.test.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/party-display.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/party-display.ts"
+    ],
+    "browser/src/source/party-display.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/gender.ts"
+    ],
+    "browser/src/source/party-field-main.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/egg-hatching.ts",
+      "browser/src/source/party-order.ts",
+      "browser/src/source/party-display.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/party-global-ui.test.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/party-display.ts",
+      "browser/src/source/party-order.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/trainer-encounters.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/party-order.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/egg-hatching.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/party-order.ts"
+    ],
+    "browser/src/source/party-order.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/ui.ts"
+    ],
+    "browser/src/source/phone-field-host.test.ts": [
+      "browser/src/source/phone-field-host.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/phone.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/phone-random.ts"
+    ],
+    "browser/src/source/phone-field-host.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/phone-scheduler.ts",
+      "browser/src/source/phone-random.ts"
+    ],
+    "browser/src/source/phone-random.test.ts": [
+      "browser/src/source/phone-random.ts",
+      "browser/src/source/phone-scheduler.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/phone-random.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/phone-scheduler.ts"
+    ],
+    "browser/src/source/phone-scheduler.test.ts": [
+      "browser/src/source/phone-scheduler.ts"
+    ],
+    "browser/src/source/phone-scheduler.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/phone.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/phone.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/phone-scheduler.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/phone.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/pokeathlon-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/pokeathlon-building-shells.ts"
+    ],
+    "browser/src/source/pokeathlon-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/render-repair.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/tree-fixture.test.ts"
+    ],
+    "browser/src/source/render-repair.ts": [
+      "browser/src/source/tree-volume.ts",
+      "browser/src/source/tree-antenna.ts",
+      "browser/src/source/tree-fronds.ts",
+      "browser/src/source/tree-texture.ts",
+      "browser/src/source/furniture.ts"
+    ],
+    "browser/src/source/render-review.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/runtime.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/terrain.ts"
+    ],
+    "browser/src/source/script-cache.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/trainer-script-state.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/script-camera.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/movement.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-camera.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/script-camera.ts": [
+      "browser/src/source/movement.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/script-recovery.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/script-recovery.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/trainer-encounters.ts"
+    ],
+    "browser/src/source/script-recovery.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/script-warp.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/script.ts": [
+      "browser/src/source/mon-nickname.ts",
+      "browser/src/source/mystery-gifts.ts",
+      "browser/src/source/tmhm.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/bag.ts",
+      "browser/src/source/phone.ts",
+      "browser/src/source/phone-scheduler.ts",
+      "browser/src/source/spawns.ts",
+      "browser/src/source/field-services.ts",
+      "browser/src/source/atmosphere.ts",
+      "browser/src/source/game-stats.ts",
+      "browser/src/source/apricorn-box.ts",
+      "browser/src/source/eggs.ts",
+      "browser/src/source/trainer-script-state.ts",
+      "browser/src/source/field-moves.ts",
+      "browser/src/source/mom-gifts.ts",
+      "browser/src/source/mom-savings.ts",
+      "browser/src/source/script-camera.ts"
+    ],
+    "browser/src/source/shoreline-native.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/shoreline.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/shoreline.test.ts": [
+      "browser/src/source/shoreline.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/shoreline.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/terrain.ts"
+    ],
+    "browser/src/source/shrine-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/shrine-building-shells.ts"
+    ],
+    "browser/src/source/shrine-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/sky.ts": [
+      "browser/src/source/atmosphere.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/small-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/small-building-shells.ts"
+    ],
+    "browser/src/source/small-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/source-assets.test.ts": [
+      "browser/src/source/furniture-collision.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/tree-fixture.test.ts"
+    ],
+    "browser/src/source/spawns.test.ts": [
+      "browser/src/source/spawns.ts"
+    ],
+    "browser/src/source/spawns.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/special-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/special-building-shells.ts"
+    ],
+    "browser/src/source/special-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/species-weights-data.ts": [],
+    "browser/src/source/station-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/station-building-shells.ts"
+    ],
+    "browser/src/source/station-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/story.test.ts": [
+      "browser/tests/trace-opening.ts",
+      "browser/src/source/bag.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/battle-math.ts",
+      "browser/src/source/tutorial.ts",
+      "browser/src/source/data.ts",
+      "browser/src/source/field-services.ts"
+    ],
+    "browser/src/source/streaming.test.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/terrace-model.test.ts": [
+      "browser/src/source/tree-fixture.test.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/world.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/tree-volume.ts"
+    ],
+    "browser/src/source/terrace-model.ts": [
+      "browser/src/source/terrain-work.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/native-terrain-joints.ts"
+    ],
+    "browser/src/source/terrace-publication.test.ts": [
+      "browser/scripts/terrace_stage.ts"
+    ],
+    "browser/src/source/terrain-scenery.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/terrain-scenery.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts"
+    ],
+    "browser/src/source/terrain-scenery.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/terrain-work.ts",
+      "browser/src/source/terrain.ts"
+    ],
+    "browser/src/source/terrain-work.ts": [],
+    "browser/src/source/terrain-world.test.ts": [
+      "browser/src/source/world.ts",
+      "browser/src/source/terrain-scenery.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/building-exterior.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/terrain.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/tmhm.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/touch-controls.test.ts": [
+      "browser/src/source/touch-controls.ts"
+    ],
+    "browser/src/source/touch-controls.ts": [],
+    "browser/src/source/trainer-encounters.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/trainer-script-state.ts",
+      "browser/src/source/trainer-encounters.ts"
+    ],
+    "browser/src/source/trainer-encounters.ts": [
+      "browser/src/source/types.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/trainer-script-state.ts"
+    ],
+    "browser/src/source/trainer-gender.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/trainers.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/trainer-script-state.ts": [
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/trainer-scripts.test.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/script.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/trainer-script-state.ts"
+    ],
+    "browser/src/source/trainers.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/gender.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/tree-antenna.ts": [
+      "browser/src/source/tree-texture.ts"
+    ],
+    "browser/src/source/tree-fixture.test.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/tree-fronds.test.ts": [
+      "browser/src/source/tree-fronds.ts",
+      "browser/src/source/tree-fixture.test.ts",
+      "browser/src/source/canopy-occlusion.ts"
+    ],
+    "browser/src/source/tree-fronds.ts": [
+      "browser/src/source/tree-texture.ts",
+      "browser/src/source/tree-volume.ts"
+    ],
+    "browser/src/source/tree-native.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/tree-fixture.test.ts",
+      "browser/src/source/tree-texture.ts",
+      "browser/src/source/tree-fronds.ts",
+      "browser/src/source/canopy-occlusion.ts"
+    ],
+    "browser/src/source/tree-targeting.test.ts": [
+      "browser/src/source/tree-fixture.test.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/battle-stage.ts"
+    ],
+    "browser/src/source/tree-texture.test.ts": [
+      "browser/src/source/tree-texture.ts"
+    ],
+    "browser/src/source/tree-texture.ts": [],
+    "browser/src/source/tree-volume.test.ts": [
+      "browser/src/source/tree-volume.ts",
+      "browser/src/source/tree-texture.ts",
+      "browser/src/source/tree-fixture.test.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/battle-stage.ts"
+    ],
+    "browser/src/source/tree-volume.ts": [
+      "browser/src/source/tree-texture.ts"
+    ],
+    "browser/src/source/tutorial.ts": [
+      "browser/src/source/data.ts",
+      "browser/src/source/types.ts"
+    ],
+    "browser/src/source/types.ts": [
+      "browser/src/source/battle-weight.ts",
+      "browser/src/source/mystery-gifts.ts"
+    ],
+    "browser/src/source/ui-cancellation.test.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/ui-framework.test.ts": [
+      "browser/src/source/ui.ts",
+      "browser/src/source/ui-test-dom.ts"
+    ],
+    "browser/src/source/ui-test-dom.ts": [],
+    "browser/src/source/ui.ts": [],
+    "browser/src/source/urban-building-shells.test.ts": [
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/urban-building-shells.ts"
+    ],
+    "browser/src/source/urban-building-shells.ts": [
+      "browser/src/source/render-repair.ts"
+    ],
+    "browser/src/source/world-streaming.test.ts": [
+      "browser/src/source/world.ts"
+    ],
+    "browser/src/source/world.ts": [
+      "browser/src/source/field-sprite-scale.ts",
+      "browser/src/source/types.ts",
+      "browser/src/source/terrain.ts",
+      "browser/src/source/render-repair.ts",
+      "browser/src/source/building-exterior.ts",
+      "browser/src/source/objects.ts",
+      "browser/src/source/battle-stage.ts",
+      "browser/src/source/grass.ts",
+      "browser/src/source/sky.ts",
+      "browser/src/source/camera.ts",
+      "browser/src/source/foundations.ts",
+      "browser/src/source/terrain-scenery.ts",
+      "browser/src/source/furniture-collision.ts",
+      "browser/src/source/building-footing.ts",
+      "browser/src/source/shoreline.ts",
+      "browser/src/source/ledges.ts",
+      "browser/src/source/terrace-model.ts",
+      "browser/src/source/terrain-work.ts",
+      "browser/src/source/gym-violet.ts",
+      "browser/src/source/script-camera.ts",
+      "browser/src/source/gym-azalea-world.ts",
+      "browser/src/source/gym-azalea-host.ts"
+    ],
+    "browser/src/world.test.ts": [
+      "browser/src/world.ts"
+    ],
+    "browser/src/world.ts": []
+  },
+  "missingRelativeImports": [],
+  "nonRelativeDependencies": "Package/lock pins provided. Reviewer has no shell/build/browser/network; runtime renderer is out of scope."
+}
